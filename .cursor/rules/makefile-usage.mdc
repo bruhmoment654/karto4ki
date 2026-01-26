@@ -1,0 +1,14 @@
+---
+description: Запуск команд в терминале.
+globs: 
+alwaysApply: false
+---
+# Makefile Usage
+
+To run commands in this project, please use the [Makefile](mdc:Makefile).
+
+For example, to generate code (e.g., after creating freezed models or running retrofit), use the command:
+`make codegen`
+
+To list all available commands and their descriptions, use the command:
+`make help`

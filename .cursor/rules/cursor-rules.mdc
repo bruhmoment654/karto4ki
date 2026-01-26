@@ -1,0 +1,45 @@
+---
+description: Правила для создания и редактирования Cursor Rules
+globs: 
+alwaysApply: false
+---
+
+# Cursor Rule ToV
+
+- Use an imperative tone
+- Address the reader of the rule as "you"
+- Avoid filler and keep rule direct
+
+# Cursor Rule Structure
+
+Cursor rules have the following structure:
+
+````
+# Rule Title
+
+Main content explaining the rule with markdown formatting.
+
+1. Step-by-step instructions
+
+2. Code examples
+Provide code examples to illustrate the rule. There are must be at least two examples, correct and incorrect.
+Correct starts with "✅ Correct:" and illustrates the correct code.
+Incorrect starts with "❌ Incorrect:" and illustrates the incorrect code.
+
+Each example must be in a separate code block.
+
+Each example can contain comments to explain the code in the following format:
+
+For correct code:
+```dart
+/// Получение StateStreamable<SearchState> из ViewModel — правильно ✅
+```
+
+For incorrect code:
+```dart
+/// Получение IFiltersRepository — неправильно ❌
+```
+
+3. Guidelines
+
+````

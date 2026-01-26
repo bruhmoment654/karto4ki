@@ -1,0 +1,52 @@
+---
+description: Структура фичи в проекте.
+globs: 
+alwaysApply: false
+---
+
+# Feature Structure Guide
+
+This guide describes the standard feature structure in the project, based on the Clean Architecture principles.
+
+## Directory Structure
+
+Each feature follows a three-layer architecture:
+
+```
+feature/
+├── presentation/
+│   ├── feature_flow.dart    # Navigation and DI configuration
+│   └── feature_screen.dart  # UI implementation and screen logic
+├── domain/
+│   ├── bloc/               # Business logic components
+│   ├── entity/             # Business entities/models
+│   └── repository/         # Repository interfaces
+└── data/
+    ├── models/            # Data layer models
+    └── repository/        # Repository implementations
+```
+
+## Layer Responsibilities
+
+### Data Layer
+- `models/`: Contains data models used for API communication and local storage.
+- `repository/`: Implements the repository interfaces defined in the domain layer.
+
+### Domain Layer
+- `bloc/`: Contains business logic components that manage the feature's state and business operations.
+- `entity/`: Defines the core business entities and models used across the feature.
+- `repository/`: Declares repository interfaces that define the contract for data operations.
+
+### Presentation Layer
+- `feature_flow.dart`: Entry point for the feature screen. Handles navigation setup and dependency injection.
+- `feature_screen.dart`: Contains the screen's UI implementation and presentation logic.
+
+## Example Reference
+The debug feature demonstrates this structure: [lib/feature/debug](mdc:lib/feature/debug)
+
+## Best Practices
+1. Keep the layers strictly separated - presentation should not directly access data layer
+2. Domain layer should not depend on data or presentation layers
+3. Use repository interfaces to maintain the dependency inversion principle
+4. Business logic should be contained within BLoC components
+5. Data transformations should happen in repositories when moving between layers

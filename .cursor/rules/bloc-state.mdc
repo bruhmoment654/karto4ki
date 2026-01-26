@@ -1,0 +1,93 @@
+---
+description: Создание state для Bloc.
+globs: 
+alwaysApply: false
+---
+# Bloc State Patterns
+
+## Overview
+This rule defines the standard patterns for creating bloc state classes using freezed and sealed class patterns.
+
+## Core Concepts
+
+### 1. Freezed Usage
+All bloc state classes must use the `@freezed` annotation to generate immutable data classes with copy methods and equality comparisons.
+
+### 2. Sealed Class Pattern
+State classes should be declared as `sealed class` to enable exhaustive pattern matching and prevent external inheritance.
+
+### 3. Dollar ($) Naming Pattern
+Use the `_$ClassName` pattern for the generated mixin and `ClassName$StateVariant` for state implementations.
+
+## Standard Template
+
+```dart
+part of 'feature_bloc.dart';
+
+@freezed
+sealed class FeatureState with _$FeatureState {
+  const FeatureState._();
+
+  // Loading state
+  const factory FeatureState.loading() = FeatureState$Loading;
+  
+  // Data state
+  const factory FeatureState.data({
+    required DataModel data,
+  }) = FeatureState$Data;
+  
+  // Error state
+  const factory FeatureState.error({
+    required Object? error,
+  }) = FeatureState$Error;
+}
+```
+
+## Implementation Guidelines
+
+### Required Elements
+1. **Part directive**: Always start with `part of 'feature_bloc.dart';`
+2. **Freezed annotation**: Use `@freezed` before the class declaration
+3. **Sealed class**: Declare as `sealed class ClassName with _$ClassName`
+4. **Private constructor**: Include `const ClassName._();` for custom methods
+5. **Factory constructors**: Use `const factory ClassName.stateName() = ClassName$StateName;`
+
+### Naming Conventions
+- Class name: `FeatureState` (PascalCase with "State" suffix)
+- Generated mixin: `_$FeatureState` (underscore + dollar + class name)
+- State variants: `FeatureState$StateName` (class name + dollar + state name)
+- Factory methods: `ClassName.stateName()` (camelCase state names)
+
+### Common State Patterns
+1. **Loading**: For async operations in progress
+2. **Data**: For successful data retrieval
+3. **Error**: For error handling
+4. **Initial**: For initial state before any actions
+
+### Custom Methods
+You can add custom getters and methods inside the sealed class:
+
+```dart
+@freezed
+sealed class FeatureState with _$FeatureState {
+  const FeatureState._();
+
+  const factory FeatureState.loading() = FeatureState$Loading;
+  const factory FeatureState.data({required DataModel data}) = FeatureState$Data;
+
+  // Custom getter
+  bool get isLoading => this is FeatureState$Loading;
+  
+  // Custom method
+  DataModel? get dataOrNull => switch (this) {
+    FeatureState$Data(:final data) => data,
+    _ => null,
+  };
+}
+```
+
+## File Organization
+- State files should be located in the `domain/bloc/` directory
+- File naming: `feature_state.dart`
+- Always use `part of` directive to connect with the main bloc file
+- Do not use import statements in state files. All necessary imports for state classes must be included in the main bloc file, as state files are connected via the `part` directive.

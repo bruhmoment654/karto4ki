@@ -1,0 +1,110 @@
+---
+description: Структура экрана, Flow, Screen, View.
+globs: 
+alwaysApply: false
+---
+When creating a new screen or feature, the following 3-file structure should be used. This pattern consists of a Flow file, a Screen file (which includes the ViewModel interface), and a View file.
+
+This structure promotes separation of concerns and follows the project's established architecture.
+
+**1. Flow File:**
+
+*   **Naming:** `feature_name_flow.dart` (e.g., [enter_otp_flow.dart](mdc:lib/feature/auth/presentation/enter_otp/enter_otp_flow.dart))
+*   **Class:** `FeatureNameFlow` (e.g., `EnterOtpFlow`)
+*   **Type:** `StatelessWidget` implementing `AutoRouteWrapper`.
+*   **Annotations:** `@RoutePage()`
+*   **`wrappedRoute(BuildContext context)`:** Should return `this`.
+*   **`build(BuildContext context)`:** Should return an instance of the corresponding `FeatureNameScreen`.
+*   **Imports:** Minimal, typically `auto_route`, `material.dart`, and the screen file.
+*   **Purpose:** Entry point for the screen via routing, and can be used for providing BLoCs/Providers that are scoped to this specific screen/flow. Initially, it may not provide any BLoCs.
+
+**Example Snippet from `enter_otp_flow.dart`:**
+```dart
+/// Точка входа в экран ввода OTP-кода.
+@RoutePage()
+class EnterOtpFlow extends StatelessWidget implements AutoRouteWrapper {
+  const EnterOtpFlow({super.key});
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    return this;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const EnterOtpScreen();
+  }
+}
+```
+
+**2. Screen File (includes ViewModel interface):**
+
+*   **Naming:** `feature_name_screen.dart` (e.g., [enter_otp_screen.dart](mdc:lib/feature/auth/presentation/enter_otp/enter_otp_screen.dart))
+*   **Screen Class:** `FeatureNameScreen` (e.g., `EnterOtpScreen`)
+    *   **Type:** `StatefulWidget`.
+    *   **`createState()`:** Returns an instance of `_FeatureNameScreenState`.
+*   **State Class:** `_FeatureNameScreenState` (e.g., `_EnterOtpScreenState`)
+    *   **Implements:** `IFeatureNameViewModel` (e.g., `IEnterOtpViewModel`).
+    *   **`build(BuildContext context)`:** Returns an instance of the corresponding `FeatureNameView`, passing `this` (the state object) as the `viewModel`.
+    *   **Initial Content:** Minimal, focused on connecting the View. No business logic, controllers, or lifecycle methods should be present in the initial structure.
+*   **ViewModel Interface:** `IFeatureNameViewModel` (e.g., `IEnterOtpViewModel`)
+    *   **Type:** `abstract interface class`.
+    *   **Initial Content:** Empty. Methods and getters will be added as the feature is developed.
+*   **Imports:** Minimal, typically `material.dart` and the view file.
+
+**Example Snippet from `enter_otp_screen.dart`:**
+```dart
+import 'package:flutter/material.dart';
+import 'package:kruiz_online/feature/auth/presentation/enter_otp/enter_otp_view.dart';
+
+class EnterOtpScreen extends StatefulWidget {
+  const EnterOtpScreen({super.key});
+
+  @override
+  State<EnterOtpScreen> createState() => _EnterOtpScreenState();
+}
+
+class _EnterOtpScreenState extends State<EnterOtpScreen> implements IEnterOtpViewModel {
+  @override
+  Widget build(BuildContext context) {
+    return EnterOtpView(viewModel: this);
+  }
+}
+
+abstract interface class IEnterOtpViewModel {}
+```
+
+**3. View File:**
+
+*   **Naming:** `feature_name_view.dart` (e.g., [enter_otp_view.dart](mdc:lib/feature/auth/presentation/enter_otp/enter_otp_view.dart))
+*   **Class:** `FeatureNameView` (e.g., `EnterOtpView`)
+*   **Type:** `StatelessWidget`.
+*   **Constructor:** Takes an instance of `IFeatureNameViewModel` (e.g., `IEnterOtpViewModel`).
+*   **`build(BuildContext context)`:** Returns the root widget for the screen, typically starting with `KoScaffold()`. References to `context.koColorScheme` and `context.koTypography` can be included even if not immediately used.
+*   **Initial Content:** Barebones UI, e.g., just the `KoScaffold`. No complex widget trees or specific UI elements for the feature.
+*   **Imports:** Minimal, typically `material.dart`, the screen file (for the ViewModel interface), and any UI kit components like `KoScaffold`, `KoColorScheme`, `KoTypography`.
+
+**Example Snippet from `enter_otp_view.dart`:**
+```dart
+import 'package:flutter/material.dart';
+import 'package:kruiz_online/feature/auth/presentation/enter_otp/enter_otp_screen.dart';
+import 'package:kruiz_online/uikit/scaffold/ko_scaffold.dart';
+import 'package:kruiz_online/uikit/theme/ko_color_scheme.dart';
+import 'package:kruiz_online/uikit/theme/ko_typography.dart';
+
+class EnterOtpView extends StatelessWidget {
+  final IEnterOtpViewModel viewModel;
+
+  const EnterOtpView({required this.viewModel, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = context.koColorScheme;
+    final textScheme = context.koTypography;
+
+    return KoScaffold();
+  }
+}
+```
+
+This rule reflects the minimal "structure" as defined in our conversation. It focuses on file naming, class definitions, basic inheritance/implementation, and the initial connections between these three components, deferring all feature-specific logic and UI.

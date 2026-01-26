@@ -1,0 +1,72 @@
+---
+description: Работа с хранилищем storage, lib/persistence/
+globs: 
+alwaysApply: false
+---
+# Работа с хранилищем
+
+В проекте используется слой персистентности для хранения данных локально. Все компоненты хранилища находятся в директории `lib/persistence/`.
+
+## Структура Persistence
+
+- **[storage/](mdc:lib/persistence/storage)** - Слой хранилища данных
+  - `core/` - Базовые компоненты хранилища
+  - `debug_config_storage/` - Хранилище настроек отладки
+  - `first_run/` - Хранилище данных о первом запуске
+  - `token_storage/` - Хранилище токенов авторизации
+
+## Принципы работы
+
+### Storage Components
+Каждое хранилище должно содержать:
+- **DTO модели** - Модели данных для сериализации
+- **Storage класс** - Интерфейс для работы с хранилищем
+- **Implementation** - Реализация хранилища
+
+### Конвертеры
+Для преобразования между Entity и Storage DTO используются конвертеры:
+- Размещаются в `data/converters/` фичи
+- Следуют паттерну, описанному в [converter-creation.mdc](mdc:.cursor/rules/converter-creation.mdc)
+
+## Пример структуры Storage
+
+```
+lib/persistence/storage/example_storage/
+├── data/
+│   ├── example_storage_dto.dart
+│   └── example_storage_dto.g.dart
+├── i_example_storage.dart
+└── example_storage.dart
+```
+
+## Рекомендации
+
+1. **Используйте JSON Serializable** для DTO моделей
+2. **Создавайте абстрактные интерфейсы** для storage классов
+3. **Внедряйте через DI** storage в репозитории
+4. **Используйте конвертеры** для преобразования Entity ↔ Storage DTO
+5. **Разделяйте ответственность** - одно хранилище для одного типа данных
+
+## Пример использования
+
+```dart
+// Storage DTO
+@JsonSerializable()
+class ExampleStorageDto {
+  final String id;
+  final String name;
+  
+  ExampleStorageDto({required this.id, required this.name});
+  
+  factory ExampleStorageDto.fromJson(Map<String, dynamic> json) => 
+      _$ExampleStorageDtoFromJson(json);
+  Map<String, dynamic> toJson() => _$ExampleStorageDtoToJson(this);
+}
+
+// Storage Interface
+abstract interface class ExampleStorage {
+  Future<ExampleStorageDto?> get();
+  Future<void> save(ExampleStorageDto dto);
+  Future<void> clear();
+}
+```

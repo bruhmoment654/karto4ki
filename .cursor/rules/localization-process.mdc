@@ -1,0 +1,48 @@
+---
+description: Добавление строк в app_ru.arb.
+globs: 
+alwaysApply: false
+---
+# Localization Process
+
+This guide outlines the process for adding new localized strings to the project.
+
+## Main Localization File
+
+All Russian localization strings are stored in [lib/l10n/app_ru.arb](mdc:lib/l10n/app_ru.arb).
+
+## Adding New Strings
+
+When adding new strings, follow these guidelines:
+
+1.  **Group by Feature/Screen**: Create a new segment for each new feature or screen. A segment is a JSON object prefixed with `@segment` (e.g., `@segmentOtpVerify`). Include a descriptive comment for the segment.
+    ```json
+    "@segmentOtpVerify": {
+      "---------": "---------",
+      "description": "Строки для экрана подтверждения кода из СМС"
+    },
+    ```
+
+2.  **Key Naming Convention**: Use camelCase for keys, prefixed with the screen or feature name (e.g., `otpVerifyScreenTitle`).
+
+3.  **Placeholders**: For dynamic data like phone numbers, names, or other variables, use placeholders in the format `{placeholderName}`.
+    ```json
+    "otpVerifyScreenSubtitle": "Отправили код подтверждения на номер {phoneNumber}",
+    "@otpVerifyScreenSubtitle": {
+      "placeholders": {
+        "phoneNumber": {
+          "type": "String"
+        }
+      }
+    },
+    ```
+    Ensure you also define the placeholder type as shown above.
+
+4.  **Non-Breaking Spaces**: Be mindful of non-breaking spaces (` ` or `\u00A0`) in the original text and preserve them in the `.arb` file. These are often used for better text flow in Russian.
+
+5.  **Run Code Generation**: After adding new strings, run the command to update the localization delegates:
+    ```bash
+    make ln
+    ```
+
+By following these steps, we ensure consistency and maintainability of our localized strings.

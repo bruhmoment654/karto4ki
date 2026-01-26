@@ -1,0 +1,47 @@
+---
+description: Вёрстка и создание экранов (View) и виджетов (Widget).
+globs: 
+alwaysApply: false
+---
+# Использование UIKit компонентов
+
+В проекте используется собственная система дизайна, реализованная в директории `lib/uikit/`. Все UI компоненты должны использоваться из этой библиотеки для обеспечения единообразия интерфейса.
+
+## Структура UIKit
+
+- **[buttons/](mdc:lib/uikit/buttons)** - Кнопки всех типов (primary, secondary, cell, checkbox, radio, switch)
+- **[fields/](mdc:lib/uikit/fields)** - Поля ввода
+- **[dialogs/](mdc:lib/uikit/dialogs)** - Диалоговые окна
+- **[bottom_sheet/](mdc:lib/uikit/bottom_sheet)** - BottomSheet
+- **[appbar/](mdc:lib/uikit/appbar)** - AppBar
+- **[error/](mdc:lib/uikit/error)** - Компоненты для отображения ошибок
+- **[loaders/](mdc:lib/uikit/loaders)** - Индикаторы загрузки
+- **[icons/](mdc:lib/uikit/icons)** - Иконки SVG
+- **[image/](mdc:lib/uikit/image)** - Компоненты для изображений
+- **[scaffold/](mdc:lib/uikit/scaffold)** - Основная структура экранов
+- **[theme/](mdc:lib/uikit/theme)** - Темы и стили
+
+## Константы дизайна
+
+- **[app_dimens.dart](mdc:lib/uikit/app_dimens.dart)** - Размеры и отступы
+- **[constants.dart](mdc:lib/uikit/constants.dart)** - Общие константы
+
+## Рекомендации
+
+1. **Всегда используйте компоненты из UIKit** вместо стандартных Flutter виджетов
+2. **Не создавайте кастомные стили** напрямую в экранах - используйте тему
+3. **Следуйте принципам дизайн-системы** при добавлении новых компонентов
+4. **Новые компоненты** должны быть добавлены в соответствующую директорию UIKit
+
+## Пример использования
+
+```dart
+import 'package:kruiz_online/uikit/buttons/common/primary_button.dart';
+import 'package:kruiz_online/uikit/fields/text_field.dart';
+
+// Используйте компоненты UIKit
+PrimaryButton(
+  onPressed: () {},
+  child: Text(context.l10n.buttonTitle),
+)
+```

@@ -1,0 +1,16 @@
+---
+description: 
+globs: *.dart
+alwaysApply: false
+---
+# After generation
+
+Действия, которые нужно выполнить после каждой генерации для *.dart файлов.
+
+Проведи код-ревью своей реализации:
+    1. Для начала вызови команду `make autofix SCOPE=<путь/к/файлу>`, чтобы исправить автоматические проблемы.
+    2. Вызывай команду `make analyze SCOPE=<путь/к/файлу>` для анализа кода
+    3. Если команда analyze показала ошибки, сначала используй `make autofix SCOPE=<путь/к/файлу>`, чтобы исправить.
+    4. Если после вызова autofix есть ошибки, попробуй уже исправить сам. 
+    5. Проверь себя по правилу [dart-code-style.mdc](mdc:.cursor/rules/dart-code-style.mdc)
+    6. Проверь себя по правилу [imports.mdc](mdc:.cursor/rules/imports.mdc)

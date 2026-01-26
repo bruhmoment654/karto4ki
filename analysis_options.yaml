@@ -1,0 +1,52 @@
+include: package:surf_lint_rules/analysis_options.yaml
+
+linter:
+  rules:
+    public_member_api_docs: false # Только при делении на модули
+    sort_pub_dependencies: false # Пока не появится автосортировка
+
+analyzer:
+  exclude:
+    - lib/**/*.g.dart
+    - lib/**/*.freezed.dart
+    - lib/core/config/firebase/*.dart
+    - lib/assets/**
+    - lib/l10n/app_localizations.g.dart
+    - tools/bricks/**/__brick__/**
+    - test/svg_icons_test.dart
+    - test/images_test.dart
+
+dart_code_metrics:
+  extends:
+    - package:surf_dcm_presets/all.yaml
+  rules:
+    # Добавлена возможность создания методов оканчивающихся на 'Factory' и 'Builder'.
+    - prefer-correct-callback-field-name:
+        name-pattern: "(^on[A-Z]+)|(^[a-zA-z]+Factory$)|(^[a-zA-z]+Builder$)|(^builder$)"
+    # Удобно при мокирования базовых свойств WM для тестов.
+    - avoid-local-functions:
+        exclude:
+          - test/**
+    # Методы в тестах могут быть длинными.
+    - avoid-long-functions:
+        max-length: 80
+        ignored-names:
+          - build
+          - builder
+        exclude:
+          - test/**
+    # Неудобно использовать для функций `sort` и `compare` обозначения отличные от `a` и `b`.
+    - prefer-correct-identifier-length:
+        exceptions: ["a", "b", "i", "j"]
+        max-identifier-length: 30
+        min-identifier-length: 2
+        exclude:
+          - lib/api/**
+    - avoid-non-null-assertion:
+        skip-checked-fields: true
+    # вроде полезен для читаемости, но большое количество приватных функций не сильно этому способствуют.
+    - prefer-extracting-callbacks: false
+    # мешает в itemBuilder методах, заставляя проверять кейсы которые не возникнут.
+    - avoid-unsafe-collection-methods: false
+    # Не подходит для нашего DI.
+    - avoid-read-inside-build: false

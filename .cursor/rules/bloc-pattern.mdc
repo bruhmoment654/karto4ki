@@ -1,0 +1,174 @@
+---
+description: Создание Bloc.
+globs: 
+alwaysApply: false
+---
+# Bloc Pattern
+
+## Overview
+This rule defines the standard patterns for creating bloc classes in the project. All blocs must follow the KoBloc architecture with strict patterns for events, states, actions, and event handling.
+
+## Core Concepts
+
+### 1. KoBloc Base Class
+All blocs must extend `KoBloc<Event, State, Action>` from the core architecture. If no actions are needed, use `Never` as the Action generic type.
+
+### 2. Dependency Injection
+All bloc dependencies are injected through the constructor and stored as private fields with underscore prefix.
+
+### 3. Single Event Handler
+Blocs have only one `on<Event>` handler that uses switch-case pattern matching to handle all events with `sequential()` transformer.
+
+### 4. Event Handler Naming
+Each event handler follows strict naming pattern: `_on{EventName}` where EventName matches the event variant.
+
+### 5. State Management
+Event handlers emit state using `emit(state)` and can use `state.copyWith()` for immutable updates.
+
+### 6. Action System
+Blocs use `action(Action)` to produce side effects such as navigation and message displaying.
+
+### 7. Event Definition
+Bloc events must be defined according to the [bloc-event rule](mdc:.cursor/rules/bloc-event.mdc).
+
+### 8. State Definition
+Bloc states must be defined according to the [bloc-state rule](mdc:.cursor/rules/bloc-state.mdc).
+
+## Standard Template
+
+```dart
+import 'package:bloc_concurrency/bloc_concurrency.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:kruiz_online/core/architecture/domain/bloc/ko_bloc.dart';
+
+part 'feature_event.dart';
+part 'feature_state.dart';
+part 'feature_action.dart';
+part 'feature_bloc.freezed.dart';
+
+/// Bloc description.
+final class FeatureBloc extends KoBloc<FeatureEvent, FeatureState, FeatureAction> {
+  final IDependency _dependency;
+
+  FeatureBloc({required IDependency dependency})
+    : _dependency = dependency,
+      super(const FeatureState.initial()) {
+    on<FeatureEvent>(
+      (event, emit) => switch (event) {
+        _FeatureEvent$EventName _ => _onEventName(event, emit),
+        _FeatureEvent$AnotherEvent _ => _onAnotherEvent(event, emit),
+      },
+      transformer: sequential(),
+    );
+  }
+
+  Future<void> _onEventName(_FeatureEvent$EventName event, Emitter<FeatureState> emit) async {
+    // Event handling logic
+    emit(state.copyWith(/* state updates */));
+    
+    // Side effects via actions
+    action(const FeatureAction.someAction());
+  }
+
+  Future<void> _onAnotherEvent(_FeatureEvent$AnotherEvent event, Emitter<FeatureState> emit) async {
+    // Event handling logic
+  }
+}
+```
+
+## Implementation Guidelines
+
+### Required Elements
+1. **Imports**: Include all necessary imports for bloc_concurrency, flutter_bloc, freezed, and KoBloc
+2. **Part directives**: Include event, state, action, and freezed generated files
+3. **Final class**: Declare bloc as `final class` extending KoBloc
+4. **Private dependencies**: All dependencies as private fields with underscore prefix
+5. **Constructor**: Named parameters for dependencies, call super with initial state
+6. **Single event handler**: One `on<Event>` with switch-case pattern and sequential transformer
+7. **Event handler methods**: Private methods following `_on{EventName}` pattern
+
+### Naming Conventions
+- Bloc class: `FeatureBlocName` (PascalCase with "Bloc" suffix)
+- Dependencies: `_dependencyName` (camelCase with underscore prefix)
+- Event handlers: `_onEventName` (camelCase with underscore prefix and "on" prefix)
+- Event parameters: Use the exact event type `_FeatureEvent$EventName`
+
+### Constructor Pattern
+```dart
+FeatureBloc({required IDependency dependency})
+  : _dependency = dependency,
+    super(const FeatureState.initial()) {
+  // event handler setup
+}
+```
+
+### Single on Event Handler Pattern
+```dart
+on<FeatureEvent>(
+  (event, emit) => switch (event) {
+    _FeatureEvent$EventName _ => _onEventName(event, emit),
+    _FeatureEvent$AnotherEvent _ => _onAnotherEvent(event, emit),
+  },
+  transformer: sequential(),
+);
+```
+
+### Event Handler Pattern
+```dart
+Future<void> _onEventName(_FeatureEvent$EventName event, Emitter<FeatureState> emit) async {
+  // 1. Emit loading/intermediate states if needed
+  emit(const FeatureState.loading());
+  
+  // 2. Perform business logic using dependencies
+  final result = await _dependency.performAction(event.parameter);
+  
+  // 3. Emit final state
+  switch (result) {
+    case ResultOk(:final data):
+      // 4. ResultOk — successfull state.  
+      emit(FeatureState.loaded(data));
+    case ResultFailed(:final error):
+      // 5. ResultFailed — error state.  
+      emit(FeatureState.error(error));  
+  }
+}
+```
+
+### Action Usage
+- Use `action(ActionInstance)` for side effects
+- Actions should handle navigation, snackbars, dialogs, etc.
+- Never emit state from action handlers
+
+### State Updates
+- Always use `emit(state.copyWith(...))` for state updates
+- Never mutate state directly
+- Follow state patterns from [bloc-state.mdc](mdc:.cursor/rules/bloc-state.mdc)
+
+### Event Patterns
+- Follow event patterns from [bloc-event.mdc](mdc:.cursor/rules/bloc-event.mdc)
+- Use private event implementations in switch cases
+- Event handlers should be async when performing async operations
+
+## File Organization
+- Bloc files should be in `domain/bloc/feature_name/` directory
+- File naming: `feature_bloc.dart`
+- Include all part files: event, state, action, freezed generated
+- Use descriptive comments for bloc purpose
+
+## Action-less Blocs
+For blocs that don't need actions, use `Never` as the Action type:
+
+```dart
+final class FeatureBloc extends KoBloc<FeatureEvent, FeatureState, Never> {
+  // No action() calls in this bloc
+}
+```
+
+## Key Differences from Other Patterns
+- All blocs extend KoBloc, not standard Bloc
+- Single event handler with switch-case pattern, not multiple handlers
+- Actions for side effects, not direct UI manipulation
+- Sequential transformer for all events
+- Private event implementations in switch cases
+- Strict naming conventions for all elements

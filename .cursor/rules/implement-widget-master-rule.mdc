@@ -1,0 +1,764 @@
+---
+description: Этот файл описывает правила для реализации виджета с использованием доступа к его изображению и Figma.
+globs: 
+alwaysApply: false
+---
+# Контекст
+
+## Артефакты
+
+Для генерации должно быть переданы:
+1. Ссылка на компонент в Figma
+
+❗ Если пользователь забыл передать их, напомни ему об этом перед стартом генерации. 
+
+## Тема приложения
+
+❗ ОБЯЗАТЕЛЬНО: Тема приложения Flutter обязательно должна соотноситься с параметрами темы Figma на основе названий и ID.
+
+Color-тема: [ko_color_scheme.dart](mdc:lib/uikit/theme/ko_color_scheme.dart)
+Текстовые стили: [ko_typography.dart](mdc:lib/uikit/theme/ko_typography.dart)
+Размеры: [app_dimens.dart](mdc:lib/uikit/app_dimens.dart)
+Изображения: [images.dart](mdc:lib/assets/images.dart)
+Иконки: [svg_icons.dart](mdc:lib/assets/svg_icons.dart)
+
+# Порядок исполнения задачи
+
+❗ ОБЯЗАТЕЛЬНО: Действуй в этом порядке. Сообщай, если по какой-то причине ты отклонился от него. 
+
+1. Если есть доступ к MCP Figma, сначала изучи доступные тебе переменные и соотнеси это со значениями из темы приложения: [ko_color_scheme.dart](mdc:lib/uikit/theme/ko_color_scheme.dart), [ko_typography.dart](mdc:lib/uikit/theme/ko_typography.dart), [app_dimens.dart](mdc:lib/uikit/app_dimens.dart)
+2. Изучи код компонента в Figma, соотнеси это с переданными параметрами в класс, а также с доступными иконками/изображениями: [images.dart](mdc:lib/assets/images.dart), [svg_icons.dart](mdc:lib/assets/svg_icons.dart)
+3. Изучи переданное тебе изображение.
+4. Реализуй первую версию компонента. 
+5. Проведи код-ревью своей реализации. 
+    1. Для начала вызови команду `make autofix SCOPE=<путь/к/файлу>`, чтобы исправить автоматические проблемы.
+    2. Вызывай команду `make analyze SCOPE=<путь/к/файлу>` для анализа кода
+    3. Если команда analyze показала ошибки, сначала используй `make autofix SCOPE=<путь/к/файлу>`, чтобы исправить.
+    4. Если после вызова autofix есть ошибки, попробуй уже исправить сам. 
+    5. Проверь себя по разделу "Код-стайл Dart", что ты соблюдаешь все правила оттуда.
+    6. Проверь себя по разделу "Правила реализации Flutter-виджетов"
+
+# Правила генерации
+
+Для того, чтобы лучше понять правила, обращай внимание на комментарии внутри блоков кода. Эти комментарии написаны для тебя и дают пояснения к коду, чтобы ты детально уяснил суть каждого примера.
+
+Примеры комментариев:
+```dart
+/// Получение StateStreamable<SearchState> из ViewModel — правильно ✅
+/// Получение IFiltersRepository — неправильно ❌
+```
+
+## Разделение View и Widget
+
+View — реализация UI экрана/bottom sheet, представляет собой законченную часть пользовательского интерфейса. Состоит из композиции Widget.
+
+Widget — атомарный элемент UI. Состоит из композиции других Widget и/или виджетов из Flutter SDK. 
+
+## View
+
+### Параметры конструктора View
+
+View принимает в качестве параметра конструктора только один параметр — интерфейс ViewModel. Связь View <-> ViewModel 1:1. 
+
+✅ Correct:
+```dart
+class SearchView extends StatelessWidget {
+  final ISearchViewModel viewModel;
+
+  const SearchView({
+    required this.viewModel,
+    super.key
+  });
+}
+```
+
+❌ Incorrect:
+```dart
+class SearchView extends StatelessWidget {
+  final ISearchViewModel viewModel;
+  /// View принимает параметр кроме интерфейса ViewModel — неправильно ❌
+  final String label;
+
+  const SearchView({
+    required this.viewModel,
+    required this.label,
+    super.key
+  });
+}
+
+class SearchView extends StatelessWidget {
+  final ISearchViewModel viewModel;
+  /// View принимает несколько интерфейсов ViewModel в качестве параметров конструктора — неправильно ❌
+  final IFiltersViewModel filtersViewModel;
+
+  const SearchView({
+    required this.viewModel,
+    required this.filtersViewModel,
+    super.key
+  });
+}
+```
+
+### Зависимости View
+
+Все необходимые зависимости View получает из ViewModel. Во View запрещено получать зависимости с использованием механизма InheritedWidget, кроме конфигурации темы и локализации.
+
+✅ Correct:
+```dart
+class SearchView extends StatelessWidget {
+  final ISearchViewModel viewModel;
+
+  const SearchView({
+    required this.viewModel, 
+    super.key
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    /// Получение color-темы — правильно ✅ 
+    final colorScheme = context.koColorScheme;
+    /// Получение текстовой темы — правильно ✅ 
+    final textScheme = context.koTypography;
+    /// Получение локализации — правильно ✅
+    final l10n = context.l10n;
+    
+    return KoScaffold(
+      body: StateStreamBuilder<SearchState>(
+        /// Получение состояния SearchBloc из ViewModel — правильно ✅
+        bloc: viewModel.searchState,
+        builder: (context, state) {
+          switch (state) {
+              case SearchState$Initial():
+              case SearchState$Loading():
+                return const Center(child: KOCircularProgressIndicator.large());
+              case SearchState$Data(:final cruises) when cruises.isEmpty:
+                /// Вызов метода через интерфейс ViewModel — правильно ✅
+                return _EmptyState(onResetFiltersPressed: viewModel.onResetFiltersPressed);
+          }
+        }
+      )
+    );
+  }
+}
+```
+
+❌ Incorrect:
+```dart
+class SearchView extends StatelessWidget {
+  const SearchView({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    /// Получение AppScope — неправильно ❌
+    final appScope = context.appScope;
+    /// Получение IFiltersRepository — неправильно ❌
+    final repository = context.read<IFiltersRepository>();    
+    /// Получение FiltersBloc — неправильно ❌
+    final bloc = BlocProvider.of<FiltersBloc>(context);
+  }
+}
+```
+
+### Использование Bloc во View
+
+Для state management в проекте используется Bloc. 
+
+Всё, что тебе обязательно нужно знать об использовании Bloc на уровне View:
+
+#### UI = f(state)
+
+UI = f(state) — ключевая концепция state management во Flutter. State описывает возможные состояния UI. Обязательно ознакомься со структурой State, которая принята в проекте, она описана в правиле [bloc-state.mdc](mdc:.cursor/rules/bloc-state.mdc).
+
+#### StateStreamable
+
+На уровне View обязательно работать только с интерфейсом StateStreamable. StateStreamable предоставляет доступ к State — это всё, что тебе нужно для обновления состояния UI (напоминаю пункт выше, UI = f(state)).
+
+Код реализации StateStreamable из библиотеки flutter_bloc:
+```dart
+/// An object that provides access to a stream of states over time.
+abstract class Streamable<State extends Object?> {
+  /// The current [stream] of states.
+  Stream<State> get stream;
+}
+
+/// A [Streamable] that provides synchronous access to the current [state].
+abstract class StateStreamable<State> implements Streamable<State> {
+  /// The current [state].
+  State get state;
+}
+```
+
+#### [state_streamable_builder.dart](mdc:lib/core/architecture/domain/bloc/state_streamable_builder.dart)
+
+Для обновления UI при изменении State обязательно использовать только [state_streamable_builder.dart](mdc:lib/core/architecture/domain/bloc/state_streamable_builder.dart). Получать доступ к StateStreamable обязательно только из интерфейса ViewModel.
+
+✅ Correct:
+```dart
+class SearchView extends StatelessWidget {
+  final ISearchViewModel viewModel;
+
+  const SearchView({
+    required this.viewModel, 
+    super.key
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return KoScaffold(
+      /// Использование StateStreamableBuilder для обновления UI при изменении State — правильно ✅
+      body: StateStreamBuilder<SearchState>(
+        /// Получение StateStreabamle<SearchState> из интерфейса ViewModel — правильно ✅
+        bloc: viewModel.searchState,
+        builder: (context, state) {
+          switch (state) {
+            case SearchState$Initial():
+            case SearchState$Loading():
+              return const Center(child: KOCircularProgressIndicator.large());
+            case SearchState$Data(:final cruises):
+              return _DataState(cruises: cruises);
+            case SearchState$Error(:final error):
+              return KoErrorWidget(exception: error, onRetryPressed: viewModel.onRetryPressed);
+          }
+        }
+      )
+    );
+  }
+}
+```
+
+❌ Incorrect:
+```dart
+class SearchView extends StatelessWidget {
+  final ISearchViewModel viewModel;
+
+  const SearchView({required this.viewModel, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return KoScaffold(
+      /// Использование BlocBuilder для обновления UI при изменении State — неправильно ❌
+      body: BlocBuilder<SearchBloc, SearchState>(
+        builder: (context, state) {
+          switch (state) {
+            case SearchState$Initial():
+            case SearchState$Loading():
+              return const Center(child: KOCircularProgressIndicator.large());
+            case SearchState$Data(:final cruises):
+              return _DataState(cruises: cruises);
+            case SearchState$Error(:final error):
+              return KoErrorWidget(exception: error, onRetryPressed: viewModel.onRetryPressed);
+          }
+        },
+      ),
+    );
+  }
+}
+```
+
+### TODO и заглушки методов
+
+НЕ оставляй TODO во View для последующей реализации во ViewModel.
+
+❌ Incorrect:
+```dart
+child: KoSearchField(
+  hintText: 'Поиск города',
+  /// TODO во View для реализации во ViewModel — неправильно ❌
+  // TODO(cities): Добавить логику поиска через viewModel
+),
+
+onTap: () {
+  /// TODO во ViewModel для реализации во View — неправильно ❌
+  // TODO(cities): Добавить логику выбора города через viewModel
+},
+```
+
+Добавляй заглушки методов во ViewModel и оставляй TODO там:
+
+✅ Correct:
+```dart
+child: KoSearchField(
+  controller: viewModel.searchController,
+  hintText: 'Поиск города',
+),
+
+onTap: () => viewModel.onCityPressed(city),
+
+/// TODO во ViewModel — правильно ✅
+@override
+void onCityPressed(CityEntity city) {
+  // TODO(cities): Реализовать логику выбора/снятия выбора города
+}
+
+void _onSearchChanged() {
+  // TODO(cities): Реализовать логику поиска городов
+}
+```
+
+### Использование ValueNotifier/ValueListenable во View
+
+Для локального состояния View (например, выбранный элемент) обязательно использовать паттерн ValueNotifier/ValueListenable с правильным разделением между интерфейсом ViewModel и его реализацией.
+
+**Архитектурный принцип**: View должно иметь только read-only доступ к состоянию. Это обеспечивается использованием ValueListenable в интерфейсе ViewModel.
+
+#### Интерфейс ViewModel
+
+✅ Correct:
+```dart
+/// Интерфейс ViewModel — предоставляет только read-only доступ к состоянию через ValueListenable
+abstract interface class IRouteViewModel {
+  /// ValueListenable предоставляет только read-only доступ — правильно ✅
+  ValueListenable<int> get selectedDayIndex;
+  
+  /// Метод для изменения состояния — правильно ✅
+  void onDaySelected(int index);
+}
+```
+
+❌ Incorrect:
+```dart
+abstract interface class IRouteViewModel {
+  /// ValueNotifier предоставляет write доступ View — неправильно ❌
+  ValueNotifier<int> get selectedDayIndex;
+}
+```
+
+#### Реализация ViewModel
+
+✅ Correct:
+```dart
+class _RouteScreenState extends State<RouteScreen> implements IRouteViewModel {
+  /// ValueNotifier для внутреннего использования — правильно ✅
+  @override
+  final ValueNotifier<int> selectedDayIndex = ValueNotifier(0);
+
+  @override
+  void dispose() {
+    /// Освобождение ресурсов — правильно ✅
+    selectedDayIndex.dispose();
+    super.dispose();
+  }
+  
+  @override
+  void onDaySelected(int index) {
+    /// Изменение состояния через метод ViewModel — правильно ✅
+    selectedDayIndex.value = index;
+  }
+}
+```
+
+#### Использование во View
+
+✅ Correct:
+```dart
+class RouteView extends StatelessWidget {
+  final IRouteViewModel viewModel;
+
+  const RouteView({required this.viewModel, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: ValueListenableBuilder<int>(
+        /// Получение ValueListenable из интерфейса ViewModel — правильно ✅
+        valueListenable: viewModel.selectedDayIndex,
+        builder: (context, selectedDay, child) {
+          return Column(
+            children: [
+              /// Обновление UI на основе состояния — правильно ✅
+              _DaysChipsSection(
+                selectedDayIndex: selectedDay,
+                onDaySelected: viewModel.onDaySelected,
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+}
+```
+
+**Требуемые импорты:**
+```dart
+import 'package:flutter/foundation.dart'; // ValueListenable, ValueNotifier
+```
+
+### Использование KoErrorWidget для ошибок
+
+Для отображения ошибок во View обязательно использовать [KoErrorWidget](mdc:lib/uikit/error/ko_error_widget.dart) из UIKit.
+
+✅ Correct:
+```dart
+case SearchState$Error(:final error):
+  /// Использование KoErrorWidget из UIKit — правильно ✅
+  return KoErrorWidget(
+    exception: error,
+    onRetryPressed: viewModel.onRetryPressed,
+  );
+```
+
+❌ Incorrect:
+```dart
+case SearchState$Error(:final error):
+  /// Использование обычного Text виджета для ошибки — неправильно ❌
+  return Center(
+    child: Text('Произошла ошибка: ${error.toString()}'),
+  );
+```
+
+### Использование заголовков
+
+НЕ получай строки заголовков из ViewModel. Используй константные строки или локализацию.
+
+✅ Correct:
+```dart
+/// Использование константной строки — правильно ✅
+Text('Маршрут и экскурсии'),
+
+/// Использование локализации — правильно ✅
+Text(context.l10n.routeTitle),
+```
+
+❌ Incorrect:
+```dart
+/// Получение заголовка из ViewModel — неправильно ❌
+Text(viewModel.title),
+```
+
+## Widget
+
+### Параметры конструктора Widget
+
+Widget принимает в качестве параметров конструктора только типы из Dart SDK, Flutter SDK или Entity. Widget не принимает в качестве параметров конструктора пользовательские типы (кроме Entity).
+
+✅ Correct:
+```dart
+class FilterWidget extends StatelessWidget {
+  // Тип из Dart SDK — правильно ✅
+  final String label;  
+  /// Entity — правильно ✅
+  final FilterEntity filter;
+  /// Тип из Flutter SDK — правильно ✅
+  final VoidCallback onTap;
+  /// Тип из Flutter SDK — правильно ✅
+  final Widget child;
+
+  const FilterWidget({
+    required this.label, 
+    required this.filter, 
+    required this.onTap, 
+    required this.child,
+    super.key
+  });
+}
+```
+
+❌ Incorrect:
+```dart
+class FilterWidget extends StatelessWidget {
+  /// ViewModel — неправильно ❌  
+  final ISearchViewModel viewModel;
+
+  const FilterWidget({
+    required this.viewModel,
+    super.key
+  });
+}
+```
+
+Если Widget — приватный класс в другом Widget или во View, то он может принимать в качестве параметров конструктора пользовательские типы. Чаще всего это интерфейс ViewModel.
+
+✅ Correct:
+```dart
+class SearchView extends StatelessWidget {
+  final ISearchViewModel viewModel;
+
+  const SearchView({
+    required this.viewModel,
+    super.key
+  });
+}
+
+/// Приватный виджет для FiltersView. Может принимать параметром интерфейс ViewModel — правильно ✅
+class _Header extends StatelessWidget {
+  final ISearchViewModel viewModel;
+
+  const _Header({
+    required this.viewModel,
+  });
+}
+```
+
+Для реализации приватных виджетов обязательно пользуйся правилом [widget-components.mdc](mdc:.cursor/rules/widget-components.mdc).
+
+### Зависимости Widget
+
+Все необходимые зависимости Widget получает через конструктор. В Widget запрещено получать зависимости с использованием механизма InheritedWidget, кроме конфигурации темы и локализации.
+
+✅ Correct:
+```dart
+class FiltersWidget extends StatelessWidget {
+  const FiltersWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    /// Получение color-темы — правильно ✅ 
+    final colorScheme = context.koColorScheme;
+    /// Получение текстовой темы — правильно ✅ 
+    final textScheme = context.koTypography;
+    /// Получение локализации — правильно ✅
+    final l10n = context.l10n;
+  }
+}  
+```
+
+❌ Incorrect:
+```dart
+class FiltersWidget extends StatelessWidget {
+  const FiltersWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    /// Получение AppScope — неправильно ❌
+    final appScope = context.appScope;
+    /// Получение IFiltersRepository — неправильно ❌
+    final repository = context.read<IFiltersRepository>();    
+    /// Получение FiltersBloc — неправильно ❌
+    final bloc = BlocProvider.of<FiltersBloc>(context);
+  }
+}  
+```
+
+### Использование Bloc в Widget
+
+В Widget запрещается использоваться Bloc и все классы, которые связаны с Bloc: BlocProvider, BlocBuilder, BlocListener, BlocSelector, BlocConsumer, StateStreamableBuilder.
+
+❌ Incorrect:
+```dart
+class FiltersWidget extends StatelessWidget {
+  const FiltersWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    /// Использование BlocBuilder в Widget — неправильно ❌
+    return BlocBuilder<FiltersBloc, FiltersState>(
+        builder: (context, state) {...},
+    );
+  }
+}
+
+class FiltersWidget extends StatelessWidget {
+  const FiltersWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    /// Использование StateStreamableBuilder в Widget — неправильно ❌
+    return StateStreamableBuilder<FiltersState>(
+        builder: (context, state) {...},
+    );
+  }
+}
+```
+
+### Использование UIKit
+
+Для реализации Widget обязательно использовать компоненты из UIKit, если там есть подходящие. Ознакомься со структурой UIKit в правиле [uikit-usage.mdc](mdc:.cursor/rules/uikit-usage.mdc).
+
+Перед добавлением каждого виджета для реализации Widget, обязательно проверяй, есть ли подходящий компонент в UIKit. Если есть — используй его, если нет — останови генерацию и задай уточняющий вопрос.
+
+## Код-стайл Dart
+
+Используй все новые фишки Dart: pattern-matching, switch-case, если это необходимо.
+
+## Правила реализации Widget
+
+### Интерактивные элементы
+
+❌ **НЕ используйте GestureDetector** для нажимаемых элементов:
+```dart
+// Плохо
+return GestureDetector(
+  onTap: onTap,
+  behavior: HitTestBehavior.translucent,
+  child: Container(...),
+);
+```
+
+✅ **Используйте KoPressable** из UIKit для всех нажимаемых элементов, которые не являются кнопками:
+```dart
+// Хорошо
+return KoPressable(
+  onTap: onTap,
+  child: Container(...),
+);
+```
+
+### Размеры и отступы в layouts
+
+❌ **НЕ используйте SizedBox** для задания размеров в Column, Row, ListView, CustomScrollView:
+```dart
+// Плохо
+Row(
+  children: [
+    Text('Название'),
+    const SizedBox(width: 12),
+    Icon(Icons.check),
+  ],
+)
+```
+
+✅ **Используйте Width/Height** утилитные виджеты:
+```dart
+// Хорошо
+Row(
+  children: [
+    Text('Название'),
+    const Width(12),
+    Icon(Icons.check),
+  ],
+)
+
+Column(
+  children: [
+    Text('Заголовок'),
+    const Height(16),
+    Text('Описание'),
+  ],
+)
+```
+
+**Импорты для утилитных виджетов:**
+- `import 'package:kruiz_online/core/utils/widgets/width.dart';`
+- `import 'package:kruiz_online/core/utils/widgets/height.dart';`
+
+**Импорт для KoPressable:**
+- `import 'package:kruiz_online/uikit/buttons/common/ko_pressable.dart';`
+
+### Отступы в списках
+
+❌ **НЕ используйте Padding** для вертикальных отступов вокруг списков:
+```dart
+// Плохо - отступы не скроллятся
+Expanded(
+  child: Padding(
+    padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+    child: CustomScrollView(slivers: [...])
+  )
+)
+```
+
+✅ **Используйте SliverToBoxAdapter** внутри списка для отступов:
+```dart
+// Хорошо - отступы скроллятся вместе со списком
+Expanded(
+  child: CustomScrollView(
+    slivers: [
+      // Верхний отступ - часть списка
+      const SliverToBoxAdapter(child: Height(16)),
+      
+      // Основной контент
+      SliverPadding(
+        padding: const EdgeInsets.symmetric(horizontal: 16),
+        sliver: SliverList(...),
+      ),
+      
+      // Нижний отступ - часть списка  
+      const SliverToBoxAdapter(child: Height(8)),
+    ],
+  ),
+)
+```
+
+**Преимущества подхода с SliverToBoxAdapter:**
+- Отступы скроллятся вместе с содержимым списка
+- Пользователь может прокрутить список полностью до края экрана
+- Лучший UX при работе с длинными списками
+- Контент не "прилипает" к краям экрана при скроллинге
+
+### Именование коллбэков
+
+Коллбэки в параметрах конструктора должны иметь названия, содержащие глагол в прошедшем времени, который описывает их действие.
+
+✅ Correct:
+```dart
+class KoChip extends StatelessWidget {
+  final String text;
+  /// Правильное именование: onRemovePressed — содержит глагол в прошедшем времени "pressed"
+  final VoidCallback? onRemovePressed;
+
+  const KoChip({
+    required this.text, 
+    this.onRemovePressed, 
+    super.key
+  });
+}
+```
+
+❌ Incorrect:
+```dart
+class KoChip extends StatelessWidget {
+  final String text;
+  /// Неправильное именование: onRemove — не содержит глагол в прошедшем времени
+  final VoidCallback? onRemove;
+
+  const KoChip({
+    required this.text, 
+    this.onRemove, 
+    super.key
+  });
+}
+```
+
+**Примеры правильных названий коллбэков:**
+- `onPressed` — когда что-то было нажато
+- `onChanged` — когда значение изменилось
+- `onSubmitted` — когда форма была отправлена
+- `onRemovePressed` — когда кнопка удаления была нажата
+- `onSavePressed` — когда кнопка сохранения была нажата
+
+### Использование KoImage для изображений
+
+Для отображения изображений обязательно использовать @KoImage с соответствующими билдерами из @KoImageProviderBuilders.
+
+✅ Correct:
+```dart
+/// Для сетевых изображений с кэшированием — правильно ✅
+KoImage(
+  image: KoImageProviderBuilders.cachedNetwork(photoUrl),
+  width: 120,
+  height: 80,
+  fit: BoxFit.cover,
+),
+
+/// Для локальных ассетов — правильно ✅
+KoImage(
+  image: KoImageProviderBuilders.asset(Images.placeholderImage),
+  width: 120,
+  height: 80,
+),
+```
+
+❌ Incorrect:
+```dart
+/// Использование стандартного Image виджета — неправильно ❌
+Image.network(
+  photoUrl,
+  width: 120,
+  height: 80,
+  fit: BoxFit.cover,
+),
+
+/// Использование CachedNetworkImage напрямую — неправильно ❌
+CachedNetworkImage(
+  imageUrl: photoUrl,
+  width: 120,
+  height: 80,
+),
+```
+
+**Требуемые импорты для изображений:**
+```dart
+import 'package:kruiz_online/uikit/image/ko_image.dart';
+import 'package:kruiz_online/uikit/image/ko_image_provider_builders.dart';
+```

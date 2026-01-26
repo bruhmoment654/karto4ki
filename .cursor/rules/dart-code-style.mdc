@@ -1,0 +1,318 @@
+---
+description: 
+globs: *.dart
+alwaysApply: false
+---
+# Dart Code Style
+
+Правила оформления кода на Dart, которые должны соблюдаться в проекте.
+
+## 1. Избегайте небезопасных операций
+
+### ❌ НЕ используйте `!` оператор
+```dart
+// Плохо
+if (data?.cities != null && data!.cities!.cities.isNotEmpty) {
+  final cities = data.cities!.cities;
+}
+```
+
+### ✅ Используйте безопасные null-проверки
+```dart
+// Хорошо
+final citiesFilter = data?.cities;
+if (citiesFilter != null && citiesFilter.cities.isNotEmpty) {
+  final cities = citiesFilter.cities;
+}
+```
+
+## 2. Guard Pattern вместо if-else
+
+### ❌ Избегайте глубокой вложенности
+```dart
+// Плохо
+if (data.isEmpty) {
+  emit(const CitiesState.empty());
+} else {
+  // много кода
+  SelectedState selectedState = const SelectedState.empty();
+  // ...
+  emit(CitiesState.data(...));
+}
+```
+
+### ✅ Используйте guard pattern с early return
+```dart
+// Хорошо
+if (data.isEmpty) {
+  return emit(const CitiesState.empty());
+}
+
+// Основная логика без else
+SelectedState selectedState = const SelectedState.empty();
+// ...
+emit(CitiesState.data(...));
+```
+
+### ✅ Для однострочного return не используйте фигурные скобки
+```dart
+// Хорошо - лаконично для простых проверок
+if (currentState is! CitiesState$Data) return;
+
+// Плохо - избыточные скобки
+if (currentState is! CitiesState$Data) {
+  return;
+}
+```
+
+## 3. Промежуточные переменные для читаемости
+
+### ❌ Сложные цепочки вызовов
+```dart
+// Плохо - трудно читать и небезопасно
+if (data?.cities != null && data!.cities!.cities.isNotEmpty) {
+  selectedState = SelectedState.selected(
+    cities: data.cities!.cities,
+    isReturn: data.returnFilter?.isReturn ?? false,
+  );
+}
+```
+
+### ✅ Используйте промежуточные переменные
+```dart
+// Хорошо - читаемо и безопасно
+final citiesFilter = data?.cities;
+if (citiesFilter != null && citiesFilter.cities.isNotEmpty) {
+  selectedState = SelectedState.selected(
+    cities: citiesFilter.cities,
+    isReturn: data?.returnFilter?.isReturn ?? false,
+  );
+}
+```
+
+## 4. Pattern Matching
+
+### ✅ Используйте Object Patterns для деконструкции
+
+```dart
+// Хорошо - деконструкция полей объекта
+switch (selectedState) {
+  case SelectedState$Empty():
+    // обработка пустого состояния
+  case SelectedState$Selected(:final cities, :final isReturn):
+    // cities и isReturn автоматически извлечены из объекта
+}
+```
+
+### ❌ Не используйте устаревшие способы проверки типов
+```dart
+// Плохо - устаревший подход
+if (selectedState is SelectedState$Selected) {
+  final selected = selectedState as SelectedState$Selected;
+  final cities = selected.cities;
+  final isReturn = selected.isReturn;
+}
+```
+
+### ✅ Используйте Switch Expression с Pattern Matching
+
+```dart
+// Хорошо - современный подход с pattern matching
+final newSelectedState = switch (selectedState) {
+  SelectedState$Empty() => SelectedState.selected(cities: [cityToToggle], isReturn: false),
+  SelectedState$Selected(:final cities, :final isReturn) when cities.contains(cityToToggle) => 
+    cities.length == 1 ? const SelectedState.empty() : 
+    SelectedState.selected(cities: cities.where((c) => c != cityToToggle).toList(), isReturn: isReturn),
+  SelectedState$Selected(:final cities, :final isReturn) => 
+    SelectedState.selected(cities: [...cities, cityToToggle], isReturn: isReturn),
+};
+```
+
+### ✅ Используйте Guard Clauses с Pattern Matching
+
+```dart
+// Хорошо - guard clause с when
+switch (shape) {
+  case Square(size: var s) || Circle(size: var s) when s > 0:
+    print('Non-empty symmetric shape');
+}
+```
+
+### ✅ Используйте Destructuring для Records
+
+```dart
+// Хорошо - деконструкция records
+final (citiesResult, selectedFiltersResult) = results;
+```
+
+### ✅ Используйте Null-Check Pattern для безопасной работы с nullable
+
+```dart
+// Хорошо - null-check pattern
+switch (maybeString) {
+  case var s?:
+    // s имеет тип non-nullable String
+    print(s.length);
+}
+```
+
+### ✅ Логические операторы в Pattern Matching
+
+```dart
+// Хорошо - логический OR для множественных условий
+var isPrimary = switch (color) {
+  Color.red || Color.yellow || Color.blue => true,
+  _ => false,
+};
+
+// Хорошо - логический AND с relational patterns
+return switch (char) {
+  < space => 'control',
+  == space => 'space', 
+  > space && < zero => 'punctuation',
+  >= zero && <= nine => 'digit',
+  _ => '',
+};
+```
+
+### ✅ Используйте if-case вместо is + as
+
+Modern pattern matching с if-case безопаснее и читаемее традиционных проверок типов.
+
+#### ❌ Устаревший подход с is + as
+```dart
+// Плохо - небезопасные приведения типов
+if (state.selectedState is SelectedState$Selected) {
+  final selectedState = state.selectedState as SelectedState$Selected;
+  final cities = selectedState.cities;
+  final isReturn = selectedState.isReturn;
+  // использование cities и isReturn
+}
+```
+
+#### ✅ Современный if-case с деконструкцией
+```dart
+// Хорошо - безопасная деконструкция с if-case
+if (state.selectedState case SelectedState$Selected(:final cities, :final isReturn)) {
+  // cities и isReturn автоматически извлечены и доступны в области видимости — правильно ✅
+  // использование cities и isReturn
+}
+```
+
+#### ✅ Для nullable проверок используйте null-check pattern
+```dart
+// Хорошо - проверка на null с автоматической деконструкцией
+if (maybeUser case User(:final name, :final age)?) {
+  // name и age автоматически non-nullable в этой области — правильно ✅
+  print('User: $name, age: $age');
+}
+```
+
+### 📝 Практический пример из CitiesBloc
+
+Вместо традиционного подхода с множественными if-else:
+
+```dart
+// ❌ Плохо - много условий и проверок типов
+void _onCityToggled(event, emit) {
+  if (state is CitiesState$Data) {
+    final currentState = state as CitiesState$Data;
+    if (currentState.selectedState is SelectedState$Empty) {
+      // добавление первого города
+    } else if (currentState.selectedState is SelectedState$Selected) {
+      final selected = currentState.selectedState as SelectedState$Selected;
+      if (selected.cities.any((city) => city.id == event.city.id)) {
+        // удаление города
+      } else {
+        // добавление города
+      }
+    }
+  }
+}
+```
+
+Используйте современный pattern matching:
+
+```dart
+// ✅ Хорошо - clean и понятно
+void _onCityToggled(_CitiesEvent$CityToggled event, Emitter<CitiesState> emit) {
+  final currentState = state;
+  if (currentState is! CitiesState$Data) return;
+
+  final selectedState = currentState.selectedState;
+  final cityToToggle = event.city;
+
+  switch (selectedState) {
+    case SelectedState$Empty():
+      final newSelectedState = SelectedState.selected(cities: [cityToToggle], isReturn: false);
+      emit(currentState.copyWith(selectedState: newSelectedState));
+
+    case SelectedState$Selected(:final cities, :final isReturn):
+      final isAlreadySelected = cities.any((city) => city.id == cityToToggle.id);
+      
+      if (isAlreadySelected) {
+        final updatedCities = cities.where((city) => city.id != cityToToggle.id).toList();
+        final newSelectedState = updatedCities.isEmpty
+            ? const SelectedState.empty()
+            : SelectedState.selected(cities: updatedCities, isReturn: isReturn);
+      } else {
+        final updatedCities = [...cities, cityToToggle];
+        final newSelectedState = SelectedState.selected(cities: updatedCities, isReturn: isReturn);
+      }
+      
+      emit(currentState.copyWith(selectedState: newSelectedState));
+  }
+}
+```
+
+## 5. Именование Boolean переменных и методов
+
+Следуйте официальному Dart Style Guide для именования boolean переменных и методов.
+
+### ✅ Используйте non-imperative verb phrase (неимперативную глагольную фразу)
+
+Рекомендуемые формы для boolean:
+- `is...` (isVisible, isEmpty, isLoading)
+- `has...` (hasError, hasData, hasValue) 
+- `can...` (canClose, canFitInSingleLine, canRetry)
+- `should...` (shouldValidate, shouldRefresh)
+- `will...` (willRetry, willExpand)
+
+```dart
+// ✅ Хорошо - примеры правильного именования
+final isVisible = widget.opacity > 0;
+final hasError = errorMessage != null;
+final shouldRetry = attempt < maxAttempts;
+```
+
+### ❌ Избегайте императивных форм
+
+```dart
+// ❌ Плохо - императивные формы
+final fitsInSingleLine = checkTextFit(text); // должно быть canFitInSingleLine
+final visible = opacity > 0; // должно быть isVisible  
+final enabled = !isDisabled; // должно быть isEnabled
+final retry = attempt < maxAttempts; // должно быть shouldRetry
+
+// ❌ Плохо - метод с императивной формой
+bool _fitsInSingleLine(String text) { ... } // должно быть _canFitInSingleLine
+```
+
+### 📋 Справочная таблица преобразований
+
+| ❌ Плохо (императивное) | ✅ Хорошо (non-imperative) |
+|-------------------------|---------------------------|
+| `fitsInSingleLine` | `canFitInSingleLine` |
+| `visible` | `isVisible` |
+| `enabled` | `isEnabled` |
+| `loading` | `isLoading` |
+| `empty` | `isEmpty` |
+| `valid` | `isValid` |
+| `retry` | `shouldRetry` |
+| `expand` | `willExpand` |
+
+## Общие принципы
+
+1. **Безопасность превыше всего** - избегайте операций, которые могут привести к runtime ошибкам
+2. **Читаемость кода** - используйте промежуточные переменные для сложной логики
+3. **Соответствие стандартам** - следуйте официальным рекомендациям Dart Style Guide для именования

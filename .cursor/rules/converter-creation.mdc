@@ -1,0 +1,39 @@
+---
+description: Создание конвертера.
+globs: 
+alwaysApply: false
+---
+# Создание конвертера
+
+Конвертеры используются для преобразования моделей данных (DTO) в сущности домена (Entity) и обратно. Это помогает разделить слои данных и доменной логики.
+
+## Структура
+
+Конвертеры должны быть абстрактными классами `abstract final class` с приватным конструктором и содержать только статические методы.
+
+-   **Расположение**: Конвертеры для фичей должны находиться в `lib/feature/{feature_name}/data/converters/`.
+-   **Именование**: Имя файла и класса должно отражать, что он конвертирует, например, `sort_converter.dart` для `SortConverter`.
+
+## Пример
+
+При создании нового конвертера ориентируйтесь на существующие.
+
+-   `[sort_converter.dart](mdc:lib/feature/filters/data/converters/sort_converter.dart)`: Простой конвертер для конвертации `SortEntity` и `SortDto`.
+-   `[selected_filters_converter.dart](mdc:lib/feature/filters/data/converters/selected_filters_converter.dart)`: Более сложный пример для конвертации моделей фильтров.
+
+### `SortConverter`
+
+```dart
+import 'package:kruiz_online/api/models/sort_dto.dart';
+import 'package:kruiz_online/feature/filters/domain/entity/sort_entity.dart';
+
+abstract final class SortConverter {
+  static SortDto toDto(SortEntity entity) {
+    // ...
+  }
+
+  static SortEntity fromDto(SortDto dto) {
+    // ...
+  }
+}
+```

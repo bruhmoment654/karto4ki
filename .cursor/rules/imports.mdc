@@ -1,0 +1,23 @@
+---
+description: Работа с import.
+globs: 
+alwaysApply: false
+---
+# Import Rules
+
+## Absolute Imports
+
+All imports in the project must use absolute paths instead of relative paths. This makes the code more maintainable and easier to refactor.
+
+### ✅ Correct:
+```dart
+import 'package:app/data/dto/profile_dto.dart';
+```
+
+### ❌ Incorrect:
+```dart
+import '../dto/profile_dto.dart';
+import './profile_dto.dart';
+```
+
+This rule applies to all Dart files in the project. Using absolute imports makes the code more predictable and helps avoid confusion with nested relative paths.

@@ -1,0 +1,83 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Widget Component Extraction Rule
+
+## Overview
+Large widget classes should be split into smaller, focused component widgets to improve code maintainability and readability.
+
+## Guideline
+Extract logical UI parts of a widget into separate private widget classes when:
+- The component has complex logic
+- The component is visually distinct
+- The component might be reused or modified separately
+
+## Examples
+
+### ✅ Correct implementation:
+```dart
+class ProfileCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          _ProfileAvatar(avatarUrl: profile.avatarUrl),
+          _ProfileInfo(name: profile.name, balance: profile.balance),
+          _ActionButton(onTap: onAction),
+        ],
+      ),
+    );
+  }
+}
+
+class _ProfileAvatar extends StatelessWidget {
+  final String? avatarUrl;
+  
+  const _ProfileAvatar({required this.avatarUrl});
+  
+  @override
+  Widget build(BuildContext context) {
+    // Avatar implementation
+  }
+}
+```
+
+### ❌ Incorrect implementation:
+```dart
+class ProfileCard extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Row(
+        children: [
+          _buildAvatar(),
+          _buildProfileInfo(),
+          _buildActionButton(),
+        ],
+      ),
+    );
+  }
+  
+  Widget _buildAvatar() {
+    // Avatar implementation
+  }
+  
+  Widget _buildProfileInfo() {
+    // Profile info implementation
+  }
+  
+  Widget _buildActionButton() {
+    // Action button implementation
+  }
+}
+```
+
+## Benefits
+- Improved code organization
+- Better separation of concerns
+- Easier to understand and maintain
+- More focused widget rebuilds
+- More testable components

@@ -1,0 +1,180 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Работа с Result и RequestOperation
+
+Это правило описывает как правильно работать с классом [Result](mdc:lib/core/architecture/domain/entity/result.dart) и [RequestOperation](mdc:lib/core/architecture/domain/entity/request_operation.dart) в проекте.
+
+## Основные принципы
+
+### 1. Все методы Repository обязаны возвращать RequestOperation
+
+```dart
+/// Typedef для всех операций, которые могут закончиться с ошибкой.
+typedef RequestOperation<T> = Future<Result<T, Object>>;
+```
+
+### 2. Использование Result на уровне Bloc
+
+Используйте **pattern matching** с switch-case для обработки результатов:
+
+```dart
+final cruisesResult = await _cruisesRepository.cruises();
+
+switch (cruisesResult) {
+  case ResultOk(:final data):
+    emit(SearchState.loaded(
+      cruises: data.results, 
+      totalCount: data.totalCount, 
+      pageInfo: data.pageInfo
+    ));
+  case ResultFailed(:final error):
+    emit(SearchState.error(error: error));
+}
+```
+
+❌ НЕ используйте `unwrap()` в Bloc:
+```dart
+// Плохо - небезопасная операция в Bloc
+final cities = citiesResult.unwrap();
+final selectedFilters = selectedFiltersResult.unwrap();
+```
+
+✅ Используйте pattern matching для извлечения данных:
+```dart
+// Хорошо
+switch (citiesResult) {
+  case ResultOk(:final data):
+    // Безопасное извлечение данных
+  case ResultFailed(:final error):
+    // Обработка ошибки
+}
+```
+
+**Ключевые моменты:**
+- Используйте `case ResultOk(:final data):` для успешного результата
+- Используйте `case ResultFailed(:final error):` для ошибки
+- Pattern matching извлекает данные автоматически через деструктуризацию
+
+### 3. Параллельные вызов методов Repository
+
+Для параллельного вызова нескольких методов Repository используйте `.wait`:
+
+```dart
+final results = await (
+  _filtersRepository.selectedFilters(), 
+  _filtersRepository.selectedSort()
+).wait;
+
+final (filtersResult, sortResult) = results;
+
+switch (filtersResult) {
+  case ResultOk():
+    break;
+  case ResultFailed(:final error):
+    return emit(SearchState.error(error: error));
+}
+
+switch (sortResult) {
+  case ResultOk():
+    break;
+  case ResultFailed(:final error):
+    return emit(SearchState.error(error: error));
+}
+```
+
+**Ключевые моменты:**
+- Используйте `.wait` для параллельного выполнения futures
+- Деструктуризация кортежа: `final (filtersResult, sortResult) = results;`
+- Обрабатывайте каждый результат отдельно
+
+### 4. Обработка ошибок
+
+✅ Раннее возвращение ошибок
+```dart
+// Хорошо - проверяем критичные ошибки первыми
+switch (selectedFiltersResult) {
+  case ResultOk():
+    break;
+  case ResultFailed(:final error):
+    return emit(CitiesState.error(error: error));
+}
+
+// Далее обрабатываем основную логику
+switch (citiesResult) {
+  case ResultOk(:final data):
+    // основная логика
+  case ResultFailed(:final error):
+    emit(CitiesState.error(error: error));
+}
+```
+
+## Методы Result класса
+
+### unwrap()
+```dart
+// Возвращает данные или выбрасывает исключение
+TData data = result.unwrap();
+```
+**Осторожно:** Использовать только когда уверены в успехе операции.
+
+### unwrapOr(defaultValue)
+```dart
+// Возвращает данные или значение по умолчанию
+TData data = result.unwrapOr(defaultValue);
+```
+
+### unwrapOrNull()
+```dart
+// Возвращает данные или null
+TData? data = result.unwrapOrNull();
+```
+
+### mapOk()
+```dart
+// Трансформирует успешный результат
+Result<String, Object> stringResult = result.mapOk((data) => data.toString());
+```
+
+## Pattern Matching особенности
+
+### Деструктуризация с именованными полями
+```dart
+switch (result) {
+  case ResultOk(:final data):
+    // data автоматически извлекается из ResultOk
+  case ResultFailed(:final error, :final stackTrace):
+    // error и stackTrace извлекаются из ResultFailed
+}
+```
+
+### Работа с Future<Result>
+```dart
+// Для Future<Result> доступны специальные методы
+Future<TData> data = futureResult.unwrapOr(defaultValue);
+Future<TData?> data = futureResult.unwrapOrNull();
+```
+
+## Антипаттерны
+
+❌ **НЕ используйте:**
+```dart
+// Старый способ без pattern matching
+if (result.isOk) {
+  final data = (result as ResultOk).data;
+}
+```
+
+❌ **НЕ возвращайте из методов Repository типы кроме RequestOperation<T>:**
+```dart
+// Неправильно - Repository не должен возвращать Future<T>
+Future<List<Cruise>> getCruises();
+```
+
+✅ **Используйте:**
+```dart
+// Правильно - Repository возвращает RequestOperation<T>
+RequestOperation<List<Cruise>> getCruises();
+```

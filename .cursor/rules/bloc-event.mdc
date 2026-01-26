@@ -1,0 +1,117 @@
+---
+description: Создание event для Bloc.
+globs: 
+alwaysApply: false
+---
+# Bloc Event Patterns
+
+## Overview
+This rule defines the standard patterns for creating bloc event classes using freezed and sealed class patterns.
+
+## Purpose
+Provide a persistent naming convention rule for Bloc event classes that ensures consistency and readability across the codebase.
+
+## Core Concepts
+
+### 1. Freezed Usage
+All bloc event classes must use the `@freezed` annotation to generate immutable data classes with copy methods and equality comparisons.
+
+### 2. Sealed Class Pattern
+Event classes should be declared as `sealed class` to enable exhaustive pattern matching and prevent external inheritance.
+
+### 3. Private Naming Pattern
+Use the `_ClassName$EventVariant` pattern for event implementations to keep all freezed generated events private.
+
+## Standard Template
+
+```dart
+part of 'feature_bloc.dart';
+
+@freezed
+sealed class FeatureEvent with _$FeatureEvent {
+  const factory FeatureEvent.eventName(DataType parameter) = _FeatureEvent$EventName;
+  
+  const factory FeatureEvent.anotherEvent() = _FeatureEvent$AnotherEvent;
+  
+  const factory FeatureEvent.complexEvent({
+    required String param1,
+    required int param2,
+  }) = _FeatureEvent$ComplexEvent;
+}
+```
+
+## Implementation Guidelines
+
+### Required Elements
+1. **Part directive**: Always start with `part of 'feature_bloc.dart';`
+2. **Freezed annotation**: Use `@freezed` before the class declaration
+3. **Sealed class**: Declare as `sealed class ClassName with _$ClassName`
+4. **Factory constructors**: Use `const factory ClassName.eventName() = _ClassName$EventName;`
+
+### Naming Conventions
+- Class name: `FeatureEvent` (PascalCase with "Event" suffix)
+- Generated mixin: `_$FeatureEvent` (underscore + dollar + class name)
+- Event variants: `_FeatureEvent$EventName` (underscore + class name + dollar + event name) - **PRIVATE**
+- Factory methods: `ClassName.eventName()` (camelCase event names)
+- **Base event class** must be named:
+   `BlocSubjectEvent`
+   • `BlocSubject`: the logical subject (e.g., `Counter`, `Login`, `Weather`)
+   • `Event`: the suffix for the base sealed or abstract class
+- **Each concrete event class** should be past-tense, descriptive, and follow this pattern:
+   `BlocSubjectVerb[Suffix]`
+   - `Verb`: past tense action that accurately describes the event
+   - `Verb` must end with “ed” or appropriate past-tense form
+   - Optional `[Suffix]` can be used for clarity when multiple variants exist
+     (e.g., `CounterIncrementPressed`, `CounterIncrementRetried`)
+- **Initial or startup event** must be named:
+   `BlocSubjectStarted`
+- **No use of vague or imperative names**. Avoid generic or misnamed events such as:
+   `Initial`, `DoSomething`, `IncrementCounter`
+
+✅ **Examples (Correct):**
+```dart
+sealed class CounterEvent {}
+final class CounterStarted extends CounterEvent {}
+final class CounterIncrementPressed extends CounterEvent {}
+final class CounterDecrementPressed extends CounterEvent {}
+final class CounterIncrementRetried extends CounterEvent {}
+
+❌ **Examples (Incorrect):**
+```dart
+class Initial extends CounterEvent {}
+class DoIncrement extends CounterEvent {}
+class IncrementCounter extends CounterEvent {}
+```
+
+### Parameter Patterns
+1. **Single parameter**: Direct parameter in factory constructor
+2. **Multiple parameters**: Use named parameters with `required` keyword
+3. **Optional parameters**: Use optional named parameters
+4. **No parameters**: Empty factory constructor
+
+### Common Event Patterns
+1. **User input events**: `textChanged`, `phoneChanged`, `emailChanged`
+2. **Action events**: `submitRequested`, `sendCodeRequested`, `loginRequested`
+3. **Navigation events**: `backPressed`, `nextPressed`, `screenOpened`
+4. **Data events**: `dataLoaded`, `dataRefreshed`, `itemSelected`
+
+### Examples from Codebase
+
+```dart
+// Simple parameter event
+const factory EnterPhoneEvent.phoneChanged(String rawPhone) = _EnterPhoneEvent$PhoneChanged;
+
+// Complex parameter event
+const factory EnterPhoneEvent.sendCodeRequested(PhoneEntity phone) = _EnterPhoneEvent$SendCodeRequested;
+```
+
+## File Organization
+- Event files should be located in the `domain/bloc/` directory
+- File naming: `feature_event.dart`
+- Always use `part of` directive to connect with the main bloc file
+- Do not use import statements in state files. All necessary imports for state classes must be included in the main bloc file, as state files are connected via the `part` directive.
+
+
+## Key Differences from State
+- Events use **private** implementations (`_ClassName$EventName`) while states use public ones
+- Events typically represent user actions or external triggers

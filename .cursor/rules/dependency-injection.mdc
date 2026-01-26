@@ -1,0 +1,121 @@
+---
+description: 
+globs: 
+alwaysApply: false
+---
+# Dependency Injection Pattern
+
+This project uses a specific dependency injection pattern with `IAppScope` and Provider pattern. Follow these guidelines for consistent implementation.
+
+## Core Concepts
+
+### 1. IAppScope Usage
+- `IAppScope` provides app-level dependencies (logWriter, dio, etc.)
+- Access it using `context.appScope` in flow wrapper classes
+- Never directly instantiate app-level dependencies in features
+
+### 2. Provider Pattern
+- Each feature flow should implement `AutoRouteWrapper` for dependency scoping
+- Use `MultiProvider` to provide feature-specific dependencies
+- Scope providers to the specific feature/flow level
+
+## Implementation Pattern
+
+### Flow Wrapper Structure
+Every feature flow should follow this pattern as shown in [debug_flow.dart](mdc:lib/feature/debug/presentation/debug_flow.dart):
+
+```dart
+@RoutePage()
+class FeatureFlow extends StatelessWidget implements AutoRouteWrapper {
+  const FeatureFlow({super.key});
+
+  @override
+  Widget wrappedRoute(BuildContext context) {
+    final appScope = context.appScope;
+
+    return MultiProvider(
+      providers: [
+        // 1. Repository Provider
+        Provider<IFeatureRepository>(
+          create: (context) {
+            return FeatureRepository(
+              // Use dependencies from appScope
+              configStorage: appScope.configStorage, 
+              logWriter: appScope.logWriter
+            );
+          },
+        ),
+        // 2. BLoC Provider
+        BlocProvider<FeatureBloc>(
+          create: (context) {
+            return FeatureBloc(
+              // Read repository from context
+              repository: context.read<IFeatureRepository>()
+            );
+          },
+        ),
+      ],
+      child: this,
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return const FeatureScreen();
+  }
+}
+```
+
+### Dependency Chain
+1. **App Level**: `IAppScope` provides core dependencies (storage, logging, etc.)
+2. **Feature Level**: All dependencies needed for the concrete feature
+
+## Best Practices
+
+### Repository Creation
+- Always use interface types for providers (`IFeatureRepository`)
+- Pass app-level dependencies from `appScope` to repository constructors
+
+### BLoC Creation
+- BLoCs should depend only on repository interfaces
+- Read repository from context: `context.read<IFeatureRepository>()`
+
+### Provider Scoping
+- Scope providers at the flow level (not screen level)
+- Always use `MultiProvider`
+- Providers should be as close to their usage as possible but not deeper than necessary
+
+## Concrete Example
+
+The [debug_flow.dart](mdc:lib/feature/debug/presentation/debug_flow.dart) demonstrates this pattern:
+
+```dart
+// ✅ Good: Reading app scope
+final appScope = context.appScope;
+
+// ✅ Good: Repository with app dependencies
+Provider<IDebugRepository>(
+  create: (context) {
+    return DebugRepository(
+      configStorage: appScope.configStorage, 
+      logWriter: appScope.logWriter
+    );
+  },
+),
+
+// ✅ Good: BLoC with repository dependency
+BlocProvider<DebugBloc>(
+  create: (context) {
+    return DebugBloc(
+      debugRepository: context.read<IDebugRepository>()
+    );
+  },
+),
+```
+
+## Common Mistakes to Avoid
+
+- ❌ Don't access `IAppScope` directly in BLoCs or repositories
+- ❌ Don't create app-level dependencies outside of `IAppScope`
+- ❌ Don't provide dependencies at screen level if they're used in multiple screens of the same flow
+- ❌ Don't mix provider types - use Provider for services, BlocProvider for BLoCs

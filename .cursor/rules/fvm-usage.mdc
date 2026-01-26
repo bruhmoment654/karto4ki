@@ -1,0 +1,32 @@
+---
+alwaysApply: false
+---
+# FVM Usage Guide
+
+This project uses FVM (Flutter Version Management) for consistent Flutter SDK versioning. All Flutter commands should be prefixed with `fvm`.
+
+## Key Files
+- [.fvmrc](mdc:.fvmrc) - Contains the Flutter version configuration
+- [pubspec.yaml](mdc:pubspec.yaml) - Project dependencies and configuration
+
+## Command Usage
+
+Always use the `fvm` prefix for Flutter commands:
+
+✅ Correct:
+```bash
+fvm flutter pub get
+fvm flutter build web
+fvm flutter run
+fvm flutter gen-l10n
+```
+
+❌ Incorrect:
+```bash
+flutter pub get
+flutter build web
+flutter run
+flutter gen-l10n
+```
+
+This ensures consistent Flutter SDK version usage across the team and prevents version mismatches.

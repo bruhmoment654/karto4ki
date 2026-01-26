@@ -1,0 +1,100 @@
+---
+description: Генерация API и DTO с retrofit.
+globs: 
+alwaysApply: false
+---
+# Conventions and Guide for Retrofit API and DTO Implementation & Generation
+
+This document outlines the established conventions and procedures for creating Retrofit API interfaces, their corresponding Data Transfer Objects (DTOs), and generating the necessary supporting code within this project. Adherence to these guidelines ensures consistency, maintainability, and successful code generation.
+
+## 1. API Specification Adherence (DTO Implementation)
+
+When implementing DTOs, it is crucial to **refer to the API specification**.
+
+-   **Field Nullability (Обязательность):** Pay close attention to the "Обязательность" (Mandatory/Required) column in the API specification for each field.
+    -   If a field is marked as mandatory (`+`), it should be **non-nullable** in the request DTO.
+    -   If a field is marked as optional (`-` or not explicitly mandatory), it should be **nullable** in the request DTO.
+    -   For **response DTOs**, adopt a policy of "full distrust of the backend." This means all fields (except for universally non-nullable identifiers like `id`) should generally be declared as **nullable**, regardless of the specification, to gracefully handle unexpected nulls from the server.
+-   **Field Naming:** Use the exact field names as specified in the API documentation, typically using `@JsonKey(name: "api_field_name")` for mapping.
+
+## 2. API Interface Definition (`*_api.dart`)
+
+-   **Location:** API interfaces (e.g., `AuthApi`) should be located in relevant feature directories, for example, `lib/api/auth/auth_api.dart`.
+-   **Annotation:** The class must be annotated with `@RestApi()`.
+-   **Factory Constructor:** Include a factory constructor: `factory AuthApi(Dio dio, {String baseUrl}) = _AuthApi;`
+-   **Methods:**
+    -   Annotate with Retrofit HTTP method annotations (e.g., `@POST("/api/v3/Endpoint")`, `@GET("/api/v3/Other")`).
+    -   Endpoint paths must be hardcoded strings directly in the annotations.
+-   **Imports:**
+    -   Import necessary DTOs from their respective files in the `lib/api/models/` directory.
+    ```dart
+    import 'package:kruiz_online/api/models/by_sms_with_captcha_request_dto.dart';
+    import 'package:kruiz_online/api/models/by_sms_with_captcha_response_dto.dart';
+    // ... other DTO imports
+    ```
+-   **Part Directive:** Include `part 'auth_api.g.dart';` (replace `auth_api` with the respective API name).
+-   **Comments:** Document methods with clear descriptions of their purpose, ending with a period.
+
+## 3. Data Transfer Object (DTO) Definition (`*_dto.dart`)
+
+-   **Location:** Each DTO must reside in its own file within the `lib/api/models/` directory.
+    -   Example: `lib/api/models/get_token_by_sms_request_dto.dart`
+-   **Linter Ignore:** Start each DTO file with:
+    ```dart
+    // ignore_for_file: always_put_required_named_parameters_first
+    ```
+-   **`@JsonSerializable` Annotation:**
+    -   All DTO classes must be annotated.
+    -   For **request DTOs**, use `@JsonSerializable(includeIfNull: false)` to omit null fields from the JSON payload.
+    -   For **response DTOs**, use `@JsonSerializable()`.
+-   **`@JsonKey` Annotation:** All fields must be annotated with `@JsonKey(name: "api_field_name")` to map to the JSON keys from the API.
+-   **Constructor:** All DTOs must have a `const` constructor.
+-   **`part` Directive:** Include the corresponding `part` directive (e.g., `part 'get_token_by_sms_request_dto.g.dart';`).
+-   **Comments:** Document DTO classes and fields clearly, ensuring comments end with a period.
+
+### Example: Request DTO (`get_token_by_sms_request_dto.dart`)
+
+```dart
+// ignore_for_file: always_put_required_named_parameters_first
+import 'package:json_annotation/json_annotation.dart';
+
+part 'get_token_by_sms_request_dto.g.dart';
+
+@JsonSerializable(includeIfNull: false)
+class GetTokenBySmsRequestDto {
+  /// Номер телефона пользователя.
+  @JsonKey(name: 'login')
+  final String login; // Mandatory field
+
+  /// ID AppMetrica.
+  @JsonKey(name: 'ym_cid')
+  final String? ymCid; // Optional field
+
+  /// ОТП код (5 символов).
+  @JsonKey(name: 'sms_code')
+  final String smsCode; // Mandatory field
+
+  const GetTokenBySmsRequestDto({
+    required this.login,
+    this.ymCid,
+    required this.smsCode,
+  });
+
+  factory GetTokenBySmsRequestDto.fromJson(Map<String, dynamic> json) =>
+      _$GetTokenBySmsRequestDtoFromJson(json);
+
+  Map<String, dynamic> toJson() => _$GetTokenBySmsRequestDtoToJson(this);
+}
+```
+
+## 4. Code Generation
+
+After creating or modifying any API interface or DTO file, the following command **must** be run from the project root to generate the necessary `*.g.dart` files:
+
+```bash
+make codegen
+```
+
+## Example API and DTO Reference
+
+Refer to `[lib/api/auth/auth_api.dart](mdc:lib/api/auth/auth_api.dart)` and the DTOs in `[lib/api/models/](mdc:lib/api/models)` for concrete examples following these conventions.

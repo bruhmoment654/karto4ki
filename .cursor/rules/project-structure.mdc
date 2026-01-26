@@ -1,0 +1,24 @@
+---
+description: Струтура проекта.
+globs: 
+alwaysApply: false
+---
+# Project Structure
+
+This Flutter project follows a feature-first architecture with clear separation of concerns. Here's the main structure:
+
+  - `lib/` - Main source code directory
+  - `feature/` - Feature modules (each feature is self-contained)
+  - `core/` - Core functionality and shared utilities
+  - `uikit/` - Reusable UI components. Does not depend on the product's subject area.
+  - `persistence/` - Data persistence layer
+  - `l10n/` - Localization files
+  - `api/` - API client and API models
+
+Each feature module typically contains:
+  - `data/` - Data layer (repositories, data sources)
+  - `domain/` - Business logic and Entities
+  - `presentation/` - UI layer (screens, widgets)
+  - `di/` - Dependency injection
+
+The project follows Clean Architecture principles.
