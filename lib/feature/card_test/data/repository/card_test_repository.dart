@@ -4,5 +4,5 @@ import 'package:karto4ki/feature/card_test/domain/repository/i_card_test_reposit
 class CardTestRepository implements ICardTestRepository {
   const CardTestRepository();
 
-  // TODO: Добавить реализации методов
+  // TODO(karto4ki): Добавить реализации методов.
 }

@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:karto4ki/feature/card_detail/presentation/card_detail_flow.dart';
 import 'package:karto4ki/feature/card_test/presentation/card_test_flow.dart';
-import 'package:karto4ki/feature/create_card/presentation/create_card_flow.dart';
 import 'package:karto4ki/feature/home/presentation/home_flow.dart';
 import 'package:karto4ki/feature/main/presentation/main_flow.dart';
 
@@ -22,7 +22,7 @@ class AppRouter extends RootStackRouter {
           children: [
             AutoRoute(page: MainRoute.page, initial: true),
             AutoRoute(page: CardTestRoute.page),
-            AutoRoute(page: CreateCardRoute.page),
+            AutoRoute(page: CardDetailRoute.page),
           ],
         ),
       ];

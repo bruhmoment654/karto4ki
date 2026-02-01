@@ -22,6 +22,6 @@ final class CardTestBloc extends Bloc<CardTestEvent, CardTestState> {
     _CardTestEvent$Started event,
     Emitter<CardTestState> emit,
   ) async {
-    // TODO: Реализовать загрузку данных
+    // TODO(karto4ki): Реализовать загрузку данных.
   }
 }

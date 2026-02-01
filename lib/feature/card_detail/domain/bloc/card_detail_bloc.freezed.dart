@@ -3,7 +3,7 @@
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
-part of 'create_card_bloc.dart';
+part of 'card_detail_bloc.dart';
 
 // **************************************************************************
 // FreezedGenerator
@@ -15,7 +15,7 @@ final _privateConstructorUsedError = UnsupportedError(
     'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
-mixin _$CreateCardEvent {
+mixin _$CardDetailEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
@@ -34,33 +34,33 @@ mixin _$CreateCardEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_CreateCardEvent$Started value) started,
+    required TResult Function(_CardDetailEvent$Started value) started,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CreateCardEvent$Started value)? started,
+    TResult? Function(_CardDetailEvent$Started value)? started,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CreateCardEvent$Started value)? started,
+    TResult Function(_CardDetailEvent$Started value)? started,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CreateCardEventCopyWith<$Res> {
-  factory $CreateCardEventCopyWith(
-          CreateCardEvent value, $Res Function(CreateCardEvent) then) =
-      _$CreateCardEventCopyWithImpl<$Res, CreateCardEvent>;
+abstract class $CardDetailEventCopyWith<$Res> {
+  factory $CardDetailEventCopyWith(
+          CardDetailEvent value, $Res Function(CardDetailEvent) then) =
+      _$CardDetailEventCopyWithImpl<$Res, CardDetailEvent>;
 }
 
 /// @nodoc
-class _$CreateCardEventCopyWithImpl<$Res, $Val extends CreateCardEvent>
-    implements $CreateCardEventCopyWith<$Res> {
-  _$CreateCardEventCopyWithImpl(this._value, this._then);
+class _$CardDetailEventCopyWithImpl<$Res, $Val extends CardDetailEvent>
+    implements $CardDetailEventCopyWith<$Res> {
+  _$CardDetailEventCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -69,38 +69,38 @@ class _$CreateCardEventCopyWithImpl<$Res, $Val extends CreateCardEvent>
 }
 
 /// @nodoc
-abstract class _$$CreateCardEvent$StartedImplCopyWith<$Res> {
-  factory _$$CreateCardEvent$StartedImplCopyWith(
-          _$CreateCardEvent$StartedImpl value,
-          $Res Function(_$CreateCardEvent$StartedImpl) then) =
-      __$$CreateCardEvent$StartedImplCopyWithImpl<$Res>;
+abstract class _$$CardDetailEvent$StartedImplCopyWith<$Res> {
+  factory _$$CardDetailEvent$StartedImplCopyWith(
+          _$CardDetailEvent$StartedImpl value,
+          $Res Function(_$CardDetailEvent$StartedImpl) then) =
+      __$$CardDetailEvent$StartedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$CreateCardEvent$StartedImplCopyWithImpl<$Res>
-    extends _$CreateCardEventCopyWithImpl<$Res, _$CreateCardEvent$StartedImpl>
-    implements _$$CreateCardEvent$StartedImplCopyWith<$Res> {
-  __$$CreateCardEvent$StartedImplCopyWithImpl(
-      _$CreateCardEvent$StartedImpl _value,
-      $Res Function(_$CreateCardEvent$StartedImpl) _then)
+class __$$CardDetailEvent$StartedImplCopyWithImpl<$Res>
+    extends _$CardDetailEventCopyWithImpl<$Res, _$CardDetailEvent$StartedImpl>
+    implements _$$CardDetailEvent$StartedImplCopyWith<$Res> {
+  __$$CardDetailEvent$StartedImplCopyWithImpl(
+      _$CardDetailEvent$StartedImpl _value,
+      $Res Function(_$CardDetailEvent$StartedImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$CreateCardEvent$StartedImpl implements _CreateCardEvent$Started {
-  const _$CreateCardEvent$StartedImpl();
+class _$CardDetailEvent$StartedImpl implements _CardDetailEvent$Started {
+  const _$CardDetailEvent$StartedImpl();
 
   @override
   String toString() {
-    return 'CreateCardEvent.started()';
+    return 'CardDetailEvent.started()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreateCardEvent$StartedImpl);
+            other is _$CardDetailEvent$StartedImpl);
   }
 
   @override
@@ -137,7 +137,7 @@ class _$CreateCardEvent$StartedImpl implements _CreateCardEvent$Started {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_CreateCardEvent$Started value) started,
+    required TResult Function(_CardDetailEvent$Started value) started,
   }) {
     return started(this);
   }
@@ -145,7 +145,7 @@ class _$CreateCardEvent$StartedImpl implements _CreateCardEvent$Started {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_CreateCardEvent$Started value)? started,
+    TResult? Function(_CardDetailEvent$Started value)? started,
   }) {
     return started?.call(this);
   }
@@ -153,7 +153,7 @@ class _$CreateCardEvent$StartedImpl implements _CreateCardEvent$Started {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_CreateCardEvent$Started value)? started,
+    TResult Function(_CardDetailEvent$Started value)? started,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -163,12 +163,12 @@ class _$CreateCardEvent$StartedImpl implements _CreateCardEvent$Started {
   }
 }
 
-abstract class _CreateCardEvent$Started implements CreateCardEvent {
-  const factory _CreateCardEvent$Started() = _$CreateCardEvent$StartedImpl;
+abstract class _CardDetailEvent$Started implements CardDetailEvent {
+  const factory _CardDetailEvent$Started() = _$CardDetailEvent$StartedImpl;
 }
 
 /// @nodoc
-mixin _$CreateCardState {
+mixin _$CardDetailState {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() initial,
@@ -196,42 +196,42 @@ mixin _$CreateCardState {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(CreateCardState$Initial value) initial,
-    required TResult Function(CreateCardState$Loading value) loading,
-    required TResult Function(CreateCardState$Data value) data,
-    required TResult Function(CreateCardState$Error value) error,
+    required TResult Function(CardDetailState$Initial value) initial,
+    required TResult Function(CardDetailState$Loading value) loading,
+    required TResult Function(CardDetailState$Data value) data,
+    required TResult Function(CardDetailState$Error value) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(CreateCardState$Initial value)? initial,
-    TResult? Function(CreateCardState$Loading value)? loading,
-    TResult? Function(CreateCardState$Data value)? data,
-    TResult? Function(CreateCardState$Error value)? error,
+    TResult? Function(CardDetailState$Initial value)? initial,
+    TResult? Function(CardDetailState$Loading value)? loading,
+    TResult? Function(CardDetailState$Data value)? data,
+    TResult? Function(CardDetailState$Error value)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(CreateCardState$Initial value)? initial,
-    TResult Function(CreateCardState$Loading value)? loading,
-    TResult Function(CreateCardState$Data value)? data,
-    TResult Function(CreateCardState$Error value)? error,
+    TResult Function(CardDetailState$Initial value)? initial,
+    TResult Function(CardDetailState$Loading value)? loading,
+    TResult Function(CardDetailState$Data value)? data,
+    TResult Function(CardDetailState$Error value)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
-abstract class $CreateCardStateCopyWith<$Res> {
-  factory $CreateCardStateCopyWith(
-          CreateCardState value, $Res Function(CreateCardState) then) =
-      _$CreateCardStateCopyWithImpl<$Res, CreateCardState>;
+abstract class $CardDetailStateCopyWith<$Res> {
+  factory $CardDetailStateCopyWith(
+          CardDetailState value, $Res Function(CardDetailState) then) =
+      _$CardDetailStateCopyWithImpl<$Res, CardDetailState>;
 }
 
 /// @nodoc
-class _$CreateCardStateCopyWithImpl<$Res, $Val extends CreateCardState>
-    implements $CreateCardStateCopyWith<$Res> {
-  _$CreateCardStateCopyWithImpl(this._value, this._then);
+class _$CardDetailStateCopyWithImpl<$Res, $Val extends CardDetailState>
+    implements $CardDetailStateCopyWith<$Res> {
+  _$CardDetailStateCopyWithImpl(this._value, this._then);
 
   // ignore: unused_field
   final $Val _value;
@@ -240,38 +240,38 @@ class _$CreateCardStateCopyWithImpl<$Res, $Val extends CreateCardState>
 }
 
 /// @nodoc
-abstract class _$$CreateCardState$InitialImplCopyWith<$Res> {
-  factory _$$CreateCardState$InitialImplCopyWith(
-          _$CreateCardState$InitialImpl value,
-          $Res Function(_$CreateCardState$InitialImpl) then) =
-      __$$CreateCardState$InitialImplCopyWithImpl<$Res>;
+abstract class _$$CardDetailState$InitialImplCopyWith<$Res> {
+  factory _$$CardDetailState$InitialImplCopyWith(
+          _$CardDetailState$InitialImpl value,
+          $Res Function(_$CardDetailState$InitialImpl) then) =
+      __$$CardDetailState$InitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$CreateCardState$InitialImplCopyWithImpl<$Res>
-    extends _$CreateCardStateCopyWithImpl<$Res, _$CreateCardState$InitialImpl>
-    implements _$$CreateCardState$InitialImplCopyWith<$Res> {
-  __$$CreateCardState$InitialImplCopyWithImpl(
-      _$CreateCardState$InitialImpl _value,
-      $Res Function(_$CreateCardState$InitialImpl) _then)
+class __$$CardDetailState$InitialImplCopyWithImpl<$Res>
+    extends _$CardDetailStateCopyWithImpl<$Res, _$CardDetailState$InitialImpl>
+    implements _$$CardDetailState$InitialImplCopyWith<$Res> {
+  __$$CardDetailState$InitialImplCopyWithImpl(
+      _$CardDetailState$InitialImpl _value,
+      $Res Function(_$CardDetailState$InitialImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$CreateCardState$InitialImpl extends CreateCardState$Initial {
-  const _$CreateCardState$InitialImpl() : super._();
+class _$CardDetailState$InitialImpl extends CardDetailState$Initial {
+  const _$CardDetailState$InitialImpl() : super._();
 
   @override
   String toString() {
-    return 'CreateCardState.initial()';
+    return 'CardDetailState.initial()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreateCardState$InitialImpl);
+            other is _$CardDetailState$InitialImpl);
   }
 
   @override
@@ -317,10 +317,10 @@ class _$CreateCardState$InitialImpl extends CreateCardState$Initial {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(CreateCardState$Initial value) initial,
-    required TResult Function(CreateCardState$Loading value) loading,
-    required TResult Function(CreateCardState$Data value) data,
-    required TResult Function(CreateCardState$Error value) error,
+    required TResult Function(CardDetailState$Initial value) initial,
+    required TResult Function(CardDetailState$Loading value) loading,
+    required TResult Function(CardDetailState$Data value) data,
+    required TResult Function(CardDetailState$Error value) error,
   }) {
     return initial(this);
   }
@@ -328,10 +328,10 @@ class _$CreateCardState$InitialImpl extends CreateCardState$Initial {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(CreateCardState$Initial value)? initial,
-    TResult? Function(CreateCardState$Loading value)? loading,
-    TResult? Function(CreateCardState$Data value)? data,
-    TResult? Function(CreateCardState$Error value)? error,
+    TResult? Function(CardDetailState$Initial value)? initial,
+    TResult? Function(CardDetailState$Loading value)? loading,
+    TResult? Function(CardDetailState$Data value)? data,
+    TResult? Function(CardDetailState$Error value)? error,
   }) {
     return initial?.call(this);
   }
@@ -339,10 +339,10 @@ class _$CreateCardState$InitialImpl extends CreateCardState$Initial {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(CreateCardState$Initial value)? initial,
-    TResult Function(CreateCardState$Loading value)? loading,
-    TResult Function(CreateCardState$Data value)? data,
-    TResult Function(CreateCardState$Error value)? error,
+    TResult Function(CardDetailState$Initial value)? initial,
+    TResult Function(CardDetailState$Loading value)? loading,
+    TResult Function(CardDetailState$Data value)? data,
+    TResult Function(CardDetailState$Error value)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -352,44 +352,44 @@ class _$CreateCardState$InitialImpl extends CreateCardState$Initial {
   }
 }
 
-abstract class CreateCardState$Initial extends CreateCardState {
-  const factory CreateCardState$Initial() = _$CreateCardState$InitialImpl;
-  const CreateCardState$Initial._() : super._();
+abstract class CardDetailState$Initial extends CardDetailState {
+  const factory CardDetailState$Initial() = _$CardDetailState$InitialImpl;
+  const CardDetailState$Initial._() : super._();
 }
 
 /// @nodoc
-abstract class _$$CreateCardState$LoadingImplCopyWith<$Res> {
-  factory _$$CreateCardState$LoadingImplCopyWith(
-          _$CreateCardState$LoadingImpl value,
-          $Res Function(_$CreateCardState$LoadingImpl) then) =
-      __$$CreateCardState$LoadingImplCopyWithImpl<$Res>;
+abstract class _$$CardDetailState$LoadingImplCopyWith<$Res> {
+  factory _$$CardDetailState$LoadingImplCopyWith(
+          _$CardDetailState$LoadingImpl value,
+          $Res Function(_$CardDetailState$LoadingImpl) then) =
+      __$$CardDetailState$LoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$CreateCardState$LoadingImplCopyWithImpl<$Res>
-    extends _$CreateCardStateCopyWithImpl<$Res, _$CreateCardState$LoadingImpl>
-    implements _$$CreateCardState$LoadingImplCopyWith<$Res> {
-  __$$CreateCardState$LoadingImplCopyWithImpl(
-      _$CreateCardState$LoadingImpl _value,
-      $Res Function(_$CreateCardState$LoadingImpl) _then)
+class __$$CardDetailState$LoadingImplCopyWithImpl<$Res>
+    extends _$CardDetailStateCopyWithImpl<$Res, _$CardDetailState$LoadingImpl>
+    implements _$$CardDetailState$LoadingImplCopyWith<$Res> {
+  __$$CardDetailState$LoadingImplCopyWithImpl(
+      _$CardDetailState$LoadingImpl _value,
+      $Res Function(_$CardDetailState$LoadingImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$CreateCardState$LoadingImpl extends CreateCardState$Loading {
-  const _$CreateCardState$LoadingImpl() : super._();
+class _$CardDetailState$LoadingImpl extends CardDetailState$Loading {
+  const _$CardDetailState$LoadingImpl() : super._();
 
   @override
   String toString() {
-    return 'CreateCardState.loading()';
+    return 'CardDetailState.loading()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreateCardState$LoadingImpl);
+            other is _$CardDetailState$LoadingImpl);
   }
 
   @override
@@ -435,10 +435,10 @@ class _$CreateCardState$LoadingImpl extends CreateCardState$Loading {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(CreateCardState$Initial value) initial,
-    required TResult Function(CreateCardState$Loading value) loading,
-    required TResult Function(CreateCardState$Data value) data,
-    required TResult Function(CreateCardState$Error value) error,
+    required TResult Function(CardDetailState$Initial value) initial,
+    required TResult Function(CardDetailState$Loading value) loading,
+    required TResult Function(CardDetailState$Data value) data,
+    required TResult Function(CardDetailState$Error value) error,
   }) {
     return loading(this);
   }
@@ -446,10 +446,10 @@ class _$CreateCardState$LoadingImpl extends CreateCardState$Loading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(CreateCardState$Initial value)? initial,
-    TResult? Function(CreateCardState$Loading value)? loading,
-    TResult? Function(CreateCardState$Data value)? data,
-    TResult? Function(CreateCardState$Error value)? error,
+    TResult? Function(CardDetailState$Initial value)? initial,
+    TResult? Function(CardDetailState$Loading value)? loading,
+    TResult? Function(CardDetailState$Data value)? data,
+    TResult? Function(CardDetailState$Error value)? error,
   }) {
     return loading?.call(this);
   }
@@ -457,10 +457,10 @@ class _$CreateCardState$LoadingImpl extends CreateCardState$Loading {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(CreateCardState$Initial value)? initial,
-    TResult Function(CreateCardState$Loading value)? loading,
-    TResult Function(CreateCardState$Data value)? data,
-    TResult Function(CreateCardState$Error value)? error,
+    TResult Function(CardDetailState$Initial value)? initial,
+    TResult Function(CardDetailState$Loading value)? loading,
+    TResult Function(CardDetailState$Data value)? data,
+    TResult Function(CardDetailState$Error value)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -470,42 +470,42 @@ class _$CreateCardState$LoadingImpl extends CreateCardState$Loading {
   }
 }
 
-abstract class CreateCardState$Loading extends CreateCardState {
-  const factory CreateCardState$Loading() = _$CreateCardState$LoadingImpl;
-  const CreateCardState$Loading._() : super._();
+abstract class CardDetailState$Loading extends CardDetailState {
+  const factory CardDetailState$Loading() = _$CardDetailState$LoadingImpl;
+  const CardDetailState$Loading._() : super._();
 }
 
 /// @nodoc
-abstract class _$$CreateCardState$DataImplCopyWith<$Res> {
-  factory _$$CreateCardState$DataImplCopyWith(_$CreateCardState$DataImpl value,
-          $Res Function(_$CreateCardState$DataImpl) then) =
-      __$$CreateCardState$DataImplCopyWithImpl<$Res>;
+abstract class _$$CardDetailState$DataImplCopyWith<$Res> {
+  factory _$$CardDetailState$DataImplCopyWith(_$CardDetailState$DataImpl value,
+          $Res Function(_$CardDetailState$DataImpl) then) =
+      __$$CardDetailState$DataImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$CreateCardState$DataImplCopyWithImpl<$Res>
-    extends _$CreateCardStateCopyWithImpl<$Res, _$CreateCardState$DataImpl>
-    implements _$$CreateCardState$DataImplCopyWith<$Res> {
-  __$$CreateCardState$DataImplCopyWithImpl(_$CreateCardState$DataImpl _value,
-      $Res Function(_$CreateCardState$DataImpl) _then)
+class __$$CardDetailState$DataImplCopyWithImpl<$Res>
+    extends _$CardDetailStateCopyWithImpl<$Res, _$CardDetailState$DataImpl>
+    implements _$$CardDetailState$DataImplCopyWith<$Res> {
+  __$$CardDetailState$DataImplCopyWithImpl(_$CardDetailState$DataImpl _value,
+      $Res Function(_$CardDetailState$DataImpl) _then)
       : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$CreateCardState$DataImpl extends CreateCardState$Data {
-  const _$CreateCardState$DataImpl() : super._();
+class _$CardDetailState$DataImpl extends CardDetailState$Data {
+  const _$CardDetailState$DataImpl() : super._();
 
   @override
   String toString() {
-    return 'CreateCardState.data()';
+    return 'CardDetailState.data()';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreateCardState$DataImpl);
+            other is _$CardDetailState$DataImpl);
   }
 
   @override
@@ -551,10 +551,10 @@ class _$CreateCardState$DataImpl extends CreateCardState$Data {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(CreateCardState$Initial value) initial,
-    required TResult Function(CreateCardState$Loading value) loading,
-    required TResult Function(CreateCardState$Data value) data,
-    required TResult Function(CreateCardState$Error value) error,
+    required TResult Function(CardDetailState$Initial value) initial,
+    required TResult Function(CardDetailState$Loading value) loading,
+    required TResult Function(CardDetailState$Data value) data,
+    required TResult Function(CardDetailState$Error value) error,
   }) {
     return data(this);
   }
@@ -562,10 +562,10 @@ class _$CreateCardState$DataImpl extends CreateCardState$Data {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(CreateCardState$Initial value)? initial,
-    TResult? Function(CreateCardState$Loading value)? loading,
-    TResult? Function(CreateCardState$Data value)? data,
-    TResult? Function(CreateCardState$Error value)? error,
+    TResult? Function(CardDetailState$Initial value)? initial,
+    TResult? Function(CardDetailState$Loading value)? loading,
+    TResult? Function(CardDetailState$Data value)? data,
+    TResult? Function(CardDetailState$Error value)? error,
   }) {
     return data?.call(this);
   }
@@ -573,10 +573,10 @@ class _$CreateCardState$DataImpl extends CreateCardState$Data {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(CreateCardState$Initial value)? initial,
-    TResult Function(CreateCardState$Loading value)? loading,
-    TResult Function(CreateCardState$Data value)? data,
-    TResult Function(CreateCardState$Error value)? error,
+    TResult Function(CardDetailState$Initial value)? initial,
+    TResult Function(CardDetailState$Loading value)? loading,
+    TResult Function(CardDetailState$Data value)? data,
+    TResult Function(CardDetailState$Error value)? error,
     required TResult orElse(),
   }) {
     if (data != null) {
@@ -586,27 +586,27 @@ class _$CreateCardState$DataImpl extends CreateCardState$Data {
   }
 }
 
-abstract class CreateCardState$Data extends CreateCardState {
-  const factory CreateCardState$Data() = _$CreateCardState$DataImpl;
-  const CreateCardState$Data._() : super._();
+abstract class CardDetailState$Data extends CardDetailState {
+  const factory CardDetailState$Data() = _$CardDetailState$DataImpl;
+  const CardDetailState$Data._() : super._();
 }
 
 /// @nodoc
-abstract class _$$CreateCardState$ErrorImplCopyWith<$Res> {
-  factory _$$CreateCardState$ErrorImplCopyWith(
-          _$CreateCardState$ErrorImpl value,
-          $Res Function(_$CreateCardState$ErrorImpl) then) =
-      __$$CreateCardState$ErrorImplCopyWithImpl<$Res>;
+abstract class _$$CardDetailState$ErrorImplCopyWith<$Res> {
+  factory _$$CardDetailState$ErrorImplCopyWith(
+          _$CardDetailState$ErrorImpl value,
+          $Res Function(_$CardDetailState$ErrorImpl) then) =
+      __$$CardDetailState$ErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object? error});
 }
 
 /// @nodoc
-class __$$CreateCardState$ErrorImplCopyWithImpl<$Res>
-    extends _$CreateCardStateCopyWithImpl<$Res, _$CreateCardState$ErrorImpl>
-    implements _$$CreateCardState$ErrorImplCopyWith<$Res> {
-  __$$CreateCardState$ErrorImplCopyWithImpl(_$CreateCardState$ErrorImpl _value,
-      $Res Function(_$CreateCardState$ErrorImpl) _then)
+class __$$CardDetailState$ErrorImplCopyWithImpl<$Res>
+    extends _$CardDetailStateCopyWithImpl<$Res, _$CardDetailState$ErrorImpl>
+    implements _$$CardDetailState$ErrorImplCopyWith<$Res> {
+  __$$CardDetailState$ErrorImplCopyWithImpl(_$CardDetailState$ErrorImpl _value,
+      $Res Function(_$CardDetailState$ErrorImpl) _then)
       : super(_value, _then);
 
   @pragma('vm:prefer-inline')
@@ -614,7 +614,7 @@ class __$$CreateCardState$ErrorImplCopyWithImpl<$Res>
   $Res call({
     Object? error = freezed,
   }) {
-    return _then(_$CreateCardState$ErrorImpl(
+    return _then(_$CardDetailState$ErrorImpl(
       error: freezed == error ? _value.error : error,
     ));
   }
@@ -622,22 +622,22 @@ class __$$CreateCardState$ErrorImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CreateCardState$ErrorImpl extends CreateCardState$Error {
-  const _$CreateCardState$ErrorImpl({required this.error}) : super._();
+class _$CardDetailState$ErrorImpl extends CardDetailState$Error {
+  const _$CardDetailState$ErrorImpl({required this.error}) : super._();
 
   @override
   final Object? error;
 
   @override
   String toString() {
-    return 'CreateCardState.error(error: $error)';
+    return 'CardDetailState.error(error: $error)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$CreateCardState$ErrorImpl &&
+            other is _$CardDetailState$ErrorImpl &&
             const DeepCollectionEquality().equals(other.error, error));
   }
 
@@ -648,9 +648,9 @@ class _$CreateCardState$ErrorImpl extends CreateCardState$Error {
   @JsonKey(ignore: true)
   @override
   @pragma('vm:prefer-inline')
-  _$$CreateCardState$ErrorImplCopyWith<_$CreateCardState$ErrorImpl>
-      get copyWith => __$$CreateCardState$ErrorImplCopyWithImpl<
-          _$CreateCardState$ErrorImpl>(this, _$identity);
+  _$$CardDetailState$ErrorImplCopyWith<_$CardDetailState$ErrorImpl>
+      get copyWith => __$$CardDetailState$ErrorImplCopyWithImpl<
+          _$CardDetailState$ErrorImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
@@ -692,10 +692,10 @@ class _$CreateCardState$ErrorImpl extends CreateCardState$Error {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(CreateCardState$Initial value) initial,
-    required TResult Function(CreateCardState$Loading value) loading,
-    required TResult Function(CreateCardState$Data value) data,
-    required TResult Function(CreateCardState$Error value) error,
+    required TResult Function(CardDetailState$Initial value) initial,
+    required TResult Function(CardDetailState$Loading value) loading,
+    required TResult Function(CardDetailState$Data value) data,
+    required TResult Function(CardDetailState$Error value) error,
   }) {
     return error(this);
   }
@@ -703,10 +703,10 @@ class _$CreateCardState$ErrorImpl extends CreateCardState$Error {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(CreateCardState$Initial value)? initial,
-    TResult? Function(CreateCardState$Loading value)? loading,
-    TResult? Function(CreateCardState$Data value)? data,
-    TResult? Function(CreateCardState$Error value)? error,
+    TResult? Function(CardDetailState$Initial value)? initial,
+    TResult? Function(CardDetailState$Loading value)? loading,
+    TResult? Function(CardDetailState$Data value)? data,
+    TResult? Function(CardDetailState$Error value)? error,
   }) {
     return error?.call(this);
   }
@@ -714,10 +714,10 @@ class _$CreateCardState$ErrorImpl extends CreateCardState$Error {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(CreateCardState$Initial value)? initial,
-    TResult Function(CreateCardState$Loading value)? loading,
-    TResult Function(CreateCardState$Data value)? data,
-    TResult Function(CreateCardState$Error value)? error,
+    TResult Function(CardDetailState$Initial value)? initial,
+    TResult Function(CardDetailState$Loading value)? loading,
+    TResult Function(CardDetailState$Data value)? data,
+    TResult Function(CardDetailState$Error value)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
@@ -727,13 +727,13 @@ class _$CreateCardState$ErrorImpl extends CreateCardState$Error {
   }
 }
 
-abstract class CreateCardState$Error extends CreateCardState {
-  const factory CreateCardState$Error({required final Object? error}) =
-      _$CreateCardState$ErrorImpl;
-  const CreateCardState$Error._() : super._();
+abstract class CardDetailState$Error extends CardDetailState {
+  const factory CardDetailState$Error({required final Object? error}) =
+      _$CardDetailState$ErrorImpl;
+  const CardDetailState$Error._() : super._();
 
   Object? get error;
   @JsonKey(ignore: true)
-  _$$CreateCardState$ErrorImplCopyWith<_$CreateCardState$ErrorImpl>
+  _$$CardDetailState$ErrorImplCopyWith<_$CardDetailState$ErrorImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
