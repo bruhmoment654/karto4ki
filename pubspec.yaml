@@ -19,7 +19,8 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.10.7
+  sdk: ">=3.5.0 <4.0.0"
+  flutter: 3.29.2
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,6 +32,10 @@ dependencies:
   flutter:
     sdk: flutter
 
+  # Localization
+  flutter_localizations:
+    sdk: flutter
+  intl:
 
   # Navigation
   auto_route: 9.2.2
@@ -43,10 +48,10 @@ dependencies:
   provider: 6.1.2
   bloc: 8.1.4
   flutter_bloc: 8.1.6
-  async: 2.11.0
+  async: 2.12.0
 
   # UI
-  
+  google_fonts: 6.2.1
   flutter_svg: 2.0.6
   octo_image: 2.1.0
   cached_network_image: 3.4.1
@@ -55,6 +60,7 @@ dependencies:
   surf_logger: 2.0.2
   logger: 1.4.0
   freezed_annotation: 2.4.4
+  json_annotation: 4.9.0
   path: 1.9.1
   csv: 6.0.0
   equatable: 2.0.5
@@ -67,6 +73,7 @@ dev_dependencies:
   auto_route_generator: 9.0.0
   build_runner: 2.4.12
   freezed: 2.5.2
+  json_serializable: 6.8.0
   surf_lint_rules: 3.1.0
   theme_tailor: 3.0.1
   spider: 4.2.2
@@ -76,7 +83,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter packages.
 flutter:
-
+  generate: true
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

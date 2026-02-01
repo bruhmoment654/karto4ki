@@ -13,7 +13,10 @@ part of 'app_router.dart';
 /// [CardTestFlow]
 class CardTestRoute extends PageRouteInfo<void> {
   const CardTestRoute({List<PageRouteInfo>? children})
-    : super(CardTestRoute.name, initialChildren: children);
+      : super(
+          CardTestRoute.name,
+          initialChildren: children,
+        );
 
   static const String name = 'CardTestRoute';
 
@@ -29,7 +32,10 @@ class CardTestRoute extends PageRouteInfo<void> {
 /// [CreateCardFlow]
 class CreateCardRoute extends PageRouteInfo<void> {
   const CreateCardRoute({List<PageRouteInfo>? children})
-    : super(CreateCardRoute.name, initialChildren: children);
+      : super(
+          CreateCardRoute.name,
+          initialChildren: children,
+        );
 
   static const String name = 'CreateCardRoute';
 
@@ -45,7 +51,10 @@ class CreateCardRoute extends PageRouteInfo<void> {
 /// [HomeFlow]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
-    : super(HomeRoute.name, initialChildren: children);
+      : super(
+          HomeRoute.name,
+          initialChildren: children,
+        );
 
   static const String name = 'HomeRoute';
 
@@ -61,7 +70,10 @@ class HomeRoute extends PageRouteInfo<void> {
 /// [MainFlow]
 class MainRoute extends PageRouteInfo<void> {
   const MainRoute({List<PageRouteInfo>? children})
-    : super(MainRoute.name, initialChildren: children);
+      : super(
+          MainRoute.name,
+          initialChildren: children,
+        );
 
   static const String name = 'MainRoute';
 

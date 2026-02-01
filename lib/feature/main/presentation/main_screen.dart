@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:karto4ki/feature/main/presentation/main_view.dart';
 
 /// Главный экран приложения.
-///
-/// Первый экран, с которого пользователь начинает взаимодействие.
-///
-/// TODO: Уточнить назначение и функциональность экрана.
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 

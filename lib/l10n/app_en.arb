@@ -1,0 +1,29 @@
+{
+  "@@locale": "en",
+  "appName": "All We Need",
+  "somethingWentWrong": "Что-то пошло не так",
+  "formatError": "Неправильный формат фотографии",
+  "loadingWidgetSubtitle": "Идет загрузка",
+  "@segmentCommon": {
+    "---------": "---------",
+    "description": "Общие сроки"
+  },
+  "positiveResponse": "Да",
+  "@segmentNavigation": {
+    "---------": "---------",
+    "description": "Навигация"
+  },
+  "navigationMain": "Главная",
+  "navigationCatalog": "Каталог",
+  "navigationCart": "Корзина",
+  "navigationWishlist": "Вишлист",
+  "navigationProfile": "Профиль",
+  "@segmentProduct": {
+    "---------": "---------",
+    "description": "Продукт"
+  },
+  "productIsComingSoon": "Скоро в продаже",
+  "productInStock": "Снова в наличии",
+  "productIsOnlyShops": "Только в магазинах",
+  "authEnterCode": "Введите код из СМС"
+}

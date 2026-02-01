@@ -12,45 +12,49 @@ part of 'card_test_bloc.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
-);
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
 
 /// @nodoc
 mixin _$CardTestEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function() started,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_CardTestEvent$Started value) started,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_CardTestEvent$Started value)? started,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_CardTestEvent$Started value)? started,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $CardTestEventCopyWith<$Res> {
   factory $CardTestEventCopyWith(
-    CardTestEvent value,
-    $Res Function(CardTestEvent) then,
-  ) = _$CardTestEventCopyWithImpl<$Res, CardTestEvent>;
+          CardTestEvent value, $Res Function(CardTestEvent) then) =
+      _$CardTestEventCopyWithImpl<$Res, CardTestEvent>;
 }
 
 /// @nodoc
@@ -67,19 +71,18 @@ class _$CardTestEventCopyWithImpl<$Res, $Val extends CardTestEvent>
 /// @nodoc
 abstract class _$$CardTestEvent$StartedImplCopyWith<$Res> {
   factory _$$CardTestEvent$StartedImplCopyWith(
-    _$CardTestEvent$StartedImpl value,
-    $Res Function(_$CardTestEvent$StartedImpl) then,
-  ) = __$$CardTestEvent$StartedImplCopyWithImpl<$Res>;
+          _$CardTestEvent$StartedImpl value,
+          $Res Function(_$CardTestEvent$StartedImpl) then) =
+      __$$CardTestEvent$StartedImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$CardTestEvent$StartedImplCopyWithImpl<$Res>
     extends _$CardTestEventCopyWithImpl<$Res, _$CardTestEvent$StartedImpl>
     implements _$$CardTestEvent$StartedImplCopyWith<$Res> {
-  __$$CardTestEvent$StartedImplCopyWithImpl(
-    _$CardTestEvent$StartedImpl _value,
-    $Res Function(_$CardTestEvent$StartedImpl) _then,
-  ) : super(_value, _then);
+  __$$CardTestEvent$StartedImplCopyWithImpl(_$CardTestEvent$StartedImpl _value,
+      $Res Function(_$CardTestEvent$StartedImpl) _then)
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -104,13 +107,17 @@ class _$CardTestEvent$StartedImpl implements _CardTestEvent$Started {
 
   @override
   @optionalTypeArgs
-  TResult when<TResult extends Object?>({required TResult Function() started}) {
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+  }) {
     return started();
   }
 
   @override
   @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({TResult? Function()? started}) {
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+  }) {
     return started?.call();
   }
 
@@ -167,14 +174,16 @@ mixin _$CardTestState {
     required TResult Function() loading,
     required TResult Function() data,
     required TResult Function(Object? error) error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? data,
     TResult? Function(Object? error)? error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? initial,
@@ -182,21 +191,24 @@ mixin _$CardTestState {
     TResult Function()? data,
     TResult Function(Object? error)? error,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(CardTestState$Initial value) initial,
     required TResult Function(CardTestState$Loading value) loading,
     required TResult Function(CardTestState$Data value) data,
     required TResult Function(CardTestState$Error value) error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(CardTestState$Initial value)? initial,
     TResult? Function(CardTestState$Loading value)? loading,
     TResult? Function(CardTestState$Data value)? data,
     TResult? Function(CardTestState$Error value)? error,
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(CardTestState$Initial value)? initial,
@@ -204,15 +216,15 @@ mixin _$CardTestState {
     TResult Function(CardTestState$Data value)? data,
     TResult Function(CardTestState$Error value)? error,
     required TResult orElse(),
-  }) => throw _privateConstructorUsedError;
+  }) =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
 abstract class $CardTestStateCopyWith<$Res> {
   factory $CardTestStateCopyWith(
-    CardTestState value,
-    $Res Function(CardTestState) then,
-  ) = _$CardTestStateCopyWithImpl<$Res, CardTestState>;
+          CardTestState value, $Res Function(CardTestState) then) =
+      _$CardTestStateCopyWithImpl<$Res, CardTestState>;
 }
 
 /// @nodoc
@@ -229,19 +241,18 @@ class _$CardTestStateCopyWithImpl<$Res, $Val extends CardTestState>
 /// @nodoc
 abstract class _$$CardTestState$InitialImplCopyWith<$Res> {
   factory _$$CardTestState$InitialImplCopyWith(
-    _$CardTestState$InitialImpl value,
-    $Res Function(_$CardTestState$InitialImpl) then,
-  ) = __$$CardTestState$InitialImplCopyWithImpl<$Res>;
+          _$CardTestState$InitialImpl value,
+          $Res Function(_$CardTestState$InitialImpl) then) =
+      __$$CardTestState$InitialImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$CardTestState$InitialImplCopyWithImpl<$Res>
     extends _$CardTestStateCopyWithImpl<$Res, _$CardTestState$InitialImpl>
     implements _$$CardTestState$InitialImplCopyWith<$Res> {
-  __$$CardTestState$InitialImplCopyWithImpl(
-    _$CardTestState$InitialImpl _value,
-    $Res Function(_$CardTestState$InitialImpl) _then,
-  ) : super(_value, _then);
+  __$$CardTestState$InitialImplCopyWithImpl(_$CardTestState$InitialImpl _value,
+      $Res Function(_$CardTestState$InitialImpl) _then)
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -347,19 +358,18 @@ abstract class CardTestState$Initial extends CardTestState {
 /// @nodoc
 abstract class _$$CardTestState$LoadingImplCopyWith<$Res> {
   factory _$$CardTestState$LoadingImplCopyWith(
-    _$CardTestState$LoadingImpl value,
-    $Res Function(_$CardTestState$LoadingImpl) then,
-  ) = __$$CardTestState$LoadingImplCopyWithImpl<$Res>;
+          _$CardTestState$LoadingImpl value,
+          $Res Function(_$CardTestState$LoadingImpl) then) =
+      __$$CardTestState$LoadingImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$CardTestState$LoadingImplCopyWithImpl<$Res>
     extends _$CardTestStateCopyWithImpl<$Res, _$CardTestState$LoadingImpl>
     implements _$$CardTestState$LoadingImplCopyWith<$Res> {
-  __$$CardTestState$LoadingImplCopyWithImpl(
-    _$CardTestState$LoadingImpl _value,
-    $Res Function(_$CardTestState$LoadingImpl) _then,
-  ) : super(_value, _then);
+  __$$CardTestState$LoadingImplCopyWithImpl(_$CardTestState$LoadingImpl _value,
+      $Res Function(_$CardTestState$LoadingImpl) _then)
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -464,20 +474,18 @@ abstract class CardTestState$Loading extends CardTestState {
 
 /// @nodoc
 abstract class _$$CardTestState$DataImplCopyWith<$Res> {
-  factory _$$CardTestState$DataImplCopyWith(
-    _$CardTestState$DataImpl value,
-    $Res Function(_$CardTestState$DataImpl) then,
-  ) = __$$CardTestState$DataImplCopyWithImpl<$Res>;
+  factory _$$CardTestState$DataImplCopyWith(_$CardTestState$DataImpl value,
+          $Res Function(_$CardTestState$DataImpl) then) =
+      __$$CardTestState$DataImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
 class __$$CardTestState$DataImplCopyWithImpl<$Res>
     extends _$CardTestStateCopyWithImpl<$Res, _$CardTestState$DataImpl>
     implements _$$CardTestState$DataImplCopyWith<$Res> {
-  __$$CardTestState$DataImplCopyWithImpl(
-    _$CardTestState$DataImpl _value,
-    $Res Function(_$CardTestState$DataImpl) _then,
-  ) : super(_value, _then);
+  __$$CardTestState$DataImplCopyWithImpl(_$CardTestState$DataImpl _value,
+      $Res Function(_$CardTestState$DataImpl) _then)
+      : super(_value, _then);
 }
 
 /// @nodoc
@@ -581,10 +589,9 @@ abstract class CardTestState$Data extends CardTestState {
 
 /// @nodoc
 abstract class _$$CardTestState$ErrorImplCopyWith<$Res> {
-  factory _$$CardTestState$ErrorImplCopyWith(
-    _$CardTestState$ErrorImpl value,
-    $Res Function(_$CardTestState$ErrorImpl) then,
-  ) = __$$CardTestState$ErrorImplCopyWithImpl<$Res>;
+  factory _$$CardTestState$ErrorImplCopyWith(_$CardTestState$ErrorImpl value,
+          $Res Function(_$CardTestState$ErrorImpl) then) =
+      __$$CardTestState$ErrorImplCopyWithImpl<$Res>;
   @useResult
   $Res call({Object? error});
 }
@@ -593,17 +600,18 @@ abstract class _$$CardTestState$ErrorImplCopyWith<$Res> {
 class __$$CardTestState$ErrorImplCopyWithImpl<$Res>
     extends _$CardTestStateCopyWithImpl<$Res, _$CardTestState$ErrorImpl>
     implements _$$CardTestState$ErrorImplCopyWith<$Res> {
-  __$$CardTestState$ErrorImplCopyWithImpl(
-    _$CardTestState$ErrorImpl _value,
-    $Res Function(_$CardTestState$ErrorImpl) _then,
-  ) : super(_value, _then);
+  __$$CardTestState$ErrorImplCopyWithImpl(_$CardTestState$ErrorImpl _value,
+      $Res Function(_$CardTestState$ErrorImpl) _then)
+      : super(_value, _then);
 
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? error = freezed}) {
-    return _then(
-      _$CardTestState$ErrorImpl(error: freezed == error ? _value.error : error),
-    );
+  $Res call({
+    Object? error = freezed,
+  }) {
+    return _then(_$CardTestState$ErrorImpl(
+      error: freezed == error ? _value.error : error,
+    ));
   }
 }
 
@@ -637,9 +645,7 @@ class _$CardTestState$ErrorImpl extends CardTestState$Error {
   @pragma('vm:prefer-inline')
   _$$CardTestState$ErrorImplCopyWith<_$CardTestState$ErrorImpl> get copyWith =>
       __$$CardTestState$ErrorImplCopyWithImpl<_$CardTestState$ErrorImpl>(
-        this,
-        _$identity,
-      );
+          this, _$identity);
 
   @override
   @optionalTypeArgs

@@ -16,16 +16,16 @@ class AppRouter extends RootStackRouter {
 
   @override
   List<AutoRoute> get routes => [
-    AutoRoute(
-      page: HomeRoute.page,
-      initial: true,
-      children: [
-        AutoRoute(page: MainRoute.page, initial: true),
-        AutoRoute(page: CardTestRoute.page),
-        AutoRoute(page: CreateCardRoute.page),
-      ],
-    ),
-  ];
+        AutoRoute(
+          page: HomeRoute.page,
+          initial: true,
+          children: [
+            AutoRoute(page: MainRoute.page, initial: true),
+            AutoRoute(page: CardTestRoute.page),
+            AutoRoute(page: CreateCardRoute.page),
+          ],
+        ),
+      ];
 
   AppRouter({super.navigatorKey});
 }

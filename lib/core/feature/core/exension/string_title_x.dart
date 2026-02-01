@@ -5,9 +5,9 @@ extension StringTitleX on String {
 
   /// Делает первую букву каждого слова заглавной, остальные маленькие.
   String get toTitleCase => replaceAll(
-    RegExp(' +'),
-    ' ',
-  ).split(' ').map((str) => str.toCapitalized).join(' ');
+        RegExp(' +'),
+        ' ',
+      ).split(' ').map((str) => str.toCapitalized).join(' ');
 }
 
 /// Преобразует строку в null, если она пустая.

@@ -21,7 +21,6 @@ abstract base class Converter<TResult, TFrom> {
   @protected
   T cast<T>(
     T? data, [
-
     /// Неактуальное поле. Можно не использовать.
     String? fieldName,
   ]) {

@@ -7,13 +7,19 @@ class CardTestStorage implements ICardTestStorage {
 
   const CardTestStorage(this._prefs);
 
-  // TODO: Добавить реализации методов
+  @override
+  List<String>? get cardList =>
+      _prefs.getStringList(CardTestStorageKeys.cardList.keyName);
+
+  @override
+  void updateCardList(List<String> cardList) {
+    _prefs.setStringList(CardTestStorageKeys.cardList.keyName, cardList);
+  }
 }
 
 /// Ключи для хранения данных.
 enum CardTestStorageKeys {
-  // TODO: Добавить ключи
-  placeholder('card_test_placeholder');
+  cardList('card_test_list');
 
   final String keyName;
 
