@@ -1,30 +1,30 @@
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
 
-/// Интерфейс репозитория для работы с карточками.
+/// Repository interface for working with cards.
 ///
-/// Предоставляет CRUD операции для карточек.
-// TODO(karto4ki): Добавить поля id и testId в CardEntity для полноценной работы методов.
+/// Provides CRUD operations for cards.
+// TODO(karto4ki): Add id and testId fields to CardEntity for full method functionality.
 abstract interface class ICardRepository {
-  /// Получить все карточки.
+  /// Get all cards.
   Future<List<CardEntity>> getCards();
 
-  /// Получить карточку по ID.
+  /// Get card by ID.
   ///
-  /// Возвращает `null`, если карточка не найдена.
-  // TODO(karto4ki): Требует добавления поля id в CardEntity.
+  /// Returns `null` if card not found.
+  // TODO(karto4ki): Requires adding id field to CardEntity.
   Future<CardEntity?> getCardById(int id);
 
-  /// Получить карточки по ID теста.
-  // TODO(karto4ki): Требует добавления поля testId в CardEntity.
+  /// Get cards by test ID.
+  // TODO(karto4ki): Requires adding testId field to CardEntity.
   Future<List<CardEntity>> getCardsByTestId(int testId);
 
-  /// Создать новую карточку.
+  /// Create new card.
   Future<void> createCard(CardEntity card);
 
-  /// Обновить существующую карточку.
-  // TODO(karto4ki): Требует добавления поля id в CardEntity для идентификации.
+  /// Update existing card.
+  // TODO(karto4ki): Requires adding id field to CardEntity for identification.
   Future<void> updateCard(CardEntity card);
 
-  /// Удалить карточку по ID.
+  /// Delete card by ID.
   Future<void> deleteCard(int id);
 }

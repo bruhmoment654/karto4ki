@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:karto4ki/feature/home/presentation/home_screen.dart';
 
-/// Точка входа в домашний экран с вложенной навигацией.
+/// Entry point for home screen with nested navigation.
 ///
-/// Служит контейнером для основной навигации приложения.
-/// Содержит [AutoRouter] для переключения между экранами внутри Home.
+/// Serves as container for main application navigation.
+/// Contains [AutoRouter] for switching between screens inside Home.
 @RoutePage()
 class HomeFlow extends StatelessWidget implements AutoRouteWrapper {
   const HomeFlow({super.key});

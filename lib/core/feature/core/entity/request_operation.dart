@@ -5,11 +5,11 @@ import 'package:karto4ki/core/feature/core/failure.dart';
 /// These are mostly repository methods.
 typedef RequestOperation<T> = Future<Result<T, Object>>;
 
-/// Разновидность [RequestOperation] для domain-части.
+/// [RequestOperation] variant for domain layer.
 ///
-/// В отличие от обычного [RequestOperation], возвращает более конкретный
-/// [Failure] вместо [Object].
+/// Unlike regular [RequestOperation], returns more specific
+/// [Failure] instead of [Object].
 typedef RequestOperationDomain<T> = Future<DomainResult<T>>;
 
-/// Результат, адаптированный для домена.
+/// Result adapted for domain.
 typedef DomainResult<T> = Result<T, Failure>;

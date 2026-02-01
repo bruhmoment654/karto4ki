@@ -1,21 +1,21 @@
 import 'package:equatable/equatable.dart';
 
-/// Ошибка, обработанная в слое бинес-логики приложения.
+/// Error handled in application business logic layer.
 ///
-/// Ожидается, что это единственный вид ошибки, который мы можем получить
-/// в презентационном слое приложения.
+/// Expected to be the only type of error we can receive
+/// in application presentation layer.
 abstract class Failure with EquatableMixin implements Exception {
-  /// Сообщение ошибки.
+  /// Error message.
   ///
-  /// Должно иметь такое содержание, которое будет понятно при чтении логов.
+  /// Should have content that is understandable when reading logs.
   final String? message;
 
-  /// Родительский [Exception], если имеется.
+  /// Parent [Exception], if any.
   ///
-  /// Необходим для корректной фиксации логов.
+  /// Required for correct log recording.
   final Exception? parentException;
 
-  /// [StackTrace] родительской ошибки, если есть.
+  /// Parent error [StackTrace], if any.
   final StackTrace? stackTrace;
 
   @override

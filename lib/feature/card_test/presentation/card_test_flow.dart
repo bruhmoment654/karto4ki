@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karto4ki/feature/card_test/domain/bloc/card_test_bloc.dart';
 import 'package:karto4ki/feature/card_test/presentation/card_test_screen.dart';
 
-/// Точка входа в экран тестирования карточек.
+/// Entry point for card testing screen.
 ///
-/// Этот Flow предоставляет [CardTestBloc] для всего поддерева экрана тестирования.
-/// Используется для прохождения теста по выбранному набору карточек.
+/// This Flow provides [CardTestBloc] for the entire testing screen subtree.
+/// Used for executing tests on selected card sets.
 @RoutePage()
 class CardTestFlow extends StatelessWidget implements AutoRouteWrapper {
   const CardTestFlow({super.key});

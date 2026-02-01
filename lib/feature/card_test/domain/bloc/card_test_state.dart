@@ -1,6 +1,6 @@
 part of 'card_test_bloc.dart';
 
-/// Состояние экрана тестирования карточек.
+/// Card testing screen state.
 @freezed
 sealed class CardTestState with _$CardTestState {
   const CardTestState._();

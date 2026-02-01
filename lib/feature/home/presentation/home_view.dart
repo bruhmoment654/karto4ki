@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:karto4ki/feature/home/presentation/home_screen.dart';
 
-/// UI-слой Home экрана.
+/// UI layer for Home screen.
 ///
-/// Содержит [AutoRouter] для отображения вложенных экранов навигации.
+/// Contains [AutoRouter] for displaying nested navigation screens.
 class HomeView extends StatelessWidget {
   final IHomeViewModel viewModel;
 

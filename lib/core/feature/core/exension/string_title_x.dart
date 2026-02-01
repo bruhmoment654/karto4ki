@@ -1,18 +1,18 @@
 extension StringTitleX on String {
-  /// Делает первую букву заглавной, остальные маленькие.
+  /// Capitalizes first letter, lowercases the rest.
   String get toCapitalized =>
       length > 0 ? '${this[0].toUpperCase()}${substring(1).toLowerCase()}' : '';
 
-  /// Делает первую букву каждого слова заглавной, остальные маленькие.
+  /// Capitalizes first letter of each word, lowercases the rest.
   String get toTitleCase => replaceAll(
         RegExp(' +'),
         ' ',
       ).split(' ').map((str) => str.toCapitalized).join(' ');
 }
 
-/// Преобразует строку в null, если она пустая.
+/// Converts string to null if it's empty.
 ///
-/// Уменьшает бойлерплейт с проверками на `isNotEmpty`.
+/// Reduces boilerplate with `isNotEmpty` checks.
 extension MaybeStringX on String? {
   String? get notEmpty => (this?.isNotEmpty ?? true) ? this : null;
 }

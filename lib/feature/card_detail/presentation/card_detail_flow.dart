@@ -4,10 +4,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:karto4ki/feature/card_detail/domain/bloc/card_detail_bloc.dart';
 import 'package:karto4ki/feature/card_detail/presentation/card_detail_screen.dart';
 
-/// Точка входа в экран карточки.
+/// Entry point for card detail screen.
 ///
-/// Этот Flow предоставляет [CardDetailBloc] для всего поддерева экрана карточки.
-/// Используется для просмотра, создания и редактирования карточек.
+/// This Flow provides [CardDetailBloc] for the entire card screen subtree.
+/// Used for viewing, creating and editing cards.
 @RoutePage()
 class CardDetailFlow extends StatelessWidget implements AutoRouteWrapper {
   const CardDetailFlow({super.key});

@@ -2,7 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 part 'card_dto.g.dart';
 
-/// DTO карточки для хранения в storage.
+/// Card DTO for storage.
 @JsonSerializable()
 class CardDto {
   final String front;

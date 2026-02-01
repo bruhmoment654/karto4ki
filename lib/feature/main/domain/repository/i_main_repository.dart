@@ -1,10 +1,10 @@
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
 
-/// Интерфейс репозитория для главного экрана.
+/// Repository interface for main screen.
 abstract interface class IMainRepository {
-  /// Получить список карточек.
+  /// Get card list.
   List<CardEntity> getCardList();
 
-  /// Сохранить список карточек.
+  /// Save card list.
   void updateCardList(List<CardEntity> cards);
 }

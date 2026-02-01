@@ -2,22 +2,22 @@ import 'package:karto4ki/feature/card_detail/domain/repository/i_card_repository
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
 import 'package:karto4ki/persistence/models/card_dto.dart';
 
-/// Реализация репозитория для работы с карточками.
+/// Repository implementation for working with cards.
 ///
-/// Текущая реализация использует заглушки.
-// TODO(karto4ki): Интегрировать с Drift для реального хранения данных.
+/// Current implementation uses stubs.
+// TODO(karto4ki): Integrate with Drift for real data storage.
 class CardRepository implements ICardRepository {
   const CardRepository();
 
   @override
   Future<List<CardEntity>> getCards() async {
-    // TODO(karto4ki): Реализовать получение карточек из Drift.
+    // TODO(karto4ki): Implement fetching cards from Drift.
     return _getMockCards();
   }
 
   @override
   Future<CardEntity?> getCardById(int id) async {
-    // TODO(karto4ki): Реализовать получение карточки по ID из Drift.
+    // TODO(karto4ki): Implement fetching card by ID from Drift.
     final cards = _getMockCards();
     if (id >= 0 && id < cards.length) {
       return cards[id];
@@ -27,29 +27,29 @@ class CardRepository implements ICardRepository {
 
   @override
   Future<List<CardEntity>> getCardsByTestId(int testId) async {
-    // TODO(karto4ki): Реализовать фильтрацию по testId после интеграции с Drift.
+    // TODO(karto4ki): Implement filtering by testId after Drift integration.
     return _getMockCards();
   }
 
   @override
   Future<void> createCard(CardEntity card) async {
-    // TODO(karto4ki): Реализовать создание карточки в Drift.
+    // TODO(karto4ki): Implement card creation in Drift.
     final dto = _entityToDto(card);
-    // Заглушка: просто конвертируем для проверки работы конвертера
+    // Stub: just convert to verify converter works
     _dtoToEntity(dto);
   }
 
   @override
   Future<void> updateCard(CardEntity card) async {
-    // TODO(karto4ki): Реализовать обновление карточки в Drift.
+    // TODO(karto4ki): Implement card update in Drift.
   }
 
   @override
   Future<void> deleteCard(int id) async {
-    // TODO(karto4ki): Реализовать удаление карточки из Drift.
+    // TODO(karto4ki): Implement card deletion from Drift.
   }
 
-  /// Конвертирует [CardDto] в [CardEntity].
+  /// Converts [CardDto] to [CardEntity].
   CardEntity _dtoToEntity(CardDto dto) {
     return CardEntity(
       front: dto.front,
@@ -57,7 +57,7 @@ class CardRepository implements ICardRepository {
     );
   }
 
-  /// Конвертирует [CardEntity] в [CardDto].
+  /// Converts [CardEntity] to [CardDto].
   CardDto _entityToDto(CardEntity entity) {
     return CardDto(
       front: entity.front,
@@ -65,12 +65,12 @@ class CardRepository implements ICardRepository {
     );
   }
 
-  /// Возвращает моковые данные для тестирования.
+  /// Returns mock data for testing.
   List<CardEntity> _getMockCards() {
     return const [
-      CardEntity(front: 'Столица Франции?', back: 'Париж'),
-      CardEntity(front: 'Столица Германии?', back: 'Берлин'),
-      CardEntity(front: 'Столица Италии?', back: 'Рим'),
+      CardEntity(front: 'Capital of France?', back: 'Paris'),
+      CardEntity(front: 'Capital of Germany?', back: 'Berlin'),
+      CardEntity(front: 'Capital of Italy?', back: 'Rome'),
     ];
   }
 }

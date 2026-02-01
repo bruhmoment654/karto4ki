@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:karto4ki/feature/card_detail/presentation/card_detail_view.dart';
 
-/// Экран карточки.
+/// Card detail screen.
 ///
-/// Содержит логику просмотра, создания и редактирования карточки:
-/// ввод вопроса и ответа, валидация данных.
+/// Contains card viewing, creation and editing logic:
+/// question and answer input, data validation.
 class CardDetailScreen extends StatefulWidget {
   const CardDetailScreen({super.key});
 
@@ -20,7 +20,7 @@ class _CardDetailScreenState extends State<CardDetailScreen>
   }
 }
 
-/// Интерфейс ViewModel для экрана карточки.
+/// ViewModel interface for card detail screen.
 ///
-/// Определяет контракт взаимодействия между [CardDetailScreen] и [CardDetailView].
+/// Defines interaction contract between [CardDetailScreen] and [CardDetailView].
 abstract interface class ICardDetailViewModel {}

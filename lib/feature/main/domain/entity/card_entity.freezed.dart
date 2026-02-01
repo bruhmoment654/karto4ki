@@ -16,10 +16,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CardEntity {
-  /// Вопрос.
+  /// Question.
   String get front => throw _privateConstructorUsedError;
 
-  /// Ответ.
+  /// Answer.
   String get back => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
@@ -108,11 +108,11 @@ class __$$CardEntityImplCopyWithImpl<$Res>
 class _$CardEntityImpl implements _CardEntity {
   const _$CardEntityImpl({required this.front, required this.back});
 
-  /// Вопрос.
+  /// Question.
   @override
   final String front;
 
-  /// Ответ.
+  /// Answer.
   @override
   final String back;
 
@@ -147,11 +147,11 @@ abstract class _CardEntity implements CardEntity {
 
   @override
 
-  /// Вопрос.
+  /// Question.
   String get front;
   @override
 
-  /// Ответ.
+  /// Answer.
   String get back;
   @override
   @JsonKey(ignore: true)

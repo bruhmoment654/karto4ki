@@ -5,7 +5,7 @@ import 'package:karto4ki/app/di/app_scope.dart';
 import 'package:karto4ki/feature/main/domain/bloc/main_bloc.dart';
 import 'package:karto4ki/feature/main/presentation/main_screen.dart';
 
-/// Точка входа в главный экран приложения.
+/// Entry point for main application screen.
 @RoutePage()
 class MainFlow extends StatelessWidget implements AutoRouteWrapper {
   const MainFlow({super.key});

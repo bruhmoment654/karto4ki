@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:karto4ki/feature/home/presentation/home_view.dart';
 
-/// Экран-контейнер для вложенной навигации.
+/// Container screen for nested navigation.
 ///
-/// Отвечает за отображение вложенного роутера и, при необходимости,
-/// общих элементов навигации (например, bottom navigation bar).
+/// Responsible for displaying nested router and, if needed,
+/// common navigation elements (e.g., bottom navigation bar).
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
@@ -19,7 +19,7 @@ class _HomeScreenState extends State<HomeScreen> implements IHomeViewModel {
   }
 }
 
-/// Интерфейс ViewModel для Home экрана.
+/// ViewModel interface for Home screen.
 ///
-/// Определяет контракт взаимодействия между [HomeScreen] и [HomeView].
+/// Defines interaction contract between [HomeScreen] and [HomeView].
 abstract interface class IHomeViewModel {}

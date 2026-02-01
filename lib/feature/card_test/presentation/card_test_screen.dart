@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:karto4ki/feature/card_test/presentation/card_test_view.dart';
 
-/// Экран тестирования карточек.
+/// Card testing screen.
 ///
-/// Содержит логику взаимодействия пользователя с тестом:
-/// показ карточки, переключение между сторонами, навигация по карточкам,
-/// оценка ответа (знаю/не знаю).
+/// Contains user interaction logic with test:
+/// card display, side switching, card navigation,
+/// answer evaluation (know/don't know).
 class CardTestScreen extends StatefulWidget {
   const CardTestScreen({super.key});
 
@@ -21,7 +21,7 @@ class _CardTestScreenState extends State<CardTestScreen>
   }
 }
 
-/// Интерфейс ViewModel для экрана тестирования карточек.
+/// ViewModel interface for card testing screen.
 ///
-/// Определяет контракт взаимодействия между [CardTestScreen] и [CardTestView].
+/// Defines interaction contract between [CardTestScreen] and [CardTestView].
 abstract interface class ICardTestViewModel {}

@@ -1,6 +1,6 @@
 part of 'card_test_bloc.dart';
 
-/// События экрана тестирования карточек.
+/// Card testing screen events.
 @freezed
 sealed class CardTestEvent with _$CardTestEvent {
   const factory CardTestEvent.started() = _CardTestEvent$Started;

@@ -5,10 +5,10 @@ part 'card_detail_event.dart';
 part 'card_detail_state.dart';
 part 'card_detail_bloc.freezed.dart';
 
-/// Bloc для экрана карточки.
+/// Bloc for card detail screen.
 ///
-/// Управляет логикой просмотра, создания и редактирования карточки:
-/// валидация введённых данных, сохранение карточки.
+/// Manages card viewing, creation and editing logic:
+/// input data validation, card saving.
 final class CardDetailBloc extends Bloc<CardDetailEvent, CardDetailState> {
   CardDetailBloc() : super(const CardDetailState.initial()) {
     on<CardDetailEvent>(
@@ -22,6 +22,6 @@ final class CardDetailBloc extends Bloc<CardDetailEvent, CardDetailState> {
     _CardDetailEvent$Started event,
     Emitter<CardDetailState> emit,
   ) async {
-    // TODO(karto4ki): Реализовать загрузку данных.
+    // TODO(karto4ki): Implement data loading.
   }
 }

@@ -1,6 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// Билдер Bloc для [StateStreamable].
+/// Bloc builder for [StateStreamable].
 class StateStreamableBuilder<S> extends BlocBuilder<StateStreamable<S>, S> {
   const StateStreamableBuilder({
     required super.bloc,

@@ -1,6 +1,6 @@
 part of 'card_detail_bloc.dart';
 
-/// Состояние экрана карточки.
+/// Card detail screen state.
 @freezed
 sealed class CardDetailState with _$CardDetailState {
   const CardDetailState._();

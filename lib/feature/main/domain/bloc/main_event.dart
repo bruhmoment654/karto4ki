@@ -1,6 +1,6 @@
 part of 'main_bloc.dart';
 
-/// События главного экрана.
+/// Main screen events.
 @freezed
 sealed class MainEvent with _$MainEvent {
   const factory MainEvent.loadCards() = MainEvent$LoadCards;

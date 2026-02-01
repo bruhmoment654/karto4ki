@@ -1,6 +1,6 @@
-/// Интерфейс хранилища для данных тестирования карточек.
+/// Storage interface for card testing data.
 ///
-/// Будет переделан на Drift.
+/// Will be refactored to Drift.
 abstract interface class ICardTestStorage {
   List<String>? get cardList;
 

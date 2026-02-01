@@ -9,7 +9,7 @@ mixin CallbackTimerMixin<T extends StatefulWidget> on State<T> {
 
   bool isPlaying = false;
 
-  /// Общая длительность таймера.
+  /// Total timer duration.
   int? period = 10;
 
   abstract final VoidCallback onTimerExpired;

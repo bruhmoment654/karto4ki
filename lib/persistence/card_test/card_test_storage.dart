@@ -1,7 +1,7 @@
 import 'package:karto4ki/persistence/card_test/i_card_test_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Реализация хранилища для данных тестирования карточек.
+/// Storage implementation for card testing data.
 class CardTestStorage implements ICardTestStorage {
   final SharedPreferences _prefs;
 
@@ -17,7 +17,7 @@ class CardTestStorage implements ICardTestStorage {
   }
 }
 
-/// Ключи для хранения данных.
+/// Storage keys.
 enum CardTestStorageKeys {
   cardList('card_test_list');
 

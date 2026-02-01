@@ -7,7 +7,7 @@ part 'main_event.dart';
 part 'main_state.dart';
 part 'main_bloc.freezed.dart';
 
-/// Bloc для главного экрана.
+/// Bloc for main screen.
 final class MainBloc extends Bloc<MainEvent, MainState> {
   final IMainRepository _mainRepository;
 

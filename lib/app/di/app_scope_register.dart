@@ -4,9 +4,9 @@ import 'package:karto4ki/feature/main/data/repository/main_repository.dart';
 import 'package:karto4ki/persistence/card_test/card_test_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-/// Регистратор зависимостей приложения.
+/// Application dependency registrar.
 ///
-/// Создаёт и настраивает все зависимости для [AppScope].
+/// Creates and configures all dependencies for [AppScope].
 class AppScopeRegister {
   Future<IAppScope> createScope() async {
     final prefs = await SharedPreferences.getInstance();

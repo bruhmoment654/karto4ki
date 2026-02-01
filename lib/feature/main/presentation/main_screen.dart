@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:karto4ki/feature/main/presentation/main_view.dart';
 
-/// Главный экран приложения.
+/// Main application screen.
 class MainScreen extends StatefulWidget {
   const MainScreen({super.key});
 
@@ -16,7 +16,7 @@ class _MainScreenState extends State<MainScreen> implements IMainViewModel {
   }
 }
 
-/// Интерфейс ViewModel для главного экрана.
+/// ViewModel interface for main screen.
 ///
-/// Определяет контракт взаимодействия между [MainScreen] и [MainView].
+/// Defines interaction contract between [MainScreen] and [MainView].
 abstract interface class IMainViewModel {}

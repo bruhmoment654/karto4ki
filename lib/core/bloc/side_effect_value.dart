@@ -2,10 +2,10 @@
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-/// Обёртка для уникального значения.
+/// Wrapper for unique value.
 ///
-/// Используется для передачи уникального значения в [Bloc]. Чаще всего, чтобы
-/// показывать несколько раз одно и то же событие.
+/// Used for passing unique value to [Bloc]. Most often to
+/// display the same event multiple times.
 final class SideEffectValue<T> {
   final T value;
 

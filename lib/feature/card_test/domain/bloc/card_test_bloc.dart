@@ -5,10 +5,10 @@ part 'card_test_event.dart';
 part 'card_test_state.dart';
 part 'card_test_bloc.freezed.dart';
 
-/// Bloc для экрана тестирования карточек.
+/// Bloc for card testing screen.
 ///
-/// Управляет логикой прохождения теста: загрузка набора карточек,
-/// отслеживание текущей карточки и прогресса, сохранение результатов.
+/// Manages test execution logic: loading card set,
+/// tracking current card and progress, saving results.
 final class CardTestBloc extends Bloc<CardTestEvent, CardTestState> {
   CardTestBloc() : super(const CardTestState.initial()) {
     on<CardTestEvent>(
@@ -22,6 +22,6 @@ final class CardTestBloc extends Bloc<CardTestEvent, CardTestState> {
     _CardTestEvent$Started event,
     Emitter<CardTestState> emit,
   ) async {
-    // TODO(karto4ki): Реализовать загрузку данных.
+    // TODO(karto4ki): Implement data loading.
   }
 }

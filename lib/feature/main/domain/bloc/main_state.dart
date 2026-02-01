@@ -1,6 +1,6 @@
 part of 'main_bloc.dart';
 
-/// Состояние главного экрана.
+/// Main screen state.
 @freezed
 sealed class MainState with _$MainState {
   const MainState._();
