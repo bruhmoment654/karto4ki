@@ -84,3 +84,22 @@ class MainRoute extends PageRouteInfo<void> {
     },
   );
 }
+
+/// generated route for
+/// [TestsListFlow]
+class TestsListRoute extends PageRouteInfo<void> {
+  const TestsListRoute({List<PageRouteInfo>? children})
+      : super(
+          TestsListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'TestsListRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const TestsListFlow());
+    },
+  );
+}

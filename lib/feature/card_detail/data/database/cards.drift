@@ -1,4 +1,4 @@
-import 'tests.drift';
+import 'package:karto4ki/feature/tests/data/database/tests.drift';
 
 -- Cards table definition
 
@@ -10,13 +10,3 @@ CREATE TABLE cards (
   created_at DATETIME NOT NULL,
   updated_at DATETIME NOT NULL
 ) AS CardDatabaseDto;
-
--- Queries for Cards table
-
-getAllCards: SELECT * FROM cards ORDER BY created_at DESC;
-
-getCardById: SELECT * FROM cards WHERE id = :id;
-
-getCardsByTestId: SELECT * FROM cards WHERE test_id = :testId ORDER BY created_at;
-
-countCardsByTestId: SELECT COUNT(*) AS count FROM cards WHERE test_id = :testId;

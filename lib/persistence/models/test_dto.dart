@@ -15,10 +15,10 @@ class TestDto {
   const TestDto({
     required this.id,
     required this.title,
-    this.description,
     required this.type,
     required this.createdAt,
     required this.updatedAt,
+    this.description,
   });
 
   factory TestDto.fromJson(Map<String, dynamic> json) =>

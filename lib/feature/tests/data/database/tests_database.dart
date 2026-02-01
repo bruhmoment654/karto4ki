@@ -10,7 +10,7 @@ part 'tests_database.g.dart';
 )
 class TestsDatabase extends DatabaseAccessor<AppDatabase>
     with _$TestsDatabaseMixin {
-  TestsDatabase(super.db);
+  TestsDatabase(super.attachedDatabase);
 
   /// Get all tests.
   Future<List<TestDatabaseDto>> getAllTests() => select(tests).get();

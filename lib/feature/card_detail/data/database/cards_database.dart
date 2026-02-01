@@ -10,7 +10,7 @@ part 'cards_database.g.dart';
 )
 class CardsDatabase extends DatabaseAccessor<AppDatabase>
     with _$CardsDatabaseMixin {
-  CardsDatabase(super.db);
+  CardsDatabase(super.attachedDatabase);
 
   /// Get all cards.
   Future<List<CardDatabaseDto>> getAllCards() => select(cards).get();

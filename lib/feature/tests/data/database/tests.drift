@@ -8,11 +8,3 @@ CREATE TABLE tests (
   created_at DATETIME NOT NULL,
   updated_at DATETIME NOT NULL
 ) AS TestDatabaseDto;
-
--- Queries for Tests table
-
-getAllTests: SELECT * FROM tests ORDER BY created_at DESC;
-
-getTestById: SELECT * FROM tests WHERE id = :id;
-
-searchTestsByTitle: SELECT * FROM tests WHERE title LIKE '%' || :query || '%';

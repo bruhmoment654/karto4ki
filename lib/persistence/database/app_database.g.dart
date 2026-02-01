@@ -3,48 +3,51 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
-class $TestsTable extends Tests with TableInfo<$TestsTable, TestDatabaseDto> {
+class Tests extends Table with TableInfo<Tests, TestDatabaseDto> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $TestsTable(this.attachedDatabase, [this._alias]);
+  Tests(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
-  @override
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
       'title', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _descriptionMeta =
       const VerificationMeta('description');
-  @override
   late final GeneratedColumn<String> description = GeneratedColumn<String>(
       'description', aliasedName, true,
-      type: DriftSqlType.string, requiredDuringInsert: false);
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   static const VerificationMeta _typeMeta = const VerificationMeta('type');
-  @override
   late final GeneratedColumn<String> type = GeneratedColumn<String>(
       'type', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
-  @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
       'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _updatedAtMeta =
       const VerificationMeta('updatedAt');
-  @override
   late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
       'updated_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   @override
   List<GeneratedColumn> get $columns =>
       [id, title, description, type, createdAt, updatedAt];
@@ -116,9 +119,12 @@ class $TestsTable extends Tests with TableInfo<$TestsTable, TestDatabaseDto> {
   }
 
   @override
-  $TestsTable createAlias(String alias) {
-    return $TestsTable(attachedDatabase, alias);
+  Tests createAlias(String alias) {
+    return Tests(attachedDatabase, alias);
   }
+
+  @override
+  bool get dontWriteConstraints => true;
 }
 
 class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
@@ -170,8 +176,8 @@ class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
       title: serializer.fromJson<String>(json['title']),
       description: serializer.fromJson<String?>(json['description']),
       type: serializer.fromJson<String>(json['type']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      createdAt: serializer.fromJson<DateTime>(json['created_at']),
+      updatedAt: serializer.fromJson<DateTime>(json['updated_at']),
     );
   }
   @override
@@ -182,8 +188,8 @@ class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
       'title': serializer.toJson<String>(title),
       'description': serializer.toJson<String?>(description),
       'type': serializer.toJson<String>(type),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'created_at': serializer.toJson<DateTime>(createdAt),
+      'updated_at': serializer.toJson<DateTime>(updatedAt),
     };
   }
 
@@ -341,51 +347,51 @@ class TestsCompanion extends UpdateCompanion<TestDatabaseDto> {
   }
 }
 
-class $CardsTable extends Cards with TableInfo<$CardsTable, CardDatabaseDto> {
+class Cards extends Table with TableInfo<Cards, CardDatabaseDto> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
-  $CardsTable(this.attachedDatabase, [this._alias]);
+  Cards(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
-  @override
   late final GeneratedColumn<int> id = GeneratedColumn<int>(
       'id', aliasedName, false,
       hasAutoIncrement: true,
       type: DriftSqlType.int,
       requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
   static const VerificationMeta _testIdMeta = const VerificationMeta('testId');
-  @override
   late final GeneratedColumn<int> testId = GeneratedColumn<int>(
       'test_id', aliasedName, false,
       type: DriftSqlType.int,
       requiredDuringInsert: true,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('REFERENCES tests (id)'));
+      $customConstraints: 'NOT NULL REFERENCES tests(id)ON DELETE CASCADE');
   static const VerificationMeta _questionMeta =
       const VerificationMeta('question');
-  @override
   late final GeneratedColumn<String> question = GeneratedColumn<String>(
       'question', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _answerMeta = const VerificationMeta('answer');
-  @override
   late final GeneratedColumn<String> answer = GeneratedColumn<String>(
       'answer', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
-  @override
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
       'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   static const VerificationMeta _updatedAtMeta =
       const VerificationMeta('updatedAt');
-  @override
   late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
       'updated_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
   @override
   List<GeneratedColumn> get $columns =>
       [id, testId, question, answer, createdAt, updatedAt];
@@ -457,9 +463,12 @@ class $CardsTable extends Cards with TableInfo<$CardsTable, CardDatabaseDto> {
   }
 
   @override
-  $CardsTable createAlias(String alias) {
-    return $CardsTable(attachedDatabase, alias);
+  Cards createAlias(String alias) {
+    return Cards(attachedDatabase, alias);
   }
+
+  @override
+  bool get dontWriteConstraints => true;
 }
 
 class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
@@ -504,11 +513,11 @@ class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CardDatabaseDto(
       id: serializer.fromJson<int>(json['id']),
-      testId: serializer.fromJson<int>(json['testId']),
+      testId: serializer.fromJson<int>(json['test_id']),
       question: serializer.fromJson<String>(json['question']),
       answer: serializer.fromJson<String>(json['answer']),
-      createdAt: serializer.fromJson<DateTime>(json['createdAt']),
-      updatedAt: serializer.fromJson<DateTime>(json['updatedAt']),
+      createdAt: serializer.fromJson<DateTime>(json['created_at']),
+      updatedAt: serializer.fromJson<DateTime>(json['updated_at']),
     );
   }
   @override
@@ -516,11 +525,11 @@ class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'testId': serializer.toJson<int>(testId),
+      'test_id': serializer.toJson<int>(testId),
       'question': serializer.toJson<String>(question),
       'answer': serializer.toJson<String>(answer),
-      'createdAt': serializer.toJson<DateTime>(createdAt),
-      'updatedAt': serializer.toJson<DateTime>(updatedAt),
+      'created_at': serializer.toJson<DateTime>(createdAt),
+      'updated_at': serializer.toJson<DateTime>(updatedAt),
     };
   }
 
@@ -681,8 +690,8 @@ class CardsCompanion extends UpdateCompanion<CardDatabaseDto> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
-  late final $TestsTable tests = $TestsTable(this);
-  late final $CardsTable cards = $CardsTable(this);
+  late final Tests tests = Tests(this);
+  late final Cards cards = Cards(this);
   late final TestsDatabase testsDatabase = TestsDatabase(this as AppDatabase);
   late final CardsDatabase cardsDatabase = CardsDatabase(this as AppDatabase);
   @override
@@ -690,9 +699,21 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [tests, cards];
+  @override
+  StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
+        [
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('tests',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('cards', kind: UpdateKind.delete),
+            ],
+          ),
+        ],
+      );
 }
 
-typedef $$TestsTableCreateCompanionBuilder = TestsCompanion Function({
+typedef $TestsCreateCompanionBuilder = TestsCompanion Function({
   Value<int> id,
   required String title,
   Value<String?> description,
@@ -700,7 +721,7 @@ typedef $$TestsTableCreateCompanionBuilder = TestsCompanion Function({
   required DateTime createdAt,
   required DateTime updatedAt,
 });
-typedef $$TestsTableUpdateCompanionBuilder = TestsCompanion Function({
+typedef $TestsUpdateCompanionBuilder = TestsCompanion Function({
   Value<int> id,
   Value<String> title,
   Value<String?> description,
@@ -709,17 +730,17 @@ typedef $$TestsTableUpdateCompanionBuilder = TestsCompanion Function({
   Value<DateTime> updatedAt,
 });
 
-final class $$TestsTableReferences
-    extends BaseReferences<_$AppDatabase, $TestsTable, TestDatabaseDto> {
-  $$TestsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+final class $TestsReferences
+    extends BaseReferences<_$AppDatabase, Tests, TestDatabaseDto> {
+  $TestsReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static MultiTypedResultKey<$CardsTable, List<CardDatabaseDto>>
-      _cardsRefsTable(_$AppDatabase db) =>
-          MultiTypedResultKey.fromTable(db.cards,
-              aliasName: $_aliasNameGenerator(db.tests.id, db.cards.testId));
+  static MultiTypedResultKey<Cards, List<CardDatabaseDto>> _cardsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.cards,
+          aliasName: $_aliasNameGenerator(db.tests.id, db.cards.testId));
 
-  $$CardsTableProcessedTableManager get cardsRefs {
-    final manager = $$CardsTableTableManager($_db, $_db.cards)
+  $CardsProcessedTableManager get cardsRefs {
+    final manager = $CardsTableManager($_db, $_db.cards)
         .filter((f) => f.testId.id($_item.id));
 
     final cache = $_typedResult.readTableOrNull(_cardsRefsTable($_db));
@@ -728,8 +749,8 @@ final class $$TestsTableReferences
   }
 }
 
-class $$TestsTableFilterComposer extends Composer<_$AppDatabase, $TestsTable> {
-  $$TestsTableFilterComposer({
+class $TestsFilterComposer extends Composer<_$AppDatabase, Tests> {
+  $TestsFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -755,8 +776,8 @@ class $$TestsTableFilterComposer extends Composer<_$AppDatabase, $TestsTable> {
       column: $table.updatedAt, builder: (column) => ColumnFilters(column));
 
   Expression<bool> cardsRefs(
-      Expression<bool> Function($$CardsTableFilterComposer f) f) {
-    final $$CardsTableFilterComposer composer = $composerBuilder(
+      Expression<bool> Function($CardsFilterComposer f) f) {
+    final $CardsFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.id,
         referencedTable: $db.cards,
@@ -764,7 +785,7 @@ class $$TestsTableFilterComposer extends Composer<_$AppDatabase, $TestsTable> {
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$CardsTableFilterComposer(
+            $CardsFilterComposer(
               $db: $db,
               $table: $db.cards,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
@@ -776,9 +797,8 @@ class $$TestsTableFilterComposer extends Composer<_$AppDatabase, $TestsTable> {
   }
 }
 
-class $$TestsTableOrderingComposer
-    extends Composer<_$AppDatabase, $TestsTable> {
-  $$TestsTableOrderingComposer({
+class $TestsOrderingComposer extends Composer<_$AppDatabase, Tests> {
+  $TestsOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -804,9 +824,8 @@ class $$TestsTableOrderingComposer
       column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
 }
 
-class $$TestsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $TestsTable> {
-  $$TestsTableAnnotationComposer({
+class $TestsAnnotationComposer extends Composer<_$AppDatabase, Tests> {
+  $TestsAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -832,8 +851,8 @@ class $$TestsTableAnnotationComposer
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
 
   Expression<T> cardsRefs<T extends Object>(
-      Expression<T> Function($$CardsTableAnnotationComposer a) f) {
-    final $$CardsTableAnnotationComposer composer = $composerBuilder(
+      Expression<T> Function($CardsAnnotationComposer a) f) {
+    final $CardsAnnotationComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.id,
         referencedTable: $db.cards,
@@ -841,7 +860,7 @@ class $$TestsTableAnnotationComposer
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$CardsTableAnnotationComposer(
+            $CardsAnnotationComposer(
               $db: $db,
               $table: $db.cards,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
@@ -853,28 +872,28 @@ class $$TestsTableAnnotationComposer
   }
 }
 
-class $$TestsTableTableManager extends RootTableManager<
+class $TestsTableManager extends RootTableManager<
     _$AppDatabase,
-    $TestsTable,
+    Tests,
     TestDatabaseDto,
-    $$TestsTableFilterComposer,
-    $$TestsTableOrderingComposer,
-    $$TestsTableAnnotationComposer,
-    $$TestsTableCreateCompanionBuilder,
-    $$TestsTableUpdateCompanionBuilder,
-    (TestDatabaseDto, $$TestsTableReferences),
+    $TestsFilterComposer,
+    $TestsOrderingComposer,
+    $TestsAnnotationComposer,
+    $TestsCreateCompanionBuilder,
+    $TestsUpdateCompanionBuilder,
+    (TestDatabaseDto, $TestsReferences),
     TestDatabaseDto,
     PrefetchHooks Function({bool cardsRefs})> {
-  $$TestsTableTableManager(_$AppDatabase db, $TestsTable table)
+  $TestsTableManager(_$AppDatabase db, Tests table)
       : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$TestsTableFilterComposer($db: db, $table: table),
+              $TestsFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$TestsTableOrderingComposer($db: db, $table: table),
+              $TestsOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$TestsTableAnnotationComposer($db: db, $table: table),
+              $TestsAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<String> title = const Value.absent(),
@@ -908,8 +927,7 @@ class $$TestsTableTableManager extends RootTableManager<
             updatedAt: updatedAt,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$TestsTableReferences(db, table, e)))
+              .map((e) => (e.readTable(table), $TestsReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({cardsRefs = false}) {
             return PrefetchHooks(
@@ -921,10 +939,9 @@ class $$TestsTableTableManager extends RootTableManager<
                   if (cardsRefs)
                     await $_getPrefetchedData(
                         currentTable: table,
-                        referencedTable:
-                            $$TestsTableReferences._cardsRefsTable(db),
+                        referencedTable: $TestsReferences._cardsRefsTable(db),
                         managerFromTypedResult: (p0) =>
-                            $$TestsTableReferences(db, table, p0).cardsRefs,
+                            $TestsReferences(db, table, p0).cardsRefs,
                         referencedItemsForCurrentItem: (item,
                                 referencedItems) =>
                             referencedItems.where((e) => e.testId == item.id),
@@ -936,19 +953,19 @@ class $$TestsTableTableManager extends RootTableManager<
         ));
 }
 
-typedef $$TestsTableProcessedTableManager = ProcessedTableManager<
+typedef $TestsProcessedTableManager = ProcessedTableManager<
     _$AppDatabase,
-    $TestsTable,
+    Tests,
     TestDatabaseDto,
-    $$TestsTableFilterComposer,
-    $$TestsTableOrderingComposer,
-    $$TestsTableAnnotationComposer,
-    $$TestsTableCreateCompanionBuilder,
-    $$TestsTableUpdateCompanionBuilder,
-    (TestDatabaseDto, $$TestsTableReferences),
+    $TestsFilterComposer,
+    $TestsOrderingComposer,
+    $TestsAnnotationComposer,
+    $TestsCreateCompanionBuilder,
+    $TestsUpdateCompanionBuilder,
+    (TestDatabaseDto, $TestsReferences),
     TestDatabaseDto,
     PrefetchHooks Function({bool cardsRefs})>;
-typedef $$CardsTableCreateCompanionBuilder = CardsCompanion Function({
+typedef $CardsCreateCompanionBuilder = CardsCompanion Function({
   Value<int> id,
   required int testId,
   required String question,
@@ -956,7 +973,7 @@ typedef $$CardsTableCreateCompanionBuilder = CardsCompanion Function({
   required DateTime createdAt,
   required DateTime updatedAt,
 });
-typedef $$CardsTableUpdateCompanionBuilder = CardsCompanion Function({
+typedef $CardsUpdateCompanionBuilder = CardsCompanion Function({
   Value<int> id,
   Value<int> testId,
   Value<String> question,
@@ -965,15 +982,15 @@ typedef $$CardsTableUpdateCompanionBuilder = CardsCompanion Function({
   Value<DateTime> updatedAt,
 });
 
-final class $$CardsTableReferences
-    extends BaseReferences<_$AppDatabase, $CardsTable, CardDatabaseDto> {
-  $$CardsTableReferences(super.$_db, super.$_table, super.$_typedResult);
+final class $CardsReferences
+    extends BaseReferences<_$AppDatabase, Cards, CardDatabaseDto> {
+  $CardsReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static $TestsTable _testIdTable(_$AppDatabase db) =>
+  static Tests _testIdTable(_$AppDatabase db) =>
       db.tests.createAlias($_aliasNameGenerator(db.cards.testId, db.tests.id));
 
-  $$TestsTableProcessedTableManager get testId {
-    final manager = $$TestsTableTableManager($_db, $_db.tests)
+  $TestsProcessedTableManager get testId {
+    final manager = $TestsTableManager($_db, $_db.tests)
         .filter((f) => f.id($_item.testId!));
     final item = $_typedResult.readTableOrNull(_testIdTable($_db));
     if (item == null) return manager;
@@ -982,8 +999,8 @@ final class $$CardsTableReferences
   }
 }
 
-class $$CardsTableFilterComposer extends Composer<_$AppDatabase, $CardsTable> {
-  $$CardsTableFilterComposer({
+class $CardsFilterComposer extends Composer<_$AppDatabase, Cards> {
+  $CardsFilterComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -1005,8 +1022,8 @@ class $$CardsTableFilterComposer extends Composer<_$AppDatabase, $CardsTable> {
   ColumnFilters<DateTime> get updatedAt => $composableBuilder(
       column: $table.updatedAt, builder: (column) => ColumnFilters(column));
 
-  $$TestsTableFilterComposer get testId {
-    final $$TestsTableFilterComposer composer = $composerBuilder(
+  $TestsFilterComposer get testId {
+    final $TestsFilterComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.testId,
         referencedTable: $db.tests,
@@ -1014,7 +1031,7 @@ class $$CardsTableFilterComposer extends Composer<_$AppDatabase, $CardsTable> {
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$TestsTableFilterComposer(
+            $TestsFilterComposer(
               $db: $db,
               $table: $db.tests,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
@@ -1026,9 +1043,8 @@ class $$CardsTableFilterComposer extends Composer<_$AppDatabase, $CardsTable> {
   }
 }
 
-class $$CardsTableOrderingComposer
-    extends Composer<_$AppDatabase, $CardsTable> {
-  $$CardsTableOrderingComposer({
+class $CardsOrderingComposer extends Composer<_$AppDatabase, Cards> {
+  $CardsOrderingComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -1050,8 +1066,8 @@ class $$CardsTableOrderingComposer
   ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
       column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
 
-  $$TestsTableOrderingComposer get testId {
-    final $$TestsTableOrderingComposer composer = $composerBuilder(
+  $TestsOrderingComposer get testId {
+    final $TestsOrderingComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.testId,
         referencedTable: $db.tests,
@@ -1059,7 +1075,7 @@ class $$CardsTableOrderingComposer
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$TestsTableOrderingComposer(
+            $TestsOrderingComposer(
               $db: $db,
               $table: $db.tests,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
@@ -1071,9 +1087,8 @@ class $$CardsTableOrderingComposer
   }
 }
 
-class $$CardsTableAnnotationComposer
-    extends Composer<_$AppDatabase, $CardsTable> {
-  $$CardsTableAnnotationComposer({
+class $CardsAnnotationComposer extends Composer<_$AppDatabase, Cards> {
+  $CardsAnnotationComposer({
     required super.$db,
     required super.$table,
     super.joinBuilder,
@@ -1095,8 +1110,8 @@ class $$CardsTableAnnotationComposer
   GeneratedColumn<DateTime> get updatedAt =>
       $composableBuilder(column: $table.updatedAt, builder: (column) => column);
 
-  $$TestsTableAnnotationComposer get testId {
-    final $$TestsTableAnnotationComposer composer = $composerBuilder(
+  $TestsAnnotationComposer get testId {
+    final $TestsAnnotationComposer composer = $composerBuilder(
         composer: this,
         getCurrentColumn: (t) => t.testId,
         referencedTable: $db.tests,
@@ -1104,7 +1119,7 @@ class $$CardsTableAnnotationComposer
         builder: (joinBuilder,
                 {$addJoinBuilderToRootComposer,
                 $removeJoinBuilderFromRootComposer}) =>
-            $$TestsTableAnnotationComposer(
+            $TestsAnnotationComposer(
               $db: $db,
               $table: $db.tests,
               $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
@@ -1116,28 +1131,28 @@ class $$CardsTableAnnotationComposer
   }
 }
 
-class $$CardsTableTableManager extends RootTableManager<
+class $CardsTableManager extends RootTableManager<
     _$AppDatabase,
-    $CardsTable,
+    Cards,
     CardDatabaseDto,
-    $$CardsTableFilterComposer,
-    $$CardsTableOrderingComposer,
-    $$CardsTableAnnotationComposer,
-    $$CardsTableCreateCompanionBuilder,
-    $$CardsTableUpdateCompanionBuilder,
-    (CardDatabaseDto, $$CardsTableReferences),
+    $CardsFilterComposer,
+    $CardsOrderingComposer,
+    $CardsAnnotationComposer,
+    $CardsCreateCompanionBuilder,
+    $CardsUpdateCompanionBuilder,
+    (CardDatabaseDto, $CardsReferences),
     CardDatabaseDto,
     PrefetchHooks Function({bool testId})> {
-  $$CardsTableTableManager(_$AppDatabase db, $CardsTable table)
+  $CardsTableManager(_$AppDatabase db, Cards table)
       : super(TableManagerState(
           db: db,
           table: table,
           createFilteringComposer: () =>
-              $$CardsTableFilterComposer($db: db, $table: table),
+              $CardsFilterComposer($db: db, $table: table),
           createOrderingComposer: () =>
-              $$CardsTableOrderingComposer($db: db, $table: table),
+              $CardsOrderingComposer($db: db, $table: table),
           createComputedFieldComposer: () =>
-              $$CardsTableAnnotationComposer($db: db, $table: table),
+              $CardsAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
             Value<int> testId = const Value.absent(),
@@ -1171,8 +1186,7 @@ class $$CardsTableTableManager extends RootTableManager<
             updatedAt: updatedAt,
           ),
           withReferenceMapper: (p0) => p0
-              .map((e) =>
-                  (e.readTable(table), $$CardsTableReferences(db, table, e)))
+              .map((e) => (e.readTable(table), $CardsReferences(db, table, e)))
               .toList(),
           prefetchHooksCallback: ({testId = false}) {
             return PrefetchHooks(
@@ -1195,9 +1209,8 @@ class $$CardsTableTableManager extends RootTableManager<
                   state = state.withJoin(
                     currentTable: table,
                     currentColumn: table.testId,
-                    referencedTable: $$CardsTableReferences._testIdTable(db),
-                    referencedColumn:
-                        $$CardsTableReferences._testIdTable(db).id,
+                    referencedTable: $CardsReferences._testIdTable(db),
+                    referencedColumn: $CardsReferences._testIdTable(db).id,
                   ) as T;
                 }
 
@@ -1211,24 +1224,22 @@ class $$CardsTableTableManager extends RootTableManager<
         ));
 }
 
-typedef $$CardsTableProcessedTableManager = ProcessedTableManager<
+typedef $CardsProcessedTableManager = ProcessedTableManager<
     _$AppDatabase,
-    $CardsTable,
+    Cards,
     CardDatabaseDto,
-    $$CardsTableFilterComposer,
-    $$CardsTableOrderingComposer,
-    $$CardsTableAnnotationComposer,
-    $$CardsTableCreateCompanionBuilder,
-    $$CardsTableUpdateCompanionBuilder,
-    (CardDatabaseDto, $$CardsTableReferences),
+    $CardsFilterComposer,
+    $CardsOrderingComposer,
+    $CardsAnnotationComposer,
+    $CardsCreateCompanionBuilder,
+    $CardsUpdateCompanionBuilder,
+    (CardDatabaseDto, $CardsReferences),
     CardDatabaseDto,
     PrefetchHooks Function({bool testId})>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
-  $$TestsTableTableManager get tests =>
-      $$TestsTableTableManager(_db, _db.tests);
-  $$CardsTableTableManager get cards =>
-      $$CardsTableTableManager(_db, _db.cards);
+  $TestsTableManager get tests => $TestsTableManager(_db, _db.tests);
+  $CardsTableManager get cards => $CardsTableManager(_db, _db.cards);
 }
