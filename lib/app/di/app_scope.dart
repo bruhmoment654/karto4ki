@@ -1,5 +1,6 @@
 import 'package:karto4ki/feature/card_detail/domain/repository/i_card_repository.dart';
 import 'package:karto4ki/feature/main/domain/repository/i_main_repository.dart';
+import 'package:karto4ki/feature/test_detail/domain/repository/i_test_detail_repository.dart';
 import 'package:karto4ki/feature/tests_list/domain/repository/i_tests_list_repository.dart';
 import 'package:karto4ki/persistence/database/app_database.dart';
 
@@ -16,11 +17,15 @@ final class AppScope implements IAppScope {
   @override
   final ITestsListRepository testsListRepository;
 
+  @override
+  final ITestDetailRepository testDetailRepository;
+
   const AppScope({
     required this.database,
     required this.mainRepository,
     required this.cardRepository,
     required this.testsListRepository,
+    required this.testDetailRepository,
   });
 }
 
@@ -32,4 +37,6 @@ abstract interface class IAppScope {
   ICardRepository get cardRepository;
 
   ITestsListRepository get testsListRepository;
+
+  ITestDetailRepository get testDetailRepository;
 }

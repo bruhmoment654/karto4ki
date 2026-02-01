@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:karto4ki/core/feature/core/failure.dart';
+
 part 'card_test_event.dart';
 part 'card_test_state.dart';
 part 'card_test_bloc.freezed.dart';

@@ -26,7 +26,9 @@ abstract final class TestConverter {
   }) {
     final now = DateTime.now();
     return TestsCompanion(
-      id: entity.id.isNotEmpty ? Value(int.parse(entity.id)) : const Value.absent(),
+      id: entity.id.isNotEmpty
+          ? Value(int.parse(entity.id))
+          : const Value.absent(),
       title: Value(entity.title),
       description: Value(entity.description),
       type: Value(TestTypeConverter.toDto(entity.type)),

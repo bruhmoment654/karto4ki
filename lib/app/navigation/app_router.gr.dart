@@ -86,6 +86,57 @@ class MainRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [TestDetailFlow]
+class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
+  TestDetailRoute({
+    required int testId,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TestDetailRoute.name,
+          args: TestDetailRouteArgs(
+            testId: testId,
+            key: key,
+          ),
+          rawPathParams: {'testId': testId},
+          initialChildren: children,
+        );
+
+  static const String name = 'TestDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<TestDetailRouteArgs>(
+          orElse: () =>
+              TestDetailRouteArgs(testId: pathParams.getInt('testId')));
+      return WrappedRoute(
+          child: TestDetailFlow(
+        testId: args.testId,
+        key: args.key,
+      ));
+    },
+  );
+}
+
+class TestDetailRouteArgs {
+  const TestDetailRouteArgs({
+    required this.testId,
+    this.key,
+  });
+
+  final int testId;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'TestDetailRouteArgs{testId: $testId, key: $key}';
+  }
+}
+
+/// generated route for
 /// [TestsListFlow]
 class TestsListRoute extends PageRouteInfo<void> {
   const TestsListRoute({List<PageRouteInfo>? children})

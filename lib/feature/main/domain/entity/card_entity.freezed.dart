@@ -16,11 +16,23 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$CardEntity {
-  /// Question.
+  /// Unique card identifier.
+  String get id => throw _privateConstructorUsedError;
+
+  /// Test identifier that owns this card.
+  String get testId => throw _privateConstructorUsedError;
+
+  /// Question (front side of the card).
   String get front => throw _privateConstructorUsedError;
 
-  /// Answer.
+  /// Answer (back side of the card).
   String get back => throw _privateConstructorUsedError;
+
+  /// Creation date.
+  DateTime get createdAt => throw _privateConstructorUsedError;
+
+  /// Update date.
+  DateTime get updatedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $CardEntityCopyWith<CardEntity> get copyWith =>
@@ -33,7 +45,13 @@ abstract class $CardEntityCopyWith<$Res> {
           CardEntity value, $Res Function(CardEntity) then) =
       _$CardEntityCopyWithImpl<$Res, CardEntity>;
   @useResult
-  $Res call({String front, String back});
+  $Res call(
+      {String id,
+      String testId,
+      String front,
+      String back,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -49,10 +67,22 @@ class _$CardEntityCopyWithImpl<$Res, $Val extends CardEntity>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
+    Object? testId = null,
     Object? front = null,
     Object? back = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_value.copyWith(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      testId: null == testId
+          ? _value.testId
+          : testId // ignore: cast_nullable_to_non_nullable
+              as String,
       front: null == front
           ? _value.front
           : front // ignore: cast_nullable_to_non_nullable
@@ -61,6 +91,14 @@ class _$CardEntityCopyWithImpl<$Res, $Val extends CardEntity>
           ? _value.back
           : back // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ) as $Val);
   }
 }
@@ -73,7 +111,13 @@ abstract class _$$CardEntityImplCopyWith<$Res>
       __$$CardEntityImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({String front, String back});
+  $Res call(
+      {String id,
+      String testId,
+      String front,
+      String back,
+      DateTime createdAt,
+      DateTime updatedAt});
 }
 
 /// @nodoc
@@ -87,10 +131,22 @@ class __$$CardEntityImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
+    Object? testId = null,
     Object? front = null,
     Object? back = null,
+    Object? createdAt = null,
+    Object? updatedAt = null,
   }) {
     return _then(_$CardEntityImpl(
+      id: null == id
+          ? _value.id
+          : id // ignore: cast_nullable_to_non_nullable
+              as String,
+      testId: null == testId
+          ? _value.testId
+          : testId // ignore: cast_nullable_to_non_nullable
+              as String,
       front: null == front
           ? _value.front
           : front // ignore: cast_nullable_to_non_nullable
@@ -99,6 +155,14 @@ class __$$CardEntityImplCopyWithImpl<$Res>
           ? _value.back
           : back // ignore: cast_nullable_to_non_nullable
               as String,
+      createdAt: null == createdAt
+          ? _value.createdAt
+          : createdAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
+      updatedAt: null == updatedAt
+          ? _value.updatedAt
+          : updatedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime,
     ));
   }
 }
@@ -106,19 +170,41 @@ class __$$CardEntityImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CardEntityImpl implements _CardEntity {
-  const _$CardEntityImpl({required this.front, required this.back});
+  const _$CardEntityImpl(
+      {required this.id,
+      required this.testId,
+      required this.front,
+      required this.back,
+      required this.createdAt,
+      required this.updatedAt});
 
-  /// Question.
+  /// Unique card identifier.
+  @override
+  final String id;
+
+  /// Test identifier that owns this card.
+  @override
+  final String testId;
+
+  /// Question (front side of the card).
   @override
   final String front;
 
-  /// Answer.
+  /// Answer (back side of the card).
   @override
   final String back;
 
+  /// Creation date.
+  @override
+  final DateTime createdAt;
+
+  /// Update date.
+  @override
+  final DateTime updatedAt;
+
   @override
   String toString() {
-    return 'CardEntity(front: $front, back: $back)';
+    return 'CardEntity(id: $id, testId: $testId, front: $front, back: $back, createdAt: $createdAt, updatedAt: $updatedAt)';
   }
 
   @override
@@ -126,12 +212,19 @@ class _$CardEntityImpl implements _CardEntity {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CardEntityImpl &&
+            (identical(other.id, id) || other.id == id) &&
+            (identical(other.testId, testId) || other.testId == testId) &&
             (identical(other.front, front) || other.front == front) &&
-            (identical(other.back, back) || other.back == back));
+            (identical(other.back, back) || other.back == back) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt) &&
+            (identical(other.updatedAt, updatedAt) ||
+                other.updatedAt == updatedAt));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, front, back);
+  int get hashCode =>
+      Object.hash(runtimeType, id, testId, front, back, createdAt, updatedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -142,17 +235,37 @@ class _$CardEntityImpl implements _CardEntity {
 
 abstract class _CardEntity implements CardEntity {
   const factory _CardEntity(
-      {required final String front,
-      required final String back}) = _$CardEntityImpl;
+      {required final String id,
+      required final String testId,
+      required final String front,
+      required final String back,
+      required final DateTime createdAt,
+      required final DateTime updatedAt}) = _$CardEntityImpl;
 
   @override
 
-  /// Question.
+  /// Unique card identifier.
+  String get id;
+  @override
+
+  /// Test identifier that owns this card.
+  String get testId;
+  @override
+
+  /// Question (front side of the card).
   String get front;
   @override
 
-  /// Answer.
+  /// Answer (back side of the card).
   String get back;
+  @override
+
+  /// Creation date.
+  DateTime get createdAt;
+  @override
+
+  /// Update date.
+  DateTime get updatedAt;
   @override
   @JsonKey(ignore: true)
   _$$CardEntityImplCopyWith<_$CardEntityImpl> get copyWith =>

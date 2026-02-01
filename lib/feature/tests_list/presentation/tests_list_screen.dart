@@ -1,6 +1,8 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:karto4ki/app/navigation/app_router.dart';
 import 'package:karto4ki/feature/tests/domain/entity/test_entity.dart';
 import 'package:karto4ki/feature/tests_list/domain/bloc/tests_list_bloc.dart';
 import 'package:karto4ki/feature/tests_list/presentation/tests_list_view.dart';
@@ -33,7 +35,7 @@ class _TestsListScreenState extends State<TestsListScreen>
 
   @override
   void onTestTapped(TestEntity test) {
-    // TODO(karto4ki): Navigate to test detail screen.
+    context.router.push(TestDetailRoute(testId: int.parse(test.id)));
   }
 
   @override

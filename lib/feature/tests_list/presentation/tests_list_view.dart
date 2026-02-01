@@ -28,12 +28,12 @@ class TestsListView extends StatelessWidget {
         TestsListState$Loading() => const Center(
             child: CircularProgressIndicator(),
           ),
-        TestsListState$Error(:final error) => Center(
+        TestsListState$Error(:final failure) => Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Ошибка: ${error ?? "Неизвестная ошибка"}',
+                  'Ошибка: ${failure.message ?? "Неизвестная ошибка"}',
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),

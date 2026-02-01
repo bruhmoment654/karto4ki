@@ -494,21 +494,21 @@ mixin _$TestsListState {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<TestEntity> tests) loaded,
-    required TResult Function(Object? error) error,
+    required TResult Function(Failure failure) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<TestEntity> tests)? loaded,
-    TResult? Function(Object? error)? error,
+    TResult? Function(Failure failure)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<TestEntity> tests)? loaded,
-    TResult Function(Object? error)? error,
+    TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -597,7 +597,7 @@ class _$TestsListState$LoadingImpl extends TestsListState$Loading {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<TestEntity> tests) loaded,
-    required TResult Function(Object? error) error,
+    required TResult Function(Failure failure) error,
   }) {
     return loading();
   }
@@ -607,7 +607,7 @@ class _$TestsListState$LoadingImpl extends TestsListState$Loading {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<TestEntity> tests)? loaded,
-    TResult? Function(Object? error)? error,
+    TResult? Function(Failure failure)? error,
   }) {
     return loading?.call();
   }
@@ -617,7 +617,7 @@ class _$TestsListState$LoadingImpl extends TestsListState$Loading {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<TestEntity> tests)? loaded,
-    TResult Function(Object? error)? error,
+    TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -742,7 +742,7 @@ class _$TestsListState$LoadedImpl extends TestsListState$Loaded {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<TestEntity> tests) loaded,
-    required TResult Function(Object? error) error,
+    required TResult Function(Failure failure) error,
   }) {
     return loaded(tests);
   }
@@ -752,7 +752,7 @@ class _$TestsListState$LoadedImpl extends TestsListState$Loaded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<TestEntity> tests)? loaded,
-    TResult? Function(Object? error)? error,
+    TResult? Function(Failure failure)? error,
   }) {
     return loaded?.call(tests);
   }
@@ -762,7 +762,7 @@ class _$TestsListState$LoadedImpl extends TestsListState$Loaded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<TestEntity> tests)? loaded,
-    TResult Function(Object? error)? error,
+    TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
@@ -823,7 +823,7 @@ abstract class _$$TestsListState$ErrorImplCopyWith<$Res> {
           $Res Function(_$TestsListState$ErrorImpl) then) =
       __$$TestsListState$ErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Object? error});
+  $Res call({Failure failure});
 }
 
 /// @nodoc
@@ -837,10 +837,13 @@ class __$$TestsListState$ErrorImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? error = freezed,
+    Object? failure = null,
   }) {
     return _then(_$TestsListState$ErrorImpl(
-      error: freezed == error ? _value.error : error,
+      failure: null == failure
+          ? _value.failure
+          : failure // ignore: cast_nullable_to_non_nullable
+              as Failure,
     ));
   }
 }
@@ -848,14 +851,14 @@ class __$$TestsListState$ErrorImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$TestsListState$ErrorImpl extends TestsListState$Error {
-  const _$TestsListState$ErrorImpl({required this.error}) : super._();
+  const _$TestsListState$ErrorImpl({required this.failure}) : super._();
 
   @override
-  final Object? error;
+  final Failure failure;
 
   @override
   String toString() {
-    return 'TestsListState.error(error: $error)';
+    return 'TestsListState.error(failure: $failure)';
   }
 
   @override
@@ -863,12 +866,11 @@ class _$TestsListState$ErrorImpl extends TestsListState$Error {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$TestsListState$ErrorImpl &&
-            const DeepCollectionEquality().equals(other.error, error));
+            (identical(other.failure, failure) || other.failure == failure));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(error));
+  int get hashCode => Object.hash(runtimeType, failure);
 
   @JsonKey(ignore: true)
   @override
@@ -883,9 +885,9 @@ class _$TestsListState$ErrorImpl extends TestsListState$Error {
   TResult when<TResult extends Object?>({
     required TResult Function() loading,
     required TResult Function(List<TestEntity> tests) loaded,
-    required TResult Function(Object? error) error,
+    required TResult Function(Failure failure) error,
   }) {
-    return error(this.error);
+    return error(failure);
   }
 
   @override
@@ -893,9 +895,9 @@ class _$TestsListState$ErrorImpl extends TestsListState$Error {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? loading,
     TResult? Function(List<TestEntity> tests)? loaded,
-    TResult? Function(Object? error)? error,
+    TResult? Function(Failure failure)? error,
   }) {
-    return error?.call(this.error);
+    return error?.call(failure);
   }
 
   @override
@@ -903,11 +905,11 @@ class _$TestsListState$ErrorImpl extends TestsListState$Error {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? loading,
     TResult Function(List<TestEntity> tests)? loaded,
-    TResult Function(Object? error)? error,
+    TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(this.error);
+      return error(failure);
     }
     return orElse();
   }
@@ -948,11 +950,11 @@ class _$TestsListState$ErrorImpl extends TestsListState$Error {
 }
 
 abstract class TestsListState$Error extends TestsListState {
-  const factory TestsListState$Error({required final Object? error}) =
+  const factory TestsListState$Error({required final Failure failure}) =
       _$TestsListState$ErrorImpl;
   const TestsListState$Error._() : super._();
 
-  Object? get error;
+  Failure get failure;
   @JsonKey(ignore: true)
   _$$TestsListState$ErrorImplCopyWith<_$TestsListState$ErrorImpl>
       get copyWith => throw _privateConstructorUsedError;

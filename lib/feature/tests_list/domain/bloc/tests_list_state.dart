@@ -15,7 +15,7 @@ sealed class TestsListState with _$TestsListState {
 
   /// Error state.
   const factory TestsListState.error({
-    required Object? error,
+    required Failure failure,
   }) = TestsListState$Error;
 
   /// Get tests list or empty list if not loaded.

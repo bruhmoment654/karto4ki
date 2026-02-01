@@ -173,7 +173,7 @@ mixin _$CardTestState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() data,
-    required TResult Function(Object? error) error,
+    required TResult Function(Failure failure) error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -181,7 +181,7 @@ mixin _$CardTestState {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? data,
-    TResult? Function(Object? error)? error,
+    TResult? Function(Failure failure)? error,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -189,7 +189,7 @@ mixin _$CardTestState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? data,
-    TResult Function(Object? error)? error,
+    TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -281,7 +281,7 @@ class _$CardTestState$InitialImpl extends CardTestState$Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() data,
-    required TResult Function(Object? error) error,
+    required TResult Function(Failure failure) error,
   }) {
     return initial();
   }
@@ -292,7 +292,7 @@ class _$CardTestState$InitialImpl extends CardTestState$Initial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? data,
-    TResult? Function(Object? error)? error,
+    TResult? Function(Failure failure)? error,
   }) {
     return initial?.call();
   }
@@ -303,7 +303,7 @@ class _$CardTestState$InitialImpl extends CardTestState$Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? data,
-    TResult Function(Object? error)? error,
+    TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -398,7 +398,7 @@ class _$CardTestState$LoadingImpl extends CardTestState$Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() data,
-    required TResult Function(Object? error) error,
+    required TResult Function(Failure failure) error,
   }) {
     return loading();
   }
@@ -409,7 +409,7 @@ class _$CardTestState$LoadingImpl extends CardTestState$Loading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? data,
-    TResult? Function(Object? error)? error,
+    TResult? Function(Failure failure)? error,
   }) {
     return loading?.call();
   }
@@ -420,7 +420,7 @@ class _$CardTestState$LoadingImpl extends CardTestState$Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? data,
-    TResult Function(Object? error)? error,
+    TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -513,7 +513,7 @@ class _$CardTestState$DataImpl extends CardTestState$Data {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() data,
-    required TResult Function(Object? error) error,
+    required TResult Function(Failure failure) error,
   }) {
     return data();
   }
@@ -524,7 +524,7 @@ class _$CardTestState$DataImpl extends CardTestState$Data {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? data,
-    TResult? Function(Object? error)? error,
+    TResult? Function(Failure failure)? error,
   }) {
     return data?.call();
   }
@@ -535,7 +535,7 @@ class _$CardTestState$DataImpl extends CardTestState$Data {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? data,
-    TResult Function(Object? error)? error,
+    TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
     if (data != null) {
@@ -593,7 +593,7 @@ abstract class _$$CardTestState$ErrorImplCopyWith<$Res> {
           $Res Function(_$CardTestState$ErrorImpl) then) =
       __$$CardTestState$ErrorImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({Object? error});
+  $Res call({Failure failure});
 }
 
 /// @nodoc
@@ -607,10 +607,13 @@ class __$$CardTestState$ErrorImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? error = freezed,
+    Object? failure = null,
   }) {
     return _then(_$CardTestState$ErrorImpl(
-      error: freezed == error ? _value.error : error,
+      failure: null == failure
+          ? _value.failure
+          : failure // ignore: cast_nullable_to_non_nullable
+              as Failure,
     ));
   }
 }
@@ -618,14 +621,14 @@ class __$$CardTestState$ErrorImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$CardTestState$ErrorImpl extends CardTestState$Error {
-  const _$CardTestState$ErrorImpl({required this.error}) : super._();
+  const _$CardTestState$ErrorImpl({required this.failure}) : super._();
 
   @override
-  final Object? error;
+  final Failure failure;
 
   @override
   String toString() {
-    return 'CardTestState.error(error: $error)';
+    return 'CardTestState.error(failure: $failure)';
   }
 
   @override
@@ -633,12 +636,11 @@ class _$CardTestState$ErrorImpl extends CardTestState$Error {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$CardTestState$ErrorImpl &&
-            const DeepCollectionEquality().equals(other.error, error));
+            (identical(other.failure, failure) || other.failure == failure));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(error));
+  int get hashCode => Object.hash(runtimeType, failure);
 
   @JsonKey(ignore: true)
   @override
@@ -653,9 +655,9 @@ class _$CardTestState$ErrorImpl extends CardTestState$Error {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() data,
-    required TResult Function(Object? error) error,
+    required TResult Function(Failure failure) error,
   }) {
-    return error(this.error);
+    return error(failure);
   }
 
   @override
@@ -664,9 +666,9 @@ class _$CardTestState$ErrorImpl extends CardTestState$Error {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? data,
-    TResult? Function(Object? error)? error,
+    TResult? Function(Failure failure)? error,
   }) {
-    return error?.call(this.error);
+    return error?.call(failure);
   }
 
   @override
@@ -675,11 +677,11 @@ class _$CardTestState$ErrorImpl extends CardTestState$Error {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? data,
-    TResult Function(Object? error)? error,
+    TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
     if (error != null) {
-      return error(this.error);
+      return error(failure);
     }
     return orElse();
   }
@@ -723,11 +725,11 @@ class _$CardTestState$ErrorImpl extends CardTestState$Error {
 }
 
 abstract class CardTestState$Error extends CardTestState {
-  const factory CardTestState$Error({required final Object? error}) =
+  const factory CardTestState$Error({required final Failure failure}) =
       _$CardTestState$ErrorImpl;
   const CardTestState$Error._() : super._();
 
-  Object? get error;
+  Failure get failure;
   @JsonKey(ignore: true)
   _$$CardTestState$ErrorImplCopyWith<_$CardTestState$ErrorImpl> get copyWith =>
       throw _privateConstructorUsedError;

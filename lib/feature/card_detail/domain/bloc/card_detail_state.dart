@@ -11,6 +11,6 @@ sealed class CardDetailState with _$CardDetailState {
 
   const factory CardDetailState.data() = CardDetailState$Data;
 
-  const factory CardDetailState.error({required Object? error}) =
+  const factory CardDetailState.error({required Failure failure}) =
       CardDetailState$Error;
 }

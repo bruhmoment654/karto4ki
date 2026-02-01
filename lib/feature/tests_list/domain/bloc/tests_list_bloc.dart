@@ -1,6 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:karto4ki/core/feature/core/failure.dart';
+import 'package:karto4ki/core/feature/core/failures/unknown_failure.dart';
 import 'package:karto4ki/feature/tests/domain/entity/test_entity.dart';
 import 'package:karto4ki/feature/tests_list/domain/repository/i_tests_list_repository.dart';
 
@@ -35,8 +37,10 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
     try {
       final tests = await _repository.getTests();
       emit(TestsListState.loaded(tests: tests));
-    } on Exception catch (e) {
-      emit(TestsListState.error(error: e));
+    } on Failure catch (f) {
+      emit(TestsListState.error(failure: f));
+    } on Object catch (e, st) {
+      emit(TestsListState.error(failure: UnknownFailure.fromException(e, st)));
     }
   }
 
@@ -52,8 +56,10 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
 
       final tests = await _repository.getTests();
       emit(TestsListState.loaded(tests: tests));
-    } on Exception catch (e) {
-      emit(TestsListState.error(error: e));
+    } on Failure catch (f) {
+      emit(TestsListState.error(failure: f));
+    } on Object catch (e, st) {
+      emit(TestsListState.error(failure: UnknownFailure.fromException(e, st)));
     }
   }
 
@@ -66,8 +72,10 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
 
       final tests = await _repository.getTests();
       emit(TestsListState.loaded(tests: tests));
-    } on Exception catch (e) {
-      emit(TestsListState.error(error: e));
+    } on Failure catch (f) {
+      emit(TestsListState.error(failure: f));
+    } on Object catch (e, st) {
+      emit(TestsListState.error(failure: UnknownFailure.fromException(e, st)));
     }
   }
 }
