@@ -100,6 +100,21 @@ class _TestDetailContent extends StatelessWidget {
                   ),
             ),
           ),
+        if (cards.isNotEmpty)
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+            child: SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: viewModel.onStartTestPressed,
+                icon: const Icon(Icons.play_arrow),
+                label: const Text('Начать тест'),
+                style: ElevatedButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                ),
+              ),
+            ),
+          ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Text(

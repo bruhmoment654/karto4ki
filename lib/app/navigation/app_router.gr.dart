@@ -154,3 +154,54 @@ class TestsListRoute extends PageRouteInfo<void> {
     },
   );
 }
+
+/// generated route for
+/// [TinderTestFlow]
+class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
+  TinderTestRoute({
+    required int testId,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TinderTestRoute.name,
+          args: TinderTestRouteArgs(
+            testId: testId,
+            key: key,
+          ),
+          rawPathParams: {'testId': testId},
+          initialChildren: children,
+        );
+
+  static const String name = 'TinderTestRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<TinderTestRouteArgs>(
+          orElse: () =>
+              TinderTestRouteArgs(testId: pathParams.getInt('testId')));
+      return WrappedRoute(
+          child: TinderTestFlow(
+        testId: args.testId,
+        key: args.key,
+      ));
+    },
+  );
+}
+
+class TinderTestRouteArgs {
+  const TinderTestRouteArgs({
+    required this.testId,
+    this.key,
+  });
+
+  final int testId;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'TinderTestRouteArgs{testId: $testId, key: $key}';
+  }
+}

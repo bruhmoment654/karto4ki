@@ -1,9 +1,12 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:karto4ki/app/navigation/app_router.dart';
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
 import 'package:karto4ki/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:karto4ki/feature/test_detail/presentation/test_detail_view.dart';
+import 'package:karto4ki/feature/tests/domain/entity/test_type.dart';
 
 /// Test detail screen.
 ///
@@ -223,6 +226,20 @@ class _TestDetailScreenState extends State<TestDetailScreen>
       ),
     );
   }
+
+  @override
+  void onStartTestPressed() {
+    final state = context.read<TestDetailBloc>().state;
+    if (state is! TestDetailState$Loaded) return;
+
+    final test = state.test;
+    final testId = int.parse(test.id);
+
+    switch (test.type) {
+      case TestType.tinder:
+        context.router.push(TinderTestRoute(testId: testId));
+    }
+  }
 }
 
 /// ViewModel interface for test detail screen.
@@ -240,4 +257,7 @@ abstract interface class ITestDetailViewModel {
 
   /// Called when edit test button is pressed.
   void onEditTestPressed();
+
+  /// Called when start test button is pressed.
+  void onStartTestPressed();
 }

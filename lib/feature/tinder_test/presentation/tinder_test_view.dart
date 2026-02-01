@@ -1,0 +1,649 @@
+import 'package:flutter/material.dart';
+
+import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
+import 'package:karto4ki/feature/test_execution/domain/entity/test_session.dart';
+import 'package:karto4ki/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
+import 'package:karto4ki/feature/tinder_test/presentation/tinder_test_screen.dart';
+
+/// UI layer for tinder test screen.
+///
+/// Responsible for visual representation of tinder-style test:
+/// swipeable cards, progress indicator, results screen.
+class TinderTestView extends StatelessWidget {
+  final ITinderTestViewModel viewModel;
+  final TinderTestState state;
+
+  const TinderTestView({
+    required this.viewModel,
+    required this.state,
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text('Тест'),
+        leading: IconButton(
+          icon: const Icon(Icons.close),
+          onPressed: viewModel.onBackPressed,
+        ),
+      ),
+      body: switch (state) {
+        TinderTestState$Initial() ||
+        TinderTestState$Loading() =>
+          const Center(child: CircularProgressIndicator()),
+        TinderTestState$Empty() => _EmptyContent(viewModel: viewModel),
+        TinderTestState$Error(:final message) => _ErrorContent(
+            message: message,
+            viewModel: viewModel,
+          ),
+        TinderTestState$InProgress(:final session, :final currentCard) =>
+          _TestContent(
+            session: session,
+            currentCard: currentCard,
+            viewModel: viewModel,
+          ),
+        TinderTestState$Completed(:final session) => _ResultsContent(
+            session: session,
+            viewModel: viewModel,
+          ),
+      },
+    );
+  }
+}
+
+class _EmptyContent extends StatelessWidget {
+  final ITinderTestViewModel viewModel;
+
+  const _EmptyContent({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.inbox_outlined,
+            size: 64,
+            color: Colors.grey,
+          ),
+          const SizedBox(height: 16),
+          const Text(
+            'В тесте нет карточек',
+            style: TextStyle(fontSize: 18),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Добавьте карточки, чтобы начать тест',
+            style: TextStyle(color: Colors.grey),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: viewModel.onBackPressed,
+            child: const Text('Назад'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ErrorContent extends StatelessWidget {
+  final String message;
+  final ITinderTestViewModel viewModel;
+
+  const _ErrorContent({
+    required this.message,
+    required this.viewModel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            Icons.error_outline,
+            size: 64,
+            color: Colors.red,
+          ),
+          const SizedBox(height: 16),
+          Text(
+            message,
+            textAlign: TextAlign.center,
+            style: const TextStyle(fontSize: 16),
+          ),
+          const SizedBox(height: 24),
+          ElevatedButton(
+            onPressed: viewModel.onBackPressed,
+            child: const Text('Назад'),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TestContent extends StatefulWidget {
+  final TestSession session;
+  final CardEntity currentCard;
+  final ITinderTestViewModel viewModel;
+
+  const _TestContent({
+    required this.session,
+    required this.currentCard,
+    required this.viewModel,
+  });
+
+  @override
+  State<_TestContent> createState() => _TestContentState();
+}
+
+class _TestContentState extends State<_TestContent> {
+  bool _showAnswer = false;
+
+  @override
+  void didUpdateWidget(_TestContent oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.currentCard.id != widget.currentCard.id) {
+      _showAnswer = false;
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        _ProgressIndicator(session: widget.session),
+        Expanded(
+          child: Padding(
+            padding: const EdgeInsets.all(16),
+            child: _SwipeableCard(
+              card: widget.currentCard,
+              showAnswer: _showAnswer,
+              onTap: () => setState(() => _showAnswer = !_showAnswer),
+              onSwipeLeft: () =>
+                  widget.viewModel.onSwipeLeft(widget.currentCard),
+              onSwipeRight: () =>
+                  widget.viewModel.onSwipeRight(widget.currentCard),
+            ),
+          ),
+        ),
+        _SwipeHints(),
+        const SizedBox(height: 16),
+      ],
+    );
+  }
+}
+
+class _ProgressIndicator extends StatelessWidget {
+  final TestSession session;
+
+  const _ProgressIndicator({required this.session});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Карточка ${session.currentIndex + 1} из ${session.cards.length}',
+                style: const TextStyle(fontSize: 14, color: Colors.grey),
+              ),
+              Row(
+                children: [
+                  const Icon(Icons.check, color: Colors.green, size: 16),
+                  Text(' ${session.correctCount}'),
+                  const SizedBox(width: 8),
+                  const Icon(Icons.close, color: Colors.red, size: 16),
+                  Text(' ${session.incorrectCount}'),
+                ],
+              ),
+            ],
+          ),
+          const SizedBox(height: 8),
+          LinearProgressIndicator(
+            value: session.progress,
+            backgroundColor: Colors.grey[300],
+            valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SwipeableCard extends StatefulWidget {
+  final CardEntity card;
+  final bool showAnswer;
+  final VoidCallback onTap;
+  final VoidCallback onSwipeLeft;
+  final VoidCallback onSwipeRight;
+
+  const _SwipeableCard({
+    required this.card,
+    required this.showAnswer,
+    required this.onTap,
+    required this.onSwipeLeft,
+    required this.onSwipeRight,
+  });
+
+  @override
+  State<_SwipeableCard> createState() => _SwipeableCardState();
+}
+
+class _SwipeableCardState extends State<_SwipeableCard>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<Offset> _animation;
+  Offset _dragOffset = Offset.zero;
+  bool _isDragging = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 300),
+    );
+    _animation = Tween<Offset>(
+      begin: Offset.zero,
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    ));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void _onPanStart(DragStartDetails details) {
+    _isDragging = true;
+    _controller.stop();
+  }
+
+  void _onPanUpdate(DragUpdateDetails details) {
+    setState(() {
+      _dragOffset += details.delta;
+    });
+  }
+
+  void _onPanEnd(DragEndDetails details) {
+    _isDragging = false;
+    final screenWidth = MediaQuery.of(context).size.width;
+    final threshold = screenWidth * 0.3;
+
+    if (_dragOffset.dx > threshold) {
+      _animateOut(const Offset(1.5, 0), widget.onSwipeRight);
+    } else if (_dragOffset.dx < -threshold) {
+      _animateOut(const Offset(-1.5, 0), widget.onSwipeLeft);
+    } else {
+      _animateBack();
+    }
+  }
+
+  void _animateOut(Offset target, VoidCallback callback) {
+    _animation = Tween<Offset>(
+      begin: _dragOffset / MediaQuery.of(context).size.width,
+      end: target,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    ));
+    _controller.forward(from: 0).then((_) {
+      callback();
+      setState(() {
+        _dragOffset = Offset.zero;
+      });
+      _controller.reset();
+    });
+  }
+
+  void _animateBack() {
+    _animation = Tween<Offset>(
+      begin: _dragOffset / MediaQuery.of(context).size.width,
+      end: Offset.zero,
+    ).animate(CurvedAnimation(
+      parent: _controller,
+      curve: Curves.easeOut,
+    ));
+    _controller.forward(from: 0).then((_) {
+      setState(() {
+        _dragOffset = Offset.zero;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final offset = _isDragging
+        ? _dragOffset
+        : Offset(
+            _animation.value.dx * screenWidth,
+            _animation.value.dy * screenWidth,
+          );
+    final rotation = offset.dx / screenWidth * 0.3;
+
+    return AnimatedBuilder(
+      animation: _controller,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: offset,
+          child: Transform.rotate(
+            angle: rotation,
+            child: child,
+          ),
+        );
+      },
+      child: GestureDetector(
+        onTap: widget.onTap,
+        onPanStart: _onPanStart,
+        onPanUpdate: _onPanUpdate,
+        onPanEnd: _onPanEnd,
+        child: _CardContent(
+          card: widget.card,
+          showAnswer: widget.showAnswer,
+          dragOffset: _dragOffset,
+        ),
+      ),
+    );
+  }
+}
+
+class _CardContent extends StatelessWidget {
+  final CardEntity card;
+  final bool showAnswer;
+  final Offset dragOffset;
+
+  const _CardContent({
+    required this.card,
+    required this.showAnswer,
+    required this.dragOffset,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final leftOpacity = (dragOffset.dx.abs() / 100).clamp(0.0, 1.0);
+    final showLeft = dragOffset.dx < 0;
+    final showRight = dragOffset.dx > 0;
+
+    return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
+        padding: const EdgeInsets.all(24),
+        child: Stack(
+          children: [
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    card.front,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  if (showAnswer) ...[
+                    const SizedBox(height: 24),
+                    const Divider(),
+                    const SizedBox(height: 24),
+                    Text(
+                      card.back,
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.grey[700],
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                  ] else ...[
+                    const SizedBox(height: 16),
+                    const Text(
+                      'Нажмите, чтобы увидеть ответ',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: Colors.grey,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+            if (showLeft)
+              Positioned(
+                top: 16,
+                left: 16,
+                child: Opacity(
+                  opacity: leftOpacity,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red, width: 3),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Text(
+                      'НЕ ЗНАЮ',
+                      style: TextStyle(
+                        color: Colors.red,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            if (showRight)
+              Positioned(
+                top: 16,
+                right: 16,
+                child: Opacity(
+                  opacity: leftOpacity,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.green, width: 3),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: const Text(
+                      'ЗНАЮ',
+                      style: TextStyle(
+                        color: Colors.green,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SwipeHints extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.arrow_back, color: Colors.red),
+              const SizedBox(width: 8),
+              Text(
+                'Не знаю',
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+            ],
+          ),
+          Row(
+            children: [
+              Text(
+                'Знаю',
+                style: TextStyle(color: Colors.grey[600]),
+              ),
+              const SizedBox(width: 8),
+              const Icon(Icons.arrow_forward, color: Colors.green),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ResultsContent extends StatelessWidget {
+  final TestSession session;
+  final ITinderTestViewModel viewModel;
+
+  const _ResultsContent({
+    required this.session,
+    required this.viewModel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final total = session.cards.length;
+    final correct = session.correctCount;
+    final percentage = total > 0 ? (correct / total * 100).round() : 0;
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(
+              Icons.emoji_events,
+              size: 80,
+              color: Colors.amber,
+            ),
+            const SizedBox(height: 24),
+            const Text(
+              'Тест завершён!',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+            const SizedBox(height: 32),
+            _ResultCard(
+              icon: Icons.check_circle,
+              color: Colors.green,
+              label: 'Правильно',
+              value: correct.toString(),
+            ),
+            const SizedBox(height: 16),
+            _ResultCard(
+              icon: Icons.cancel,
+              color: Colors.red,
+              label: 'Неправильно',
+              value: session.incorrectCount.toString(),
+            ),
+            const SizedBox(height: 16),
+            _ResultCard(
+              icon: Icons.percent,
+              color: Colors.blue,
+              label: 'Результат',
+              value: '$percentage%',
+            ),
+            const SizedBox(height: 48),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                OutlinedButton.icon(
+                  onPressed: viewModel.onRestartPressed,
+                  icon: const Icon(Icons.refresh),
+                  label: const Text('Повторить'),
+                ),
+                const SizedBox(width: 16),
+                ElevatedButton.icon(
+                  onPressed: viewModel.onBackPressed,
+                  icon: const Icon(Icons.done),
+                  label: const Text('Готово'),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ResultCard extends StatelessWidget {
+  final IconData icon;
+  final Color color;
+  final String label;
+  final String value;
+
+  const _ResultCard({
+    required this.icon,
+    required this.color,
+    required this.label,
+    required this.value,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, color: color, size: 32),
+            const SizedBox(width: 16),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  label,
+                  style: const TextStyle(
+                    fontSize: 14,
+                    color: Colors.grey,
+                  ),
+                ),
+                Text(
+                  value,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
