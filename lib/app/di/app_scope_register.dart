@@ -2,6 +2,7 @@ import 'package:karto4ki/app/di/app_scope.dart';
 import 'package:karto4ki/feature/card_detail/data/repository/card_repository.dart';
 import 'package:karto4ki/feature/main/data/repository/main_repository.dart';
 import 'package:karto4ki/persistence/card_test/card_test_storage.dart';
+import 'package:karto4ki/persistence/database/app_database.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Application dependency registrar.
@@ -10,12 +11,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 class AppScopeRegister {
   Future<IAppScope> createScope() async {
     final prefs = await SharedPreferences.getInstance();
+    final database = AppDatabase();
 
     final cardTestStorage = CardTestStorage(prefs);
     final mainRepository = MainRepository(cardTestStorage);
     const cardRepository = CardRepository();
 
     return AppScope(
+      database: database,
       mainRepository: mainRepository,
       cardRepository: cardRepository,
     );

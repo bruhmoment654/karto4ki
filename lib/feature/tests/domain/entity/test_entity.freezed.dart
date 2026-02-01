@@ -22,9 +22,6 @@ mixin _$TestEntity {
   /// Test title.
   String get title => throw _privateConstructorUsedError;
 
-  /// Test description.
-  String? get description => throw _privateConstructorUsedError;
-
   /// Test type.
   TestType get type => throw _privateConstructorUsedError;
 
@@ -33,6 +30,9 @@ mixin _$TestEntity {
 
   /// Update date.
   DateTime get updatedAt => throw _privateConstructorUsedError;
+
+  /// Test description.
+  String? get description => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TestEntityCopyWith<TestEntity> get copyWith =>
@@ -48,10 +48,10 @@ abstract class $TestEntityCopyWith<$Res> {
   $Res call(
       {String id,
       String title,
-      String? description,
       TestType type,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      String? description});
 }
 
 /// @nodoc
@@ -69,10 +69,10 @@ class _$TestEntityCopyWithImpl<$Res, $Val extends TestEntity>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? description = freezed,
     Object? type = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -83,10 +83,6 @@ class _$TestEntityCopyWithImpl<$Res, $Val extends TestEntity>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -99,6 +95,10 @@ class _$TestEntityCopyWithImpl<$Res, $Val extends TestEntity>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ) as $Val);
   }
 }
@@ -114,10 +114,10 @@ abstract class _$$TestEntityImplCopyWith<$Res>
   $Res call(
       {String id,
       String title,
-      String? description,
       TestType type,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      String? description});
 }
 
 /// @nodoc
@@ -133,10 +133,10 @@ class __$$TestEntityImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? title = null,
-    Object? description = freezed,
     Object? type = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? description = freezed,
   }) {
     return _then(_$TestEntityImpl(
       id: null == id
@@ -147,10 +147,6 @@ class __$$TestEntityImplCopyWithImpl<$Res>
           ? _value.title
           : title // ignore: cast_nullable_to_non_nullable
               as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
       type: null == type
           ? _value.type
           : type // ignore: cast_nullable_to_non_nullable
@@ -163,6 +159,10 @@ class __$$TestEntityImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      description: freezed == description
+          ? _value.description
+          : description // ignore: cast_nullable_to_non_nullable
+              as String?,
     ));
   }
 }
@@ -173,10 +173,10 @@ class _$TestEntityImpl implements _TestEntity {
   const _$TestEntityImpl(
       {required this.id,
       required this.title,
-      this.description,
       required this.type,
       required this.createdAt,
-      required this.updatedAt});
+      required this.updatedAt,
+      this.description});
 
   /// Unique test identifier.
   @override
@@ -185,10 +185,6 @@ class _$TestEntityImpl implements _TestEntity {
   /// Test title.
   @override
   final String title;
-
-  /// Test description.
-  @override
-  final String? description;
 
   /// Test type.
   @override
@@ -202,9 +198,13 @@ class _$TestEntityImpl implements _TestEntity {
   @override
   final DateTime updatedAt;
 
+  /// Test description.
+  @override
+  final String? description;
+
   @override
   String toString() {
-    return 'TestEntity(id: $id, title: $title, description: $description, type: $type, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'TestEntity(id: $id, title: $title, type: $type, createdAt: $createdAt, updatedAt: $updatedAt, description: $description)';
   }
 
   @override
@@ -214,18 +214,18 @@ class _$TestEntityImpl implements _TestEntity {
             other is _$TestEntityImpl &&
             (identical(other.id, id) || other.id == id) &&
             (identical(other.title, title) || other.title == title) &&
-            (identical(other.description, description) ||
-                other.description == description) &&
             (identical(other.type, type) || other.type == type) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.description, description) ||
+                other.description == description));
   }
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, title, description, type, createdAt, updatedAt);
+      runtimeType, id, title, type, createdAt, updatedAt, description);
 
   @JsonKey(ignore: true)
   @override
@@ -238,10 +238,10 @@ abstract class _TestEntity implements TestEntity {
   const factory _TestEntity(
       {required final String id,
       required final String title,
-      final String? description,
       required final TestType type,
       required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$TestEntityImpl;
+      required final DateTime updatedAt,
+      final String? description}) = _$TestEntityImpl;
 
   @override
 
@@ -251,10 +251,6 @@ abstract class _TestEntity implements TestEntity {
 
   /// Test title.
   String get title;
-  @override
-
-  /// Test description.
-  String? get description;
   @override
 
   /// Test type.
@@ -267,6 +263,10 @@ abstract class _TestEntity implements TestEntity {
 
   /// Update date.
   DateTime get updatedAt;
+  @override
+
+  /// Test description.
+  String? get description;
   @override
   @JsonKey(ignore: true)
   _$$TestEntityImplCopyWith<_$TestEntityImpl> get copyWith =>
