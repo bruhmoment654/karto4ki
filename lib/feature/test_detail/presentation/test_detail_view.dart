@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
 import 'package:karto4ki/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:karto4ki/feature/test_detail/presentation/test_detail_screen.dart';
-import 'package:karto4ki/feature/tests/domain/entity/test_entity.dart';
+import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 
 /// UI layer for test detail screen.
 ///

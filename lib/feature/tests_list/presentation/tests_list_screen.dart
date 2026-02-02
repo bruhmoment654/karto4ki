@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:karto4ki/app/navigation/app_router.dart';
-import 'package:karto4ki/feature/tests/domain/entity/test_entity.dart';
+import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:karto4ki/feature/tests_list/domain/bloc/tests_list_bloc.dart';
 import 'package:karto4ki/feature/tests_list/presentation/tests_list_view.dart';
 

@@ -6,7 +6,7 @@ import 'package:karto4ki/core/feature/core/failures/not_found_failure.dart';
 import 'package:karto4ki/core/feature/core/failures/unknown_failure.dart';
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
 import 'package:karto4ki/feature/test_detail/domain/repository/i_test_detail_repository.dart';
-import 'package:karto4ki/feature/tests/domain/entity/test_entity.dart';
+import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 
 part 'test_detail_event.dart';
 part 'test_detail_state.dart';

@@ -2,14 +2,14 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
 import 'package:karto4ki/feature/card_detail/data/database/cards_database.dart';
-import 'package:karto4ki/feature/tests/data/database/tests_database.dart';
+import 'package:karto4ki/feature/tests_list/data/database/tests_database.dart';
 
 part 'app_database.g.dart';
 
 /// Main application database using Drift.
 @DriftDatabase(
   include: {
-    'package:karto4ki/feature/tests/data/database/tests.drift',
+    'package:karto4ki/feature/tests_list/data/database/tests.drift',
     'package:karto4ki/feature/card_detail/data/database/cards.drift',
   },
   daos: [TestsDatabase, CardsDatabase],

@@ -1,4 +1,4 @@
-import 'package:karto4ki/feature/tests/domain/entity/test_type.dart';
+import 'package:karto4ki/feature/tests_list/domain/entity/test_type.dart';
 
 /// Converter for [TestType] enum to/from String.
 abstract final class TestTypeConverter {

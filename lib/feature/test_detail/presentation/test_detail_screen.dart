@@ -6,7 +6,7 @@ import 'package:karto4ki/app/navigation/app_router.dart';
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
 import 'package:karto4ki/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:karto4ki/feature/test_detail/presentation/test_detail_view.dart';
-import 'package:karto4ki/feature/tests/domain/entity/test_type.dart';
+import 'package:karto4ki/feature/tests_list/domain/entity/test_type.dart';
 
 /// Test detail screen.
 ///

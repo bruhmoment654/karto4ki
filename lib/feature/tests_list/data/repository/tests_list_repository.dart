@@ -1,6 +1,6 @@
-import 'package:karto4ki/feature/tests/data/converters/test_converter.dart';
-import 'package:karto4ki/feature/tests/data/database/tests_database.dart';
-import 'package:karto4ki/feature/tests/domain/entity/test_entity.dart';
+import 'package:karto4ki/feature/tests_list/data/converters/test_converter.dart';
+import 'package:karto4ki/feature/tests_list/data/database/tests_database.dart';
+import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:karto4ki/feature/tests_list/domain/repository/i_tests_list_repository.dart';
 
 /// Repository implementation for tests list.

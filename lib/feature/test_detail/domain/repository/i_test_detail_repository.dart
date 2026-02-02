@@ -1,5 +1,5 @@
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
-import 'package:karto4ki/feature/tests/domain/entity/test_entity.dart';
+import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 
 /// Repository interface for test detail screen.
 abstract interface class ITestDetailRepository {

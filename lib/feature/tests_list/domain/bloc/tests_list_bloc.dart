@@ -3,7 +3,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:karto4ki/core/feature/core/failure.dart';
 import 'package:karto4ki/core/feature/core/failures/unknown_failure.dart';
-import 'package:karto4ki/feature/tests/domain/entity/test_entity.dart';
+import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:karto4ki/feature/tests_list/domain/repository/i_tests_list_repository.dart';
 
 part 'tests_list_event.dart';

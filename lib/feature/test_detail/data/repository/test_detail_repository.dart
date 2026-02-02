@@ -3,9 +3,9 @@ import 'package:karto4ki/feature/card_detail/data/converters/card_converter.dart
 import 'package:karto4ki/feature/card_detail/data/database/cards_database.dart';
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
 import 'package:karto4ki/feature/test_detail/domain/repository/i_test_detail_repository.dart';
-import 'package:karto4ki/feature/tests/data/converters/test_converter.dart';
-import 'package:karto4ki/feature/tests/data/database/tests_database.dart';
-import 'package:karto4ki/feature/tests/domain/entity/test_entity.dart';
+import 'package:karto4ki/feature/tests_list/data/converters/test_converter.dart';
+import 'package:karto4ki/feature/tests_list/data/database/tests_database.dart';
+import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 
 /// Repository implementation for test detail screen.
 class TestDetailRepository implements ITestDetailRepository {

@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:karto4ki/app/navigation/app_router.dart';
 import 'package:karto4ki/l10n/app_localizations.dart';
+import 'package:karto4ki/uikit/theme/app_theme.dart';
 
 /// {@template app.class}
 /// Application.
@@ -32,11 +32,7 @@ class _AppState extends State<App> {
         routerDelegate: _appRouter.delegate(
           navigatorObservers: () => [AutoRouteObserver()],
         ),
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
-          textTheme: GoogleFonts.robotoTextTheme(),
-        ),
+        theme: AppTheme.light,
         locale: _locale,
         localizationsDelegates: _localizationsDelegates,
         supportedLocales: const [_locale],

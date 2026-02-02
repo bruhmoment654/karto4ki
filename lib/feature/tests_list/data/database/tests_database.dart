@@ -6,7 +6,7 @@ part 'tests_database.g.dart';
 
 /// Data Access Object for Tests table.
 @DriftAccessor(
-  include: {'package:karto4ki/feature/tests/data/database/tests.drift'},
+  include: {'package:karto4ki/feature/tests_list/data/database/tests.drift'},
 )
 class TestsDatabase extends DatabaseAccessor<AppDatabase>
     with _$TestsDatabaseMixin {
