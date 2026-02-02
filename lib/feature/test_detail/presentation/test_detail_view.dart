@@ -4,6 +4,7 @@ import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
 import 'package:karto4ki/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:karto4ki/feature/test_detail/presentation/test_detail_screen.dart';
 import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:karto4ki/l10n/app_localizations_x.dart';
 
 /// UI layer for test detail screen.
 ///
@@ -26,7 +27,7 @@ class TestDetailView extends StatelessWidget {
         title: Text(
           switch (state) {
             TestDetailState$Loaded(:final test) => test.title,
-            _ => 'Загрузка...',
+            _ => context.l10n.testDetailLoadingTitle,
           },
         ),
         actions: [
@@ -34,7 +35,7 @@ class TestDetailView extends StatelessWidget {
             IconButton(
               icon: const Icon(Icons.edit),
               onPressed: viewModel.onEditTestPressed,
-              tooltip: 'Редактировать тест',
+              tooltip: context.l10n.testDetailEditTooltip,
             ),
         ],
       ),
@@ -47,13 +48,15 @@ class TestDetailView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Ошибка: ${failure.message ?? "Неизвестная ошибка"}',
+                  context.l10n.testDetailErrorMessage(
+                    failure.message ?? context.l10n.testDetailUnknownError,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {},
-                  child: const Text('Повторить'),
+                  child: Text(context.l10n.testDetailRetryButton),
                 ),
               ],
             ),
@@ -108,7 +111,7 @@ class _TestDetailContent extends StatelessWidget {
               child: ElevatedButton.icon(
                 onPressed: viewModel.onStartTestPressed,
                 icon: const Icon(Icons.play_arrow),
-                label: const Text('Начать тест'),
+                label: Text(context.l10n.testDetailStartButton),
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                 ),
@@ -118,15 +121,15 @@ class _TestDetailContent extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Text(
-            'Карточки (${cards.length})',
+            context.l10n.testDetailCardsTitle(cards.length),
             style: Theme.of(context).textTheme.titleMedium,
           ),
         ),
         Expanded(
           child: cards.isEmpty
-              ? const Center(
+              ? Center(
                   child: Text(
-                    'Нет карточек.\nНажмите + чтобы добавить первую.',
+                    context.l10n.testDetailEmptyCardsMessage,
                     textAlign: TextAlign.center,
                   ),
                 )
@@ -194,16 +197,16 @@ class _CardListItem extends StatelessWidget {
         return showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Удалить карточку?'),
-            content: const Text('Вы уверены, что хотите удалить эту карточку?'),
+            title: Text(context.l10n.testDetailDeleteCardTitle),
+            content: Text(context.l10n.testDetailDeleteCardMessage),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('Отмена'),
+                child: Text(context.l10n.testDetailDeleteCardCancel),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: const Text('Удалить'),
+                child: Text(context.l10n.testDetailDeleteCardConfirm),
               ),
             ],
           ),

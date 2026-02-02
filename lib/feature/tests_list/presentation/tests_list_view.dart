@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:karto4ki/feature/tests_list/domain/bloc/tests_list_bloc.dart';
 import 'package:karto4ki/feature/tests_list/presentation/tests_list_screen.dart';
+import 'package:karto4ki/l10n/app_localizations_x.dart';
 
 /// UI layer for tests list screen.
 ///
@@ -22,7 +23,7 @@ class TestsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Тесты'),
+        title: Text(context.l10n.testsListAppBarTitle),
       ),
       body: switch (state) {
         TestsListState$Loading() => const Center(
@@ -33,21 +34,23 @@ class TestsListView extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Text(
-                  'Ошибка: ${failure.message ?? "Неизвестная ошибка"}',
+                  context.l10n.testsListErrorMessage(
+                    failure.message ?? context.l10n.testsListUnknownError,
+                  ),
                   textAlign: TextAlign.center,
                 ),
                 const SizedBox(height: 16),
                 ElevatedButton(
                   onPressed: () {},
-                  child: const Text('Повторить'),
+                  child: Text(context.l10n.testsListRetryButton),
                 ),
               ],
             ),
           ),
         TestsListState$Loaded(:final tests) => tests.isEmpty
-            ? const Center(
+            ? Center(
                 child: Text(
-                  'Нет тестов.\nНажмите + чтобы создать первый тест.',
+                  context.l10n.testsListEmptyMessage,
                   textAlign: TextAlign.center,
                 ),
               )
@@ -118,16 +121,18 @@ class _TestListItem extends StatelessWidget {
         return showDialog<bool>(
           context: context,
           builder: (context) => AlertDialog(
-            title: const Text('Удалить тест?'),
-            content: Text('Вы уверены, что хотите удалить "${test.title}"?'),
+            title: Text(context.l10n.testsListDeleteDialogTitle),
+            content: Text(
+              context.l10n.testsListDeleteDialogMessage(test.title),
+            ),
             actions: [
               TextButton(
                 onPressed: () => Navigator.of(context).pop(false),
-                child: const Text('Отмена'),
+                child: Text(context.l10n.testsListDeleteDialogCancel),
               ),
               TextButton(
                 onPressed: () => Navigator.of(context).pop(true),
-                child: const Text('Удалить'),
+                child: Text(context.l10n.testsListDeleteDialogConfirm),
               ),
             ],
           ),

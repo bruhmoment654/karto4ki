@@ -463,5 +463,104 @@
   "agreementNotificationsInfoTitle": "Уведомления о новинках",
   "agreementNotificationsInfoDescription": "Вы будете получать уведомления о новинках, акциях и персональных предложениях. В любой момент можно отказаться в настройках устройства или приложения",
   "agreementTrackingInfoTitle": "Отслеживание активности",
-  "agreementTrackingInfoDescription": "Мы собираем данные о том, как вы используете приложение, чтобы улучшать сервис. Если вы укажете дополнительные данные (имя, возраст, пол), они также будут обработаны как персональные. Вы можете отозвать согласие в настройках приложения"
+  "agreementTrackingInfoDescription": "Мы собираем данные о том, как вы используете приложение, чтобы улучшать сервис. Если вы укажете дополнительные данные (имя, возраст, пол), они также будут обработаны как персональные. Вы можете отозвать согласие в настройках приложения",
+  "@segmentTinderTest": {
+    "---------": "---------",
+    "description": "Тиндер-тест"
+  },
+  "tinderTestAppBarTitle": "Тест",
+  "tinderTestEmptyTitle": "В тесте нет карточек",
+  "tinderTestEmptySubtitle": "Добавьте карточки, чтобы начать тест",
+  "tinderTestBackButton": "Назад",
+  "tinderTestProgressLabel": "Карточка {current} из {total}",
+  "@tinderTestProgressLabel": {
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "1"
+      },
+      "total": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "tinderTestTapToShowAnswer": "Нажмите, чтобы увидеть ответ",
+  "tinderTestUnknownBadge": "НЕ ЗНАЮ",
+  "tinderTestKnownBadge": "ЗНАЮ",
+  "tinderTestSwipeUnknownHint": "Не знаю",
+  "tinderTestSwipeKnownHint": "Знаю",
+  "tinderTestResultsTitle": "Тест завершён!",
+  "tinderTestResultsCorrectLabel": "Правильно",
+  "tinderTestResultsIncorrectLabel": "Неправильно",
+  "tinderTestResultsPercentageLabel": "Результат",
+  "tinderTestResultsRestartButton": "Повторить",
+  "tinderTestResultsDoneButton": "Готово",
+  "@segmentTestsList": {
+    "---------": "---------",
+    "description": "Список тестов"
+  },
+  "testsListAppBarTitle": "Тесты",
+  "testsListErrorMessage": "Ошибка: {message}",
+  "@testsListErrorMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Неизвестная ошибка"
+      }
+    }
+  },
+  "testsListUnknownError": "Неизвестная ошибка",
+  "testsListRetryButton": "Повторить",
+  "testsListEmptyMessage": "Нет тестов.\nНажмите + чтобы создать первый тест.",
+  "testsListDeleteDialogTitle": "Удалить тест?",
+  "testsListDeleteDialogMessage": "Вы уверены, что хотите удалить \"{title}\"?",
+  "@testsListDeleteDialogMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Мой тест"
+      }
+    }
+  },
+  "testsListDeleteDialogCancel": "Отмена",
+  "testsListDeleteDialogConfirm": "Удалить",
+  "@segmentTestDetail": {
+    "---------": "---------",
+    "description": "Детали теста"
+  },
+  "testDetailLoadingTitle": "Загрузка...",
+  "testDetailEditTooltip": "Редактировать тест",
+  "testDetailErrorMessage": "Ошибка: {message}",
+  "@testDetailErrorMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Неизвестная ошибка"
+      }
+    }
+  },
+  "testDetailUnknownError": "Неизвестная ошибка",
+  "testDetailRetryButton": "Повторить",
+  "testDetailStartButton": "Начать тест",
+  "testDetailCardsTitle": "Карточки ({count})",
+  "@testDetailCardsTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "12"
+      }
+    }
+  },
+  "testDetailEmptyCardsMessage": "Нет карточек.\nНажмите + чтобы добавить первую.",
+  "testDetailDeleteCardTitle": "Удалить карточку?",
+  "testDetailDeleteCardMessage": "Вы уверены, что хотите удалить эту карточку?",
+  "testDetailDeleteCardCancel": "Отмена",
+  "testDetailDeleteCardConfirm": "Удалить",
+  "@segmentMain": {
+    "---------": "---------",
+    "description": "Главный экран"
+  },
+  "mainQuestionCardFront": "Вопрос",
+  "mainQuestionCardBack": "Ответ"
 }

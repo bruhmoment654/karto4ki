@@ -18,7 +18,10 @@ class MainView extends StatelessWidget {
         child: SizedBox(
           width: double.infinity,
           height: 500,
-          child: QuestionCard.fromText(frontText: 'Вопрос', backText: 'Ответ'),
+          child: QuestionCard.fromText(
+            frontText: context.l10n.mainQuestionCardFront,
+            backText: context.l10n.mainQuestionCardBack,
+          ),
         ),
       ),
     );

@@ -181,6 +181,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Введите код из СМС'**
   String get authEnterCode;
+
+  /// No description provided for @tinderTestAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Test'**
+  String get tinderTestAppBarTitle;
+
+  /// No description provided for @tinderTestEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No cards in this test'**
+  String get tinderTestEmptyTitle;
+
+  /// No description provided for @tinderTestEmptySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Add cards to start the test'**
+  String get tinderTestEmptySubtitle;
+
+  /// No description provided for @tinderTestBackButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Back'**
+  String get tinderTestBackButton;
+
+  /// No description provided for @tinderTestProgressLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Card {current} of {total}'**
+  String tinderTestProgressLabel(int current, int total);
+
+  /// No description provided for @tinderTestTapToShowAnswer.
+  ///
+  /// In en, this message translates to:
+  /// **'Tap to show the answer'**
+  String get tinderTestTapToShowAnswer;
+
+  /// No description provided for @tinderTestUnknownBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'DON'T KNOW'**
+  String get tinderTestUnknownBadge;
+
+  /// No description provided for @tinderTestKnownBadge.
+  ///
+  /// In en, this message translates to:
+  /// **'KNOW'**
+  String get tinderTestKnownBadge;
+
+  /// No description provided for @tinderTestSwipeUnknownHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Don't know'**
+  String get tinderTestSwipeUnknownHint;
+
+  /// No description provided for @tinderTestSwipeKnownHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Know'**
+  String get tinderTestSwipeKnownHint;
+
+  /// No description provided for @tinderTestResultsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Test completed!'**
+  String get tinderTestResultsTitle;
+
+  /// No description provided for @tinderTestResultsCorrectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct'**
+  String get tinderTestResultsCorrectLabel;
+
+  /// No description provided for @tinderTestResultsIncorrectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect'**
+  String get tinderTestResultsIncorrectLabel;
+
+  /// No description provided for @tinderTestResultsPercentageLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Result'**
+  String get tinderTestResultsPercentageLabel;
+
+  /// No description provided for @tinderTestResultsRestartButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Repeat'**
+  String get tinderTestResultsRestartButton;
+
+  /// No description provided for @tinderTestResultsDoneButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Done'**
+  String get tinderTestResultsDoneButton;
+
+  /// No description provided for @testsListAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Tests'**
+  String get testsListAppBarTitle;
+
+  /// No description provided for @testsListErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {message}'**
+  String testsListErrorMessage(String message);
+
+  /// No description provided for @testsListUnknownError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error'**
+  String get testsListUnknownError;
+
+  /// No description provided for @testsListRetryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get testsListRetryButton;
+
+  /// No description provided for @testsListEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No tests.\nTap + to create the first test.'**
+  String get testsListEmptyMessage;
+
+  /// No description provided for @testsListDeleteDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete test?'**
+  String get testsListDeleteDialogTitle;
+
+  /// No description provided for @testsListDeleteDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete "{title}"?'**
+  String testsListDeleteDialogMessage(String title);
+
+  /// No description provided for @testsListDeleteDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get testsListDeleteDialogCancel;
+
+  /// No description provided for @testsListDeleteDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get testsListDeleteDialogConfirm;
+
+  /// No description provided for @testDetailLoadingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get testDetailLoadingTitle;
+
+  /// No description provided for @testDetailEditTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit test'**
+  String get testDetailEditTooltip;
+
+  /// No description provided for @testDetailErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {message}'**
+  String testDetailErrorMessage(String message);
+
+  /// No description provided for @testDetailUnknownError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error'**
+  String get testDetailUnknownError;
+
+  /// No description provided for @testDetailRetryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get testDetailRetryButton;
+
+  /// No description provided for @testDetailStartButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Start test'**
+  String get testDetailStartButton;
+
+  /// No description provided for @testDetailCardsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Cards ({count})'**
+  String testDetailCardsTitle(int count);
+
+  /// No description provided for @testDetailEmptyCardsMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No cards.\nTap + to add the first one.'**
+  String get testDetailEmptyCardsMessage;
+
+  /// No description provided for @testDetailDeleteCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete card?'**
+  String get testDetailDeleteCardTitle;
+
+  /// No description provided for @testDetailDeleteCardMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete this card?'**
+  String get testDetailDeleteCardMessage;
+
+  /// No description provided for @testDetailDeleteCardCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get testDetailDeleteCardCancel;
+
+  /// No description provided for @testDetailDeleteCardConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get testDetailDeleteCardConfirm;
+
+  /// No description provided for @mainQuestionCardFront.
+  ///
+  /// In en, this message translates to:
+  /// **'Question'**
+  String get mainQuestionCardFront;
+
+  /// No description provided for @mainQuestionCardBack.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer'**
+  String get mainQuestionCardBack;
 }
 
 class _AppLocalizationsDelegate

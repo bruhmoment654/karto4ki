@@ -4,6 +4,8 @@ import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
 import 'package:karto4ki/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
 import 'package:karto4ki/feature/tinder_test/domain/entity/test_session.dart';
 import 'package:karto4ki/feature/tinder_test/presentation/tinder_test_screen.dart';
+import 'package:karto4ki/l10n/app_localizations_x.dart';
+import 'package:karto4ki/uikit/question_card/swipable_card_wrapper.dart';
 
 /// UI layer for tinder test screen.
 ///
@@ -23,7 +25,7 @@ class TinderTestView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Тест'),
+        title: Text(context.l10n.tinderTestAppBarTitle),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: viewModel.onBackPressed,
@@ -69,19 +71,19 @@ class _EmptyContent extends StatelessWidget {
             color: Colors.grey,
           ),
           const SizedBox(height: 16),
-          const Text(
-            'В тесте нет карточек',
-            style: TextStyle(fontSize: 18),
+          Text(
+            context.l10n.tinderTestEmptyTitle,
+            style: const TextStyle(fontSize: 18),
           ),
           const SizedBox(height: 8),
-          const Text(
-            'Добавьте карточки, чтобы начать тест',
-            style: TextStyle(color: Colors.grey),
+          Text(
+            context.l10n.tinderTestEmptySubtitle,
+            style: const TextStyle(color: Colors.grey),
           ),
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: viewModel.onBackPressed,
-            child: const Text('Назад'),
+            child: Text(context.l10n.tinderTestBackButton),
           ),
         ],
       ),
@@ -118,7 +120,7 @@ class _ErrorContent extends StatelessWidget {
           const SizedBox(height: 24),
           ElevatedButton(
             onPressed: viewModel.onBackPressed,
-            child: const Text('Назад'),
+            child: Text(context.l10n.tinderTestBackButton),
           ),
         ],
       ),
@@ -160,7 +162,7 @@ class _TestContentState extends State<_TestContent> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: _SwipeableCard(
+            child: SwipeableCardWrapper(
               card: widget.currentCard,
               showAnswer: _showAnswer,
               onTap: () => setState(() => _showAnswer = !_showAnswer),
@@ -191,7 +193,10 @@ class _ProgressIndicator extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Text(
-                'Карточка ${session.currentIndex + 1} из ${session.cards.length}',
+                context.l10n.tinderTestProgressLabel(
+                  session.currentIndex + 1,
+                  session.cards.length,
+                ),
                 style: const TextStyle(fontSize: 14, color: Colors.grey),
               ),
               Row(
@@ -217,271 +222,6 @@ class _ProgressIndicator extends StatelessWidget {
   }
 }
 
-class _SwipeableCard extends StatefulWidget {
-  final CardEntity card;
-  final bool showAnswer;
-  final VoidCallback onTap;
-  final VoidCallback onSwipeLeft;
-  final VoidCallback onSwipeRight;
-
-  const _SwipeableCard({
-    required this.card,
-    required this.showAnswer,
-    required this.onTap,
-    required this.onSwipeLeft,
-    required this.onSwipeRight,
-  });
-
-  @override
-  State<_SwipeableCard> createState() => _SwipeableCardState();
-}
-
-class _SwipeableCardState extends State<_SwipeableCard> with SingleTickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<Offset> _animation;
-  Offset _dragOffset = Offset.zero;
-  bool _isDragging = false;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(milliseconds: 300),
-    );
-    _animation = Tween<Offset>(
-      begin: Offset.zero,
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
-  void _onPanStart(DragStartDetails details) {
-    _isDragging = true;
-    _controller.stop();
-  }
-
-  void _onPanUpdate(DragUpdateDetails details) {
-    setState(() {
-      _dragOffset += details.delta;
-    });
-  }
-
-  void _onPanEnd(DragEndDetails details) {
-    _isDragging = false;
-    final screenWidth = MediaQuery.of(context).size.width;
-    final threshold = screenWidth * 0.3;
-
-    if (_dragOffset.dx > threshold) {
-      _animateOut(const Offset(1.5, 0), widget.onSwipeRight);
-    } else if (_dragOffset.dx < -threshold) {
-      _animateOut(const Offset(-1.5, 0), widget.onSwipeLeft);
-    } else {
-      _animateBack();
-    }
-  }
-
-  void _animateOut(Offset target, VoidCallback callback) {
-    _animation = Tween<Offset>(
-      begin: _dragOffset / MediaQuery.of(context).size.width,
-      end: target,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
-    _controller.forward(from: 0).then((_) {
-      callback();
-      setState(() {
-        _dragOffset = Offset.zero;
-      });
-      _controller.reset();
-    });
-  }
-
-  void _animateBack() {
-    _animation = Tween<Offset>(
-      begin: _dragOffset / MediaQuery.of(context).size.width,
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
-    _controller.forward(from: 0).then((_) {
-      setState(() {
-        _dragOffset = Offset.zero;
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final screenWidth = MediaQuery.of(context).size.width;
-    final offset = _isDragging
-        ? _dragOffset
-        : Offset(
-            _animation.value.dx * screenWidth,
-            _animation.value.dy * screenWidth,
-          );
-    final rotation = offset.dx / screenWidth * 0.3;
-
-    return AnimatedBuilder(
-      animation: _controller,
-      builder: (context, child) {
-        return Transform.translate(
-          offset: offset,
-          child: Transform.rotate(
-            angle: rotation,
-            child: child,
-          ),
-        );
-      },
-      child: GestureDetector(
-        onTap: widget.onTap,
-        onPanStart: _onPanStart,
-        onPanUpdate: _onPanUpdate,
-        onPanEnd: _onPanEnd,
-        child: _CardContent(
-          card: widget.card,
-          showAnswer: widget.showAnswer,
-          dragOffset: _dragOffset,
-        ),
-      ),
-    );
-  }
-}
-
-class _CardContent extends StatelessWidget {
-  final CardEntity card;
-  final bool showAnswer;
-  final Offset dragOffset;
-
-  const _CardContent({
-    required this.card,
-    required this.showAnswer,
-    required this.dragOffset,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final leftOpacity = (dragOffset.dx.abs() / 100).clamp(0.0, 1.0);
-    final showLeft = dragOffset.dx < 0;
-    final showRight = dragOffset.dx > 0;
-
-    return Card(
-      elevation: 8,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
-      ),
-      child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        padding: const EdgeInsets.all(24),
-        child: Stack(
-          children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    card.front,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  if (showAnswer) ...[
-                    const SizedBox(height: 24),
-                    const Divider(),
-                    const SizedBox(height: 24),
-                    Text(
-                      card.back,
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.grey[700],
-                      ),
-                      textAlign: TextAlign.center,
-                    ),
-                  ] else ...[
-                    const SizedBox(height: 16),
-                    const Text(
-                      'Нажмите, чтобы увидеть ответ',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-            if (showLeft)
-              Positioned(
-                top: 16,
-                left: 16,
-                child: Opacity(
-                  opacity: leftOpacity,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.red, width: 3),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Text(
-                      'НЕ ЗНАЮ',
-                      style: TextStyle(
-                        color: Colors.red,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-            if (showRight)
-              Positioned(
-                top: 16,
-                right: 16,
-                child: Opacity(
-                  opacity: leftOpacity,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.green, width: 3),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: const Text(
-                      'ЗНАЮ',
-                      style: TextStyle(
-                        color: Colors.green,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _SwipeHints extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -495,7 +235,7 @@ class _SwipeHints extends StatelessWidget {
               const Icon(Icons.arrow_back, color: Colors.red),
               const SizedBox(width: 8),
               Text(
-                'Не знаю',
+                context.l10n.tinderTestSwipeUnknownHint,
                 style: TextStyle(color: Colors.grey[600]),
               ),
             ],
@@ -503,7 +243,7 @@ class _SwipeHints extends StatelessWidget {
           Row(
             children: [
               Text(
-                'Знаю',
+                context.l10n.tinderTestSwipeKnownHint,
                 style: TextStyle(color: Colors.grey[600]),
               ),
               const SizedBox(width: 8),
@@ -543,9 +283,9 @@ class _ResultsContent extends StatelessWidget {
               color: Colors.amber,
             ),
             const SizedBox(height: 24),
-            const Text(
-              'Тест завершён!',
-              style: TextStyle(
+            Text(
+              context.l10n.tinderTestResultsTitle,
+              style: const TextStyle(
                 fontSize: 28,
                 fontWeight: FontWeight.bold,
               ),
@@ -554,21 +294,21 @@ class _ResultsContent extends StatelessWidget {
             _ResultCard(
               icon: Icons.check_circle,
               color: Colors.green,
-              label: 'Правильно',
+              label: context.l10n.tinderTestResultsCorrectLabel,
               value: correct.toString(),
             ),
             const SizedBox(height: 16),
             _ResultCard(
               icon: Icons.cancel,
               color: Colors.red,
-              label: 'Неправильно',
+              label: context.l10n.tinderTestResultsIncorrectLabel,
               value: session.incorrectCount.toString(),
             ),
             const SizedBox(height: 16),
             _ResultCard(
               icon: Icons.percent,
               color: Colors.blue,
-              label: 'Результат',
+              label: context.l10n.tinderTestResultsPercentageLabel,
               value: '$percentage%',
             ),
             const SizedBox(height: 48),
@@ -578,13 +318,13 @@ class _ResultsContent extends StatelessWidget {
                 OutlinedButton.icon(
                   onPressed: viewModel.onRestartPressed,
                   icon: const Icon(Icons.refresh),
-                  label: const Text('Повторить'),
+                  label: Text(context.l10n.tinderTestResultsRestartButton),
                 ),
                 const SizedBox(width: 16),
                 ElevatedButton.icon(
                   onPressed: viewModel.onBackPressed,
                   icon: const Icon(Icons.done),
-                  label: const Text('Готово'),
+                  label: Text(context.l10n.tinderTestResultsDoneButton),
                 ),
               ],
             ),

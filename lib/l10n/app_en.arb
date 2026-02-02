@@ -25,5 +25,104 @@
   "productIsComingSoon": "Скоро в продаже",
   "productInStock": "Снова в наличии",
   "productIsOnlyShops": "Только в магазинах",
-  "authEnterCode": "Введите код из СМС"
+  "authEnterCode": "Введите код из СМС",
+  "@segmentTinderTest": {
+    "---------": "---------",
+    "description": "Tinder test"
+  },
+  "tinderTestAppBarTitle": "Test",
+  "tinderTestEmptyTitle": "No cards in this test",
+  "tinderTestEmptySubtitle": "Add cards to start the test",
+  "tinderTestBackButton": "Back",
+  "tinderTestProgressLabel": "Card {current} of {total}",
+  "@tinderTestProgressLabel": {
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "1"
+      },
+      "total": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "tinderTestTapToShowAnswer": "Tap to show the answer",
+  "tinderTestUnknownBadge": "DON'T KNOW",
+  "tinderTestKnownBadge": "KNOW",
+  "tinderTestSwipeUnknownHint": "Don't know",
+  "tinderTestSwipeKnownHint": "Know",
+  "tinderTestResultsTitle": "Test completed!",
+  "tinderTestResultsCorrectLabel": "Correct",
+  "tinderTestResultsIncorrectLabel": "Incorrect",
+  "tinderTestResultsPercentageLabel": "Result",
+  "tinderTestResultsRestartButton": "Repeat",
+  "tinderTestResultsDoneButton": "Done",
+  "@segmentTestsList": {
+    "---------": "---------",
+    "description": "Tests list"
+  },
+  "testsListAppBarTitle": "Tests",
+  "testsListErrorMessage": "Error: {message}",
+  "@testsListErrorMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Unknown error"
+      }
+    }
+  },
+  "testsListUnknownError": "Unknown error",
+  "testsListRetryButton": "Retry",
+  "testsListEmptyMessage": "No tests.\nTap + to create the first test.",
+  "testsListDeleteDialogTitle": "Delete test?",
+  "testsListDeleteDialogMessage": "Are you sure you want to delete \"{title}\"?",
+  "@testsListDeleteDialogMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "My test"
+      }
+    }
+  },
+  "testsListDeleteDialogCancel": "Cancel",
+  "testsListDeleteDialogConfirm": "Delete",
+  "@segmentTestDetail": {
+    "---------": "---------",
+    "description": "Test detail"
+  },
+  "testDetailLoadingTitle": "Loading...",
+  "testDetailEditTooltip": "Edit test",
+  "testDetailErrorMessage": "Error: {message}",
+  "@testDetailErrorMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Unknown error"
+      }
+    }
+  },
+  "testDetailUnknownError": "Unknown error",
+  "testDetailRetryButton": "Retry",
+  "testDetailStartButton": "Start test",
+  "testDetailCardsTitle": "Cards ({count})",
+  "@testDetailCardsTitle": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "12"
+      }
+    }
+  },
+  "testDetailEmptyCardsMessage": "No cards.\nTap + to add the first one.",
+  "testDetailDeleteCardTitle": "Delete card?",
+  "testDetailDeleteCardMessage": "Are you sure you want to delete this card?",
+  "testDetailDeleteCardCancel": "Cancel",
+  "testDetailDeleteCardConfirm": "Delete",
+  "@segmentMain": {
+    "---------": "---------",
+    "description": "Main screen"
+  },
+  "mainQuestionCardFront": "Question",
+  "mainQuestionCardBack": "Answer"
 }
