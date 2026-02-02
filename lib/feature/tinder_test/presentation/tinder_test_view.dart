@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
-import 'package:karto4ki/feature/test_execution/domain/entity/test_session.dart';
 import 'package:karto4ki/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
+import 'package:karto4ki/feature/tinder_test/domain/entity/test_session.dart';
 import 'package:karto4ki/feature/tinder_test/presentation/tinder_test_screen.dart';
 
 /// UI layer for tinder test screen.
@@ -38,8 +38,7 @@ class TinderTestView extends StatelessWidget {
             message: message,
             viewModel: viewModel,
           ),
-        TinderTestState$InProgress(:final session, :final currentCard) =>
-          _TestContent(
+        TinderTestState$InProgress(:final session, :final currentCard) => _TestContent(
             session: session,
             currentCard: currentCard,
             viewModel: viewModel,
@@ -165,10 +164,8 @@ class _TestContentState extends State<_TestContent> {
               card: widget.currentCard,
               showAnswer: _showAnswer,
               onTap: () => setState(() => _showAnswer = !_showAnswer),
-              onSwipeLeft: () =>
-                  widget.viewModel.onSwipeLeft(widget.currentCard),
-              onSwipeRight: () =>
-                  widget.viewModel.onSwipeRight(widget.currentCard),
+              onSwipeLeft: () => widget.viewModel.onSwipeLeft(widget.currentCard),
+              onSwipeRight: () => widget.viewModel.onSwipeRight(widget.currentCard),
             ),
           ),
         ),
@@ -239,8 +236,7 @@ class _SwipeableCard extends StatefulWidget {
   State<_SwipeableCard> createState() => _SwipeableCardState();
 }
 
-class _SwipeableCardState extends State<_SwipeableCard>
-    with SingleTickerProviderStateMixin {
+class _SwipeableCardState extends State<_SwipeableCard> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _animation;
   Offset _dragOffset = Offset.zero;

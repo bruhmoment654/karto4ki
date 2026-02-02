@@ -24,12 +24,12 @@ class AppRouter extends RootStackRouter {
           page: HomeRoute.page,
           initial: true,
           children: [
-            AutoRoute(page: MainRoute.page, initial: true),
+            AutoRoute(page: TestsListRoute.page,),
+            AutoRoute(page: MainRoute.page),
             AutoRoute(page: CardTestRoute.page),
             AutoRoute(page: CardDetailRoute.page),
-            AutoRoute(page: TestsListRoute.page),
-            AutoRoute(page: TestDetailRoute.page, path: 'test/:testId'),
-            AutoRoute(page: TinderTestRoute.page, path: 'tinder-test/:testId'),
+            AutoRoute(page: TinderTestRoute.page),
+            AutoRoute(page: TestDetailRoute.page),
           ],
         ),
       ];

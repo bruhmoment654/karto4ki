@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
-import 'package:karto4ki/feature/test_execution/domain/entity/card_result.dart';
+import 'package:karto4ki/feature/tinder_test/domain/entity/card_result.dart';
 
 part 'test_session.freezed.dart';
 

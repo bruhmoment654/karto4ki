@@ -3,8 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:karto4ki/feature/card_detail/domain/repository/i_card_repository.dart';
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
-import 'package:karto4ki/feature/test_execution/domain/entity/card_result.dart';
-import 'package:karto4ki/feature/test_execution/domain/entity/test_session.dart';
+import 'package:karto4ki/feature/tinder_test/domain/entity/card_result.dart';
+import 'package:karto4ki/feature/tinder_test/domain/entity/test_session.dart';
 
 part 'tinder_test_event.dart';
 part 'tinder_test_state.dart';
