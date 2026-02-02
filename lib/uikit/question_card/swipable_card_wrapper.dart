@@ -26,6 +26,12 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _animation;
+
+  /// Reused tween: update begin/end per gesture to avoid new Animation objects.
+  final Tween<Offset> _tween = Tween<Offset>(
+    begin: Offset.zero,
+    end: Offset.zero,
+  );
   Offset _dragOffset = Offset.zero;
   bool _isDragging = false;
 
@@ -36,10 +42,7 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
       vsync: this,
       duration: const Duration(milliseconds: 300),
     );
-    _animation = Tween<Offset>(
-      begin: Offset.zero,
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
+    _animation = _tween.animate(CurvedAnimation(
       parent: _controller,
       curve: Curves.easeOut,
     ));
@@ -77,52 +80,45 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
   }
 
   void _animateOut(Offset target, VoidCallback callback) {
-    _animation = Tween<Offset>(
-      begin: _dragOffset / MediaQuery.of(context).size.width,
-      end: target,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
+    final screenWidth = MediaQuery.of(context).size.width;
+    _tween
+      ..begin = _dragOffset / screenWidth
+      ..end = target;
     _controller.forward(from: 0).then((_) {
-      // callback();
-      setState(() {
-        _dragOffset = _animation.value;
-      });
+      callback();
       _controller.reset();
+      _dragOffset = Offset.zero;
+      _tween
+        ..begin = Offset.zero
+        ..end = Offset.zero;
     });
   }
 
   void _animateBack() {
-    _animation = Tween<Offset>(
-      begin: _dragOffset / MediaQuery.of(context).size.width,
-      end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _controller,
-      curve: Curves.easeOut,
-    ));
-
+    final screenWidth = MediaQuery.of(context).size.width;
+    _tween
+      ..begin = _dragOffset / screenWidth
+      ..end = Offset.zero;
     _controller.forward(from: 0).then((_) {
-      setState(() {
-        _dragOffset = Offset.zero;
-      });
+      _dragOffset = Offset.zero;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
-    final offset = _isDragging
-        ? _dragOffset
-        : Offset(
-            _animation.value.dx * screenWidth,
-            _animation.value.dy * screenWidth,
-          );
-    final rotation = offset.dx / screenWidth * 0.3;
 
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
+        final offset = _isDragging
+            ? _dragOffset
+            : Offset(
+                _animation.value.dx * screenWidth,
+                _animation.value.dy * screenWidth,
+              );
+        final rotation = offset.dx / screenWidth * 0.3;
+
         return Transform.translate(
           offset: offset,
           child: Transform.rotate(
