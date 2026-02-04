@@ -124,38 +124,37 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
           offset: offset,
           child: Transform.rotate(
             angle: rotation,
-            child: child,
+            child: GestureDetector(
+              onTap: widget.onTap,
+              onPanStart: _onPanStart,
+              onPanUpdate: _onPanUpdate,
+              onPanEnd: _onPanEnd,
+              child: QuestionCardContent(
+                front: Text(
+                  widget.card.front,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                back: Text(
+                  widget.card.back,
+                  style: TextStyle(
+                    fontSize: 20,
+                    color: Colors.grey[700],
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+                showAnswer: widget.showAnswer,
+                dragOffset: offset,
+                leftBadgeText: context.l10n.tinderTestUnknownBadge,
+                rightBadgeText: context.l10n.tinderTestKnownBadge,
+              ),
+            ),
           ),
         );
       },
-      child: GestureDetector(
-        onTap: widget.onTap,
-        onPanStart: _onPanStart,
-        onPanUpdate: _onPanUpdate,
-        onPanEnd: _onPanEnd,
-        child: QuestionCardContent(
-          front: Text(
-            widget.card.front,
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          back: Text(
-            widget.card.back,
-            style: TextStyle(
-              fontSize: 20,
-              color: Colors.grey[700],
-            ),
-            textAlign: TextAlign.center,
-          ),
-          showAnswer: widget.showAnswer,
-          dragOffset: _dragOffset,
-          leftBadgeText: context.l10n.tinderTestUnknownBadge,
-          rightBadgeText: context.l10n.tinderTestKnownBadge,
-        ),
-      ),
     );
   }
 }

@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:karto4ki/app/navigation/app_router.dart';
 import 'package:karto4ki/feature/home/presentation/home_screen.dart';
+import 'package:karto4ki/uikit/theme/app_theme.dart';
 
 /// UI layer for Home screen.
 ///
@@ -20,6 +21,8 @@ class HomeView extends StatelessWidget {
       ],
       bottomNavigationBuilder: (context, tabsRouter) {
         return BottomNavigationBar(
+          backgroundColor: Theme.of(context).colorScheme.scaffoldBackground,
+
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
           items: const [

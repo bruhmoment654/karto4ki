@@ -99,6 +99,10 @@ class QuestionCardContent extends StatelessWidget {
     final showLeft = dragOffset.dx < 0 && leftBadgeText != null;
     final showRight = dragOffset.dx > 0 && rightBadgeText != null;
 
+  debugPrint('dragOffset: $dragOffset');
+  debugPrint('showLeft: $showLeft');
+  debugPrint('showRight: $showRight');
+
     return Card(
       elevation: 8,
       shape: RoundedRectangleBorder(

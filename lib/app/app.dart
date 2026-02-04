@@ -41,9 +41,9 @@ class _AppState extends State<App> {
               routerDelegate: _appRouter.delegate(
                 navigatorObservers: () => [AutoRouteObserver()],
               ),
-              theme: AppTheme.light,
+              theme: AppTheme.dark,
               darkTheme: AppTheme.dark,
-              themeMode: themeScope.themeMode,
+              themeMode: ThemeMode.dark,
               locale: _locale,
               localizationsDelegates: _localizationsDelegates,
               supportedLocales: const [_locale],

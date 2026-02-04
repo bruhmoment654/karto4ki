@@ -22,23 +22,53 @@ class TestDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final canStartTest = switch (state) {
+      TestDetailState$Loaded(:final cards) => cards.isNotEmpty,
+      _ => false,
+    };
+    final startIcon = switch (state) {
+      TestDetailState$Loaded(:final cards) when cards.isEmpty => Icons.close,
+      _ => Icons.play_arrow_rounded,
+    };
+
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          switch (state) {
-            TestDetailState$Loaded(:final test) => test.title,
-            _ => context.l10n.testDetailLoadingTitle,
-          },
-        ),
-        actions: [
-          if (state is TestDetailState$Loaded)
-            IconButton(
-              icon: const Icon(Icons.edit),
-              onPressed: viewModel.onEditTestPressed,
-              tooltip: context.l10n.testDetailEditTooltip,
+      appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(150),
+          child: Material(
+            color: colorScheme.primary,
+            child: InkWell(
+              onTap: canStartTest ? viewModel.onStartTestPressed : null,
+              child: Container(
+                padding: const EdgeInsets.all(16),
+                width: double.infinity,
+                height: 150,
+                child: Align(
+                  alignment: Alignment.bottomCenter,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        startIcon,
+                        color: colorScheme.onPrimary,
+                        size: 24,
+                      ),
+                      const SizedBox(height: 8),
+                      Text(
+                        switch (state) {
+                          TestDetailState$Loaded(:final test) => test.title.toUpperCase(),
+                          _ => context.l10n.testDetailLoadingTitle,
+                        },
+                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                              color: colorScheme.onPrimary,
+                            ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
             ),
-        ],
-      ),
+          )),
       body: switch (state) {
         TestDetailState$Loading() => const Center(
             child: CircularProgressIndicator(),
@@ -90,6 +120,8 @@ class _TestDetailContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -98,23 +130,8 @@ class _TestDetailContent extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             child: Text(
               test.description!,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Colors.grey[600],
-                  ),
-            ),
-          ),
-        if (cards.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-            child: SizedBox(
-              width: double.infinity,
-              child: ElevatedButton.icon(
-                onPressed: viewModel.onStartTestPressed,
-                icon: const Icon(Icons.play_arrow),
-                label: Text(context.l10n.testDetailStartButton),
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 12),
-                ),
+              style: textTheme.bodyMedium?.copyWith(
+                color: Colors.grey[600],
               ),
             ),
           ),
@@ -122,7 +139,7 @@ class _TestDetailContent extends StatelessWidget {
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Text(
             context.l10n.testDetailCardsTitle(cards.length),
-            style: Theme.of(context).textTheme.titleMedium,
+            style: textTheme.titleMedium,
           ),
         ),
         Expanded(
@@ -181,17 +198,14 @@ class _CardListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Dismissible(
       key: ValueKey(card.id),
       direction: DismissDirection.endToStart,
-      background: Container(
-        color: Colors.red,
-        alignment: Alignment.centerRight,
-        padding: const EdgeInsets.only(right: 16),
-        child: const Icon(
-          Icons.delete,
-          color: Colors.white,
-        ),
+      background: const Icon(
+        Icons.delete,
+        color: Colors.white,
       ),
       confirmDismiss: (direction) async {
         return showDialog<bool>(
@@ -214,18 +228,21 @@ class _CardListItem extends StatelessWidget {
       },
       onDismissed: (_) => onDelete(),
       child: Card(
+        shape: const BeveledRectangleBorder(),
+        color: colorScheme.secondary,
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: ListTile(
           title: Text(
             card.front,
             maxLines: 2,
             overflow: TextOverflow.ellipsis,
+            style: TextStyle(color: colorScheme.onSecondary),
           ),
           subtitle: Text(
             card.back,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: Colors.grey[600]),
+            style: TextStyle(color: colorScheme.onSecondary),
           ),
           trailing: const Icon(Icons.chevron_right),
           onTap: onTap,
