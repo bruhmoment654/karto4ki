@@ -5,6 +5,7 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:karto4ki/app/navigation/app_router.dart';
 import 'package:karto4ki/l10n/app_localizations.dart';
 import 'package:karto4ki/uikit/theme/app_theme.dart';
+import 'package:karto4ki/uikit/theme/app_theme_scope.dart';
 
 /// {@template app.class}
 /// Application.
@@ -21,22 +22,35 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return AnnotatedRegion<SystemUiOverlayStyle>(
-      value: const SystemUiOverlayStyle(
-        statusBarColor: Colors.transparent,
-        statusBarBrightness: Brightness.light,
-        statusBarIconBrightness: Brightness.dark,
-      ),
-      child: MaterialApp.router(
-        routeInformationParser: _appRouter.defaultRouteParser(),
-        routerDelegate: _appRouter.delegate(
-          navigatorObservers: () => [AutoRouteObserver()],
-        ),
-        theme: AppTheme.light,
-        locale: _locale,
-        localizationsDelegates: _localizationsDelegates,
-        supportedLocales: const [_locale],
-        debugShowCheckedModeBanner: false,
+    return AppThemeScope(
+      child: Builder(
+        builder: (context) {
+          final themeScope = AppThemeScope.of(context);
+          final isDark = themeScope.isDark;
+
+          return AnnotatedRegion<SystemUiOverlayStyle>(
+            value: SystemUiOverlayStyle(
+              statusBarColor: Colors.transparent,
+              statusBarBrightness:
+                  isDark ? Brightness.dark : Brightness.light,
+              statusBarIconBrightness:
+                  isDark ? Brightness.light : Brightness.dark,
+            ),
+            child: MaterialApp.router(
+              routeInformationParser: _appRouter.defaultRouteParser(),
+              routerDelegate: _appRouter.delegate(
+                navigatorObservers: () => [AutoRouteObserver()],
+              ),
+              theme: AppTheme.light,
+              darkTheme: AppTheme.dark,
+              themeMode: themeScope.themeMode,
+              locale: _locale,
+              localizationsDelegates: _localizationsDelegates,
+              supportedLocales: const [_locale],
+              debugShowCheckedModeBanner: false,
+            ),
+          );
+        },
       ),
     );
   }

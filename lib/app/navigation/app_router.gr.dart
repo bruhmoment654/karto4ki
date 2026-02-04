@@ -67,6 +67,25 @@ class HomeRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [MainTabFlow]
+class MainTabRoute extends PageRouteInfo<void> {
+  const MainTabRoute({List<PageRouteInfo>? children})
+      : super(
+          MainTabRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'MainTabRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const MainTabFlow());
+    },
+  );
+}
+
+/// generated route for
 /// [MainFlow]
 class MainRoute extends PageRouteInfo<void> {
   const MainRoute({List<PageRouteInfo>? children})
@@ -81,6 +100,25 @@ class MainRoute extends PageRouteInfo<void> {
     name,
     builder: (data) {
       return WrappedRoute(child: const MainFlow());
+    },
+  );
+}
+
+/// generated route for
+/// [ProfileFlow]
+class ProfileRoute extends PageRouteInfo<void> {
+  const ProfileRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const ProfileFlow());
     },
   );
 }

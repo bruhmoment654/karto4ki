@@ -9,6 +9,11 @@ class AppTheme {
     brightness: Brightness.light,
   );
 
+  static final ColorScheme _darkColorScheme = ColorScheme.fromSeed(
+    seedColor: _seedColor,
+    brightness: Brightness.dark,
+  );
+
   static final ThemeData light = ThemeData(
     useMaterial3: true,
     colorScheme: _lightColorScheme,
@@ -39,6 +44,46 @@ class AppTheme {
     textButtonTheme: TextButtonThemeData(
       style: TextButton.styleFrom(
         foregroundColor: _lightColorScheme.primary,
+        textStyle: const TextStyle(fontWeight: FontWeight.w600),
+      ),
+    ),
+    inputDecorationTheme: InputDecorationTheme(
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+      ),
+    ),
+  );
+
+  static final ThemeData dark = ThemeData(
+    useMaterial3: true,
+    colorScheme: _darkColorScheme,
+    scaffoldBackgroundColor: _darkColorScheme.surface,
+    textTheme: GoogleFonts.robotoTextTheme(ThemeData.dark().textTheme),
+    appBarTheme: AppBarTheme(
+      elevation: 0,
+      centerTitle: true,
+      backgroundColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
+      foregroundColor: _darkColorScheme.onSurface,
+    ),
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: _darkColorScheme.primary,
+      foregroundColor: _darkColorScheme.onPrimary,
+    ),
+    elevatedButtonTheme: ElevatedButtonThemeData(
+      style: ElevatedButton.styleFrom(
+        foregroundColor: _darkColorScheme.onPrimary,
+        backgroundColor: _darkColorScheme.primary,
+        textStyle: const TextStyle(fontWeight: FontWeight.w600),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12),
+        ),
+      ),
+    ),
+    textButtonTheme: TextButtonThemeData(
+      style: TextButton.styleFrom(
+        foregroundColor: _darkColorScheme.primary,
         textStyle: const TextStyle(fontWeight: FontWeight.w600),
       ),
     ),

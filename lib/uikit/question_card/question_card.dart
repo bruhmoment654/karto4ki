@@ -44,9 +44,11 @@ class _QuestionCardState extends State<QuestionCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _flip,
-      child: _QuestionCardContent(
-        child: _isFlipped ? widget.back : widget.front,
-        isFlipped: _isFlipped,
+      child: QuestionCardContent(
+        front: widget.front,
+        back: widget.back,
+        showAnswer: _isFlipped,
+        dragOffset: Offset.zero,
       ),
     );
   }
@@ -73,35 +75,109 @@ class _QuestionCardText extends StatelessWidget {
   }
 }
 
-class _QuestionCardContent extends StatelessWidget {
-  final Widget child;
-  final bool isFlipped;
+class QuestionCardContent extends StatelessWidget {
+  final Widget front;
+  final Widget back;
+  final bool showAnswer;
+  final Offset dragOffset;
+  final String? leftBadgeText;
+  final String? rightBadgeText;
 
-  const _QuestionCardContent({required this.child, required this.isFlipped});
+  const QuestionCardContent({
+    required this.front,
+    required this.back,
+    required this.showAnswer,
+    required this.dragOffset,
+    super.key,
+    this.leftBadgeText,
+    this.rightBadgeText,
+  });
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
+    final leftOpacity = (dragOffset.dx.abs() / 100).clamp(0.0, 1.0);
+    final showLeft = dragOffset.dx < 0 && leftBadgeText != null;
+    final showRight = dragOffset.dx > 0 && rightBadgeText != null;
 
-    final backgroundColor = isFlipped
-        ? colorScheme.secondaryContainer
-        : colorScheme.primaryContainer;
-
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        color: backgroundColor,
+    return Card(
+      elevation: 8,
+      shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: colorScheme.shadow.withValues(alpha: 0.1),
-            blurRadius: 8,
-            offset: const Offset(0, 4),
-          ),
-        ],
       ),
-      child: Padding(
+      child: Container(
+        width: double.infinity,
+        height: double.infinity,
         padding: const EdgeInsets.all(24),
-        child: Center(child: child),
+        child: Stack(
+          children: [
+            Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  front,
+                  if (showAnswer) ...[
+                    const SizedBox(height: 24),
+                    const Divider(),
+                    const SizedBox(height: 24),
+                    back,
+                  ],
+                ],
+              ),
+            ),
+            if (showLeft)
+              Positioned(
+                top: 16,
+                left: 16,
+                child: Opacity(
+                  opacity: leftOpacity,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.red, width: 3),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      leftBadgeText!,
+                      style: const TextStyle(
+                        color: Colors.red,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            if (showRight)
+              Positioned(
+                top: 16,
+                right: 16,
+                child: Opacity(
+                  opacity: leftOpacity,
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      border: Border.all(color: Colors.green, width: 3),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Text(
+                      rightBadgeText!,
+                      style: const TextStyle(
+                        color: Colors.green,
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+          ],
+        ),
       ),
     );
   }
