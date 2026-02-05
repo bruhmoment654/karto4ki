@@ -91,6 +91,7 @@ class QuestionCardContent extends StatelessWidget {
   final Widget back;
   final bool showAnswer;
   final Offset cardOffset;
+  final bool enableFlipAnimation;
   final String? leftBadgeText;
   final String? rightBadgeText;
 
@@ -99,6 +100,7 @@ class QuestionCardContent extends StatelessWidget {
     required this.back,
     required this.showAnswer,
     required this.cardOffset,
+    this.enableFlipAnimation = true,
     super.key,
     this.leftBadgeText,
     this.rightBadgeText,
@@ -121,6 +123,48 @@ class QuestionCardContent extends StatelessWidget {
         : ((dxAbs - showThreshold) / (maxDistance - showThreshold))
             .clamp(0.0, 1.0)
             .toDouble();
+
+    if (!enableFlipAnimation) {
+      final angle = showAnswer ? math.pi : 0.0;
+      final isBackVisible = angle > math.pi / 2;
+      final transform = Matrix4.identity()
+        ..setEntry(3, 2, 0.001)
+        ..rotateY(angle);
+      final face = isBackVisible
+          ? Transform(
+              alignment: Alignment.center,
+              transform: Matrix4.rotationY(math.pi),
+              child: _QuestionCardFace(
+                badgeText: badgeText,
+                showBadge: showBadge,
+                badgeOpacity: badgeOpacity,
+                body: back,
+              ),
+            )
+          : _QuestionCardFace(
+              badgeText: badgeText,
+              showBadge: showBadge,
+              badgeOpacity: badgeOpacity,
+              body: front,
+            );
+
+      return Transform(
+        alignment: Alignment.center,
+        transform: transform,
+        child: Card(
+          elevation: 8,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          child: Container(
+            width: double.infinity,
+            height: double.infinity,
+            padding: const EdgeInsets.all(24),
+            child: Center(child: face),
+          ),
+        ),
+      );
+    }
 
     return TweenAnimationBuilder<double>(
       tween: Tween<double>(

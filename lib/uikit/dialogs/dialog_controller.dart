@@ -20,12 +20,16 @@ class DialogController {
     required material.WidgetBuilder builder,
     bool isScrollControlled = false,
     bool useSafeArea = true,
+    material.ShapeBorder? shape,
+    material.Clip? clipBehavior,
   }) {
     return material.showModalBottomSheet<T>(
       context: context,
       builder: builder,
       isScrollControlled: isScrollControlled,
       useSafeArea: useSafeArea,
+      shape: shape,
+      clipBehavior: clipBehavior,
     );
   }
 }

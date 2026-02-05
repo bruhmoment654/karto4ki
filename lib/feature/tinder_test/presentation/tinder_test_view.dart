@@ -40,8 +40,7 @@ class TinderTestView extends StatelessWidget {
             message: message,
             viewModel: viewModel,
           ),
-        TinderTestState$InProgress(:final session, :final currentCard) =>
-          _TestContent(
+        TinderTestState$InProgress(:final session, :final currentCard) => _TestContent(
             session: session,
             currentCard: currentCard,
             viewModel: viewModel,
@@ -148,18 +147,26 @@ class _TestContent extends StatefulWidget {
 
 class _TestContentState extends State<_TestContent> {
   final ValueNotifier<bool> _showAnswer = ValueNotifier(false);
+  final ValueNotifier<bool> _enableFlipAnimation = ValueNotifier(true);
 
   @override
   void didUpdateWidget(_TestContent oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentCard.id != widget.currentCard.id) {
       _showAnswer.value = false;
+      _enableFlipAnimation.value = false;
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        if (mounted) {
+          _enableFlipAnimation.value = true;
+        }
+      });
     }
   }
 
   @override
   void dispose() {
     _showAnswer.dispose();
+    _enableFlipAnimation.dispose();
     super.dispose();
   }
 
@@ -168,26 +175,31 @@ class _TestContentState extends State<_TestContent> {
     return Column(
       children: [
         _ProgressIndicator(session: widget.session),
+        _SwipeHints(),
+        const SizedBox(height: 12),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: ValueListenableBuilder<bool>(
-              valueListenable: _showAnswer,
-              builder: (context, showAnswer, child) {
+            child: AnimatedBuilder(
+              animation: Listenable.merge([
+                _showAnswer,
+                _enableFlipAnimation,
+              ]),
+              builder: (context, child) {
+                final currentShowAnswer = _showAnswer.value;
+                final enableFlipAnimation = _enableFlipAnimation.value;
                 return SwipeableCardWrapper(
                   card: widget.currentCard,
-                  showAnswer: showAnswer,
-                  onTap: () => _showAnswer.value = !showAnswer,
-                  onSwipeLeft: () =>
-                      widget.viewModel.onSwipeLeft(widget.currentCard),
-                  onSwipeRight: () =>
-                      widget.viewModel.onSwipeRight(widget.currentCard),
+                  showAnswer: currentShowAnswer,
+                  enableFlipAnimation: enableFlipAnimation,
+                  onTap: () => _showAnswer.value = !currentShowAnswer,
+                  onSwipeLeft: () => widget.viewModel.onSwipeLeft(widget.currentCard),
+                  onSwipeRight: () => widget.viewModel.onSwipeRight(widget.currentCard),
                 );
               },
             ),
           ),
         ),
-        _SwipeHints(),
         const SizedBox(height: 16),
       ],
     );
@@ -203,39 +215,36 @@ class _ProgressIndicator extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                context.l10n.tinderTestProgressLabel(
-                  session.currentIndex + 1,
-                  session.cards.length,
-                ),
-                style: const TextStyle(fontSize: 14, color: Colors.grey),
+    return Column(
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              context.l10n.tinderTestProgressLabel(
+                session.currentIndex + 1,
+                session.cards.length,
               ),
-              Row(
-                children: [
-                  Icon(Icons.check, color: colorScheme.primary, size: 16),
-                  Text(' ${session.correctCount}'),
-                  const SizedBox(width: 8),
-                  Icon(Icons.close, color: colorScheme.error, size: 16),
-                  Text(' ${session.incorrectCount}'),
-                ],
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          LinearProgressIndicator(
-            value: session.progress,
-            backgroundColor: Colors.grey[300],
-            valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
-          ),
-        ],
-      ),
+              style: const TextStyle(fontSize: 14, color: Colors.grey),
+            ),
+            Row(
+              children: [
+                Icon(Icons.check, color: colorScheme.primary, size: 16),
+                Text(' ${session.correctCount}'),
+                const SizedBox(width: 8),
+                Icon(Icons.close, color: colorScheme.error, size: 16),
+                Text(' ${session.incorrectCount}'),
+              ],
+            ),
+          ],
+        ),
+        const SizedBox(height: 8),
+        LinearProgressIndicator(
+          value: session.progress,
+          backgroundColor: Colors.grey[300],
+          valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+        ),
+      ],
     );
   }
 }
@@ -245,33 +254,44 @@ class _SwipeHints extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 32),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Icon(Icons.arrow_back, color: colorScheme.error),
-              const SizedBox(width: 8),
-              Text(
-                context.l10n.tinderTestSwipeUnknownHint,
-                style: TextStyle(color: Colors.grey[600]),
-              ),
-            ],
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Material(
+          color: colorScheme.surfaceContainer,
+          elevation: 2,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Row(
+              children: [
+                Icon(Icons.arrow_back, color: colorScheme.error),
+                const SizedBox(width: 8),
+                Text(
+                  context.l10n.tinderTestSwipeUnknownHint,
+                  style: TextStyle(color: colorScheme.onSurfaceVariant),
+                ),
+              ],
+            ),
           ),
-          Row(
-            children: [
-              Text(
-                context.l10n.tinderTestSwipeKnownHint,
-                style: TextStyle(color: Colors.grey[600]),
-              ),
-              const SizedBox(width: 8),
-              Icon(Icons.arrow_forward, color: colorScheme.primary),
-            ],
+        ),
+        Material(
+          color: colorScheme.surfaceContainer,
+          elevation: 2,
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Row(
+              children: [
+                Text(
+                  context.l10n.tinderTestSwipeKnownHint,
+                  style: TextStyle(color: colorScheme.onSurfaceVariant),
+                ),
+                const SizedBox(width: 8),
+                Icon(Icons.arrow_forward, color: colorScheme.primary),
+              ],
+            ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

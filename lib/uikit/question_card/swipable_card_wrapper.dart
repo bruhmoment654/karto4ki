@@ -6,6 +6,7 @@ import 'package:karto4ki/uikit/question_card/question_card.dart';
 class SwipeableCardWrapper extends StatefulWidget {
   final CardEntity card;
   final bool showAnswer;
+  final bool enableFlipAnimation;
   final VoidCallback onTap;
   final VoidCallback onSwipeLeft;
   final VoidCallback onSwipeRight;
@@ -13,6 +14,7 @@ class SwipeableCardWrapper extends StatefulWidget {
   const SwipeableCardWrapper({
     required this.card,
     required this.showAnswer,
+    required this.enableFlipAnimation,
     required this.onTap,
     required this.onSwipeLeft,
     required this.onSwipeRight,
@@ -147,6 +149,7 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
                   textAlign: TextAlign.center,
                 ),
                 showAnswer: widget.showAnswer,
+                enableFlipAnimation: widget.enableFlipAnimation,
                 cardOffset: offset,
                 leftBadgeText: context.l10n.tinderTestUnknownBadge,
                 rightBadgeText: context.l10n.tinderTestKnownBadge,

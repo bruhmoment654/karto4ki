@@ -5,6 +5,7 @@ import 'package:karto4ki/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:karto4ki/feature/test_detail/presentation/test_detail_screen.dart';
 import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:karto4ki/l10n/app_localizations_x.dart';
+import 'package:karto4ki/uikit/pressable/scale_pressable.dart';
 
 /// UI layer for test detail screen.
 ///
@@ -238,25 +239,27 @@ class _CardListItem extends StatelessWidget {
         );
       },
       onDismissed: (_) => onDelete(),
-      child: Card(
-        shape: const BeveledRectangleBorder(),
-        color: colorScheme.secondary,
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        child: ListTile(
-          title: Text(
-            card.front,
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: colorScheme.onSecondary),
+      child: ScalePressable(
+        onTap: onTap,
+        child: Card(
+          shape: const BeveledRectangleBorder(),
+          color: colorScheme.secondary,
+          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+          child: ListTile(
+            title: Text(
+              card.front,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: colorScheme.onSecondary),
+            ),
+            subtitle: Text(
+              card.back,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: TextStyle(color: colorScheme.onSecondary),
+            ),
+            trailing: const Icon(Icons.chevron_right),
           ),
-          subtitle: Text(
-            card.back,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(color: colorScheme.onSecondary),
-          ),
-          trailing: const Icon(Icons.chevron_right),
-          onTap: onTap,
         ),
       ),
     );
