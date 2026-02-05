@@ -31,8 +31,7 @@ class _AppState extends State<App> {
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: SystemUiOverlayStyle(
               statusBarColor: Colors.transparent,
-              statusBarBrightness:
-                  isDark ? Brightness.dark : Brightness.light,
+              statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
               statusBarIconBrightness:
                   isDark ? Brightness.light : Brightness.dark,
             ),

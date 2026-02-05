@@ -23,6 +23,8 @@ mixin _$TestDetailEvent {
     required TResult Function(int cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
+    required TResult Function(List<({String back, String front})> cards)
+        cardsImported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -32,6 +34,7 @@ mixin _$TestDetailEvent {
     TResult? Function(int cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
+    TResult? Function(List<({String back, String front})> cards)? cardsImported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -41,6 +44,7 @@ mixin _$TestDetailEvent {
     TResult Function(int cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
+    TResult Function(List<({String back, String front})> cards)? cardsImported,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -51,6 +55,8 @@ mixin _$TestDetailEvent {
     required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
     required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
     required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
+    required TResult Function(_TestDetailEvent$CardsImported value)
+        cardsImported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -60,6 +66,7 @@ mixin _$TestDetailEvent {
     TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
     TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
     TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -69,6 +76,7 @@ mixin _$TestDetailEvent {
     TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
     TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
     TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -164,6 +172,8 @@ class _$TestDetailEvent$StartedImpl implements _TestDetailEvent$Started {
     required TResult Function(int cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
+    required TResult Function(List<({String back, String front})> cards)
+        cardsImported,
   }) {
     return started(testId);
   }
@@ -176,6 +186,7 @@ class _$TestDetailEvent$StartedImpl implements _TestDetailEvent$Started {
     TResult? Function(int cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
+    TResult? Function(List<({String back, String front})> cards)? cardsImported,
   }) {
     return started?.call(testId);
   }
@@ -188,6 +199,7 @@ class _$TestDetailEvent$StartedImpl implements _TestDetailEvent$Started {
     TResult Function(int cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
+    TResult Function(List<({String back, String front})> cards)? cardsImported,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -204,6 +216,8 @@ class _$TestDetailEvent$StartedImpl implements _TestDetailEvent$Started {
     required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
     required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
     required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
+    required TResult Function(_TestDetailEvent$CardsImported value)
+        cardsImported,
   }) {
     return started(this);
   }
@@ -216,6 +230,7 @@ class _$TestDetailEvent$StartedImpl implements _TestDetailEvent$Started {
     TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
     TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
     TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
   }) {
     return started?.call(this);
   }
@@ -228,6 +243,7 @@ class _$TestDetailEvent$StartedImpl implements _TestDetailEvent$Started {
     TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
     TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
     TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -328,6 +344,8 @@ class _$TestDetailEvent$CardAddedImpl implements _TestDetailEvent$CardAdded {
     required TResult Function(int cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
+    required TResult Function(List<({String back, String front})> cards)
+        cardsImported,
   }) {
     return cardAdded(front, back);
   }
@@ -340,6 +358,7 @@ class _$TestDetailEvent$CardAddedImpl implements _TestDetailEvent$CardAdded {
     TResult? Function(int cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
+    TResult? Function(List<({String back, String front})> cards)? cardsImported,
   }) {
     return cardAdded?.call(front, back);
   }
@@ -352,6 +371,7 @@ class _$TestDetailEvent$CardAddedImpl implements _TestDetailEvent$CardAdded {
     TResult Function(int cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
+    TResult Function(List<({String back, String front})> cards)? cardsImported,
     required TResult orElse(),
   }) {
     if (cardAdded != null) {
@@ -368,6 +388,8 @@ class _$TestDetailEvent$CardAddedImpl implements _TestDetailEvent$CardAdded {
     required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
     required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
     required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
+    required TResult Function(_TestDetailEvent$CardsImported value)
+        cardsImported,
   }) {
     return cardAdded(this);
   }
@@ -380,6 +402,7 @@ class _$TestDetailEvent$CardAddedImpl implements _TestDetailEvent$CardAdded {
     TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
     TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
     TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
   }) {
     return cardAdded?.call(this);
   }
@@ -392,6 +415,7 @@ class _$TestDetailEvent$CardAddedImpl implements _TestDetailEvent$CardAdded {
     TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
     TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
     TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
     required TResult orElse(),
   }) {
     if (cardAdded != null) {
@@ -487,6 +511,8 @@ class _$TestDetailEvent$CardDeletedImpl
     required TResult Function(int cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
+    required TResult Function(List<({String back, String front})> cards)
+        cardsImported,
   }) {
     return cardDeleted(cardId);
   }
@@ -499,6 +525,7 @@ class _$TestDetailEvent$CardDeletedImpl
     TResult? Function(int cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
+    TResult? Function(List<({String back, String front})> cards)? cardsImported,
   }) {
     return cardDeleted?.call(cardId);
   }
@@ -511,6 +538,7 @@ class _$TestDetailEvent$CardDeletedImpl
     TResult Function(int cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
+    TResult Function(List<({String back, String front})> cards)? cardsImported,
     required TResult orElse(),
   }) {
     if (cardDeleted != null) {
@@ -527,6 +555,8 @@ class _$TestDetailEvent$CardDeletedImpl
     required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
     required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
     required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
+    required TResult Function(_TestDetailEvent$CardsImported value)
+        cardsImported,
   }) {
     return cardDeleted(this);
   }
@@ -539,6 +569,7 @@ class _$TestDetailEvent$CardDeletedImpl
     TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
     TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
     TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
   }) {
     return cardDeleted?.call(this);
   }
@@ -551,6 +582,7 @@ class _$TestDetailEvent$CardDeletedImpl
     TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
     TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
     TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
     required TResult orElse(),
   }) {
     if (cardDeleted != null) {
@@ -654,6 +686,8 @@ class _$TestDetailEvent$CardUpdatedImpl
     required TResult Function(int cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
+    required TResult Function(List<({String back, String front})> cards)
+        cardsImported,
   }) {
     return cardUpdated(card);
   }
@@ -666,6 +700,7 @@ class _$TestDetailEvent$CardUpdatedImpl
     TResult? Function(int cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
+    TResult? Function(List<({String back, String front})> cards)? cardsImported,
   }) {
     return cardUpdated?.call(card);
   }
@@ -678,6 +713,7 @@ class _$TestDetailEvent$CardUpdatedImpl
     TResult Function(int cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
+    TResult Function(List<({String back, String front})> cards)? cardsImported,
     required TResult orElse(),
   }) {
     if (cardUpdated != null) {
@@ -694,6 +730,8 @@ class _$TestDetailEvent$CardUpdatedImpl
     required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
     required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
     required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
+    required TResult Function(_TestDetailEvent$CardsImported value)
+        cardsImported,
   }) {
     return cardUpdated(this);
   }
@@ -706,6 +744,7 @@ class _$TestDetailEvent$CardUpdatedImpl
     TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
     TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
     TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
   }) {
     return cardUpdated?.call(this);
   }
@@ -718,6 +757,7 @@ class _$TestDetailEvent$CardUpdatedImpl
     TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
     TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
     TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
     required TResult orElse(),
   }) {
     if (cardUpdated != null) {
@@ -821,6 +861,8 @@ class _$TestDetailEvent$TestUpdatedImpl
     required TResult Function(int cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
+    required TResult Function(List<({String back, String front})> cards)
+        cardsImported,
   }) {
     return testUpdated(title, description);
   }
@@ -833,6 +875,7 @@ class _$TestDetailEvent$TestUpdatedImpl
     TResult? Function(int cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
+    TResult? Function(List<({String back, String front})> cards)? cardsImported,
   }) {
     return testUpdated?.call(title, description);
   }
@@ -845,6 +888,7 @@ class _$TestDetailEvent$TestUpdatedImpl
     TResult Function(int cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
+    TResult Function(List<({String back, String front})> cards)? cardsImported,
     required TResult orElse(),
   }) {
     if (testUpdated != null) {
@@ -861,6 +905,8 @@ class _$TestDetailEvent$TestUpdatedImpl
     required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
     required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
     required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
+    required TResult Function(_TestDetailEvent$CardsImported value)
+        cardsImported,
   }) {
     return testUpdated(this);
   }
@@ -873,6 +919,7 @@ class _$TestDetailEvent$TestUpdatedImpl
     TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
     TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
     TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
   }) {
     return testUpdated?.call(this);
   }
@@ -885,6 +932,7 @@ class _$TestDetailEvent$TestUpdatedImpl
     TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
     TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
     TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
     required TResult orElse(),
   }) {
     if (testUpdated != null) {
@@ -903,6 +951,182 @@ abstract class _TestDetailEvent$TestUpdated implements TestDetailEvent {
   String? get description;
   @JsonKey(ignore: true)
   _$$TestDetailEvent$TestUpdatedImplCopyWith<_$TestDetailEvent$TestUpdatedImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$TestDetailEvent$CardsImportedImplCopyWith<$Res> {
+  factory _$$TestDetailEvent$CardsImportedImplCopyWith(
+          _$TestDetailEvent$CardsImportedImpl value,
+          $Res Function(_$TestDetailEvent$CardsImportedImpl) then) =
+      __$$TestDetailEvent$CardsImportedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<({String back, String front})> cards});
+}
+
+/// @nodoc
+class __$$TestDetailEvent$CardsImportedImplCopyWithImpl<$Res>
+    extends _$TestDetailEventCopyWithImpl<$Res,
+        _$TestDetailEvent$CardsImportedImpl>
+    implements _$$TestDetailEvent$CardsImportedImplCopyWith<$Res> {
+  __$$TestDetailEvent$CardsImportedImplCopyWithImpl(
+      _$TestDetailEvent$CardsImportedImpl _value,
+      $Res Function(_$TestDetailEvent$CardsImportedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? cards = null,
+  }) {
+    return _then(_$TestDetailEvent$CardsImportedImpl(
+      cards: null == cards
+          ? _value._cards
+          : cards // ignore: cast_nullable_to_non_nullable
+              as List<({String back, String front})>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$TestDetailEvent$CardsImportedImpl
+    implements _TestDetailEvent$CardsImported {
+  const _$TestDetailEvent$CardsImportedImpl(
+      {required final List<({String back, String front})> cards})
+      : _cards = cards;
+
+  final List<({String back, String front})> _cards;
+  @override
+  List<({String back, String front})> get cards {
+    if (_cards is EqualUnmodifiableListView) return _cards;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_cards);
+  }
+
+  @override
+  String toString() {
+    return 'TestDetailEvent.cardsImported(cards: $cards)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TestDetailEvent$CardsImportedImpl &&
+            const DeepCollectionEquality().equals(other._cards, _cards));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_cards));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TestDetailEvent$CardsImportedImplCopyWith<
+          _$TestDetailEvent$CardsImportedImpl>
+      get copyWith => __$$TestDetailEvent$CardsImportedImplCopyWithImpl<
+          _$TestDetailEvent$CardsImportedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int testId) started,
+    required TResult Function(String front, String back) cardAdded,
+    required TResult Function(int cardId) cardDeleted,
+    required TResult Function(CardEntity card) cardUpdated,
+    required TResult Function(String title, String? description) testUpdated,
+    required TResult Function(List<({String back, String front})> cards)
+        cardsImported,
+  }) {
+    return cardsImported(cards);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int testId)? started,
+    TResult? Function(String front, String back)? cardAdded,
+    TResult? Function(int cardId)? cardDeleted,
+    TResult? Function(CardEntity card)? cardUpdated,
+    TResult? Function(String title, String? description)? testUpdated,
+    TResult? Function(List<({String back, String front})> cards)? cardsImported,
+  }) {
+    return cardsImported?.call(cards);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int testId)? started,
+    TResult Function(String front, String back)? cardAdded,
+    TResult Function(int cardId)? cardDeleted,
+    TResult Function(CardEntity card)? cardUpdated,
+    TResult Function(String title, String? description)? testUpdated,
+    TResult Function(List<({String back, String front})> cards)? cardsImported,
+    required TResult orElse(),
+  }) {
+    if (cardsImported != null) {
+      return cardsImported(cards);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TestDetailEvent$Started value) started,
+    required TResult Function(_TestDetailEvent$CardAdded value) cardAdded,
+    required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
+    required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
+    required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
+    required TResult Function(_TestDetailEvent$CardsImported value)
+        cardsImported,
+  }) {
+    return cardsImported(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TestDetailEvent$Started value)? started,
+    TResult? Function(_TestDetailEvent$CardAdded value)? cardAdded,
+    TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
+    TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
+    TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
+  }) {
+    return cardsImported?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TestDetailEvent$Started value)? started,
+    TResult Function(_TestDetailEvent$CardAdded value)? cardAdded,
+    TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
+    TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
+    TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
+    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
+    required TResult orElse(),
+  }) {
+    if (cardsImported != null) {
+      return cardsImported(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TestDetailEvent$CardsImported implements TestDetailEvent {
+  const factory _TestDetailEvent$CardsImported(
+          {required final List<({String back, String front})> cards}) =
+      _$TestDetailEvent$CardsImportedImpl;
+
+  List<({String back, String front})> get cards;
+  @JsonKey(ignore: true)
+  _$$TestDetailEvent$CardsImportedImplCopyWith<
+          _$TestDetailEvent$CardsImportedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 

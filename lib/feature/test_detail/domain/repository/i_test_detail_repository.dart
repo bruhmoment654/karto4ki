@@ -24,4 +24,10 @@ abstract interface class ITestDetailRepository {
 
   /// Update test information.
   Future<void> updateTest(TestEntity test);
+
+  /// Add multiple cards to test (batch insert).
+  Future<void> addCards({
+    required int testId,
+    required List<({String front, String back})> cards,
+  });
 }

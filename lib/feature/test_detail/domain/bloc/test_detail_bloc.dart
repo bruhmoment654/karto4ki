@@ -29,6 +29,7 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
         _TestDetailEvent$CardDeleted() => _onCardDeleted(event, emit),
         _TestDetailEvent$CardUpdated() => _onCardUpdated(event, emit),
         _TestDetailEvent$TestUpdated() => _onTestUpdated(event, emit),
+        _TestDetailEvent$CardsImported() => _onCardsImported(event, emit),
       },
     );
   }
@@ -126,6 +127,27 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
       );
 
       await _repository.updateTest(updatedTest);
+      await _reloadData(emit);
+    } on Failure catch (f) {
+      emit(TestDetailState.error(failure: f));
+    } on Object catch (e, st) {
+      emit(TestDetailState.error(failure: UnknownFailure.fromException(e, st)));
+    }
+  }
+
+  Future<void> _onCardsImported(
+    _TestDetailEvent$CardsImported event,
+    Emitter<TestDetailState> emit,
+  ) async {
+    final testId = _currentTestId;
+    if (testId == null) return;
+
+    try {
+      await _repository.addCards(
+        testId: testId,
+        cards: event.cards,
+      );
+
       await _reloadData(emit);
     } on Failure catch (f) {
       emit(TestDetailState.error(failure: f));

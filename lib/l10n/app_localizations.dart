@@ -221,7 +221,7 @@ abstract class AppLocalizations {
   /// No description provided for @tinderTestUnknownBadge.
   ///
   /// In en, this message translates to:
-  /// **'DON'T KNOW'**
+  /// **'DON\'T KNOW'**
   String get tinderTestUnknownBadge;
 
   /// No description provided for @tinderTestKnownBadge.
@@ -233,7 +233,7 @@ abstract class AppLocalizations {
   /// No description provided for @tinderTestSwipeUnknownHint.
   ///
   /// In en, this message translates to:
-  /// **'Don't know'**
+  /// **'Don\'t know'**
   String get tinderTestSwipeUnknownHint;
 
   /// No description provided for @tinderTestSwipeKnownHint.
@@ -317,7 +317,7 @@ abstract class AppLocalizations {
   /// No description provided for @testsListDeleteDialogMessage.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to delete "{title}"?'**
+  /// **'Are you sure you want to delete \"{title}\"?'**
   String testsListDeleteDialogMessage(String title);
 
   /// No description provided for @testsListDeleteDialogCancel.
@@ -415,6 +415,66 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Answer'**
   String get mainQuestionCardBack;
+
+  /// No description provided for @csvImportButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Import CSV'**
+  String get csvImportButton;
+
+  /// No description provided for @csvImportDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Import cards from CSV'**
+  String get csvImportDialogTitle;
+
+  /// No description provided for @csvImportDialogDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'File format:\n• 1st column — question (word)\n• 2nd column — answer (translation)\n• Delimiter: comma or semicolon'**
+  String get csvImportDialogDescription;
+
+  /// No description provided for @csvImportDialogContinue.
+  ///
+  /// In en, this message translates to:
+  /// **'Select file'**
+  String get csvImportDialogContinue;
+
+  /// No description provided for @csvImportDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get csvImportDialogCancel;
+
+  /// No description provided for @csvImportErrorEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'File is empty or contains no data'**
+  String get csvImportErrorEmpty;
+
+  /// No description provided for @csvImportErrorFormat.
+  ///
+  /// In en, this message translates to:
+  /// **'Invalid CSV format. Minimum 2 columns required.'**
+  String get csvImportErrorFormat;
+
+  /// No description provided for @csvImportErrorRead.
+  ///
+  /// In en, this message translates to:
+  /// **'Could not read file'**
+  String get csvImportErrorRead;
+
+  /// No description provided for @csvImportSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported cards: {count}'**
+  String csvImportSuccess(int count);
+
+  /// No description provided for @csvImportCancelled.
+  ///
+  /// In en, this message translates to:
+  /// **'Import cancelled'**
+  String get csvImportCancelled;
 }
 
 class _AppLocalizationsDelegate

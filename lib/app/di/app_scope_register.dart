@@ -1,4 +1,5 @@
 import 'package:karto4ki/app/di/app_scope.dart';
+import 'package:karto4ki/core/services/csv_import_service.dart';
 import 'package:karto4ki/feature/card_detail/data/repository/card_repository.dart';
 import 'package:karto4ki/feature/main/data/repository/main_repository.dart';
 import 'package:karto4ki/feature/test_detail/data/repository/test_detail_repository.dart';
@@ -28,12 +29,15 @@ class AppScopeRegister {
       cardsDatabase: database.cardsDatabase,
     );
 
+    const csvImportService = CsvImportService();
+
     return AppScope(
       database: database,
       mainRepository: mainRepository,
       cardRepository: cardRepository,
       testsListRepository: testsListRepository,
       testDetailRepository: testDetailRepository,
+      csvImportService: csvImportService,
     );
   }
 }

@@ -40,7 +40,8 @@ class TinderTestView extends StatelessWidget {
             message: message,
             viewModel: viewModel,
           ),
-        TinderTestState$InProgress(:final session, :final currentCard) => _TestContent(
+        TinderTestState$InProgress(:final session, :final currentCard) =>
+          _TestContent(
             session: session,
             currentCard: currentCard,
             viewModel: viewModel,
@@ -102,14 +103,16 @@ class _ErrorContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.error_outline,
             size: 64,
-            color: Colors.red,
+            color: colorScheme.error,
           ),
           const SizedBox(height: 16),
           Text(
@@ -166,8 +169,10 @@ class _TestContentState extends State<_TestContent> {
               card: widget.currentCard,
               showAnswer: _showAnswer,
               onTap: () => setState(() => _showAnswer = !_showAnswer),
-              onSwipeLeft: () => widget.viewModel.onSwipeLeft(widget.currentCard),
-              onSwipeRight: () => widget.viewModel.onSwipeRight(widget.currentCard),
+              onSwipeLeft: () =>
+                  widget.viewModel.onSwipeLeft(widget.currentCard),
+              onSwipeRight: () =>
+                  widget.viewModel.onSwipeRight(widget.currentCard),
             ),
           ),
         ),
@@ -185,6 +190,8 @@ class _ProgressIndicator extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
@@ -201,10 +208,10 @@ class _ProgressIndicator extends StatelessWidget {
               ),
               Row(
                 children: [
-                  const Icon(Icons.check, color: Colors.green, size: 16),
+                  Icon(Icons.check, color: colorScheme.primary, size: 16),
                   Text(' ${session.correctCount}'),
                   const SizedBox(width: 8),
-                  const Icon(Icons.close, color: Colors.red, size: 16),
+                  Icon(Icons.close, color: colorScheme.error, size: 16),
                   Text(' ${session.incorrectCount}'),
                 ],
               ),
@@ -225,6 +232,8 @@ class _ProgressIndicator extends StatelessWidget {
 class _SwipeHints extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 32),
       child: Row(
@@ -232,7 +241,7 @@ class _SwipeHints extends StatelessWidget {
         children: [
           Row(
             children: [
-              const Icon(Icons.arrow_back, color: Colors.red),
+              Icon(Icons.arrow_back, color: colorScheme.error),
               const SizedBox(width: 8),
               Text(
                 context.l10n.tinderTestSwipeUnknownHint,
@@ -247,7 +256,7 @@ class _SwipeHints extends StatelessWidget {
                 style: TextStyle(color: Colors.grey[600]),
               ),
               const SizedBox(width: 8),
-              const Icon(Icons.arrow_forward, color: Colors.green),
+              Icon(Icons.arrow_forward, color: colorScheme.primary),
             ],
           ),
         ],
@@ -267,6 +276,7 @@ class _ResultsContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final total = session.cards.length;
     final correct = session.correctCount;
     final percentage = total > 0 ? (correct / total * 100).round() : 0;
@@ -293,14 +303,14 @@ class _ResultsContent extends StatelessWidget {
             const SizedBox(height: 32),
             _ResultCard(
               icon: Icons.check_circle,
-              color: Colors.green,
+              color: colorScheme.primary,
               label: context.l10n.tinderTestResultsCorrectLabel,
               value: correct.toString(),
             ),
             const SizedBox(height: 16),
             _ResultCard(
               icon: Icons.cancel,
-              color: Colors.red,
+              color: colorScheme.error,
               label: context.l10n.tinderTestResultsIncorrectLabel,
               value: session.incorrectCount.toString(),
             ),

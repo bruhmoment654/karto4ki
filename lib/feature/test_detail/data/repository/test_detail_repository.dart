@@ -78,4 +78,22 @@ class TestDetailRepository implements ITestDetailRepository {
       );
     }
   }
+
+  @override
+  Future<void> addCards({
+    required int testId,
+    required List<({String front, String back})> cards,
+  }) async {
+    final companions = cards
+        .map(
+          (card) => CardConverter.toNewCompanion(
+            testId: testId,
+            front: card.front,
+            back: card.back,
+          ),
+        )
+        .toList();
+
+    await _cardsDatabase.insertCards(companions);
+  }
 }

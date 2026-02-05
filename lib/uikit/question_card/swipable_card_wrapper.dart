@@ -27,13 +27,13 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Offset> _animation;
+  late Listenable _listenable;
 
-  /// Reused tween: update begin/end per gesture to avoid new Animation objects.
   final Tween<Offset> _tween = Tween<Offset>(
     begin: Offset.zero,
     end: Offset.zero,
   );
-  Offset _dragOffset = Offset.zero;
+  final ValueNotifier<Offset> _dragOffset = ValueNotifier(Offset.zero);
   bool _isDragging = false;
 
   @override
@@ -47,10 +47,12 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
       parent: _controller,
       curve: Curves.easeOut,
     ));
+    _listenable = Listenable.merge([_controller, _dragOffset]);
   }
 
   @override
   void dispose() {
+    _dragOffset.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -61,9 +63,7 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
   }
 
   void _onPanUpdate(DragUpdateDetails details) {
-    setState(() {
-      _dragOffset += details.delta;
-    });
+    _dragOffset.value += details.delta;
   }
 
   void _onPanEnd(DragEndDetails details) {
@@ -71,9 +71,9 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
     final screenWidth = MediaQuery.of(context).size.width;
     final threshold = screenWidth * 0.3;
 
-    if (_dragOffset.dx > threshold) {
+    if (_dragOffset.value.dx > threshold) {
       _animateOut(const Offset(1.5, 0), widget.onSwipeRight);
-    } else if (_dragOffset.dx < -threshold) {
+    } else if (_dragOffset.value.dx < -threshold) {
       _animateOut(const Offset(-1.5, 0), widget.onSwipeLeft);
     } else {
       _animateBack();
@@ -83,12 +83,12 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
   void _animateOut(Offset target, VoidCallback callback) {
     final screenWidth = MediaQuery.of(context).size.width;
     _tween
-      ..begin = _dragOffset / screenWidth
+      ..begin = _dragOffset.value / screenWidth
       ..end = target;
     _controller.forward(from: 0).then((_) {
       callback();
       _controller.reset();
-      _dragOffset = Offset.zero;
+      _dragOffset.value = Offset.zero;
       _tween
         ..begin = Offset.zero
         ..end = Offset.zero;
@@ -98,10 +98,10 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
   void _animateBack() {
     final screenWidth = MediaQuery.of(context).size.width;
     _tween
-      ..begin = _dragOffset / screenWidth
+      ..begin = _dragOffset.value / screenWidth
       ..end = Offset.zero;
     _controller.forward(from: 0).then((_) {
-      _dragOffset = Offset.zero;
+      _dragOffset.value = Offset.zero;
     });
   }
 
@@ -109,11 +109,11 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
 
-    return AnimatedBuilder(
-      animation: _controller,
+    return ListenableBuilder(
+      listenable: _listenable,
       builder: (context, child) {
         final offset = _isDragging
-            ? _dragOffset
+            ? _dragOffset.value
             : Offset(
                 _animation.value.dx * screenWidth,
                 _animation.value.dy * screenWidth,
@@ -126,7 +126,7 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
             angle: rotation,
             child: GestureDetector(
               onTap: widget.onTap,
-              onPanStart: _onPanStart,
+              onPanStart: _onPanStart,  
               onPanUpdate: _onPanUpdate,
               onPanEnd: _onPanEnd,
               child: QuestionCardContent(
@@ -147,7 +147,7 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
                   textAlign: TextAlign.center,
                 ),
                 showAnswer: widget.showAnswer,
-                dragOffset: offset,
+                cardOffset: offset,
                 leftBadgeText: context.l10n.tinderTestUnknownBadge,
                 rightBadgeText: context.l10n.tinderTestKnownBadge,
               ),

@@ -63,19 +63,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tinderTestBackButton => 'Back';
 
   @override
-  String tinderTestProgressLabel(int current, int total) => 'Card $current of $total';
+  String tinderTestProgressLabel(int current, int total) {
+    return 'Card $current of $total';
+  }
 
   @override
   String get tinderTestTapToShowAnswer => 'Tap to show the answer';
 
   @override
-  String get tinderTestUnknownBadge => "DON'T KNOW";
+  String get tinderTestUnknownBadge => 'DON\'T KNOW';
 
   @override
   String get tinderTestKnownBadge => 'KNOW';
 
   @override
-  String get tinderTestSwipeUnknownHint => "Don't know";
+  String get tinderTestSwipeUnknownHint => 'Don\'t know';
 
   @override
   String get tinderTestSwipeKnownHint => 'Know';
@@ -102,7 +104,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testsListAppBarTitle => 'Tests';
 
   @override
-  String testsListErrorMessage(String message) => 'Error: $message';
+  String testsListErrorMessage(String message) {
+    return 'Error: $message';
+  }
 
   @override
   String get testsListUnknownError => 'Unknown error';
@@ -111,14 +115,16 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testsListRetryButton => 'Retry';
 
   @override
-  String get testsListEmptyMessage => 'No tests.\nTap + to create the first test.';
+  String get testsListEmptyMessage =>
+      'No tests.\nTap + to create the first test.';
 
   @override
   String get testsListDeleteDialogTitle => 'Delete test?';
 
   @override
-  String testsListDeleteDialogMessage(String title) =>
-      'Are you sure you want to delete "$title"?';
+  String testsListDeleteDialogMessage(String title) {
+    return 'Are you sure you want to delete \"$title\"?';
+  }
 
   @override
   String get testsListDeleteDialogCancel => 'Cancel';
@@ -133,7 +139,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testDetailEditTooltip => 'Edit test';
 
   @override
-  String testDetailErrorMessage(String message) => 'Error: $message';
+  String testDetailErrorMessage(String message) {
+    return 'Error: $message';
+  }
 
   @override
   String get testDetailUnknownError => 'Unknown error';
@@ -145,7 +153,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testDetailStartButton => 'Start test';
 
   @override
-  String testDetailCardsTitle(int count) => 'Cards ($count)';
+  String testDetailCardsTitle(int count) {
+    return 'Cards ($count)';
+  }
 
   @override
   String get testDetailEmptyCardsMessage =>
@@ -169,4 +179,38 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get mainQuestionCardBack => 'Answer';
+
+  @override
+  String get csvImportButton => 'Import CSV';
+
+  @override
+  String get csvImportDialogTitle => 'Import cards from CSV';
+
+  @override
+  String get csvImportDialogDescription =>
+      'File format:\n• 1st column — question (word)\n• 2nd column — answer (translation)\n• Delimiter: comma or semicolon';
+
+  @override
+  String get csvImportDialogContinue => 'Select file';
+
+  @override
+  String get csvImportDialogCancel => 'Cancel';
+
+  @override
+  String get csvImportErrorEmpty => 'File is empty or contains no data';
+
+  @override
+  String get csvImportErrorFormat =>
+      'Invalid CSV format. Minimum 2 columns required.';
+
+  @override
+  String get csvImportErrorRead => 'Could not read file';
+
+  @override
+  String csvImportSuccess(int count) {
+    return 'Imported cards: $count';
+  }
+
+  @override
+  String get csvImportCancelled => 'Import cancelled';
 }

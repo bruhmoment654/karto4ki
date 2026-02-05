@@ -244,21 +244,27 @@ abstract class _TestEntity implements TestEntity {
       final String? description}) = _$TestEntityImpl;
 
   @override
+
   /// Unique test identifier.
   String get id;
   @override
+
   /// Test title.
   String get title;
   @override
+
   /// Test type.
   TestType get type;
   @override
+
   /// Creation date.
   DateTime get createdAt;
   @override
+
   /// Update date.
   DateTime get updatedAt;
   @override
+
   /// Test description.
   String? get description;
   @override

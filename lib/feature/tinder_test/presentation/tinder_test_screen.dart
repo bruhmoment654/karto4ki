@@ -16,7 +16,8 @@ class TinderTestScreen extends StatefulWidget {
   State<TinderTestScreen> createState() => _TinderTestScreenState();
 }
 
-class _TinderTestScreenState extends State<TinderTestScreen> implements ITinderTestViewModel {
+class _TinderTestScreenState extends State<TinderTestScreen>
+    implements ITinderTestViewModel {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TinderTestBloc, TinderTestState>(

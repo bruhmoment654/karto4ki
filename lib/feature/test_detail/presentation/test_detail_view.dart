@@ -56,7 +56,8 @@ class TestDetailView extends StatelessWidget {
                       const SizedBox(height: 8),
                       Text(
                         switch (state) {
-                          TestDetailState$Loaded(:final test) => test.title.toUpperCase(),
+                          TestDetailState$Loaded(:final test) =>
+                            test.title.toUpperCase(),
                           _ => context.l10n.testDetailLoadingTitle,
                         },
                         style: Theme.of(context).textTheme.titleLarge?.copyWith(
@@ -137,9 +138,19 @@ class _TestDetailContent extends StatelessWidget {
           ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Text(
-            context.l10n.testDetailCardsTitle(cards.length),
-            style: textTheme.titleMedium,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                context.l10n.testDetailCardsTitle(cards.length),
+                style: textTheme.titleMedium,
+              ),
+              TextButton.icon(
+                onPressed: viewModel.onImportCsvPressed,
+                icon: const Icon(Icons.upload_file, size: 18),
+                label: Text(context.l10n.csvImportButton),
+              ),
+            ],
           ),
         ),
         Expanded(

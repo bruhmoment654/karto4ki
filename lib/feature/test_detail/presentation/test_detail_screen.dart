@@ -2,11 +2,14 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:karto4ki/app/di/app_scope.dart';
 import 'package:karto4ki/app/navigation/app_router.dart';
+import 'package:karto4ki/core/services/csv_import_service.dart';
 import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
 import 'package:karto4ki/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:karto4ki/feature/test_detail/presentation/test_detail_view.dart';
 import 'package:karto4ki/feature/tests_list/domain/entity/test_type.dart';
+import 'package:karto4ki/l10n/app_localizations_x.dart';
 
 /// Test detail screen.
 ///
@@ -240,6 +243,63 @@ class _TestDetailScreenState extends State<TestDetailScreen>
         context.router.push(TinderTestRoute(testId: testId));
     }
   }
+
+  @override
+  void onImportCsvPressed() {
+    _showCsvImportDialog();
+  }
+
+  void _showCsvImportDialog() {
+    showDialog<bool>(
+      context: context,
+      builder: (dialogContext) => AlertDialog(
+        title: Text(context.l10n.csvImportDialogTitle),
+        content: Text(context.l10n.csvImportDialogDescription),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(false),
+            child: Text(context.l10n.csvImportDialogCancel),
+          ),
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(true),
+            child: Text(context.l10n.csvImportDialogContinue),
+          ),
+        ],
+      ),
+    ).then((confirmed) {
+      if (confirmed == true) {
+        _pickAndImportCsv();
+      }
+    });
+  }
+
+  Future<void> _pickAndImportCsv() async {
+    final scope = context.read<IAppScope>();
+    final result = await scope.csvImportService.pickAndParseFile();
+
+    if (!mounted) return;
+
+    switch (result) {
+      case CsvImportSuccess(:final cards):
+        context.read<TestDetailBloc>().add(
+              TestDetailEvent.cardsImported(cards: cards),
+            );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(context.l10n.csvImportSuccess(cards.length))),
+        );
+      case CsvImportCancelled():
+        break;
+      case CsvImportError(:final type):
+        final message = switch (type) {
+          CsvImportErrorType.empty => context.l10n.csvImportErrorEmpty,
+          CsvImportErrorType.invalidFormat => context.l10n.csvImportErrorFormat,
+          CsvImportErrorType.readError => context.l10n.csvImportErrorRead,
+        };
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(message)),
+        );
+    }
+  }
 }
 
 /// ViewModel interface for test detail screen.
@@ -260,4 +320,7 @@ abstract interface class ITestDetailViewModel {
 
   /// Called when start test button is pressed.
   void onStartTestPressed();
+
+  /// Called when import CSV button is pressed.
+  void onImportCsvPressed();
 }

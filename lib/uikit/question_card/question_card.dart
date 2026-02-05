@@ -48,7 +48,7 @@ class _QuestionCardState extends State<QuestionCard> {
         front: widget.front,
         back: widget.back,
         showAnswer: _isFlipped,
-        dragOffset: Offset.zero,
+        cardOffset: Offset.zero,
       ),
     );
   }
@@ -79,7 +79,7 @@ class QuestionCardContent extends StatelessWidget {
   final Widget front;
   final Widget back;
   final bool showAnswer;
-  final Offset dragOffset;
+  final Offset cardOffset;
   final String? leftBadgeText;
   final String? rightBadgeText;
 
@@ -87,7 +87,7 @@ class QuestionCardContent extends StatelessWidget {
     required this.front,
     required this.back,
     required this.showAnswer,
-    required this.dragOffset,
+    required this.cardOffset,
     super.key,
     this.leftBadgeText,
     this.rightBadgeText,
@@ -95,13 +95,11 @@ class QuestionCardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final leftOpacity = (dragOffset.dx.abs() / 100).clamp(0.0, 1.0);
-    final showLeft = dragOffset.dx < 0 && leftBadgeText != null;
-    final showRight = dragOffset.dx > 0 && rightBadgeText != null;
-
-  debugPrint('dragOffset: $dragOffset');
-  debugPrint('showLeft: $showLeft');
-  debugPrint('showRight: $showRight');
+    final badgeText = switch (cardOffset.dx) {
+      < 0 => leftBadgeText ?? '',
+      > 0 => rightBadgeText ?? '',
+      _ => '',
+    };
 
     return Card(
       elevation: 8,
@@ -112,75 +110,38 @@ class QuestionCardContent extends StatelessWidget {
         width: double.infinity,
         height: double.infinity,
         padding: const EdgeInsets.all(24),
-        child: Stack(
-          children: [
-            Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  front,
-                  if (showAnswer) ...[
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              AnimatedCrossFade(
+                duration: const Duration(milliseconds: 200),
+                crossFadeState: badgeText.isNotEmpty
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
+                firstChild: _QuestionCardText(text: badgeText),
+                secondChild: const SizedBox.shrink(),
+              ),
+              const SizedBox(height: 16),
+              front,
+              AnimatedCrossFade(
+                duration: const Duration(milliseconds: 200),
+                crossFadeState: showAnswer
+                    ? CrossFadeState.showFirst
+                    : CrossFadeState.showSecond,
+                firstChild: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
                     const SizedBox(height: 24),
                     const Divider(),
                     const SizedBox(height: 24),
                     back,
                   ],
-                ],
-              ),
-            ),
-            if (showLeft)
-              Positioned(
-                top: 16,
-                left: 16,
-                child: Opacity(
-                  opacity: leftOpacity,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.red, width: 3),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      leftBadgeText!,
-                      style: const TextStyle(
-                        color: Colors.red,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
                 ),
+                secondChild: const SizedBox.shrink(),
               ),
-            if (showRight)
-              Positioned(
-                top: 16,
-                right: 16,
-                child: Opacity(
-                  opacity: leftOpacity,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: Colors.green, width: 3),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Text(
-                      rightBadgeText!,
-                      style: const TextStyle(
-                        color: Colors.green,
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                      ),
-                    ),
-                  ),
-                ),
-              ),
-          ],
+            ],
+          ),
         ),
       ),
     );

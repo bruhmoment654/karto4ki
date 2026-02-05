@@ -29,4 +29,9 @@ sealed class TestDetailEvent with _$TestDetailEvent {
     required String title,
     String? description,
   }) = _TestDetailEvent$TestUpdated;
+
+  /// Import cards from CSV event.
+  const factory TestDetailEvent.cardsImported({
+    required List<({String front, String back})> cards,
+  }) = _TestDetailEvent$CardsImported;
 }

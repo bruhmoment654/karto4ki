@@ -562,5 +562,27 @@
     "description": "Главный экран"
   },
   "mainQuestionCardFront": "Вопрос",
-  "mainQuestionCardBack": "Ответ"
+  "mainQuestionCardBack": "Ответ",
+  "@segmentCsvImport": {
+    "---------": "---------",
+    "description": "Импорт карточек из CSV"
+  },
+  "csvImportButton": "Импорт CSV",
+  "csvImportDialogTitle": "Импорт карточек из CSV",
+  "csvImportDialogDescription": "Формат файла:\n• 1 столбец — вопрос (слово)\n• 2 столбец — ответ (перевод)\n• Разделитель: запятая или точка с запятой",
+  "csvImportDialogContinue": "Выбрать файл",
+  "csvImportDialogCancel": "Отмена",
+  "csvImportErrorEmpty": "Файл пустой или не содержит данных",
+  "csvImportErrorFormat": "Неверный формат CSV. Требуется минимум 2 столбца.",
+  "csvImportErrorRead": "Не удалось прочитать файл",
+  "csvImportSuccess": "Импортировано карточек: {count}",
+  "@csvImportSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "10"
+      }
+    }
+  },
+  "csvImportCancelled": "Импорт отменён"
 }

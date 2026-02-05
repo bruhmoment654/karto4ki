@@ -63,7 +63,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tinderTestBackButton => 'Назад';
 
   @override
-  String tinderTestProgressLabel(int current, int total) => 'Карточка $current из $total';
+  String tinderTestProgressLabel(int current, int total) {
+    return 'Карточка $current из $total';
+  }
 
   @override
   String get tinderTestTapToShowAnswer => 'Нажмите, чтобы увидеть ответ';
@@ -102,7 +104,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get testsListAppBarTitle => 'Тесты';
 
   @override
-  String testsListErrorMessage(String message) => 'Ошибка: $message';
+  String testsListErrorMessage(String message) {
+    return 'Ошибка: $message';
+  }
 
   @override
   String get testsListUnknownError => 'Неизвестная ошибка';
@@ -118,8 +122,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get testsListDeleteDialogTitle => 'Удалить тест?';
 
   @override
-  String testsListDeleteDialogMessage(String title) =>
-      'Вы уверены, что хотите удалить "$title"?';
+  String testsListDeleteDialogMessage(String title) {
+    return 'Вы уверены, что хотите удалить \"$title\"?';
+  }
 
   @override
   String get testsListDeleteDialogCancel => 'Отмена';
@@ -134,7 +139,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get testDetailEditTooltip => 'Редактировать тест';
 
   @override
-  String testDetailErrorMessage(String message) => 'Ошибка: $message';
+  String testDetailErrorMessage(String message) {
+    return 'Ошибка: $message';
+  }
 
   @override
   String get testDetailUnknownError => 'Неизвестная ошибка';
@@ -146,7 +153,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get testDetailStartButton => 'Начать тест';
 
   @override
-  String testDetailCardsTitle(int count) => 'Карточки ($count)';
+  String testDetailCardsTitle(int count) {
+    return 'Карточки ($count)';
+  }
 
   @override
   String get testDetailEmptyCardsMessage =>
@@ -170,4 +179,38 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get mainQuestionCardBack => 'Ответ';
+
+  @override
+  String get csvImportButton => 'Импорт CSV';
+
+  @override
+  String get csvImportDialogTitle => 'Импорт карточек из CSV';
+
+  @override
+  String get csvImportDialogDescription =>
+      'Формат файла:\n• 1 столбец — вопрос (слово)\n• 2 столбец — ответ (перевод)\n• Разделитель: запятая или точка с запятой';
+
+  @override
+  String get csvImportDialogContinue => 'Выбрать файл';
+
+  @override
+  String get csvImportDialogCancel => 'Отмена';
+
+  @override
+  String get csvImportErrorEmpty => 'Файл пустой или не содержит данных';
+
+  @override
+  String get csvImportErrorFormat =>
+      'Неверный формат CSV. Требуется минимум 2 столбца.';
+
+  @override
+  String get csvImportErrorRead => 'Не удалось прочитать файл';
+
+  @override
+  String csvImportSuccess(int count) {
+    return 'Импортировано карточек: $count';
+  }
+
+  @override
+  String get csvImportCancelled => 'Импорт отменён';
 }

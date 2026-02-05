@@ -22,7 +22,6 @@ class HomeView extends StatelessWidget {
       bottomNavigationBuilder: (context, tabsRouter) {
         return BottomNavigationBar(
           backgroundColor: Theme.of(context).colorScheme.scaffoldBackground,
-
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
           items: const [
