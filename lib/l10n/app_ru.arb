@@ -569,7 +569,7 @@
   },
   "csvImportButton": "Импорт CSV",
   "csvImportDialogTitle": "Импорт карточек из CSV",
-  "csvImportDialogDescription": "Формат файла:\n• 1 столбец — вопрос (слово)\n• 2 столбец — ответ (перевод)\n• Разделитель: запятая или точка с запятой",
+  "csvImportDialogDescription": "Формат файла:\n• 1 столбец — вопрос (слово)\n• 2 столбец — ответ (перевод)\n• Разделитель: точка с запятой (;)",
   "csvImportDialogContinue": "Выбрать файл",
   "csvImportDialogCancel": "Отмена",
   "csvImportErrorEmpty": "Файл пустой или не содержит данных",

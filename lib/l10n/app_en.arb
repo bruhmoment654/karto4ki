@@ -131,7 +131,7 @@
   },
   "csvImportButton": "Import CSV",
   "csvImportDialogTitle": "Import cards from CSV",
-  "csvImportDialogDescription": "File format:\n• 1st column — question (word)\n• 2nd column — answer (translation)\n• Delimiter: comma or semicolon",
+  "csvImportDialogDescription": "File format:\n• 1st column — question (word)\n• 2nd column — answer (translation)\n• Delimiter: semicolon (;)",
   "csvImportDialogContinue": "Select file",
   "csvImportDialogCancel": "Cancel",
   "csvImportErrorEmpty": "File is empty or contains no data",

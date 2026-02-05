@@ -147,14 +147,20 @@ class _TestContent extends StatefulWidget {
 }
 
 class _TestContentState extends State<_TestContent> {
-  bool _showAnswer = false;
+  final ValueNotifier<bool> _showAnswer = ValueNotifier(false);
 
   @override
   void didUpdateWidget(_TestContent oldWidget) {
     super.didUpdateWidget(oldWidget);
     if (oldWidget.currentCard.id != widget.currentCard.id) {
-      _showAnswer = false;
+      _showAnswer.value = false;
     }
+  }
+
+  @override
+  void dispose() {
+    _showAnswer.dispose();
+    super.dispose();
   }
 
   @override
@@ -165,14 +171,19 @@ class _TestContentState extends State<_TestContent> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: SwipeableCardWrapper(
-              card: widget.currentCard,
-              showAnswer: _showAnswer,
-              onTap: () => setState(() => _showAnswer = !_showAnswer),
-              onSwipeLeft: () =>
-                  widget.viewModel.onSwipeLeft(widget.currentCard),
-              onSwipeRight: () =>
-                  widget.viewModel.onSwipeRight(widget.currentCard),
+            child: ValueListenableBuilder<bool>(
+              valueListenable: _showAnswer,
+              builder: (context, showAnswer, child) {
+                return SwipeableCardWrapper(
+                  card: widget.currentCard,
+                  showAnswer: showAnswer,
+                  onTap: () => _showAnswer.value = !showAnswer,
+                  onSwipeLeft: () =>
+                      widget.viewModel.onSwipeLeft(widget.currentCard),
+                  onSwipeRight: () =>
+                      widget.viewModel.onSwipeRight(widget.currentCard),
+                );
+              },
             ),
           ),
         ),

@@ -140,9 +140,9 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
                 ),
                 back: Text(
                   widget.card.back,
-                  style: TextStyle(
-                    fontSize: 20,
-                    color: Colors.grey[700],
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),

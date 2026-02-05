@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 class QuestionCard extends StatefulWidget {
@@ -31,24 +33,33 @@ class QuestionCard extends StatefulWidget {
 }
 
 class _QuestionCardState extends State<QuestionCard> {
-  bool _isFlipped = false;
+  final ValueNotifier<bool> _isFlipped = ValueNotifier(false);
 
   void _flip() {
-    setState(() {
-      _isFlipped = !_isFlipped;
-    });
+    _isFlipped.value = !_isFlipped.value;
     widget.onFlip?.call();
+  }
+
+  @override
+  void dispose() {
+    _isFlipped.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: _flip,
-      child: QuestionCardContent(
-        front: widget.front,
-        back: widget.back,
-        showAnswer: _isFlipped,
-        cardOffset: Offset.zero,
+      child: ValueListenableBuilder<bool>(
+        valueListenable: _isFlipped,
+        builder: (context, isFlipped, child) {
+          return QuestionCardContent(
+            front: widget.front,
+            back: widget.back,
+            showAnswer: isFlipped,
+            cardOffset: Offset.zero,
+          );
+        },
       ),
     );
   }
@@ -95,55 +106,99 @@ class QuestionCardContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
     final badgeText = switch (cardOffset.dx) {
       < 0 => leftBadgeText ?? '',
       > 0 => rightBadgeText ?? '',
       _ => '',
     };
+    final showBadge = badgeText.isNotEmpty;
+    final dxAbs = cardOffset.dx.abs();
+    final showThreshold = screenWidth * 0.08;
+    final maxDistance = screenWidth * 0.3;
+    final badgeOpacity = dxAbs <= showThreshold
+        ? 0.0
+        : ((dxAbs - showThreshold) / (maxDistance - showThreshold))
+            .clamp(0.0, 1.0)
+            .toDouble();
 
-    return Card(
-      elevation: 8,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(16),
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(
+        begin: 0,
+        end: showAnswer ? math.pi : 0,
       ),
-      child: Container(
-        width: double.infinity,
-        height: double.infinity,
-        padding: const EdgeInsets.all(24),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              AnimatedCrossFade(
-                duration: const Duration(milliseconds: 200),
-                crossFadeState: badgeText.isNotEmpty
-                    ? CrossFadeState.showFirst
-                    : CrossFadeState.showSecond,
-                firstChild: _QuestionCardText(text: badgeText),
-                secondChild: const SizedBox.shrink(),
-              ),
-              const SizedBox(height: 16),
-              front,
-              AnimatedCrossFade(
-                duration: const Duration(milliseconds: 200),
-                crossFadeState: showAnswer
-                    ? CrossFadeState.showFirst
-                    : CrossFadeState.showSecond,
-                firstChild: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    const SizedBox(height: 24),
-                    const Divider(),
-                    const SizedBox(height: 24),
-                    back,
-                  ],
+      duration: const Duration(milliseconds: 300),
+      curve: Curves.easeInOut,
+      builder: (context, angle, child) {
+        final isBackVisible = angle > math.pi / 2;
+        final transform = Matrix4.identity()
+          ..setEntry(3, 2, 0.001)
+          ..rotateY(angle);
+        final face = isBackVisible
+            ? Transform(
+                alignment: Alignment.center,
+                transform: Matrix4.rotationY(math.pi),
+                child: _QuestionCardFace(
+                  badgeText: badgeText,
+                  showBadge: showBadge,
+                  badgeOpacity: badgeOpacity,
+                  body: back,
                 ),
-                secondChild: const SizedBox.shrink(),
-              ),
-            ],
+              )
+            : _QuestionCardFace(
+                badgeText: badgeText,
+                showBadge: showBadge,
+                badgeOpacity: badgeOpacity,
+                body: front,
+              );
+
+        return Transform(
+          alignment: Alignment.center,
+          transform: transform,
+          child: Card(
+            elevation: 8,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(16),
+            ),
+            child: Container(
+              width: double.infinity,
+              height: double.infinity,
+              padding: const EdgeInsets.all(24),
+              child: Center(child: face),
+            ),
           ),
+        );
+      },
+    );
+  }
+}
+
+class _QuestionCardFace extends StatelessWidget {
+  final String badgeText;
+  final bool showBadge;
+  final double badgeOpacity;
+  final Widget body;
+
+  const _QuestionCardFace({
+    required this.badgeText,
+    required this.showBadge,
+    required this.badgeOpacity,
+    required this.body,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        AnimatedOpacity(
+          opacity: showBadge ? badgeOpacity : 0,
+          duration: const Duration(milliseconds: 150),
+          child: _QuestionCardText(text: badgeText),
         ),
-      ),
+        const SizedBox(height: 16),
+        body,
+      ],
     );
   }
 }

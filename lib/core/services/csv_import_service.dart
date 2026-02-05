@@ -82,6 +82,7 @@ class CsvImportService implements ICsvImportService {
       }
 
       final rows = const CsvToListConverter(
+        fieldDelimiter: ';',
         shouldParseNumbers: false,
         allowInvalid: true,
       ).convert(content);
