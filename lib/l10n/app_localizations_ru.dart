@@ -208,4 +208,25 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get csvImportCancelled => 'Импорт отменён';
+
+  @override
+  String get testMergeAppBarTitle => 'Объединение тестов';
+
+  @override
+  String get testMergeConfirmButton => 'Объединить';
+
+  @override
+  String get testMergeNewTestTitle => 'Название нового теста';
+
+  @override
+  String get testMergeSuccessMessage => 'Тест успешно создан';
+
+  @override
+  String get testMergeSelectHint => 'Выберите тесты для объединения';
+
+  @override
+  String get testActionsDialogTitle => 'Действия';
+
+  @override
+  String get testActionMerge => 'Объединить с другими';
 }

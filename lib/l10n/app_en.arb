@@ -146,5 +146,16 @@
       }
     }
   },
-  "csvImportCancelled": "Import cancelled"
+  "csvImportCancelled": "Import cancelled",
+  "@segmentTestMerge": {
+    "---------": "---------",
+    "description": "Test merge"
+  },
+  "testMergeAppBarTitle": "Merge tests",
+  "testMergeConfirmButton": "Merge",
+  "testMergeNewTestTitle": "New test name",
+  "testMergeSuccessMessage": "Test created successfully",
+  "testMergeSelectHint": "Select tests to merge",
+  "testActionsDialogTitle": "Actions",
+  "testActionMerge": "Merge with others"
 }

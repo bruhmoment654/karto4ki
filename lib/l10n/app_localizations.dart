@@ -472,6 +472,48 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Import cancelled'**
   String get csvImportCancelled;
+
+  /// No description provided for @testMergeAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge tests'**
+  String get testMergeAppBarTitle;
+
+  /// No description provided for @testMergeConfirmButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge'**
+  String get testMergeConfirmButton;
+
+  /// No description provided for @testMergeNewTestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New test name'**
+  String get testMergeNewTestTitle;
+
+  /// No description provided for @testMergeSuccessMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Test created successfully'**
+  String get testMergeSuccessMessage;
+
+  /// No description provided for @testMergeSelectHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Select tests to merge'**
+  String get testMergeSelectHint;
+
+  /// No description provided for @testActionsDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get testActionsDialogTitle;
+
+  /// No description provided for @testActionMerge.
+  ///
+  /// In en, this message translates to:
+  /// **'Merge with others'**
+  String get testActionMerge;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

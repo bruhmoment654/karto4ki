@@ -584,5 +584,16 @@
       }
     }
   },
-  "csvImportCancelled": "Импорт отменён"
+  "csvImportCancelled": "Импорт отменён",
+  "@segmentTestMerge": {
+    "---------": "---------",
+    "description": "Объединение тестов"
+  },
+  "testMergeAppBarTitle": "Объединение тестов",
+  "testMergeConfirmButton": "Объединить",
+  "testMergeNewTestTitle": "Название нового теста",
+  "testMergeSuccessMessage": "Тест успешно создан",
+  "testMergeSelectHint": "Выберите тесты для объединения",
+  "testActionsDialogTitle": "Действия",
+  "testActionMerge": "Объединить с другими"
 }

@@ -2,6 +2,7 @@ import 'package:karto4ki/core/services/csv_import_service.dart';
 import 'package:karto4ki/feature/card_detail/domain/repository/i_card_repository.dart';
 import 'package:karto4ki/feature/main/domain/repository/i_main_repository.dart';
 import 'package:karto4ki/feature/test_detail/domain/repository/i_test_detail_repository.dart';
+import 'package:karto4ki/feature/test_merge/domain/repository/i_test_merge_repository.dart';
 import 'package:karto4ki/feature/tests_list/domain/repository/i_tests_list_repository.dart';
 import 'package:karto4ki/persistence/database/app_database.dart';
 
@@ -24,6 +25,9 @@ final class AppScope implements IAppScope {
   @override
   final ICsvImportService csvImportService;
 
+  @override
+  final ITestMergeRepository testMergeRepository;
+
   const AppScope({
     required this.database,
     required this.mainRepository,
@@ -31,6 +35,7 @@ final class AppScope implements IAppScope {
     required this.testsListRepository,
     required this.testDetailRepository,
     required this.csvImportService,
+    required this.testMergeRepository,
   });
 }
 
@@ -46,4 +51,6 @@ abstract interface class IAppScope {
   ITestDetailRepository get testDetailRepository;
 
   ICsvImportService get csvImportService;
+
+  ITestMergeRepository get testMergeRepository;
 }

@@ -208,4 +208,25 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get csvImportCancelled => 'Import cancelled';
+
+  @override
+  String get testMergeAppBarTitle => 'Merge tests';
+
+  @override
+  String get testMergeConfirmButton => 'Merge';
+
+  @override
+  String get testMergeNewTestTitle => 'New test name';
+
+  @override
+  String get testMergeSuccessMessage => 'Test created successfully';
+
+  @override
+  String get testMergeSelectHint => 'Select tests to merge';
+
+  @override
+  String get testActionsDialogTitle => 'Actions';
+
+  @override
+  String get testActionMerge => 'Merge with others';
 }

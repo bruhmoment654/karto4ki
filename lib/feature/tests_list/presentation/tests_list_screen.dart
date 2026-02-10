@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:karto4ki/app/navigation/app_router.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:karto4ki/feature/tests_list/domain/bloc/tests_list_bloc.dart';
+import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:karto4ki/feature/tests_list/presentation/tests_list_view.dart';
+import 'package:karto4ki/l10n/app_localizations_x.dart';
 
 /// Tests list screen.
 ///
@@ -43,6 +44,34 @@ class _TestsListScreenState extends State<TestsListScreen>
     context.read<TestsListBloc>().add(
           TestsListEvent.testDeleted(testId: int.parse(test.id)),
         );
+  }
+
+  @override
+  void onTestLongPressed(TestEntity test) {
+    _showActionsDialog(test);
+  }
+
+  void _showActionsDialog(TestEntity test) {
+    showModalBottomSheet<void>(
+      context: context,
+      builder: (sheetContext) => SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            ListTile(
+              leading: const Icon(Icons.merge),
+              title: Text(context.l10n.testActionMerge),
+              onTap: () {
+                Navigator.of(sheetContext).pop();
+                context.router.push(
+                  TestMergeRoute(initialTestId: int.parse(test.id)),
+                );
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _showAddTestDialog() {
@@ -115,4 +144,7 @@ abstract interface class ITestsListViewModel {
 
   /// Called when delete test button is pressed.
   void onTestDeletePressed(TestEntity test);
+
+  /// Called when a test is long pressed.
+  void onTestLongPressed(TestEntity test);
 }

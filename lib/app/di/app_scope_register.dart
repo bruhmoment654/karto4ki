@@ -3,6 +3,7 @@ import 'package:karto4ki/core/services/csv_import_service.dart';
 import 'package:karto4ki/feature/card_detail/data/repository/card_repository.dart';
 import 'package:karto4ki/feature/main/data/repository/main_repository.dart';
 import 'package:karto4ki/feature/test_detail/data/repository/test_detail_repository.dart';
+import 'package:karto4ki/feature/test_merge/data/repository/test_merge_repository.dart';
 import 'package:karto4ki/feature/tests_list/data/repository/tests_list_repository.dart';
 import 'package:karto4ki/persistence/card_test/card_test_storage.dart';
 import 'package:karto4ki/persistence/database/app_database.dart';
@@ -31,6 +32,11 @@ class AppScopeRegister {
 
     const csvImportService = CsvImportService();
 
+    final testMergeRepository = TestMergeRepository(
+      testsDatabase: database.testsDatabase,
+      cardsDatabase: database.cardsDatabase,
+    );
+
     return AppScope(
       database: database,
       mainRepository: mainRepository,
@@ -38,6 +44,7 @@ class AppScopeRegister {
       testsListRepository: testsListRepository,
       testDetailRepository: testDetailRepository,
       csvImportService: csvImportService,
+      testMergeRepository: testMergeRepository,
     );
   }
 }

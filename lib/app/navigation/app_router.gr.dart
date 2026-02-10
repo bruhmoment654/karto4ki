@@ -175,6 +175,53 @@ class TestDetailRouteArgs {
 }
 
 /// generated route for
+/// [TestMergeFlow]
+class TestMergeRoute extends PageRouteInfo<TestMergeRouteArgs> {
+  TestMergeRoute({
+    required int initialTestId,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          TestMergeRoute.name,
+          args: TestMergeRouteArgs(
+            initialTestId: initialTestId,
+            key: key,
+          ),
+          initialChildren: children,
+        );
+
+  static const String name = 'TestMergeRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final args = data.argsAs<TestMergeRouteArgs>();
+      return WrappedRoute(
+          child: TestMergeFlow(
+        initialTestId: args.initialTestId,
+        key: args.key,
+      ));
+    },
+  );
+}
+
+class TestMergeRouteArgs {
+  const TestMergeRouteArgs({
+    required this.initialTestId,
+    this.key,
+  });
+
+  final int initialTestId;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'TestMergeRouteArgs{initialTestId: $initialTestId, key: $key}';
+  }
+}
+
+/// generated route for
 /// [TestsListFlow]
 class TestsListRoute extends PageRouteInfo<void> {
   const TestsListRoute({List<PageRouteInfo>? children})

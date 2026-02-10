@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:karto4ki/feature/tests_list/domain/bloc/tests_list_bloc.dart';
+import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:karto4ki/feature/tests_list/presentation/tests_list_screen.dart';
 import 'package:karto4ki/l10n/app_localizations_x.dart';
 
@@ -86,6 +86,7 @@ class _TestsList extends StatelessWidget {
           test: test,
           onTap: () => viewModel.onTestTapped(test),
           onDelete: () => viewModel.onTestDeletePressed(test),
+          onLongPress: () => viewModel.onTestLongPressed(test),
         );
       },
     );
@@ -96,11 +97,13 @@ class _TestListItem extends StatelessWidget {
   final TestEntity test;
   final VoidCallback onTap;
   final VoidCallback onDelete;
+  final VoidCallback onLongPress;
 
   const _TestListItem({
     required this.test,
     required this.onTap,
     required this.onDelete,
+    required this.onLongPress,
   });
 
   @override
@@ -144,6 +147,7 @@ class _TestListItem extends StatelessWidget {
         subtitle: test.description != null ? Text(test.description!) : null,
         trailing: const Icon(Icons.chevron_right),
         onTap: onTap,
+        onLongPress: onLongPress,
       ),
     );
   }
