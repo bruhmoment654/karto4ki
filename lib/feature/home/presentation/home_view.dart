@@ -2,6 +2,7 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/feature/home/presentation/home_screen.dart';
+import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// UI layer for Home screen.
@@ -27,14 +28,14 @@ class HomeView extends StatelessWidget {
           backgroundColor: colorScheme.surface.withAlpha(100),
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
-          items: const [
+          items: [
             BottomNavigationBarItem(
-              icon: Icon(Icons.home_outlined),
-              label: 'Главная',
+              icon: const Icon(Icons.home_outlined),
+              label: context.l10n.navigationMain,
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.person_outline),
-              label: 'Профиль',
+              icon: const Icon(Icons.person_outline),
+              label: context.l10n.navigationProfile,
             ),
           ],
         );
