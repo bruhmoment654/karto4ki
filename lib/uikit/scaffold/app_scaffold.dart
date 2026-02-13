@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:karto4ki/uikit/appbar/karto4ki_app_bar.dart';
+import 'package:quizzerg/uikit/background/shader_background.dart';
 
 class AppScaffold extends StatelessWidget {
-  final Karto4kiAppBar? appBar;
+  final PreferredSizeWidget? appBar;
   final Widget body;
   final Widget? drawer;
   final Widget? endDrawer;
@@ -12,6 +12,7 @@ class AppScaffold extends StatelessWidget {
   final bool resizeToAvoidBottomInset;
   final bool useSafeArea;
   final Color? backgroundColor;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   const AppScaffold({
     required this.body,
@@ -24,23 +25,40 @@ class AppScaffold extends StatelessWidget {
     this.resizeToAvoidBottomInset = true,
     this.useSafeArea = true,
     this.backgroundColor,
+    this.floatingActionButtonLocation,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     final content = useSafeArea ? SafeArea(child: body) : body;
+    final bottomPadding = MediaQuery.of(context).padding.bottom;
 
-    return Scaffold(
-      appBar: appBar,
-      body: content,
-      drawer: drawer,
-      endDrawer: endDrawer,
-      floatingActionButton: floatingActionButton,
-      bottomNavigationBar: bottomNavigationBar,
-      bottomSheet: bottomSheet,
-      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-      backgroundColor: backgroundColor,
+    final fab = floatingActionButton;
+    final adjustedFab = fab != null && bottomPadding > 0
+        ? Padding(
+            padding: EdgeInsets.only(bottom: bottomPadding),
+            child: fab,
+          )
+        : fab;
+
+    return Stack(
+      children: [
+        const ShaderBackground(),
+        Scaffold(
+          appBar: appBar,
+          body: content,
+          drawer: drawer,
+          endDrawer: endDrawer,
+          floatingActionButton: adjustedFab,
+          bottomNavigationBar: bottomNavigationBar,
+          bottomSheet: bottomSheet,
+          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+          backgroundColor: backgroundColor ?? Colors.transparent,
+          floatingActionButtonLocation: floatingActionButtonLocation ??
+              FloatingActionButtonLocation.centerFloat,
+        ),
+      ],
     );
   }
 }

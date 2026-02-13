@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:karto4ki/feature/tests_list/domain/bloc/tests_list_bloc.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
-import 'package:karto4ki/feature/tests_list/presentation/tests_list_screen.dart';
-import 'package:karto4ki/l10n/app_localizations_x.dart';
+import 'package:quizzerg/feature/tests_list/domain/bloc/tests_list_bloc.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/feature/tests_list/presentation/tests_list_screen.dart';
+import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
+import 'package:quizzerg/uikit/buttons/app_fab.dart';
+import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 
 /// UI layer for tests list screen.
 ///
@@ -21,9 +25,9 @@ class TestsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.testsListAppBarTitle),
+    return AppScaffold(
+      appBar: Karto4kiAppBar(
+        title: context.l10n.testsListAppBarTitle,
       ),
       body: switch (state) {
         TestsListState$Loading() => const Center(
@@ -49,9 +53,26 @@ class TestsListView extends StatelessWidget {
           ),
         TestsListState$Loaded(:final tests) => tests.isEmpty
             ? Center(
-                child: Text(
-                  context.l10n.testsListEmptyMessage,
-                  textAlign: TextAlign.center,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        context.l10n.testsListEmptyMessage,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color:
+                                  Theme.of(context).colorScheme.onSurfaceVariant,
+                            ),
+                      ),
+                      const SizedBox(height: 12),
+                      Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ],
+                  ),
                 ),
               )
             : _TestsList(
@@ -59,13 +80,16 @@ class TestsListView extends StatelessWidget {
                 viewModel: viewModel,
               ),
       },
-      floatingActionButton: FloatingActionButton(
+      floatingActionButton: AppFloatingActionButton(
+        label: context.l10n.testsListAddTestFab,
         onPressed: viewModel.onAddTestPressed,
-        child: const Icon(Icons.add),
+        icon: Icons.add,
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
+
 
 class _TestsList extends StatelessWidget {
   final List<TestEntity> tests;
@@ -108,22 +132,24 @@ class _TestListItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Dismissible(
       key: ValueKey(test.id),
       direction: DismissDirection.endToStart,
       background: Container(
-        color: Colors.red,
+        color: colorScheme.error,
         alignment: Alignment.centerRight,
         padding: const EdgeInsets.only(right: 16),
-        child: const Icon(
+        child: Icon(
           Icons.delete,
-          color: Colors.white,
+          color: colorScheme.onError,
         ),
       ),
       confirmDismiss: (direction) async {
         return showDialog<bool>(
           context: context,
-          builder: (context) => AlertDialog(
+          builder: (context) => AppDialog(
             title: Text(context.l10n.testsListDeleteDialogTitle),
             content: Text(
               context.l10n.testsListDeleteDialogMessage(test.title),

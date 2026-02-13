@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:karto4ki/feature/main/presentation/main_view.dart';
+import 'package:quizzerg/feature/main/presentation/main_view.dart';
 
 /// Main application screen.
 class MainScreen extends StatefulWidget {

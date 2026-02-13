@@ -1,5 +1,5 @@
-import 'package:karto4ki/core/feature/core/entity/result.dart';
-import 'package:karto4ki/core/feature/core/failure.dart';
+import 'package:quizzerg/core/feature/core/entity/result.dart';
+import 'package:quizzerg/core/feature/core/failure.dart';
 
 /// Typedef for all methods that may fail.
 /// These are mostly repository methods.

@@ -1,29 +1,29 @@
 part of 'test_merge_bloc.dart';
 
-/// Состояние экрана объединения тестов.
+/// Test merge screen state.
 @freezed
 sealed class TestMergeState with _$TestMergeState {
   const TestMergeState._();
 
-  /// Загрузка.
+  /// Loading.
   const factory TestMergeState.loading() = TestMergeState$Loading;
 
-  /// Список тестов загружен.
+  /// Tests list loaded.
   const factory TestMergeState.loaded({
     required List<TestEntity> tests,
     required Set<String> selectedTestIds,
     required String initialTestId,
   }) = TestMergeState$Loaded;
 
-  /// Процесс объединения.
+  /// Merging in progress.
   const factory TestMergeState.merging() = TestMergeState$Merging;
 
-  /// Успешное объединение.
+  /// Merge succeeded.
   const factory TestMergeState.success({
     required int newTestId,
   }) = TestMergeState$Success;
 
-  /// Ошибка.
+  /// Error.
   const factory TestMergeState.error({
     required Failure failure,
   }) = TestMergeState$Error;

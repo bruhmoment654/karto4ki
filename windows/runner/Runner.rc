@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "karto4ki" "\0"
+            VALUE "FileDescription", "quizzerg" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "karto4ki" "\0"
+            VALUE "InternalName", "quizzerg" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2026 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "karto4ki.exe" "\0"
-            VALUE "ProductName", "karto4ki" "\0"
+            VALUE "OriginalFilename", "quizzerg.exe" "\0"
+            VALUE "ProductName", "quizzerg" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END

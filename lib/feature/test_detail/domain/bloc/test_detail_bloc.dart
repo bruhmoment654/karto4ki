@@ -1,12 +1,12 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:karto4ki/core/feature/core/failure.dart';
-import 'package:karto4ki/core/feature/core/failures/not_found_failure.dart';
-import 'package:karto4ki/core/feature/core/failures/unknown_failure.dart';
-import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
-import 'package:karto4ki/feature/test_detail/domain/repository/i_test_detail_repository.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/core/feature/core/failure.dart';
+import 'package:quizzerg/core/feature/core/failures/not_found_failure.dart';
+import 'package:quizzerg/core/feature/core/failures/unknown_failure.dart';
+import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/test_detail/domain/repository/i_test_detail_repository.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 
 part 'test_detail_event.dart';
 part 'test_detail_state.dart';

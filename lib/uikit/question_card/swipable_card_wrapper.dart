@@ -1,12 +1,31 @@
 import 'package:flutter/material.dart';
-import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
-import 'package:karto4ki/l10n/app_localizations_x.dart';
-import 'package:karto4ki/uikit/question_card/question_card.dart';
+import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/question_card/question_card.dart';
+
+/// Swipe and snap-back animation duration.
+const _animationDuration = Duration(milliseconds: 300);
+
+/// Screen width fraction required to trigger a swipe by position.
+const _swipePositionThresholdFraction = 0.3;
+
+/// Velocity threshold (px/s) to trigger a swipe by flick.
+const _swipeVelocityThreshold = 800.0;
+
+/// Card fly-out target to the right (in screen width fractions).
+const _swipeOutTarget = Offset(1.5, 0);
+
+/// Card fly-out target to the left (in screen width fractions).
+const _swipeOutTargetLeft = Offset(-1.5, 0);
+
+/// Card rotation factor relative to horizontal offset.
+const _rotationFactor = 0.3;
 
 class SwipeableCardWrapper extends StatefulWidget {
   final CardEntity card;
   final bool showAnswer;
   final bool enableFlipAnimation;
+  final Duration flipDuration;
   final VoidCallback onTap;
   final VoidCallback onSwipeLeft;
   final VoidCallback onSwipeRight;
@@ -18,6 +37,7 @@ class SwipeableCardWrapper extends StatefulWidget {
     required this.onTap,
     required this.onSwipeLeft,
     required this.onSwipeRight,
+    this.flipDuration = const Duration(milliseconds: 300),
     super.key,
   });
 
@@ -43,7 +63,7 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
     super.initState();
     _controller = AnimationController(
       vsync: this,
-      duration: const Duration(milliseconds: 300),
+      duration: _animationDuration,
     );
     _animation = _tween.animate(CurvedAnimation(
       parent: _controller,
@@ -71,12 +91,15 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
   void _onPanEnd(DragEndDetails details) {
     _isDragging = false;
     final screenWidth = MediaQuery.of(context).size.width;
-    final threshold = screenWidth * 0.3;
+    final positionThreshold = screenWidth * _swipePositionThresholdFraction;
+    final vx = details.velocity.pixelsPerSecond.dx;
 
-    if (_dragOffset.value.dx > threshold) {
-      _animateOut(const Offset(1.5, 0), widget.onSwipeRight);
-    } else if (_dragOffset.value.dx < -threshold) {
-      _animateOut(const Offset(-1.5, 0), widget.onSwipeLeft);
+    if (_dragOffset.value.dx > positionThreshold ||
+        vx > _swipeVelocityThreshold) {
+      _animateOut(_swipeOutTarget, widget.onSwipeRight);
+    } else if (_dragOffset.value.dx < -positionThreshold ||
+        vx < -_swipeVelocityThreshold) {
+      _animateOut(_swipeOutTargetLeft, widget.onSwipeLeft);
     } else {
       _animateBack();
     }
@@ -120,7 +143,7 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
                 _animation.value.dx * screenWidth,
                 _animation.value.dy * screenWidth,
               );
-        final rotation = offset.dx / screenWidth * 0.3;
+        final rotation = offset.dx / screenWidth * _rotationFactor;
 
         return Transform.translate(
           offset: offset,
@@ -128,7 +151,7 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
             angle: rotation,
             child: GestureDetector(
               onTap: widget.onTap,
-              onPanStart: _onPanStart,  
+              onPanStart: _onPanStart,
               onPanUpdate: _onPanUpdate,
               onPanEnd: _onPanEnd,
               child: QuestionCardContent(
@@ -150,6 +173,7 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
                 ),
                 showAnswer: widget.showAnswer,
                 enableFlipAnimation: widget.enableFlipAnimation,
+                flipDuration: widget.flipDuration,
                 cardOffset: offset,
                 leftBadgeText: context.l10n.tinderTestUnknownBadge,
                 rightBadgeText: context.l10n.tinderTestKnownBadge,

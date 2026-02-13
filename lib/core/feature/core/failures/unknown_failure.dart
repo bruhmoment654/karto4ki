@@ -1,4 +1,4 @@
-import 'package:karto4ki/core/feature/core/failure.dart';
+import 'package:quizzerg/core/feature/core/failure.dart';
 
 /// Unknown failure for unhandled exceptions.
 class UnknownFailure extends Failure {

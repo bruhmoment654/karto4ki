@@ -401,6 +401,24 @@ abstract class AppLocalizations {
   /// **'Delete'**
   String get testDetailDeleteCardConfirm;
 
+  /// No description provided for @testDetailSwapSides.
+  ///
+  /// In en, this message translates to:
+  /// **'Swap sides'**
+  String get testDetailSwapSides;
+
+  /// No description provided for @testDetailAddCardFab.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get testDetailAddCardFab;
+
+  /// No description provided for @testsListAddTestFab.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get testsListAddTestFab;
+
   /// No description provided for @mainQuestionCardFront.
   ///
   /// In en, this message translates to:
@@ -416,25 +434,55 @@ abstract class AppLocalizations {
   /// No description provided for @csvImportButton.
   ///
   /// In en, this message translates to:
-  /// **'Import CSV'**
+  /// **'Import from file'**
   String get csvImportButton;
 
   /// No description provided for @csvImportDialogTitle.
   ///
   /// In en, this message translates to:
-  /// **'Import cards from CSV'**
+  /// **'Import cards from file'**
   String get csvImportDialogTitle;
 
   /// No description provided for @csvImportDialogDescription.
   ///
   /// In en, this message translates to:
-  /// **'File format:\n• 1st column — question (word)\n• 2nd column — answer (translation)\n• Delimiter: semicolon (;)'**
+  /// **'Supported formats: CSV, TXT, TSV\n\nFile format:\n• 1st column — question (word)\n• 2nd column — answer (translation)'**
   String get csvImportDialogDescription;
+
+  /// No description provided for @csvImportDelimiterLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Delimiter'**
+  String get csvImportDelimiterLabel;
+
+  /// No description provided for @csvImportDelimiterHint.
+  ///
+  /// In en, this message translates to:
+  /// **';'**
+  String get csvImportDelimiterHint;
+
+  /// No description provided for @csvImportAddFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'Add files'**
+  String get csvImportAddFiles;
+
+  /// No description provided for @csvImportFilesTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Files'**
+  String get csvImportFilesTitle;
+
+  /// No description provided for @csvImportNoFiles.
+  ///
+  /// In en, this message translates to:
+  /// **'No files selected'**
+  String get csvImportNoFiles;
 
   /// No description provided for @csvImportDialogContinue.
   ///
   /// In en, this message translates to:
-  /// **'Select file'**
+  /// **'Import'**
   String get csvImportDialogContinue;
 
   /// No description provided for @csvImportDialogCancel.
@@ -452,7 +500,7 @@ abstract class AppLocalizations {
   /// No description provided for @csvImportErrorFormat.
   ///
   /// In en, this message translates to:
-  /// **'Invalid CSV format. Minimum 2 columns required.'**
+  /// **'Invalid file format. Minimum 2 columns required.'**
   String get csvImportErrorFormat;
 
   /// No description provided for @csvImportErrorRead.
@@ -464,8 +512,14 @@ abstract class AppLocalizations {
   /// No description provided for @csvImportSuccess.
   ///
   /// In en, this message translates to:
-  /// **'Imported cards: {count}'**
-  String csvImportSuccess(int count);
+  /// **'Imported cards: {count} from {fileCount} files'**
+  String csvImportSuccess(int count, int fileCount);
+
+  /// No description provided for @csvImportPartialSuccess.
+  ///
+  /// In en, this message translates to:
+  /// **'Imported cards: {count}. Failed to load: {failedFiles}'**
+  String csvImportPartialSuccess(int count, String failedFiles);
 
   /// No description provided for @csvImportCancelled.
   ///
@@ -514,6 +568,24 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Merge with others'**
   String get testActionMerge;
+
+  /// No description provided for @profileSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile and settings'**
+  String get profileSettingsTitle;
+
+  /// No description provided for @profileAnimationSpeedTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Animation speed'**
+  String get profileAnimationSpeedTitle;
+
+  /// No description provided for @profileAnimationDurationLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{duration} ms'**
+  String profileAnimationDurationLabel(int duration);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

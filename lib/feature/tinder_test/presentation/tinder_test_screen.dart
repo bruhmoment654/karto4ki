@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
-import 'package:karto4ki/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
-import 'package:karto4ki/feature/tinder_test/presentation/tinder_test_view.dart';
+import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
+import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_view.dart';
 
 /// Tinder test screen.
 ///

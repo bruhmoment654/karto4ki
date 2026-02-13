@@ -3,6 +3,524 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
+class QuestionStats extends Table
+    with TableInfo<QuestionStats, QuestionStatsDatabaseDto> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  QuestionStats(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _questionKeyMeta =
+      const VerificationMeta('questionKey');
+  late final GeneratedColumn<String> questionKey = GeneratedColumn<String>(
+      'question_key', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL UNIQUE');
+  static const VerificationMeta _frontTextMeta =
+      const VerificationMeta('frontText');
+  late final GeneratedColumn<String> frontText = GeneratedColumn<String>(
+      'front_text', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _backTextMeta =
+      const VerificationMeta('backText');
+  late final GeneratedColumn<String> backText = GeneratedColumn<String>(
+      'back_text', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _streakMeta = const VerificationMeta('streak');
+  late final GeneratedColumn<int> streak = GeneratedColumn<int>(
+      'streak', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT 0',
+      defaultValue: const CustomExpression('0'));
+  static const VerificationMeta _totalCorrectMeta =
+      const VerificationMeta('totalCorrect');
+  late final GeneratedColumn<int> totalCorrect = GeneratedColumn<int>(
+      'total_correct', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT 0',
+      defaultValue: const CustomExpression('0'));
+  static const VerificationMeta _totalIncorrectMeta =
+      const VerificationMeta('totalIncorrect');
+  late final GeneratedColumn<int> totalIncorrect = GeneratedColumn<int>(
+      'total_incorrect', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT 0',
+      defaultValue: const CustomExpression('0'));
+  static const VerificationMeta _lastAnsweredAtMeta =
+      const VerificationMeta('lastAnsweredAt');
+  late final GeneratedColumn<DateTime> lastAnsweredAt =
+      GeneratedColumn<DateTime>('last_answered_at', aliasedName, true,
+          type: DriftSqlType.dateTime,
+          requiredDuringInsert: false,
+          $customConstraints: '');
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  @override
+  List<GeneratedColumn> get $columns => [
+        id,
+        questionKey,
+        frontText,
+        backText,
+        streak,
+        totalCorrect,
+        totalIncorrect,
+        lastAnsweredAt,
+        createdAt,
+        updatedAt
+      ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'question_stats';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<QuestionStatsDatabaseDto> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('question_key')) {
+      context.handle(
+          _questionKeyMeta,
+          questionKey.isAcceptableOrUnknown(
+              data['question_key']!, _questionKeyMeta));
+    } else if (isInserting) {
+      context.missing(_questionKeyMeta);
+    }
+    if (data.containsKey('front_text')) {
+      context.handle(_frontTextMeta,
+          frontText.isAcceptableOrUnknown(data['front_text']!, _frontTextMeta));
+    } else if (isInserting) {
+      context.missing(_frontTextMeta);
+    }
+    if (data.containsKey('back_text')) {
+      context.handle(_backTextMeta,
+          backText.isAcceptableOrUnknown(data['back_text']!, _backTextMeta));
+    } else if (isInserting) {
+      context.missing(_backTextMeta);
+    }
+    if (data.containsKey('streak')) {
+      context.handle(_streakMeta,
+          streak.isAcceptableOrUnknown(data['streak']!, _streakMeta));
+    }
+    if (data.containsKey('total_correct')) {
+      context.handle(
+          _totalCorrectMeta,
+          totalCorrect.isAcceptableOrUnknown(
+              data['total_correct']!, _totalCorrectMeta));
+    }
+    if (data.containsKey('total_incorrect')) {
+      context.handle(
+          _totalIncorrectMeta,
+          totalIncorrect.isAcceptableOrUnknown(
+              data['total_incorrect']!, _totalIncorrectMeta));
+    }
+    if (data.containsKey('last_answered_at')) {
+      context.handle(
+          _lastAnsweredAtMeta,
+          lastAnsweredAt.isAcceptableOrUnknown(
+              data['last_answered_at']!, _lastAnsweredAtMeta));
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  QuestionStatsDatabaseDto map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return QuestionStatsDatabaseDto(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      questionKey: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}question_key'])!,
+      frontText: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}front_text'])!,
+      backText: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}back_text'])!,
+      streak: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}streak'])!,
+      totalCorrect: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}total_correct'])!,
+      totalIncorrect: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}total_incorrect'])!,
+      lastAnsweredAt: attachedDatabase.typeMapping.read(
+          DriftSqlType.dateTime, data['${effectivePrefix}last_answered_at']),
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+    );
+  }
+
+  @override
+  QuestionStats createAlias(String alias) {
+    return QuestionStats(attachedDatabase, alias);
+  }
+
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class QuestionStatsDatabaseDto extends DataClass
+    implements Insertable<QuestionStatsDatabaseDto> {
+  final int id;
+  final String questionKey;
+  final String frontText;
+  final String backText;
+  final int streak;
+  final int totalCorrect;
+  final int totalIncorrect;
+  final DateTime? lastAnsweredAt;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const QuestionStatsDatabaseDto(
+      {required this.id,
+      required this.questionKey,
+      required this.frontText,
+      required this.backText,
+      required this.streak,
+      required this.totalCorrect,
+      required this.totalIncorrect,
+      this.lastAnsweredAt,
+      required this.createdAt,
+      required this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['question_key'] = Variable<String>(questionKey);
+    map['front_text'] = Variable<String>(frontText);
+    map['back_text'] = Variable<String>(backText);
+    map['streak'] = Variable<int>(streak);
+    map['total_correct'] = Variable<int>(totalCorrect);
+    map['total_incorrect'] = Variable<int>(totalIncorrect);
+    if (!nullToAbsent || lastAnsweredAt != null) {
+      map['last_answered_at'] = Variable<DateTime>(lastAnsweredAt);
+    }
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  QuestionStatsCompanion toCompanion(bool nullToAbsent) {
+    return QuestionStatsCompanion(
+      id: Value(id),
+      questionKey: Value(questionKey),
+      frontText: Value(frontText),
+      backText: Value(backText),
+      streak: Value(streak),
+      totalCorrect: Value(totalCorrect),
+      totalIncorrect: Value(totalIncorrect),
+      lastAnsweredAt: lastAnsweredAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastAnsweredAt),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory QuestionStatsDatabaseDto.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return QuestionStatsDatabaseDto(
+      id: serializer.fromJson<int>(json['id']),
+      questionKey: serializer.fromJson<String>(json['question_key']),
+      frontText: serializer.fromJson<String>(json['front_text']),
+      backText: serializer.fromJson<String>(json['back_text']),
+      streak: serializer.fromJson<int>(json['streak']),
+      totalCorrect: serializer.fromJson<int>(json['total_correct']),
+      totalIncorrect: serializer.fromJson<int>(json['total_incorrect']),
+      lastAnsweredAt: serializer.fromJson<DateTime?>(json['last_answered_at']),
+      createdAt: serializer.fromJson<DateTime>(json['created_at']),
+      updatedAt: serializer.fromJson<DateTime>(json['updated_at']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'question_key': serializer.toJson<String>(questionKey),
+      'front_text': serializer.toJson<String>(frontText),
+      'back_text': serializer.toJson<String>(backText),
+      'streak': serializer.toJson<int>(streak),
+      'total_correct': serializer.toJson<int>(totalCorrect),
+      'total_incorrect': serializer.toJson<int>(totalIncorrect),
+      'last_answered_at': serializer.toJson<DateTime?>(lastAnsweredAt),
+      'created_at': serializer.toJson<DateTime>(createdAt),
+      'updated_at': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  QuestionStatsDatabaseDto copyWith(
+          {int? id,
+          String? questionKey,
+          String? frontText,
+          String? backText,
+          int? streak,
+          int? totalCorrect,
+          int? totalIncorrect,
+          Value<DateTime?> lastAnsweredAt = const Value.absent(),
+          DateTime? createdAt,
+          DateTime? updatedAt}) =>
+      QuestionStatsDatabaseDto(
+        id: id ?? this.id,
+        questionKey: questionKey ?? this.questionKey,
+        frontText: frontText ?? this.frontText,
+        backText: backText ?? this.backText,
+        streak: streak ?? this.streak,
+        totalCorrect: totalCorrect ?? this.totalCorrect,
+        totalIncorrect: totalIncorrect ?? this.totalIncorrect,
+        lastAnsweredAt:
+            lastAnsweredAt.present ? lastAnsweredAt.value : this.lastAnsweredAt,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  QuestionStatsDatabaseDto copyWithCompanion(QuestionStatsCompanion data) {
+    return QuestionStatsDatabaseDto(
+      id: data.id.present ? data.id.value : this.id,
+      questionKey:
+          data.questionKey.present ? data.questionKey.value : this.questionKey,
+      frontText: data.frontText.present ? data.frontText.value : this.frontText,
+      backText: data.backText.present ? data.backText.value : this.backText,
+      streak: data.streak.present ? data.streak.value : this.streak,
+      totalCorrect: data.totalCorrect.present
+          ? data.totalCorrect.value
+          : this.totalCorrect,
+      totalIncorrect: data.totalIncorrect.present
+          ? data.totalIncorrect.value
+          : this.totalIncorrect,
+      lastAnsweredAt: data.lastAnsweredAt.present
+          ? data.lastAnsweredAt.value
+          : this.lastAnsweredAt,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('QuestionStatsDatabaseDto(')
+          ..write('id: $id, ')
+          ..write('questionKey: $questionKey, ')
+          ..write('frontText: $frontText, ')
+          ..write('backText: $backText, ')
+          ..write('streak: $streak, ')
+          ..write('totalCorrect: $totalCorrect, ')
+          ..write('totalIncorrect: $totalIncorrect, ')
+          ..write('lastAnsweredAt: $lastAnsweredAt, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, questionKey, frontText, backText, streak,
+      totalCorrect, totalIncorrect, lastAnsweredAt, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is QuestionStatsDatabaseDto &&
+          other.id == this.id &&
+          other.questionKey == this.questionKey &&
+          other.frontText == this.frontText &&
+          other.backText == this.backText &&
+          other.streak == this.streak &&
+          other.totalCorrect == this.totalCorrect &&
+          other.totalIncorrect == this.totalIncorrect &&
+          other.lastAnsweredAt == this.lastAnsweredAt &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
+  final Value<int> id;
+  final Value<String> questionKey;
+  final Value<String> frontText;
+  final Value<String> backText;
+  final Value<int> streak;
+  final Value<int> totalCorrect;
+  final Value<int> totalIncorrect;
+  final Value<DateTime?> lastAnsweredAt;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  const QuestionStatsCompanion({
+    this.id = const Value.absent(),
+    this.questionKey = const Value.absent(),
+    this.frontText = const Value.absent(),
+    this.backText = const Value.absent(),
+    this.streak = const Value.absent(),
+    this.totalCorrect = const Value.absent(),
+    this.totalIncorrect = const Value.absent(),
+    this.lastAnsweredAt = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  QuestionStatsCompanion.insert({
+    this.id = const Value.absent(),
+    required String questionKey,
+    required String frontText,
+    required String backText,
+    this.streak = const Value.absent(),
+    this.totalCorrect = const Value.absent(),
+    this.totalIncorrect = const Value.absent(),
+    this.lastAnsweredAt = const Value.absent(),
+    required DateTime createdAt,
+    required DateTime updatedAt,
+  })  : questionKey = Value(questionKey),
+        frontText = Value(frontText),
+        backText = Value(backText),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt);
+  static Insertable<QuestionStatsDatabaseDto> custom({
+    Expression<int>? id,
+    Expression<String>? questionKey,
+    Expression<String>? frontText,
+    Expression<String>? backText,
+    Expression<int>? streak,
+    Expression<int>? totalCorrect,
+    Expression<int>? totalIncorrect,
+    Expression<DateTime>? lastAnsweredAt,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (questionKey != null) 'question_key': questionKey,
+      if (frontText != null) 'front_text': frontText,
+      if (backText != null) 'back_text': backText,
+      if (streak != null) 'streak': streak,
+      if (totalCorrect != null) 'total_correct': totalCorrect,
+      if (totalIncorrect != null) 'total_incorrect': totalIncorrect,
+      if (lastAnsweredAt != null) 'last_answered_at': lastAnsweredAt,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  QuestionStatsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? questionKey,
+      Value<String>? frontText,
+      Value<String>? backText,
+      Value<int>? streak,
+      Value<int>? totalCorrect,
+      Value<int>? totalIncorrect,
+      Value<DateTime?>? lastAnsweredAt,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt}) {
+    return QuestionStatsCompanion(
+      id: id ?? this.id,
+      questionKey: questionKey ?? this.questionKey,
+      frontText: frontText ?? this.frontText,
+      backText: backText ?? this.backText,
+      streak: streak ?? this.streak,
+      totalCorrect: totalCorrect ?? this.totalCorrect,
+      totalIncorrect: totalIncorrect ?? this.totalIncorrect,
+      lastAnsweredAt: lastAnsweredAt ?? this.lastAnsweredAt,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (questionKey.present) {
+      map['question_key'] = Variable<String>(questionKey.value);
+    }
+    if (frontText.present) {
+      map['front_text'] = Variable<String>(frontText.value);
+    }
+    if (backText.present) {
+      map['back_text'] = Variable<String>(backText.value);
+    }
+    if (streak.present) {
+      map['streak'] = Variable<int>(streak.value);
+    }
+    if (totalCorrect.present) {
+      map['total_correct'] = Variable<int>(totalCorrect.value);
+    }
+    if (totalIncorrect.present) {
+      map['total_incorrect'] = Variable<int>(totalIncorrect.value);
+    }
+    if (lastAnsweredAt.present) {
+      map['last_answered_at'] = Variable<DateTime>(lastAnsweredAt.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('QuestionStatsCompanion(')
+          ..write('id: $id, ')
+          ..write('questionKey: $questionKey, ')
+          ..write('frontText: $frontText, ')
+          ..write('backText: $backText, ')
+          ..write('streak: $streak, ')
+          ..write('totalCorrect: $totalCorrect, ')
+          ..write('totalIncorrect: $totalIncorrect, ')
+          ..write('lastAnsweredAt: $lastAnsweredAt, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class Tests extends Table with TableInfo<Tests, TestDatabaseDto> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -690,15 +1208,19 @@ class CardsCompanion extends UpdateCompanion<CardDatabaseDto> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
+  late final QuestionStats questionStats = QuestionStats(this);
   late final Tests tests = Tests(this);
   late final Cards cards = Cards(this);
   late final TestsDatabase testsDatabase = TestsDatabase(this as AppDatabase);
   late final CardsDatabase cardsDatabase = CardsDatabase(this as AppDatabase);
+  late final QuestionStatsDatabase questionStatsDatabase =
+      QuestionStatsDatabase(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [tests, cards];
+  List<DatabaseSchemaEntity> get allSchemaEntities =>
+      [questionStats, tests, cards];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
         [
@@ -713,6 +1235,251 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       );
 }
 
+typedef $QuestionStatsCreateCompanionBuilder = QuestionStatsCompanion Function({
+  Value<int> id,
+  required String questionKey,
+  required String frontText,
+  required String backText,
+  Value<int> streak,
+  Value<int> totalCorrect,
+  Value<int> totalIncorrect,
+  Value<DateTime?> lastAnsweredAt,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+});
+typedef $QuestionStatsUpdateCompanionBuilder = QuestionStatsCompanion Function({
+  Value<int> id,
+  Value<String> questionKey,
+  Value<String> frontText,
+  Value<String> backText,
+  Value<int> streak,
+  Value<int> totalCorrect,
+  Value<int> totalIncorrect,
+  Value<DateTime?> lastAnsweredAt,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+});
+
+class $QuestionStatsFilterComposer
+    extends Composer<_$AppDatabase, QuestionStats> {
+  $QuestionStatsFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get questionKey => $composableBuilder(
+      column: $table.questionKey, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get frontText => $composableBuilder(
+      column: $table.frontText, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get backText => $composableBuilder(
+      column: $table.backText, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get streak => $composableBuilder(
+      column: $table.streak, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get totalCorrect => $composableBuilder(
+      column: $table.totalCorrect, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get totalIncorrect => $composableBuilder(
+      column: $table.totalIncorrect,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get lastAnsweredAt => $composableBuilder(
+      column: $table.lastAnsweredAt,
+      builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+}
+
+class $QuestionStatsOrderingComposer
+    extends Composer<_$AppDatabase, QuestionStats> {
+  $QuestionStatsOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get questionKey => $composableBuilder(
+      column: $table.questionKey, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get frontText => $composableBuilder(
+      column: $table.frontText, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get backText => $composableBuilder(
+      column: $table.backText, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get streak => $composableBuilder(
+      column: $table.streak, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get totalCorrect => $composableBuilder(
+      column: $table.totalCorrect,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<int> get totalIncorrect => $composableBuilder(
+      column: $table.totalIncorrect,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get lastAnsweredAt => $composableBuilder(
+      column: $table.lastAnsweredAt,
+      builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $QuestionStatsAnnotationComposer
+    extends Composer<_$AppDatabase, QuestionStats> {
+  $QuestionStatsAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get questionKey => $composableBuilder(
+      column: $table.questionKey, builder: (column) => column);
+
+  GeneratedColumn<String> get frontText =>
+      $composableBuilder(column: $table.frontText, builder: (column) => column);
+
+  GeneratedColumn<String> get backText =>
+      $composableBuilder(column: $table.backText, builder: (column) => column);
+
+  GeneratedColumn<int> get streak =>
+      $composableBuilder(column: $table.streak, builder: (column) => column);
+
+  GeneratedColumn<int> get totalCorrect => $composableBuilder(
+      column: $table.totalCorrect, builder: (column) => column);
+
+  GeneratedColumn<int> get totalIncorrect => $composableBuilder(
+      column: $table.totalIncorrect, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get lastAnsweredAt => $composableBuilder(
+      column: $table.lastAnsweredAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+}
+
+class $QuestionStatsTableManager extends RootTableManager<
+    _$AppDatabase,
+    QuestionStats,
+    QuestionStatsDatabaseDto,
+    $QuestionStatsFilterComposer,
+    $QuestionStatsOrderingComposer,
+    $QuestionStatsAnnotationComposer,
+    $QuestionStatsCreateCompanionBuilder,
+    $QuestionStatsUpdateCompanionBuilder,
+    (
+      QuestionStatsDatabaseDto,
+      BaseReferences<_$AppDatabase, QuestionStats, QuestionStatsDatabaseDto>
+    ),
+    QuestionStatsDatabaseDto,
+    PrefetchHooks Function()> {
+  $QuestionStatsTableManager(_$AppDatabase db, QuestionStats table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $QuestionStatsFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $QuestionStatsOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $QuestionStatsAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> questionKey = const Value.absent(),
+            Value<String> frontText = const Value.absent(),
+            Value<String> backText = const Value.absent(),
+            Value<int> streak = const Value.absent(),
+            Value<int> totalCorrect = const Value.absent(),
+            Value<int> totalIncorrect = const Value.absent(),
+            Value<DateTime?> lastAnsweredAt = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+          }) =>
+              QuestionStatsCompanion(
+            id: id,
+            questionKey: questionKey,
+            frontText: frontText,
+            backText: backText,
+            streak: streak,
+            totalCorrect: totalCorrect,
+            totalIncorrect: totalIncorrect,
+            lastAnsweredAt: lastAnsweredAt,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String questionKey,
+            required String frontText,
+            required String backText,
+            Value<int> streak = const Value.absent(),
+            Value<int> totalCorrect = const Value.absent(),
+            Value<int> totalIncorrect = const Value.absent(),
+            Value<DateTime?> lastAnsweredAt = const Value.absent(),
+            required DateTime createdAt,
+            required DateTime updatedAt,
+          }) =>
+              QuestionStatsCompanion.insert(
+            id: id,
+            questionKey: questionKey,
+            frontText: frontText,
+            backText: backText,
+            streak: streak,
+            totalCorrect: totalCorrect,
+            totalIncorrect: totalIncorrect,
+            lastAnsweredAt: lastAnsweredAt,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $QuestionStatsProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    QuestionStats,
+    QuestionStatsDatabaseDto,
+    $QuestionStatsFilterComposer,
+    $QuestionStatsOrderingComposer,
+    $QuestionStatsAnnotationComposer,
+    $QuestionStatsCreateCompanionBuilder,
+    $QuestionStatsUpdateCompanionBuilder,
+    (
+      QuestionStatsDatabaseDto,
+      BaseReferences<_$AppDatabase, QuestionStats, QuestionStatsDatabaseDto>
+    ),
+    QuestionStatsDatabaseDto,
+    PrefetchHooks Function()>;
 typedef $TestsCreateCompanionBuilder = TestsCompanion Function({
   Value<int> id,
   required String title,
@@ -1240,6 +2007,8 @@ typedef $CardsProcessedTableManager = ProcessedTableManager<
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
+  $QuestionStatsTableManager get questionStats =>
+      $QuestionStatsTableManager(_db, _db.questionStats);
   $TestsTableManager get tests => $TestsTableManager(_db, _db.tests);
   $CardsTableManager get cards => $CardsTableManager(_db, _db.cards);
 }

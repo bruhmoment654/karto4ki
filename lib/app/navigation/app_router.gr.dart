@@ -245,12 +245,14 @@ class TestsListRoute extends PageRouteInfo<void> {
 class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
   TinderTestRoute({
     required int testId,
+    bool swapSides = false,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
           TinderTestRoute.name,
           args: TinderTestRouteArgs(
             testId: testId,
+            swapSides: swapSides,
             key: key,
           ),
           rawPathParams: {'testId': testId},
@@ -269,6 +271,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
       return WrappedRoute(
           child: TinderTestFlow(
         testId: args.testId,
+        swapSides: args.swapSides,
         key: args.key,
       ));
     },
@@ -278,15 +281,18 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
 class TinderTestRouteArgs {
   const TinderTestRouteArgs({
     required this.testId,
+    this.swapSides = false,
     this.key,
   });
 
   final int testId;
 
+  final bool swapSides;
+
   final Key? key;
 
   @override
   String toString() {
-    return 'TinderTestRouteArgs{testId: $testId, key: $key}';
+    return 'TinderTestRouteArgs{testId: $testId, swapSides: $swapSides, key: $key}';
   }
 }

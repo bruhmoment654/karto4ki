@@ -2,14 +2,16 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:karto4ki/app/di/app_scope.dart';
-import 'package:karto4ki/app/navigation/app_router.dart';
-import 'package:karto4ki/core/services/csv_import_service.dart';
-import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
-import 'package:karto4ki/feature/test_detail/domain/bloc/test_detail_bloc.dart';
-import 'package:karto4ki/feature/test_detail/presentation/test_detail_view.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_type.dart';
-import 'package:karto4ki/l10n/app_localizations_x.dart';
+import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:quizzerg/app/navigation/app_router.dart';
+import 'package:quizzerg/core/services/csv_import_service.dart';
+import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/test_detail/domain/bloc/test_detail_bloc.dart';
+import 'package:quizzerg/feature/test_detail/presentation/csv_import_dialog.dart';
+import 'package:quizzerg/feature/test_detail/presentation/test_detail_view.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_type.dart';
+import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 
 /// Test detail screen.
 ///
@@ -23,11 +25,17 @@ class TestDetailScreen extends StatefulWidget {
 
 class _TestDetailScreenState extends State<TestDetailScreen>
     implements ITestDetailViewModel {
+  bool _swapSides = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<TestDetailBloc, TestDetailState>(
       builder: (context, state) {
-        return TestDetailView(viewModel: this, state: state);
+        return TestDetailView(
+          viewModel: this,
+          state: state,
+          swapSides: _swapSides,
+        );
       },
     );
   }
@@ -63,7 +71,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
 
     showDialog<void>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
+      builder: (dialogContext) => AppDialog(
         title: const Text('Новая карточка'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -120,7 +128,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
 
     showDialog<void>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
+      builder: (dialogContext) => AppDialog(
         title: const Text('Редактировать карточку'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -181,7 +189,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
 
     showDialog<void>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
+      builder: (dialogContext) => AppDialog(
         title: const Text('Редактировать тест'),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -240,8 +248,15 @@ class _TestDetailScreenState extends State<TestDetailScreen>
 
     switch (test.type) {
       case TestType.tinder:
-        context.router.push(TinderTestRoute(testId: testId));
+        context.router.push(
+          TinderTestRoute(testId: testId, swapSides: _swapSides),
+        );
     }
+  }
+
+  @override
+  void onSwapSidesChanged({required bool value}) {
+    setState(() => _swapSides = value);
   }
 
   @override
@@ -249,35 +264,25 @@ class _TestDetailScreenState extends State<TestDetailScreen>
     _showCsvImportDialog();
   }
 
-  void _showCsvImportDialog() {
-    showDialog<bool>(
-      context: context,
-      builder: (dialogContext) => AlertDialog(
-        title: Text(context.l10n.csvImportDialogTitle),
-        content: Text(context.l10n.csvImportDialogDescription),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: Text(context.l10n.csvImportDialogCancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: Text(context.l10n.csvImportDialogContinue),
-          ),
-        ],
-      ),
-    ).then((confirmed) {
-      if (confirmed == true) {
-        _pickAndImportCsv();
-      }
-    });
-  }
-
-  Future<void> _pickAndImportCsv() async {
+  Future<void> _showCsvImportDialog() async {
     final scope = context.read<IAppScope>();
-    final result = await scope.csvImportService.pickAndParseFile();
+    final dialogResult = await showDialog<CsvImportDialogResult>(
+      context: context,
+      builder: (_) => CsvImportDialog(
+        csvImportService: scope.csvImportService,
+      ),
+    );
+
+    if (dialogResult == null || !mounted) return;
+
+    final result = await scope.csvImportService.parseFiles(
+      dialogResult.files,
+      dialogResult.delimiter,
+    );
 
     if (!mounted) return;
+
+    final fileCount = dialogResult.files.length;
 
     switch (result) {
       case CsvImportSuccess(:final cards):
@@ -285,7 +290,25 @@ class _TestDetailScreenState extends State<TestDetailScreen>
               TestDetailEvent.cardsImported(cards: cards),
             );
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(context.l10n.csvImportSuccess(cards.length))),
+          SnackBar(
+            content: Text(
+              context.l10n.csvImportSuccess(cards.length, fileCount),
+            ),
+          ),
+        );
+      case CsvImportPartialSuccess(:final cards, :final failedFiles):
+        context.read<TestDetailBloc>().add(
+              TestDetailEvent.cardsImported(cards: cards),
+            );
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+              context.l10n.csvImportPartialSuccess(
+                cards.length,
+                failedFiles.join(', '),
+              ),
+            ),
+          ),
         );
       case CsvImportCancelled():
         break;
@@ -323,4 +346,7 @@ abstract interface class ITestDetailViewModel {
 
   /// Called when import CSV button is pressed.
   void onImportCsvPressed();
+
+  /// Called when swap sides toggle is changed.
+  void onSwapSidesChanged({required bool value});
 }

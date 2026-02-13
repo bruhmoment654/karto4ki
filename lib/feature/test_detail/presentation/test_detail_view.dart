@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 
-import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
-import 'package:karto4ki/feature/test_detail/domain/bloc/test_detail_bloc.dart';
-import 'package:karto4ki/feature/test_detail/presentation/test_detail_screen.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
-import 'package:karto4ki/l10n/app_localizations_x.dart';
-import 'package:karto4ki/uikit/pressable/scale_pressable.dart';
+import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/test_detail/domain/bloc/test_detail_bloc.dart';
+import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/buttons/app_fab.dart';
+import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
+import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 
 /// UI layer for test detail screen.
 ///
@@ -14,10 +17,12 @@ import 'package:karto4ki/uikit/pressable/scale_pressable.dart';
 class TestDetailView extends StatelessWidget {
   final ITestDetailViewModel viewModel;
   final TestDetailState state;
+  final bool swapSides;
 
   const TestDetailView({
     required this.viewModel,
     required this.state,
+    required this.swapSides,
     super.key,
   });
 
@@ -33,42 +38,57 @@ class TestDetailView extends StatelessWidget {
       _ => Icons.play_arrow_rounded,
     };
 
-    return Scaffold(
+    return AppScaffold(
+      useSafeArea: false,
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(150),
           child: Material(
             color: colorScheme.primary,
-            child: InkWell(
-              onTap: canStartTest ? viewModel.onStartTestPressed : null,
-              child: Container(
-                padding: const EdgeInsets.all(16),
-                width: double.infinity,
-                height: 150,
-                child: Align(
-                  alignment: Alignment.bottomCenter,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        startIcon,
-                        color: colorScheme.onPrimary,
-                        size: 24,
+            child: Stack(
+              children: [
+                InkWell(
+                  onTap: canStartTest ? viewModel.onStartTestPressed : null,
+                  child: Container(
+                    padding: const EdgeInsets.all(16),
+                    width: double.infinity,
+                    height: 150,
+                    child: Align(
+                      alignment: Alignment.bottomCenter,
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          Icon(
+                            startIcon,
+                            color: colorScheme.onPrimary,
+                            size: 24,
+                          ),
+                          const SizedBox(height: 8),
+                          Text(
+                            switch (state) {
+                              TestDetailState$Loaded(:final test) => test.title.toUpperCase(),
+                              _ => context.l10n.testDetailLoadingTitle,
+                            },
+                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                                  color: colorScheme.onPrimary,
+                                ),
+                          ),
+                        ],
                       ),
-                      const SizedBox(height: 8),
-                      Text(
-                        switch (state) {
-                          TestDetailState$Loaded(:final test) =>
-                            test.title.toUpperCase(),
-                          _ => context.l10n.testDetailLoadingTitle,
-                        },
-                        style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                              color: colorScheme.onPrimary,
-                            ),
-                      ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+                Positioned(
+                  left: 4,
+                  top: MediaQuery.of(context).padding.top,
+                  child: IconButton(
+                    onPressed: () => Navigator.of(context).pop(),
+                    icon: Icon(
+                      Icons.chevron_left,
+                      color: colorScheme.onPrimary,
+                    ),
+                  ),
+                ),
+              ],
             ),
           )),
       body: switch (state) {
@@ -97,14 +117,17 @@ class TestDetailView extends StatelessWidget {
             test: test,
             cards: cards,
             viewModel: viewModel,
+            swapSides: swapSides,
           ),
       },
       floatingActionButton: state is TestDetailState$Loaded
-          ? FloatingActionButton(
+          ? AppFloatingActionButton(
+              label: context.l10n.testDetailAddCardFab,
               onPressed: viewModel.onAddCardPressed,
-              child: const Icon(Icons.add),
+              icon: Icons.add,
             )
           : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
     );
   }
 }
@@ -113,16 +136,19 @@ class _TestDetailContent extends StatelessWidget {
   final TestEntity test;
   final List<CardEntity> cards;
   final ITestDetailViewModel viewModel;
+  final bool swapSides;
 
   const _TestDetailContent({
     required this.test,
     required this.cards,
     required this.viewModel,
+    required this.swapSides,
   });
 
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,10 +159,19 @@ class _TestDetailContent extends StatelessWidget {
             child: Text(
               test.description!,
               style: textTheme.bodyMedium?.copyWith(
-                color: Colors.grey[600],
+                color: colorScheme.onSurfaceVariant,
               ),
             ),
           ),
+        SwitchListTile(
+          title: Text(
+            context.l10n.testDetailSwapSides,
+            style: textTheme.bodyMedium,
+          ),
+          value: swapSides,
+          onChanged: (v) => viewModel.onSwapSidesChanged(value: v),
+          dense: true,
+        ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           child: Row(
@@ -157,9 +192,25 @@ class _TestDetailContent extends StatelessWidget {
         Expanded(
           child: cards.isEmpty
               ? Center(
-                  child: Text(
-                    context.l10n.testDetailEmptyCardsMessage,
-                    textAlign: TextAlign.center,
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 32),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          context.l10n.testDetailEmptyCardsMessage,
+                          textAlign: TextAlign.center,
+                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                                color: Theme.of(context).colorScheme.onSurfaceVariant,
+                              ),
+                        ),
+                        const SizedBox(height: 12),
+                        Icon(
+                          Icons.keyboard_arrow_down_rounded,
+                          color: Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                      ],
+                    ),
                   ),
                 )
               : _CardsList(
@@ -184,6 +235,7 @@ class _CardsList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: const EdgeInsets.only(bottom: 100),
       itemCount: cards.length,
       itemBuilder: (context, index) {
         final card = cards[index];
@@ -215,14 +267,14 @@ class _CardListItem extends StatelessWidget {
     return Dismissible(
       key: ValueKey(card.id),
       direction: DismissDirection.endToStart,
-      background: const Icon(
+      background: Icon(
         Icons.delete,
-        color: Colors.white,
+        color: colorScheme.onSurface,
       ),
       confirmDismiss: (direction) async {
         return showDialog<bool>(
           context: context,
-          builder: (context) => AlertDialog(
+          builder: (context) => AppDialog(
             title: Text(context.l10n.testDetailDeleteCardTitle),
             content: Text(context.l10n.testDetailDeleteCardMessage),
             actions: [

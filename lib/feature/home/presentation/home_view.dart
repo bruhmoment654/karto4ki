@@ -1,8 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:karto4ki/app/navigation/app_router.dart';
-import 'package:karto4ki/feature/home/presentation/home_screen.dart';
-import 'package:karto4ki/uikit/theme/app_theme.dart';
+import 'package:quizzerg/app/navigation/app_router.dart';
+import 'package:quizzerg/feature/home/presentation/home_screen.dart';
+import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// UI layer for Home screen.
 ///
@@ -14,14 +14,17 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return AutoTabsScaffold(
       routes: const [
         MainTabRoute(),
         ProfileRoute(),
       ],
+      extendBody: true,
       bottomNavigationBuilder: (context, tabsRouter) {
         return BottomNavigationBar(
-          backgroundColor: Theme.of(context).colorScheme.scaffoldBackground,
+          backgroundColor: colorScheme.surface.withAlpha(100),
           currentIndex: tabsRouter.activeIndex,
           onTap: tabsRouter.setActiveIndex,
           items: const [

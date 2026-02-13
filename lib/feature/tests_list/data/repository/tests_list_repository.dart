@@ -1,7 +1,7 @@
-import 'package:karto4ki/feature/tests_list/data/converters/test_converter.dart';
-import 'package:karto4ki/feature/tests_list/data/database/tests_database.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
-import 'package:karto4ki/feature/tests_list/domain/repository/i_tests_list_repository.dart';
+import 'package:quizzerg/feature/tests_list/data/converters/test_converter.dart';
+import 'package:quizzerg/feature/tests_list/data/database/tests_database.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/feature/tests_list/domain/repository/i_tests_list_repository.dart';
 
 /// Repository implementation for tests list.
 class TestsListRepository implements ITestsListRepository {

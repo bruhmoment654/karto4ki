@@ -1,7 +1,7 @@
-import 'package:karto4ki/feature/card_detail/data/converters/card_converter.dart';
-import 'package:karto4ki/feature/card_detail/data/database/cards_database.dart';
-import 'package:karto4ki/feature/card_detail/domain/repository/i_card_repository.dart';
-import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/card_detail/data/converters/card_converter.dart';
+import 'package:quizzerg/feature/card_detail/data/database/cards_database.dart';
+import 'package:quizzerg/feature/card_detail/domain/repository/i_card_repository.dart';
+import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 
 /// Repository implementation for working with cards.
 class CardRepository implements ICardRepository {

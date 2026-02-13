@@ -1,10 +1,12 @@
-import 'package:karto4ki/core/services/csv_import_service.dart';
-import 'package:karto4ki/feature/card_detail/domain/repository/i_card_repository.dart';
-import 'package:karto4ki/feature/main/domain/repository/i_main_repository.dart';
-import 'package:karto4ki/feature/test_detail/domain/repository/i_test_detail_repository.dart';
-import 'package:karto4ki/feature/test_merge/domain/repository/i_test_merge_repository.dart';
-import 'package:karto4ki/feature/tests_list/domain/repository/i_tests_list_repository.dart';
-import 'package:karto4ki/persistence/database/app_database.dart';
+import 'package:quizzerg/core/services/csv_import_service.dart';
+import 'package:quizzerg/feature/card_detail/domain/repository/i_card_repository.dart';
+import 'package:quizzerg/feature/main/domain/repository/i_main_repository.dart';
+import 'package:quizzerg/feature/test_detail/domain/repository/i_test_detail_repository.dart';
+import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
+import 'package:quizzerg/feature/test_merge/domain/repository/i_test_merge_repository.dart';
+import 'package:quizzerg/feature/tests_list/domain/repository/i_tests_list_repository.dart';
+import 'package:quizzerg/persistence/database/app_database.dart';
+import 'package:quizzerg/persistence/settings/i_settings_storage.dart';
 
 final class AppScope implements IAppScope {
   @override
@@ -28,6 +30,12 @@ final class AppScope implements IAppScope {
   @override
   final ITestMergeRepository testMergeRepository;
 
+  @override
+  final ISettingsStorage settingsStorage;
+
+  @override
+  final IQuestionStatsRepository questionStatsRepository;
+
   const AppScope({
     required this.database,
     required this.mainRepository,
@@ -36,6 +44,8 @@ final class AppScope implements IAppScope {
     required this.testDetailRepository,
     required this.csvImportService,
     required this.testMergeRepository,
+    required this.settingsStorage,
+    required this.questionStatsRepository,
   });
 }
 
@@ -53,4 +63,8 @@ abstract interface class IAppScope {
   ICsvImportService get csvImportService;
 
   ITestMergeRepository get testMergeRepository;
+
+  ISettingsStorage get settingsStorage;
+
+  IQuestionStatsRepository get questionStatsRepository;
 }

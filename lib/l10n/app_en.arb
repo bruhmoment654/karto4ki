@@ -119,6 +119,9 @@
   "testDetailDeleteCardMessage": "Are you sure you want to delete this card?",
   "testDetailDeleteCardCancel": "Cancel",
   "testDetailDeleteCardConfirm": "Delete",
+  "testDetailSwapSides": "Swap sides",
+  "testDetailAddCardFab": "Add",
+  "testsListAddTestFab": "Create",
   "@segmentMain": {
     "---------": "---------",
     "description": "Main screen"
@@ -127,22 +130,44 @@
   "mainQuestionCardBack": "Answer",
   "@segmentCsvImport": {
     "---------": "---------",
-    "description": "CSV cards import"
+    "description": "File cards import"
   },
-  "csvImportButton": "Import CSV",
-  "csvImportDialogTitle": "Import cards from CSV",
-  "csvImportDialogDescription": "File format:\n• 1st column — question (word)\n• 2nd column — answer (translation)\n• Delimiter: semicolon (;)",
-  "csvImportDialogContinue": "Select file",
+  "csvImportButton": "Import from file",
+  "csvImportDialogTitle": "Import cards from file",
+  "csvImportDialogDescription": "Supported formats: CSV, TXT, TSV\n\nFile format:\n• 1st column — question (word)\n• 2nd column — answer (translation)",
+  "csvImportDelimiterLabel": "Delimiter",
+  "csvImportDelimiterHint": ";",
+  "csvImportAddFiles": "Add files",
+  "csvImportFilesTitle": "Files",
+  "csvImportNoFiles": "No files selected",
+  "csvImportDialogContinue": "Import",
   "csvImportDialogCancel": "Cancel",
   "csvImportErrorEmpty": "File is empty or contains no data",
-  "csvImportErrorFormat": "Invalid CSV format. Minimum 2 columns required.",
+  "csvImportErrorFormat": "Invalid file format. Minimum 2 columns required.",
   "csvImportErrorRead": "Could not read file",
-  "csvImportSuccess": "Imported cards: {count}",
+  "csvImportSuccess": "Imported cards: {count} from {fileCount} files",
   "@csvImportSuccess": {
     "placeholders": {
       "count": {
         "type": "int",
         "example": "10"
+      },
+      "fileCount": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "csvImportPartialSuccess": "Imported cards: {count}. Failed to load: {failedFiles}",
+  "@csvImportPartialSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "10"
+      },
+      "failedFiles": {
+        "type": "String",
+        "example": "data.csv"
       }
     }
   },
@@ -157,5 +182,20 @@
   "testMergeSuccessMessage": "Test created successfully",
   "testMergeSelectHint": "Select tests to merge",
   "testActionsDialogTitle": "Actions",
-  "testActionMerge": "Merge with others"
+  "testActionMerge": "Merge with others",
+  "@segmentProfileSettings": {
+    "---------": "---------",
+    "description": "Profile and settings"
+  },
+  "profileSettingsTitle": "Profile and settings",
+  "profileAnimationSpeedTitle": "Animation speed",
+  "profileAnimationDurationLabel": "{duration} ms",
+  "@profileAnimationDurationLabel": {
+    "placeholders": {
+      "duration": {
+        "type": "int",
+        "example": "300"
+      }
+    }
+  }
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:karto4ki/feature/main_tab/presentation/main_tab_view.dart';
+import 'package:quizzerg/feature/main_tab/presentation/main_tab_view.dart';
 
 /// Container screen for main tab routes.
 class MainTabScreen extends StatefulWidget {

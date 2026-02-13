@@ -2,10 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:karto4ki/feature/test_merge/domain/bloc/test_merge_bloc.dart';
-import 'package:karto4ki/feature/test_merge/presentation/test_merge_view.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
-import 'package:karto4ki/l10n/app_localizations_x.dart';
+import 'package:quizzerg/feature/test_merge/domain/bloc/test_merge_bloc.dart';
+import 'package:quizzerg/feature/test_merge/presentation/test_merge_view.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 
 class TestMergeScreen extends StatefulWidget {
   const TestMergeScreen({super.key});
@@ -57,7 +58,7 @@ class _TestMergeScreenState extends State<TestMergeScreen>
 
     showDialog<void>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
+      builder: (dialogContext) => AppDialog(
         title: Text(context.l10n.testMergeNewTestTitle),
         content: TextField(
           controller: titleController,

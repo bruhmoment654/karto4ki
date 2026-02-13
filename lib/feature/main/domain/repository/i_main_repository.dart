@@ -1,4 +1,4 @@
-import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 
 /// Repository interface for main screen.
 abstract interface class IMainRepository {

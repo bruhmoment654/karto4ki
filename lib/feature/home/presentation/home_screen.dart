@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:karto4ki/feature/home/presentation/home_view.dart';
+import 'package:quizzerg/feature/home/presentation/home_view.dart';
 
 /// Container screen for nested navigation.
 ///

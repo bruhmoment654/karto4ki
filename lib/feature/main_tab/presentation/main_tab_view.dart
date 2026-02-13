@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:karto4ki/feature/main_tab/presentation/main_tab_screen.dart';
+import 'package:quizzerg/feature/main_tab/presentation/main_tab_screen.dart';
 
 /// UI layer for main tab.
 ///

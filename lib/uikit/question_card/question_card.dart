@@ -92,6 +92,7 @@ class QuestionCardContent extends StatelessWidget {
   final bool showAnswer;
   final Offset cardOffset;
   final bool enableFlipAnimation;
+  final Duration flipDuration;
   final String? leftBadgeText;
   final String? rightBadgeText;
 
@@ -101,6 +102,7 @@ class QuestionCardContent extends StatelessWidget {
     required this.showAnswer,
     required this.cardOffset,
     this.enableFlipAnimation = true,
+    this.flipDuration = const Duration(milliseconds: 300),
     super.key,
     this.leftBadgeText,
     this.rightBadgeText,
@@ -171,7 +173,7 @@ class QuestionCardContent extends StatelessWidget {
         begin: 0,
         end: showAnswer ? math.pi : 0,
       ),
-      duration: const Duration(milliseconds: 300),
+      duration: flipDuration,
       curve: Curves.easeInOut,
       builder: (context, angle, child) {
         final isBackVisible = angle > math.pi / 2;

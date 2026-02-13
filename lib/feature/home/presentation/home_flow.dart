@@ -1,6 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:karto4ki/feature/home/presentation/home_screen.dart';
+import 'package:quizzerg/feature/home/presentation/home_screen.dart';
 
 /// Entry point for home screen with nested navigation.
 ///

@@ -1,12 +1,12 @@
-import 'package:karto4ki/feature/card_detail/data/converters/card_converter.dart';
-import 'package:karto4ki/feature/card_detail/data/database/cards_database.dart';
-import 'package:karto4ki/feature/test_merge/domain/repository/i_test_merge_repository.dart';
-import 'package:karto4ki/feature/tests_list/data/converters/test_converter.dart';
-import 'package:karto4ki/feature/tests_list/data/database/tests_database.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
-import 'package:karto4ki/persistence/database/app_database.dart';
+import 'package:quizzerg/feature/card_detail/data/converters/card_converter.dart';
+import 'package:quizzerg/feature/card_detail/data/database/cards_database.dart';
+import 'package:quizzerg/feature/test_merge/domain/repository/i_test_merge_repository.dart';
+import 'package:quizzerg/feature/tests_list/data/converters/test_converter.dart';
+import 'package:quizzerg/feature/tests_list/data/database/tests_database.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/persistence/database/app_database.dart';
 
-/// Реализация репозитория для объединения тестов.
+/// [ITestMergeRepository] implementation.
 class TestMergeRepository implements ITestMergeRepository {
   final TestsDatabase _testsDatabase;
   final CardsDatabase _cardsDatabase;

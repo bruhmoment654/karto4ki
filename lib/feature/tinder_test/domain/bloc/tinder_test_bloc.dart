@@ -1,10 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:karto4ki/feature/card_detail/domain/repository/i_card_repository.dart';
-import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
-import 'package:karto4ki/feature/tinder_test/domain/entity/card_result.dart';
-import 'package:karto4ki/feature/tinder_test/domain/entity/test_session.dart';
+import 'package:quizzerg/feature/card_detail/domain/repository/i_card_repository.dart';
+import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
+import 'package:quizzerg/feature/tinder_test/domain/entity/card_result.dart';
+import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
 
 part 'tinder_test_event.dart';
 part 'tinder_test_state.dart';
@@ -15,9 +18,14 @@ part 'tinder_test_bloc.freezed.dart';
 /// Manages the test session, card swiping, and result tracking.
 final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   final ICardRepository _cardRepository;
+  final IQuestionStatsRepository _questionStatsRepository;
+  bool _swapSides = false;
 
-  TinderTestBloc({required ICardRepository cardRepository})
-      : _cardRepository = cardRepository,
+  TinderTestBloc({
+    required ICardRepository cardRepository,
+    required IQuestionStatsRepository questionStatsRepository,
+  })  : _cardRepository = cardRepository,
+        _questionStatsRepository = questionStatsRepository,
         super(const TinderTestState.initial()) {
     on<TinderTestEvent>(
       (event, emit) => switch (event) {
@@ -36,13 +44,19 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     Emitter<TinderTestState> emit,
   ) async {
     emit(const TinderTestState.loading());
+    _swapSides = event.swapSides;
 
     try {
-      final cards = await _cardRepository.getCardsByTestId(event.testId);
+      var cards = await _cardRepository.getCardsByTestId(event.testId);
 
       if (cards.isEmpty) {
         emit(const TinderTestState.empty());
         return;
+      }
+
+      if (_swapSides) {
+        cards =
+            cards.map((c) => c.copyWith(front: c.back, back: c.front)).toList();
       }
 
       final session = _createSession(event.testId, cards);
@@ -108,6 +122,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
         completedAt: DateTime.now(),
       );
       emit(TinderTestState.completed(session: completedSession));
+      unawaited(_saveStats(completedSession));
     } else {
       emit(TinderTestState.inProgress(
         session: updatedSession,
@@ -127,6 +142,18 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
       completedAt: DateTime.now(),
     );
     emit(TinderTestState.completed(session: completedSession));
+    unawaited(_saveStats(completedSession));
+  }
+
+  Future<void> _saveStats(TestSession session) async {
+    try {
+      await _questionStatsRepository.saveSessionResults(
+        results: session.results,
+        cards: session.cards,
+      );
+    } on Object catch (_) {
+      // Сохранение статистики не критично для работы теста.
+    }
   }
 
   Future<void> _onRestarted(
@@ -145,7 +172,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     if (session == null) return;
 
     final testId = int.parse(session.testId);
-    add(TinderTestEvent.started(testId: testId));
+    add(TinderTestEvent.started(testId: testId, swapSides: _swapSides));
   }
 
   Future<void> _onDiscard(

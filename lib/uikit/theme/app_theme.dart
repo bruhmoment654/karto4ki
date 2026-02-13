@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
-  static const _seedColor = Color.fromARGB(255, 255, 63, 105);
+  static const _seedColor = Color.fromARGB(255, 35, 255, 142);
 
   static final ColorScheme _colorScheme = ColorScheme.fromSeed(
     seedColor: _seedColor,
@@ -48,7 +48,7 @@ class AppTheme {
       ),
     ),
     bottomNavigationBarTheme: BottomNavigationBarThemeData(
-      backgroundColor: _colorScheme.scaffoldBackground,
+      backgroundColor: Colors.transparent,
       selectedItemColor: _colorScheme.primary,
       unselectedItemColor: _colorScheme.onSurfaceVariant,
       type: BottomNavigationBarType.fixed,
@@ -61,4 +61,8 @@ class AppTheme {
 
 extension AppThemeColorSchemeX on ColorScheme {
   Color get scaffoldBackground => const Color(0xFF121212);
+
+  Color get success => const Color(0xFFFFCA28);
+
+  Color get info => const Color(0xFF42A5F5);
 }

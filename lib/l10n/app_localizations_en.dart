@@ -172,22 +172,46 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testDetailDeleteCardConfirm => 'Delete';
 
   @override
+  String get testDetailSwapSides => 'Swap sides';
+
+  @override
+  String get testDetailAddCardFab => 'Add';
+
+  @override
+  String get testsListAddTestFab => 'Create';
+
+  @override
   String get mainQuestionCardFront => 'Question';
 
   @override
   String get mainQuestionCardBack => 'Answer';
 
   @override
-  String get csvImportButton => 'Import CSV';
+  String get csvImportButton => 'Import from file';
 
   @override
-  String get csvImportDialogTitle => 'Import cards from CSV';
+  String get csvImportDialogTitle => 'Import cards from file';
 
   @override
-  String get csvImportDialogDescription => 'File format:\n• 1st column — question (word)\n• 2nd column — answer (translation)\n• Delimiter: semicolon (;)';
+  String get csvImportDialogDescription => 'Supported formats: CSV, TXT, TSV\n\nFile format:\n• 1st column — question (word)\n• 2nd column — answer (translation)';
 
   @override
-  String get csvImportDialogContinue => 'Select file';
+  String get csvImportDelimiterLabel => 'Delimiter';
+
+  @override
+  String get csvImportDelimiterHint => ';';
+
+  @override
+  String get csvImportAddFiles => 'Add files';
+
+  @override
+  String get csvImportFilesTitle => 'Files';
+
+  @override
+  String get csvImportNoFiles => 'No files selected';
+
+  @override
+  String get csvImportDialogContinue => 'Import';
 
   @override
   String get csvImportDialogCancel => 'Cancel';
@@ -196,14 +220,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get csvImportErrorEmpty => 'File is empty or contains no data';
 
   @override
-  String get csvImportErrorFormat => 'Invalid CSV format. Minimum 2 columns required.';
+  String get csvImportErrorFormat => 'Invalid file format. Minimum 2 columns required.';
 
   @override
   String get csvImportErrorRead => 'Could not read file';
 
   @override
-  String csvImportSuccess(int count) {
-    return 'Imported cards: $count';
+  String csvImportSuccess(int count, int fileCount) {
+    return 'Imported cards: $count from $fileCount files';
+  }
+
+  @override
+  String csvImportPartialSuccess(int count, String failedFiles) {
+    return 'Imported cards: $count. Failed to load: $failedFiles';
   }
 
   @override
@@ -229,4 +258,15 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get testActionMerge => 'Merge with others';
+
+  @override
+  String get profileSettingsTitle => 'Profile and settings';
+
+  @override
+  String get profileAnimationSpeedTitle => 'Animation speed';
+
+  @override
+  String profileAnimationDurationLabel(int duration) {
+    return '$duration ms';
+  }
 }

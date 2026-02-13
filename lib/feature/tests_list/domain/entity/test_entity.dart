@@ -1,6 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:karto4ki/feature/tests_list/domain/entity/test_type.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_type.dart';
 
 part 'test_entity.freezed.dart';
 

@@ -1,12 +1,12 @@
 import 'package:drift/drift.dart';
 
-import 'package:karto4ki/persistence/database/app_database.dart';
+import 'package:quizzerg/persistence/database/app_database.dart';
 
 part 'cards_database.g.dart';
 
 /// Data Access Object for Cards table.
 @DriftAccessor(
-  include: {'package:karto4ki/feature/card_detail/data/database/cards.drift'},
+  include: {'package:quizzerg/feature/card_detail/data/database/cards.drift'},
 )
 class CardsDatabase extends DatabaseAccessor<AppDatabase>
     with _$CardsDatabaseMixin {

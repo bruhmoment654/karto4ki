@@ -1,10 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:karto4ki/core/feature/core/failure.dart';
-import 'package:karto4ki/core/feature/core/failures/unknown_failure.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
-import 'package:karto4ki/feature/tests_list/domain/repository/i_tests_list_repository.dart';
+import 'package:quizzerg/core/feature/core/exension/string_title_x.dart';
+import 'package:quizzerg/core/feature/core/failure.dart';
+import 'package:quizzerg/core/feature/core/failures/unknown_failure.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/feature/tests_list/domain/repository/i_tests_list_repository.dart';
 
 part 'tests_list_event.dart';
 part 'tests_list_state.dart';
@@ -50,8 +51,8 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
   ) async {
     try {
       await _repository.addTest(
-        title: event.title,
-        description: event.description,
+        title: event.title.toCapitalized,
+        description: event.description?.toCapitalized,
       );
 
       final tests = await _repository.getTests();

@@ -1,7 +1,7 @@
 import 'package:drift/drift.dart';
 
-import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
-import 'package:karto4ki/persistence/database/app_database.dart';
+import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/persistence/database/app_database.dart';
 
 /// Converter for [CardEntity] and [CardDatabaseDto].
 abstract final class CardConverter {

@@ -1,4 +1,4 @@
-import 'package:karto4ki/feature/card_test/domain/repository/i_card_test_repository.dart';
+import 'package:quizzerg/feature/card_test/domain/repository/i_card_test_repository.dart';
 
 /// Repository implementation for working with test cards.
 class CardTestRepository implements ICardTestRepository {

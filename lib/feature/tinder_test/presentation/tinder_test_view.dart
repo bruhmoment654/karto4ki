@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:karto4ki/feature/main/domain/entity/card_entity.dart';
-import 'package:karto4ki/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
-import 'package:karto4ki/feature/tinder_test/domain/entity/test_session.dart';
-import 'package:karto4ki/feature/tinder_test/presentation/tinder_test_screen.dart';
-import 'package:karto4ki/l10n/app_localizations_x.dart';
-import 'package:karto4ki/uikit/question_card/swipable_card_wrapper.dart';
+import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
+import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
+import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_screen.dart';
+import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
+import 'package:quizzerg/uikit/question_card/swipable_card_wrapper.dart';
+import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
+import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// UI layer for tinder test screen.
 ///
@@ -23,9 +28,9 @@ class TinderTestView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(context.l10n.tinderTestAppBarTitle),
+    return AppScaffold(
+      appBar: Karto4kiAppBar(
+        title: context.l10n.tinderTestAppBarTitle,
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: viewModel.onBackPressed,
@@ -40,7 +45,8 @@ class TinderTestView extends StatelessWidget {
             message: message,
             viewModel: viewModel,
           ),
-        TinderTestState$InProgress(:final session, :final currentCard) => _TestContent(
+        TinderTestState$InProgress(:final session, :final currentCard) =>
+          _TestContent(
             session: session,
             currentCard: currentCard,
             viewModel: viewModel,
@@ -61,14 +67,16 @@ class _EmptyContent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(
+          Icon(
             Icons.inbox_outlined,
             size: 64,
-            color: Colors.grey,
+            color: colorScheme.onSurfaceVariant,
           ),
           const SizedBox(height: 16),
           Text(
@@ -78,7 +86,7 @@ class _EmptyContent extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             context.l10n.tinderTestEmptySubtitle,
-            style: const TextStyle(color: Colors.grey),
+            style: TextStyle(color: colorScheme.onSurfaceVariant),
           ),
           const SizedBox(height: 24),
           ElevatedButton(
@@ -172,6 +180,9 @@ class _TestContentState extends State<_TestContent> {
 
   @override
   Widget build(BuildContext context) {
+    final settings = context.read<IAppScope>().settingsStorage.get();
+    final flipDuration = Duration(milliseconds: settings.animationDurationMs);
+
     return Column(
       children: [
         _ProgressIndicator(session: widget.session),
@@ -192,9 +203,12 @@ class _TestContentState extends State<_TestContent> {
                   card: widget.currentCard,
                   showAnswer: currentShowAnswer,
                   enableFlipAnimation: enableFlipAnimation,
+                  flipDuration: flipDuration,
                   onTap: () => _showAnswer.value = !currentShowAnswer,
-                  onSwipeLeft: () => widget.viewModel.onSwipeLeft(widget.currentCard),
-                  onSwipeRight: () => widget.viewModel.onSwipeRight(widget.currentCard),
+                  onSwipeLeft: () =>
+                      widget.viewModel.onSwipeLeft(widget.currentCard),
+                  onSwipeRight: () =>
+                      widget.viewModel.onSwipeRight(widget.currentCard),
                 );
               },
             ),
@@ -225,7 +239,8 @@ class _ProgressIndicator extends StatelessWidget {
                 session.currentIndex + 1,
                 session.cards.length,
               ),
-              style: const TextStyle(fontSize: 14, color: Colors.grey),
+              style:
+                  TextStyle(fontSize: 14, color: colorScheme.onSurfaceVariant),
             ),
             Row(
               children: [
@@ -241,8 +256,8 @@ class _ProgressIndicator extends StatelessWidget {
         const SizedBox(height: 8),
         LinearProgressIndicator(
           value: session.progress,
-          backgroundColor: Colors.grey[300],
-          valueColor: const AlwaysStoppedAnimation<Color>(Colors.blue),
+          backgroundColor: colorScheme.surfaceContainerHighest,
+          valueColor: AlwaysStoppedAnimation<Color>(colorScheme.info),
         ),
       ],
     );
@@ -318,10 +333,10 @@ class _ResultsContent extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Icon(
+            Icon(
               Icons.emoji_events,
               size: 80,
-              color: Colors.amber,
+              color: colorScheme.success,
             ),
             const SizedBox(height: 24),
             Text(
@@ -348,7 +363,7 @@ class _ResultsContent extends StatelessWidget {
             const SizedBox(height: 16),
             _ResultCard(
               icon: Icons.percent,
-              color: Colors.blue,
+              color: colorScheme.info,
               label: context.l10n.tinderTestResultsPercentageLabel,
               value: '$percentage%',
             ),
@@ -404,9 +419,9 @@ class _ResultCard extends StatelessWidget {
               children: [
                 Text(
                   label,
-                  style: const TextStyle(
+                  style: TextStyle(
                     fontSize: 14,
-                    color: Colors.grey,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
                 ),
                 Text(

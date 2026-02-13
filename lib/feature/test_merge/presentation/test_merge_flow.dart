@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:karto4ki/app/di/app_scope.dart';
-import 'package:karto4ki/feature/test_merge/domain/bloc/test_merge_bloc.dart';
-import 'package:karto4ki/feature/test_merge/presentation/test_merge_screen.dart';
+import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:quizzerg/feature/test_merge/domain/bloc/test_merge_bloc.dart';
+import 'package:quizzerg/feature/test_merge/presentation/test_merge_screen.dart';
 
 @RoutePage()
 class TestMergeFlow extends StatelessWidget implements AutoRouteWrapper {

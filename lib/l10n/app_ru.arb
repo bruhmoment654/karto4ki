@@ -557,6 +557,9 @@
   "testDetailDeleteCardMessage": "Вы уверены, что хотите удалить эту карточку?",
   "testDetailDeleteCardCancel": "Отмена",
   "testDetailDeleteCardConfirm": "Удалить",
+  "testDetailSwapSides": "Поменять стороны местами",
+  "testDetailAddCardFab": "Добавить",
+  "testsListAddTestFab": "Создать",
   "@segmentMain": {
     "---------": "---------",
     "description": "Главный экран"
@@ -565,22 +568,44 @@
   "mainQuestionCardBack": "Ответ",
   "@segmentCsvImport": {
     "---------": "---------",
-    "description": "Импорт карточек из CSV"
+    "description": "Импорт карточек из файла"
   },
-  "csvImportButton": "Импорт CSV",
-  "csvImportDialogTitle": "Импорт карточек из CSV",
-  "csvImportDialogDescription": "Формат файла:\n• 1 столбец — вопрос (слово)\n• 2 столбец — ответ (перевод)\n• Разделитель: точка с запятой (;)",
-  "csvImportDialogContinue": "Выбрать файл",
+  "csvImportButton": "Импорт из файла",
+  "csvImportDialogTitle": "Импорт карточек из файла",
+  "csvImportDialogDescription": "Поддерживаемые форматы: CSV, TXT, TSV\n\nФормат файла:\n• 1 столбец — вопрос (слово)\n• 2 столбец — ответ (перевод)",
+  "csvImportDelimiterLabel": "Разделитель",
+  "csvImportDelimiterHint": ";",
+  "csvImportAddFiles": "Добавить файлы",
+  "csvImportFilesTitle": "Файлы",
+  "csvImportNoFiles": "Файлы не выбраны",
+  "csvImportDialogContinue": "Импортировать",
   "csvImportDialogCancel": "Отмена",
   "csvImportErrorEmpty": "Файл пустой или не содержит данных",
-  "csvImportErrorFormat": "Неверный формат CSV. Требуется минимум 2 столбца.",
+  "csvImportErrorFormat": "Неверный формат файла. Требуется минимум 2 столбца.",
   "csvImportErrorRead": "Не удалось прочитать файл",
-  "csvImportSuccess": "Импортировано карточек: {count}",
+  "csvImportSuccess": "Импортировано карточек: {count} из {fileCount} файлов",
   "@csvImportSuccess": {
     "placeholders": {
       "count": {
         "type": "int",
         "example": "10"
+      },
+      "fileCount": {
+        "type": "int",
+        "example": "2"
+      }
+    }
+  },
+  "csvImportPartialSuccess": "Импортировано карточек: {count}. Не удалось загрузить: {failedFiles}",
+  "@csvImportPartialSuccess": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "10"
+      },
+      "failedFiles": {
+        "type": "String",
+        "example": "data.csv"
       }
     }
   },
@@ -595,5 +620,20 @@
   "testMergeSuccessMessage": "Тест успешно создан",
   "testMergeSelectHint": "Выберите тесты для объединения",
   "testActionsDialogTitle": "Действия",
-  "testActionMerge": "Объединить с другими"
+  "testActionMerge": "Объединить с другими",
+  "@segmentProfileSettings": {
+    "---------": "---------",
+    "description": "Профиль и настройки"
+  },
+  "profileSettingsTitle": "Профиль и настройки",
+  "profileAnimationSpeedTitle": "Скорость анимаций",
+  "profileAnimationDurationLabel": "{duration} мс",
+  "@profileAnimationDurationLabel": {
+    "placeholders": {
+      "duration": {
+        "type": "int",
+        "example": "300"
+      }
+    }
+  }
 }

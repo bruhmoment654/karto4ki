@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
 
-import 'package:karto4ki/feature/tests_list/data/converters/test_type_converter.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_type.dart';
-import 'package:karto4ki/persistence/database/app_database.dart';
+import 'package:quizzerg/feature/tests_list/data/converters/test_type_converter.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_type.dart';
+import 'package:quizzerg/persistence/database/app_database.dart';
 
 /// Converter for [TestEntity] and [TestDatabaseDto].
 abstract final class TestConverter {

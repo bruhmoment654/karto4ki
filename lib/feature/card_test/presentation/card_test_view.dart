@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:karto4ki/feature/card_test/presentation/card_test_screen.dart';
+import 'package:quizzerg/feature/card_test/presentation/card_test_screen.dart';
 
 /// UI layer for card testing screen.
 ///

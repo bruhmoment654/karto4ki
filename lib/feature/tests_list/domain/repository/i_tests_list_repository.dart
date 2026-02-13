@@ -1,4 +1,4 @@
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 
 /// Repository interface for tests list.
 abstract interface class ITestsListRepository {

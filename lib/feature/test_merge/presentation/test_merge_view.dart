@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
-import 'package:karto4ki/feature/test_merge/domain/bloc/test_merge_bloc.dart';
-import 'package:karto4ki/feature/test_merge/presentation/test_merge_screen.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
-import 'package:karto4ki/l10n/app_localizations_x.dart';
+import 'package:quizzerg/feature/test_merge/domain/bloc/test_merge_bloc.dart';
+import 'package:quizzerg/feature/test_merge/presentation/test_merge_screen.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
+import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 
 class TestMergeView extends StatelessWidget {
   final ITestMergeViewModel viewModel;
@@ -17,13 +19,13 @@ class TestMergeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
+    return AppScaffold(
+      appBar: Karto4kiAppBar(
+        title: context.l10n.testMergeAppBarTitle,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: viewModel.onBackPressed,
         ),
-        title: Text(context.l10n.testMergeAppBarTitle),
         actions: [
           if (state is TestMergeState$Loaded)
             TextButton(

@@ -2,11 +2,13 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:karto4ki/app/navigation/app_router.dart';
-import 'package:karto4ki/feature/tests_list/domain/bloc/tests_list_bloc.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
-import 'package:karto4ki/feature/tests_list/presentation/tests_list_view.dart';
-import 'package:karto4ki/l10n/app_localizations_x.dart';
+import 'package:quizzerg/app/navigation/app_router.dart';
+import 'package:quizzerg/feature/tests_list/domain/bloc/tests_list_bloc.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/feature/tests_list/presentation/tests_list_view.dart';
+import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 
 /// Tests list screen.
 ///
@@ -52,23 +54,24 @@ class _TestsListScreenState extends State<TestsListScreen>
   }
 
   void _showActionsDialog(TestEntity test) {
-    showModalBottomSheet<void>(
+    showDialog<void>(
       context: context,
-      builder: (sheetContext) => SafeArea(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.merge),
-              title: Text(context.l10n.testActionMerge),
-              onTap: () {
-                Navigator.of(sheetContext).pop();
-                context.router.push(
-                  TestMergeRoute(initialTestId: int.parse(test.id)),
-                );
-              },
-            ),
-          ],
+      builder: (dialogContext) => AppDialog(
+        title: Text(test.title),
+        content: ScalePressable(
+          onTap: () {
+            Navigator.of(dialogContext).pop();
+            context.router.push(
+              TestMergeRoute(initialTestId: int.parse(test.id)),
+            );
+          },
+          child: Row(
+            children: [
+              const Icon(Icons.merge),
+              const SizedBox(width: 16),
+              Text(context.l10n.testActionMerge),
+            ],
+          ),
         ),
       ),
     );
@@ -80,7 +83,7 @@ class _TestsListScreenState extends State<TestsListScreen>
 
     showDialog<void>(
       context: context,
-      builder: (dialogContext) => AlertDialog(
+      builder: (dialogContext) => AppDialog(
         title: const Text('Новый тест'),
         content: Column(
           mainAxisSize: MainAxisSize.min,

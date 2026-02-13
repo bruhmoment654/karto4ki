@@ -172,22 +172,46 @@ class AppLocalizationsRu extends AppLocalizations {
   String get testDetailDeleteCardConfirm => 'Удалить';
 
   @override
+  String get testDetailSwapSides => 'Поменять стороны местами';
+
+  @override
+  String get testDetailAddCardFab => 'Добавить';
+
+  @override
+  String get testsListAddTestFab => 'Создать';
+
+  @override
   String get mainQuestionCardFront => 'Вопрос';
 
   @override
   String get mainQuestionCardBack => 'Ответ';
 
   @override
-  String get csvImportButton => 'Импорт CSV';
+  String get csvImportButton => 'Импорт из файла';
 
   @override
-  String get csvImportDialogTitle => 'Импорт карточек из CSV';
+  String get csvImportDialogTitle => 'Импорт карточек из файла';
 
   @override
-  String get csvImportDialogDescription => 'Формат файла:\n• 1 столбец — вопрос (слово)\n• 2 столбец — ответ (перевод)\n• Разделитель: точка с запятой (;)';
+  String get csvImportDialogDescription => 'Поддерживаемые форматы: CSV, TXT, TSV\n\nФормат файла:\n• 1 столбец — вопрос (слово)\n• 2 столбец — ответ (перевод)';
 
   @override
-  String get csvImportDialogContinue => 'Выбрать файл';
+  String get csvImportDelimiterLabel => 'Разделитель';
+
+  @override
+  String get csvImportDelimiterHint => ';';
+
+  @override
+  String get csvImportAddFiles => 'Добавить файлы';
+
+  @override
+  String get csvImportFilesTitle => 'Файлы';
+
+  @override
+  String get csvImportNoFiles => 'Файлы не выбраны';
+
+  @override
+  String get csvImportDialogContinue => 'Импортировать';
 
   @override
   String get csvImportDialogCancel => 'Отмена';
@@ -196,14 +220,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get csvImportErrorEmpty => 'Файл пустой или не содержит данных';
 
   @override
-  String get csvImportErrorFormat => 'Неверный формат CSV. Требуется минимум 2 столбца.';
+  String get csvImportErrorFormat => 'Неверный формат файла. Требуется минимум 2 столбца.';
 
   @override
   String get csvImportErrorRead => 'Не удалось прочитать файл';
 
   @override
-  String csvImportSuccess(int count) {
-    return 'Импортировано карточек: $count';
+  String csvImportSuccess(int count, int fileCount) {
+    return 'Импортировано карточек: $count из $fileCount файлов';
+  }
+
+  @override
+  String csvImportPartialSuccess(int count, String failedFiles) {
+    return 'Импортировано карточек: $count. Не удалось загрузить: $failedFiles';
   }
 
   @override
@@ -229,4 +258,15 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get testActionMerge => 'Объединить с другими';
+
+  @override
+  String get profileSettingsTitle => 'Профиль и настройки';
+
+  @override
+  String get profileAnimationSpeedTitle => 'Скорость анимаций';
+
+  @override
+  String profileAnimationDurationLabel(int duration) {
+    return '$duration мс';
+  }
 }

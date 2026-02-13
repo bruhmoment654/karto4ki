@@ -1,4 +1,4 @@
-import 'package:karto4ki/persistence/card_test/i_card_test_storage.dart';
+import 'package:quizzerg/persistence/card_test/i_card_test_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// Storage implementation for card testing data.

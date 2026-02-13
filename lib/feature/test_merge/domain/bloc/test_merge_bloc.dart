@@ -1,10 +1,10 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
-import 'package:karto4ki/core/feature/core/failure.dart';
-import 'package:karto4ki/core/feature/core/failures/unknown_failure.dart';
-import 'package:karto4ki/feature/test_merge/domain/repository/i_test_merge_repository.dart';
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/core/feature/core/failure.dart';
+import 'package:quizzerg/core/feature/core/failures/unknown_failure.dart';
+import 'package:quizzerg/feature/test_merge/domain/repository/i_test_merge_repository.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 
 part 'test_merge_event.dart';
 part 'test_merge_state.dart';
@@ -78,8 +78,7 @@ final class TestMergeBloc extends Bloc<TestMergeEvent, TestMergeState> {
     emit(const TestMergeState.merging());
 
     try {
-      final testIds =
-          currentState.selectedTestIds.map(int.parse).toList();
+      final testIds = currentState.selectedTestIds.map(int.parse).toList();
       final newTestId = await _repository.mergeTests(
         title: event.title,
         testIds: testIds,

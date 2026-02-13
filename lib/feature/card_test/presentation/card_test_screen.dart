@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:karto4ki/feature/card_test/presentation/card_test_view.dart';
+import 'package:quizzerg/feature/card_test/presentation/card_test_view.dart';
 
 /// Card testing screen.
 ///

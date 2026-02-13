@@ -1,4 +1,4 @@
-import 'package:karto4ki/core/feature/core/failure.dart';
+import 'package:quizzerg/core/feature/core/failure.dart';
 
 /// Failure when requested entity is not found.
 class NotFoundFailure extends Failure {

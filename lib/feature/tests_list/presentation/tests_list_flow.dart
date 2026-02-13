@@ -2,9 +2,9 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:karto4ki/app/di/app_scope.dart';
-import 'package:karto4ki/feature/tests_list/domain/bloc/tests_list_bloc.dart';
-import 'package:karto4ki/feature/tests_list/presentation/tests_list_screen.dart';
+import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:quizzerg/feature/tests_list/domain/bloc/tests_list_bloc.dart';
+import 'package:quizzerg/feature/tests_list/presentation/tests_list_screen.dart';
 
 /// Entry point for tests list screen.
 ///

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:karto4ki/feature/card_detail/presentation/card_detail_screen.dart';
+import 'package:quizzerg/feature/card_detail/presentation/card_detail_screen.dart';
 
 /// UI layer for card detail screen.
 ///

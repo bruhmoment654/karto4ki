@@ -2,10 +2,10 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:karto4ki/app/navigation/app_router.dart';
-import 'package:karto4ki/l10n/app_localizations.dart';
-import 'package:karto4ki/uikit/theme/app_theme.dart';
-import 'package:karto4ki/uikit/theme/app_theme_scope.dart';
+import 'package:quizzerg/app/navigation/app_router.dart';
+import 'package:quizzerg/l10n/app_localizations.dart';
+import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/theme/app_theme_scope.dart';
 
 /// {@template app.class}
 /// Application.

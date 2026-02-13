@@ -1,12 +1,12 @@
-import 'package:karto4ki/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 
-/// Интерфейс репозитория для объединения тестов.
+/// Test merge repository interface.
 abstract interface class ITestMergeRepository {
-  /// Получить все тесты.
+  /// Get all tests.
   Future<List<TestEntity>> getTests();
 
-  /// Объединить тесты: создать новый тест и скопировать вопросы.
-  /// Возвращает ID нового теста.
+  /// Merge tests: create a new test and copy questions.
+  /// Returns the new test ID.
   Future<int> mergeTests({
     required String title,
     required List<int> testIds,
