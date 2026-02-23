@@ -59,11 +59,16 @@ class _TestsListScreenState extends State<TestsListScreen>
       builder: (dialogContext) => AppDialog(
         title: Text(test.title),
         content: ScalePressable(
-          onTap: () {
+          onTap: () async {
             Navigator.of(dialogContext).pop();
-            context.router.push(
+            final result = await context.router.push(
               TestMergeRoute(initialTestId: int.parse(test.id)),
             );
+            if (result == true && mounted) {
+              context
+                  .read<TestsListBloc>()
+                  .add(const TestsListEvent.started());
+            }
           },
           child: Row(
             children: [

@@ -27,7 +27,7 @@ class _TestMergeScreenState extends State<TestMergeScreen>
               content: Text(context.l10n.testMergeSuccessMessage),
             ),
           );
-          context.router.maybePop();
+          context.router.maybePop(true);
         }
       },
       builder: (context, state) {
