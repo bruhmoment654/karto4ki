@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/core/feature/core/failure.dart';
 import 'package:quizzerg/core/feature/core/failures/unknown_failure.dart';
 import 'package:quizzerg/feature/test_merge/domain/repository/i_test_merge_repository.dart';
@@ -32,20 +33,21 @@ final class TestMergeBloc extends Bloc<TestMergeEvent, TestMergeState> {
   ) async {
     emit(const TestMergeState.loading());
 
-    try {
-      final tests = await _repository.getTests();
-      final initialId = event.initialTestId.toString();
-      emit(
-        TestMergeState.loaded(
-          tests: tests,
-          selectedTestIds: {initialId},
-          initialTestId: initialId,
-        ),
-      );
-    } on Failure catch (f) {
-      emit(TestMergeState.error(failure: f));
-    } on Object catch (e, st) {
-      emit(TestMergeState.error(failure: UnknownFailure.fromException(e, st)));
+    final result = await _repository.getTests();
+    switch (result) {
+      case ResultOk(:final data):
+        final initialId = event.initialTestId.toString();
+        emit(
+          TestMergeState.loaded(
+            tests: data,
+            selectedTestIds: {initialId},
+            initialTestId: initialId,
+          ),
+        );
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestMergeState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
     }
   }
 
@@ -77,17 +79,18 @@ final class TestMergeBloc extends Bloc<TestMergeEvent, TestMergeState> {
 
     emit(const TestMergeState.merging());
 
-    try {
-      final testIds = currentState.selectedTestIds.map(int.parse).toList();
-      final newTestId = await _repository.mergeTests(
-        title: event.title,
-        testIds: testIds,
-      );
-      emit(TestMergeState.success(newTestId: newTestId));
-    } on Failure catch (f) {
-      emit(TestMergeState.error(failure: f));
-    } on Object catch (e, st) {
-      emit(TestMergeState.error(failure: UnknownFailure.fromException(e, st)));
+    final testIds = currentState.selectedTestIds.map(int.parse).toList();
+    final result = await _repository.mergeTests(
+      title: event.title,
+      testIds: testIds,
+    );
+    switch (result) {
+      case ResultOk(:final data):
+        emit(TestMergeState.success(newTestId: data));
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestMergeState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
     }
   }
 }

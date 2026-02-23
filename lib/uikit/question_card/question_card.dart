@@ -2,6 +2,9 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 
+import 'package:quizzerg/uikit/content_card/content_card.dart';
+import 'package:quizzerg/uikit/content_card/content_card_type.dart';
+
 class QuestionCard extends StatefulWidget {
   final Widget front;
   final Widget back;
@@ -151,15 +154,9 @@ class QuestionCardContent extends StatelessWidget {
       return Transform(
         alignment: Alignment.center,
         transform: transform,
-        child: Card(
-          elevation: 8,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(16),
-          ),
-          child: Container(
-            width: double.infinity,
-            height: double.infinity,
-            padding: const EdgeInsets.all(24),
+        child: ContentCard(
+          type: ContentCardType.large,
+          child: SizedBox.expand(
             child: Center(child: face),
           ),
         ),
@@ -199,15 +196,9 @@ class QuestionCardContent extends StatelessWidget {
         return Transform(
           alignment: Alignment.center,
           transform: transform,
-          child: Card(
-            elevation: 8,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Container(
-              width: double.infinity,
-              height: double.infinity,
-              padding: const EdgeInsets.all(24),
+          child: ContentCard(
+            type: ContentCardType.large,
+            child: SizedBox.expand(
               child: Center(child: face),
             ),
           ),

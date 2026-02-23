@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/feature/card_detail/domain/repository/i_card_repository.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
@@ -46,27 +47,30 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     emit(const TinderTestState.loading());
     _swapSides = event.swapSides;
 
-    try {
-      var cards = await _cardRepository.getCardsByTestId(event.testId);
+    final result = await _cardRepository.getCardsByTestId(event.testId);
+    switch (result) {
+      case ResultOk(:final data):
+        if (data.isEmpty) {
+          emit(const TinderTestState.empty());
+          return;
+        }
 
-      if (cards.isEmpty) {
-        emit(const TinderTestState.empty());
-        return;
-      }
+        var cards = data;
+        if (_swapSides) {
+          cards = cards
+              .map((c) => c.copyWith(front: c.back, back: c.front))
+              .toList();
+        }
 
-      if (_swapSides) {
-        cards =
-            cards.map((c) => c.copyWith(front: c.back, back: c.front)).toList();
-      }
-
-      final session = _createSession(event.testId, cards);
-
-      emit(TinderTestState.inProgress(
-        session: session,
-        currentCard: session.currentCard!,
-      ));
-    } on Object catch (_) {
-      emit(const TinderTestState.error(message: 'Не удалось загрузить тест'));
+        final session = _createSession(event.testId, cards);
+        emit(TinderTestState.inProgress(
+          session: session,
+          currentCard: session.currentCard!,
+        ));
+      case ResultFailed():
+        emit(
+          const TinderTestState.error(message: 'Не удалось загрузить тест'),
+        );
     }
   }
 
@@ -146,14 +150,11 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   }
 
   Future<void> _saveStats(TestSession session) async {
-    try {
-      await _questionStatsRepository.saveSessionResults(
-        results: session.results,
-        cards: session.cards,
-      );
-    } on Object catch (_) {
-      // Saving stats is not critical for the test flow.
-    }
+    // Сохранение статистики не критично для основного потока теста.
+    await _questionStatsRepository.saveSessionResults(
+      results: session.results,
+      cards: session.cards,
+    );
   }
 
   Future<void> _onRestarted(

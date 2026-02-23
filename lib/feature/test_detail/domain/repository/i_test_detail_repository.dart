@@ -1,32 +1,33 @@
+import 'package:quizzerg/core/feature/core/entity/request_operation.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 
 /// Repository interface for test detail screen.
 abstract interface class ITestDetailRepository {
   /// Get test by id.
-  Future<TestEntity?> getTestById(int testId);
+  RequestOperation<TestEntity?> getTestById(int testId);
 
   /// Get cards for test.
-  Future<List<CardEntity>> getCardsByTestId(int testId);
+  RequestOperation<List<CardEntity>> getCardsByTestId(int testId);
 
   /// Add new card to test.
-  Future<void> addCard({
+  RequestOperation<void> addCard({
     required int testId,
     required String front,
     required String back,
   });
 
   /// Update existing card.
-  Future<void> updateCard(CardEntity card);
+  RequestOperation<void> updateCard(CardEntity card);
 
   /// Delete card by id.
-  Future<void> deleteCard(int cardId);
+  RequestOperation<void> deleteCard(int cardId);
 
   /// Update test information.
-  Future<void> updateTest(TestEntity test);
+  RequestOperation<void> updateTest(TestEntity test);
 
   /// Add multiple cards to test (batch insert).
-  Future<void> addCards({
+  RequestOperation<void> addCards({
     required int testId,
     required List<({String front, String back})> cards,
   });

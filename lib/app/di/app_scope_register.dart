@@ -1,4 +1,7 @@
+import 'package:logger/logger.dart' as pkg_logger;
 import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:quizzerg/core/logger/error_logger.dart';
+import 'package:quizzerg/core/logger/strategies/debug_log_strategy.dart';
 import 'package:quizzerg/core/services/csv_import_service.dart';
 import 'package:quizzerg/feature/card_detail/data/repository/card_repository.dart';
 import 'package:quizzerg/feature/main/data/repository/main_repository.dart';
@@ -10,6 +13,7 @@ import 'package:quizzerg/persistence/card_test/card_test_storage.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
 import 'package:quizzerg/persistence/settings/settings_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:surf_logger/surf_logger.dart' as surf_logger;
 
 /// Application dependency registrar.
 ///
@@ -19,18 +23,26 @@ class AppScopeRegister {
     final prefs = await SharedPreferences.getInstance();
     final database = AppDatabase();
 
+    final logWriter = surf_logger.Logger.withStrategies(
+      {DebugLogStrategy(pkg_logger.Logger())},
+    );
+    final errorLogger = SurfErrorLogger(logWriter);
+
     final settingsStorage = SettingsStorage(prefs);
     final cardTestStorage = CardTestStorage(prefs);
     final mainRepository = MainRepository(cardTestStorage);
     final cardRepository = CardRepository(
       cardsDatabase: database.cardsDatabase,
+      errorLogger: errorLogger,
     );
     final testsListRepository = TestsListRepository(
       testsDatabase: database.testsDatabase,
+      errorLogger: errorLogger,
     );
     final testDetailRepository = TestDetailRepository(
       testsDatabase: database.testsDatabase,
       cardsDatabase: database.cardsDatabase,
+      errorLogger: errorLogger,
     );
 
     const csvImportService = CsvImportService();
@@ -38,10 +50,12 @@ class AppScopeRegister {
     final testMergeRepository = TestMergeRepository(
       testsDatabase: database.testsDatabase,
       cardsDatabase: database.cardsDatabase,
+      errorLogger: errorLogger,
     );
 
     final questionStatsRepository = QuestionStatsRepository(
       questionStatsDatabase: database.questionStatsDatabase,
+      errorLogger: errorLogger,
     );
 
     return AppScope(

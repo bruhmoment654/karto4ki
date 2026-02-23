@@ -6,6 +6,8 @@ import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dar
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
+import 'package:quizzerg/uikit/content_card/content_card.dart';
+import 'package:quizzerg/uikit/content_card/content_card_type.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
@@ -42,57 +44,63 @@ class TestDetailView extends StatelessWidget {
       useSafeArea: false,
       appBar: PreferredSize(
           preferredSize: const Size.fromHeight(150),
-          child: Material(
-            color: colorScheme.primary,
-            child: Stack(
-              children: [
-                InkWell(
-                  onTap: canStartTest ? viewModel.onStartTestPressed : null,
-                  child: Container(
-                    padding: const EdgeInsets.all(16),
-                    width: double.infinity,
-                    height: 150,
-                    child: Align(
-                      alignment: Alignment.bottomCenter,
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(
-                            startIcon,
-                            color: colorScheme.onPrimary,
-                            size: 24,
-                          ),
-                          const SizedBox(height: 8),
-                          Text(
-                            switch (state) {
-                              TestDetailState$Loaded(:final test) =>
-                                test.title.toUpperCase(),
-                              _ => context.l10n.testDetailLoadingTitle,
-                            },
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleLarge
-                                ?.copyWith(
-                                  color: colorScheme.onPrimary,
-                                ),
-                          ),
-                        ],
+          child: ContentCard(
+            type: ContentCardType.medium,
+            backgroundColor: colorScheme.primary,
+            borderRadius: BorderRadius.zero,
+            padding: EdgeInsets.zero,
+            child: Material(
+              color: Colors.transparent,
+              child: Stack(
+                children: [
+                  InkWell(
+                    onTap: canStartTest ? viewModel.onStartTestPressed : null,
+                    child: Container(
+                      padding: const EdgeInsets.all(16),
+                      width: double.infinity,
+                      height: 150,
+                      child: Align(
+                        alignment: Alignment.bottomCenter,
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Icon(
+                              startIcon,
+                              color: colorScheme.onPrimary,
+                              size: 24,
+                            ),
+                            const SizedBox(height: 8),
+                            Text(
+                              switch (state) {
+                                TestDetailState$Loaded(:final test) =>
+                                  test.title.toUpperCase(),
+                                _ => context.l10n.testDetailLoadingTitle,
+                              },
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleLarge
+                                  ?.copyWith(
+                                    color: colorScheme.onPrimary,
+                                  ),
+                            ),
+                          ],
+                        ),
                       ),
                     ),
                   ),
-                ),
-                Positioned(
-                  left: 4,
-                  top: MediaQuery.of(context).padding.top,
-                  child: IconButton(
-                    onPressed: () => Navigator.of(context).pop(),
-                    icon: Icon(
-                      Icons.chevron_left,
-                      color: colorScheme.onPrimary,
+                  Positioned(
+                    left: 4,
+                    top: MediaQuery.of(context).padding.top,
+                    child: IconButton(
+                      onPressed: () => Navigator.of(context).pop(),
+                      icon: Icon(
+                        Icons.chevron_left,
+                        color: colorScheme.onPrimary,
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
           )),
       body: switch (state) {
@@ -298,26 +306,26 @@ class _CardListItem extends StatelessWidget {
         );
       },
       onDismissed: (_) => onDelete(),
-      child: ScalePressable(
-        onTap: onTap,
-        child: Card(
-          shape: const BeveledRectangleBorder(),
-          color: colorScheme.secondary,
-          margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-          child: ListTile(
-            title: Text(
-              card.front,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: colorScheme.onSecondary),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        child: ScalePressable(
+          onTap: onTap,
+          child: ContentCard(
+            type: ContentCardType.smallWide,
+            padding: EdgeInsets.zero,
+            child: ListTile(
+              title: Text(
+                card.front,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
+              subtitle: Text(
+                card.back,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
+              ),
+              trailing: const Icon(Icons.chevron_right),
             ),
-            subtitle: Text(
-              card.back,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(color: colorScheme.onSecondary),
-            ),
-            trailing: const Icon(Icons.chevron_right),
           ),
         ),
       ),

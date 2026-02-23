@@ -1,16 +1,17 @@
+import 'package:quizzerg/core/feature/core/entity/request_operation.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 
 /// Repository interface for tests list.
 abstract interface class ITestsListRepository {
   /// Get all tests.
-  Future<List<TestEntity>> getTests();
+  RequestOperation<List<TestEntity>> getTests();
 
   /// Add new test.
-  Future<void> addTest({
+  RequestOperation<void> addTest({
     required String title,
     String? description,
   });
 
   /// Delete test by id.
-  Future<void> deleteTest(int testId);
+  RequestOperation<void> deleteTest(int testId);
 }

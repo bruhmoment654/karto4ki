@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/core/feature/core/failure.dart';
 import 'package:quizzerg/core/feature/core/failures/not_found_failure.dart';
 import 'package:quizzerg/core/feature/core/failures/unknown_failure.dart';
@@ -41,21 +42,33 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     emit(const TestDetailState.loading());
     _currentTestId = event.testId;
 
-    try {
-      final test = await _repository.getTestById(event.testId);
-      if (test == null) {
-        emit(const TestDetailState.error(
-          failure: NotFoundFailure(entityName: 'Test'),
-        ));
-        return;
-      }
+    final testResult = await _repository.getTestById(event.testId);
+    switch (testResult) {
+      case ResultOk(:final data):
+        if (data == null) {
+          emit(const TestDetailState.error(
+            failure: NotFoundFailure(entityName: 'Test'),
+          ));
+          return;
+        }
 
-      final cards = await _repository.getCardsByTestId(event.testId);
-      emit(TestDetailState.loaded(test: test, cards: cards));
-    } on Failure catch (f) {
-      emit(TestDetailState.error(failure: f));
-    } on Object catch (e, st) {
-      emit(TestDetailState.error(failure: UnknownFailure.fromException(e, st)));
+        final cardsResult =
+            await _repository.getCardsByTestId(event.testId);
+        switch (cardsResult) {
+          case ResultOk(:final data):
+            emit(TestDetailState.loaded(
+              test: testResult.dataOrNull!,
+              cards: data,
+            ));
+          case ResultFailed(:final error, :final stackTrace):
+            emit(TestDetailState.error(
+              failure: UnknownFailure.fromException(error, stackTrace),
+            ));
+        }
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestDetailState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
     }
   }
 
@@ -66,18 +79,18 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     final testId = _currentTestId;
     if (testId == null) return;
 
-    try {
-      await _repository.addCard(
-        testId: testId,
-        front: event.front,
-        back: event.back,
-      );
-
-      await _reloadData(emit);
-    } on Failure catch (f) {
-      emit(TestDetailState.error(failure: f));
-    } on Object catch (e, st) {
-      emit(TestDetailState.error(failure: UnknownFailure.fromException(e, st)));
+    final result = await _repository.addCard(
+      testId: testId,
+      front: event.front,
+      back: event.back,
+    );
+    switch (result) {
+      case ResultOk():
+        await _reloadData(emit);
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestDetailState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
     }
   }
 
@@ -85,13 +98,14 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     _TestDetailEvent$CardDeleted event,
     Emitter<TestDetailState> emit,
   ) async {
-    try {
-      await _repository.deleteCard(event.cardId);
-      await _reloadData(emit);
-    } on Failure catch (f) {
-      emit(TestDetailState.error(failure: f));
-    } on Object catch (e, st) {
-      emit(TestDetailState.error(failure: UnknownFailure.fromException(e, st)));
+    final result = await _repository.deleteCard(event.cardId);
+    switch (result) {
+      case ResultOk():
+        await _reloadData(emit);
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestDetailState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
     }
   }
 
@@ -99,13 +113,14 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     _TestDetailEvent$CardUpdated event,
     Emitter<TestDetailState> emit,
   ) async {
-    try {
-      await _repository.updateCard(event.card);
-      await _reloadData(emit);
-    } on Failure catch (f) {
-      emit(TestDetailState.error(failure: f));
-    } on Object catch (e, st) {
-      emit(TestDetailState.error(failure: UnknownFailure.fromException(e, st)));
+    final result = await _repository.updateCard(event.card);
+    switch (result) {
+      case ResultOk():
+        await _reloadData(emit);
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestDetailState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
     }
   }
 
@@ -116,22 +131,23 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     final currentState = state;
     if (currentState is! TestDetailState$Loaded) return;
 
-    try {
-      final updatedTest = TestEntity(
-        id: currentState.test.id,
-        title: event.title,
-        description: event.description,
-        type: currentState.test.type,
-        createdAt: currentState.test.createdAt,
-        updatedAt: DateTime.now(),
-      );
+    final updatedTest = TestEntity(
+      id: currentState.test.id,
+      title: event.title,
+      description: event.description,
+      type: currentState.test.type,
+      createdAt: currentState.test.createdAt,
+      updatedAt: DateTime.now(),
+    );
 
-      await _repository.updateTest(updatedTest);
-      await _reloadData(emit);
-    } on Failure catch (f) {
-      emit(TestDetailState.error(failure: f));
-    } on Object catch (e, st) {
-      emit(TestDetailState.error(failure: UnknownFailure.fromException(e, st)));
+    final result = await _repository.updateTest(updatedTest);
+    switch (result) {
+      case ResultOk():
+        await _reloadData(emit);
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestDetailState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
     }
   }
 
@@ -142,17 +158,17 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     final testId = _currentTestId;
     if (testId == null) return;
 
-    try {
-      await _repository.addCards(
-        testId: testId,
-        cards: event.cards,
-      );
-
-      await _reloadData(emit);
-    } on Failure catch (f) {
-      emit(TestDetailState.error(failure: f));
-    } on Object catch (e, st) {
-      emit(TestDetailState.error(failure: UnknownFailure.fromException(e, st)));
+    final result = await _repository.addCards(
+      testId: testId,
+      cards: event.cards,
+    );
+    switch (result) {
+      case ResultOk():
+        await _reloadData(emit);
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestDetailState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
     }
   }
 
@@ -160,15 +176,32 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     final testId = _currentTestId;
     if (testId == null) return;
 
-    final test = await _repository.getTestById(testId);
-    if (test == null) {
-      emit(const TestDetailState.error(
-        failure: NotFoundFailure(entityName: 'Test'),
-      ));
-      return;
-    }
+    final testResult = await _repository.getTestById(testId);
+    switch (testResult) {
+      case ResultOk(:final data):
+        if (data == null) {
+          emit(const TestDetailState.error(
+            failure: NotFoundFailure(entityName: 'Test'),
+          ));
+          return;
+        }
 
-    final cards = await _repository.getCardsByTestId(testId);
-    emit(TestDetailState.loaded(test: test, cards: cards));
+        final cardsResult = await _repository.getCardsByTestId(testId);
+        switch (cardsResult) {
+          case ResultOk(:final data):
+            emit(TestDetailState.loaded(
+              test: testResult.dataOrNull!,
+              cards: data,
+            ));
+          case ResultFailed(:final error, :final stackTrace):
+            emit(TestDetailState.error(
+              failure: UnknownFailure.fromException(error, stackTrace),
+            ));
+        }
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestDetailState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
+    }
   }
 }

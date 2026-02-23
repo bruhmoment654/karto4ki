@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/core/feature/core/exension/string_title_x.dart';
 import 'package:quizzerg/core/feature/core/failure.dart';
 import 'package:quizzerg/core/feature/core/failures/unknown_failure.dart';
@@ -35,13 +36,14 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
   ) async {
     emit(const TestsListState.loading());
 
-    try {
-      final tests = await _repository.getTests();
-      emit(TestsListState.loaded(tests: tests));
-    } on Failure catch (f) {
-      emit(TestsListState.error(failure: f));
-    } on Object catch (e, st) {
-      emit(TestsListState.error(failure: UnknownFailure.fromException(e, st)));
+    final result = await _repository.getTests();
+    switch (result) {
+      case ResultOk(:final data):
+        emit(TestsListState.loaded(tests: data));
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestsListState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
     }
   }
 
@@ -49,18 +51,25 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
     _TestsListEvent$TestAdded event,
     Emitter<TestsListState> emit,
   ) async {
-    try {
-      await _repository.addTest(
-        title: event.title.toCapitalized,
-        description: event.description?.toCapitalized,
-      );
-
-      final tests = await _repository.getTests();
-      emit(TestsListState.loaded(tests: tests));
-    } on Failure catch (f) {
-      emit(TestsListState.error(failure: f));
-    } on Object catch (e, st) {
-      emit(TestsListState.error(failure: UnknownFailure.fromException(e, st)));
+    final addResult = await _repository.addTest(
+      title: event.title.toCapitalized,
+      description: event.description?.toCapitalized,
+    );
+    switch (addResult) {
+      case ResultOk():
+        final testsResult = await _repository.getTests();
+        switch (testsResult) {
+          case ResultOk(:final data):
+            emit(TestsListState.loaded(tests: data));
+          case ResultFailed(:final error, :final stackTrace):
+            emit(TestsListState.error(
+              failure: UnknownFailure.fromException(error, stackTrace),
+            ));
+        }
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestsListState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
     }
   }
 
@@ -68,15 +77,22 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
     _TestsListEvent$TestDeleted event,
     Emitter<TestsListState> emit,
   ) async {
-    try {
-      await _repository.deleteTest(event.testId);
-
-      final tests = await _repository.getTests();
-      emit(TestsListState.loaded(tests: tests));
-    } on Failure catch (f) {
-      emit(TestsListState.error(failure: f));
-    } on Object catch (e, st) {
-      emit(TestsListState.error(failure: UnknownFailure.fromException(e, st)));
+    final deleteResult = await _repository.deleteTest(event.testId);
+    switch (deleteResult) {
+      case ResultOk():
+        final testsResult = await _repository.getTests();
+        switch (testsResult) {
+          case ResultOk(:final data):
+            emit(TestsListState.loaded(tests: data));
+          case ResultFailed(:final error, :final stackTrace):
+            emit(TestsListState.error(
+              failure: UnknownFailure.fromException(error, stackTrace),
+            ));
+        }
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestsListState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
     }
   }
 }

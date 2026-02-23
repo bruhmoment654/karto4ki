@@ -1,3 +1,4 @@
+import 'package:quizzerg/core/feature/core/entity/request_operation.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 
 /// Repository interface for working with cards.
@@ -5,22 +6,22 @@ import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 /// Provides CRUD operations for cards.
 abstract interface class ICardRepository {
   /// Get all cards.
-  Future<List<CardEntity>> getCards();
+  RequestOperation<List<CardEntity>> getCards();
 
   /// Get card by ID.
   ///
   /// Returns `null` if card not found.
-  Future<CardEntity?> getCardById(int id);
+  RequestOperation<CardEntity?> getCardById(int id);
 
   /// Get cards by test ID.
-  Future<List<CardEntity>> getCardsByTestId(int testId);
+  RequestOperation<List<CardEntity>> getCardsByTestId(int testId);
 
   /// Create new card.
-  Future<void> createCard(CardEntity card);
+  RequestOperation<void> createCard(CardEntity card);
 
   /// Update existing card.
-  Future<void> updateCard(CardEntity card);
+  RequestOperation<void> updateCard(CardEntity card);
 
   /// Delete card by ID.
-  Future<void> deleteCard(int id);
+  RequestOperation<void> deleteCard(int id);
 }
