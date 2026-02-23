@@ -45,10 +45,15 @@ class TinderTestView extends StatelessWidget {
             message: message,
             viewModel: viewModel,
           ),
-        TinderTestState$InProgress(:final session, :final currentCard) =>
+        TinderTestState$InProgress(
+          :final session,
+          :final currentCard,
+          :final isUndo
+        ) =>
           _TestContent(
             session: session,
             currentCard: currentCard,
+            isUndo: isUndo,
             viewModel: viewModel,
           ),
         TinderTestState$Completed(:final session) => _ResultsContent(
@@ -141,11 +146,13 @@ class _ErrorContent extends StatelessWidget {
 class _TestContent extends StatefulWidget {
   final TestSession session;
   final CardEntity currentCard;
+  final bool isUndo;
   final ITinderTestViewModel viewModel;
 
   const _TestContent({
     required this.session,
     required this.currentCard,
+    required this.isUndo,
     required this.viewModel,
   });
 
@@ -203,6 +210,7 @@ class _TestContentState extends State<_TestContent> {
                   card: widget.currentCard,
                   showAnswer: currentShowAnswer,
                   enableFlipAnimation: enableFlipAnimation,
+                  enterFromLeft: widget.isUndo,
                   flipDuration: flipDuration,
                   onTap: () => _showAnswer.value = !currentShowAnswer,
                   onSwipeLeft: () =>
@@ -213,6 +221,10 @@ class _TestContentState extends State<_TestContent> {
               },
             ),
           ),
+        ),
+        _UndoButton(
+          canUndo: widget.session.canUndo,
+          onPressed: widget.viewModel.onDiscardPressed,
         ),
         const SizedBox(height: 16),
       ],
@@ -307,6 +319,34 @@ class _SwipeHints extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+class _UndoButton extends StatelessWidget {
+  final bool canUndo;
+  final VoidCallback onPressed;
+
+  const _UndoButton({
+    required this.canUndo,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedOpacity(
+      opacity: canUndo ? 1.0 : 0.3,
+      duration: const Duration(milliseconds: 200),
+      child: IconButton.filled(
+        onPressed: canUndo ? onPressed : null,
+        icon: const Icon(Icons.undo),
+        tooltip: context.l10n.tinderTestUndoTooltip,
+        style: IconButton.styleFrom(
+          backgroundColor:
+              Theme.of(context).colorScheme.surfaceContainerHighest,
+          foregroundColor: Theme.of(context).colorScheme.onSurface,
+        ),
+      ),
     );
   }
 }

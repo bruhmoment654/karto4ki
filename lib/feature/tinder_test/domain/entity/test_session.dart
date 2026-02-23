@@ -47,8 +47,11 @@ sealed class TestSession with _$TestSession {
   /// Progress percentage (0.0 to 1.0).
   double get progress => cards.isEmpty ? 1.0 : currentIndex / cards.length;
 
+  /// Whether the last answer can be undone.
+  bool get canUndo => currentIndex > 0 && results.isNotEmpty;
+
   TestSession get previous {
-    assert(currentIndex > 0, 'Cannot get previous session for the first card');
+    assert(canUndo, 'Cannot undo: no previous answers');
 
     return copyWith(
       currentIndex: currentIndex - 1,

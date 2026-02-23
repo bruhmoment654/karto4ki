@@ -488,6 +488,7 @@
   "tinderTestTapToShowAnswer": "Нажмите, чтобы увидеть ответ",
   "tinderTestUnknownBadge": "НЕ ЗНАЮ",
   "tinderTestKnownBadge": "ЗНАЮ",
+  "tinderTestUndoTooltip": "Отменить последний ответ",
   "tinderTestSwipeUnknownHint": "Не знаю",
   "tinderTestSwipeKnownHint": "Знаю",
   "tinderTestResultsTitle": "Тест завершён!",

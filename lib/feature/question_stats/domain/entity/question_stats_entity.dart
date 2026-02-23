@@ -12,8 +12,9 @@ sealed class QuestionStatsEntity with _$QuestionStatsEntity {
     required int streak,
     required int totalCorrect,
     required int totalIncorrect,
-    DateTime? lastAnsweredAt,
+    required int totalShown,
     required DateTime createdAt,
     required DateTime updatedAt,
+    DateTime? lastAnsweredAt,
   }) = _QuestionStatsEntity;
 }

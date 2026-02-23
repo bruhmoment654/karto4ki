@@ -152,7 +152,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
         cards: session.cards,
       );
     } on Object catch (_) {
-      // Сохранение статистики не критично для работы теста.
+      // Saving stats is not critical for the test flow.
     }
   }
 
@@ -180,10 +180,14 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     Emitter<TinderTestState> emit,
   ) async {
     final currentState = state;
-
     if (currentState is! TinderTestState$InProgress) return;
-    if (currentState.session.isCompleted) return;
+    if (!currentState.session.canUndo) return;
 
-    emit(currentState.copyWith(session: currentState.session.previous));
+    final previousSession = currentState.session.previous;
+    emit(TinderTestState.inProgress(
+      session: previousSession,
+      currentCard: previousSession.currentCard!,
+      isUndo: true,
+    ));
   }
 }

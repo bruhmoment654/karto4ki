@@ -29,6 +29,7 @@ class SwipeableCardWrapper extends StatefulWidget {
   final VoidCallback onTap;
   final VoidCallback onSwipeLeft;
   final VoidCallback onSwipeRight;
+  final bool enterFromLeft;
 
   const SwipeableCardWrapper({
     required this.card,
@@ -37,6 +38,7 @@ class SwipeableCardWrapper extends StatefulWidget {
     required this.onTap,
     required this.onSwipeLeft,
     required this.onSwipeRight,
+    this.enterFromLeft = false,
     this.flipDuration = const Duration(milliseconds: 300),
     super.key,
   });
@@ -70,6 +72,16 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
       curve: Curves.easeOut,
     ));
     _listenable = Listenable.merge([_controller, _dragOffset]);
+  }
+
+  @override
+  void didUpdateWidget(SwipeableCardWrapper oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (oldWidget.card.id != widget.card.id && widget.enterFromLeft) {
+      final screenWidth = MediaQuery.of(context).size.width;
+      _dragOffset.value = Offset(-screenWidth, 0);
+      _animateBack();
+    }
   }
 
   @override

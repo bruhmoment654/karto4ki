@@ -65,9 +65,7 @@ class _TestsListScreenState extends State<TestsListScreen>
               TestMergeRoute(initialTestId: int.parse(test.id)),
             );
             if (result == true && mounted) {
-              context
-                  .read<TestsListBloc>()
-                  .add(const TestsListEvent.started());
+              context.read<TestsListBloc>().add(const TestsListEvent.started());
             }
           },
           child: Row(

@@ -62,8 +62,9 @@ class TestsListView extends StatelessWidget {
                         context.l10n.testsListEmptyMessage,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color:
-                                  Theme.of(context).colorScheme.onSurfaceVariant,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
                             ),
                       ),
                       const SizedBox(height: 12),
@@ -89,7 +90,6 @@ class TestsListView extends StatelessWidget {
     );
   }
 }
-
 
 class _TestsList extends StatelessWidget {
   final List<TestEntity> tests;

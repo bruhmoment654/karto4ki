@@ -18,6 +18,7 @@ sealed class TinderTestState with _$TinderTestState {
   const factory TinderTestState.inProgress({
     required TestSession session,
     required CardEntity currentCard,
+    @Default(false) bool isUndo,
   }) = TinderTestState$InProgress;
 
   /// Test is completed.

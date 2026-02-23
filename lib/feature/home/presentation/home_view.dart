@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/feature/home/presentation/home_screen.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// UI layer for Home screen.
 ///

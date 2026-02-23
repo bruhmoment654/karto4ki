@@ -50,6 +50,7 @@
   "tinderTestTapToShowAnswer": "Tap to show the answer",
   "tinderTestUnknownBadge": "DON'T KNOW",
   "tinderTestKnownBadge": "KNOW",
+  "tinderTestUndoTooltip": "Undo last answer",
   "tinderTestSwipeUnknownHint": "Don't know",
   "tinderTestSwipeKnownHint": "Know",
   "tinderTestResultsTitle": "Test completed!",

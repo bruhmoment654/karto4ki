@@ -65,10 +65,14 @@ class TestDetailView extends StatelessWidget {
                           const SizedBox(height: 8),
                           Text(
                             switch (state) {
-                              TestDetailState$Loaded(:final test) => test.title.toUpperCase(),
+                              TestDetailState$Loaded(:final test) =>
+                                test.title.toUpperCase(),
                               _ => context.l10n.testDetailLoadingTitle,
                             },
-                            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                            style: Theme.of(context)
+                                .textTheme
+                                .titleLarge
+                                ?.copyWith(
                                   color: colorScheme.onPrimary,
                                 ),
                           ),
@@ -200,9 +204,12 @@ class _TestDetailContent extends StatelessWidget {
                         Text(
                           context.l10n.testDetailEmptyCardsMessage,
                           textAlign: TextAlign.center,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                                color: Theme.of(context).colorScheme.onSurfaceVariant,
-                              ),
+                          style:
+                              Theme.of(context).textTheme.bodySmall?.copyWith(
+                                    color: Theme.of(context)
+                                        .colorScheme
+                                        .onSurfaceVariant,
+                                  ),
                         ),
                         const SizedBox(height: 12),
                         Icon(

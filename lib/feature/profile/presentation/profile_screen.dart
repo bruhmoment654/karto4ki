@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/feature/profile/presentation/profile_view.dart';
 import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
-import 'package:provider/provider.dart';
 
 /// Profile screen.
 class ProfileScreen extends StatefulWidget {

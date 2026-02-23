@@ -22,7 +22,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 2;
+  int get schemaVersion => 3;
 
   @override
   MigrationStrategy get migration {
@@ -36,6 +36,14 @@ class AppDatabase extends _$AppDatabase {
           await customStatement(
             'CREATE INDEX IF NOT EXISTS idx_question_stats_streak '
             'ON question_stats(streak)',
+          );
+        }
+        if (from < 3) {
+          await customStatement(
+            'ALTER TABLE question_stats ADD COLUMN total_shown INTEGER NOT NULL DEFAULT 0',
+          );
+          await customStatement(
+            'UPDATE question_stats SET total_shown = total_correct + total_incorrect',
           );
         }
       },

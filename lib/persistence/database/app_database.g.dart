@@ -60,6 +60,14 @@ class QuestionStats extends Table
       requiredDuringInsert: false,
       $customConstraints: 'NOT NULL DEFAULT 0',
       defaultValue: const CustomExpression('0'));
+  static const VerificationMeta _totalShownMeta =
+      const VerificationMeta('totalShown');
+  late final GeneratedColumn<int> totalShown = GeneratedColumn<int>(
+      'total_shown', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT 0',
+      defaultValue: const CustomExpression('0'));
   static const VerificationMeta _lastAnsweredAtMeta =
       const VerificationMeta('lastAnsweredAt');
   late final GeneratedColumn<DateTime> lastAnsweredAt =
@@ -90,6 +98,7 @@ class QuestionStats extends Table
         streak,
         totalCorrect,
         totalIncorrect,
+        totalShown,
         lastAnsweredAt,
         createdAt,
         updatedAt
@@ -144,6 +153,12 @@ class QuestionStats extends Table
           totalIncorrect.isAcceptableOrUnknown(
               data['total_incorrect']!, _totalIncorrectMeta));
     }
+    if (data.containsKey('total_shown')) {
+      context.handle(
+          _totalShownMeta,
+          totalShown.isAcceptableOrUnknown(
+              data['total_shown']!, _totalShownMeta));
+    }
     if (data.containsKey('last_answered_at')) {
       context.handle(
           _lastAnsweredAtMeta,
@@ -186,6 +201,8 @@ class QuestionStats extends Table
           .read(DriftSqlType.int, data['${effectivePrefix}total_correct'])!,
       totalIncorrect: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}total_incorrect'])!,
+      totalShown: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}total_shown'])!,
       lastAnsweredAt: attachedDatabase.typeMapping.read(
           DriftSqlType.dateTime, data['${effectivePrefix}last_answered_at']),
       createdAt: attachedDatabase.typeMapping
@@ -213,6 +230,7 @@ class QuestionStatsDatabaseDto extends DataClass
   final int streak;
   final int totalCorrect;
   final int totalIncorrect;
+  final int totalShown;
   final DateTime? lastAnsweredAt;
   final DateTime createdAt;
   final DateTime updatedAt;
@@ -224,6 +242,7 @@ class QuestionStatsDatabaseDto extends DataClass
       required this.streak,
       required this.totalCorrect,
       required this.totalIncorrect,
+      required this.totalShown,
       this.lastAnsweredAt,
       required this.createdAt,
       required this.updatedAt});
@@ -237,6 +256,7 @@ class QuestionStatsDatabaseDto extends DataClass
     map['streak'] = Variable<int>(streak);
     map['total_correct'] = Variable<int>(totalCorrect);
     map['total_incorrect'] = Variable<int>(totalIncorrect);
+    map['total_shown'] = Variable<int>(totalShown);
     if (!nullToAbsent || lastAnsweredAt != null) {
       map['last_answered_at'] = Variable<DateTime>(lastAnsweredAt);
     }
@@ -254,6 +274,7 @@ class QuestionStatsDatabaseDto extends DataClass
       streak: Value(streak),
       totalCorrect: Value(totalCorrect),
       totalIncorrect: Value(totalIncorrect),
+      totalShown: Value(totalShown),
       lastAnsweredAt: lastAnsweredAt == null && nullToAbsent
           ? const Value.absent()
           : Value(lastAnsweredAt),
@@ -273,6 +294,7 @@ class QuestionStatsDatabaseDto extends DataClass
       streak: serializer.fromJson<int>(json['streak']),
       totalCorrect: serializer.fromJson<int>(json['total_correct']),
       totalIncorrect: serializer.fromJson<int>(json['total_incorrect']),
+      totalShown: serializer.fromJson<int>(json['total_shown']),
       lastAnsweredAt: serializer.fromJson<DateTime?>(json['last_answered_at']),
       createdAt: serializer.fromJson<DateTime>(json['created_at']),
       updatedAt: serializer.fromJson<DateTime>(json['updated_at']),
@@ -289,6 +311,7 @@ class QuestionStatsDatabaseDto extends DataClass
       'streak': serializer.toJson<int>(streak),
       'total_correct': serializer.toJson<int>(totalCorrect),
       'total_incorrect': serializer.toJson<int>(totalIncorrect),
+      'total_shown': serializer.toJson<int>(totalShown),
       'last_answered_at': serializer.toJson<DateTime?>(lastAnsweredAt),
       'created_at': serializer.toJson<DateTime>(createdAt),
       'updated_at': serializer.toJson<DateTime>(updatedAt),
@@ -303,6 +326,7 @@ class QuestionStatsDatabaseDto extends DataClass
           int? streak,
           int? totalCorrect,
           int? totalIncorrect,
+          int? totalShown,
           Value<DateTime?> lastAnsweredAt = const Value.absent(),
           DateTime? createdAt,
           DateTime? updatedAt}) =>
@@ -314,6 +338,7 @@ class QuestionStatsDatabaseDto extends DataClass
         streak: streak ?? this.streak,
         totalCorrect: totalCorrect ?? this.totalCorrect,
         totalIncorrect: totalIncorrect ?? this.totalIncorrect,
+        totalShown: totalShown ?? this.totalShown,
         lastAnsweredAt:
             lastAnsweredAt.present ? lastAnsweredAt.value : this.lastAnsweredAt,
         createdAt: createdAt ?? this.createdAt,
@@ -333,6 +358,8 @@ class QuestionStatsDatabaseDto extends DataClass
       totalIncorrect: data.totalIncorrect.present
           ? data.totalIncorrect.value
           : this.totalIncorrect,
+      totalShown:
+          data.totalShown.present ? data.totalShown.value : this.totalShown,
       lastAnsweredAt: data.lastAnsweredAt.present
           ? data.lastAnsweredAt.value
           : this.lastAnsweredAt,
@@ -351,6 +378,7 @@ class QuestionStatsDatabaseDto extends DataClass
           ..write('streak: $streak, ')
           ..write('totalCorrect: $totalCorrect, ')
           ..write('totalIncorrect: $totalIncorrect, ')
+          ..write('totalShown: $totalShown, ')
           ..write('lastAnsweredAt: $lastAnsweredAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -359,8 +387,18 @@ class QuestionStatsDatabaseDto extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, questionKey, frontText, backText, streak,
-      totalCorrect, totalIncorrect, lastAnsweredAt, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      id,
+      questionKey,
+      frontText,
+      backText,
+      streak,
+      totalCorrect,
+      totalIncorrect,
+      totalShown,
+      lastAnsweredAt,
+      createdAt,
+      updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -372,6 +410,7 @@ class QuestionStatsDatabaseDto extends DataClass
           other.streak == this.streak &&
           other.totalCorrect == this.totalCorrect &&
           other.totalIncorrect == this.totalIncorrect &&
+          other.totalShown == this.totalShown &&
           other.lastAnsweredAt == this.lastAnsweredAt &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
@@ -385,6 +424,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
   final Value<int> streak;
   final Value<int> totalCorrect;
   final Value<int> totalIncorrect;
+  final Value<int> totalShown;
   final Value<DateTime?> lastAnsweredAt;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
@@ -396,6 +436,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
     this.streak = const Value.absent(),
     this.totalCorrect = const Value.absent(),
     this.totalIncorrect = const Value.absent(),
+    this.totalShown = const Value.absent(),
     this.lastAnsweredAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
@@ -408,6 +449,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
     this.streak = const Value.absent(),
     this.totalCorrect = const Value.absent(),
     this.totalIncorrect = const Value.absent(),
+    this.totalShown = const Value.absent(),
     this.lastAnsweredAt = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
@@ -424,6 +466,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
     Expression<int>? streak,
     Expression<int>? totalCorrect,
     Expression<int>? totalIncorrect,
+    Expression<int>? totalShown,
     Expression<DateTime>? lastAnsweredAt,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
@@ -436,6 +479,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
       if (streak != null) 'streak': streak,
       if (totalCorrect != null) 'total_correct': totalCorrect,
       if (totalIncorrect != null) 'total_incorrect': totalIncorrect,
+      if (totalShown != null) 'total_shown': totalShown,
       if (lastAnsweredAt != null) 'last_answered_at': lastAnsweredAt,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
@@ -450,6 +494,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
       Value<int>? streak,
       Value<int>? totalCorrect,
       Value<int>? totalIncorrect,
+      Value<int>? totalShown,
       Value<DateTime?>? lastAnsweredAt,
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt}) {
@@ -461,6 +506,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
       streak: streak ?? this.streak,
       totalCorrect: totalCorrect ?? this.totalCorrect,
       totalIncorrect: totalIncorrect ?? this.totalIncorrect,
+      totalShown: totalShown ?? this.totalShown,
       lastAnsweredAt: lastAnsweredAt ?? this.lastAnsweredAt,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
@@ -491,6 +537,9 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
     if (totalIncorrect.present) {
       map['total_incorrect'] = Variable<int>(totalIncorrect.value);
     }
+    if (totalShown.present) {
+      map['total_shown'] = Variable<int>(totalShown.value);
+    }
     if (lastAnsweredAt.present) {
       map['last_answered_at'] = Variable<DateTime>(lastAnsweredAt.value);
     }
@@ -513,6 +562,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
           ..write('streak: $streak, ')
           ..write('totalCorrect: $totalCorrect, ')
           ..write('totalIncorrect: $totalIncorrect, ')
+          ..write('totalShown: $totalShown, ')
           ..write('lastAnsweredAt: $lastAnsweredAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
@@ -1243,6 +1293,7 @@ typedef $QuestionStatsCreateCompanionBuilder = QuestionStatsCompanion Function({
   Value<int> streak,
   Value<int> totalCorrect,
   Value<int> totalIncorrect,
+  Value<int> totalShown,
   Value<DateTime?> lastAnsweredAt,
   required DateTime createdAt,
   required DateTime updatedAt,
@@ -1255,6 +1306,7 @@ typedef $QuestionStatsUpdateCompanionBuilder = QuestionStatsCompanion Function({
   Value<int> streak,
   Value<int> totalCorrect,
   Value<int> totalIncorrect,
+  Value<int> totalShown,
   Value<DateTime?> lastAnsweredAt,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
@@ -1290,6 +1342,9 @@ class $QuestionStatsFilterComposer
   ColumnFilters<int> get totalIncorrect => $composableBuilder(
       column: $table.totalIncorrect,
       builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<int> get totalShown => $composableBuilder(
+      column: $table.totalShown, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get lastAnsweredAt => $composableBuilder(
       column: $table.lastAnsweredAt,
@@ -1334,6 +1389,9 @@ class $QuestionStatsOrderingComposer
       column: $table.totalIncorrect,
       builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<int> get totalShown => $composableBuilder(
+      column: $table.totalShown, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<DateTime> get lastAnsweredAt => $composableBuilder(
       column: $table.lastAnsweredAt,
       builder: (column) => ColumnOrderings(column));
@@ -1374,6 +1432,9 @@ class $QuestionStatsAnnotationComposer
 
   GeneratedColumn<int> get totalIncorrect => $composableBuilder(
       column: $table.totalIncorrect, builder: (column) => column);
+
+  GeneratedColumn<int> get totalShown => $composableBuilder(
+      column: $table.totalShown, builder: (column) => column);
 
   GeneratedColumn<DateTime> get lastAnsweredAt => $composableBuilder(
       column: $table.lastAnsweredAt, builder: (column) => column);
@@ -1418,6 +1479,7 @@ class $QuestionStatsTableManager extends RootTableManager<
             Value<int> streak = const Value.absent(),
             Value<int> totalCorrect = const Value.absent(),
             Value<int> totalIncorrect = const Value.absent(),
+            Value<int> totalShown = const Value.absent(),
             Value<DateTime?> lastAnsweredAt = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
@@ -1430,6 +1492,7 @@ class $QuestionStatsTableManager extends RootTableManager<
             streak: streak,
             totalCorrect: totalCorrect,
             totalIncorrect: totalIncorrect,
+            totalShown: totalShown,
             lastAnsweredAt: lastAnsweredAt,
             createdAt: createdAt,
             updatedAt: updatedAt,
@@ -1442,6 +1505,7 @@ class $QuestionStatsTableManager extends RootTableManager<
             Value<int> streak = const Value.absent(),
             Value<int> totalCorrect = const Value.absent(),
             Value<int> totalIncorrect = const Value.absent(),
+            Value<int> totalShown = const Value.absent(),
             Value<DateTime?> lastAnsweredAt = const Value.absent(),
             required DateTime createdAt,
             required DateTime updatedAt,
@@ -1454,6 +1518,7 @@ class $QuestionStatsTableManager extends RootTableManager<
             streak: streak,
             totalCorrect: totalCorrect,
             totalIncorrect: totalIncorrect,
+            totalShown: totalShown,
             lastAnsweredAt: lastAnsweredAt,
             createdAt: createdAt,
             updatedAt: updatedAt,

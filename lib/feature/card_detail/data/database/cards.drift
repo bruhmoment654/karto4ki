@@ -1,4 +1,4 @@
-import 'package:karto4ki/feature/tests_list/data/database/tests.drift';
+import 'package:quizzerg/feature/tests_list/data/database/tests.drift';
 
 -- Cards table definition
 

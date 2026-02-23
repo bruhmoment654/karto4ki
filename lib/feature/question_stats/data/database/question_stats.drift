@@ -1,5 +1,5 @@
--- Таблица статистики ответов на вопросы.
--- Отслеживает прогресс обучения по уникальным вопросам (идентифицируются по нормализованным front+back).
+-- Question answer statistics table.
+-- Tracks learning progress per unique question (identified by normalized front+back).
 
 CREATE TABLE question_stats (
   id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
@@ -9,6 +9,7 @@ CREATE TABLE question_stats (
   streak INTEGER NOT NULL DEFAULT 0,
   total_correct INTEGER NOT NULL DEFAULT 0,
   total_incorrect INTEGER NOT NULL DEFAULT 0,
+  total_shown INTEGER NOT NULL DEFAULT 0,
   last_answered_at DATETIME,
   created_at DATETIME NOT NULL,
   updated_at DATETIME NOT NULL

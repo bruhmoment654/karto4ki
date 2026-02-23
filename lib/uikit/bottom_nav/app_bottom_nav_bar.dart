@@ -36,10 +36,10 @@ class AppBottomNavBar extends StatelessWidget {
           children: List.generate(items.length, (index) {
             final item = items[index];
             final isSelected = index == currentIndex;
-            final color = isSelected
-                ? colorScheme.primary
-                : colorScheme.onSurfaceVariant;
-            final icon = isSelected ? (item.activeIcon ?? item.icon) : item.icon;
+            final color =
+                isSelected ? colorScheme.primary : colorScheme.onSurfaceVariant;
+            final icon =
+                isSelected ? (item.activeIcon ?? item.icon) : item.icon;
 
             return Expanded(
               child: InkWell(

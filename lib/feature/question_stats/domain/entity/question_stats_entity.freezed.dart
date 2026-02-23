@@ -23,9 +23,10 @@ mixin _$QuestionStatsEntity {
   int get streak => throw _privateConstructorUsedError;
   int get totalCorrect => throw _privateConstructorUsedError;
   int get totalIncorrect => throw _privateConstructorUsedError;
-  DateTime? get lastAnsweredAt => throw _privateConstructorUsedError;
+  int get totalShown => throw _privateConstructorUsedError;
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
+  DateTime? get lastAnsweredAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $QuestionStatsEntityCopyWith<QuestionStatsEntity> get copyWith =>
@@ -46,9 +47,10 @@ abstract class $QuestionStatsEntityCopyWith<$Res> {
       int streak,
       int totalCorrect,
       int totalIncorrect,
-      DateTime? lastAnsweredAt,
+      int totalShown,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      DateTime? lastAnsweredAt});
 }
 
 /// @nodoc
@@ -71,9 +73,10 @@ class _$QuestionStatsEntityCopyWithImpl<$Res, $Val extends QuestionStatsEntity>
     Object? streak = null,
     Object? totalCorrect = null,
     Object? totalIncorrect = null,
-    Object? lastAnsweredAt = freezed,
+    Object? totalShown = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? lastAnsweredAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -104,10 +107,10 @@ class _$QuestionStatsEntityCopyWithImpl<$Res, $Val extends QuestionStatsEntity>
           ? _value.totalIncorrect
           : totalIncorrect // ignore: cast_nullable_to_non_nullable
               as int,
-      lastAnsweredAt: freezed == lastAnsweredAt
-          ? _value.lastAnsweredAt
-          : lastAnsweredAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      totalShown: null == totalShown
+          ? _value.totalShown
+          : totalShown // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -116,6 +119,10 @@ class _$QuestionStatsEntityCopyWithImpl<$Res, $Val extends QuestionStatsEntity>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      lastAnsweredAt: freezed == lastAnsweredAt
+          ? _value.lastAnsweredAt
+          : lastAnsweredAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -136,9 +143,10 @@ abstract class _$$QuestionStatsEntityImplCopyWith<$Res>
       int streak,
       int totalCorrect,
       int totalIncorrect,
-      DateTime? lastAnsweredAt,
+      int totalShown,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      DateTime? lastAnsweredAt});
 }
 
 /// @nodoc
@@ -159,9 +167,10 @@ class __$$QuestionStatsEntityImplCopyWithImpl<$Res>
     Object? streak = null,
     Object? totalCorrect = null,
     Object? totalIncorrect = null,
-    Object? lastAnsweredAt = freezed,
+    Object? totalShown = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? lastAnsweredAt = freezed,
   }) {
     return _then(_$QuestionStatsEntityImpl(
       id: null == id
@@ -192,10 +201,10 @@ class __$$QuestionStatsEntityImplCopyWithImpl<$Res>
           ? _value.totalIncorrect
           : totalIncorrect // ignore: cast_nullable_to_non_nullable
               as int,
-      lastAnsweredAt: freezed == lastAnsweredAt
-          ? _value.lastAnsweredAt
-          : lastAnsweredAt // ignore: cast_nullable_to_non_nullable
-              as DateTime?,
+      totalShown: null == totalShown
+          ? _value.totalShown
+          : totalShown // ignore: cast_nullable_to_non_nullable
+              as int,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -204,6 +213,10 @@ class __$$QuestionStatsEntityImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      lastAnsweredAt: freezed == lastAnsweredAt
+          ? _value.lastAnsweredAt
+          : lastAnsweredAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -219,9 +232,10 @@ class _$QuestionStatsEntityImpl implements _QuestionStatsEntity {
       required this.streak,
       required this.totalCorrect,
       required this.totalIncorrect,
-      this.lastAnsweredAt,
+      required this.totalShown,
       required this.createdAt,
-      required this.updatedAt});
+      required this.updatedAt,
+      this.lastAnsweredAt});
 
   @override
   final int id;
@@ -238,15 +252,17 @@ class _$QuestionStatsEntityImpl implements _QuestionStatsEntity {
   @override
   final int totalIncorrect;
   @override
-  final DateTime? lastAnsweredAt;
+  final int totalShown;
   @override
   final DateTime createdAt;
   @override
   final DateTime updatedAt;
+  @override
+  final DateTime? lastAnsweredAt;
 
   @override
   String toString() {
-    return 'QuestionStatsEntity(id: $id, questionKey: $questionKey, frontText: $frontText, backText: $backText, streak: $streak, totalCorrect: $totalCorrect, totalIncorrect: $totalIncorrect, lastAnsweredAt: $lastAnsweredAt, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'QuestionStatsEntity(id: $id, questionKey: $questionKey, frontText: $frontText, backText: $backText, streak: $streak, totalCorrect: $totalCorrect, totalIncorrect: $totalIncorrect, totalShown: $totalShown, createdAt: $createdAt, updatedAt: $updatedAt, lastAnsweredAt: $lastAnsweredAt)';
   }
 
   @override
@@ -266,12 +282,14 @@ class _$QuestionStatsEntityImpl implements _QuestionStatsEntity {
                 other.totalCorrect == totalCorrect) &&
             (identical(other.totalIncorrect, totalIncorrect) ||
                 other.totalIncorrect == totalIncorrect) &&
-            (identical(other.lastAnsweredAt, lastAnsweredAt) ||
-                other.lastAnsweredAt == lastAnsweredAt) &&
+            (identical(other.totalShown, totalShown) ||
+                other.totalShown == totalShown) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.lastAnsweredAt, lastAnsweredAt) ||
+                other.lastAnsweredAt == lastAnsweredAt));
   }
 
   @override
@@ -284,9 +302,10 @@ class _$QuestionStatsEntityImpl implements _QuestionStatsEntity {
       streak,
       totalCorrect,
       totalIncorrect,
-      lastAnsweredAt,
+      totalShown,
       createdAt,
-      updatedAt);
+      updatedAt,
+      lastAnsweredAt);
 
   @JsonKey(ignore: true)
   @override
@@ -305,9 +324,10 @@ abstract class _QuestionStatsEntity implements QuestionStatsEntity {
       required final int streak,
       required final int totalCorrect,
       required final int totalIncorrect,
-      final DateTime? lastAnsweredAt,
+      required final int totalShown,
       required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$QuestionStatsEntityImpl;
+      required final DateTime updatedAt,
+      final DateTime? lastAnsweredAt}) = _$QuestionStatsEntityImpl;
 
   @override
   int get id;
@@ -324,11 +344,13 @@ abstract class _QuestionStatsEntity implements QuestionStatsEntity {
   @override
   int get totalIncorrect;
   @override
-  DateTime? get lastAnsweredAt;
+  int get totalShown;
   @override
   DateTime get createdAt;
   @override
   DateTime get updatedAt;
+  @override
+  DateTime? get lastAnsweredAt;
   @override
   @JsonKey(ignore: true)
   _$$QuestionStatsEntityImplCopyWith<_$QuestionStatsEntityImpl> get copyWith =>

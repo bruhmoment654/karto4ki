@@ -991,7 +991,8 @@ mixin _$TinderTestState {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() empty,
-    required TResult Function(TestSession session, CardEntity currentCard)
+    required TResult Function(
+            TestSession session, CardEntity currentCard, bool isUndo)
         inProgress,
     required TResult Function(TestSession session) completed,
     required TResult Function(String message) error,
@@ -1002,7 +1003,8 @@ mixin _$TinderTestState {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult? Function(TestSession session)? completed,
     TResult? Function(String message)? error,
   }) =>
@@ -1012,7 +1014,8 @@ mixin _$TinderTestState {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult Function(TestSession session)? completed,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -1113,7 +1116,8 @@ class _$TinderTestState$InitialImpl extends TinderTestState$Initial {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() empty,
-    required TResult Function(TestSession session, CardEntity currentCard)
+    required TResult Function(
+            TestSession session, CardEntity currentCard, bool isUndo)
         inProgress,
     required TResult Function(TestSession session) completed,
     required TResult Function(String message) error,
@@ -1127,7 +1131,8 @@ class _$TinderTestState$InitialImpl extends TinderTestState$Initial {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult? Function(TestSession session)? completed,
     TResult? Function(String message)? error,
   }) {
@@ -1140,7 +1145,8 @@ class _$TinderTestState$InitialImpl extends TinderTestState$Initial {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult Function(TestSession session)? completed,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -1244,7 +1250,8 @@ class _$TinderTestState$LoadingImpl extends TinderTestState$Loading {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() empty,
-    required TResult Function(TestSession session, CardEntity currentCard)
+    required TResult Function(
+            TestSession session, CardEntity currentCard, bool isUndo)
         inProgress,
     required TResult Function(TestSession session) completed,
     required TResult Function(String message) error,
@@ -1258,7 +1265,8 @@ class _$TinderTestState$LoadingImpl extends TinderTestState$Loading {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult? Function(TestSession session)? completed,
     TResult? Function(String message)? error,
   }) {
@@ -1271,7 +1279,8 @@ class _$TinderTestState$LoadingImpl extends TinderTestState$Loading {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult Function(TestSession session)? completed,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -1374,7 +1383,8 @@ class _$TinderTestState$EmptyImpl extends TinderTestState$Empty {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() empty,
-    required TResult Function(TestSession session, CardEntity currentCard)
+    required TResult Function(
+            TestSession session, CardEntity currentCard, bool isUndo)
         inProgress,
     required TResult Function(TestSession session) completed,
     required TResult Function(String message) error,
@@ -1388,7 +1398,8 @@ class _$TinderTestState$EmptyImpl extends TinderTestState$Empty {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult? Function(TestSession session)? completed,
     TResult? Function(String message)? error,
   }) {
@@ -1401,7 +1412,8 @@ class _$TinderTestState$EmptyImpl extends TinderTestState$Empty {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult Function(TestSession session)? completed,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -1468,7 +1480,7 @@ abstract class _$$TinderTestState$InProgressImplCopyWith<$Res> {
           $Res Function(_$TinderTestState$InProgressImpl) then) =
       __$$TinderTestState$InProgressImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({TestSession session, CardEntity currentCard});
+  $Res call({TestSession session, CardEntity currentCard, bool isUndo});
 
   $TestSessionCopyWith<$Res> get session;
   $CardEntityCopyWith<$Res> get currentCard;
@@ -1489,6 +1501,7 @@ class __$$TinderTestState$InProgressImplCopyWithImpl<$Res>
   $Res call({
     Object? session = null,
     Object? currentCard = null,
+    Object? isUndo = null,
   }) {
     return _then(_$TinderTestState$InProgressImpl(
       session: null == session
@@ -1499,6 +1512,10 @@ class __$$TinderTestState$InProgressImplCopyWithImpl<$Res>
           ? _value.currentCard
           : currentCard // ignore: cast_nullable_to_non_nullable
               as CardEntity,
+      isUndo: null == isUndo
+          ? _value.isUndo
+          : isUndo // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 
@@ -1523,17 +1540,20 @@ class __$$TinderTestState$InProgressImplCopyWithImpl<$Res>
 
 class _$TinderTestState$InProgressImpl extends TinderTestState$InProgress {
   const _$TinderTestState$InProgressImpl(
-      {required this.session, required this.currentCard})
+      {required this.session, required this.currentCard, this.isUndo = false})
       : super._();
 
   @override
   final TestSession session;
   @override
   final CardEntity currentCard;
+  @override
+  @JsonKey()
+  final bool isUndo;
 
   @override
   String toString() {
-    return 'TinderTestState.inProgress(session: $session, currentCard: $currentCard)';
+    return 'TinderTestState.inProgress(session: $session, currentCard: $currentCard, isUndo: $isUndo)';
   }
 
   @override
@@ -1543,11 +1563,12 @@ class _$TinderTestState$InProgressImpl extends TinderTestState$InProgress {
             other is _$TinderTestState$InProgressImpl &&
             (identical(other.session, session) || other.session == session) &&
             (identical(other.currentCard, currentCard) ||
-                other.currentCard == currentCard));
+                other.currentCard == currentCard) &&
+            (identical(other.isUndo, isUndo) || other.isUndo == isUndo));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, session, currentCard);
+  int get hashCode => Object.hash(runtimeType, session, currentCard, isUndo);
 
   @JsonKey(ignore: true)
   @override
@@ -1562,12 +1583,13 @@ class _$TinderTestState$InProgressImpl extends TinderTestState$InProgress {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() empty,
-    required TResult Function(TestSession session, CardEntity currentCard)
+    required TResult Function(
+            TestSession session, CardEntity currentCard, bool isUndo)
         inProgress,
     required TResult Function(TestSession session) completed,
     required TResult Function(String message) error,
   }) {
-    return inProgress(session, currentCard);
+    return inProgress(session, currentCard, isUndo);
   }
 
   @override
@@ -1576,11 +1598,12 @@ class _$TinderTestState$InProgressImpl extends TinderTestState$InProgress {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult? Function(TestSession session)? completed,
     TResult? Function(String message)? error,
   }) {
-    return inProgress?.call(session, currentCard);
+    return inProgress?.call(session, currentCard, isUndo);
   }
 
   @override
@@ -1589,13 +1612,14 @@ class _$TinderTestState$InProgressImpl extends TinderTestState$InProgress {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult Function(TestSession session)? completed,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (inProgress != null) {
-      return inProgress(session, currentCard);
+      return inProgress(session, currentCard, isUndo);
     }
     return orElse();
   }
@@ -1646,13 +1670,14 @@ class _$TinderTestState$InProgressImpl extends TinderTestState$InProgress {
 
 abstract class TinderTestState$InProgress extends TinderTestState {
   const factory TinderTestState$InProgress(
-          {required final TestSession session,
-          required final CardEntity currentCard}) =
-      _$TinderTestState$InProgressImpl;
+      {required final TestSession session,
+      required final CardEntity currentCard,
+      final bool isUndo}) = _$TinderTestState$InProgressImpl;
   const TinderTestState$InProgress._() : super._();
 
   TestSession get session;
   CardEntity get currentCard;
+  bool get isUndo;
   @JsonKey(ignore: true)
   _$$TinderTestState$InProgressImplCopyWith<_$TinderTestState$InProgressImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -1738,7 +1763,8 @@ class _$TinderTestState$CompletedImpl extends TinderTestState$Completed {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() empty,
-    required TResult Function(TestSession session, CardEntity currentCard)
+    required TResult Function(
+            TestSession session, CardEntity currentCard, bool isUndo)
         inProgress,
     required TResult Function(TestSession session) completed,
     required TResult Function(String message) error,
@@ -1752,7 +1778,8 @@ class _$TinderTestState$CompletedImpl extends TinderTestState$Completed {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult? Function(TestSession session)? completed,
     TResult? Function(String message)? error,
   }) {
@@ -1765,7 +1792,8 @@ class _$TinderTestState$CompletedImpl extends TinderTestState$Completed {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult Function(TestSession session)? completed,
     TResult Function(String message)? error,
     required TResult orElse(),
@@ -1900,7 +1928,8 @@ class _$TinderTestState$ErrorImpl extends TinderTestState$Error {
     required TResult Function() initial,
     required TResult Function() loading,
     required TResult Function() empty,
-    required TResult Function(TestSession session, CardEntity currentCard)
+    required TResult Function(
+            TestSession session, CardEntity currentCard, bool isUndo)
         inProgress,
     required TResult Function(TestSession session) completed,
     required TResult Function(String message) error,
@@ -1914,7 +1943,8 @@ class _$TinderTestState$ErrorImpl extends TinderTestState$Error {
     TResult? Function()? initial,
     TResult? Function()? loading,
     TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult? Function(TestSession session)? completed,
     TResult? Function(String message)? error,
   }) {
@@ -1927,7 +1957,8 @@ class _$TinderTestState$ErrorImpl extends TinderTestState$Error {
     TResult Function()? initial,
     TResult Function()? loading,
     TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard)? inProgress,
+    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
+        inProgress,
     TResult Function(TestSession session)? completed,
     TResult Function(String message)? error,
     required TResult orElse(),

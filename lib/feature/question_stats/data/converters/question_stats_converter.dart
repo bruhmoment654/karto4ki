@@ -11,6 +11,7 @@ abstract final class QuestionStatsConverter {
       streak: dto.streak,
       totalCorrect: dto.totalCorrect,
       totalIncorrect: dto.totalIncorrect,
+      totalShown: dto.totalShown,
       lastAnsweredAt: dto.lastAnsweredAt,
       createdAt: dto.createdAt,
       updatedAt: dto.updatedAt,

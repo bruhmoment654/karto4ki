@@ -122,9 +122,7 @@ class QuestionCardContent extends StatelessWidget {
     final maxDistance = screenWidth * 0.3;
     final badgeOpacity = dxAbs <= showThreshold
         ? 0.0
-        : ((dxAbs - showThreshold) / (maxDistance - showThreshold))
-            .clamp(0.0, 1.0)
-            .toDouble();
+        : ((dxAbs - showThreshold) / (maxDistance - showThreshold)).clamp(0.0, 1.0);
 
     if (!enableFlipAnimation) {
       final angle = showAnswer ? math.pi : 0.0;
