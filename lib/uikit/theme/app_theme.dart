@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
   static const defaultSeedColor = Color.fromARGB(255, 35, 255, 142);
@@ -14,7 +13,7 @@ class AppTheme {
       useMaterial3: true,
       colorScheme: colorScheme,
       scaffoldBackgroundColor: colorScheme.scaffoldBackground,
-      textTheme: GoogleFonts.robotoTextTheme(ThemeData.dark().textTheme),
+      fontFamily: 'Nexa',
       appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: true,

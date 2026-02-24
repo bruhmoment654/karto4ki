@@ -19,7 +19,12 @@ part 'app_router.gr.dart';
 @AutoRouterConfig(replaceInRouteName: 'Component|Flow,Route')
 class AppRouter extends RootStackRouter {
   @override
-  RouteType get defaultRouteType => const RouteType.material();
+  RouteType get defaultRouteType => RouteType.custom(
+        transitionsBuilder: (context, animation, secondaryAnimation, child) =>
+            FadeTransition(opacity: animation, child: child),
+        durationInMilliseconds: 300,
+        reverseDurationInMilliseconds: 150,
+      );
 
   @override
   List<AutoRoute> get routes => [

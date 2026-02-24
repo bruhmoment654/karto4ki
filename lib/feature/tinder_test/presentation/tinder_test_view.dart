@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
@@ -47,11 +46,7 @@ class TinderTestView extends StatelessWidget {
             message: message,
             viewModel: viewModel,
           ),
-        TinderTestState$InProgress(
-          :final session,
-          :final currentCard,
-          :final isUndo
-        ) =>
+        TinderTestState$InProgress(:final session, :final currentCard, :final isUndo) =>
           _TestContent(
             session: session,
             currentCard: currentCard,
@@ -194,6 +189,7 @@ class _TestContentState extends State<_TestContent> {
 
     return Column(
       children: [
+        const SizedBox(height: 8),
         _ProgressIndicator(session: widget.session),
         _SwipeHints(),
         const SizedBox(height: 12),
@@ -215,10 +211,8 @@ class _TestContentState extends State<_TestContent> {
                   enterFromLeft: widget.isUndo,
                   flipDuration: flipDuration,
                   onTap: () => _showAnswer.value = !currentShowAnswer,
-                  onSwipeLeft: () =>
-                      widget.viewModel.onSwipeLeft(widget.currentCard),
-                  onSwipeRight: () =>
-                      widget.viewModel.onSwipeRight(widget.currentCard),
+                  onSwipeLeft: () => widget.viewModel.onSwipeLeft(widget.currentCard),
+                  onSwipeRight: () => widget.viewModel.onSwipeRight(widget.currentCard),
                 );
               },
             ),
@@ -245,27 +239,29 @@ class _ProgressIndicator extends StatelessWidget {
 
     return Column(
       children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            Text(
-              context.l10n.tinderTestProgressLabel(
-                session.currentIndex + 1,
-                session.cards.length,
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                context.l10n.tinderTestProgressLabel(
+                  session.currentIndex + 1,
+                  session.cards.length,
+                ),
+                style: TextStyle(fontSize: 14, color: colorScheme.onSurfaceVariant),
               ),
-              style:
-                  TextStyle(fontSize: 14, color: colorScheme.onSurfaceVariant),
-            ),
-            Row(
-              children: [
-                Icon(Icons.check, color: colorScheme.primary, size: 16),
-                Text(' ${session.correctCount}'),
-                const SizedBox(width: 8),
-                Icon(Icons.close, color: colorScheme.error, size: 16),
-                Text(' ${session.incorrectCount}'),
-              ],
-            ),
-          ],
+              Row(
+                children: [
+                  Icon(Icons.check, color: colorScheme.primary, size: 16),
+                  Text(' ${session.correctCount}'),
+                  const SizedBox(width: 8),
+                  Icon(Icons.close, color: colorScheme.error, size: 16),
+                  Text(' ${session.incorrectCount}'),
+                ],
+              ),
+            ],
+          ),
         ),
         const SizedBox(height: 8),
         LinearProgressIndicator(
@@ -283,12 +279,15 @@ class _SwipeHints extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-        ContentCard(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Row(
+    return ContentCard(
+      borderRadius: BorderRadius.zero,
+      type: ContentCardType.smallWide,
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Icon(Icons.arrow_back, color: colorScheme.error),
               const SizedBox(width: 8),
@@ -298,10 +297,8 @@ class _SwipeHints extends StatelessWidget {
               ),
             ],
           ),
-        ),
-        ContentCard(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Row(
+          Row(
+            mainAxisSize: MainAxisSize.min,
             children: [
               Text(
                 context.l10n.tinderTestSwipeKnownHint,
@@ -311,8 +308,8 @@ class _SwipeHints extends StatelessWidget {
               Icon(Icons.arrow_forward, color: colorScheme.primary),
             ],
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -336,8 +333,7 @@ class _UndoButton extends StatelessWidget {
         icon: const Icon(Icons.undo),
         tooltip: context.l10n.tinderTestUndoTooltip,
         style: IconButton.styleFrom(
-          backgroundColor:
-              Theme.of(context).colorScheme.surfaceContainerHighest,
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
           foregroundColor: Theme.of(context).colorScheme.onSurface,
         ),
       ),

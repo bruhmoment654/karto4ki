@@ -35,7 +35,6 @@ dependencies:
   async: 2.12.0
 
   # UI
-  google_fonts: 6.2.1
   flutter_svg: 2.0.6
   octo_image: 2.1.0
   cached_network_image: 3.4.1
@@ -68,6 +67,22 @@ dev_dependencies:
 flutter:
   generate: true
   uses-material-design: true
+
+  fonts:
+    - family: Nexa
+      fonts:
+        - asset: assets/fonts/Nexa-Thin.otf
+          weight: 100
+        - asset: assets/fonts/NexaText-Thin.otf
+          weight: 200
+        - asset: assets/fonts/NexaText-Light.otf
+          weight: 300
+        - asset: assets/fonts/NexaText-Regular.otf
+          weight: 400
+        - asset: assets/fonts/Nexa-Bold_0.otf
+          weight: 700
+        - asset: assets/fonts/Nexa-Black_0.otf
+          weight: 900
 
   shaders:
     - assets/shaders/background.frag

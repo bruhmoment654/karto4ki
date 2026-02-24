@@ -141,7 +141,7 @@ class _TestDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
       onTap: canStartTest ? viewModel.onStartTestPressed : null,
       leading: IconButton(
         onPressed: () => Navigator.of(context).pop(),
-        icon: const Icon(Icons.chevron_left_sharp, color: Colors.white, size: 32),
+        icon: const Icon(Icons.close, color: Colors.white),
       ),
       bottom: bottom,
       elevation: 1,
