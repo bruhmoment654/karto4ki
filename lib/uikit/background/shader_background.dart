@@ -1,8 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:quizzerg/core/shader/shader_handler.dart';
+import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 class ShaderBackground extends StatefulWidget {
-  const ShaderBackground({super.key});
+  final bool animationEnabled;
+  final Color accentColor;
+
+  const ShaderBackground({
+    this.animationEnabled = true,
+    this.accentColor = AppTheme.defaultSeedColor,
+    super.key,
+  });
 
   @override
   State<ShaderBackground> createState() => _ShaderBackgroundState();
@@ -18,7 +26,26 @@ class _ShaderBackgroundState extends State<ShaderBackground>
     _controller = AnimationController(
       vsync: this,
       duration: const Duration(seconds: 30),
-    )..repeat();
+    );
+    if (widget.animationEnabled) {
+      _controller.repeat();
+    } else {
+      _controller.value = 0.35;
+    }
+  }
+
+  @override
+  void didUpdateWidget(ShaderBackground oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    if (widget.animationEnabled != oldWidget.animationEnabled) {
+      if (widget.animationEnabled) {
+        _controller.repeat();
+      } else {
+        _controller
+          ..stop()
+          ..value = 0.35;
+      }
+    }
   }
 
   @override
@@ -36,6 +63,7 @@ class _ShaderBackgroundState extends State<ShaderBackground>
         painter: _ShaderBackgroundPainter(
           handler: handler,
           animation: _controller,
+          accentColor: widget.accentColor,
         ),
         child: const SizedBox.expand(),
       ),
@@ -46,10 +74,12 @@ class _ShaderBackgroundState extends State<ShaderBackground>
 class _ShaderBackgroundPainter extends CustomPainter {
   final ShaderHandler handler;
   final Animation<double> animation;
+  final Color accentColor;
 
   _ShaderBackgroundPainter({
     required this.handler,
     required this.animation,
+    required this.accentColor,
   }) : super(repaint: animation);
 
   @override
@@ -57,7 +87,10 @@ class _ShaderBackgroundPainter extends CustomPainter {
     final shader = handler.shader()
       ..setFloat(0, size.width)
       ..setFloat(1, size.height)
-      ..setFloat(2, animation.value);
+      ..setFloat(2, animation.value)
+      ..setFloat(3, accentColor.r)
+      ..setFloat(4, accentColor.g)
+      ..setFloat(5, accentColor.b);
 
     canvas.drawRect(
       Offset.zero & size,
@@ -66,5 +99,6 @@ class _ShaderBackgroundPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(_ShaderBackgroundPainter oldDelegate) => false;
+  bool shouldRepaint(_ShaderBackgroundPainter oldDelegate) =>
+      accentColor != oldDelegate.accentColor;
 }

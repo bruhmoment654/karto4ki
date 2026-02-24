@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
 import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
 import 'package:quizzerg/persistence/settings/i_settings_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,8 +8,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// Реализация хранилища настроек на SharedPreferences.
 class SettingsStorage implements ISettingsStorage {
   final SharedPreferences _prefs;
+  late final ValueNotifier<SettingsDto> _notifier;
 
-  const SettingsStorage(this._prefs);
+  SettingsStorage(this._prefs) {
+    _notifier = ValueNotifier<SettingsDto>(get());
+  }
+
+  @override
+  ValueListenable<SettingsDto> get listenable => _notifier;
 
   @override
   SettingsDto get() {
@@ -26,6 +33,7 @@ class SettingsStorage implements ISettingsStorage {
       _SettingsStorageKeys.settings.keyName,
       jsonEncode(dto.toJson()),
     );
+    _notifier.value = dto;
   }
 }
 

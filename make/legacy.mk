@@ -22,7 +22,7 @@ init-flutter-version:
 codegen:
 	fvm flutter pub get && fvm flutter pub run build_runner build --delete-conflicting-outputs && make format
 
-l10n:
+ln:
 	fvm flutter gen-l10n
 
 reset-goldens:

@@ -26,7 +26,7 @@ class TestsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: Karto4kiAppBar(
+      appBar: DefaultAppBar(
         title: context.l10n.testsListAppBarTitle,
       ),
       body: switch (state) {

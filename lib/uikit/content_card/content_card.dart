@@ -11,6 +11,7 @@ class ContentCard extends StatelessWidget {
   final BorderRadius? borderRadius;
   final EdgeInsetsGeometry? padding;
   final double? elevation;
+  final double backgroundOpacity;
 
   const ContentCard({
     required this.child,
@@ -19,14 +20,16 @@ class ContentCard extends StatelessWidget {
     this.borderRadius,
     this.padding,
     this.elevation,
+    this.backgroundOpacity = 0.7,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     final resolvedBorderRadius = borderRadius ?? _defaultBorderRadius(type);
-    final resolvedBg =
-        backgroundColor ?? const Color(0xFF1E1E1E).withValues(alpha: 0.85);
+    final baseColor =
+        backgroundColor ?? Theme.of(context).colorScheme.surfaceContainer;
+    final resolvedBg = baseColor.withValues(alpha: backgroundOpacity);
 
     return Material(
       elevation: elevation ?? _defaultElevation(type),
@@ -37,7 +40,10 @@ class ContentCard extends StatelessWidget {
         child: ColoredBox(
           color: resolvedBg,
           child: CustomPaint(
-            painter: ContentCardPainter(type: type),
+            painter: ContentCardPainter(
+              type: type,
+              accentColor: Theme.of(context).colorScheme.primary,
+            ),
             child: Padding(
               padding: padding ?? _defaultPadding(type),
               child: child,

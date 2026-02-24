@@ -1,7 +1,8 @@
 #include <flutter/runtime_effect.glsl>
 
-uniform vec2 uSize;
-uniform float uTime;
+uniform vec2 uSize;   // float 0, 1
+uniform float uTime;  // float 2
+uniform vec3 uAccent;  // float 3, 4, 5
 
 out vec4 fragColor;
 
@@ -14,14 +15,17 @@ void main() {
     float shift = uTime;
     float st = fract(t - shift);
 
-    vec3 dark   = vec3(0.0627, 0.0941, 0.0863); // #101816
-    vec3 accent = vec3(0.0706, 0.0706, 0.0706);  // #121212
+    vec3 baseDark = vec3(0.07);
+    vec3 dark   = mix(baseDark, uAccent, 0.02);
+    vec3 accent = mix(baseDark, uAccent, 0.14);
 
     float peak = 0.5;
-    float w = 0.35;
+    float w = 0.25;
     float blend = exp(-pow((st - peak) / w, 2.0));
 
     vec3 col = mix(dark, accent, blend);
+
+    col += uAccent * 0.01 * blend;
 
     vec2 seed = FlutterFragCoord().xy;
     float noise = fract(sin(dot(seed, vec2(12.9898, 78.233))) * 43758.5453);

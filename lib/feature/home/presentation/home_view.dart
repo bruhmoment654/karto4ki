@@ -23,20 +23,30 @@ class HomeView extends StatelessWidget {
       ],
       extendBody: true,
       bottomNavigationBuilder: (context, tabsRouter) {
-        return BottomNavigationBar(
-          backgroundColor: colorScheme.surface.withAlpha(100),
-          currentIndex: tabsRouter.activeIndex,
-          onTap: tabsRouter.setActiveIndex,
-          items: [
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.home_outlined),
-              label: context.l10n.navigationMain,
+        return DecoratedBox(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(
+                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.1),
+              ),
             ),
-            BottomNavigationBarItem(
-              icon: const Icon(Icons.person_outline),
-              label: context.l10n.navigationProfile,
-            ),
-          ],
+          ),
+          child: BottomNavigationBar(
+
+            backgroundColor: colorScheme.surface.withAlpha(50),
+            currentIndex: tabsRouter.activeIndex,
+            onTap: tabsRouter.setActiveIndex,
+            items: [
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.home_outlined),
+                label: context.l10n.navigationMain,
+              ),
+              BottomNavigationBarItem(
+                icon: const Icon(Icons.person_outline),
+                label: context.l10n.navigationProfile,
+              ),
+            ],
+          ),
         );
       },
     );

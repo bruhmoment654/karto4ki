@@ -20,7 +20,7 @@ class TestMergeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: Karto4kiAppBar(
+      appBar: DefaultAppBar(
         title: context.l10n.testMergeAppBarTitle,
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),

@@ -118,8 +118,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testsListRetryButton => 'Retry';
 
   @override
-  String get testsListEmptyMessage =>
-      'No tests.\nTap + to create the first test.';
+  String get testsListEmptyMessage => 'No tests.\nTap + to create the first test.';
 
   @override
   String get testsListDeleteDialogTitle => 'Delete test?';
@@ -161,15 +160,13 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get testDetailEmptyCardsMessage =>
-      'No cards.\nTap + to add the first one.';
+  String get testDetailEmptyCardsMessage => 'No cards.\nTap + to add the first one.';
 
   @override
   String get testDetailDeleteCardTitle => 'Delete card?';
 
   @override
-  String get testDetailDeleteCardMessage =>
-      'Are you sure you want to delete this card?';
+  String get testDetailDeleteCardMessage => 'Are you sure you want to delete this card?';
 
   @override
   String get testDetailDeleteCardCancel => 'Cancel';
@@ -199,8 +196,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get csvImportDialogTitle => 'Import cards from file';
 
   @override
-  String get csvImportDialogDescription =>
-      'Supported formats: CSV, TXT, TSV\n\nFile format:\n• 1st column — question (word)\n• 2nd column — answer (translation)';
+  String get csvImportDialogDescription => 'Supported formats: CSV, TXT, TSV\n\nFile format:\n• 1st column — question (word)\n• 2nd column — answer (translation)';
 
   @override
   String get csvImportDelimiterLabel => 'Delimiter';
@@ -227,8 +223,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get csvImportErrorEmpty => 'File is empty or contains no data';
 
   @override
-  String get csvImportErrorFormat =>
-      'Invalid file format. Minimum 2 columns required.';
+  String get csvImportErrorFormat => 'Invalid file format. Minimum 2 columns required.';
 
   @override
   String get csvImportErrorRead => 'Could not read file';
@@ -269,6 +264,12 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSettingsTitle => 'Profile and settings';
+
+  @override
+  String get profileShaderAnimationTitle => 'Background animation';
+
+  @override
+  String get profileAccentColorTitle => 'App color';
 
   @override
   String get profileAnimationSpeedTitle => 'Animation speed';

@@ -626,7 +626,9 @@
     "---------": "---------",
     "description": "Профиль и настройки"
   },
-  "profileSettingsTitle": "Профиль и настройки",
+  "profileSettingsTitle": "Профиль",
+  "profileShaderAnimationTitle": "Анимация фона",
+  "profileAccentColorTitle": "Цвет приложения",
   "profileAnimationSpeedTitle": "Скорость анимаций",
   "profileAnimationDurationLabel": "{duration} мс",
   "@profileAnimationDurationLabel": {

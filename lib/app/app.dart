@@ -27,6 +27,7 @@ class _AppState extends State<App> {
         builder: (context) {
           final themeScope = AppThemeScope.of(context);
           final isDark = themeScope.isDark;
+          final theme = AppTheme.dark(seedColor: themeScope.seedColor);
 
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: SystemUiOverlayStyle(
@@ -40,8 +41,8 @@ class _AppState extends State<App> {
               routerDelegate: _appRouter.delegate(
                 navigatorObservers: () => [AutoRouteObserver()],
               ),
-              theme: AppTheme.dark,
-              darkTheme: AppTheme.dark,
+              theme: theme,
+              darkTheme: theme,
               themeMode: ThemeMode.dark,
               locale: _locale,
               localizationsDelegates: _localizationsDelegates,

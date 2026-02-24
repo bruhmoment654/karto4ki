@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
+import 'package:quizzerg/persistence/settings/i_settings_storage.dart';
+import 'package:quizzerg/uikit/theme/app_theme.dart';
 
-class AppThemeScope extends StatelessWidget {
+class AppThemeScope extends StatefulWidget {
   final Widget child;
 
   const AppThemeScope({
@@ -16,16 +21,48 @@ class AppThemeScope extends StatelessWidget {
   }
 
   @override
+  State<AppThemeScope> createState() => _AppThemeScopeState();
+}
+
+class _AppThemeScopeState extends State<AppThemeScope> {
+  late final ISettingsStorage _settingsStorage;
+  late SettingsDto _settings;
+
+  @override
+  void initState() {
+    super.initState();
+    _settingsStorage = context.read<IAppScope>().settingsStorage;
+    _settings = _settingsStorage.get();
+    _settingsStorage.listenable.addListener(_onSettingsChanged);
+  }
+
+  @override
+  void dispose() {
+    _settingsStorage.listenable.removeListener(_onSettingsChanged);
+    super.dispose();
+  }
+
+  void _onSettingsChanged() {
+    setState(() {
+      _settings = _settingsStorage.listenable.value;
+    });
+  }
+
+  Color get _seedColor => AppTheme.seedColorFromHue(_settings.accentColorHue);
+
+  @override
   Widget build(BuildContext context) {
     return _AppThemeScopeInherited(
-      data: const AppThemeScopeData(),
-      child: child,
+      data: AppThemeScopeData(seedColor: _seedColor),
+      child: widget.child,
     );
   }
 }
 
 class AppThemeScopeData {
-  const AppThemeScopeData();
+  final Color seedColor;
+
+  const AppThemeScopeData({this.seedColor = AppTheme.defaultSeedColor});
 
   ThemeMode get themeMode => ThemeMode.dark;
 
@@ -41,5 +78,6 @@ class _AppThemeScopeInherited extends InheritedWidget {
   });
 
   @override
-  bool updateShouldNotify(_AppThemeScopeInherited oldWidget) => false;
+  bool updateShouldNotify(_AppThemeScopeInherited oldWidget) =>
+      data.seedColor != oldWidget.data.seedColor;
 }

@@ -189,6 +189,8 @@
     "description": "Profile and settings"
   },
   "profileSettingsTitle": "Profile and settings",
+  "profileShaderAnimationTitle": "Background animation",
+  "profileAccentColorTitle": "App color",
   "profileAnimationSpeedTitle": "Animation speed",
   "profileAnimationDurationLabel": "{duration} ms",
   "@profileAnimationDurationLabel": {

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/uikit/background/shader_background.dart';
 
 class AppScaffold extends StatelessWidget {
@@ -42,9 +44,15 @@ class AppScaffold extends StatelessWidget {
           )
         : fab;
 
+    final settings = context.read<IAppScope>().settingsStorage.get();
+    final accentColor = Theme.of(context).colorScheme.primary;
+
     return Stack(
       children: [
-        const ShaderBackground(),
+        ShaderBackground(
+          animationEnabled: settings.shaderAnimationEnabled,
+          accentColor: accentColor,
+        ),
         Scaffold(
           appBar: appBar,
           body: content,

@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dart';
-import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/content_card/content_card_type.dart';
@@ -30,7 +30,6 @@ class TestDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
     final canStartTest = switch (state) {
       TestDetailState$Loaded(:final cards) => cards.isNotEmpty,
       _ => false,
@@ -42,67 +41,12 @@ class TestDetailView extends StatelessWidget {
 
     return AppScaffold(
       useSafeArea: false,
-      appBar: PreferredSize(
-          preferredSize: const Size.fromHeight(150),
-          child: ContentCard(
-            type: ContentCardType.medium,
-            backgroundColor: colorScheme.primary,
-            borderRadius: BorderRadius.zero,
-            padding: EdgeInsets.zero,
-            child: Material(
-              color: Colors.transparent,
-              child: Stack(
-                children: [
-                  InkWell(
-                    onTap: canStartTest ? viewModel.onStartTestPressed : null,
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      width: double.infinity,
-                      height: 150,
-                      child: Align(
-                        alignment: Alignment.bottomCenter,
-                        child: Column(
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Icon(
-                              startIcon,
-                              color: colorScheme.onPrimary,
-                              size: 24,
-                            ),
-                            const SizedBox(height: 8),
-                            Text(
-                              switch (state) {
-                                TestDetailState$Loaded(:final test) =>
-                                  test.title.toUpperCase(),
-                                _ => context.l10n.testDetailLoadingTitle,
-                              },
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .titleLarge
-                                  ?.copyWith(
-                                    color: colorScheme.onPrimary,
-                                  ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ),
-                  Positioned(
-                    left: 4,
-                    top: MediaQuery.of(context).padding.top,
-                    child: IconButton(
-                      onPressed: () => Navigator.of(context).pop(),
-                      icon: Icon(
-                        Icons.chevron_left,
-                        color: colorScheme.onPrimary,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          )),
+      appBar: _TestDetailAppBar(
+        state: state,
+        canStartTest: canStartTest,
+        startIcon: startIcon,
+        viewModel: viewModel,
+      ),
       body: switch (state) {
         TestDetailState$Loading() => const Center(
             child: CircularProgressIndicator(),
@@ -125,11 +69,10 @@ class TestDetailView extends StatelessWidget {
               ],
             ),
           ),
-        TestDetailState$Loaded(:final test, :final cards) => _TestDetailContent(
-            test: test,
+        TestDetailState$Loaded(:final cards) => _TestDetailContent(
             cards: cards,
-            viewModel: viewModel,
             swapSides: swapSides,
+            viewModel: viewModel,
           ),
       },
       floatingActionButton: state is TestDetailState$Loaded
@@ -144,122 +87,215 @@ class TestDetailView extends StatelessWidget {
   }
 }
 
-class _TestDetailContent extends StatelessWidget {
-  final TestEntity test;
-  final List<CardEntity> cards;
+class _TestDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final TestDetailState state;
+  final bool canStartTest;
+  final IconData startIcon;
   final ITestDetailViewModel viewModel;
-  final bool swapSides;
 
-  const _TestDetailContent({
-    required this.test,
-    required this.cards,
+  const _TestDetailAppBar({
+    required this.state,
+    required this.canStartTest,
+    required this.startIcon,
     required this.viewModel,
-    required this.swapSides,
   });
 
   @override
-  Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
+  Size get preferredSize {
+    double bottomHeight = 0;
+    if (state case TestDetailState$Loaded(:final test)) {
+      if (test.description != null && test.description!.isNotEmpty) {
+        bottomHeight += 56.0;
+      }
+    }
+    return Size.fromHeight(
+      DefaultAppBar.toolbarHeight + bottomHeight + DefaultAppBar.dividerHeight,
+    );
+  }
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        if (test.description != null && test.description!.isNotEmpty)
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Text(
-              test.description!,
-              style: textTheme.bodyMedium?.copyWith(
-                color: colorScheme.onSurfaceVariant,
-              ),
+  @override
+  Widget build(BuildContext context) {
+    final titleText = switch (state) {
+      TestDetailState$Loaded(:final test) => test.title.toUpperCase(),
+      _ => context.l10n.testDetailLoadingTitle,
+    };
+
+    final hasDescription = switch (state) {
+      TestDetailState$Loaded(:final test) =>
+        test.description != null && test.description!.isNotEmpty,
+      _ => false,
+    };
+
+    final bottom = hasDescription
+        ? PreferredSize(
+            preferredSize: const Size.fromHeight(56),
+            child: _TestDescription(
+              description: (state as TestDetailState$Loaded).test.description!,
             ),
-          ),
-        SwitchListTile(
-          title: Text(
-            context.l10n.testDetailSwapSides,
-            style: textTheme.bodyMedium,
-          ),
-          value: swapSides,
-          onChanged: (v) => viewModel.onSwapSidesChanged(value: v),
-          dense: true,
-        ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text(
-                context.l10n.testDetailCardsTitle(cards.length),
-                style: textTheme.titleMedium,
-              ),
-              TextButton.icon(
-                onPressed: viewModel.onImportCsvPressed,
-                icon: const Icon(Icons.upload_file, size: 18),
-                label: Text(context.l10n.csvImportButton),
-              ),
-            ],
-          ),
-        ),
-        Expanded(
-          child: cards.isEmpty
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 32),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Text(
-                          context.l10n.testDetailEmptyCardsMessage,
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.bodySmall?.copyWith(
-                                    color: Theme.of(context)
-                                        .colorScheme
-                                        .onSurfaceVariant,
-                                  ),
-                        ),
-                        const SizedBox(height: 12),
-                        Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                      ],
-                    ),
-                  ),
-                )
-              : _CardsList(
-                  cards: cards,
-                  viewModel: viewModel,
-                ),
-        ),
-      ],
+          )
+        : null;
+
+    return DefaultAppBar(
+      title: titleText,
+      titleIcon: startIcon,
+      onTap: canStartTest ? viewModel.onStartTestPressed : null,
+      leading: IconButton(
+        onPressed: () => Navigator.of(context).pop(),
+        icon: const Icon(Icons.chevron_left_sharp, color: Colors.white, size: 32),
+      ),
+      bottom: bottom,
+      elevation: 1,
     );
   }
 }
 
-class _CardsList extends StatelessWidget {
+class _TestDescription extends StatelessWidget {
+  final String description;
+
+  const _TestDescription({required this.description});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Text(
+        description,
+        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+      ),
+    );
+  }
+}
+
+class _SwapSidesToggle extends StatelessWidget {
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  const _SwapSidesToggle({
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SwitchListTile(
+      title: Text(
+        context.l10n.testDetailSwapSides,
+        style: Theme.of(context).textTheme.bodyMedium,
+      ),
+      value: value,
+      onChanged: onChanged,
+      dense: true,
+    );
+  }
+}
+
+class _CardsCountWithImport extends StatelessWidget {
+  final int count;
+  final VoidCallback onImportPressed;
+
+  const _CardsCountWithImport({
+    required this.count,
+    required this.onImportPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          Text(
+            context.l10n.testDetailCardsTitle(count),
+            style: Theme.of(context).textTheme.titleMedium,
+          ),
+          const Spacer(),
+          TextButton.icon(
+            onPressed: onImportPressed,
+            icon: const Icon(Icons.upload_file, size: 18),
+            label: Text(context.l10n.csvImportButton),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _TestDetailContent extends StatelessWidget {
   final List<CardEntity> cards;
+  final bool swapSides;
   final ITestDetailViewModel viewModel;
 
-  const _CardsList({
+  const _TestDetailContent({
     required this.cards,
+    required this.swapSides,
     required this.viewModel,
   });
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      padding: const EdgeInsets.only(bottom: 100),
-      itemCount: cards.length,
-      itemBuilder: (context, index) {
-        final card = cards[index];
-        return _CardListItem(
-          card: card,
-          onTap: () => viewModel.onCardTapped(card),
-          onDelete: () => viewModel.onCardDeletePressed(card),
-        );
-      },
+    return Padding(
+      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: _SwapSidesToggle(
+              value: swapSides,
+              onChanged: (v) => viewModel.onSwapSidesChanged(value: v),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: _CardsCountWithImport(
+              count: cards.length,
+              onImportPressed: viewModel.onImportCsvPressed,
+            ),
+          ),
+          if (cards.isEmpty)
+            SliverFillRemaining(
+              hasScrollBody: false,
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        context.l10n.testDetailEmptyCardsMessage,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
+                            ),
+                      ),
+                      const SizedBox(height: 12),
+                      Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            )
+          else
+            SliverList.builder(
+              itemCount: cards.length,
+              itemBuilder: (context, index) {
+                final card = cards[index];
+                return _CardListItem(
+                  card: card,
+                  onTap: () => viewModel.onCardTapped(card),
+                  onDelete: () => viewModel.onCardDeletePressed(card),
+                );
+              },
+            ),
+          SliverPadding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).padding.bottom + 80,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

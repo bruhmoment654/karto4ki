@@ -13,6 +13,10 @@ SettingsDto _$SettingsDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
         final val = SettingsDto(
           animationDurationMs: $checkedConvert(
               'animationDurationMs', (v) => (v as num?)?.toInt() ?? 300),
+          shaderAnimationEnabled: $checkedConvert(
+              'shaderAnimationEnabled', (v) => v as bool? ?? true),
+          accentColorHue: $checkedConvert(
+              'accentColorHue', (v) => (v as num?)?.toDouble() ?? 149.0),
         );
         return val;
       },
@@ -21,4 +25,6 @@ SettingsDto _$SettingsDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
 Map<String, dynamic> _$SettingsDtoToJson(SettingsDto instance) =>
     <String, dynamic>{
       'animationDurationMs': instance.animationDurationMs,
+      'shaderAnimationEnabled': instance.shaderAnimationEnabled,
+      'accentColorHue': instance.accentColorHue,
     };

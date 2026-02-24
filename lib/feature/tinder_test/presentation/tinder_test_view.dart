@@ -31,7 +31,7 @@ class TinderTestView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: Karto4kiAppBar(
+      appBar: DefaultAppBar(
         title: context.l10n.tinderTestAppBarTitle,
         leading: IconButton(
           icon: const Icon(Icons.close),
