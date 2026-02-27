@@ -41,6 +41,7 @@ class _AppState extends State<App> {
               routerDelegate: _appRouter.delegate(
                 navigatorObservers: () => [AutoRouteObserver()],
               ),
+              scrollBehavior: const _AppScrollBehavior(),
               theme: theme,
               darkTheme: theme,
               themeMode: ThemeMode.dark,
@@ -63,3 +64,12 @@ const _localizationsDelegates = [
   GlobalWidgetsLocalizations.delegate,
   GlobalCupertinoLocalizations.delegate,
 ];
+
+class _AppScrollBehavior extends MaterialScrollBehavior {
+  const _AppScrollBehavior();
+
+  @override
+  ScrollPhysics getScrollPhysics(BuildContext context) {
+    return const BouncingScrollPhysics();
+  }
+}

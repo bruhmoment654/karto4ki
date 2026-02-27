@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/widgets.dart';
 
 class ShaderHandler {
-  final FragmentProgram _program;
+  final FragmentProgram? _program;
 
   ShaderHandler._(this._program);
 
@@ -15,7 +15,12 @@ class ShaderHandler {
     return ShaderHandler._(program);
   }
 
-  FragmentShader shader() => _program.fragmentShader();
+  @visibleForTesting
+  ShaderHandler.forTesting() : _program = null;
+
+  bool get isAvailable => _program != null;
+
+  FragmentShader shader() => _program!.fragmentShader();
 }
 
 class ShaderScope extends InheritedWidget {

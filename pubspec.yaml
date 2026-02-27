@@ -2,7 +2,7 @@ name: quizzerg
 description: "Quizzerg is a quiz app that allows you to create and share quizzes with your friends."
 publish_to: "none"
 
-version: 0.2.2
+version: 0.3.0
 
 environment:
   sdk: ">=3.5.0 <4.0.0"
@@ -52,6 +52,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  zoloto:
+    git:
+      url: https://surfstudio.gitlab.yandexcloud.net/internal/flutter/zoloto
 
   auto_route_generator: 9.0.0
   build_runner: 2.4.12

@@ -84,6 +84,8 @@ class _ShaderBackgroundPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
+    if (!handler.isAvailable) return;
+
     final shader = handler.shader()
       ..setFloat(0, size.width)
       ..setFloat(1, size.height)

@@ -206,11 +206,14 @@ class _CardsCountWithImport extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       child: Row(
         children: [
-          Text(
-            context.l10n.testDetailCardsTitle(count),
-            style: Theme.of(context).textTheme.titleMedium,
+          Flexible(
+            child: Text(
+              context.l10n.testDetailCardsTitle(count),
+              style: Theme.of(context).textTheme.titleMedium,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
-          const Spacer(),
+          const SizedBox(width: 8),
           TextButton.icon(
             onPressed: onImportPressed,
             icon: const Icon(Icons.upload_file, size: 18),

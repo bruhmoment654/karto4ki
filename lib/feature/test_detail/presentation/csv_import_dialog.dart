@@ -39,60 +39,66 @@ class _CsvImportDialogState extends State<CsvImportDialog> {
 
     return AppDialog(
       title: Text(l10n.csvImportDialogTitle),
-      content: SizedBox(
-        width: double.maxFinite,
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(l10n.csvImportDialogDescription),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _delimiterController,
-              decoration: InputDecoration(
-                labelText: l10n.csvImportDelimiterLabel,
-                hintText: l10n.csvImportDelimiterHint,
-              ),
-              inputFormatters: [LengthLimitingTextInputFormatter(2)],
-              onChanged: (_) => setState(() {}),
-            ),
-            const SizedBox(height: 16),
-            Text(
-              l10n.csvImportFilesTitle,
-              style: Theme.of(context).textTheme.titleSmall,
-            ),
-            const SizedBox(height: 8),
-            if (_selectedFiles.isEmpty)
-              Text(
-                l10n.csvImportNoFiles,
-                style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-              )
-            else
-              ConstrainedBox(
-                constraints: const BoxConstraints(maxHeight: 150),
-                child: ListView.builder(
-                  shrinkWrap: true,
-                  itemCount: _selectedFiles.length,
-                  itemBuilder: (context, index) {
-                    final path = _selectedFiles[index];
-                    return _FileListItem(
-                      fileName: _baseName(path),
-                      onRemove: () => setState(
-                        () => _selectedFiles.removeAt(index),
-                      ),
-                    );
-                  },
+      content: ConstrainedBox(
+        constraints: BoxConstraints(
+          maxHeight: MediaQuery.sizeOf(context).height * 0.6,
+        ),
+        child: SizedBox(
+          width: double.maxFinite,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(l10n.csvImportDialogDescription),
+                const SizedBox(height: 16),
+                TextField(
+                  controller: _delimiterController,
+                  decoration: InputDecoration(
+                    labelText: l10n.csvImportDelimiterLabel,
+                    hintText: l10n.csvImportDelimiterHint,
+                  ),
+                  inputFormatters: [LengthLimitingTextInputFormatter(2)],
+                  onChanged: (_) => setState(() {}),
                 ),
-              ),
-            const SizedBox(height: 8),
-            TextButton.icon(
-              onPressed: _onAddFiles,
-              icon: const Icon(Icons.add, size: 18),
-              label: Text(l10n.csvImportAddFiles),
+                const SizedBox(height: 16),
+                Text(
+                  l10n.csvImportFilesTitle,
+                  style: Theme.of(context).textTheme.titleSmall,
+                ),
+                const SizedBox(height: 8),
+                if (_selectedFiles.isEmpty)
+                  Text(
+                    l10n.csvImportNoFiles,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                          color:
+                              Theme.of(context).colorScheme.onSurfaceVariant,
+                        ),
+                  )
+                else
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: _selectedFiles.length,
+                    itemBuilder: (context, index) {
+                      final path = _selectedFiles[index];
+                      return _FileListItem(
+                        fileName: _baseName(path),
+                        onRemove: () => setState(
+                          () => _selectedFiles.removeAt(index),
+                        ),
+                      );
+                    },
+                  ),
+                const SizedBox(height: 8),
+                TextButton.icon(
+                  onPressed: _onAddFiles,
+                  icon: const Icon(Icons.add, size: 18),
+                  label: Text(l10n.csvImportAddFiles),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
       actions: [
