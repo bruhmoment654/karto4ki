@@ -26,6 +26,7 @@ class TestDetailScreen extends StatefulWidget {
 class _TestDetailScreenState extends State<TestDetailScreen>
     implements ITestDetailViewModel {
   bool _swapSides = false;
+  bool _mixup = false;
 
   @override
   Widget build(BuildContext context) {
@@ -35,6 +36,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
           viewModel: this,
           state: state,
           swapSides: _swapSides,
+          mixup: _mixup,
         );
       },
     );
@@ -249,7 +251,11 @@ class _TestDetailScreenState extends State<TestDetailScreen>
     switch (test.type) {
       case TestType.tinder:
         context.router.push(
-          TinderTestRoute(testId: testId, swapSides: _swapSides),
+          TinderTestRoute(
+            testId: testId,
+            swapSides: _swapSides,
+            mixup: _mixup,
+          ),
         );
     }
   }
@@ -257,6 +263,11 @@ class _TestDetailScreenState extends State<TestDetailScreen>
   @override
   void onSwapSidesChanged({required bool value}) {
     setState(() => _swapSides = value);
+  }
+
+  @override
+  void onMixupChanged({required bool value}) {
+    setState(() => _mixup = value);
   }
 
   @override
@@ -349,4 +360,7 @@ abstract interface class ITestDetailViewModel {
 
   /// Called when swap sides toggle is changed.
   void onSwapSidesChanged({required bool value});
+
+  /// Called when mixup toggle is changed.
+  void onMixupChanged({required bool value});
 }

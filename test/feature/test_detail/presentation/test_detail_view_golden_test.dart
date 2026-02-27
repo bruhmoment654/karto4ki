@@ -37,6 +37,9 @@ class _MockViewModel implements ITestDetailViewModel {
 
   @override
   void onSwapSidesChanged({required bool value}) {}
+
+  @override
+  void onMixupChanged({required bool value}) {}
 }
 
 class _MockSettingsStorage implements ISettingsStorage {
@@ -122,6 +125,7 @@ final _sampleCards = [
 Widget _buildView({
   required TestDetailState state,
   bool swapSides = false,
+  bool mixup = false,
 }) {
   return Provider<IAppScope>.value(
     value: _appScope,
@@ -131,6 +135,7 @@ Widget _buildView({
         viewModel: _viewModel,
         state: state,
         swapSides: swapSides,
+        mixup: mixup,
       ),
     ),
   );

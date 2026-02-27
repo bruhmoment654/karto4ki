@@ -9,6 +9,7 @@ import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/card_result.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
+import 'package:quizzerg/feature/tinder_test/domain/mixup/question_mixup_service.dart';
 
 part 'tinder_test_event.dart';
 part 'tinder_test_state.dart';
@@ -20,13 +21,17 @@ part 'tinder_test_bloc.freezed.dart';
 final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   final ICardRepository _cardRepository;
   final IQuestionStatsRepository _questionStatsRepository;
+  final QuestionMixupService? _mixupService;
   bool _swapSides = false;
+  bool _mixup = false;
 
   TinderTestBloc({
     required ICardRepository cardRepository,
     required IQuestionStatsRepository questionStatsRepository,
+    QuestionMixupService? mixupService,
   })  : _cardRepository = cardRepository,
         _questionStatsRepository = questionStatsRepository,
+        _mixupService = mixupService,
         super(const TinderTestState.initial()) {
     on<TinderTestEvent>(
       (event, emit) => switch (event) {
@@ -46,6 +51,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   ) async {
     emit(const TinderTestState.loading());
     _swapSides = event.swapSides;
+    _mixup = event.mixup;
 
     final result = await _cardRepository.getCardsByTestId(event.testId);
     switch (result) {
@@ -56,6 +62,15 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
         }
 
         var cards = data;
+
+        if (_mixup && _mixupService != null) {
+          final mixupCards = await _mixupService.getMixupCards(
+            testId: event.testId,
+            mainCards: cards,
+          );
+          cards = [...cards, ...mixupCards];
+        }
+
         if (_swapSides) {
           cards = cards
               .map((c) => c.copyWith(front: c.back, back: c.front))
@@ -173,7 +188,11 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     if (session == null) return;
 
     final testId = int.parse(session.testId);
-    add(TinderTestEvent.started(testId: testId, swapSides: _swapSides));
+    add(TinderTestEvent.started(
+      testId: testId,
+      swapSides: _swapSides,
+      mixup: _mixup,
+    ));
   }
 
   Future<void> _onDiscard(

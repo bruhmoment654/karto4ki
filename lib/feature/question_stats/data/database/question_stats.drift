@@ -11,6 +11,7 @@ CREATE TABLE question_stats (
   total_incorrect INTEGER NOT NULL DEFAULT 0,
   total_shown INTEGER NOT NULL DEFAULT 0,
   last_answered_at DATETIME,
+  last_shown_at DATETIME,
   created_at DATETIME NOT NULL,
   updated_at DATETIME NOT NULL
 ) AS QuestionStatsDatabaseDto;

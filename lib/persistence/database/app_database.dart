@@ -25,7 +25,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 5;
+  int get schemaVersion => 6;
 
   @override
   MigrationStrategy get migration {
@@ -68,6 +68,15 @@ class AppDatabase extends _$AppDatabase {
             "    updated_at = strftime('%s', updated_at) "
             "WHERE typeof(created_at) = 'text' "
             "  AND created_at LIKE '____-__-__ __:__:__'",
+          );
+        }
+        if (from < 6) {
+          await customStatement(
+            'ALTER TABLE question_stats ADD COLUMN last_shown_at DATETIME',
+          );
+          await customStatement(
+            'UPDATE question_stats SET last_shown_at = last_answered_at '
+            'WHERE last_answered_at IS NOT NULL',
           );
         }
       },

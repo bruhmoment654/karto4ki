@@ -10,4 +10,6 @@ abstract interface class IQuestionStatsRepository {
   });
 
   RequestOperation<List<QuestionStatsEntity>> getLeastRemembered(int limit);
+
+  RequestOperation<List<QuestionStatsEntity>> getStatsByKeys(List<String> keys);
 }

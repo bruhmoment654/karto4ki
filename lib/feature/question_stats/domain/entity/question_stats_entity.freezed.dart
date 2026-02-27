@@ -27,6 +27,7 @@ mixin _$QuestionStatsEntity {
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
   DateTime? get lastAnsweredAt => throw _privateConstructorUsedError;
+  DateTime? get lastShownAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $QuestionStatsEntityCopyWith<QuestionStatsEntity> get copyWith =>
@@ -50,7 +51,8 @@ abstract class $QuestionStatsEntityCopyWith<$Res> {
       int totalShown,
       DateTime createdAt,
       DateTime updatedAt,
-      DateTime? lastAnsweredAt});
+      DateTime? lastAnsweredAt,
+      DateTime? lastShownAt});
 }
 
 /// @nodoc
@@ -77,6 +79,7 @@ class _$QuestionStatsEntityCopyWithImpl<$Res, $Val extends QuestionStatsEntity>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? lastAnsweredAt = freezed,
+    Object? lastShownAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -123,6 +126,10 @@ class _$QuestionStatsEntityCopyWithImpl<$Res, $Val extends QuestionStatsEntity>
           ? _value.lastAnsweredAt
           : lastAnsweredAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      lastShownAt: freezed == lastShownAt
+          ? _value.lastShownAt
+          : lastShownAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -146,7 +153,8 @@ abstract class _$$QuestionStatsEntityImplCopyWith<$Res>
       int totalShown,
       DateTime createdAt,
       DateTime updatedAt,
-      DateTime? lastAnsweredAt});
+      DateTime? lastAnsweredAt,
+      DateTime? lastShownAt});
 }
 
 /// @nodoc
@@ -171,6 +179,7 @@ class __$$QuestionStatsEntityImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? lastAnsweredAt = freezed,
+    Object? lastShownAt = freezed,
   }) {
     return _then(_$QuestionStatsEntityImpl(
       id: null == id
@@ -217,6 +226,10 @@ class __$$QuestionStatsEntityImplCopyWithImpl<$Res>
           ? _value.lastAnsweredAt
           : lastAnsweredAt // ignore: cast_nullable_to_non_nullable
               as DateTime?,
+      lastShownAt: freezed == lastShownAt
+          ? _value.lastShownAt
+          : lastShownAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
@@ -235,7 +248,8 @@ class _$QuestionStatsEntityImpl implements _QuestionStatsEntity {
       required this.totalShown,
       required this.createdAt,
       required this.updatedAt,
-      this.lastAnsweredAt});
+      this.lastAnsweredAt,
+      this.lastShownAt});
 
   @override
   final int id;
@@ -259,10 +273,12 @@ class _$QuestionStatsEntityImpl implements _QuestionStatsEntity {
   final DateTime updatedAt;
   @override
   final DateTime? lastAnsweredAt;
+  @override
+  final DateTime? lastShownAt;
 
   @override
   String toString() {
-    return 'QuestionStatsEntity(id: $id, questionKey: $questionKey, frontText: $frontText, backText: $backText, streak: $streak, totalCorrect: $totalCorrect, totalIncorrect: $totalIncorrect, totalShown: $totalShown, createdAt: $createdAt, updatedAt: $updatedAt, lastAnsweredAt: $lastAnsweredAt)';
+    return 'QuestionStatsEntity(id: $id, questionKey: $questionKey, frontText: $frontText, backText: $backText, streak: $streak, totalCorrect: $totalCorrect, totalIncorrect: $totalIncorrect, totalShown: $totalShown, createdAt: $createdAt, updatedAt: $updatedAt, lastAnsweredAt: $lastAnsweredAt, lastShownAt: $lastShownAt)';
   }
 
   @override
@@ -289,7 +305,9 @@ class _$QuestionStatsEntityImpl implements _QuestionStatsEntity {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.lastAnsweredAt, lastAnsweredAt) ||
-                other.lastAnsweredAt == lastAnsweredAt));
+                other.lastAnsweredAt == lastAnsweredAt) &&
+            (identical(other.lastShownAt, lastShownAt) ||
+                other.lastShownAt == lastShownAt));
   }
 
   @override
@@ -305,7 +323,8 @@ class _$QuestionStatsEntityImpl implements _QuestionStatsEntity {
       totalShown,
       createdAt,
       updatedAt,
-      lastAnsweredAt);
+      lastAnsweredAt,
+      lastShownAt);
 
   @JsonKey(ignore: true)
   @override
@@ -327,7 +346,8 @@ abstract class _QuestionStatsEntity implements QuestionStatsEntity {
       required final int totalShown,
       required final DateTime createdAt,
       required final DateTime updatedAt,
-      final DateTime? lastAnsweredAt}) = _$QuestionStatsEntityImpl;
+      final DateTime? lastAnsweredAt,
+      final DateTime? lastShownAt}) = _$QuestionStatsEntityImpl;
 
   @override
   int get id;
@@ -351,6 +371,8 @@ abstract class _QuestionStatsEntity implements QuestionStatsEntity {
   DateTime get updatedAt;
   @override
   DateTime? get lastAnsweredAt;
+  @override
+  DateTime? get lastShownAt;
   @override
   @JsonKey(ignore: true)
   _$$QuestionStatsEntityImplCopyWith<_$QuestionStatsEntityImpl> get copyWith =>

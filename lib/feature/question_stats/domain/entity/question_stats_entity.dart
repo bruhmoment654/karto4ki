@@ -16,5 +16,6 @@ sealed class QuestionStatsEntity with _$QuestionStatsEntity {
     required DateTime createdAt,
     required DateTime updatedAt,
     DateTime? lastAnsweredAt,
+    DateTime? lastShownAt,
   }) = _QuestionStatsEntity;
 }

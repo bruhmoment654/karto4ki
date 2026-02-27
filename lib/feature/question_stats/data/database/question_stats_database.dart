@@ -51,6 +51,7 @@ class QuestionStatsDatabase extends DatabaseAccessor<AppDatabase>
           ),
           totalShown: Value(existing.totalShown + 1),
           lastAnsweredAt: Value(now),
+          lastShownAt: Value(now),
           updatedAt: Value(now),
         ),
       );
@@ -65,12 +66,18 @@ class QuestionStatsDatabase extends DatabaseAccessor<AppDatabase>
           totalIncorrect: Value(isCorrect ? 0 : 1),
           totalShown: const Value(1),
           lastAnsweredAt: Value(now),
+          lastShownAt: Value(now),
           createdAt: now,
           updatedAt: now,
         ),
       );
     }
   }
+
+  Future<List<QuestionStatsDatabaseDto>> getStatsByKeys(
+    List<String> keys,
+  ) =>
+      (select(questionStats)..where((t) => t.questionKey.isIn(keys))).get();
 
   Future<void> upsertStats(
     List<

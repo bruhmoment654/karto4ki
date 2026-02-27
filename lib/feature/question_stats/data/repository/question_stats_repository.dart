@@ -54,4 +54,13 @@ class QuestionStatsRepository extends BaseRepository
         final dtos = await _questionStatsDatabase.getLeastRemembered(limit);
         return dtos.map(QuestionStatsConverter.fromDto).toList();
       });
+
+  @override
+  RequestOperation<List<QuestionStatsEntity>> getStatsByKeys(
+    List<String> keys,
+  ) =>
+      makeCall(() async {
+        final dtos = await _questionStatsDatabase.getStatsByKeys(keys);
+        return dtos.map(QuestionStatsConverter.fromDto).toList();
+      });
 }

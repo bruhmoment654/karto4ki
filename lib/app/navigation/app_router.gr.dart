@@ -354,6 +354,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
   TinderTestRoute({
     required int testId,
     bool swapSides = false,
+    bool mixup = false,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -361,6 +362,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
           args: TinderTestRouteArgs(
             testId: testId,
             swapSides: swapSides,
+            mixup: mixup,
             key: key,
           ),
           rawPathParams: {'testId': testId},
@@ -380,6 +382,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
           child: TinderTestFlow(
         testId: args.testId,
         swapSides: args.swapSides,
+        mixup: args.mixup,
         key: args.key,
       ));
     },
@@ -390,6 +393,7 @@ class TinderTestRouteArgs {
   const TinderTestRouteArgs({
     required this.testId,
     this.swapSides = false,
+    this.mixup = false,
     this.key,
   });
 
@@ -397,10 +401,12 @@ class TinderTestRouteArgs {
 
   final bool swapSides;
 
+  final bool mixup;
+
   final Key? key;
 
   @override
   String toString() {
-    return 'TinderTestRouteArgs{testId: $testId, swapSides: $swapSides, key: $key}';
+    return 'TinderTestRouteArgs{testId: $testId, swapSides: $swapSides, mixup: $mixup, key: $key}';
   }
 }

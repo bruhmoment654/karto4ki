@@ -13,6 +13,7 @@ abstract final class QuestionStatsConverter {
       totalIncorrect: dto.totalIncorrect,
       totalShown: dto.totalShown,
       lastAnsweredAt: dto.lastAnsweredAt,
+      lastShownAt: dto.lastShownAt,
       createdAt: dto.createdAt,
       updatedAt: dto.updatedAt,
     );

@@ -912,6 +912,13 @@ class QuestionStats extends Table
           type: DriftSqlType.dateTime,
           requiredDuringInsert: false,
           $customConstraints: '');
+  static const VerificationMeta _lastShownAtMeta =
+      const VerificationMeta('lastShownAt');
+  late final GeneratedColumn<DateTime> lastShownAt = GeneratedColumn<DateTime>(
+      'last_shown_at', aliasedName, true,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
@@ -937,6 +944,7 @@ class QuestionStats extends Table
         totalIncorrect,
         totalShown,
         lastAnsweredAt,
+        lastShownAt,
         createdAt,
         updatedAt
       ];
@@ -1002,6 +1010,12 @@ class QuestionStats extends Table
           lastAnsweredAt.isAcceptableOrUnknown(
               data['last_answered_at']!, _lastAnsweredAtMeta));
     }
+    if (data.containsKey('last_shown_at')) {
+      context.handle(
+          _lastShownAtMeta,
+          lastShownAt.isAcceptableOrUnknown(
+              data['last_shown_at']!, _lastShownAtMeta));
+    }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
           createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
@@ -1042,6 +1056,8 @@ class QuestionStats extends Table
           .read(DriftSqlType.int, data['${effectivePrefix}total_shown'])!,
       lastAnsweredAt: attachedDatabase.typeMapping.read(
           DriftSqlType.dateTime, data['${effectivePrefix}last_answered_at']),
+      lastShownAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}last_shown_at']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -1069,6 +1085,7 @@ class QuestionStatsDatabaseDto extends DataClass
   final int totalIncorrect;
   final int totalShown;
   final DateTime? lastAnsweredAt;
+  final DateTime? lastShownAt;
   final DateTime createdAt;
   final DateTime updatedAt;
   const QuestionStatsDatabaseDto(
@@ -1081,6 +1098,7 @@ class QuestionStatsDatabaseDto extends DataClass
       required this.totalIncorrect,
       required this.totalShown,
       this.lastAnsweredAt,
+      this.lastShownAt,
       required this.createdAt,
       required this.updatedAt});
   @override
@@ -1096,6 +1114,9 @@ class QuestionStatsDatabaseDto extends DataClass
     map['total_shown'] = Variable<int>(totalShown);
     if (!nullToAbsent || lastAnsweredAt != null) {
       map['last_answered_at'] = Variable<DateTime>(lastAnsweredAt);
+    }
+    if (!nullToAbsent || lastShownAt != null) {
+      map['last_shown_at'] = Variable<DateTime>(lastShownAt);
     }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
@@ -1115,6 +1136,9 @@ class QuestionStatsDatabaseDto extends DataClass
       lastAnsweredAt: lastAnsweredAt == null && nullToAbsent
           ? const Value.absent()
           : Value(lastAnsweredAt),
+      lastShownAt: lastShownAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(lastShownAt),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
     );
@@ -1133,6 +1157,7 @@ class QuestionStatsDatabaseDto extends DataClass
       totalIncorrect: serializer.fromJson<int>(json['total_incorrect']),
       totalShown: serializer.fromJson<int>(json['total_shown']),
       lastAnsweredAt: serializer.fromJson<DateTime?>(json['last_answered_at']),
+      lastShownAt: serializer.fromJson<DateTime?>(json['last_shown_at']),
       createdAt: serializer.fromJson<DateTime>(json['created_at']),
       updatedAt: serializer.fromJson<DateTime>(json['updated_at']),
     );
@@ -1150,6 +1175,7 @@ class QuestionStatsDatabaseDto extends DataClass
       'total_incorrect': serializer.toJson<int>(totalIncorrect),
       'total_shown': serializer.toJson<int>(totalShown),
       'last_answered_at': serializer.toJson<DateTime?>(lastAnsweredAt),
+      'last_shown_at': serializer.toJson<DateTime?>(lastShownAt),
       'created_at': serializer.toJson<DateTime>(createdAt),
       'updated_at': serializer.toJson<DateTime>(updatedAt),
     };
@@ -1165,6 +1191,7 @@ class QuestionStatsDatabaseDto extends DataClass
           int? totalIncorrect,
           int? totalShown,
           Value<DateTime?> lastAnsweredAt = const Value.absent(),
+          Value<DateTime?> lastShownAt = const Value.absent(),
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       QuestionStatsDatabaseDto(
@@ -1178,6 +1205,7 @@ class QuestionStatsDatabaseDto extends DataClass
         totalShown: totalShown ?? this.totalShown,
         lastAnsweredAt:
             lastAnsweredAt.present ? lastAnsweredAt.value : this.lastAnsweredAt,
+        lastShownAt: lastShownAt.present ? lastShownAt.value : this.lastShownAt,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -1200,6 +1228,8 @@ class QuestionStatsDatabaseDto extends DataClass
       lastAnsweredAt: data.lastAnsweredAt.present
           ? data.lastAnsweredAt.value
           : this.lastAnsweredAt,
+      lastShownAt:
+          data.lastShownAt.present ? data.lastShownAt.value : this.lastShownAt,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -1217,6 +1247,7 @@ class QuestionStatsDatabaseDto extends DataClass
           ..write('totalIncorrect: $totalIncorrect, ')
           ..write('totalShown: $totalShown, ')
           ..write('lastAnsweredAt: $lastAnsweredAt, ')
+          ..write('lastShownAt: $lastShownAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -1234,6 +1265,7 @@ class QuestionStatsDatabaseDto extends DataClass
       totalIncorrect,
       totalShown,
       lastAnsweredAt,
+      lastShownAt,
       createdAt,
       updatedAt);
   @override
@@ -1249,6 +1281,7 @@ class QuestionStatsDatabaseDto extends DataClass
           other.totalIncorrect == this.totalIncorrect &&
           other.totalShown == this.totalShown &&
           other.lastAnsweredAt == this.lastAnsweredAt &&
+          other.lastShownAt == this.lastShownAt &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
@@ -1263,6 +1296,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
   final Value<int> totalIncorrect;
   final Value<int> totalShown;
   final Value<DateTime?> lastAnsweredAt;
+  final Value<DateTime?> lastShownAt;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
   const QuestionStatsCompanion({
@@ -1275,6 +1309,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
     this.totalIncorrect = const Value.absent(),
     this.totalShown = const Value.absent(),
     this.lastAnsweredAt = const Value.absent(),
+    this.lastShownAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
   });
@@ -1288,6 +1323,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
     this.totalIncorrect = const Value.absent(),
     this.totalShown = const Value.absent(),
     this.lastAnsweredAt = const Value.absent(),
+    this.lastShownAt = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
   })  : questionKey = Value(questionKey),
@@ -1305,6 +1341,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
     Expression<int>? totalIncorrect,
     Expression<int>? totalShown,
     Expression<DateTime>? lastAnsweredAt,
+    Expression<DateTime>? lastShownAt,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
   }) {
@@ -1318,6 +1355,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
       if (totalIncorrect != null) 'total_incorrect': totalIncorrect,
       if (totalShown != null) 'total_shown': totalShown,
       if (lastAnsweredAt != null) 'last_answered_at': lastAnsweredAt,
+      if (lastShownAt != null) 'last_shown_at': lastShownAt,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
     });
@@ -1333,6 +1371,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
       Value<int>? totalIncorrect,
       Value<int>? totalShown,
       Value<DateTime?>? lastAnsweredAt,
+      Value<DateTime?>? lastShownAt,
       Value<DateTime>? createdAt,
       Value<DateTime>? updatedAt}) {
     return QuestionStatsCompanion(
@@ -1345,6 +1384,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
       totalIncorrect: totalIncorrect ?? this.totalIncorrect,
       totalShown: totalShown ?? this.totalShown,
       lastAnsweredAt: lastAnsweredAt ?? this.lastAnsweredAt,
+      lastShownAt: lastShownAt ?? this.lastShownAt,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
     );
@@ -1380,6 +1420,9 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
     if (lastAnsweredAt.present) {
       map['last_answered_at'] = Variable<DateTime>(lastAnsweredAt.value);
     }
+    if (lastShownAt.present) {
+      map['last_shown_at'] = Variable<DateTime>(lastShownAt.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
@@ -1401,6 +1444,7 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
           ..write('totalIncorrect: $totalIncorrect, ')
           ..write('totalShown: $totalShown, ')
           ..write('lastAnsweredAt: $lastAnsweredAt, ')
+          ..write('lastShownAt: $lastShownAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -2672,6 +2716,7 @@ typedef $QuestionStatsCreateCompanionBuilder = QuestionStatsCompanion Function({
   Value<int> totalIncorrect,
   Value<int> totalShown,
   Value<DateTime?> lastAnsweredAt,
+  Value<DateTime?> lastShownAt,
   required DateTime createdAt,
   required DateTime updatedAt,
 });
@@ -2685,6 +2730,7 @@ typedef $QuestionStatsUpdateCompanionBuilder = QuestionStatsCompanion Function({
   Value<int> totalIncorrect,
   Value<int> totalShown,
   Value<DateTime?> lastAnsweredAt,
+  Value<DateTime?> lastShownAt,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
 });
@@ -2726,6 +2772,9 @@ class $QuestionStatsFilterComposer
   ColumnFilters<DateTime> get lastAnsweredAt => $composableBuilder(
       column: $table.lastAnsweredAt,
       builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get lastShownAt => $composableBuilder(
+      column: $table.lastShownAt, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
@@ -2773,6 +2822,9 @@ class $QuestionStatsOrderingComposer
       column: $table.lastAnsweredAt,
       builder: (column) => ColumnOrderings(column));
 
+  ColumnOrderings<DateTime> get lastShownAt => $composableBuilder(
+      column: $table.lastShownAt, builder: (column) => ColumnOrderings(column));
+
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
 
@@ -2816,6 +2868,9 @@ class $QuestionStatsAnnotationComposer
   GeneratedColumn<DateTime> get lastAnsweredAt => $composableBuilder(
       column: $table.lastAnsweredAt, builder: (column) => column);
 
+  GeneratedColumn<DateTime> get lastShownAt => $composableBuilder(
+      column: $table.lastShownAt, builder: (column) => column);
+
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
 
@@ -2858,6 +2913,7 @@ class $QuestionStatsTableManager extends RootTableManager<
             Value<int> totalIncorrect = const Value.absent(),
             Value<int> totalShown = const Value.absent(),
             Value<DateTime?> lastAnsweredAt = const Value.absent(),
+            Value<DateTime?> lastShownAt = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
           }) =>
@@ -2871,6 +2927,7 @@ class $QuestionStatsTableManager extends RootTableManager<
             totalIncorrect: totalIncorrect,
             totalShown: totalShown,
             lastAnsweredAt: lastAnsweredAt,
+            lastShownAt: lastShownAt,
             createdAt: createdAt,
             updatedAt: updatedAt,
           ),
@@ -2884,6 +2941,7 @@ class $QuestionStatsTableManager extends RootTableManager<
             Value<int> totalIncorrect = const Value.absent(),
             Value<int> totalShown = const Value.absent(),
             Value<DateTime?> lastAnsweredAt = const Value.absent(),
+            Value<DateTime?> lastShownAt = const Value.absent(),
             required DateTime createdAt,
             required DateTime updatedAt,
           }) =>
@@ -2897,6 +2955,7 @@ class $QuestionStatsTableManager extends RootTableManager<
             totalIncorrect: totalIncorrect,
             totalShown: totalShown,
             lastAnsweredAt: lastAnsweredAt,
+            lastShownAt: lastShownAt,
             createdAt: createdAt,
             updatedAt: updatedAt,
           ),

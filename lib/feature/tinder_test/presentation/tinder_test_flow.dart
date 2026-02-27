@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
+import 'package:quizzerg/feature/tinder_test/domain/mixup/question_mixup_service.dart';
 import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_screen.dart';
 
 /// Entry point for tinder test screen.
@@ -13,21 +14,33 @@ import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_screen.dar
 class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
   final int testId;
   final bool swapSides;
+  final bool mixup;
 
   const TinderTestFlow({
     @PathParam('testId') required this.testId,
     this.swapSides = false,
+    this.mixup = false,
     super.key,
   });
 
   @override
   Widget wrappedRoute(BuildContext context) {
     final scope = context.read<IAppScope>();
+    final mixupService = QuestionMixupService(
+      cardRepository: scope.cardRepository,
+      groupsDatabase: scope.database.groupsDatabase,
+      questionStatsRepository: scope.questionStatsRepository,
+    );
     return BlocProvider(
       create: (context) => TinderTestBloc(
         cardRepository: scope.cardRepository,
         questionStatsRepository: scope.questionStatsRepository,
-      )..add(TinderTestEvent.started(testId: testId, swapSides: swapSides)),
+        mixupService: mixupService,
+      )..add(TinderTestEvent.started(
+          testId: testId,
+          swapSides: swapSides,
+          mixup: mixup,
+        )),
       child: this,
     );
   }

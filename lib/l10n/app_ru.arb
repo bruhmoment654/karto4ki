@@ -559,6 +559,8 @@
   "testDetailDeleteCardCancel": "Отмена",
   "testDetailDeleteCardConfirm": "Удалить",
   "testDetailSwapSides": "Поменять стороны местами",
+  "testDetailMixup": "Подмешивание вопросов",
+  "testDetailMixupDescription": "Добавляет вопросы из других тестов группы",
   "testDetailAddCardFab": "Добавить",
   "testsListAddTestFab": "Создать",
   "@segmentMain": {

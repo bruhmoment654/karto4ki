@@ -178,6 +178,12 @@ class AppLocalizationsRu extends AppLocalizations {
   String get testDetailSwapSides => 'Поменять стороны местами';
 
   @override
+  String get testDetailMixup => 'Подмешивание вопросов';
+
+  @override
+  String get testDetailMixupDescription => 'Добавляет вопросы из других тестов группы';
+
+  @override
   String get testDetailAddCardFab => 'Добавить';
 
   @override

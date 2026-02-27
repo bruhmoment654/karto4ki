@@ -18,7 +18,7 @@ import 'app_localizations_ru.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'gen_l10n/app_localizations.dart';
+/// import 'l10n/app_localizations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -412,6 +412,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Swap sides'**
   String get testDetailSwapSides;
+
+  /// No description provided for @testDetailMixup.
+  ///
+  /// In en, this message translates to:
+  /// **'Question mixup'**
+  String get testDetailMixup;
+
+  /// No description provided for @testDetailMixupDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Adds questions from other tests in the group'**
+  String get testDetailMixupDescription;
 
   /// No description provided for @testDetailAddCardFab.
   ///

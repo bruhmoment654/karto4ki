@@ -121,6 +121,8 @@
   "testDetailDeleteCardCancel": "Cancel",
   "testDetailDeleteCardConfirm": "Delete",
   "testDetailSwapSides": "Swap sides",
+  "testDetailMixup": "Question mixup",
+  "testDetailMixupDescription": "Adds questions from other tests in the group",
   "testDetailAddCardFab": "Add",
   "testsListAddTestFab": "Create",
   "@segmentMain": {
