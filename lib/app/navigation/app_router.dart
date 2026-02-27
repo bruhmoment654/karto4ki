@@ -2,6 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/widgets.dart';
 import 'package:quizzerg/feature/card_detail/presentation/card_detail_flow.dart';
 import 'package:quizzerg/feature/card_test/presentation/card_test_flow.dart';
+import 'package:quizzerg/feature/group_detail/presentation/group_detail_flow.dart';
+import 'package:quizzerg/feature/groups_list/presentation/groups_list_flow.dart';
 import 'package:quizzerg/feature/home/presentation/home_flow.dart';
 import 'package:quizzerg/feature/main/presentation/main_flow.dart';
 import 'package:quizzerg/feature/main_tab/presentation/main_tab_flow.dart';
@@ -36,7 +38,8 @@ class AppRouter extends RootStackRouter {
               page: MainTabRoute.page,
               initial: true,
               children: [
-                AutoRoute(page: TestsListRoute.page, initial: true),
+                AutoRoute(page: GroupsListRoute.page, initial: true),
+                AutoRoute(page: GroupDetailRoute.page),
                 AutoRoute(page: MainRoute.page),
                 AutoRoute(page: CardTestRoute.page),
                 AutoRoute(page: CardDetailRoute.page),

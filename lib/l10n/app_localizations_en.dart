@@ -278,4 +278,124 @@ class AppLocalizationsEn extends AppLocalizations {
   String profileAnimationDurationLabel(int duration) {
     return '$duration ms';
   }
+
+  @override
+  String get groupsListAppBarTitle => 'Groups';
+
+  @override
+  String get groupsListEmptyMessage => 'No groups.\nTap + to create the first group.';
+
+  @override
+  String get groupsListAddGroupFab => 'Create';
+
+  @override
+  String get groupsListDeleteDialogTitle => 'Delete group?';
+
+  @override
+  String groupsListDeleteDialogMessage(String title) {
+    return 'Are you sure you want to delete \"$title\"? Tests inside the group will not be deleted.';
+  }
+
+  @override
+  String get groupsListDeleteDialogCancel => 'Cancel';
+
+  @override
+  String get groupsListDeleteDialogConfirm => 'Delete';
+
+  @override
+  String groupsListTestCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'tests',
+      one: 'test',
+    );
+    return '$count $_temp0';
+  }
+
+  @override
+  String groupsListErrorMessage(String message) {
+    return 'Error: $message';
+  }
+
+  @override
+  String get groupsListUnknownError => 'Unknown error';
+
+  @override
+  String get groupsListNewGroupDialogTitle => 'New group';
+
+  @override
+  String get groupsListNewGroupNameHint => 'Group name';
+
+  @override
+  String get groupsListNewGroupCancel => 'Cancel';
+
+  @override
+  String get groupsListNewGroupCreate => 'Create';
+
+  @override
+  String get groupDetailLoadingTitle => 'Loading...';
+
+  @override
+  String get groupDetailAddTestFab => 'Add';
+
+  @override
+  String get groupDetailEmptyMessage => 'No tests in this group.\nTap + to add the first test.';
+
+  @override
+  String groupDetailErrorMessage(String message) {
+    return 'Error: $message';
+  }
+
+  @override
+  String get groupDetailUnknownError => 'Unknown error';
+
+  @override
+  String get groupDetailRemoveTestTitle => 'Remove test from group?';
+
+  @override
+  String groupDetailRemoveTestMessage(String title) {
+    return 'Test \"$title\" will be removed from this group, but not deleted.';
+  }
+
+  @override
+  String get groupDetailRemoveTestLastGroupTitle => 'Last group';
+
+  @override
+  String groupDetailRemoveTestLastGroupMessage(String title) {
+    return 'This is the last group for test \"$title\". The test will remain without a group.';
+  }
+
+  @override
+  String get groupDetailRemoveTestCancel => 'Cancel';
+
+  @override
+  String get groupDetailRemoveTestConfirm => 'Remove';
+
+  @override
+  String get groupDetailEditTitleDialogTitle => 'Rename group';
+
+  @override
+  String get groupDetailEditTitleHint => 'Group name';
+
+  @override
+  String get groupDetailEditTitleCancel => 'Cancel';
+
+  @override
+  String get groupDetailEditTitleSave => 'Save';
+
+  @override
+  String get groupDetailNewTestDialogTitle => 'New test';
+
+  @override
+  String get groupDetailNewTestNameHint => 'Test name';
+
+  @override
+  String get groupDetailNewTestDescriptionHint => 'Description (optional)';
+
+  @override
+  String get groupDetailNewTestCancel => 'Cancel';
+
+  @override
+  String get groupDetailNewTestCreate => 'Create';
 }

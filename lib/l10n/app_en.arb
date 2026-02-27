@@ -200,5 +200,95 @@
         "example": "300"
       }
     }
-  }
+  },
+  "@segmentGroupsList": {
+    "---------": "---------",
+    "description": "Groups list"
+  },
+  "groupsListAppBarTitle": "Groups",
+  "groupsListEmptyMessage": "No groups.\nTap + to create the first group.",
+  "groupsListAddGroupFab": "Create",
+  "groupsListDeleteDialogTitle": "Delete group?",
+  "groupsListDeleteDialogMessage": "Are you sure you want to delete \"{title}\"? Tests inside the group will not be deleted.",
+  "@groupsListDeleteDialogMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "My tests"
+      }
+    }
+  },
+  "groupsListDeleteDialogCancel": "Cancel",
+  "groupsListDeleteDialogConfirm": "Delete",
+  "groupsListTestCount": "{count} {count, plural, one{test} other{tests}}",
+  "@groupsListTestCount": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "groupsListErrorMessage": "Error: {message}",
+  "@groupsListErrorMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Unknown error"
+      }
+    }
+  },
+  "groupsListUnknownError": "Unknown error",
+  "groupsListNewGroupDialogTitle": "New group",
+  "groupsListNewGroupNameHint": "Group name",
+  "groupsListNewGroupCancel": "Cancel",
+  "groupsListNewGroupCreate": "Create",
+  "@segmentGroupDetail": {
+    "---------": "---------",
+    "description": "Group detail"
+  },
+  "groupDetailLoadingTitle": "Loading...",
+  "groupDetailAddTestFab": "Add",
+  "groupDetailEmptyMessage": "No tests in this group.\nTap + to add the first test.",
+  "groupDetailErrorMessage": "Error: {message}",
+  "@groupDetailErrorMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Unknown error"
+      }
+    }
+  },
+  "groupDetailUnknownError": "Unknown error",
+  "groupDetailRemoveTestTitle": "Remove test from group?",
+  "groupDetailRemoveTestMessage": "Test \"{title}\" will be removed from this group, but not deleted.",
+  "@groupDetailRemoveTestMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "My test"
+      }
+    }
+  },
+  "groupDetailRemoveTestLastGroupTitle": "Last group",
+  "groupDetailRemoveTestLastGroupMessage": "This is the last group for test \"{title}\". The test will remain without a group.",
+  "@groupDetailRemoveTestLastGroupMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "My test"
+      }
+    }
+  },
+  "groupDetailRemoveTestCancel": "Cancel",
+  "groupDetailRemoveTestConfirm": "Remove",
+  "groupDetailEditTitleDialogTitle": "Rename group",
+  "groupDetailEditTitleHint": "Group name",
+  "groupDetailEditTitleCancel": "Cancel",
+  "groupDetailEditTitleSave": "Save",
+  "groupDetailNewTestDialogTitle": "New test",
+  "groupDetailNewTestNameHint": "Test name",
+  "groupDetailNewTestDescriptionHint": "Description (optional)",
+  "groupDetailNewTestCancel": "Cancel",
+  "groupDetailNewTestCreate": "Create"
 }

@@ -3,6 +3,843 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
+class TestGroups extends Table
+    with TableInfo<TestGroups, TestGroupDatabaseDto> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  TestGroups(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'title', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  @override
+  List<GeneratedColumn> get $columns => [id, title, createdAt, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'test_groups';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<TestGroupDatabaseDto> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TestGroupDatabaseDto map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TestGroupDatabaseDto(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+    );
+  }
+
+  @override
+  TestGroups createAlias(String alias) {
+    return TestGroups(attachedDatabase, alias);
+  }
+
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class TestGroupDatabaseDto extends DataClass
+    implements Insertable<TestGroupDatabaseDto> {
+  final int id;
+  final String title;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const TestGroupDatabaseDto(
+      {required this.id,
+      required this.title,
+      required this.createdAt,
+      required this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['title'] = Variable<String>(title);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  TestGroupsCompanion toCompanion(bool nullToAbsent) {
+    return TestGroupsCompanion(
+      id: Value(id),
+      title: Value(title),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory TestGroupDatabaseDto.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TestGroupDatabaseDto(
+      id: serializer.fromJson<int>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      createdAt: serializer.fromJson<DateTime>(json['created_at']),
+      updatedAt: serializer.fromJson<DateTime>(json['updated_at']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'title': serializer.toJson<String>(title),
+      'created_at': serializer.toJson<DateTime>(createdAt),
+      'updated_at': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  TestGroupDatabaseDto copyWith(
+          {int? id, String? title, DateTime? createdAt, DateTime? updatedAt}) =>
+      TestGroupDatabaseDto(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  TestGroupDatabaseDto copyWithCompanion(TestGroupsCompanion data) {
+    return TestGroupDatabaseDto(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TestGroupDatabaseDto(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, title, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TestGroupDatabaseDto &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class TestGroupsCompanion extends UpdateCompanion<TestGroupDatabaseDto> {
+  final Value<int> id;
+  final Value<String> title;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  const TestGroupsCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  TestGroupsCompanion.insert({
+    this.id = const Value.absent(),
+    required String title,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+  })  : title = Value(title),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt);
+  static Insertable<TestGroupDatabaseDto> custom({
+    Expression<int>? id,
+    Expression<String>? title,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  TestGroupsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? title,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt}) {
+    return TestGroupsCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TestGroupsCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class Tests extends Table with TableInfo<Tests, TestDatabaseDto> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  Tests(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _titleMeta = const VerificationMeta('title');
+  late final GeneratedColumn<String> title = GeneratedColumn<String>(
+      'title', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _descriptionMeta =
+      const VerificationMeta('description');
+  late final GeneratedColumn<String> description = GeneratedColumn<String>(
+      'description', aliasedName, true,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: '');
+  static const VerificationMeta _typeMeta = const VerificationMeta('type');
+  late final GeneratedColumn<String> type = GeneratedColumn<String>(
+      'type', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _createdAtMeta =
+      const VerificationMeta('createdAt');
+  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
+      'created_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _updatedAtMeta =
+      const VerificationMeta('updatedAt');
+  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
+      'updated_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, title, description, type, createdAt, updatedAt];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'tests';
+  @override
+  VerificationContext validateIntegrity(Insertable<TestDatabaseDto> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('title')) {
+      context.handle(
+          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
+    } else if (isInserting) {
+      context.missing(_titleMeta);
+    }
+    if (data.containsKey('description')) {
+      context.handle(
+          _descriptionMeta,
+          description.isAcceptableOrUnknown(
+              data['description']!, _descriptionMeta));
+    }
+    if (data.containsKey('type')) {
+      context.handle(
+          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
+    } else if (isInserting) {
+      context.missing(_typeMeta);
+    }
+    if (data.containsKey('created_at')) {
+      context.handle(_createdAtMeta,
+          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
+    } else if (isInserting) {
+      context.missing(_createdAtMeta);
+    }
+    if (data.containsKey('updated_at')) {
+      context.handle(_updatedAtMeta,
+          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
+    } else if (isInserting) {
+      context.missing(_updatedAtMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TestDatabaseDto map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TestDatabaseDto(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      title: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      description: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}description']),
+      type: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      createdAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
+      updatedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
+    );
+  }
+
+  @override
+  Tests createAlias(String alias) {
+    return Tests(attachedDatabase, alias);
+  }
+
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
+  final int id;
+  final String title;
+  final String? description;
+  final String type;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  const TestDatabaseDto(
+      {required this.id,
+      required this.title,
+      this.description,
+      required this.type,
+      required this.createdAt,
+      required this.updatedAt});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['title'] = Variable<String>(title);
+    if (!nullToAbsent || description != null) {
+      map['description'] = Variable<String>(description);
+    }
+    map['type'] = Variable<String>(type);
+    map['created_at'] = Variable<DateTime>(createdAt);
+    map['updated_at'] = Variable<DateTime>(updatedAt);
+    return map;
+  }
+
+  TestsCompanion toCompanion(bool nullToAbsent) {
+    return TestsCompanion(
+      id: Value(id),
+      title: Value(title),
+      description: description == null && nullToAbsent
+          ? const Value.absent()
+          : Value(description),
+      type: Value(type),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+  }
+
+  factory TestDatabaseDto.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TestDatabaseDto(
+      id: serializer.fromJson<int>(json['id']),
+      title: serializer.fromJson<String>(json['title']),
+      description: serializer.fromJson<String?>(json['description']),
+      type: serializer.fromJson<String>(json['type']),
+      createdAt: serializer.fromJson<DateTime>(json['created_at']),
+      updatedAt: serializer.fromJson<DateTime>(json['updated_at']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'title': serializer.toJson<String>(title),
+      'description': serializer.toJson<String?>(description),
+      'type': serializer.toJson<String>(type),
+      'created_at': serializer.toJson<DateTime>(createdAt),
+      'updated_at': serializer.toJson<DateTime>(updatedAt),
+    };
+  }
+
+  TestDatabaseDto copyWith(
+          {int? id,
+          String? title,
+          Value<String?> description = const Value.absent(),
+          String? type,
+          DateTime? createdAt,
+          DateTime? updatedAt}) =>
+      TestDatabaseDto(
+        id: id ?? this.id,
+        title: title ?? this.title,
+        description: description.present ? description.value : this.description,
+        type: type ?? this.type,
+        createdAt: createdAt ?? this.createdAt,
+        updatedAt: updatedAt ?? this.updatedAt,
+      );
+  TestDatabaseDto copyWithCompanion(TestsCompanion data) {
+    return TestDatabaseDto(
+      id: data.id.present ? data.id.value : this.id,
+      title: data.title.present ? data.title.value : this.title,
+      description:
+          data.description.present ? data.description.value : this.description,
+      type: data.type.present ? data.type.value : this.type,
+      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
+      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TestDatabaseDto(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('description: $description, ')
+          ..write('type: $type, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, title, description, type, createdAt, updatedAt);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TestDatabaseDto &&
+          other.id == this.id &&
+          other.title == this.title &&
+          other.description == this.description &&
+          other.type == this.type &&
+          other.createdAt == this.createdAt &&
+          other.updatedAt == this.updatedAt);
+}
+
+class TestsCompanion extends UpdateCompanion<TestDatabaseDto> {
+  final Value<int> id;
+  final Value<String> title;
+  final Value<String?> description;
+  final Value<String> type;
+  final Value<DateTime> createdAt;
+  final Value<DateTime> updatedAt;
+  const TestsCompanion({
+    this.id = const Value.absent(),
+    this.title = const Value.absent(),
+    this.description = const Value.absent(),
+    this.type = const Value.absent(),
+    this.createdAt = const Value.absent(),
+    this.updatedAt = const Value.absent(),
+  });
+  TestsCompanion.insert({
+    this.id = const Value.absent(),
+    required String title,
+    this.description = const Value.absent(),
+    required String type,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+  })  : title = Value(title),
+        type = Value(type),
+        createdAt = Value(createdAt),
+        updatedAt = Value(updatedAt);
+  static Insertable<TestDatabaseDto> custom({
+    Expression<int>? id,
+    Expression<String>? title,
+    Expression<String>? description,
+    Expression<String>? type,
+    Expression<DateTime>? createdAt,
+    Expression<DateTime>? updatedAt,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (title != null) 'title': title,
+      if (description != null) 'description': description,
+      if (type != null) 'type': type,
+      if (createdAt != null) 'created_at': createdAt,
+      if (updatedAt != null) 'updated_at': updatedAt,
+    });
+  }
+
+  TestsCompanion copyWith(
+      {Value<int>? id,
+      Value<String>? title,
+      Value<String?>? description,
+      Value<String>? type,
+      Value<DateTime>? createdAt,
+      Value<DateTime>? updatedAt}) {
+    return TestsCompanion(
+      id: id ?? this.id,
+      title: title ?? this.title,
+      description: description ?? this.description,
+      type: type ?? this.type,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (title.present) {
+      map['title'] = Variable<String>(title.value);
+    }
+    if (description.present) {
+      map['description'] = Variable<String>(description.value);
+    }
+    if (type.present) {
+      map['type'] = Variable<String>(type.value);
+    }
+    if (createdAt.present) {
+      map['created_at'] = Variable<DateTime>(createdAt.value);
+    }
+    if (updatedAt.present) {
+      map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TestsCompanion(')
+          ..write('id: $id, ')
+          ..write('title: $title, ')
+          ..write('description: $description, ')
+          ..write('type: $type, ')
+          ..write('createdAt: $createdAt, ')
+          ..write('updatedAt: $updatedAt')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class TestGroupEntries extends Table
+    with TableInfo<TestGroupEntries, TestGroupEntryDatabaseDto> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  TestGroupEntries(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+  static const VerificationMeta _groupIdMeta =
+      const VerificationMeta('groupId');
+  late final GeneratedColumn<int> groupId = GeneratedColumn<int>(
+      'group_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints:
+          'NOT NULL REFERENCES test_groups(id)ON DELETE CASCADE');
+  static const VerificationMeta _testIdMeta = const VerificationMeta('testId');
+  late final GeneratedColumn<int> testId = GeneratedColumn<int>(
+      'test_id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL REFERENCES tests(id)ON DELETE CASCADE');
+  @override
+  List<GeneratedColumn> get $columns => [id, groupId, testId];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'test_group_entries';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<TestGroupEntryDatabaseDto> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('group_id')) {
+      context.handle(_groupIdMeta,
+          groupId.isAcceptableOrUnknown(data['group_id']!, _groupIdMeta));
+    } else if (isInserting) {
+      context.missing(_groupIdMeta);
+    }
+    if (data.containsKey('test_id')) {
+      context.handle(_testIdMeta,
+          testId.isAcceptableOrUnknown(data['test_id']!, _testIdMeta));
+    } else if (isInserting) {
+      context.missing(_testIdMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  List<Set<GeneratedColumn>> get uniqueKeys => [
+        {groupId, testId},
+      ];
+  @override
+  TestGroupEntryDatabaseDto map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TestGroupEntryDatabaseDto(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      groupId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}group_id'])!,
+      testId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}test_id'])!,
+    );
+  }
+
+  @override
+  TestGroupEntries createAlias(String alias) {
+    return TestGroupEntries(attachedDatabase, alias);
+  }
+
+  @override
+  List<String> get customConstraints => const ['UNIQUE(group_id, test_id)'];
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class TestGroupEntryDatabaseDto extends DataClass
+    implements Insertable<TestGroupEntryDatabaseDto> {
+  final int id;
+  final int groupId;
+  final int testId;
+  const TestGroupEntryDatabaseDto(
+      {required this.id, required this.groupId, required this.testId});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['group_id'] = Variable<int>(groupId);
+    map['test_id'] = Variable<int>(testId);
+    return map;
+  }
+
+  TestGroupEntriesCompanion toCompanion(bool nullToAbsent) {
+    return TestGroupEntriesCompanion(
+      id: Value(id),
+      groupId: Value(groupId),
+      testId: Value(testId),
+    );
+  }
+
+  factory TestGroupEntryDatabaseDto.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TestGroupEntryDatabaseDto(
+      id: serializer.fromJson<int>(json['id']),
+      groupId: serializer.fromJson<int>(json['group_id']),
+      testId: serializer.fromJson<int>(json['test_id']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'group_id': serializer.toJson<int>(groupId),
+      'test_id': serializer.toJson<int>(testId),
+    };
+  }
+
+  TestGroupEntryDatabaseDto copyWith({int? id, int? groupId, int? testId}) =>
+      TestGroupEntryDatabaseDto(
+        id: id ?? this.id,
+        groupId: groupId ?? this.groupId,
+        testId: testId ?? this.testId,
+      );
+  TestGroupEntryDatabaseDto copyWithCompanion(TestGroupEntriesCompanion data) {
+    return TestGroupEntryDatabaseDto(
+      id: data.id.present ? data.id.value : this.id,
+      groupId: data.groupId.present ? data.groupId.value : this.groupId,
+      testId: data.testId.present ? data.testId.value : this.testId,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TestGroupEntryDatabaseDto(')
+          ..write('id: $id, ')
+          ..write('groupId: $groupId, ')
+          ..write('testId: $testId')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, groupId, testId);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TestGroupEntryDatabaseDto &&
+          other.id == this.id &&
+          other.groupId == this.groupId &&
+          other.testId == this.testId);
+}
+
+class TestGroupEntriesCompanion
+    extends UpdateCompanion<TestGroupEntryDatabaseDto> {
+  final Value<int> id;
+  final Value<int> groupId;
+  final Value<int> testId;
+  const TestGroupEntriesCompanion({
+    this.id = const Value.absent(),
+    this.groupId = const Value.absent(),
+    this.testId = const Value.absent(),
+  });
+  TestGroupEntriesCompanion.insert({
+    this.id = const Value.absent(),
+    required int groupId,
+    required int testId,
+  })  : groupId = Value(groupId),
+        testId = Value(testId);
+  static Insertable<TestGroupEntryDatabaseDto> custom({
+    Expression<int>? id,
+    Expression<int>? groupId,
+    Expression<int>? testId,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (groupId != null) 'group_id': groupId,
+      if (testId != null) 'test_id': testId,
+    });
+  }
+
+  TestGroupEntriesCompanion copyWith(
+      {Value<int>? id, Value<int>? groupId, Value<int>? testId}) {
+    return TestGroupEntriesCompanion(
+      id: id ?? this.id,
+      groupId: groupId ?? this.groupId,
+      testId: testId ?? this.testId,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (groupId.present) {
+      map['group_id'] = Variable<int>(groupId.value);
+    }
+    if (testId.present) {
+      map['test_id'] = Variable<int>(testId.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TestGroupEntriesCompanion(')
+          ..write('id: $id, ')
+          ..write('groupId: $groupId, ')
+          ..write('testId: $testId')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class QuestionStats extends Table
     with TableInfo<QuestionStats, QuestionStatsDatabaseDto> {
   @override
@@ -571,350 +1408,6 @@ class QuestionStatsCompanion extends UpdateCompanion<QuestionStatsDatabaseDto> {
   }
 }
 
-class Tests extends Table with TableInfo<Tests, TestDatabaseDto> {
-  @override
-  final GeneratedDatabase attachedDatabase;
-  final String? _alias;
-  Tests(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
-      'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
-  static const VerificationMeta _titleMeta = const VerificationMeta('title');
-  late final GeneratedColumn<String> title = GeneratedColumn<String>(
-      'title', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL');
-  static const VerificationMeta _descriptionMeta =
-      const VerificationMeta('description');
-  late final GeneratedColumn<String> description = GeneratedColumn<String>(
-      'description', aliasedName, true,
-      type: DriftSqlType.string,
-      requiredDuringInsert: false,
-      $customConstraints: '');
-  static const VerificationMeta _typeMeta = const VerificationMeta('type');
-  late final GeneratedColumn<String> type = GeneratedColumn<String>(
-      'type', aliasedName, false,
-      type: DriftSqlType.string,
-      requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL');
-  static const VerificationMeta _createdAtMeta =
-      const VerificationMeta('createdAt');
-  late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
-      'created_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL');
-  static const VerificationMeta _updatedAtMeta =
-      const VerificationMeta('updatedAt');
-  late final GeneratedColumn<DateTime> updatedAt = GeneratedColumn<DateTime>(
-      'updated_at', aliasedName, false,
-      type: DriftSqlType.dateTime,
-      requiredDuringInsert: true,
-      $customConstraints: 'NOT NULL');
-  @override
-  List<GeneratedColumn> get $columns =>
-      [id, title, description, type, createdAt, updatedAt];
-  @override
-  String get aliasedName => _alias ?? actualTableName;
-  @override
-  String get actualTableName => $name;
-  static const String $name = 'tests';
-  @override
-  VerificationContext validateIntegrity(Insertable<TestDatabaseDto> instance,
-      {bool isInserting = false}) {
-    final context = VerificationContext();
-    final data = instance.toColumns(true);
-    if (data.containsKey('id')) {
-      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
-    }
-    if (data.containsKey('title')) {
-      context.handle(
-          _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
-    } else if (isInserting) {
-      context.missing(_titleMeta);
-    }
-    if (data.containsKey('description')) {
-      context.handle(
-          _descriptionMeta,
-          description.isAcceptableOrUnknown(
-              data['description']!, _descriptionMeta));
-    }
-    if (data.containsKey('type')) {
-      context.handle(
-          _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
-    } else if (isInserting) {
-      context.missing(_typeMeta);
-    }
-    if (data.containsKey('created_at')) {
-      context.handle(_createdAtMeta,
-          createdAt.isAcceptableOrUnknown(data['created_at']!, _createdAtMeta));
-    } else if (isInserting) {
-      context.missing(_createdAtMeta);
-    }
-    if (data.containsKey('updated_at')) {
-      context.handle(_updatedAtMeta,
-          updatedAt.isAcceptableOrUnknown(data['updated_at']!, _updatedAtMeta));
-    } else if (isInserting) {
-      context.missing(_updatedAtMeta);
-    }
-    return context;
-  }
-
-  @override
-  Set<GeneratedColumn> get $primaryKey => {id};
-  @override
-  TestDatabaseDto map(Map<String, dynamic> data, {String? tablePrefix}) {
-    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return TestDatabaseDto(
-      id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
-      title: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
-      description: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}description']),
-      type: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
-      createdAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
-      updatedAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}updated_at'])!,
-    );
-  }
-
-  @override
-  Tests createAlias(String alias) {
-    return Tests(attachedDatabase, alias);
-  }
-
-  @override
-  bool get dontWriteConstraints => true;
-}
-
-class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
-  final int id;
-  final String title;
-  final String? description;
-  final String type;
-  final DateTime createdAt;
-  final DateTime updatedAt;
-  const TestDatabaseDto(
-      {required this.id,
-      required this.title,
-      this.description,
-      required this.type,
-      required this.createdAt,
-      required this.updatedAt});
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['title'] = Variable<String>(title);
-    if (!nullToAbsent || description != null) {
-      map['description'] = Variable<String>(description);
-    }
-    map['type'] = Variable<String>(type);
-    map['created_at'] = Variable<DateTime>(createdAt);
-    map['updated_at'] = Variable<DateTime>(updatedAt);
-    return map;
-  }
-
-  TestsCompanion toCompanion(bool nullToAbsent) {
-    return TestsCompanion(
-      id: Value(id),
-      title: Value(title),
-      description: description == null && nullToAbsent
-          ? const Value.absent()
-          : Value(description),
-      type: Value(type),
-      createdAt: Value(createdAt),
-      updatedAt: Value(updatedAt),
-    );
-  }
-
-  factory TestDatabaseDto.fromJson(Map<String, dynamic> json,
-      {ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return TestDatabaseDto(
-      id: serializer.fromJson<int>(json['id']),
-      title: serializer.fromJson<String>(json['title']),
-      description: serializer.fromJson<String?>(json['description']),
-      type: serializer.fromJson<String>(json['type']),
-      createdAt: serializer.fromJson<DateTime>(json['created_at']),
-      updatedAt: serializer.fromJson<DateTime>(json['updated_at']),
-    );
-  }
-  @override
-  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
-    serializer ??= driftRuntimeOptions.defaultSerializer;
-    return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'title': serializer.toJson<String>(title),
-      'description': serializer.toJson<String?>(description),
-      'type': serializer.toJson<String>(type),
-      'created_at': serializer.toJson<DateTime>(createdAt),
-      'updated_at': serializer.toJson<DateTime>(updatedAt),
-    };
-  }
-
-  TestDatabaseDto copyWith(
-          {int? id,
-          String? title,
-          Value<String?> description = const Value.absent(),
-          String? type,
-          DateTime? createdAt,
-          DateTime? updatedAt}) =>
-      TestDatabaseDto(
-        id: id ?? this.id,
-        title: title ?? this.title,
-        description: description.present ? description.value : this.description,
-        type: type ?? this.type,
-        createdAt: createdAt ?? this.createdAt,
-        updatedAt: updatedAt ?? this.updatedAt,
-      );
-  TestDatabaseDto copyWithCompanion(TestsCompanion data) {
-    return TestDatabaseDto(
-      id: data.id.present ? data.id.value : this.id,
-      title: data.title.present ? data.title.value : this.title,
-      description:
-          data.description.present ? data.description.value : this.description,
-      type: data.type.present ? data.type.value : this.type,
-      createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
-      updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
-    );
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TestDatabaseDto(')
-          ..write('id: $id, ')
-          ..write('title: $title, ')
-          ..write('description: $description, ')
-          ..write('type: $type, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
-          ..write(')'))
-        .toString();
-  }
-
-  @override
-  int get hashCode =>
-      Object.hash(id, title, description, type, createdAt, updatedAt);
-  @override
-  bool operator ==(Object other) =>
-      identical(this, other) ||
-      (other is TestDatabaseDto &&
-          other.id == this.id &&
-          other.title == this.title &&
-          other.description == this.description &&
-          other.type == this.type &&
-          other.createdAt == this.createdAt &&
-          other.updatedAt == this.updatedAt);
-}
-
-class TestsCompanion extends UpdateCompanion<TestDatabaseDto> {
-  final Value<int> id;
-  final Value<String> title;
-  final Value<String?> description;
-  final Value<String> type;
-  final Value<DateTime> createdAt;
-  final Value<DateTime> updatedAt;
-  const TestsCompanion({
-    this.id = const Value.absent(),
-    this.title = const Value.absent(),
-    this.description = const Value.absent(),
-    this.type = const Value.absent(),
-    this.createdAt = const Value.absent(),
-    this.updatedAt = const Value.absent(),
-  });
-  TestsCompanion.insert({
-    this.id = const Value.absent(),
-    required String title,
-    this.description = const Value.absent(),
-    required String type,
-    required DateTime createdAt,
-    required DateTime updatedAt,
-  })  : title = Value(title),
-        type = Value(type),
-        createdAt = Value(createdAt),
-        updatedAt = Value(updatedAt);
-  static Insertable<TestDatabaseDto> custom({
-    Expression<int>? id,
-    Expression<String>? title,
-    Expression<String>? description,
-    Expression<String>? type,
-    Expression<DateTime>? createdAt,
-    Expression<DateTime>? updatedAt,
-  }) {
-    return RawValuesInsertable({
-      if (id != null) 'id': id,
-      if (title != null) 'title': title,
-      if (description != null) 'description': description,
-      if (type != null) 'type': type,
-      if (createdAt != null) 'created_at': createdAt,
-      if (updatedAt != null) 'updated_at': updatedAt,
-    });
-  }
-
-  TestsCompanion copyWith(
-      {Value<int>? id,
-      Value<String>? title,
-      Value<String?>? description,
-      Value<String>? type,
-      Value<DateTime>? createdAt,
-      Value<DateTime>? updatedAt}) {
-    return TestsCompanion(
-      id: id ?? this.id,
-      title: title ?? this.title,
-      description: description ?? this.description,
-      type: type ?? this.type,
-      createdAt: createdAt ?? this.createdAt,
-      updatedAt: updatedAt ?? this.updatedAt,
-    );
-  }
-
-  @override
-  Map<String, Expression> toColumns(bool nullToAbsent) {
-    final map = <String, Expression>{};
-    if (id.present) {
-      map['id'] = Variable<int>(id.value);
-    }
-    if (title.present) {
-      map['title'] = Variable<String>(title.value);
-    }
-    if (description.present) {
-      map['description'] = Variable<String>(description.value);
-    }
-    if (type.present) {
-      map['type'] = Variable<String>(type.value);
-    }
-    if (createdAt.present) {
-      map['created_at'] = Variable<DateTime>(createdAt.value);
-    }
-    if (updatedAt.present) {
-      map['updated_at'] = Variable<DateTime>(updatedAt.value);
-    }
-    return map;
-  }
-
-  @override
-  String toString() {
-    return (StringBuffer('TestsCompanion(')
-          ..write('id: $id, ')
-          ..write('title: $title, ')
-          ..write('description: $description, ')
-          ..write('type: $type, ')
-          ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
-          ..write(')'))
-        .toString();
-  }
-}
-
 class Cards extends Table with TableInfo<Cards, CardDatabaseDto> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -1258,22 +1751,40 @@ class CardsCompanion extends UpdateCompanion<CardDatabaseDto> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
-  late final QuestionStats questionStats = QuestionStats(this);
+  late final TestGroups testGroups = TestGroups(this);
   late final Tests tests = Tests(this);
+  late final TestGroupEntries testGroupEntries = TestGroupEntries(this);
+  late final QuestionStats questionStats = QuestionStats(this);
   late final Cards cards = Cards(this);
   late final TestsDatabase testsDatabase = TestsDatabase(this as AppDatabase);
   late final CardsDatabase cardsDatabase = CardsDatabase(this as AppDatabase);
   late final QuestionStatsDatabase questionStatsDatabase =
       QuestionStatsDatabase(this as AppDatabase);
+  late final GroupsDatabase groupsDatabase =
+      GroupsDatabase(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [questionStats, tests, cards];
+      [testGroups, tests, testGroupEntries, questionStats, cards];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
         [
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('test_groups',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('test_group_entries', kind: UpdateKind.delete),
+            ],
+          ),
+          WritePropagation(
+            on: TableUpdateQuery.onTableName('tests',
+                limitUpdateKind: UpdateKind.delete),
+            result: [
+              TableUpdate('test_group_entries', kind: UpdateKind.delete),
+            ],
+          ),
           WritePropagation(
             on: TableUpdateQuery.onTableName('tests',
                 limitUpdateKind: UpdateKind.delete),
@@ -1285,6 +1796,872 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       );
 }
 
+typedef $TestGroupsCreateCompanionBuilder = TestGroupsCompanion Function({
+  Value<int> id,
+  required String title,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+});
+typedef $TestGroupsUpdateCompanionBuilder = TestGroupsCompanion Function({
+  Value<int> id,
+  Value<String> title,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+});
+
+final class $TestGroupsReferences
+    extends BaseReferences<_$AppDatabase, TestGroups, TestGroupDatabaseDto> {
+  $TestGroupsReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<TestGroupEntries, List<TestGroupEntryDatabaseDto>>
+      _testGroupEntriesRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.testGroupEntries,
+              aliasName: $_aliasNameGenerator(
+                  db.testGroups.id, db.testGroupEntries.groupId));
+
+  $TestGroupEntriesProcessedTableManager get testGroupEntriesRefs {
+    final manager = $TestGroupEntriesTableManager($_db, $_db.testGroupEntries)
+        .filter((f) => f.groupId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_testGroupEntriesRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $TestGroupsFilterComposer extends Composer<_$AppDatabase, TestGroups> {
+  $TestGroupsFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> testGroupEntriesRefs(
+      Expression<bool> Function($TestGroupEntriesFilterComposer f) f) {
+    final $TestGroupEntriesFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.testGroupEntries,
+        getReferencedColumn: (t) => t.groupId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $TestGroupEntriesFilterComposer(
+              $db: $db,
+              $table: $db.testGroupEntries,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $TestGroupsOrderingComposer extends Composer<_$AppDatabase, TestGroups> {
+  $TestGroupsOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $TestGroupsAnnotationComposer
+    extends Composer<_$AppDatabase, TestGroups> {
+  $TestGroupsAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  Expression<T> testGroupEntriesRefs<T extends Object>(
+      Expression<T> Function($TestGroupEntriesAnnotationComposer a) f) {
+    final $TestGroupEntriesAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.testGroupEntries,
+        getReferencedColumn: (t) => t.groupId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $TestGroupEntriesAnnotationComposer(
+              $db: $db,
+              $table: $db.testGroupEntries,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $TestGroupsTableManager extends RootTableManager<
+    _$AppDatabase,
+    TestGroups,
+    TestGroupDatabaseDto,
+    $TestGroupsFilterComposer,
+    $TestGroupsOrderingComposer,
+    $TestGroupsAnnotationComposer,
+    $TestGroupsCreateCompanionBuilder,
+    $TestGroupsUpdateCompanionBuilder,
+    (TestGroupDatabaseDto, $TestGroupsReferences),
+    TestGroupDatabaseDto,
+    PrefetchHooks Function({bool testGroupEntriesRefs})> {
+  $TestGroupsTableManager(_$AppDatabase db, TestGroups table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $TestGroupsFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $TestGroupsOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $TestGroupsAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> title = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+          }) =>
+              TestGroupsCompanion(
+            id: id,
+            title: title,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String title,
+            required DateTime createdAt,
+            required DateTime updatedAt,
+          }) =>
+              TestGroupsCompanion.insert(
+            id: id,
+            title: title,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) =>
+                  (e.readTable(table), $TestGroupsReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: ({testGroupEntriesRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (testGroupEntriesRefs) db.testGroupEntries
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (testGroupEntriesRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $TestGroupsReferences
+                            ._testGroupEntriesRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $TestGroupsReferences(db, table, p0)
+                                .testGroupEntriesRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.groupId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
+        ));
+}
+
+typedef $TestGroupsProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    TestGroups,
+    TestGroupDatabaseDto,
+    $TestGroupsFilterComposer,
+    $TestGroupsOrderingComposer,
+    $TestGroupsAnnotationComposer,
+    $TestGroupsCreateCompanionBuilder,
+    $TestGroupsUpdateCompanionBuilder,
+    (TestGroupDatabaseDto, $TestGroupsReferences),
+    TestGroupDatabaseDto,
+    PrefetchHooks Function({bool testGroupEntriesRefs})>;
+typedef $TestsCreateCompanionBuilder = TestsCompanion Function({
+  Value<int> id,
+  required String title,
+  Value<String?> description,
+  required String type,
+  required DateTime createdAt,
+  required DateTime updatedAt,
+});
+typedef $TestsUpdateCompanionBuilder = TestsCompanion Function({
+  Value<int> id,
+  Value<String> title,
+  Value<String?> description,
+  Value<String> type,
+  Value<DateTime> createdAt,
+  Value<DateTime> updatedAt,
+});
+
+final class $TestsReferences
+    extends BaseReferences<_$AppDatabase, Tests, TestDatabaseDto> {
+  $TestsReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static MultiTypedResultKey<TestGroupEntries, List<TestGroupEntryDatabaseDto>>
+      _testGroupEntriesRefsTable(_$AppDatabase db) =>
+          MultiTypedResultKey.fromTable(db.testGroupEntries,
+              aliasName: $_aliasNameGenerator(
+                  db.tests.id, db.testGroupEntries.testId));
+
+  $TestGroupEntriesProcessedTableManager get testGroupEntriesRefs {
+    final manager = $TestGroupEntriesTableManager($_db, $_db.testGroupEntries)
+        .filter((f) => f.testId.id($_item.id));
+
+    final cache =
+        $_typedResult.readTableOrNull(_testGroupEntriesRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+
+  static MultiTypedResultKey<Cards, List<CardDatabaseDto>> _cardsRefsTable(
+          _$AppDatabase db) =>
+      MultiTypedResultKey.fromTable(db.cards,
+          aliasName: $_aliasNameGenerator(db.tests.id, db.cards.testId));
+
+  $CardsProcessedTableManager get cardsRefs {
+    final manager = $CardsTableManager($_db, $_db.cards)
+        .filter((f) => f.testId.id($_item.id));
+
+    final cache = $_typedResult.readTableOrNull(_cardsRefsTable($_db));
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: cache));
+  }
+}
+
+class $TestsFilterComposer extends Composer<_$AppDatabase, Tests> {
+  $TestsFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
+
+  Expression<bool> testGroupEntriesRefs(
+      Expression<bool> Function($TestGroupEntriesFilterComposer f) f) {
+    final $TestGroupEntriesFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.testGroupEntries,
+        getReferencedColumn: (t) => t.testId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $TestGroupEntriesFilterComposer(
+              $db: $db,
+              $table: $db.testGroupEntries,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<bool> cardsRefs(
+      Expression<bool> Function($CardsFilterComposer f) f) {
+    final $CardsFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.cards,
+        getReferencedColumn: (t) => t.testId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $CardsFilterComposer(
+              $db: $db,
+              $table: $db.cards,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $TestsOrderingComposer extends Composer<_$AppDatabase, Tests> {
+  $TestsOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get title => $composableBuilder(
+      column: $table.title, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get type => $composableBuilder(
+      column: $table.type, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
+      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
+      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
+}
+
+class $TestsAnnotationComposer extends Composer<_$AppDatabase, Tests> {
+  $TestsAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get title =>
+      $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get description => $composableBuilder(
+      column: $table.description, builder: (column) => column);
+
+  GeneratedColumn<String> get type =>
+      $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get createdAt =>
+      $composableBuilder(column: $table.createdAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get updatedAt =>
+      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
+
+  Expression<T> testGroupEntriesRefs<T extends Object>(
+      Expression<T> Function($TestGroupEntriesAnnotationComposer a) f) {
+    final $TestGroupEntriesAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.testGroupEntries,
+        getReferencedColumn: (t) => t.testId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $TestGroupEntriesAnnotationComposer(
+              $db: $db,
+              $table: $db.testGroupEntries,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+
+  Expression<T> cardsRefs<T extends Object>(
+      Expression<T> Function($CardsAnnotationComposer a) f) {
+    final $CardsAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.id,
+        referencedTable: $db.cards,
+        getReferencedColumn: (t) => t.testId,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $CardsAnnotationComposer(
+              $db: $db,
+              $table: $db.cards,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return f(composer);
+  }
+}
+
+class $TestsTableManager extends RootTableManager<
+    _$AppDatabase,
+    Tests,
+    TestDatabaseDto,
+    $TestsFilterComposer,
+    $TestsOrderingComposer,
+    $TestsAnnotationComposer,
+    $TestsCreateCompanionBuilder,
+    $TestsUpdateCompanionBuilder,
+    (TestDatabaseDto, $TestsReferences),
+    TestDatabaseDto,
+    PrefetchHooks Function({bool testGroupEntriesRefs, bool cardsRefs})> {
+  $TestsTableManager(_$AppDatabase db, Tests table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $TestsFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $TestsOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $TestsAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> title = const Value.absent(),
+            Value<String?> description = const Value.absent(),
+            Value<String> type = const Value.absent(),
+            Value<DateTime> createdAt = const Value.absent(),
+            Value<DateTime> updatedAt = const Value.absent(),
+          }) =>
+              TestsCompanion(
+            id: id,
+            title: title,
+            description: description,
+            type: type,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String title,
+            Value<String?> description = const Value.absent(),
+            required String type,
+            required DateTime createdAt,
+            required DateTime updatedAt,
+          }) =>
+              TestsCompanion.insert(
+            id: id,
+            title: title,
+            description: description,
+            type: type,
+            createdAt: createdAt,
+            updatedAt: updatedAt,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), $TestsReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: (
+              {testGroupEntriesRefs = false, cardsRefs = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [
+                if (testGroupEntriesRefs) db.testGroupEntries,
+                if (cardsRefs) db.cards
+              ],
+              addJoins: null,
+              getPrefetchedDataCallback: (items) async {
+                return [
+                  if (testGroupEntriesRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable:
+                            $TestsReferences._testGroupEntriesRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $TestsReferences(db, table, p0)
+                                .testGroupEntriesRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.testId == item.id),
+                        typedResults: items),
+                  if (cardsRefs)
+                    await $_getPrefetchedData(
+                        currentTable: table,
+                        referencedTable: $TestsReferences._cardsRefsTable(db),
+                        managerFromTypedResult: (p0) =>
+                            $TestsReferences(db, table, p0).cardsRefs,
+                        referencedItemsForCurrentItem: (item,
+                                referencedItems) =>
+                            referencedItems.where((e) => e.testId == item.id),
+                        typedResults: items)
+                ];
+              },
+            );
+          },
+        ));
+}
+
+typedef $TestsProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    Tests,
+    TestDatabaseDto,
+    $TestsFilterComposer,
+    $TestsOrderingComposer,
+    $TestsAnnotationComposer,
+    $TestsCreateCompanionBuilder,
+    $TestsUpdateCompanionBuilder,
+    (TestDatabaseDto, $TestsReferences),
+    TestDatabaseDto,
+    PrefetchHooks Function({bool testGroupEntriesRefs, bool cardsRefs})>;
+typedef $TestGroupEntriesCreateCompanionBuilder = TestGroupEntriesCompanion
+    Function({
+  Value<int> id,
+  required int groupId,
+  required int testId,
+});
+typedef $TestGroupEntriesUpdateCompanionBuilder = TestGroupEntriesCompanion
+    Function({
+  Value<int> id,
+  Value<int> groupId,
+  Value<int> testId,
+});
+
+final class $TestGroupEntriesReferences extends BaseReferences<_$AppDatabase,
+    TestGroupEntries, TestGroupEntryDatabaseDto> {
+  $TestGroupEntriesReferences(super.$_db, super.$_table, super.$_typedResult);
+
+  static TestGroups _groupIdTable(_$AppDatabase db) =>
+      db.testGroups.createAlias(
+          $_aliasNameGenerator(db.testGroupEntries.groupId, db.testGroups.id));
+
+  $TestGroupsProcessedTableManager get groupId {
+    final manager = $TestGroupsTableManager($_db, $_db.testGroups)
+        .filter((f) => f.id($_item.groupId!));
+    final item = $_typedResult.readTableOrNull(_groupIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+
+  static Tests _testIdTable(_$AppDatabase db) => db.tests.createAlias(
+      $_aliasNameGenerator(db.testGroupEntries.testId, db.tests.id));
+
+  $TestsProcessedTableManager get testId {
+    final manager = $TestsTableManager($_db, $_db.tests)
+        .filter((f) => f.id($_item.testId!));
+    final item = $_typedResult.readTableOrNull(_testIdTable($_db));
+    if (item == null) return manager;
+    return ProcessedTableManager(
+        manager.$state.copyWith(prefetchedData: [item]));
+  }
+}
+
+class $TestGroupEntriesFilterComposer
+    extends Composer<_$AppDatabase, TestGroupEntries> {
+  $TestGroupEntriesFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  $TestGroupsFilterComposer get groupId {
+    final $TestGroupsFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.groupId,
+        referencedTable: $db.testGroups,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $TestGroupsFilterComposer(
+              $db: $db,
+              $table: $db.testGroups,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $TestsFilterComposer get testId {
+    final $TestsFilterComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.testId,
+        referencedTable: $db.tests,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $TestsFilterComposer(
+              $db: $db,
+              $table: $db.tests,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $TestGroupEntriesOrderingComposer
+    extends Composer<_$AppDatabase, TestGroupEntries> {
+  $TestGroupEntriesOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  $TestGroupsOrderingComposer get groupId {
+    final $TestGroupsOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.groupId,
+        referencedTable: $db.testGroups,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $TestGroupsOrderingComposer(
+              $db: $db,
+              $table: $db.testGroups,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $TestsOrderingComposer get testId {
+    final $TestsOrderingComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.testId,
+        referencedTable: $db.tests,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $TestsOrderingComposer(
+              $db: $db,
+              $table: $db.tests,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $TestGroupEntriesAnnotationComposer
+    extends Composer<_$AppDatabase, TestGroupEntries> {
+  $TestGroupEntriesAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  $TestGroupsAnnotationComposer get groupId {
+    final $TestGroupsAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.groupId,
+        referencedTable: $db.testGroups,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $TestGroupsAnnotationComposer(
+              $db: $db,
+              $table: $db.testGroups,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+
+  $TestsAnnotationComposer get testId {
+    final $TestsAnnotationComposer composer = $composerBuilder(
+        composer: this,
+        getCurrentColumn: (t) => t.testId,
+        referencedTable: $db.tests,
+        getReferencedColumn: (t) => t.id,
+        builder: (joinBuilder,
+                {$addJoinBuilderToRootComposer,
+                $removeJoinBuilderFromRootComposer}) =>
+            $TestsAnnotationComposer(
+              $db: $db,
+              $table: $db.tests,
+              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
+              joinBuilder: joinBuilder,
+              $removeJoinBuilderFromRootComposer:
+                  $removeJoinBuilderFromRootComposer,
+            ));
+    return composer;
+  }
+}
+
+class $TestGroupEntriesTableManager extends RootTableManager<
+    _$AppDatabase,
+    TestGroupEntries,
+    TestGroupEntryDatabaseDto,
+    $TestGroupEntriesFilterComposer,
+    $TestGroupEntriesOrderingComposer,
+    $TestGroupEntriesAnnotationComposer,
+    $TestGroupEntriesCreateCompanionBuilder,
+    $TestGroupEntriesUpdateCompanionBuilder,
+    (TestGroupEntryDatabaseDto, $TestGroupEntriesReferences),
+    TestGroupEntryDatabaseDto,
+    PrefetchHooks Function({bool groupId, bool testId})> {
+  $TestGroupEntriesTableManager(_$AppDatabase db, TestGroupEntries table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $TestGroupEntriesFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $TestGroupEntriesOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $TestGroupEntriesAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<int> groupId = const Value.absent(),
+            Value<int> testId = const Value.absent(),
+          }) =>
+              TestGroupEntriesCompanion(
+            id: id,
+            groupId: groupId,
+            testId: testId,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required int groupId,
+            required int testId,
+          }) =>
+              TestGroupEntriesCompanion.insert(
+            id: id,
+            groupId: groupId,
+            testId: testId,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (
+                    e.readTable(table),
+                    $TestGroupEntriesReferences(db, table, e)
+                  ))
+              .toList(),
+          prefetchHooksCallback: ({groupId = false, testId = false}) {
+            return PrefetchHooks(
+              db: db,
+              explicitlyWatchedTables: [],
+              addJoins: <
+                  T extends TableManagerState<
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic,
+                      dynamic>>(state) {
+                if (groupId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.groupId,
+                    referencedTable:
+                        $TestGroupEntriesReferences._groupIdTable(db),
+                    referencedColumn:
+                        $TestGroupEntriesReferences._groupIdTable(db).id,
+                  ) as T;
+                }
+                if (testId) {
+                  state = state.withJoin(
+                    currentTable: table,
+                    currentColumn: table.testId,
+                    referencedTable:
+                        $TestGroupEntriesReferences._testIdTable(db),
+                    referencedColumn:
+                        $TestGroupEntriesReferences._testIdTable(db).id,
+                  ) as T;
+                }
+
+                return state;
+              },
+              getPrefetchedDataCallback: (items) async {
+                return [];
+              },
+            );
+          },
+        ));
+}
+
+typedef $TestGroupEntriesProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    TestGroupEntries,
+    TestGroupEntryDatabaseDto,
+    $TestGroupEntriesFilterComposer,
+    $TestGroupEntriesOrderingComposer,
+    $TestGroupEntriesAnnotationComposer,
+    $TestGroupEntriesCreateCompanionBuilder,
+    $TestGroupEntriesUpdateCompanionBuilder,
+    (TestGroupEntryDatabaseDto, $TestGroupEntriesReferences),
+    TestGroupEntryDatabaseDto,
+    PrefetchHooks Function({bool groupId, bool testId})>;
 typedef $QuestionStatsCreateCompanionBuilder = QuestionStatsCompanion Function({
   Value<int> id,
   required String questionKey,
@@ -1545,258 +2922,6 @@ typedef $QuestionStatsProcessedTableManager = ProcessedTableManager<
     ),
     QuestionStatsDatabaseDto,
     PrefetchHooks Function()>;
-typedef $TestsCreateCompanionBuilder = TestsCompanion Function({
-  Value<int> id,
-  required String title,
-  Value<String?> description,
-  required String type,
-  required DateTime createdAt,
-  required DateTime updatedAt,
-});
-typedef $TestsUpdateCompanionBuilder = TestsCompanion Function({
-  Value<int> id,
-  Value<String> title,
-  Value<String?> description,
-  Value<String> type,
-  Value<DateTime> createdAt,
-  Value<DateTime> updatedAt,
-});
-
-final class $TestsReferences
-    extends BaseReferences<_$AppDatabase, Tests, TestDatabaseDto> {
-  $TestsReferences(super.$_db, super.$_table, super.$_typedResult);
-
-  static MultiTypedResultKey<Cards, List<CardDatabaseDto>> _cardsRefsTable(
-          _$AppDatabase db) =>
-      MultiTypedResultKey.fromTable(db.cards,
-          aliasName: $_aliasNameGenerator(db.tests.id, db.cards.testId));
-
-  $CardsProcessedTableManager get cardsRefs {
-    final manager = $CardsTableManager($_db, $_db.cards)
-        .filter((f) => f.testId.id($_item.id));
-
-    final cache = $_typedResult.readTableOrNull(_cardsRefsTable($_db));
-    return ProcessedTableManager(
-        manager.$state.copyWith(prefetchedData: cache));
-  }
-}
-
-class $TestsFilterComposer extends Composer<_$AppDatabase, Tests> {
-  $TestsFilterComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnFilters<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<String> get type => $composableBuilder(
-      column: $table.type, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnFilters(column));
-
-  ColumnFilters<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnFilters(column));
-
-  Expression<bool> cardsRefs(
-      Expression<bool> Function($CardsFilterComposer f) f) {
-    final $CardsFilterComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.cards,
-        getReferencedColumn: (t) => t.testId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $CardsFilterComposer(
-              $db: $db,
-              $table: $db.cards,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
-}
-
-class $TestsOrderingComposer extends Composer<_$AppDatabase, Tests> {
-  $TestsOrderingComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  ColumnOrderings<int> get id => $composableBuilder(
-      column: $table.id, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get title => $composableBuilder(
-      column: $table.title, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<String> get type => $composableBuilder(
-      column: $table.type, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<DateTime> get createdAt => $composableBuilder(
-      column: $table.createdAt, builder: (column) => ColumnOrderings(column));
-
-  ColumnOrderings<DateTime> get updatedAt => $composableBuilder(
-      column: $table.updatedAt, builder: (column) => ColumnOrderings(column));
-}
-
-class $TestsAnnotationComposer extends Composer<_$AppDatabase, Tests> {
-  $TestsAnnotationComposer({
-    required super.$db,
-    required super.$table,
-    super.joinBuilder,
-    super.$addJoinBuilderToRootComposer,
-    super.$removeJoinBuilderFromRootComposer,
-  });
-  GeneratedColumn<int> get id =>
-      $composableBuilder(column: $table.id, builder: (column) => column);
-
-  GeneratedColumn<String> get title =>
-      $composableBuilder(column: $table.title, builder: (column) => column);
-
-  GeneratedColumn<String> get description => $composableBuilder(
-      column: $table.description, builder: (column) => column);
-
-  GeneratedColumn<String> get type =>
-      $composableBuilder(column: $table.type, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get createdAt =>
-      $composableBuilder(column: $table.createdAt, builder: (column) => column);
-
-  GeneratedColumn<DateTime> get updatedAt =>
-      $composableBuilder(column: $table.updatedAt, builder: (column) => column);
-
-  Expression<T> cardsRefs<T extends Object>(
-      Expression<T> Function($CardsAnnotationComposer a) f) {
-    final $CardsAnnotationComposer composer = $composerBuilder(
-        composer: this,
-        getCurrentColumn: (t) => t.id,
-        referencedTable: $db.cards,
-        getReferencedColumn: (t) => t.testId,
-        builder: (joinBuilder,
-                {$addJoinBuilderToRootComposer,
-                $removeJoinBuilderFromRootComposer}) =>
-            $CardsAnnotationComposer(
-              $db: $db,
-              $table: $db.cards,
-              $addJoinBuilderToRootComposer: $addJoinBuilderToRootComposer,
-              joinBuilder: joinBuilder,
-              $removeJoinBuilderFromRootComposer:
-                  $removeJoinBuilderFromRootComposer,
-            ));
-    return f(composer);
-  }
-}
-
-class $TestsTableManager extends RootTableManager<
-    _$AppDatabase,
-    Tests,
-    TestDatabaseDto,
-    $TestsFilterComposer,
-    $TestsOrderingComposer,
-    $TestsAnnotationComposer,
-    $TestsCreateCompanionBuilder,
-    $TestsUpdateCompanionBuilder,
-    (TestDatabaseDto, $TestsReferences),
-    TestDatabaseDto,
-    PrefetchHooks Function({bool cardsRefs})> {
-  $TestsTableManager(_$AppDatabase db, Tests table)
-      : super(TableManagerState(
-          db: db,
-          table: table,
-          createFilteringComposer: () =>
-              $TestsFilterComposer($db: db, $table: table),
-          createOrderingComposer: () =>
-              $TestsOrderingComposer($db: db, $table: table),
-          createComputedFieldComposer: () =>
-              $TestsAnnotationComposer($db: db, $table: table),
-          updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<String> title = const Value.absent(),
-            Value<String?> description = const Value.absent(),
-            Value<String> type = const Value.absent(),
-            Value<DateTime> createdAt = const Value.absent(),
-            Value<DateTime> updatedAt = const Value.absent(),
-          }) =>
-              TestsCompanion(
-            id: id,
-            title: title,
-            description: description,
-            type: type,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-          ),
-          createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required String title,
-            Value<String?> description = const Value.absent(),
-            required String type,
-            required DateTime createdAt,
-            required DateTime updatedAt,
-          }) =>
-              TestsCompanion.insert(
-            id: id,
-            title: title,
-            description: description,
-            type: type,
-            createdAt: createdAt,
-            updatedAt: updatedAt,
-          ),
-          withReferenceMapper: (p0) => p0
-              .map((e) => (e.readTable(table), $TestsReferences(db, table, e)))
-              .toList(),
-          prefetchHooksCallback: ({cardsRefs = false}) {
-            return PrefetchHooks(
-              db: db,
-              explicitlyWatchedTables: [if (cardsRefs) db.cards],
-              addJoins: null,
-              getPrefetchedDataCallback: (items) async {
-                return [
-                  if (cardsRefs)
-                    await $_getPrefetchedData(
-                        currentTable: table,
-                        referencedTable: $TestsReferences._cardsRefsTable(db),
-                        managerFromTypedResult: (p0) =>
-                            $TestsReferences(db, table, p0).cardsRefs,
-                        referencedItemsForCurrentItem: (item,
-                                referencedItems) =>
-                            referencedItems.where((e) => e.testId == item.id),
-                        typedResults: items)
-                ];
-              },
-            );
-          },
-        ));
-}
-
-typedef $TestsProcessedTableManager = ProcessedTableManager<
-    _$AppDatabase,
-    Tests,
-    TestDatabaseDto,
-    $TestsFilterComposer,
-    $TestsOrderingComposer,
-    $TestsAnnotationComposer,
-    $TestsCreateCompanionBuilder,
-    $TestsUpdateCompanionBuilder,
-    (TestDatabaseDto, $TestsReferences),
-    TestDatabaseDto,
-    PrefetchHooks Function({bool cardsRefs})>;
 typedef $CardsCreateCompanionBuilder = CardsCompanion Function({
   Value<int> id,
   required int testId,
@@ -2072,8 +3197,12 @@ typedef $CardsProcessedTableManager = ProcessedTableManager<
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
+  $TestGroupsTableManager get testGroups =>
+      $TestGroupsTableManager(_db, _db.testGroups);
+  $TestsTableManager get tests => $TestsTableManager(_db, _db.tests);
+  $TestGroupEntriesTableManager get testGroupEntries =>
+      $TestGroupEntriesTableManager(_db, _db.testGroupEntries);
   $QuestionStatsTableManager get questionStats =>
       $QuestionStatsTableManager(_db, _db.questionStats);
-  $TestsTableManager get tests => $TestsTableManager(_db, _db.tests);
   $CardsTableManager get cards => $CardsTableManager(_db, _db.cards);
 }

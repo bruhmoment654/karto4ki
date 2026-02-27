@@ -1,5 +1,7 @@
 import 'package:quizzerg/core/services/csv_import_service.dart';
 import 'package:quizzerg/feature/card_detail/domain/repository/i_card_repository.dart';
+import 'package:quizzerg/feature/group_detail/domain/repository/i_group_detail_repository.dart';
+import 'package:quizzerg/feature/groups_list/domain/repository/i_groups_list_repository.dart';
 import 'package:quizzerg/feature/main/domain/repository/i_main_repository.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_test_detail_repository.dart';
@@ -36,6 +38,12 @@ final class AppScope implements IAppScope {
   @override
   final IQuestionStatsRepository questionStatsRepository;
 
+  @override
+  final IGroupsListRepository groupsListRepository;
+
+  @override
+  final IGroupDetailRepository groupDetailRepository;
+
   const AppScope({
     required this.database,
     required this.mainRepository,
@@ -46,6 +54,8 @@ final class AppScope implements IAppScope {
     required this.testMergeRepository,
     required this.settingsStorage,
     required this.questionStatsRepository,
+    required this.groupsListRepository,
+    required this.groupDetailRepository,
   });
 }
 
@@ -67,4 +77,8 @@ abstract interface class IAppScope {
   ISettingsStorage get settingsStorage;
 
   IQuestionStatsRepository get questionStatsRepository;
+
+  IGroupsListRepository get groupsListRepository;
+
+  IGroupDetailRepository get groupDetailRepository;
 }

@@ -25,6 +25,7 @@ class AppFloatingActionButton extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: ContentCard(
+        elevation: 5,
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           mainAxisSize: MainAxisSize.min,

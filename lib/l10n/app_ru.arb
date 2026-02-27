@@ -638,5 +638,95 @@
         "example": "300"
       }
     }
-  }
+  },
+  "@segmentGroupsList": {
+    "---------": "---------",
+    "description": "Список групп"
+  },
+  "groupsListAppBarTitle": "Группы",
+  "groupsListEmptyMessage": "Нет групп.\nНажмите + чтобы создать первую группу.",
+  "groupsListAddGroupFab": "Создать",
+  "groupsListDeleteDialogTitle": "Удалить группу?",
+  "groupsListDeleteDialogMessage": "Вы уверены, что хотите удалить \"{title}\"? Тесты внутри группы не будут удалены.",
+  "@groupsListDeleteDialogMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Мои тесты"
+      }
+    }
+  },
+  "groupsListDeleteDialogCancel": "Отмена",
+  "groupsListDeleteDialogConfirm": "Удалить",
+  "groupsListTestCount": "{count} {count, plural, one{тест} few{теста} many{тестов} other{тестов}}",
+  "@groupsListTestCount": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "groupsListErrorMessage": "Ошибка: {message}",
+  "@groupsListErrorMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Неизвестная ошибка"
+      }
+    }
+  },
+  "groupsListUnknownError": "Неизвестная ошибка",
+  "groupsListNewGroupDialogTitle": "Новая группа",
+  "groupsListNewGroupNameHint": "Название группы",
+  "groupsListNewGroupCancel": "Отмена",
+  "groupsListNewGroupCreate": "Создать",
+  "@segmentGroupDetail": {
+    "---------": "---------",
+    "description": "Деталка группы"
+  },
+  "groupDetailLoadingTitle": "Загрузка...",
+  "groupDetailAddTestFab": "Добавить",
+  "groupDetailEmptyMessage": "Нет тестов в группе.\nНажмите + чтобы добавить первый тест.",
+  "groupDetailErrorMessage": "Ошибка: {message}",
+  "@groupDetailErrorMessage": {
+    "placeholders": {
+      "message": {
+        "type": "String",
+        "example": "Неизвестная ошибка"
+      }
+    }
+  },
+  "groupDetailUnknownError": "Неизвестная ошибка",
+  "groupDetailRemoveTestTitle": "Убрать тест из группы?",
+  "groupDetailRemoveTestMessage": "Тест \"{title}\" будет убран из этой группы, но не удалён.",
+  "@groupDetailRemoveTestMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Мой тест"
+      }
+    }
+  },
+  "groupDetailRemoveTestLastGroupTitle": "Последняя группа",
+  "groupDetailRemoveTestLastGroupMessage": "Это последняя группа теста \"{title}\". Тест останется без группы.",
+  "@groupDetailRemoveTestLastGroupMessage": {
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Мой тест"
+      }
+    }
+  },
+  "groupDetailRemoveTestCancel": "Отмена",
+  "groupDetailRemoveTestConfirm": "Убрать",
+  "groupDetailEditTitleDialogTitle": "Переименовать группу",
+  "groupDetailEditTitleHint": "Название группы",
+  "groupDetailEditTitleCancel": "Отмена",
+  "groupDetailEditTitleSave": "Сохранить",
+  "groupDetailNewTestDialogTitle": "Новый тест",
+  "groupDetailNewTestNameHint": "Название теста",
+  "groupDetailNewTestDescriptionHint": "Описание (необязательно)",
+  "groupDetailNewTestCancel": "Отмена",
+  "groupDetailNewTestCreate": "Создать"
 }

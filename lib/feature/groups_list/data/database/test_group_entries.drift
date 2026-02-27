@@ -1,0 +1,9 @@
+import 'test_groups.drift';
+import 'package:quizzerg/feature/tests_list/data/database/tests.drift';
+
+CREATE TABLE test_group_entries (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  group_id INTEGER NOT NULL REFERENCES test_groups(id) ON DELETE CASCADE,
+  test_id INTEGER NOT NULL REFERENCES tests(id) ON DELETE CASCADE,
+  UNIQUE(group_id, test_id)
+) AS TestGroupEntryDatabaseDto;

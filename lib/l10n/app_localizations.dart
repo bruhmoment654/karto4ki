@@ -604,6 +604,210 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{duration} ms'**
   String profileAnimationDurationLabel(int duration);
+
+  /// No description provided for @groupsListAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Groups'**
+  String get groupsListAppBarTitle;
+
+  /// No description provided for @groupsListEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No groups.\nTap + to create the first group.'**
+  String get groupsListEmptyMessage;
+
+  /// No description provided for @groupsListAddGroupFab.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get groupsListAddGroupFab;
+
+  /// No description provided for @groupsListDeleteDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete group?'**
+  String get groupsListDeleteDialogTitle;
+
+  /// No description provided for @groupsListDeleteDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Are you sure you want to delete \"{title}\"? Tests inside the group will not be deleted.'**
+  String groupsListDeleteDialogMessage(String title);
+
+  /// No description provided for @groupsListDeleteDialogCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get groupsListDeleteDialogCancel;
+
+  /// No description provided for @groupsListDeleteDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete'**
+  String get groupsListDeleteDialogConfirm;
+
+  /// No description provided for @groupsListTestCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} {count, plural, one{test} other{tests}}'**
+  String groupsListTestCount(int count);
+
+  /// No description provided for @groupsListErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {message}'**
+  String groupsListErrorMessage(String message);
+
+  /// No description provided for @groupsListUnknownError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error'**
+  String get groupsListUnknownError;
+
+  /// No description provided for @groupsListNewGroupDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New group'**
+  String get groupsListNewGroupDialogTitle;
+
+  /// No description provided for @groupsListNewGroupNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Group name'**
+  String get groupsListNewGroupNameHint;
+
+  /// No description provided for @groupsListNewGroupCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get groupsListNewGroupCancel;
+
+  /// No description provided for @groupsListNewGroupCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get groupsListNewGroupCreate;
+
+  /// No description provided for @groupDetailLoadingTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Loading...'**
+  String get groupDetailLoadingTitle;
+
+  /// No description provided for @groupDetailAddTestFab.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get groupDetailAddTestFab;
+
+  /// No description provided for @groupDetailEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No tests in this group.\nTap + to add the first test.'**
+  String get groupDetailEmptyMessage;
+
+  /// No description provided for @groupDetailErrorMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Error: {message}'**
+  String groupDetailErrorMessage(String message);
+
+  /// No description provided for @groupDetailUnknownError.
+  ///
+  /// In en, this message translates to:
+  /// **'Unknown error'**
+  String get groupDetailUnknownError;
+
+  /// No description provided for @groupDetailRemoveTestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove test from group?'**
+  String get groupDetailRemoveTestTitle;
+
+  /// No description provided for @groupDetailRemoveTestMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Test \"{title}\" will be removed from this group, but not deleted.'**
+  String groupDetailRemoveTestMessage(String title);
+
+  /// No description provided for @groupDetailRemoveTestLastGroupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Last group'**
+  String get groupDetailRemoveTestLastGroupTitle;
+
+  /// No description provided for @groupDetailRemoveTestLastGroupMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'This is the last group for test \"{title}\". The test will remain without a group.'**
+  String groupDetailRemoveTestLastGroupMessage(String title);
+
+  /// No description provided for @groupDetailRemoveTestCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get groupDetailRemoveTestCancel;
+
+  /// No description provided for @groupDetailRemoveTestConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove'**
+  String get groupDetailRemoveTestConfirm;
+
+  /// No description provided for @groupDetailEditTitleDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename group'**
+  String get groupDetailEditTitleDialogTitle;
+
+  /// No description provided for @groupDetailEditTitleHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Group name'**
+  String get groupDetailEditTitleHint;
+
+  /// No description provided for @groupDetailEditTitleCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get groupDetailEditTitleCancel;
+
+  /// No description provided for @groupDetailEditTitleSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get groupDetailEditTitleSave;
+
+  /// No description provided for @groupDetailNewTestDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New test'**
+  String get groupDetailNewTestDialogTitle;
+
+  /// No description provided for @groupDetailNewTestNameHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Test name'**
+  String get groupDetailNewTestNameHint;
+
+  /// No description provided for @groupDetailNewTestDescriptionHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Description (optional)'**
+  String get groupDetailNewTestDescriptionHint;
+
+  /// No description provided for @groupDetailNewTestCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get groupDetailNewTestCancel;
+
+  /// No description provided for @groupDetailNewTestCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get groupDetailNewTestCreate;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -40,9 +40,10 @@ class _AccentColorCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return ContentCard(
+      elevation: 5,
       type: ContentCardType.smallWide,
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -162,9 +163,10 @@ class _ShaderAnimationCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return ContentCard(
+      elevation: 5,
       type: ContentCardType.smallWide,
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -196,7 +198,8 @@ class _AnimationSpeedCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return ContentCard(
-      padding: const EdgeInsets.all(24),
+      elevation: 5,
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
       child: Column(
         children: [
           Text(

@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
 import 'package:quizzerg/feature/card_detail/data/database/cards_database.dart';
+import 'package:quizzerg/feature/groups_list/data/database/groups_database.dart';
 import 'package:quizzerg/feature/question_stats/data/database/question_stats_database.dart';
 import 'package:quizzerg/feature/tests_list/data/database/tests_database.dart';
 
@@ -13,8 +14,10 @@ part 'app_database.g.dart';
     'package:quizzerg/feature/tests_list/data/database/tests.drift',
     'package:quizzerg/feature/card_detail/data/database/cards.drift',
     'package:quizzerg/feature/question_stats/data/database/question_stats.drift',
+    'package:quizzerg/feature/groups_list/data/database/test_groups.drift',
+    'package:quizzerg/feature/groups_list/data/database/test_group_entries.drift',
   },
-  daos: [TestsDatabase, CardsDatabase, QuestionStatsDatabase],
+  daos: [TestsDatabase, CardsDatabase, QuestionStatsDatabase, GroupsDatabase],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
@@ -22,7 +25,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 3;
+  int get schemaVersion => 5;
 
   @override
   MigrationStrategy get migration {
@@ -44,6 +47,27 @@ class AppDatabase extends _$AppDatabase {
           );
           await customStatement(
             'UPDATE question_stats SET total_shown = total_correct + total_incorrect',
+          );
+        }
+        if (from < 4) {
+          await m.createTable(testGroups);
+          await m.createTable(testGroupEntries);
+          await customStatement(
+            'INSERT INTO test_groups (title, created_at, updated_at) '
+            "VALUES ('Мои тесты', strftime('%s', 'now'), strftime('%s', 'now'))",
+          );
+          await customStatement(
+            'INSERT INTO test_group_entries (group_id, test_id) '
+            'SELECT (SELECT id FROM test_groups LIMIT 1), id FROM tests',
+          );
+        }
+        if (from < 5) {
+          await customStatement(
+            'UPDATE test_groups '
+            "SET created_at = strftime('%s', created_at), "
+            "    updated_at = strftime('%s', updated_at) "
+            "WHERE typeof(created_at) = 'text' "
+            "  AND created_at LIKE '____-__-__ __:__:__'",
           );
         }
       },

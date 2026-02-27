@@ -48,6 +48,76 @@ class CardTestRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [GroupDetailFlow]
+class GroupDetailRoute extends PageRouteInfo<GroupDetailRouteArgs> {
+  GroupDetailRoute({
+    required int groupId,
+    Key? key,
+    List<PageRouteInfo>? children,
+  }) : super(
+          GroupDetailRoute.name,
+          args: GroupDetailRouteArgs(
+            groupId: groupId,
+            key: key,
+          ),
+          rawPathParams: {'groupId': groupId},
+          initialChildren: children,
+        );
+
+  static const String name = 'GroupDetailRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      final pathParams = data.inheritedPathParams;
+      final args = data.argsAs<GroupDetailRouteArgs>(
+          orElse: () =>
+              GroupDetailRouteArgs(groupId: pathParams.getInt('groupId')));
+      return WrappedRoute(
+          child: GroupDetailFlow(
+        groupId: args.groupId,
+        key: args.key,
+      ));
+    },
+  );
+}
+
+class GroupDetailRouteArgs {
+  const GroupDetailRouteArgs({
+    required this.groupId,
+    this.key,
+  });
+
+  final int groupId;
+
+  final Key? key;
+
+  @override
+  String toString() {
+    return 'GroupDetailRouteArgs{groupId: $groupId, key: $key}';
+  }
+}
+
+/// generated route for
+/// [GroupsListFlow]
+class GroupsListRoute extends PageRouteInfo<void> {
+  const GroupsListRoute({List<PageRouteInfo>? children})
+      : super(
+          GroupsListRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'GroupsListRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const GroupsListFlow());
+    },
+  );
+}
+
+/// generated route for
 /// [HomeFlow]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})

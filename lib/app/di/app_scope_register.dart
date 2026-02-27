@@ -4,6 +4,8 @@ import 'package:quizzerg/core/logger/error_logger.dart';
 import 'package:quizzerg/core/logger/strategies/debug_log_strategy.dart';
 import 'package:quizzerg/core/services/csv_import_service.dart';
 import 'package:quizzerg/feature/card_detail/data/repository/card_repository.dart';
+import 'package:quizzerg/feature/group_detail/data/repository/group_detail_repository.dart';
+import 'package:quizzerg/feature/groups_list/data/repository/groups_list_repository.dart';
 import 'package:quizzerg/feature/main/data/repository/main_repository.dart';
 import 'package:quizzerg/feature/question_stats/data/repository/question_stats_repository.dart';
 import 'package:quizzerg/feature/test_detail/data/repository/test_detail_repository.dart';
@@ -58,6 +60,17 @@ class AppScopeRegister {
       errorLogger: errorLogger,
     );
 
+    final groupsListRepository = GroupsListRepository(
+      groupsDatabase: database.groupsDatabase,
+      errorLogger: errorLogger,
+    );
+
+    final groupDetailRepository = GroupDetailRepository(
+      groupsDatabase: database.groupsDatabase,
+      testsDatabase: database.testsDatabase,
+      errorLogger: errorLogger,
+    );
+
     return AppScope(
       database: database,
       mainRepository: mainRepository,
@@ -68,6 +81,8 @@ class AppScopeRegister {
       testMergeRepository: testMergeRepository,
       settingsStorage: settingsStorage,
       questionStatsRepository: questionStatsRepository,
+      groupsListRepository: groupsListRepository,
+      groupDetailRepository: groupDetailRepository,
     );
   }
 }

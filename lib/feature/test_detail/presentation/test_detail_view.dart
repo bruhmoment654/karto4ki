@@ -350,6 +350,7 @@ class _CardListItem extends StatelessWidget {
         child: ScalePressable(
           onTap: onTap,
           child: ContentCard(
+            elevation: 5,
             type: ContentCardType.smallWide,
             padding: EdgeInsets.zero,
             child: ListTile(
