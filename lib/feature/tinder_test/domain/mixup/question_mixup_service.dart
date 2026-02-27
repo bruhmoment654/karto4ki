@@ -120,6 +120,9 @@ class QuestionMixupService {
       });
     }
 
-    return candidates.take(min(count, candidates.length)).toList();
+    return candidates
+        .take(min(count, candidates.length))
+        .map((c) => c.copyWith(isMixedIn: true))
+        .toList();
   }
 }

@@ -34,6 +34,9 @@ mixin _$CardEntity {
   /// Update date.
   DateTime get updatedAt => throw _privateConstructorUsedError;
 
+  /// Флаг подмешанной карточки (только в памяти, не в БД).
+  bool get isMixedIn => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $CardEntityCopyWith<CardEntity> get copyWith =>
       throw _privateConstructorUsedError;
@@ -51,7 +54,8 @@ abstract class $CardEntityCopyWith<$Res> {
       String front,
       String back,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      bool isMixedIn});
 }
 
 /// @nodoc
@@ -73,6 +77,7 @@ class _$CardEntityCopyWithImpl<$Res, $Val extends CardEntity>
     Object? back = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? isMixedIn = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -99,6 +104,10 @@ class _$CardEntityCopyWithImpl<$Res, $Val extends CardEntity>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      isMixedIn: null == isMixedIn
+          ? _value.isMixedIn
+          : isMixedIn // ignore: cast_nullable_to_non_nullable
+              as bool,
     ) as $Val);
   }
 }
@@ -117,7 +126,8 @@ abstract class _$$CardEntityImplCopyWith<$Res>
       String front,
       String back,
       DateTime createdAt,
-      DateTime updatedAt});
+      DateTime updatedAt,
+      bool isMixedIn});
 }
 
 /// @nodoc
@@ -137,6 +147,7 @@ class __$$CardEntityImplCopyWithImpl<$Res>
     Object? back = null,
     Object? createdAt = null,
     Object? updatedAt = null,
+    Object? isMixedIn = null,
   }) {
     return _then(_$CardEntityImpl(
       id: null == id
@@ -163,6 +174,10 @@ class __$$CardEntityImplCopyWithImpl<$Res>
           ? _value.updatedAt
           : updatedAt // ignore: cast_nullable_to_non_nullable
               as DateTime,
+      isMixedIn: null == isMixedIn
+          ? _value.isMixedIn
+          : isMixedIn // ignore: cast_nullable_to_non_nullable
+              as bool,
     ));
   }
 }
@@ -176,7 +191,8 @@ class _$CardEntityImpl implements _CardEntity {
       required this.front,
       required this.back,
       required this.createdAt,
-      required this.updatedAt});
+      required this.updatedAt,
+      this.isMixedIn = false});
 
   /// Unique card identifier.
   @override
@@ -202,9 +218,14 @@ class _$CardEntityImpl implements _CardEntity {
   @override
   final DateTime updatedAt;
 
+  /// Флаг подмешанной карточки (только в памяти, не в БД).
+  @override
+  @JsonKey()
+  final bool isMixedIn;
+
   @override
   String toString() {
-    return 'CardEntity(id: $id, testId: $testId, front: $front, back: $back, createdAt: $createdAt, updatedAt: $updatedAt)';
+    return 'CardEntity(id: $id, testId: $testId, front: $front, back: $back, createdAt: $createdAt, updatedAt: $updatedAt, isMixedIn: $isMixedIn)';
   }
 
   @override
@@ -219,12 +240,14 @@ class _$CardEntityImpl implements _CardEntity {
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
-                other.updatedAt == updatedAt));
+                other.updatedAt == updatedAt) &&
+            (identical(other.isMixedIn, isMixedIn) ||
+                other.isMixedIn == isMixedIn));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, testId, front, back, createdAt, updatedAt);
+  int get hashCode => Object.hash(
+      runtimeType, id, testId, front, back, createdAt, updatedAt, isMixedIn);
 
   @JsonKey(ignore: true)
   @override
@@ -240,7 +263,8 @@ abstract class _CardEntity implements CardEntity {
       required final String front,
       required final String back,
       required final DateTime createdAt,
-      required final DateTime updatedAt}) = _$CardEntityImpl;
+      required final DateTime updatedAt,
+      final bool isMixedIn}) = _$CardEntityImpl;
 
   @override
 
@@ -266,6 +290,10 @@ abstract class _CardEntity implements CardEntity {
 
   /// Update date.
   DateTime get updatedAt;
+  @override
+
+  /// Флаг подмешанной карточки (только в памяти, не в БД).
+  bool get isMixedIn;
   @override
   @JsonKey(ignore: true)
   _$$CardEntityImplCopyWith<_$CardEntityImpl> get copyWith =>

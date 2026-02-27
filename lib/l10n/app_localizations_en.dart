@@ -178,10 +178,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testDetailSwapSides => 'Swap sides';
 
   @override
-  String get testDetailMixup => 'Question mixup';
+  String get groupDetailMixup => 'Question mixup';
 
   @override
-  String get testDetailMixupDescription => 'Adds questions from other tests in the group';
+  String get groupDetailMixupDescription => 'Adds questions from other tests in the group';
 
   @override
   String get testDetailAddCardFab => 'Add';

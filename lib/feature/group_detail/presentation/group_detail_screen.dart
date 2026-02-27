@@ -20,11 +20,17 @@ class GroupDetailScreen extends StatefulWidget {
 
 class _GroupDetailScreenState extends State<GroupDetailScreen>
     implements IGroupDetailViewModel {
+  bool _mixup = false;
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GroupDetailBloc, GroupDetailState>(
       builder: (context, state) {
-        return GroupDetailView(viewModel: this, state: state);
+        return GroupDetailView(
+          viewModel: this,
+          state: state,
+          mixup: _mixup,
+        );
       },
     );
   }
@@ -36,7 +42,14 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
 
   @override
   void onTestTapped(TestEntity test) {
-    context.router.push(TestDetailRoute(testId: int.parse(test.id)));
+    context.router.push(
+      TestDetailRoute(testId: int.parse(test.id), mixup: _mixup),
+    );
+  }
+
+  @override
+  void onMixupChanged({required bool value}) {
+    setState(() => _mixup = value);
   }
 
   @override
@@ -199,4 +212,6 @@ abstract interface class IGroupDetailViewModel {
   void onTestRemovePressed(TestEntity test);
 
   void onEditTitlePressed();
+
+  void onMixupChanged({required bool value});
 }

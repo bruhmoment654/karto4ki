@@ -12,7 +12,7 @@ import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/spacing/sliver_height.dart';
-import 'package:quizzerg/uikit/switch/app_switch.dart';
+import 'package:quizzerg/uikit/switch/app_switch.dart' show AppSwitch;
 
 /// UI layer for test detail screen.
 ///
@@ -22,13 +22,11 @@ class TestDetailView extends StatelessWidget {
   final ITestDetailViewModel viewModel;
   final TestDetailState state;
   final bool swapSides;
-  final bool mixup;
 
   const TestDetailView({
     required this.viewModel,
     required this.state,
     required this.swapSides,
-    required this.mixup,
     super.key,
   });
 
@@ -76,7 +74,6 @@ class TestDetailView extends StatelessWidget {
         TestDetailState$Loaded(:final cards) => _TestDetailContent(
             cards: cards,
             swapSides: swapSides,
-            mixup: mixup,
             viewModel: viewModel,
           ),
       },
@@ -203,49 +200,6 @@ class _SwapSidesToggle extends StatelessWidget {
   }
 }
 
-class _MixupToggle extends StatelessWidget {
-  final bool value;
-  final ValueChanged<bool> onChanged;
-
-  const _MixupToggle({
-    required this.value,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  context.l10n.testDetailMixup,
-                  style: Theme.of(context).textTheme.bodyMedium,
-                ),
-                Text(
-                  context.l10n.testDetailMixupDescription,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                ),
-              ],
-            ),
-          ),
-          AppSwitch(
-            value: value,
-            onChanged: onChanged,
-          ),
-        ],
-      ),
-    );
-  }
-}
-
 class _CardsCountWithImport extends StatelessWidget {
   final int count;
   final VoidCallback onImportPressed;
@@ -284,13 +238,11 @@ class _CardsCountWithImport extends StatelessWidget {
 class _TestDetailContent extends StatelessWidget {
   final List<CardEntity> cards;
   final bool swapSides;
-  final bool mixup;
   final ITestDetailViewModel viewModel;
 
   const _TestDetailContent({
     required this.cards,
     required this.swapSides,
-    required this.mixup,
     required this.viewModel,
   });
 
@@ -305,12 +257,6 @@ class _TestDetailContent extends StatelessWidget {
             child: _SwapSidesToggle(
               value: swapSides,
               onChanged: (v) => viewModel.onSwapSidesChanged(value: v),
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: _MixupToggle(
-              value: mixup,
-              onChanged: (v) => viewModel.onMixupChanged(value: v),
             ),
           ),
           SliverToBoxAdapter(

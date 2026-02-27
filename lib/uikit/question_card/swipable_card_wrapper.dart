@@ -186,6 +186,7 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
                 showAnswer: widget.showAnswer,
                 enableFlipAnimation: widget.enableFlipAnimation,
                 flipDuration: widget.flipDuration,
+                isMixedIn: widget.card.isMixedIn,
                 cardOffset: offset,
                 leftBadgeText: context.l10n.tinderTestUnknownBadge,
                 rightBadgeText: context.l10n.tinderTestKnownBadge,

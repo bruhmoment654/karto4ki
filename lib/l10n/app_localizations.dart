@@ -413,17 +413,17 @@ abstract class AppLocalizations {
   /// **'Swap sides'**
   String get testDetailSwapSides;
 
-  /// No description provided for @testDetailMixup.
+  /// No description provided for @groupDetailMixup.
   ///
   /// In en, this message translates to:
   /// **'Question mixup'**
-  String get testDetailMixup;
+  String get groupDetailMixup;
 
-  /// No description provided for @testDetailMixupDescription.
+  /// No description provided for @groupDetailMixupDescription.
   ///
   /// In en, this message translates to:
   /// **'Adds questions from other tests in the group'**
-  String get testDetailMixupDescription;
+  String get groupDetailMixupDescription;
 
   /// No description provided for @testDetailAddCardFab.
   ///

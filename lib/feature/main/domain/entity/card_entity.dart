@@ -23,5 +23,8 @@ sealed class CardEntity with _$CardEntity {
 
     /// Update date.
     required DateTime updatedAt,
+
+    /// Флаг подмешанной карточки (только в памяти, не в БД).
+    @Default(false) bool isMixedIn,
   }) = _CardEntity;
 }

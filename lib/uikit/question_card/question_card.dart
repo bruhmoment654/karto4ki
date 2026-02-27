@@ -98,6 +98,7 @@ class QuestionCardContent extends StatelessWidget {
   final Duration flipDuration;
   final String? leftBadgeText;
   final String? rightBadgeText;
+  final bool isMixedIn;
 
   const QuestionCardContent({
     required this.front,
@@ -106,6 +107,7 @@ class QuestionCardContent extends StatelessWidget {
     required this.cardOffset,
     this.enableFlipAnimation = true,
     this.flipDuration = const Duration(milliseconds: 300),
+    this.isMixedIn = false,
     super.key,
     this.leftBadgeText,
     this.rightBadgeText,
@@ -156,6 +158,9 @@ class QuestionCardContent extends StatelessWidget {
         transform: transform,
         child: ContentCard(
           type: ContentCardType.large,
+          accentColor: isMixedIn
+              ? Theme.of(context).colorScheme.tertiary
+              : null,
           child: SizedBox.expand(
             child: Center(child: face),
           ),
@@ -198,6 +203,9 @@ class QuestionCardContent extends StatelessWidget {
           transform: transform,
           child: ContentCard(
             type: ContentCardType.large,
+            accentColor: isMixedIn
+                ? Theme.of(context).colorScheme.tertiary
+                : null,
             child: SizedBox.expand(
               child: Center(child: face),
             ),

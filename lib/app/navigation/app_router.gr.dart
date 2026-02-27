@@ -255,12 +255,14 @@ class SettingsRoute extends PageRouteInfo<void> {
 class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
   TestDetailRoute({
     required int testId,
+    bool mixup = false,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
           TestDetailRoute.name,
           args: TestDetailRouteArgs(
             testId: testId,
+            mixup: mixup,
             key: key,
           ),
           rawPathParams: {'testId': testId},
@@ -279,6 +281,7 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
       return WrappedRoute(
           child: TestDetailFlow(
         testId: args.testId,
+        mixup: args.mixup,
         key: args.key,
       ));
     },
@@ -288,16 +291,19 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
 class TestDetailRouteArgs {
   const TestDetailRouteArgs({
     required this.testId,
+    this.mixup = false,
     this.key,
   });
 
   final int testId;
 
+  final bool mixup;
+
   final Key? key;
 
   @override
   String toString() {
-    return 'TestDetailRouteArgs{testId: $testId, key: $key}';
+    return 'TestDetailRouteArgs{testId: $testId, mixup: $mixup, key: $key}';
   }
 }
 

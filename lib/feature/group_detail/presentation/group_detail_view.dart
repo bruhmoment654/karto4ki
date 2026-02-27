@@ -11,15 +11,18 @@ import 'package:quizzerg/uikit/content_card/content_card_type.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
+import 'package:quizzerg/uikit/switch/app_switch.dart';
 
 /// UI-слой экрана деталки группы.
 class GroupDetailView extends StatelessWidget {
   final IGroupDetailViewModel viewModel;
   final GroupDetailState state;
+  final bool mixup;
 
   const GroupDetailView({
     required this.viewModel,
     required this.state,
+    required this.mixup,
     super.key,
   });
 
@@ -83,9 +86,20 @@ class GroupDetailView extends StatelessWidget {
                   ),
                 ),
               )
-            : _TestsList(
-                tests: tests,
-                viewModel: viewModel,
+            : Column(
+                children: [
+                  _MixupToggle(
+                    value: mixup,
+                    onChanged: (v) =>
+                        viewModel.onMixupChanged(value: v),
+                  ),
+                  Expanded(
+                    child: _TestsList(
+                      tests: tests,
+                      viewModel: viewModel,
+                    ),
+                  ),
+                ],
               ),
       },
       floatingActionButton: state is GroupDetailState$Loaded
@@ -195,6 +209,49 @@ class _TestListItem extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _MixupToggle extends StatelessWidget {
+  final bool value;
+  final ValueChanged<bool> onChanged;
+
+  const _MixupToggle({
+    required this.value,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.l10n.groupDetailMixup,
+                  style: Theme.of(context).textTheme.bodyMedium,
+                ),
+                Text(
+                  context.l10n.groupDetailMixupDescription,
+                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                ),
+              ],
+            ),
+          ),
+          AppSwitch(
+            value: value,
+            onChanged: onChanged,
+          ),
+        ],
       ),
     );
   }

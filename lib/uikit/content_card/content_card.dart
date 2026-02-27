@@ -12,6 +12,7 @@ class ContentCard extends StatelessWidget {
   final EdgeInsetsGeometry? padding;
   final double? elevation;
   final double backgroundOpacity;
+  final Color? accentColor;
 
   const ContentCard({
     required this.child,
@@ -21,6 +22,7 @@ class ContentCard extends StatelessWidget {
     this.padding,
     this.elevation,
     this.backgroundOpacity = 0.7,
+    this.accentColor,
     super.key,
   });
 
@@ -42,7 +44,8 @@ class ContentCard extends StatelessWidget {
           child: CustomPaint(
             painter: ContentCardPainter(
               type: type,
-              accentColor: Theme.of(context).colorScheme.primary,
+              accentColor:
+                  accentColor ?? Theme.of(context).colorScheme.primary,
             ),
             child: Padding(
               padding: padding ?? _defaultPadding(type),
