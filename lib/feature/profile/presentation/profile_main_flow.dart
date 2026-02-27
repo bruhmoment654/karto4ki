@@ -1,9 +1,10 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:quizzerg/feature/profile/presentation/profile_screen.dart';
 
 @RoutePage()
-class ProfileFlow extends StatelessWidget implements AutoRouteWrapper {
-  const ProfileFlow({super.key});
+class ProfileMainFlow extends StatelessWidget implements AutoRouteWrapper {
+  const ProfileMainFlow({super.key});
 
   @override
   Widget wrappedRoute(BuildContext context) {
@@ -12,6 +13,6 @@ class ProfileFlow extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return const AutoRouter();
+    return const ProfileScreen();
   }
 }

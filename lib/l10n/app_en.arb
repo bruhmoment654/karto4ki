@@ -188,7 +188,8 @@
     "---------": "---------",
     "description": "Profile and settings"
   },
-  "profileSettingsTitle": "Profile and settings",
+  "profileSettingsTitle": "Profile",
+  "settingsTitle": "Settings",
   "profileShaderAnimationTitle": "Background animation",
   "profileAccentColorTitle": "App color",
   "profileAnimationSpeedTitle": "Animation speed",

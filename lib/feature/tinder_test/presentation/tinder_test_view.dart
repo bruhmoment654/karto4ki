@@ -437,6 +437,7 @@ class _ResultCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ContentCard(
+      elevation: 5,
       type: ContentCardType.smallWide,
       child: Row(
         mainAxisSize: MainAxisSize.min,

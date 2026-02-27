@@ -578,8 +578,14 @@ abstract class AppLocalizations {
   /// No description provided for @profileSettingsTitle.
   ///
   /// In en, this message translates to:
-  /// **'Profile and settings'**
+  /// **'Profile'**
   String get profileSettingsTitle;
+
+  /// No description provided for @settingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get settingsTitle;
 
   /// No description provided for @profileShaderAnimationTitle.
   ///

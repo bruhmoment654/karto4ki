@@ -266,6 +266,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileSettingsTitle => 'Профиль';
 
   @override
+  String get settingsTitle => 'Настройки';
+
+  @override
   String get profileShaderAnimationTitle => 'Анимация фона';
 
   @override

@@ -194,6 +194,44 @@ class ProfileRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [ProfileMainFlow]
+class ProfileMainRoute extends PageRouteInfo<void> {
+  const ProfileMainRoute({List<PageRouteInfo>? children})
+      : super(
+          ProfileMainRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'ProfileMainRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const ProfileMainFlow());
+    },
+  );
+}
+
+/// generated route for
+/// [SettingsFlow]
+class SettingsRoute extends PageRouteInfo<void> {
+  const SettingsRoute({List<PageRouteInfo>? children})
+      : super(
+          SettingsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'SettingsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const SettingsFlow());
+    },
+  );
+}
+
+/// generated route for
 /// [TestDetailFlow]
 class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
   TestDetailRoute({

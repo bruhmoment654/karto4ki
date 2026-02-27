@@ -263,7 +263,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testActionMerge => 'Merge with others';
 
   @override
-  String get profileSettingsTitle => 'Profile and settings';
+  String get profileSettingsTitle => 'Profile';
+
+  @override
+  String get settingsTitle => 'Settings';
 
   @override
   String get profileShaderAnimationTitle => 'Background animation';

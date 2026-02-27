@@ -11,6 +11,8 @@ import 'package:quizzerg/uikit/content_card/content_card_type.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
+import 'package:quizzerg/uikit/spacing/sliver_height.dart';
+import 'package:quizzerg/uikit/switch/app_switch.dart';
 
 /// UI layer for test detail screen.
 ///
@@ -179,14 +181,21 @@ class _SwapSidesToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SwitchListTile(
-      title: Text(
-        context.l10n.testDetailSwapSides,
-        style: Theme.of(context).textTheme.bodyMedium,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            context.l10n.testDetailSwapSides,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          AppSwitch(
+            value: value,
+            onChanged: onChanged,
+          ),
+        ],
       ),
-      value: value,
-      onChanged: onChanged,
-      dense: true,
     );
   }
 }
@@ -214,6 +223,7 @@ class _CardsCountWithImport extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 8),
+          const Spacer(),
           TextButton.icon(
             onPressed: onImportPressed,
             icon: const Icon(Icons.upload_file, size: 18),
@@ -242,6 +252,7 @@ class _TestDetailContent extends StatelessWidget {
       padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
       child: CustomScrollView(
         slivers: [
+          const SliverHeight(8),
           SliverToBoxAdapter(
             child: _SwapSidesToggle(
               value: swapSides,
