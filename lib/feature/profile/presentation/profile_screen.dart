@@ -18,6 +18,11 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 
   @override
+  void onStatsTap() {
+    context.router.push(const QuestionStatsRoute());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return ProfileView(viewModel: this);
   }
@@ -25,4 +30,5 @@ class _ProfileScreenState extends State<ProfileScreen>
 
 abstract interface class IProfileViewModel {
   void onSettingsTap();
+  void onStatsTap();
 }

@@ -74,6 +74,11 @@ class QuestionStatsDatabase extends DatabaseAccessor<AppDatabase>
     }
   }
 
+  Future<List<QuestionStatsDatabaseDto>> getAllStats() =>
+      (select(questionStats)
+            ..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
+          .get();
+
   Future<List<QuestionStatsDatabaseDto>> getStatsByKeys(
     List<String> keys,
   ) =>

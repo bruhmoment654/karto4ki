@@ -18,7 +18,7 @@ import 'app_localizations_ru.dart';
 /// `supportedLocales` list. For example:
 ///
 /// ```dart
-/// import 'l10n/app_localizations.dart';
+/// import 'gen_l10n/app_localizations.dart';
 ///
 /// return MaterialApp(
 ///   localizationsDelegates: AppLocalizations.localizationsDelegates,
@@ -622,6 +622,42 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{duration} ms'**
   String profileAnimationDurationLabel(int duration);
+
+  /// No description provided for @questionStatsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get questionStatsTitle;
+
+  /// No description provided for @questionStatsEmptyMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'No statistics yet.\nComplete a test to start tracking.'**
+  String get questionStatsEmptyMessage;
+
+  /// No description provided for @questionStatsCorrectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct'**
+  String get questionStatsCorrectLabel;
+
+  /// No description provided for @questionStatsIncorrectLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Incorrect'**
+  String get questionStatsIncorrectLabel;
+
+  /// No description provided for @questionStatsStreakLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak'**
+  String get questionStatsStreakLabel;
+
+  /// No description provided for @questionStatsAccuracyLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get questionStatsAccuracyLabel;
 
   /// No description provided for @groupsListAppBarTitle.
   ///

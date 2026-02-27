@@ -204,6 +204,16 @@
       }
     }
   },
+  "@segmentQuestionStats": {
+    "---------": "---------",
+    "description": "Question stats"
+  },
+  "questionStatsTitle": "Statistics",
+  "questionStatsEmptyMessage": "No statistics yet.\nComplete a test to start tracking.",
+  "questionStatsCorrectLabel": "Correct",
+  "questionStatsIncorrectLabel": "Incorrect",
+  "questionStatsStreakLabel": "Streak",
+  "questionStatsAccuracyLabel": "Accuracy",
   "@segmentGroupsList": {
     "---------": "---------",
     "description": "Groups list"

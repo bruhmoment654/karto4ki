@@ -9,6 +9,7 @@ import 'package:quizzerg/feature/main/presentation/main_flow.dart';
 import 'package:quizzerg/feature/main_tab/presentation/main_tab_flow.dart';
 import 'package:quizzerg/feature/profile/presentation/profile_flow.dart';
 import 'package:quizzerg/feature/profile/presentation/profile_main_flow.dart';
+import 'package:quizzerg/feature/question_stats/presentation/question_stats_flow.dart';
 import 'package:quizzerg/feature/settings/presentation/settings_flow.dart';
 import 'package:quizzerg/feature/test_detail/presentation/test_detail_flow.dart';
 import 'package:quizzerg/feature/test_merge/presentation/test_merge_flow.dart';
@@ -55,6 +56,7 @@ class AppRouter extends RootStackRouter {
               children: [
                 AutoRoute(page: ProfileMainRoute.page, initial: true),
                 AutoRoute(page: SettingsRoute.page),
+                AutoRoute(page: QuestionStatsRoute.page),
               ],
             ),
           ],

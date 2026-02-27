@@ -213,6 +213,25 @@ class ProfileMainRoute extends PageRouteInfo<void> {
 }
 
 /// generated route for
+/// [QuestionStatsFlow]
+class QuestionStatsRoute extends PageRouteInfo<void> {
+  const QuestionStatsRoute({List<PageRouteInfo>? children})
+      : super(
+          QuestionStatsRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'QuestionStatsRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const QuestionStatsFlow());
+    },
+  );
+}
+
+/// generated route for
 /// [SettingsFlow]
 class SettingsRoute extends PageRouteInfo<void> {
   const SettingsRoute({List<PageRouteInfo>? children})

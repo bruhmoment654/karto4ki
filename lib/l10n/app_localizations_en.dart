@@ -289,6 +289,24 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get questionStatsTitle => 'Statistics';
+
+  @override
+  String get questionStatsEmptyMessage => 'No statistics yet.\nComplete a test to start tracking.';
+
+  @override
+  String get questionStatsCorrectLabel => 'Correct';
+
+  @override
+  String get questionStatsIncorrectLabel => 'Incorrect';
+
+  @override
+  String get questionStatsStreakLabel => 'Streak';
+
+  @override
+  String get questionStatsAccuracyLabel => 'Accuracy';
+
+  @override
   String get groupsListAppBarTitle => 'Groups';
 
   @override

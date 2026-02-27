@@ -642,6 +642,16 @@
       }
     }
   },
+  "@segmentQuestionStats": {
+    "---------": "---------",
+    "description": "Статистика вопросов"
+  },
+  "questionStatsTitle": "Статистика",
+  "questionStatsEmptyMessage": "Статистика пока пуста.\nПройдите тест, чтобы начать отслеживание.",
+  "questionStatsCorrectLabel": "Правильно",
+  "questionStatsIncorrectLabel": "Неправильно",
+  "questionStatsStreakLabel": "Серия",
+  "questionStatsAccuracyLabel": "Точность",
   "@segmentGroupsList": {
     "---------": "---------",
     "description": "Список групп"

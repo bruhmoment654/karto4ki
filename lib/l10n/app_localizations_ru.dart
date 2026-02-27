@@ -289,6 +289,24 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get questionStatsTitle => 'Статистика';
+
+  @override
+  String get questionStatsEmptyMessage => 'Статистика пока пуста.\nПройдите тест, чтобы начать отслеживание.';
+
+  @override
+  String get questionStatsCorrectLabel => 'Правильно';
+
+  @override
+  String get questionStatsIncorrectLabel => 'Неправильно';
+
+  @override
+  String get questionStatsStreakLabel => 'Серия';
+
+  @override
+  String get questionStatsAccuracyLabel => 'Точность';
+
+  @override
   String get groupsListAppBarTitle => 'Группы';
 
   @override

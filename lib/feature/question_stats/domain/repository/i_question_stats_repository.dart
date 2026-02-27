@@ -9,6 +9,8 @@ abstract interface class IQuestionStatsRepository {
     required List<CardEntity> cards,
   });
 
+  RequestOperation<List<QuestionStatsEntity>> getAllStats();
+
   RequestOperation<List<QuestionStatsEntity>> getLeastRemembered(int limit);
 
   RequestOperation<List<QuestionStatsEntity>> getStatsByKeys(List<String> keys);

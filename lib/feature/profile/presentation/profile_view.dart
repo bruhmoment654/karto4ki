@@ -18,8 +18,51 @@ class ProfileView extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         children: [
+          _StatsButton(onTap: viewModel.onStatsTap),
+          const SizedBox(height: 12),
           _SettingsButton(onTap: viewModel.onSettingsTap),
         ],
+      ),
+    );
+  }
+}
+
+class _StatsButton extends StatelessWidget {
+  final VoidCallback onTap;
+
+  const _StatsButton({required this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return GestureDetector(
+      onTap: onTap,
+      child: ContentCard(
+        elevation: 5,
+        type: ContentCardType.smallWide,
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
+          child: Row(
+            children: [
+              Icon(
+                Icons.bar_chart_outlined,
+                color: theme.colorScheme.onSurface,
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Text(
+                  context.l10n.questionStatsTitle,
+                  style: theme.textTheme.titleMedium,
+                ),
+              ),
+              Icon(
+                Icons.chevron_right,
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }
