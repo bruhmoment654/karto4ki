@@ -23,4 +23,10 @@ sealed class GroupDetailEvent with _$GroupDetailEvent {
   const factory GroupDetailEvent.titleUpdated({
     required String title,
   }) = _GroupDetailEvent$TitleUpdated;
+
+  /// Обновить привязки теста к группам.
+  const factory GroupDetailEvent.testGroupsUpdated({
+    required int testId,
+    required List<int> groupIds,
+  }) = _GroupDetailEvent$TestGroupsUpdated;
 }

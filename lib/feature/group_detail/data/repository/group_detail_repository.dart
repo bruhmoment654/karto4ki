@@ -22,6 +22,9 @@ class GroupDetailRepository extends BaseRepository
         _testsDatabase = testsDatabase;
 
   @override
+  Stream<void> get groupChanges => _groupsDatabase.watchGroupChanges();
+
+  @override
   RequestOperation<TestGroupEntity?> getGroupById(int groupId) =>
       makeCall(() async {
         final dto = await _groupsDatabase.getGroupById(groupId);
@@ -88,5 +91,30 @@ class GroupDetailRepository extends BaseRepository
   RequestOperation<int> getGroupCountForTest(int testId) =>
       makeCall(() async {
         return _groupsDatabase.getGroupCountByTestId(testId);
+      });
+
+  @override
+  RequestOperation<List<TestGroupEntity>> getAllGroups() => makeCall(() async {
+        final dtos = await _groupsDatabase.getAllGroups();
+        final groups = <TestGroupEntity>[];
+        for (final dto in dtos) {
+          final testCount =
+              await _groupsDatabase.getTestCountByGroupId(dto.id);
+          groups.add(TestGroupConverter.fromDto(dto, testCount: testCount));
+        }
+        return groups;
+      });
+
+  @override
+  RequestOperation<List<int>> getGroupIdsForTest(int testId) =>
+      makeCall(() => _groupsDatabase.getGroupIdsByTestId(testId));
+
+  @override
+  RequestOperation<void> updateTestGroups({
+    required int testId,
+    required List<int> groupIds,
+  }) =>
+      makeCall(() async {
+        await _groupsDatabase.updateTestGroups(testId, groupIds);
       });
 }

@@ -22,6 +22,7 @@ mixin _$GroupDetailEvent {
     required TResult Function(String title, String? description) testAdded,
     required TResult Function(int testId) testRemoved,
     required TResult Function(String title) titleUpdated,
+    required TResult Function(int testId, List<int> groupIds) testGroupsUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -30,6 +31,7 @@ mixin _$GroupDetailEvent {
     TResult? Function(String title, String? description)? testAdded,
     TResult? Function(int testId)? testRemoved,
     TResult? Function(String title)? titleUpdated,
+    TResult? Function(int testId, List<int> groupIds)? testGroupsUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -38,6 +40,7 @@ mixin _$GroupDetailEvent {
     TResult Function(String title, String? description)? testAdded,
     TResult Function(int testId)? testRemoved,
     TResult Function(String title)? titleUpdated,
+    TResult Function(int testId, List<int> groupIds)? testGroupsUpdated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -48,6 +51,8 @@ mixin _$GroupDetailEvent {
     required TResult Function(_GroupDetailEvent$TestRemoved value) testRemoved,
     required TResult Function(_GroupDetailEvent$TitleUpdated value)
         titleUpdated,
+    required TResult Function(_GroupDetailEvent$TestGroupsUpdated value)
+        testGroupsUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -56,6 +61,8 @@ mixin _$GroupDetailEvent {
     TResult? Function(_GroupDetailEvent$TestAdded value)? testAdded,
     TResult? Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
     TResult? Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
+    TResult? Function(_GroupDetailEvent$TestGroupsUpdated value)?
+        testGroupsUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -64,6 +71,8 @@ mixin _$GroupDetailEvent {
     TResult Function(_GroupDetailEvent$TestAdded value)? testAdded,
     TResult Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
     TResult Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
+    TResult Function(_GroupDetailEvent$TestGroupsUpdated value)?
+        testGroupsUpdated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -158,6 +167,7 @@ class _$GroupDetailEvent$StartedImpl implements _GroupDetailEvent$Started {
     required TResult Function(String title, String? description) testAdded,
     required TResult Function(int testId) testRemoved,
     required TResult Function(String title) titleUpdated,
+    required TResult Function(int testId, List<int> groupIds) testGroupsUpdated,
   }) {
     return started(groupId);
   }
@@ -169,6 +179,7 @@ class _$GroupDetailEvent$StartedImpl implements _GroupDetailEvent$Started {
     TResult? Function(String title, String? description)? testAdded,
     TResult? Function(int testId)? testRemoved,
     TResult? Function(String title)? titleUpdated,
+    TResult? Function(int testId, List<int> groupIds)? testGroupsUpdated,
   }) {
     return started?.call(groupId);
   }
@@ -180,6 +191,7 @@ class _$GroupDetailEvent$StartedImpl implements _GroupDetailEvent$Started {
     TResult Function(String title, String? description)? testAdded,
     TResult Function(int testId)? testRemoved,
     TResult Function(String title)? titleUpdated,
+    TResult Function(int testId, List<int> groupIds)? testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -196,6 +208,8 @@ class _$GroupDetailEvent$StartedImpl implements _GroupDetailEvent$Started {
     required TResult Function(_GroupDetailEvent$TestRemoved value) testRemoved,
     required TResult Function(_GroupDetailEvent$TitleUpdated value)
         titleUpdated,
+    required TResult Function(_GroupDetailEvent$TestGroupsUpdated value)
+        testGroupsUpdated,
   }) {
     return started(this);
   }
@@ -207,6 +221,8 @@ class _$GroupDetailEvent$StartedImpl implements _GroupDetailEvent$Started {
     TResult? Function(_GroupDetailEvent$TestAdded value)? testAdded,
     TResult? Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
     TResult? Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
+    TResult? Function(_GroupDetailEvent$TestGroupsUpdated value)?
+        testGroupsUpdated,
   }) {
     return started?.call(this);
   }
@@ -218,6 +234,8 @@ class _$GroupDetailEvent$StartedImpl implements _GroupDetailEvent$Started {
     TResult Function(_GroupDetailEvent$TestAdded value)? testAdded,
     TResult Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
     TResult Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
+    TResult Function(_GroupDetailEvent$TestGroupsUpdated value)?
+        testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -319,6 +337,7 @@ class _$GroupDetailEvent$TestAddedImpl implements _GroupDetailEvent$TestAdded {
     required TResult Function(String title, String? description) testAdded,
     required TResult Function(int testId) testRemoved,
     required TResult Function(String title) titleUpdated,
+    required TResult Function(int testId, List<int> groupIds) testGroupsUpdated,
   }) {
     return testAdded(title, description);
   }
@@ -330,6 +349,7 @@ class _$GroupDetailEvent$TestAddedImpl implements _GroupDetailEvent$TestAdded {
     TResult? Function(String title, String? description)? testAdded,
     TResult? Function(int testId)? testRemoved,
     TResult? Function(String title)? titleUpdated,
+    TResult? Function(int testId, List<int> groupIds)? testGroupsUpdated,
   }) {
     return testAdded?.call(title, description);
   }
@@ -341,6 +361,7 @@ class _$GroupDetailEvent$TestAddedImpl implements _GroupDetailEvent$TestAdded {
     TResult Function(String title, String? description)? testAdded,
     TResult Function(int testId)? testRemoved,
     TResult Function(String title)? titleUpdated,
+    TResult Function(int testId, List<int> groupIds)? testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (testAdded != null) {
@@ -357,6 +378,8 @@ class _$GroupDetailEvent$TestAddedImpl implements _GroupDetailEvent$TestAdded {
     required TResult Function(_GroupDetailEvent$TestRemoved value) testRemoved,
     required TResult Function(_GroupDetailEvent$TitleUpdated value)
         titleUpdated,
+    required TResult Function(_GroupDetailEvent$TestGroupsUpdated value)
+        testGroupsUpdated,
   }) {
     return testAdded(this);
   }
@@ -368,6 +391,8 @@ class _$GroupDetailEvent$TestAddedImpl implements _GroupDetailEvent$TestAdded {
     TResult? Function(_GroupDetailEvent$TestAdded value)? testAdded,
     TResult? Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
     TResult? Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
+    TResult? Function(_GroupDetailEvent$TestGroupsUpdated value)?
+        testGroupsUpdated,
   }) {
     return testAdded?.call(this);
   }
@@ -379,6 +404,8 @@ class _$GroupDetailEvent$TestAddedImpl implements _GroupDetailEvent$TestAdded {
     TResult Function(_GroupDetailEvent$TestAdded value)? testAdded,
     TResult Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
     TResult Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
+    TResult Function(_GroupDetailEvent$TestGroupsUpdated value)?
+        testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (testAdded != null) {
@@ -474,6 +501,7 @@ class _$GroupDetailEvent$TestRemovedImpl
     required TResult Function(String title, String? description) testAdded,
     required TResult Function(int testId) testRemoved,
     required TResult Function(String title) titleUpdated,
+    required TResult Function(int testId, List<int> groupIds) testGroupsUpdated,
   }) {
     return testRemoved(testId);
   }
@@ -485,6 +513,7 @@ class _$GroupDetailEvent$TestRemovedImpl
     TResult? Function(String title, String? description)? testAdded,
     TResult? Function(int testId)? testRemoved,
     TResult? Function(String title)? titleUpdated,
+    TResult? Function(int testId, List<int> groupIds)? testGroupsUpdated,
   }) {
     return testRemoved?.call(testId);
   }
@@ -496,6 +525,7 @@ class _$GroupDetailEvent$TestRemovedImpl
     TResult Function(String title, String? description)? testAdded,
     TResult Function(int testId)? testRemoved,
     TResult Function(String title)? titleUpdated,
+    TResult Function(int testId, List<int> groupIds)? testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (testRemoved != null) {
@@ -512,6 +542,8 @@ class _$GroupDetailEvent$TestRemovedImpl
     required TResult Function(_GroupDetailEvent$TestRemoved value) testRemoved,
     required TResult Function(_GroupDetailEvent$TitleUpdated value)
         titleUpdated,
+    required TResult Function(_GroupDetailEvent$TestGroupsUpdated value)
+        testGroupsUpdated,
   }) {
     return testRemoved(this);
   }
@@ -523,6 +555,8 @@ class _$GroupDetailEvent$TestRemovedImpl
     TResult? Function(_GroupDetailEvent$TestAdded value)? testAdded,
     TResult? Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
     TResult? Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
+    TResult? Function(_GroupDetailEvent$TestGroupsUpdated value)?
+        testGroupsUpdated,
   }) {
     return testRemoved?.call(this);
   }
@@ -534,6 +568,8 @@ class _$GroupDetailEvent$TestRemovedImpl
     TResult Function(_GroupDetailEvent$TestAdded value)? testAdded,
     TResult Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
     TResult Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
+    TResult Function(_GroupDetailEvent$TestGroupsUpdated value)?
+        testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (testRemoved != null) {
@@ -628,6 +664,7 @@ class _$GroupDetailEvent$TitleUpdatedImpl
     required TResult Function(String title, String? description) testAdded,
     required TResult Function(int testId) testRemoved,
     required TResult Function(String title) titleUpdated,
+    required TResult Function(int testId, List<int> groupIds) testGroupsUpdated,
   }) {
     return titleUpdated(title);
   }
@@ -639,6 +676,7 @@ class _$GroupDetailEvent$TitleUpdatedImpl
     TResult? Function(String title, String? description)? testAdded,
     TResult? Function(int testId)? testRemoved,
     TResult? Function(String title)? titleUpdated,
+    TResult? Function(int testId, List<int> groupIds)? testGroupsUpdated,
   }) {
     return titleUpdated?.call(title);
   }
@@ -650,6 +688,7 @@ class _$GroupDetailEvent$TitleUpdatedImpl
     TResult Function(String title, String? description)? testAdded,
     TResult Function(int testId)? testRemoved,
     TResult Function(String title)? titleUpdated,
+    TResult Function(int testId, List<int> groupIds)? testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (titleUpdated != null) {
@@ -666,6 +705,8 @@ class _$GroupDetailEvent$TitleUpdatedImpl
     required TResult Function(_GroupDetailEvent$TestRemoved value) testRemoved,
     required TResult Function(_GroupDetailEvent$TitleUpdated value)
         titleUpdated,
+    required TResult Function(_GroupDetailEvent$TestGroupsUpdated value)
+        testGroupsUpdated,
   }) {
     return titleUpdated(this);
   }
@@ -677,6 +718,8 @@ class _$GroupDetailEvent$TitleUpdatedImpl
     TResult? Function(_GroupDetailEvent$TestAdded value)? testAdded,
     TResult? Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
     TResult? Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
+    TResult? Function(_GroupDetailEvent$TestGroupsUpdated value)?
+        testGroupsUpdated,
   }) {
     return titleUpdated?.call(this);
   }
@@ -688,6 +731,8 @@ class _$GroupDetailEvent$TitleUpdatedImpl
     TResult Function(_GroupDetailEvent$TestAdded value)? testAdded,
     TResult Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
     TResult Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
+    TResult Function(_GroupDetailEvent$TestGroupsUpdated value)?
+        testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (titleUpdated != null) {
@@ -705,6 +750,187 @@ abstract class _GroupDetailEvent$TitleUpdated implements GroupDetailEvent {
   @JsonKey(ignore: true)
   _$$GroupDetailEvent$TitleUpdatedImplCopyWith<
           _$GroupDetailEvent$TitleUpdatedImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GroupDetailEvent$TestGroupsUpdatedImplCopyWith<$Res> {
+  factory _$$GroupDetailEvent$TestGroupsUpdatedImplCopyWith(
+          _$GroupDetailEvent$TestGroupsUpdatedImpl value,
+          $Res Function(_$GroupDetailEvent$TestGroupsUpdatedImpl) then) =
+      __$$GroupDetailEvent$TestGroupsUpdatedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int testId, List<int> groupIds});
+}
+
+/// @nodoc
+class __$$GroupDetailEvent$TestGroupsUpdatedImplCopyWithImpl<$Res>
+    extends _$GroupDetailEventCopyWithImpl<$Res,
+        _$GroupDetailEvent$TestGroupsUpdatedImpl>
+    implements _$$GroupDetailEvent$TestGroupsUpdatedImplCopyWith<$Res> {
+  __$$GroupDetailEvent$TestGroupsUpdatedImplCopyWithImpl(
+      _$GroupDetailEvent$TestGroupsUpdatedImpl _value,
+      $Res Function(_$GroupDetailEvent$TestGroupsUpdatedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? testId = null,
+    Object? groupIds = null,
+  }) {
+    return _then(_$GroupDetailEvent$TestGroupsUpdatedImpl(
+      testId: null == testId
+          ? _value.testId
+          : testId // ignore: cast_nullable_to_non_nullable
+              as int,
+      groupIds: null == groupIds
+          ? _value._groupIds
+          : groupIds // ignore: cast_nullable_to_non_nullable
+              as List<int>,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$GroupDetailEvent$TestGroupsUpdatedImpl
+    implements _GroupDetailEvent$TestGroupsUpdated {
+  const _$GroupDetailEvent$TestGroupsUpdatedImpl(
+      {required this.testId, required final List<int> groupIds})
+      : _groupIds = groupIds;
+
+  @override
+  final int testId;
+  final List<int> _groupIds;
+  @override
+  List<int> get groupIds {
+    if (_groupIds is EqualUnmodifiableListView) return _groupIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_groupIds);
+  }
+
+  @override
+  String toString() {
+    return 'GroupDetailEvent.testGroupsUpdated(testId: $testId, groupIds: $groupIds)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GroupDetailEvent$TestGroupsUpdatedImpl &&
+            (identical(other.testId, testId) || other.testId == testId) &&
+            const DeepCollectionEquality().equals(other._groupIds, _groupIds));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      runtimeType, testId, const DeepCollectionEquality().hash(_groupIds));
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GroupDetailEvent$TestGroupsUpdatedImplCopyWith<
+          _$GroupDetailEvent$TestGroupsUpdatedImpl>
+      get copyWith => __$$GroupDetailEvent$TestGroupsUpdatedImplCopyWithImpl<
+          _$GroupDetailEvent$TestGroupsUpdatedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(int groupId) started,
+    required TResult Function(String title, String? description) testAdded,
+    required TResult Function(int testId) testRemoved,
+    required TResult Function(String title) titleUpdated,
+    required TResult Function(int testId, List<int> groupIds) testGroupsUpdated,
+  }) {
+    return testGroupsUpdated(testId, groupIds);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(int groupId)? started,
+    TResult? Function(String title, String? description)? testAdded,
+    TResult? Function(int testId)? testRemoved,
+    TResult? Function(String title)? titleUpdated,
+    TResult? Function(int testId, List<int> groupIds)? testGroupsUpdated,
+  }) {
+    return testGroupsUpdated?.call(testId, groupIds);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(int groupId)? started,
+    TResult Function(String title, String? description)? testAdded,
+    TResult Function(int testId)? testRemoved,
+    TResult Function(String title)? titleUpdated,
+    TResult Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    required TResult orElse(),
+  }) {
+    if (testGroupsUpdated != null) {
+      return testGroupsUpdated(testId, groupIds);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_GroupDetailEvent$Started value) started,
+    required TResult Function(_GroupDetailEvent$TestAdded value) testAdded,
+    required TResult Function(_GroupDetailEvent$TestRemoved value) testRemoved,
+    required TResult Function(_GroupDetailEvent$TitleUpdated value)
+        titleUpdated,
+    required TResult Function(_GroupDetailEvent$TestGroupsUpdated value)
+        testGroupsUpdated,
+  }) {
+    return testGroupsUpdated(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_GroupDetailEvent$Started value)? started,
+    TResult? Function(_GroupDetailEvent$TestAdded value)? testAdded,
+    TResult? Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
+    TResult? Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
+    TResult? Function(_GroupDetailEvent$TestGroupsUpdated value)?
+        testGroupsUpdated,
+  }) {
+    return testGroupsUpdated?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_GroupDetailEvent$Started value)? started,
+    TResult Function(_GroupDetailEvent$TestAdded value)? testAdded,
+    TResult Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
+    TResult Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
+    TResult Function(_GroupDetailEvent$TestGroupsUpdated value)?
+        testGroupsUpdated,
+    required TResult orElse(),
+  }) {
+    if (testGroupsUpdated != null) {
+      return testGroupsUpdated(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GroupDetailEvent$TestGroupsUpdated implements GroupDetailEvent {
+  const factory _GroupDetailEvent$TestGroupsUpdated(
+          {required final int testId, required final List<int> groupIds}) =
+      _$GroupDetailEvent$TestGroupsUpdatedImpl;
+
+  int get testId;
+  List<int> get groupIds;
+  @JsonKey(ignore: true)
+  _$$GroupDetailEvent$TestGroupsUpdatedImplCopyWith<
+          _$GroupDetailEvent$TestGroupsUpdatedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 

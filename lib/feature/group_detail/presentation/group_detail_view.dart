@@ -133,6 +133,7 @@ class _TestsList extends StatelessWidget {
         return _TestListItem(
           test: test,
           onTap: () => viewModel.onTestTapped(test),
+          onLongPress: () => viewModel.onTestLongPressed(test),
           onRemove: () => viewModel.onTestRemovePressed(test),
         );
       },
@@ -143,11 +144,13 @@ class _TestsList extends StatelessWidget {
 class _TestListItem extends StatelessWidget {
   final TestEntity test;
   final VoidCallback onTap;
+  final VoidCallback onLongPress;
   final VoidCallback onRemove;
 
   const _TestListItem({
     required this.test,
     required this.onTap,
+    required this.onLongPress,
     required this.onRemove,
   });
 
@@ -188,6 +191,7 @@ class _TestListItem extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: ScalePressable(
           onTap: onTap,
+          onLongPress: onLongPress,
           child: ContentCard(
             elevation: 5,
             type: ContentCardType.smallWide,

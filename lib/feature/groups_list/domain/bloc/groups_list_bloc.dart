@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/core/feature/core/exension/string_title_x.dart';
@@ -15,6 +18,7 @@ part 'groups_list_bloc.freezed.dart';
 /// BLoC для экрана списка групп.
 final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
   final IGroupsListRepository _repository;
+  StreamSubscription<void>? _changesSubscription;
 
   GroupsListBloc({required IGroupsListRepository repository})
       : _repository = repository,
@@ -26,13 +30,20 @@ final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
         _GroupsListEvent$GroupDeleted() => _onGroupDeleted(event, emit),
       },
     );
+
+    _changesSubscription = _repository.groupChanges
+        .skip(1)
+        .debounceTime(const Duration(milliseconds: 300))
+        .listen((_) => add(const GroupsListEvent.started()));
   }
 
   Future<void> _onStarted(
     _GroupsListEvent$Started event,
     Emitter<GroupsListState> emit,
   ) async {
-    emit(const GroupsListState.loading());
+    if (state is! GroupsListState$Loaded) {
+      emit(const GroupsListState.loading());
+    }
 
     final result = await _repository.getGroups();
     switch (result) {
@@ -91,5 +102,11 @@ final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
           failure: UnknownFailure.fromException(error, stackTrace),
         ));
     }
+  }
+
+  @override
+  Future<void> close() {
+    _changesSubscription?.cancel();
+    return super.close();
   }
 }

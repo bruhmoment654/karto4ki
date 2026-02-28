@@ -425,4 +425,28 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get groupDetailNewTestCreate => 'Create';
+
+  @override
+  String get groupDetailTestActionsTitle => 'Actions';
+
+  @override
+  String get groupDetailTestActionsOpen => 'Open test';
+
+  @override
+  String get groupDetailTestActionsRemove => 'Remove from group';
+
+  @override
+  String get groupDetailTestActionsAddToGroup => 'Add to group';
+
+  @override
+  String get groupDetailAddToGroupTitle => 'Select groups';
+
+  @override
+  String get groupDetailAddToGroupEmpty => 'No other groups';
+
+  @override
+  String get groupDetailAddToGroupSave => 'Save';
+
+  @override
+  String get groupDetailAddToGroupCancel => 'Cancel';
 }

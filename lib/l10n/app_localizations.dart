@@ -862,6 +862,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create'**
   String get groupDetailNewTestCreate;
+
+  /// No description provided for @groupDetailTestActionsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Actions'**
+  String get groupDetailTestActionsTitle;
+
+  /// No description provided for @groupDetailTestActionsOpen.
+  ///
+  /// In en, this message translates to:
+  /// **'Open test'**
+  String get groupDetailTestActionsOpen;
+
+  /// No description provided for @groupDetailTestActionsRemove.
+  ///
+  /// In en, this message translates to:
+  /// **'Remove from group'**
+  String get groupDetailTestActionsRemove;
+
+  /// No description provided for @groupDetailTestActionsAddToGroup.
+  ///
+  /// In en, this message translates to:
+  /// **'Add to group'**
+  String get groupDetailTestActionsAddToGroup;
+
+  /// No description provided for @groupDetailAddToGroupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Select groups'**
+  String get groupDetailAddToGroupTitle;
+
+  /// No description provided for @groupDetailAddToGroupEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'No other groups'**
+  String get groupDetailAddToGroupEmpty;
+
+  /// No description provided for @groupDetailAddToGroupSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get groupDetailAddToGroupSave;
+
+  /// No description provided for @groupDetailAddToGroupCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get groupDetailAddToGroupCancel;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

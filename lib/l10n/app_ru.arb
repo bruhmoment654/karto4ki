@@ -741,5 +741,13 @@
   "groupDetailNewTestNameHint": "Название теста",
   "groupDetailNewTestDescriptionHint": "Описание (необязательно)",
   "groupDetailNewTestCancel": "Отмена",
-  "groupDetailNewTestCreate": "Создать"
+  "groupDetailNewTestCreate": "Создать",
+  "groupDetailTestActionsTitle": "Действия",
+  "groupDetailTestActionsOpen": "Открыть тест",
+  "groupDetailTestActionsRemove": "Убрать из группы",
+  "groupDetailTestActionsAddToGroup": "Добавить в группу",
+  "groupDetailAddToGroupTitle": "Выберите группы",
+  "groupDetailAddToGroupEmpty": "Нет других групп",
+  "groupDetailAddToGroupSave": "Сохранить",
+  "groupDetailAddToGroupCancel": "Отмена"
 }

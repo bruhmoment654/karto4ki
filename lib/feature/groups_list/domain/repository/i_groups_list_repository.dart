@@ -3,6 +3,8 @@ import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dar
 
 /// Интерфейс репозитория списка групп.
 abstract interface class IGroupsListRepository {
+  /// Stream изменений в таблицах групп и связей.
+  Stream<void> get groupChanges;
   /// Получить все группы.
   RequestOperation<List<TestGroupEntity>> getGroups();
 
@@ -17,4 +19,7 @@ abstract interface class IGroupsListRepository {
     required int testId,
     required List<int> groupIds,
   });
+
+  /// Получить id групп, в которых состоит тест.
+  RequestOperation<List<int>> getGroupIdsForTest(int testId);
 }

@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'groups_database.g.dart';
 
@@ -102,4 +103,10 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
     final result = await query.getSingle();
     return result.read(count) ?? 0;
   }
+
+  /// Stream, эмитящий при изменении таблиц групп или связей.
+  Stream<void> watchGroupChanges() => Rx.merge([
+        select(testGroups).watch().map((_) {}),
+        select(testGroupEntries).watch().map((_) {}),
+      ]);
 }

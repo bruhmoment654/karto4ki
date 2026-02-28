@@ -427,4 +427,28 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get groupDetailNewTestCreate => 'Создать';
+
+  @override
+  String get groupDetailTestActionsTitle => 'Действия';
+
+  @override
+  String get groupDetailTestActionsOpen => 'Открыть тест';
+
+  @override
+  String get groupDetailTestActionsRemove => 'Убрать из группы';
+
+  @override
+  String get groupDetailTestActionsAddToGroup => 'Добавить в группу';
+
+  @override
+  String get groupDetailAddToGroupTitle => 'Выберите группы';
+
+  @override
+  String get groupDetailAddToGroupEmpty => 'Нет других групп';
+
+  @override
+  String get groupDetailAddToGroupSave => 'Сохранить';
+
+  @override
+  String get groupDetailAddToGroupCancel => 'Отмена';
 }

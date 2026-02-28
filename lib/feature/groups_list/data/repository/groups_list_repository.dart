@@ -16,6 +16,9 @@ class GroupsListRepository extends BaseRepository
   }) : _groupsDatabase = groupsDatabase;
 
   @override
+  Stream<void> get groupChanges => _groupsDatabase.watchGroupChanges();
+
+  @override
   RequestOperation<List<TestGroupEntity>> getGroups() => makeCall(() async {
         final dtos = await _groupsDatabase.getAllGroups();
         final groups = <TestGroupEntity>[];
@@ -48,4 +51,8 @@ class GroupsListRepository extends BaseRepository
       makeCall(() async {
         await _groupsDatabase.updateTestGroups(testId, groupIds);
       });
+
+  @override
+  RequestOperation<List<int>> getGroupIdsForTest(int testId) =>
+      makeCall(() => _groupsDatabase.getGroupIdsByTestId(testId));
 }

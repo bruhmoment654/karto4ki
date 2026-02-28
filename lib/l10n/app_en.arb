@@ -303,5 +303,13 @@
   "groupDetailNewTestNameHint": "Test name",
   "groupDetailNewTestDescriptionHint": "Description (optional)",
   "groupDetailNewTestCancel": "Cancel",
-  "groupDetailNewTestCreate": "Create"
+  "groupDetailNewTestCreate": "Create",
+  "groupDetailTestActionsTitle": "Actions",
+  "groupDetailTestActionsOpen": "Open test",
+  "groupDetailTestActionsRemove": "Remove from group",
+  "groupDetailTestActionsAddToGroup": "Add to group",
+  "groupDetailAddToGroupTitle": "Select groups",
+  "groupDetailAddToGroupEmpty": "No other groups",
+  "groupDetailAddToGroupSave": "Save",
+  "groupDetailAddToGroupCancel": "Cancel"
 }

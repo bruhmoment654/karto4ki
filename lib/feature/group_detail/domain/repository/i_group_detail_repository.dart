@@ -4,6 +4,8 @@ import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 
 /// Интерфейс репозитория деталки группы.
 abstract interface class IGroupDetailRepository {
+  /// Stream изменений в таблицах групп и связей.
+  Stream<void> get groupChanges;
   /// Получить группу по id.
   RequestOperation<TestGroupEntity?> getGroupById(int groupId);
 
@@ -31,4 +33,16 @@ abstract interface class IGroupDetailRepository {
 
   /// Количество групп, в которых состоит тест.
   RequestOperation<int> getGroupCountForTest(int testId);
+
+  /// Получить все группы.
+  RequestOperation<List<TestGroupEntity>> getAllGroups();
+
+  /// Получить id групп, в которых состоит тест.
+  RequestOperation<List<int>> getGroupIdsForTest(int testId);
+
+  /// Обновить привязки теста к группам.
+  RequestOperation<void> updateTestGroups({
+    required int testId,
+    required List<int> groupIds,
+  });
 }

@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
+import 'package:rxdart/rxdart.dart';
 
 import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/core/feature/core/exension/string_title_x.dart';
@@ -18,6 +21,7 @@ part 'group_detail_bloc.freezed.dart';
 final class GroupDetailBloc extends Bloc<GroupDetailEvent, GroupDetailState> {
   final IGroupDetailRepository _repository;
   int? _currentGroupId;
+  StreamSubscription<void>? _changesSubscription;
 
   GroupDetailBloc({required IGroupDetailRepository repository})
       : _repository = repository,
@@ -28,16 +32,30 @@ final class GroupDetailBloc extends Bloc<GroupDetailEvent, GroupDetailState> {
         _GroupDetailEvent$TestAdded() => _onTestAdded(event, emit),
         _GroupDetailEvent$TestRemoved() => _onTestRemoved(event, emit),
         _GroupDetailEvent$TitleUpdated() => _onTitleUpdated(event, emit),
+        _GroupDetailEvent$TestGroupsUpdated() =>
+          _onTestGroupsUpdated(event, emit),
       },
     );
+
+    _changesSubscription = _repository.groupChanges
+        .skip(1)
+        .debounceTime(const Duration(milliseconds: 300))
+        .listen((_) {
+      final groupId = _currentGroupId;
+      if (groupId != null) {
+        add(GroupDetailEvent.started(groupId: groupId));
+      }
+    });
   }
 
   Future<void> _onStarted(
     _GroupDetailEvent$Started event,
     Emitter<GroupDetailState> emit,
   ) async {
-    emit(const GroupDetailState.loading());
     _currentGroupId = event.groupId;
+    if (state is! GroupDetailState$Loaded) {
+      emit(const GroupDetailState.loading());
+    }
 
     await _reloadData(emit);
   }
@@ -106,6 +124,24 @@ final class GroupDetailBloc extends Bloc<GroupDetailEvent, GroupDetailState> {
     }
   }
 
+  Future<void> _onTestGroupsUpdated(
+    _GroupDetailEvent$TestGroupsUpdated event,
+    Emitter<GroupDetailState> emit,
+  ) async {
+    final result = await _repository.updateTestGroups(
+      testId: event.testId,
+      groupIds: event.groupIds,
+    );
+    switch (result) {
+      case ResultOk():
+        await _reloadData(emit);
+      case ResultFailed(:final error, :final stackTrace):
+        emit(GroupDetailState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
+    }
+  }
+
   Future<void> _reloadData(Emitter<GroupDetailState> emit) async {
     final groupId = _currentGroupId;
     if (groupId == null) return;
@@ -137,5 +173,11 @@ final class GroupDetailBloc extends Bloc<GroupDetailEvent, GroupDetailState> {
           failure: UnknownFailure.fromException(error, stackTrace),
         ));
     }
+  }
+
+  @override
+  Future<void> close() {
+    _changesSubscription?.cancel();
+    return super.close();
   }
 }

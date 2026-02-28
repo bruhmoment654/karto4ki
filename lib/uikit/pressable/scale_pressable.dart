@@ -9,6 +9,7 @@ class ScalePressable extends StatefulWidget {
     required this.child,
     super.key,
     this.onTap,
+    this.onLongPress,
     this.behavior = HitTestBehavior.opaque,
     this.pressedScale = _defaultOnPressScale,
     this.duration = _defaultOnPressDuration,
@@ -16,6 +17,7 @@ class ScalePressable extends StatefulWidget {
 
   final Widget child;
   final VoidCallback? onTap;
+  final VoidCallback? onLongPress;
   final HitTestBehavior behavior;
   final double pressedScale;
   final Duration duration;
@@ -29,12 +31,15 @@ class _ScalePressableState extends State<ScalePressable> {
 
   @override
   Widget build(BuildContext context) {
-    if (widget.onTap == null) return widget.child;
+    if (widget.onTap == null && widget.onLongPress == null) {
+      return widget.child;
+    }
 
     return GestureDetector(
       onTapDown: (_) => setState(() => _isPressed = true),
       onTapUp: (_) => setState(() => _isPressed = false),
       onTap: () => widget.onTap?.call(),
+      onLongPress: widget.onLongPress,
       onTapCancel: () => setState(() => _isPressed = false),
       behavior: widget.behavior,
       child: AnimatedScale(
