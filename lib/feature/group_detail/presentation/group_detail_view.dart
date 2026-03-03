@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:quizzerg/feature/group_detail/domain/bloc/group_detail_bloc.dart';
 import 'package:quizzerg/feature/group_detail/presentation/group_detail_screen.dart';
+import 'package:quizzerg/feature/mixup/domain/bloc/mixup_bloc.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
@@ -17,12 +19,10 @@ import 'package:quizzerg/uikit/switch/app_switch.dart';
 class GroupDetailView extends StatelessWidget {
   final IGroupDetailViewModel viewModel;
   final GroupDetailState state;
-  final bool mixup;
 
   const GroupDetailView({
     required this.viewModel,
     required this.state,
-    required this.mixup,
     super.key,
   });
 
@@ -88,10 +88,14 @@ class GroupDetailView extends StatelessWidget {
               )
             : Column(
                 children: [
-                  _MixupToggle(
-                    value: mixup,
-                    onChanged: (v) =>
-                        viewModel.onMixupChanged(value: v),
+                  BlocBuilder<MixupBloc, MixupState>(
+                    builder: (context, mixupState) {
+                      return _MixupToggle(
+                        value: mixupState.enabled,
+                        onChanged: (v) =>
+                            viewModel.onMixupChanged(value: v),
+                      );
+                    },
                   ),
                   Expanded(
                     child: _TestsList(

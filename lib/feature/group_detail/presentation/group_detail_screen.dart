@@ -6,6 +6,7 @@ import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/feature/group_detail/domain/bloc/group_detail_bloc.dart';
 import 'package:quizzerg/feature/group_detail/presentation/group_detail_view.dart';
+import 'package:quizzerg/feature/mixup/domain/bloc/mixup_bloc.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
@@ -20,8 +21,6 @@ class GroupDetailScreen extends StatefulWidget {
 
 class _GroupDetailScreenState extends State<GroupDetailScreen>
     implements IGroupDetailViewModel {
-  bool _mixup = false;
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GroupDetailBloc, GroupDetailState>(
@@ -29,7 +28,6 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         return GroupDetailView(
           viewModel: this,
           state: state,
-          mixup: _mixup,
         );
       },
     );
@@ -42,14 +40,15 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
 
   @override
   void onTestTapped(TestEntity test) {
+    final mixup = context.read<MixupBloc>().state.enabled;
     context.router.push(
-      TestDetailRoute(testId: int.parse(test.id), mixup: _mixup),
+      TestDetailRoute(testId: int.parse(test.id), mixup: mixup),
     );
   }
 
   @override
   void onMixupChanged({required bool value}) {
-    setState(() => _mixup = value);
+    context.read<MixupBloc>().add(MixupEvent.toggled(enabled: value));
   }
 
   @override

@@ -2,8 +2,6 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rxdart/rxdart.dart';
-
 import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/core/feature/core/exension/string_title_x.dart';
 import 'package:quizzerg/core/feature/core/failure.dart';
@@ -12,10 +10,11 @@ import 'package:quizzerg/core/feature/core/failures/unknown_failure.dart';
 import 'package:quizzerg/feature/group_detail/domain/repository/i_group_detail_repository.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:rxdart/rxdart.dart';
 
+part 'group_detail_bloc.freezed.dart';
 part 'group_detail_event.dart';
 part 'group_detail_state.dart';
-part 'group_detail_bloc.freezed.dart';
 
 /// BLoC для экрана деталки группы.
 final class GroupDetailBloc extends Bloc<GroupDetailEvent, GroupDetailState> {

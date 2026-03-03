@@ -17,6 +17,8 @@ SettingsDto _$SettingsDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
               'shaderAnimationEnabled', (v) => v as bool? ?? true),
           accentColorHue: $checkedConvert(
               'accentColorHue', (v) => (v as num?)?.toDouble() ?? 149.0),
+          mixupEnabled:
+              $checkedConvert('mixupEnabled', (v) => v as bool? ?? false),
         );
         return val;
       },
@@ -27,4 +29,5 @@ Map<String, dynamic> _$SettingsDtoToJson(SettingsDto instance) =>
       'animationDurationMs': instance.animationDurationMs,
       'shaderAnimationEnabled': instance.shaderAnimationEnabled,
       'accentColorHue': instance.accentColorHue,
+      'mixupEnabled': instance.mixupEnabled,
     };

@@ -14,10 +14,14 @@ class SettingsDto {
   /// Оттенок accent-цвета (0–360°).
   final double accentColorHue;
 
+  /// Включено ли подмешивание вопросов из других тестов группы.
+  final bool mixupEnabled;
+
   const SettingsDto({
     this.animationDurationMs = 300,
     this.shaderAnimationEnabled = true,
     this.accentColorHue = 149.0,
+    this.mixupEnabled = false,
   });
 
   factory SettingsDto.fromJson(Map<String, dynamic> json) =>

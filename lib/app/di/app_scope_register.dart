@@ -7,6 +7,7 @@ import 'package:quizzerg/feature/card_detail/data/repository/card_repository.dar
 import 'package:quizzerg/feature/group_detail/data/repository/group_detail_repository.dart';
 import 'package:quizzerg/feature/groups_list/data/repository/groups_list_repository.dart';
 import 'package:quizzerg/feature/main/data/repository/main_repository.dart';
+import 'package:quizzerg/feature/mixup/domain/bloc/mixup_bloc.dart';
 import 'package:quizzerg/feature/question_stats/data/repository/question_stats_repository.dart';
 import 'package:quizzerg/feature/test_detail/data/repository/test_detail_repository.dart';
 import 'package:quizzerg/feature/test_merge/data/repository/test_merge_repository.dart';
@@ -71,6 +72,8 @@ class AppScopeRegister {
       errorLogger: errorLogger,
     );
 
+    final mixupBloc = MixupBloc(settingsStorage: settingsStorage);
+
     return AppScope(
       database: database,
       mainRepository: mainRepository,
@@ -83,6 +86,7 @@ class AppScopeRegister {
       questionStatsRepository: questionStatsRepository,
       groupsListRepository: groupsListRepository,
       groupDetailRepository: groupDetailRepository,
+      mixupBloc: mixupBloc,
     );
   }
 }

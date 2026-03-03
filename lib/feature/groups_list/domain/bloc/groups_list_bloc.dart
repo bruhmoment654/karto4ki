@@ -2,18 +2,17 @@ import 'dart:async';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-import 'package:rxdart/rxdart.dart';
-
 import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/core/feature/core/exension/string_title_x.dart';
 import 'package:quizzerg/core/feature/core/failure.dart';
 import 'package:quizzerg/core/feature/core/failures/unknown_failure.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
 import 'package:quizzerg/feature/groups_list/domain/repository/i_groups_list_repository.dart';
+import 'package:rxdart/rxdart.dart';
 
+part 'groups_list_bloc.freezed.dart';
 part 'groups_list_event.dart';
 part 'groups_list_state.dart';
-part 'groups_list_bloc.freezed.dart';
 
 /// BLoC для экрана списка групп.
 final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
