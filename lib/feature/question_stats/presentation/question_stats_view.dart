@@ -5,6 +5,7 @@ import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/content_card/content_card_type.dart';
+import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 
 class QuestionStatsView extends StatelessWidget {
@@ -106,118 +107,192 @@ class _EmptyContent extends StatelessWidget {
   }
 }
 
-class _StatsCard extends StatelessWidget {
+class _StatsCard extends StatefulWidget {
   final QuestionStatsEntity stat;
 
   const _StatsCard({required this.stat});
 
   @override
+  State<_StatsCard> createState() => _StatsCardState();
+}
+
+class _StatsCardState extends State<_StatsCard> {
+  bool _isExpanded = false;
+
+  @override
   Widget build(BuildContext context) {
+    final stat = widget.stat;
     final theme = Theme.of(context);
     final l10n = context.l10n;
     final total = stat.totalCorrect + stat.totalIncorrect;
     final accuracy = total > 0 ? (stat.totalCorrect / total * 100).round() : 0;
 
-    return ContentCard(
-      elevation: 5,
-      type: ContentCardType.smallWide,
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Flexible(
-                  child: Text(
-                    stat.frontText,
-                    style: theme.textTheme.titleMedium,
-                    textAlign: TextAlign.end,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '—',
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: theme.colorScheme.onSurfaceVariant,
-                  ),
-                ),
-                const SizedBox(width: 8),
-                Flexible(
-                  child: Text(
-                    stat.backText,
-                    style: theme.textTheme.bodyMedium?.copyWith(
-                      color: theme.colorScheme.onSurfaceVariant,
-                    ),
-                  ),
-                ),
-              ],
-            ),
+    final values = [
+      '${stat.totalCorrect}',
+      '${stat.totalIncorrect}',
+      '${stat.streak}',
+      '$accuracy%',
+    ];
+    final labels = [
+      l10n.questionStatsCorrectLabel,
+      l10n.questionStatsIncorrectLabel,
+      l10n.questionStatsStreakLabel,
+      l10n.questionStatsAccuracyLabel,
+    ];
+    final colors = [
+      Colors.green,
+      Colors.red,
+      theme.colorScheme.primary,
+      theme.colorScheme.tertiary,
+    ];
+    final questionText = '${stat.frontText} — ${stat.backText}';
+
+    return ScalePressable(
+      onTap: () => setState(() => _isExpanded = !_isExpanded),
+      child: ContentCard(
+        elevation: 5,
+        type: ContentCardType.smallWide,
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        child: AnimatedCrossFade(
+          firstChild: _ExpandedCardContent(
+            questionText: questionText,
+            values: values,
+            labels: labels,
+            colors: colors,
           ),
-          const Divider(height: 16, thickness: 1),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            child: Row(
-              children: [
-                _StatChip(
-                  value: '${stat.totalCorrect}',
-                  label: l10n.questionStatsCorrectLabel,
-                  valueColor: Colors.green,
-                ),
-                _StatChip(
-                  value: '${stat.totalIncorrect}',
-                  label: l10n.questionStatsIncorrectLabel,
-                  valueColor: Colors.red,
-                ),
-                _StatChip(
-                  value: '${stat.streak}',
-                  label: l10n.questionStatsStreakLabel,
-                  valueColor: theme.colorScheme.primary,
-                ),
-                _StatChip(
-                  value: '$accuracy%',
-                  label: l10n.questionStatsAccuracyLabel,
-                  valueColor: theme.colorScheme.tertiary,
-                ),
-              ],
-            ),
+          secondChild: _CollapsedCardContent(
+            questionText: questionText,
+            values: values,
+            colors: colors,
           ),
-        ],
+          crossFadeState: _isExpanded
+              ? CrossFadeState.showFirst
+              : CrossFadeState.showSecond,
+          duration: const Duration(milliseconds: 300),
+          sizeCurve: Curves.fastEaseInToSlowEaseOut,
+        ),
       ),
     );
   }
 }
 
-class _StatChip extends StatelessWidget {
-  final String value;
-  final String label;
-  final Color valueColor;
+class _ExpandedCardContent extends StatelessWidget {
+  final String questionText;
+  final List<String> values;
+  final List<String> labels;
+  final List<Color> colors;
 
-  const _StatChip({
-    required this.value,
-    required this.label,
-    required this.valueColor,
+  const _ExpandedCardContent({
+    required this.questionText,
+    required this.values,
+    required this.labels,
+    required this.colors,
   });
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Expanded(
-      child: Column(
-        children: [
-          Text(
-            value,
-            style: theme.textTheme.titleMedium?.copyWith(color: valueColor),
+    return Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Flexible(
+                child: Text(
+                  questionText,
+                  style: theme.textTheme.titleMedium,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+            ],
           ),
-          const SizedBox(height: 2),
-          Text(
-            label,
-            style: theme.textTheme.bodySmall?.copyWith(
-              color: theme.colorScheme.onSurfaceVariant,
+        ),
+        const Divider(height: 16, thickness: 1),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 24),
+          child: Column(
+            children: [
+              Row(
+                children: [
+                  for (var i = 0; i < values.length; i++)
+                    Expanded(
+                      child: Text(
+                        values[i],
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.titleMedium?.copyWith(
+                          color: colors[i],
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+              const SizedBox(height: 2),
+              Row(
+                children: [
+                  for (var i = 0; i < labels.length; i++)
+                    Expanded(
+                      child: Text(
+                        labels[i],
+                        textAlign: TextAlign.center,
+                        style: theme.textTheme.bodySmall?.copyWith(
+                          color: theme.colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                ],
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _CollapsedCardContent extends StatelessWidget {
+  final String questionText;
+  final List<String> values;
+  final List<Color> colors;
+
+  const _CollapsedCardContent({
+    required this.questionText,
+    required this.values,
+    required this.colors,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 24),
+      child: Row(
+        children: [
+          Flexible(
+            child: Text(
+              questionText,
+              style: theme.textTheme.bodyMedium,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
             ),
+          ),
+          const SizedBox(width: 12),
+          Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              for (var i = 0; i < values.length; i++) ...[
+                if (i > 0) const SizedBox(width: 8),
+                Text(
+                  values[i],
+                  style: theme.textTheme.bodyMedium?.copyWith(
+                    color: colors[i],
+                  ),
+                ),
+              ],
+            ],
           ),
         ],
       ),

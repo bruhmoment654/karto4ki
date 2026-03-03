@@ -6,7 +6,7 @@ part 'cards_database.g.dart';
 
 /// Data Access Object for Cards table.
 @DriftAccessor(
-  include: {'package:quizzerg/feature/card_detail/data/database/cards.drift'},
+  include: {'package:quizzerg/feature/test_detail/data/database/cards.drift'},
 )
 class CardsDatabase extends DatabaseAccessor<AppDatabase>
     with _$CardsDatabaseMixin {

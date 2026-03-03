@@ -3,16 +3,15 @@ import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/core/logger/error_logger.dart';
 import 'package:quizzerg/core/logger/strategies/debug_log_strategy.dart';
 import 'package:quizzerg/core/services/csv_import_service.dart';
-import 'package:quizzerg/feature/card_detail/data/repository/card_repository.dart';
 import 'package:quizzerg/feature/group_detail/data/repository/group_detail_repository.dart';
 import 'package:quizzerg/feature/groups_list/data/repository/groups_list_repository.dart';
 import 'package:quizzerg/feature/main/data/repository/main_repository.dart';
 import 'package:quizzerg/feature/mixup/domain/bloc/mixup_bloc.dart';
 import 'package:quizzerg/feature/question_stats/data/repository/question_stats_repository.dart';
+import 'package:quizzerg/feature/test_detail/data/repository/card_repository.dart';
 import 'package:quizzerg/feature/test_detail/data/repository/test_detail_repository.dart';
 import 'package:quizzerg/feature/test_merge/data/repository/test_merge_repository.dart';
 import 'package:quizzerg/feature/tests_list/data/repository/tests_list_repository.dart';
-import 'package:quizzerg/persistence/card_test/card_test_storage.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
 import 'package:quizzerg/persistence/settings/settings_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -32,8 +31,7 @@ class AppScopeRegister {
     final errorLogger = SurfErrorLogger(logWriter);
 
     final settingsStorage = SettingsStorage(prefs);
-    final cardTestStorage = CardTestStorage(prefs);
-    final mainRepository = MainRepository(cardTestStorage);
+    final mainRepository = MainRepository(prefs);
     final cardRepository = CardRepository(
       cardsDatabase: database.cardsDatabase,
       errorLogger: errorLogger,

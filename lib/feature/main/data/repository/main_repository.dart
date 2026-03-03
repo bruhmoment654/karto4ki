@@ -2,16 +2,18 @@ import 'dart:convert';
 
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/main/domain/repository/i_main_repository.dart';
-import 'package:quizzerg/persistence/card_test/i_card_test_storage.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class MainRepository implements IMainRepository {
-  final ICardTestStorage _cardTestStorage;
+  final SharedPreferences _prefs;
 
-  const MainRepository(this._cardTestStorage);
+  static const _cardListKey = 'card_test_list';
+
+  const MainRepository(this._prefs);
 
   @override
   List<CardEntity> getCardList() {
-    final cards = _cardTestStorage.cardList;
+    final cards = _prefs.getStringList(_cardListKey);
     if (cards == null) return [];
 
     final now = DateTime.now();
@@ -33,6 +35,6 @@ class MainRepository implements IMainRepository {
     final jsonList = cards.map((card) {
       return jsonEncode({'front': card.front, 'back': card.back});
     }).toList();
-    _cardTestStorage.updateCardList(jsonList);
+    _prefs.setStringList(_cardListKey, jsonList);
   }
 }

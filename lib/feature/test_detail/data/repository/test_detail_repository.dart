@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:quizzerg/core/feature/core/entity/request_operation.dart';
 import 'package:quizzerg/core/feature/data/repository/base_repository.dart';
-import 'package:quizzerg/feature/card_detail/data/converters/card_converter.dart';
-import 'package:quizzerg/feature/card_detail/data/database/cards_database.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/test_detail/data/converters/card_converter.dart';
+import 'package:quizzerg/feature/test_detail/data/database/cards_database.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_test_detail_repository.dart';
 import 'package:quizzerg/feature/tests_list/data/converters/test_converter.dart';
 import 'package:quizzerg/feature/tests_list/data/database/tests_database.dart';

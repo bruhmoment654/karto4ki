@@ -1,9 +1,9 @@
 import 'package:drift/drift.dart';
 import 'package:drift_flutter/drift_flutter.dart';
 
-import 'package:quizzerg/feature/card_detail/data/database/cards_database.dart';
 import 'package:quizzerg/feature/groups_list/data/database/groups_database.dart';
 import 'package:quizzerg/feature/question_stats/data/database/question_stats_database.dart';
+import 'package:quizzerg/feature/test_detail/data/database/cards_database.dart';
 import 'package:quizzerg/feature/tests_list/data/database/tests_database.dart';
 
 part 'app_database.g.dart';
@@ -12,7 +12,7 @@ part 'app_database.g.dart';
 @DriftDatabase(
   include: {
     'package:quizzerg/feature/tests_list/data/database/tests.drift',
-    'package:quizzerg/feature/card_detail/data/database/cards.drift',
+    'package:quizzerg/feature/test_detail/data/database/cards.drift',
     'package:quizzerg/feature/question_stats/data/database/question_stats.drift',
     'package:quizzerg/feature/groups_list/data/database/test_groups.drift',
     'package:quizzerg/feature/groups_list/data/database/test_group_entries.drift',

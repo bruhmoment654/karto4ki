@@ -10,44 +10,6 @@
 part of 'app_router.dart';
 
 /// generated route for
-/// [CardDetailFlow]
-class CardDetailRoute extends PageRouteInfo<void> {
-  const CardDetailRoute({List<PageRouteInfo>? children})
-      : super(
-          CardDetailRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'CardDetailRoute';
-
-  static PageInfo page = PageInfo(
-    name,
-    builder: (data) {
-      return WrappedRoute(child: const CardDetailFlow());
-    },
-  );
-}
-
-/// generated route for
-/// [CardTestFlow]
-class CardTestRoute extends PageRouteInfo<void> {
-  const CardTestRoute({List<PageRouteInfo>? children})
-      : super(
-          CardTestRoute.name,
-          initialChildren: children,
-        );
-
-  static const String name = 'CardTestRoute';
-
-  static PageInfo page = PageInfo(
-    name,
-    builder: (data) {
-      return WrappedRoute(child: const CardTestFlow());
-    },
-  );
-}
-
-/// generated route for
 /// [GroupDetailFlow]
 class GroupDetailRoute extends PageRouteInfo<GroupDetailRouteArgs> {
   GroupDetailRoute({

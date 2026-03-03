@@ -1,9 +1,9 @@
 import 'package:quizzerg/core/feature/core/entity/request_operation.dart';
 import 'package:quizzerg/core/feature/data/repository/base_repository.dart';
-import 'package:quizzerg/feature/card_detail/data/converters/card_converter.dart';
-import 'package:quizzerg/feature/card_detail/data/database/cards_database.dart';
-import 'package:quizzerg/feature/card_detail/domain/repository/i_card_repository.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/test_detail/data/converters/card_converter.dart';
+import 'package:quizzerg/feature/test_detail/data/database/cards_database.dart';
+import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository.dart';
 
 /// Repository implementation for working with cards.
 class CardRepository extends BaseRepository implements ICardRepository {

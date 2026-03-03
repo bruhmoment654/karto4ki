@@ -4,9 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:quizzerg/core/feature/core/entity/result.dart';
-import 'package:quizzerg/feature/card_detail/domain/repository/i_card_repository.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
+import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/card_result.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
 import 'package:quizzerg/feature/tinder_test/domain/mixup/question_mixup_service.dart';

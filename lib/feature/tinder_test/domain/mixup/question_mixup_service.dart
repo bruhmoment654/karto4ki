@@ -1,12 +1,12 @@
 import 'dart:math';
 
 import 'package:quizzerg/core/feature/core/entity/result.dart';
-import 'package:quizzerg/feature/card_detail/domain/repository/i_card_repository.dart';
 import 'package:quizzerg/feature/groups_list/data/database/groups_database.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
 import 'package:quizzerg/feature/question_stats/domain/util/question_key_normalizer.dart';
+import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository.dart';
 
 class QuestionMixupService {
   final ICardRepository _cardRepository;
