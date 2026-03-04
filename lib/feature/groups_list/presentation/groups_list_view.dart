@@ -26,7 +26,7 @@ class GroupsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: DefaultAppBar(
-        title: context.l10n.groupsListAppBarTitle,
+        title: Text(context.l10n.groupsListAppBarTitle),
       ),
       body: switch (state) {
         GroupsListState$Loading() => const Center(

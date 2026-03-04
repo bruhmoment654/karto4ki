@@ -5,6 +5,7 @@ import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
 import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_screen.dart';
+import 'package:quizzerg/feature/tinder_test/presentation/widget/results_content.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
@@ -31,7 +32,7 @@ class TinderTestView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: DefaultAppBar(
-        title: context.l10n.tinderTestAppBarTitle,
+        title: Text(context.l10n.tinderTestAppBarTitle),
         leading: IconButton(
           icon: const Icon(Icons.close),
           onPressed: viewModel.onBackPressed,
@@ -53,7 +54,7 @@ class TinderTestView extends StatelessWidget {
             isUndo: isUndo,
             viewModel: viewModel,
           ),
-        TinderTestState$Completed(:final session) => _ResultsContent(
+        TinderTestState$Completed(:final session) => ResultsContent(
             session: session,
             viewModel: viewModel,
           ),
@@ -336,134 +337,6 @@ class _UndoButton extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
           foregroundColor: Theme.of(context).colorScheme.onSurface,
         ),
-      ),
-    );
-  }
-}
-
-class _ResultsContent extends StatelessWidget {
-  final TestSession session;
-  final ITinderTestViewModel viewModel;
-
-  const _ResultsContent({
-    required this.session,
-    required this.viewModel,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final total = session.cards.length;
-    final correct = session.correctCount;
-    final percentage = total > 0 ? (correct / total * 100).round() : 0;
-
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.emoji_events,
-              size: 80,
-              color: colorScheme.success,
-            ),
-            const SizedBox(height: 24),
-            Text(
-              context.l10n.tinderTestResultsTitle,
-              style: const TextStyle(
-                fontSize: 28,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 32),
-            _ResultCard(
-              icon: Icons.check_circle,
-              color: colorScheme.primary,
-              label: context.l10n.tinderTestResultsCorrectLabel,
-              value: correct.toString(),
-            ),
-            const SizedBox(height: 16),
-            _ResultCard(
-              icon: Icons.cancel,
-              color: colorScheme.error,
-              label: context.l10n.tinderTestResultsIncorrectLabel,
-              value: session.incorrectCount.toString(),
-            ),
-            const SizedBox(height: 16),
-            _ResultCard(
-              icon: Icons.percent,
-              color: colorScheme.info,
-              label: context.l10n.tinderTestResultsPercentageLabel,
-              value: '$percentage%',
-            ),
-            const SizedBox(height: 48),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                OutlinedButton.icon(
-                  onPressed: viewModel.onRestartPressed,
-                  icon: const Icon(Icons.refresh),
-                  label: Text(context.l10n.tinderTestResultsRestartButton),
-                ),
-                const SizedBox(width: 16),
-                ElevatedButton.icon(
-                  onPressed: viewModel.onBackPressed,
-                  icon: const Icon(Icons.done),
-                  label: Text(context.l10n.tinderTestResultsDoneButton),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-class _ResultCard extends StatelessWidget {
-  final IconData icon;
-  final Color color;
-  final String label;
-  final String value;
-
-  const _ResultCard({
-    required this.icon,
-    required this.color,
-    required this.label,
-    required this.value,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return ContentCard(
-      elevation: 5,
-      type: ContentCardType.smallWide,
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(icon, color: color, size: 32),
-          const SizedBox(width: 16),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: TextStyle(
-                  fontSize: 14,
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-              ),
-              Text(
-                value,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
-            ],
-          ),
-        ],
       ),
     );
   }

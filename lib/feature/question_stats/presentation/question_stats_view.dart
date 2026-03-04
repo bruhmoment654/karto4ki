@@ -17,7 +17,7 @@ class QuestionStatsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: DefaultAppBar(title: context.l10n.questionStatsTitle),
+      appBar: DefaultAppBar(title: Text(context.l10n.questionStatsTitle)),
       body: _Body(viewModel: viewModel),
       floatingActionButton: _ScrollToTopFab(viewModel: viewModel),
     );

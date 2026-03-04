@@ -27,7 +27,7 @@ class TestsListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: DefaultAppBar(
-        title: context.l10n.testsListAppBarTitle,
+        title: Text(context.l10n.testsListAppBarTitle),
       ),
       body: switch (state) {
         TestsListState$Loading() => const Center(

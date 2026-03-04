@@ -21,7 +21,7 @@ class TestMergeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBar: DefaultAppBar(
-        title: context.l10n.testMergeAppBarTitle,
+        title: Text(context.l10n.testMergeAppBarTitle),
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: viewModel.onBackPressed,

@@ -111,7 +111,9 @@ class _TestDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
       }
     }
     return Size.fromHeight(
-      DefaultAppBar.toolbarHeight + bottomHeight + DefaultAppBar.dividerHeight,
+      DefaultAppBar.expandedToolbarHeight +
+          bottomHeight +
+          DefaultAppBar.dividerHeight,
     );
   }
 
@@ -137,9 +139,15 @@ class _TestDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
           )
         : null;
 
-    return DefaultAppBar(
-      title: titleText,
-      titleIcon: startIcon,
+    return DefaultAppBar.expanded(
+      title: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(startIcon),
+          const SizedBox(height: 8),
+          Text(titleText),
+        ],
+      ),
       onTap: canStartTest ? viewModel.onStartTestPressed : null,
       leading: IconButton(
         onPressed: () => Navigator.of(context).pop(),

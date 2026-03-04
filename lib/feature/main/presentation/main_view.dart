@@ -14,7 +14,7 @@ class MainView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: DefaultAppBar(title: context.l10n.navigationMain),
+      appBar: DefaultAppBar(title: Text(context.l10n.navigationMain)),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16),
         child: SizedBox(

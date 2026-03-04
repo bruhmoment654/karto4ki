@@ -36,7 +36,7 @@ class GroupDetailView extends StatelessWidget {
     return AppScaffold(
       useSafeArea: false,
       appBar: DefaultAppBar(
-        title: titleText,
+        title: Text(titleText),
         leading: IconButton(
           onPressed: () => Navigator.of(context).pop(),
           icon: const Icon(Icons.close, color: Colors.white),
