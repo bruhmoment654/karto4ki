@@ -73,16 +73,15 @@ class _QuestionStatsScreenState extends State<QuestionStatsScreen>
   }
 
   List<QuestionStatsEntity> _sortedStats(List<QuestionStatsEntity> stats) {
-    final sorted = List<QuestionStatsEntity>.of(stats);
-    sorted.sort((a, b) {
-      final cmp = switch (_sort) {
-        QuestionStatsSort.byDate => a.updatedAt.compareTo(b.updatedAt),
-        QuestionStatsSort.byStreak => a.streak.compareTo(b.streak),
-        QuestionStatsSort.byAccuracy =>
-          _accuracy(a).compareTo(_accuracy(b)),
-      };
-      return _sortOrder == SortOrder.ascending ? cmp : -cmp;
-    });
+    final sorted = List<QuestionStatsEntity>.of(stats)
+      ..sort((a, b) {
+        final cmp = switch (_sort) {
+          QuestionStatsSort.byDate => a.updatedAt.compareTo(b.updatedAt),
+          QuestionStatsSort.byStreak => a.streak.compareTo(b.streak),
+          QuestionStatsSort.byAccuracy => _accuracy(a).compareTo(_accuracy(b)),
+        };
+        return _sortOrder == SortOrder.ascending ? cmp : -cmp;
+      });
     return sorted;
   }
 
@@ -98,8 +97,7 @@ class _QuestionStatsScreenState extends State<QuestionStatsScreen>
       _error = null;
     });
 
-    final result =
-        await context.read<IAppScope>().questionStatsRepository.getAllStats();
+    final result = await context.read<IAppScope>().questionStatsRepository.getAllStats();
 
     if (!mounted) return;
 
@@ -136,9 +134,7 @@ class _QuestionStatsScreenState extends State<QuestionStatsScreen>
   @override
   void onSortOrderTap() {
     setState(() {
-      _sortOrder = _sortOrder == SortOrder.ascending
-          ? SortOrder.descending
-          : SortOrder.ascending;
+      _sortOrder = _sortOrder == SortOrder.ascending ? SortOrder.descending : SortOrder.ascending;
     });
   }
 
