@@ -652,6 +652,10 @@
   "questionStatsIncorrectLabel": "Неправильно",
   "questionStatsStreakLabel": "Серия",
   "questionStatsAccuracyLabel": "Точность",
+  "questionStatsSortByDate": "По дате",
+  "questionStatsSortByStreak": "По серии",
+  "questionStatsSortByAccuracy": "По точности",
+  "questionStatsSortTitle": "Сортировка",
   "@segmentGroupsList": {
     "---------": "---------",
     "description": "Список групп"

@@ -307,6 +307,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get questionStatsAccuracyLabel => 'Точность';
 
   @override
+  String get questionStatsSortByDate => 'По дате';
+
+  @override
+  String get questionStatsSortByStreak => 'По серии';
+
+  @override
+  String get questionStatsSortByAccuracy => 'По точности';
+
+  @override
+  String get questionStatsSortTitle => 'Сортировка';
+
+  @override
   String get groupsListAppBarTitle => 'Группы';
 
   @override

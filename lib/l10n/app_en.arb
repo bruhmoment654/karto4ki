@@ -214,6 +214,10 @@
   "questionStatsIncorrectLabel": "Incorrect",
   "questionStatsStreakLabel": "Streak",
   "questionStatsAccuracyLabel": "Accuracy",
+  "questionStatsSortByDate": "By date",
+  "questionStatsSortByStreak": "By streak",
+  "questionStatsSortByAccuracy": "By accuracy",
+  "questionStatsSortTitle": "Sort",
   "@segmentGroupsList": {
     "---------": "---------",
     "description": "Groups list"

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_entity.dart';
+import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_sort.dart';
 import 'package:quizzerg/feature/question_stats/presentation/question_stats_screen.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
@@ -18,6 +19,7 @@ class QuestionStatsView extends StatelessWidget {
     return AppScaffold(
       appBar: DefaultAppBar(title: context.l10n.questionStatsTitle),
       body: _Body(viewModel: viewModel),
+      floatingActionButton: _ScrollToTopFab(viewModel: viewModel),
     );
   }
 }
@@ -45,11 +47,82 @@ class _Body extends StatelessWidget {
       return _EmptyContent();
     }
 
-    return ListView.separated(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-      itemCount: stats.length,
-      separatorBuilder: (_, __) => const SizedBox(height: 12),
-      itemBuilder: (context, index) => _StatsCard(stat: stats[index]),
+    return CustomScrollView(
+      controller: viewModel.scrollController,
+      slivers: [
+        SliverToBoxAdapter(child: _SortPanel(viewModel: viewModel)),
+        SliverPadding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          sliver: SliverList.separated(
+            itemCount: stats.length,
+            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            itemBuilder: (_, index) => _StatsCard(stat: stats[index]),
+          ),
+        ),
+        const SliverPadding(padding: EdgeInsets.only(bottom: 24)),
+      ],
+    );
+  }
+}
+
+class _SortPanel extends StatelessWidget {
+  final IQuestionStatsViewModel viewModel;
+
+  const _SortPanel({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+    final theme = Theme.of(context);
+    final sortLabel = switch (viewModel.currentSort) {
+      QuestionStatsSort.byDate => l10n.questionStatsSortByDate,
+      QuestionStatsSort.byStreak => l10n.questionStatsSortByStreak,
+      QuestionStatsSort.byAccuracy => l10n.questionStatsSortByAccuracy,
+    };
+    final isAsc = viewModel.sortOrder == SortOrder.ascending;
+
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+      child: Row(
+        children: [
+          ActionChip(
+            avatar: const Icon(Icons.sort, size: 18),
+            label: Text(
+              sortLabel,
+              style: theme.textTheme.bodyMedium,
+            ),
+            onPressed: viewModel.onSortTap,
+          ),
+          const SizedBox(width: 8),
+          IconButton(
+            icon: Icon(isAsc ? Icons.arrow_upward : Icons.arrow_downward),
+            onPressed: viewModel.onSortOrderTap,
+            visualDensity: VisualDensity.compact,
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ScrollToTopFab extends StatelessWidget {
+  final IQuestionStatsViewModel viewModel;
+
+  const _ScrollToTopFab({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedScale(
+      scale: viewModel.showScrollToTop ? 1.0 : 0.0,
+      duration: const Duration(milliseconds: 200),
+      child: AnimatedOpacity(
+        opacity: viewModel.showScrollToTop ? 1.0 : 0.0,
+        duration: const Duration(milliseconds: 200),
+        child: FloatingActionButton.small(
+          onPressed: viewModel.onScrollToTopTap,
+          child: const Icon(Icons.keyboard_arrow_up),
+        ),
+      ),
     );
   }
 }

@@ -659,6 +659,30 @@ abstract class AppLocalizations {
   /// **'Accuracy'**
   String get questionStatsAccuracyLabel;
 
+  /// No description provided for @questionStatsSortByDate.
+  ///
+  /// In en, this message translates to:
+  /// **'By date'**
+  String get questionStatsSortByDate;
+
+  /// No description provided for @questionStatsSortByStreak.
+  ///
+  /// In en, this message translates to:
+  /// **'By streak'**
+  String get questionStatsSortByStreak;
+
+  /// No description provided for @questionStatsSortByAccuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'By accuracy'**
+  String get questionStatsSortByAccuracy;
+
+  /// No description provided for @questionStatsSortTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sort'**
+  String get questionStatsSortTitle;
+
   /// No description provided for @groupsListAppBarTitle.
   ///
   /// In en, this message translates to:

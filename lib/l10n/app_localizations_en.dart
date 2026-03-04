@@ -307,6 +307,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get questionStatsAccuracyLabel => 'Accuracy';
 
   @override
+  String get questionStatsSortByDate => 'By date';
+
+  @override
+  String get questionStatsSortByStreak => 'By streak';
+
+  @override
+  String get questionStatsSortByAccuracy => 'By accuracy';
+
+  @override
+  String get questionStatsSortTitle => 'Sort';
+
+  @override
   String get groupsListAppBarTitle => 'Groups';
 
   @override
