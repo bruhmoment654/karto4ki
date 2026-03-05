@@ -753,5 +753,18 @@
   "groupDetailAddToGroupTitle": "Выберите группы",
   "groupDetailAddToGroupEmpty": "Нет других групп",
   "groupDetailAddToGroupSave": "Сохранить",
-  "groupDetailAddToGroupCancel": "Отмена"
+  "groupDetailAddToGroupCancel": "Отмена",
+  "groupDetailMixupRange": "Количество: {min}–{max}",
+  "@groupDetailMixupRange": {
+    "placeholders": {
+      "min": {
+        "type": "int",
+        "example": "1"
+      },
+      "max": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  }
 }

@@ -16,42 +16,43 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MixupEvent {
-  bool get enabled => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(bool enabled) toggled,
+    required TResult Function(int min, int max) rangeChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(bool enabled)? toggled,
+    TResult? Function(int min, int max)? rangeChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(bool enabled)? toggled,
+    TResult Function(int min, int max)? rangeChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_MixupEvent$Toggled value) toggled,
+    required TResult Function(_MixupEvent$RangeChanged value) rangeChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_MixupEvent$Toggled value)? toggled,
+    TResult? Function(_MixupEvent$RangeChanged value)? rangeChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_MixupEvent$Toggled value)? toggled,
+    TResult Function(_MixupEvent$RangeChanged value)? rangeChanged,
     required TResult orElse(),
   }) =>
-      throw _privateConstructorUsedError;
-
-  @JsonKey(ignore: true)
-  $MixupEventCopyWith<MixupEvent> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -60,8 +61,6 @@ abstract class $MixupEventCopyWith<$Res> {
   factory $MixupEventCopyWith(
           MixupEvent value, $Res Function(MixupEvent) then) =
       _$MixupEventCopyWithImpl<$Res, MixupEvent>;
-  @useResult
-  $Res call({bool enabled});
 }
 
 /// @nodoc
@@ -73,28 +72,13 @@ class _$MixupEventCopyWithImpl<$Res, $Val extends MixupEvent>
   final $Val _value;
   // ignore: unused_field
   final $Res Function($Val) _then;
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? enabled = null,
-  }) {
-    return _then(_value.copyWith(
-      enabled: null == enabled
-          ? _value.enabled
-          : enabled // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ) as $Val);
-  }
 }
 
 /// @nodoc
-abstract class _$$MixupEvent$ToggledImplCopyWith<$Res>
-    implements $MixupEventCopyWith<$Res> {
+abstract class _$$MixupEvent$ToggledImplCopyWith<$Res> {
   factory _$$MixupEvent$ToggledImplCopyWith(_$MixupEvent$ToggledImpl value,
           $Res Function(_$MixupEvent$ToggledImpl) then) =
       __$$MixupEvent$ToggledImplCopyWithImpl<$Res>;
-  @override
   @useResult
   $Res call({bool enabled});
 }
@@ -156,6 +140,7 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(bool enabled) toggled,
+    required TResult Function(int min, int max) rangeChanged,
   }) {
     return toggled(enabled);
   }
@@ -164,6 +149,7 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(bool enabled)? toggled,
+    TResult? Function(int min, int max)? rangeChanged,
   }) {
     return toggled?.call(enabled);
   }
@@ -172,6 +158,7 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(bool enabled)? toggled,
+    TResult Function(int min, int max)? rangeChanged,
     required TResult orElse(),
   }) {
     if (toggled != null) {
@@ -184,6 +171,7 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_MixupEvent$Toggled value) toggled,
+    required TResult Function(_MixupEvent$RangeChanged value) rangeChanged,
   }) {
     return toggled(this);
   }
@@ -192,6 +180,7 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_MixupEvent$Toggled value)? toggled,
+    TResult? Function(_MixupEvent$RangeChanged value)? rangeChanged,
   }) {
     return toggled?.call(this);
   }
@@ -200,6 +189,7 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_MixupEvent$Toggled value)? toggled,
+    TResult Function(_MixupEvent$RangeChanged value)? rangeChanged,
     required TResult orElse(),
   }) {
     if (toggled != null) {
@@ -213,17 +203,164 @@ abstract class _MixupEvent$Toggled implements MixupEvent {
   const factory _MixupEvent$Toggled({required final bool enabled}) =
       _$MixupEvent$ToggledImpl;
 
-  @override
   bool get enabled;
-  @override
   @JsonKey(ignore: true)
   _$$MixupEvent$ToggledImplCopyWith<_$MixupEvent$ToggledImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
 /// @nodoc
+abstract class _$$MixupEvent$RangeChangedImplCopyWith<$Res> {
+  factory _$$MixupEvent$RangeChangedImplCopyWith(
+          _$MixupEvent$RangeChangedImpl value,
+          $Res Function(_$MixupEvent$RangeChangedImpl) then) =
+      __$$MixupEvent$RangeChangedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({int min, int max});
+}
+
+/// @nodoc
+class __$$MixupEvent$RangeChangedImplCopyWithImpl<$Res>
+    extends _$MixupEventCopyWithImpl<$Res, _$MixupEvent$RangeChangedImpl>
+    implements _$$MixupEvent$RangeChangedImplCopyWith<$Res> {
+  __$$MixupEvent$RangeChangedImplCopyWithImpl(
+      _$MixupEvent$RangeChangedImpl _value,
+      $Res Function(_$MixupEvent$RangeChangedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? min = null,
+    Object? max = null,
+  }) {
+    return _then(_$MixupEvent$RangeChangedImpl(
+      min: null == min
+          ? _value.min
+          : min // ignore: cast_nullable_to_non_nullable
+              as int,
+      max: null == max
+          ? _value.max
+          : max // ignore: cast_nullable_to_non_nullable
+              as int,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
+  const _$MixupEvent$RangeChangedImpl({required this.min, required this.max});
+
+  @override
+  final int min;
+  @override
+  final int max;
+
+  @override
+  String toString() {
+    return 'MixupEvent.rangeChanged(min: $min, max: $max)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MixupEvent$RangeChangedImpl &&
+            (identical(other.min, min) || other.min == min) &&
+            (identical(other.max, max) || other.max == max));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, min, max);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MixupEvent$RangeChangedImplCopyWith<_$MixupEvent$RangeChangedImpl>
+      get copyWith => __$$MixupEvent$RangeChangedImplCopyWithImpl<
+          _$MixupEvent$RangeChangedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(bool enabled) toggled,
+    required TResult Function(int min, int max) rangeChanged,
+  }) {
+    return rangeChanged(min, max);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(bool enabled)? toggled,
+    TResult? Function(int min, int max)? rangeChanged,
+  }) {
+    return rangeChanged?.call(min, max);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(bool enabled)? toggled,
+    TResult Function(int min, int max)? rangeChanged,
+    required TResult orElse(),
+  }) {
+    if (rangeChanged != null) {
+      return rangeChanged(min, max);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_MixupEvent$Toggled value) toggled,
+    required TResult Function(_MixupEvent$RangeChanged value) rangeChanged,
+  }) {
+    return rangeChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_MixupEvent$Toggled value)? toggled,
+    TResult? Function(_MixupEvent$RangeChanged value)? rangeChanged,
+  }) {
+    return rangeChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_MixupEvent$Toggled value)? toggled,
+    TResult Function(_MixupEvent$RangeChanged value)? rangeChanged,
+    required TResult orElse(),
+  }) {
+    if (rangeChanged != null) {
+      return rangeChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _MixupEvent$RangeChanged implements MixupEvent {
+  const factory _MixupEvent$RangeChanged(
+      {required final int min,
+      required final int max}) = _$MixupEvent$RangeChangedImpl;
+
+  int get min;
+  int get max;
+  @JsonKey(ignore: true)
+  _$$MixupEvent$RangeChangedImplCopyWith<_$MixupEvent$RangeChangedImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$MixupState {
   bool get enabled => throw _privateConstructorUsedError;
+  int get mixupMin => throw _privateConstructorUsedError;
+  int get mixupMax => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MixupStateCopyWith<MixupState> get copyWith =>
@@ -236,7 +373,7 @@ abstract class $MixupStateCopyWith<$Res> {
           MixupState value, $Res Function(MixupState) then) =
       _$MixupStateCopyWithImpl<$Res, MixupState>;
   @useResult
-  $Res call({bool enabled});
+  $Res call({bool enabled, int mixupMin, int mixupMax});
 }
 
 /// @nodoc
@@ -253,12 +390,22 @@ class _$MixupStateCopyWithImpl<$Res, $Val extends MixupState>
   @override
   $Res call({
     Object? enabled = null,
+    Object? mixupMin = null,
+    Object? mixupMax = null,
   }) {
     return _then(_value.copyWith(
       enabled: null == enabled
           ? _value.enabled
           : enabled // ignore: cast_nullable_to_non_nullable
               as bool,
+      mixupMin: null == mixupMin
+          ? _value.mixupMin
+          : mixupMin // ignore: cast_nullable_to_non_nullable
+              as int,
+      mixupMax: null == mixupMax
+          ? _value.mixupMax
+          : mixupMax // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -271,7 +418,7 @@ abstract class _$$MixupStateImplCopyWith<$Res>
       __$$MixupStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool enabled});
+  $Res call({bool enabled, int mixupMin, int mixupMax});
 }
 
 /// @nodoc
@@ -286,12 +433,22 @@ class __$$MixupStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? enabled = null,
+    Object? mixupMin = null,
+    Object? mixupMax = null,
   }) {
     return _then(_$MixupStateImpl(
       enabled: null == enabled
           ? _value.enabled
           : enabled // ignore: cast_nullable_to_non_nullable
               as bool,
+      mixupMin: null == mixupMin
+          ? _value.mixupMin
+          : mixupMin // ignore: cast_nullable_to_non_nullable
+              as int,
+      mixupMax: null == mixupMax
+          ? _value.mixupMax
+          : mixupMax // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -299,15 +456,22 @@ class __$$MixupStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$MixupStateImpl implements _MixupState {
-  const _$MixupStateImpl({this.enabled = false});
+  const _$MixupStateImpl(
+      {this.enabled = false, this.mixupMin = 1, this.mixupMax = 5});
 
   @override
   @JsonKey()
   final bool enabled;
+  @override
+  @JsonKey()
+  final int mixupMin;
+  @override
+  @JsonKey()
+  final int mixupMax;
 
   @override
   String toString() {
-    return 'MixupState(enabled: $enabled)';
+    return 'MixupState(enabled: $enabled, mixupMin: $mixupMin, mixupMax: $mixupMax)';
   }
 
   @override
@@ -315,11 +479,15 @@ class _$MixupStateImpl implements _MixupState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$MixupStateImpl &&
-            (identical(other.enabled, enabled) || other.enabled == enabled));
+            (identical(other.enabled, enabled) || other.enabled == enabled) &&
+            (identical(other.mixupMin, mixupMin) ||
+                other.mixupMin == mixupMin) &&
+            (identical(other.mixupMax, mixupMax) ||
+                other.mixupMax == mixupMax));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, enabled);
+  int get hashCode => Object.hash(runtimeType, enabled, mixupMin, mixupMax);
 
   @JsonKey(ignore: true)
   @override
@@ -329,10 +497,17 @@ class _$MixupStateImpl implements _MixupState {
 }
 
 abstract class _MixupState implements MixupState {
-  const factory _MixupState({final bool enabled}) = _$MixupStateImpl;
+  const factory _MixupState(
+      {final bool enabled,
+      final int mixupMin,
+      final int mixupMax}) = _$MixupStateImpl;
 
   @override
   bool get enabled;
+  @override
+  int get mixupMin;
+  @override
+  int get mixupMax;
   @override
   @JsonKey(ignore: true)
   _$$MixupStateImplCopyWith<_$MixupStateImpl> get copyWith =>

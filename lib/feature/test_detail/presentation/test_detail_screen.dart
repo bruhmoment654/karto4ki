@@ -18,8 +18,15 @@ import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 /// Contains logic for displaying test info, managing cards.
 class TestDetailScreen extends StatefulWidget {
   final bool mixup;
+  final int mixupMin;
+  final int mixupMax;
 
-  const TestDetailScreen({this.mixup = false, super.key});
+  const TestDetailScreen({
+    this.mixup = false,
+    this.mixupMin = 1,
+    this.mixupMax = 5,
+    super.key,
+  });
 
   @override
   State<TestDetailScreen> createState() => _TestDetailScreenState();
@@ -255,6 +262,8 @@ class _TestDetailScreenState extends State<TestDetailScreen>
             testId: testId,
             swapSides: _swapSides,
             mixup: widget.mixup,
+            mixupMin: widget.mixupMin,
+            mixupMax: widget.mixupMax,
           ),
         );
     }

@@ -8,6 +8,8 @@ sealed class TinderTestEvent with _$TinderTestEvent {
     required int testId,
     @Default(false) bool swapSides,
     @Default(false) bool mixup,
+    @Default(1) int mixupMin,
+    @Default(5) int mixupMax,
   }) = _TinderTestEvent$Started;
 
   /// Swipe left (incorrect answer).

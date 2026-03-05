@@ -5,5 +5,7 @@ part of 'mixup_bloc.dart';
 sealed class MixupState with _$MixupState {
   const factory MixupState({
     @Default(false) bool enabled,
+    @Default(1) int mixupMin,
+    @Default(5) int mixupMax,
   }) = _MixupState;
 }

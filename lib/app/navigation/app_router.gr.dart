@@ -218,6 +218,8 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
   TestDetailRoute({
     required int testId,
     bool mixup = false,
+    int mixupMin = 1,
+    int mixupMax = 5,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -225,6 +227,8 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
           args: TestDetailRouteArgs(
             testId: testId,
             mixup: mixup,
+            mixupMin: mixupMin,
+            mixupMax: mixupMax,
             key: key,
           ),
           rawPathParams: {'testId': testId},
@@ -244,6 +248,8 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
           child: TestDetailFlow(
         testId: args.testId,
         mixup: args.mixup,
+        mixupMin: args.mixupMin,
+        mixupMax: args.mixupMax,
         key: args.key,
       ));
     },
@@ -254,6 +260,8 @@ class TestDetailRouteArgs {
   const TestDetailRouteArgs({
     required this.testId,
     this.mixup = false,
+    this.mixupMin = 1,
+    this.mixupMax = 5,
     this.key,
   });
 
@@ -261,11 +269,15 @@ class TestDetailRouteArgs {
 
   final bool mixup;
 
+  final int mixupMin;
+
+  final int mixupMax;
+
   final Key? key;
 
   @override
   String toString() {
-    return 'TestDetailRouteArgs{testId: $testId, mixup: $mixup, key: $key}';
+    return 'TestDetailRouteArgs{testId: $testId, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, key: $key}';
   }
 }
 
@@ -342,6 +354,8 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
     required int testId,
     bool swapSides = false,
     bool mixup = false,
+    int mixupMin = 1,
+    int mixupMax = 5,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -350,6 +364,8 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
             testId: testId,
             swapSides: swapSides,
             mixup: mixup,
+            mixupMin: mixupMin,
+            mixupMax: mixupMax,
             key: key,
           ),
           rawPathParams: {'testId': testId},
@@ -370,6 +386,8 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
         testId: args.testId,
         swapSides: args.swapSides,
         mixup: args.mixup,
+        mixupMin: args.mixupMin,
+        mixupMax: args.mixupMax,
         key: args.key,
       ));
     },
@@ -381,6 +399,8 @@ class TinderTestRouteArgs {
     required this.testId,
     this.swapSides = false,
     this.mixup = false,
+    this.mixupMin = 1,
+    this.mixupMax = 5,
     this.key,
   });
 
@@ -390,10 +410,14 @@ class TinderTestRouteArgs {
 
   final bool mixup;
 
+  final int mixupMin;
+
+  final int mixupMax;
+
   final Key? key;
 
   @override
   String toString() {
-    return 'TinderTestRouteArgs{testId: $testId, swapSides: $swapSides, mixup: $mixup, key: $key}';
+    return 'TinderTestRouteArgs{testId: $testId, swapSides: $swapSides, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, key: $key}';
   }
 }

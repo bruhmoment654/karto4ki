@@ -18,7 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TinderTestEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId, bool swapSides, bool mixup) started,
+    required TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)
+        started,
     required TResult Function(String cardId) swipedLeft,
     required TResult Function(String cardId) swipedRight,
     required TResult Function() completed,
@@ -28,7 +30,9 @@ mixin _$TinderTestEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId, bool swapSides, bool mixup)? started,
+    TResult? Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult? Function(String cardId)? swipedLeft,
     TResult? Function(String cardId)? swipedRight,
     TResult? Function()? completed,
@@ -38,7 +42,9 @@ mixin _$TinderTestEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId, bool swapSides, bool mixup)? started,
+    TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult Function(String cardId)? swipedLeft,
     TResult Function(String cardId)? swipedRight,
     TResult Function()? completed,
@@ -105,7 +111,8 @@ abstract class _$$TinderTestEvent$StartedImplCopyWith<$Res> {
           $Res Function(_$TinderTestEvent$StartedImpl) then) =
       __$$TinderTestEvent$StartedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int testId, bool swapSides, bool mixup});
+  $Res call(
+      {int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax});
 }
 
 /// @nodoc
@@ -123,6 +130,8 @@ class __$$TinderTestEvent$StartedImplCopyWithImpl<$Res>
     Object? testId = null,
     Object? swapSides = null,
     Object? mixup = null,
+    Object? mixupMin = null,
+    Object? mixupMax = null,
   }) {
     return _then(_$TinderTestEvent$StartedImpl(
       testId: null == testId
@@ -137,6 +146,14 @@ class __$$TinderTestEvent$StartedImplCopyWithImpl<$Res>
           ? _value.mixup
           : mixup // ignore: cast_nullable_to_non_nullable
               as bool,
+      mixupMin: null == mixupMin
+          ? _value.mixupMin
+          : mixupMin // ignore: cast_nullable_to_non_nullable
+              as int,
+      mixupMax: null == mixupMax
+          ? _value.mixupMax
+          : mixupMax // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -145,7 +162,11 @@ class __$$TinderTestEvent$StartedImplCopyWithImpl<$Res>
 
 class _$TinderTestEvent$StartedImpl implements _TinderTestEvent$Started {
   const _$TinderTestEvent$StartedImpl(
-      {required this.testId, this.swapSides = false, this.mixup = false});
+      {required this.testId,
+      this.swapSides = false,
+      this.mixup = false,
+      this.mixupMin = 1,
+      this.mixupMax = 5});
 
   @override
   final int testId;
@@ -155,10 +176,16 @@ class _$TinderTestEvent$StartedImpl implements _TinderTestEvent$Started {
   @override
   @JsonKey()
   final bool mixup;
+  @override
+  @JsonKey()
+  final int mixupMin;
+  @override
+  @JsonKey()
+  final int mixupMax;
 
   @override
   String toString() {
-    return 'TinderTestEvent.started(testId: $testId, swapSides: $swapSides, mixup: $mixup)';
+    return 'TinderTestEvent.started(testId: $testId, swapSides: $swapSides, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax)';
   }
 
   @override
@@ -169,11 +196,16 @@ class _$TinderTestEvent$StartedImpl implements _TinderTestEvent$Started {
             (identical(other.testId, testId) || other.testId == testId) &&
             (identical(other.swapSides, swapSides) ||
                 other.swapSides == swapSides) &&
-            (identical(other.mixup, mixup) || other.mixup == mixup));
+            (identical(other.mixup, mixup) || other.mixup == mixup) &&
+            (identical(other.mixupMin, mixupMin) ||
+                other.mixupMin == mixupMin) &&
+            (identical(other.mixupMax, mixupMax) ||
+                other.mixupMax == mixupMax));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, testId, swapSides, mixup);
+  int get hashCode =>
+      Object.hash(runtimeType, testId, swapSides, mixup, mixupMin, mixupMax);
 
   @JsonKey(ignore: true)
   @override
@@ -185,33 +217,39 @@ class _$TinderTestEvent$StartedImpl implements _TinderTestEvent$Started {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId, bool swapSides, bool mixup) started,
+    required TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)
+        started,
     required TResult Function(String cardId) swipedLeft,
     required TResult Function(String cardId) swipedRight,
     required TResult Function() completed,
     required TResult Function() discard,
     required TResult Function() restarted,
   }) {
-    return started(testId, swapSides, mixup);
+    return started(testId, swapSides, mixup, mixupMin, mixupMax);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId, bool swapSides, bool mixup)? started,
+    TResult? Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult? Function(String cardId)? swipedLeft,
     TResult? Function(String cardId)? swipedRight,
     TResult? Function()? completed,
     TResult? Function()? discard,
     TResult? Function()? restarted,
   }) {
-    return started?.call(testId, swapSides, mixup);
+    return started?.call(testId, swapSides, mixup, mixupMin, mixupMax);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId, bool swapSides, bool mixup)? started,
+    TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult Function(String cardId)? swipedLeft,
     TResult Function(String cardId)? swipedRight,
     TResult Function()? completed,
@@ -220,7 +258,7 @@ class _$TinderTestEvent$StartedImpl implements _TinderTestEvent$Started {
     required TResult orElse(),
   }) {
     if (started != null) {
-      return started(testId, swapSides, mixup);
+      return started(testId, swapSides, mixup, mixupMin, mixupMax);
     }
     return orElse();
   }
@@ -273,11 +311,15 @@ abstract class _TinderTestEvent$Started implements TinderTestEvent {
   const factory _TinderTestEvent$Started(
       {required final int testId,
       final bool swapSides,
-      final bool mixup}) = _$TinderTestEvent$StartedImpl;
+      final bool mixup,
+      final int mixupMin,
+      final int mixupMax}) = _$TinderTestEvent$StartedImpl;
 
   int get testId;
   bool get swapSides;
   bool get mixup;
+  int get mixupMin;
+  int get mixupMax;
   @JsonKey(ignore: true)
   _$$TinderTestEvent$StartedImplCopyWith<_$TinderTestEvent$StartedImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -351,7 +393,9 @@ class _$TinderTestEvent$SwipedLeftImpl implements _TinderTestEvent$SwipedLeft {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId, bool swapSides, bool mixup) started,
+    required TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)
+        started,
     required TResult Function(String cardId) swipedLeft,
     required TResult Function(String cardId) swipedRight,
     required TResult Function() completed,
@@ -364,7 +408,9 @@ class _$TinderTestEvent$SwipedLeftImpl implements _TinderTestEvent$SwipedLeft {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId, bool swapSides, bool mixup)? started,
+    TResult? Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult? Function(String cardId)? swipedLeft,
     TResult? Function(String cardId)? swipedRight,
     TResult? Function()? completed,
@@ -377,7 +423,9 @@ class _$TinderTestEvent$SwipedLeftImpl implements _TinderTestEvent$SwipedLeft {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId, bool swapSides, bool mixup)? started,
+    TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult Function(String cardId)? swipedLeft,
     TResult Function(String cardId)? swipedRight,
     TResult Function()? completed,
@@ -514,7 +562,9 @@ class _$TinderTestEvent$SwipedRightImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId, bool swapSides, bool mixup) started,
+    required TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)
+        started,
     required TResult Function(String cardId) swipedLeft,
     required TResult Function(String cardId) swipedRight,
     required TResult Function() completed,
@@ -527,7 +577,9 @@ class _$TinderTestEvent$SwipedRightImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId, bool swapSides, bool mixup)? started,
+    TResult? Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult? Function(String cardId)? swipedLeft,
     TResult? Function(String cardId)? swipedRight,
     TResult? Function()? completed,
@@ -540,7 +592,9 @@ class _$TinderTestEvent$SwipedRightImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId, bool swapSides, bool mixup)? started,
+    TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult Function(String cardId)? swipedLeft,
     TResult Function(String cardId)? swipedRight,
     TResult Function()? completed,
@@ -649,7 +703,9 @@ class _$TinderTestEvent$CompletedImpl implements _TinderTestEvent$Completed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId, bool swapSides, bool mixup) started,
+    required TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)
+        started,
     required TResult Function(String cardId) swipedLeft,
     required TResult Function(String cardId) swipedRight,
     required TResult Function() completed,
@@ -662,7 +718,9 @@ class _$TinderTestEvent$CompletedImpl implements _TinderTestEvent$Completed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId, bool swapSides, bool mixup)? started,
+    TResult? Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult? Function(String cardId)? swipedLeft,
     TResult? Function(String cardId)? swipedRight,
     TResult? Function()? completed,
@@ -675,7 +733,9 @@ class _$TinderTestEvent$CompletedImpl implements _TinderTestEvent$Completed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId, bool swapSides, bool mixup)? started,
+    TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult Function(String cardId)? swipedLeft,
     TResult Function(String cardId)? swipedRight,
     TResult Function()? completed,
@@ -778,7 +838,9 @@ class _$TinderTestEvent$DiscardImpl implements _TinderTestEvent$Discard {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId, bool swapSides, bool mixup) started,
+    required TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)
+        started,
     required TResult Function(String cardId) swipedLeft,
     required TResult Function(String cardId) swipedRight,
     required TResult Function() completed,
@@ -791,7 +853,9 @@ class _$TinderTestEvent$DiscardImpl implements _TinderTestEvent$Discard {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId, bool swapSides, bool mixup)? started,
+    TResult? Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult? Function(String cardId)? swipedLeft,
     TResult? Function(String cardId)? swipedRight,
     TResult? Function()? completed,
@@ -804,7 +868,9 @@ class _$TinderTestEvent$DiscardImpl implements _TinderTestEvent$Discard {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId, bool swapSides, bool mixup)? started,
+    TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult Function(String cardId)? swipedLeft,
     TResult Function(String cardId)? swipedRight,
     TResult Function()? completed,
@@ -907,7 +973,9 @@ class _$TinderTestEvent$RestartedImpl implements _TinderTestEvent$Restarted {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId, bool swapSides, bool mixup) started,
+    required TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)
+        started,
     required TResult Function(String cardId) swipedLeft,
     required TResult Function(String cardId) swipedRight,
     required TResult Function() completed,
@@ -920,7 +988,9 @@ class _$TinderTestEvent$RestartedImpl implements _TinderTestEvent$Restarted {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId, bool swapSides, bool mixup)? started,
+    TResult? Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult? Function(String cardId)? swipedLeft,
     TResult? Function(String cardId)? swipedRight,
     TResult? Function()? completed,
@@ -933,7 +1003,9 @@ class _$TinderTestEvent$RestartedImpl implements _TinderTestEvent$Restarted {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId, bool swapSides, bool mixup)? started,
+    TResult Function(
+            int testId, bool swapSides, bool mixup, int mixupMin, int mixupMax)?
+        started,
     TResult Function(String cardId)? swipedLeft,
     TResult Function(String cardId)? swipedRight,
     TResult Function()? completed,

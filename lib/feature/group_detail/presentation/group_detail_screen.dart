@@ -40,15 +40,25 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
 
   @override
   void onTestTapped(TestEntity test) {
-    final mixup = context.read<MixupBloc>().state.enabled;
+    final mixupState = context.read<MixupBloc>().state;
     context.router.push(
-      TestDetailRoute(testId: int.parse(test.id), mixup: mixup),
+      TestDetailRoute(
+        testId: int.parse(test.id),
+        mixup: mixupState.enabled,
+        mixupMin: mixupState.mixupMin,
+        mixupMax: mixupState.mixupMax,
+      ),
     );
   }
 
   @override
   void onMixupChanged({required bool value}) {
     context.read<MixupBloc>().add(MixupEvent.toggled(enabled: value));
+  }
+
+  @override
+  void onMixupRangeChanged({required int min, required int max}) {
+    context.read<MixupBloc>().add(MixupEvent.rangeChanged(min: min, max: max));
   }
 
   @override
@@ -327,4 +337,6 @@ abstract interface class IGroupDetailViewModel {
   void onEditTitlePressed();
 
   void onMixupChanged({required bool value});
+
+  void onMixupRangeChanged({required int min, required int max});
 }

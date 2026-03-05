@@ -90,9 +90,21 @@ class GroupDetailView extends StatelessWidget {
                 children: [
                   BlocBuilder<MixupBloc, MixupState>(
                     builder: (context, mixupState) {
-                      return _MixupToggle(
-                        value: mixupState.enabled,
-                        onChanged: (v) => viewModel.onMixupChanged(value: v),
+                      return Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          _MixupToggle(
+                            value: mixupState.enabled,
+                            onChanged: (v) =>
+                                viewModel.onMixupChanged(value: v),
+                          ),
+                          if (mixupState.enabled)
+                            _MixupRangeSlider(
+                              min: mixupState.mixupMin,
+                              max: mixupState.mixupMax,
+                              onChanged: viewModel.onMixupRangeChanged,
+                            ),
+                        ],
                       );
                     },
                   ),
@@ -216,6 +228,49 @@ class _TestListItem extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class _MixupRangeSlider extends StatelessWidget {
+  final int min;
+  final int max;
+  final void Function({required int min, required int max}) onChanged;
+
+  const _MixupRangeSlider({
+    required this.min,
+    required this.max,
+    required this.onChanged,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            context.l10n.groupDetailMixupRange(min, max),
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
+          ),
+          RangeSlider(
+            values: RangeValues(min.toDouble(), max.toDouble()),
+            min: 1,
+            max: 20,
+            divisions: 19,
+            labels: RangeLabels('$min', '$max'),
+            onChanged: (values) {
+              onChanged(
+                min: values.start.round(),
+                max: values.end.round(),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

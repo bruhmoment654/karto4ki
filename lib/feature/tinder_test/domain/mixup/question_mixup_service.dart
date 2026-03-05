@@ -24,6 +24,8 @@ class QuestionMixupService {
   Future<List<CardEntity>> getMixupCards({
     required int testId,
     required List<CardEntity> mainCards,
+    required int mixupMin,
+    required int mixupMax,
   }) async {
     final groupIds = await _groupsDatabase.getGroupIdsByTestId(testId);
     if (groupIds.isEmpty) return [];
@@ -71,11 +73,9 @@ class QuestionMixupService {
     final hasNegativeStreak = statsMap.values.any((s) => s.streak < 0);
 
     final random = Random();
-    final int count;
+    final count = random.nextInt(mixupMax - mixupMin + 1) + mixupMin;
 
     if (hasNegativeStreak) {
-      count = random.nextInt(4) + 2;
-
       candidates.sort((a, b) {
         final keyA = QuestionKeyNormalizer.normalize(a.front, a.back);
         final keyB = QuestionKeyNormalizer.normalize(b.front, b.back);
@@ -92,8 +92,6 @@ class QuestionMixupService {
         return statB.totalIncorrect.compareTo(statA.totalIncorrect);
       });
     } else {
-      count = random.nextInt(2) + 1;
-
       candidates.sort((a, b) {
         final keyA = QuestionKeyNormalizer.normalize(a.front, a.back);
         final keyB = QuestionKeyNormalizer.normalize(b.front, b.back);

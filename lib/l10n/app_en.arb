@@ -315,5 +315,18 @@
   "groupDetailAddToGroupTitle": "Select groups",
   "groupDetailAddToGroupEmpty": "No other groups",
   "groupDetailAddToGroupSave": "Save",
-  "groupDetailAddToGroupCancel": "Cancel"
+  "groupDetailAddToGroupCancel": "Cancel",
+  "groupDetailMixupRange": "Count: {min}–{max}",
+  "@groupDetailMixupRange": {
+    "placeholders": {
+      "min": {
+        "type": "int",
+        "example": "1"
+      },
+      "max": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  }
 }

@@ -15,11 +15,15 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
   final int testId;
   final bool swapSides;
   final bool mixup;
+  final int mixupMin;
+  final int mixupMax;
 
   const TinderTestFlow({
     @PathParam('testId') required this.testId,
     this.swapSides = false,
     this.mixup = false,
+    this.mixupMin = 1,
+    this.mixupMax = 5,
     super.key,
   });
 
@@ -40,6 +44,8 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
           testId: testId,
           swapSides: swapSides,
           mixup: mixup,
+          mixupMin: mixupMin,
+          mixupMax: mixupMax,
         )),
       child: this,
     );

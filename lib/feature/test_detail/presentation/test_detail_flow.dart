@@ -13,10 +13,14 @@ import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dar
 class TestDetailFlow extends StatelessWidget implements AutoRouteWrapper {
   final int testId;
   final bool mixup;
+  final int mixupMin;
+  final int mixupMax;
 
   const TestDetailFlow({
     @PathParam('testId') required this.testId,
     this.mixup = false,
+    this.mixupMin = 1,
+    this.mixupMax = 5,
     super.key,
   });
 
@@ -33,6 +37,10 @@ class TestDetailFlow extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return TestDetailScreen(mixup: mixup);
+    return TestDetailScreen(
+      mixup: mixup,
+      mixupMin: mixupMin,
+      mixupMax: mixupMax,
+    );
   }
 }

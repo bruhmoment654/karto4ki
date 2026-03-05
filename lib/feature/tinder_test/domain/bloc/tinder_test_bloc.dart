@@ -24,6 +24,8 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   final QuestionMixupService? _mixupService;
   bool _swapSides = false;
   bool _mixup = false;
+  int _mixupMin = 1;
+  int _mixupMax = 5;
 
   TinderTestBloc({
     required ICardRepository cardRepository,
@@ -52,6 +54,8 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     emit(const TinderTestState.loading());
     _swapSides = event.swapSides;
     _mixup = event.mixup;
+    _mixupMin = event.mixupMin;
+    _mixupMax = event.mixupMax;
 
     final result = await _cardRepository.getCardsByTestId(event.testId);
     switch (result) {
@@ -67,6 +71,8 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
           final mixupCards = await _mixupService.getMixupCards(
             testId: event.testId,
             mainCards: cards,
+            mixupMin: _mixupMin,
+            mixupMax: _mixupMax,
           );
           cards = [...cards, ...mixupCards];
         }
@@ -192,6 +198,8 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
       testId: testId,
       swapSides: _swapSides,
       mixup: _mixup,
+      mixupMin: _mixupMin,
+      mixupMax: _mixupMax,
     ));
   }
 
