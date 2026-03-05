@@ -29,8 +29,7 @@ class GroupDetailRepository extends BaseRepository
       makeCall(() async {
         final dto = await _groupsDatabase.getGroupById(groupId);
         if (dto == null) return null;
-        final testCount =
-            await _groupsDatabase.getTestCountByGroupId(groupId);
+        final testCount = await _groupsDatabase.getTestCountByGroupId(groupId);
         return TestGroupConverter.fromDto(dto, testCount: testCount);
       });
 
@@ -88,8 +87,7 @@ class GroupDetailRepository extends BaseRepository
       });
 
   @override
-  RequestOperation<int> getGroupCountForTest(int testId) =>
-      makeCall(() async {
+  RequestOperation<int> getGroupCountForTest(int testId) => makeCall(() async {
         return _groupsDatabase.getGroupCountByTestId(testId);
       });
 
@@ -98,8 +96,7 @@ class GroupDetailRepository extends BaseRepository
         final dtos = await _groupsDatabase.getAllGroups();
         final groups = <TestGroupEntity>[];
         for (final dto in dtos) {
-          final testCount =
-              await _groupsDatabase.getTestCountByGroupId(dto.id);
+          final testCount = await _groupsDatabase.getTestCountByGroupId(dto.id);
           groups.add(TestGroupConverter.fromDto(dto, testCount: testCount));
         }
         return groups;

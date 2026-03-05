@@ -51,9 +51,10 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     final itemsColor = colorScheme.onSurfaceVariant;
 
     final styledTitle = DefaultTextStyle(
-      style: (Theme.of(context).textTheme.titleLarge ?? const TextStyle()).copyWith(
-            color: itemsColor,
-          ),
+      style: (Theme.of(context).textTheme.titleLarge ?? const TextStyle())
+          .copyWith(
+        color: itemsColor,
+      ),
       child: IconTheme(
         data: IconThemeData(color: itemsColor, size: 24),
         child: title,

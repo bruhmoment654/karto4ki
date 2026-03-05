@@ -52,8 +52,7 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
           return;
         }
 
-        final cardsResult =
-            await _repository.getCardsByTestId(event.testId);
+        final cardsResult = await _repository.getCardsByTestId(event.testId);
         switch (cardsResult) {
           case ResultOk(:final data):
             emit(TestDetailState.loaded(

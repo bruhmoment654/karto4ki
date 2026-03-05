@@ -47,7 +47,11 @@ class TinderTestView extends StatelessWidget {
             message: message,
             viewModel: viewModel,
           ),
-        TinderTestState$InProgress(:final session, :final currentCard, :final isUndo) =>
+        TinderTestState$InProgress(
+          :final session,
+          :final currentCard,
+          :final isUndo
+        ) =>
           _TestContent(
             session: session,
             currentCard: currentCard,
@@ -212,8 +216,10 @@ class _TestContentState extends State<_TestContent> {
                   enterFromLeft: widget.isUndo,
                   flipDuration: flipDuration,
                   onTap: () => _showAnswer.value = !currentShowAnswer,
-                  onSwipeLeft: () => widget.viewModel.onSwipeLeft(widget.currentCard),
-                  onSwipeRight: () => widget.viewModel.onSwipeRight(widget.currentCard),
+                  onSwipeLeft: () =>
+                      widget.viewModel.onSwipeLeft(widget.currentCard),
+                  onSwipeRight: () =>
+                      widget.viewModel.onSwipeRight(widget.currentCard),
                 );
               },
             ),
@@ -250,7 +256,8 @@ class _ProgressIndicator extends StatelessWidget {
                   session.currentIndex + 1,
                   session.cards.length,
                 ),
-                style: TextStyle(fontSize: 14, color: colorScheme.onSurfaceVariant),
+                style: TextStyle(
+                    fontSize: 14, color: colorScheme.onSurfaceVariant),
               ),
               Row(
                 children: [
@@ -334,7 +341,8 @@ class _UndoButton extends StatelessWidget {
         icon: const Icon(Icons.undo),
         tooltip: context.l10n.tinderTestUndoTooltip,
         style: IconButton.styleFrom(
-          backgroundColor: Theme.of(context).colorScheme.surfaceContainerHighest,
+          backgroundColor:
+              Theme.of(context).colorScheme.surfaceContainerHighest,
           foregroundColor: Theme.of(context).colorScheme.onSurface,
         ),
       ),

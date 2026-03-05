@@ -15,8 +15,7 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
   GroupsDatabase(super.attachedDatabase);
 
   /// Получить все группы.
-  Future<List<TestGroupDatabaseDto>> getAllGroups() =>
-      select(testGroups).get();
+  Future<List<TestGroupDatabaseDto>> getAllGroups() => select(testGroups).get();
 
   /// Получить группу по id.
   Future<TestGroupDatabaseDto?> getGroupById(int id) =>
@@ -81,8 +80,7 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
   /// Обновить привязки теста к группам (в транзакции).
   Future<void> updateTestGroups(int testId, List<int> groupIds) =>
       transaction(() async {
-        await (delete(testGroupEntries)
-              ..where((e) => e.testId.equals(testId)))
+        await (delete(testGroupEntries)..where((e) => e.testId.equals(testId)))
             .go();
         for (final groupId in groupIds) {
           await into(testGroupEntries).insert(

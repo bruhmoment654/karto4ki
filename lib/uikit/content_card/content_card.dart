@@ -44,8 +44,7 @@ class ContentCard extends StatelessWidget {
           child: CustomPaint(
             painter: ContentCardPainter(
               type: type,
-              accentColor:
-                  accentColor ?? Theme.of(context).colorScheme.primary,
+              accentColor: accentColor ?? Theme.of(context).colorScheme.primary,
             ),
             child: Padding(
               padding: padding ?? _defaultPadding(type),
@@ -59,9 +58,11 @@ class ContentCard extends StatelessWidget {
 
   static BorderRadius _defaultBorderRadius(ContentCardType type) =>
       switch (type) {
-        ContentCardType.large || ContentCardType.medium =>
+        ContentCardType.large ||
+        ContentCardType.medium =>
           BorderRadius.circular(AppDimens.radius16),
-        ContentCardType.smallWide || ContentCardType.small =>
+        ContentCardType.smallWide ||
+        ContentCardType.small =>
           BorderRadius.circular(AppDimens.radius8),
       };
 

@@ -29,7 +29,8 @@ sealed class Result<TData, TErr extends Object> {
   const factory Result.ok(TData data) = ResultOk;
 
   /// {@macro result.class}
-  const factory Result.failed(TErr failure, StackTrace stackTrace) = ResultFailed;
+  const factory Result.failed(TErr failure, StackTrace stackTrace) =
+      ResultFailed;
 
   /// Convert [ResultOk].
   Result<R, TErr> mapOk<R>(R Function(TData value) mapper) {
@@ -80,7 +81,8 @@ final class ResultOk<TData, TErr extends Object> extends Result<TData, TErr> {
 }
 
 /// {@macro result.class}
-final class ResultFailed<TData, TErr extends Object> extends Result<TData, TErr> {
+final class ResultFailed<TData, TErr extends Object>
+    extends Result<TData, TErr> {
   /// Error.
   final TErr error;
 

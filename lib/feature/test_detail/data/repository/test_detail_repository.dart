@@ -23,8 +23,7 @@ class TestDetailRepository extends BaseRepository
         _cardsDatabase = cardsDatabase;
 
   @override
-  RequestOperation<TestEntity?> getTestById(int testId) =>
-      makeCall(() async {
+  RequestOperation<TestEntity?> getTestById(int testId) => makeCall(() async {
         final dto = await _testsDatabase.getTestById(testId);
         if (dto == null) return null;
         return TestConverter.fromDto(dto);

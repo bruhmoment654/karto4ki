@@ -127,7 +127,8 @@ class QuestionCardContent extends StatelessWidget {
     final maxDistance = screenWidth * 0.3;
     final badgeOpacity = dxAbs <= showThreshold
         ? 0.0
-        : ((dxAbs - showThreshold) / (maxDistance - showThreshold)).clamp(0.0, 1.0);
+        : ((dxAbs - showThreshold) / (maxDistance - showThreshold))
+            .clamp(0.0, 1.0);
 
     if (!enableFlipAnimation) {
       final angle = showAnswer ? math.pi : 0.0;
@@ -158,9 +159,8 @@ class QuestionCardContent extends StatelessWidget {
         transform: transform,
         child: ContentCard(
           type: ContentCardType.large,
-          accentColor: isMixedIn
-              ? Theme.of(context).colorScheme.tertiary
-              : null,
+          accentColor:
+              isMixedIn ? Theme.of(context).colorScheme.tertiary : null,
           child: SizedBox.expand(
             child: Center(child: face),
           ),
@@ -203,9 +203,8 @@ class QuestionCardContent extends StatelessWidget {
           transform: transform,
           child: ContentCard(
             type: ContentCardType.large,
-            accentColor: isMixedIn
-                ? Theme.of(context).colorScheme.tertiary
-                : null,
+            accentColor:
+                isMixedIn ? Theme.of(context).colorScheme.tertiary : null,
             child: SizedBox.expand(
               child: Center(child: face),
             ),

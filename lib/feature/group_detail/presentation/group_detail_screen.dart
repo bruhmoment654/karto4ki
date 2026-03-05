@@ -127,8 +127,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   Future<void> _showRemoveTestDialog(TestEntity test) async {
     final scope = context.read<IAppScope>();
     final bloc = context.read<GroupDetailBloc>();
-    final countResult =
-        await scope.groupDetailRepository.getGroupCountForTest(
+    final countResult = await scope.groupDetailRepository.getGroupCountForTest(
       int.parse(test.id),
     );
 
@@ -146,8 +145,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         ),
         content: Text(
           isLastGroup
-              ? context.l10n
-                  .groupDetailRemoveTestLastGroupMessage(test.title)
+              ? context.l10n.groupDetailRemoveTestLastGroupMessage(test.title)
               : context.l10n.groupDetailRemoveTestMessage(test.title),
         ),
         actions: [

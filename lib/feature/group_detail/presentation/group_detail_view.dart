@@ -92,8 +92,7 @@ class GroupDetailView extends StatelessWidget {
                     builder: (context, mixupState) {
                       return _MixupToggle(
                         value: mixupState.enabled,
-                        onChanged: (v) =>
-                            viewModel.onMixupChanged(value: v),
+                        onChanged: (v) => viewModel.onMixupChanged(value: v),
                       );
                     },
                   ),

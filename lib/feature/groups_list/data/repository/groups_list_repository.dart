@@ -23,8 +23,7 @@ class GroupsListRepository extends BaseRepository
         final dtos = await _groupsDatabase.getAllGroups();
         final groups = <TestGroupEntity>[];
         for (final dto in dtos) {
-          final testCount =
-              await _groupsDatabase.getTestCountByGroupId(dto.id);
+          final testCount = await _groupsDatabase.getTestCountByGroupId(dto.id);
           groups.add(TestGroupConverter.fromDto(dto, testCount: testCount));
         }
         return groups;

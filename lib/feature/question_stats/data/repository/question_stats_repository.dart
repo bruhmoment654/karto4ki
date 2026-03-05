@@ -37,8 +37,7 @@ class QuestionStatsRepository extends BaseRepository
           if (card == null) continue;
 
           upsertData.add((
-            questionKey:
-                QuestionKeyNormalizer.normalize(card.front, card.back),
+            questionKey: QuestionKeyNormalizer.normalize(card.front, card.back),
             frontText: card.front,
             backText: card.back,
             isCorrect: result.isCorrect,

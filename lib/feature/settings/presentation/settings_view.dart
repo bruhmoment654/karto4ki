@@ -168,7 +168,8 @@ class _ShaderAnimationCard extends StatelessWidget {
           ),
           AppSwitch(
             value: viewModel.shaderAnimationEnabled,
-            onChanged: (value) => viewModel.onShaderAnimationToggled(value: value),
+            onChanged: (value) =>
+                viewModel.onShaderAnimationToggled(value: value),
           ),
         ],
       ),

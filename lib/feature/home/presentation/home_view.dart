@@ -32,7 +32,6 @@ class HomeView extends StatelessWidget {
             ),
           ),
           child: BottomNavigationBar(
-
             backgroundColor: colorScheme.surface.withAlpha(50),
             currentIndex: tabsRouter.activeIndex,
             onTap: tabsRouter.setActiveIndex,

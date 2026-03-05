@@ -6,6 +6,7 @@ import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 abstract interface class IGroupDetailRepository {
   /// Stream изменений в таблицах групп и связей.
   Stream<void> get groupChanges;
+
   /// Получить группу по id.
   RequestOperation<TestGroupEntity?> getGroupById(int groupId);
 

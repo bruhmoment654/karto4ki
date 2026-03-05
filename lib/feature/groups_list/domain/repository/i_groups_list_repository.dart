@@ -5,6 +5,7 @@ import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dar
 abstract interface class IGroupsListRepository {
   /// Stream изменений в таблицах групп и связей.
   Stream<void> get groupChanges;
+
   /// Получить все группы.
   RequestOperation<List<TestGroupEntity>> getGroups();
 
