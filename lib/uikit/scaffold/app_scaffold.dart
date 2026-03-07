@@ -59,6 +59,7 @@ class AppScaffold extends StatelessWidget {
           drawer: drawer,
           endDrawer: endDrawer,
           floatingActionButton: adjustedFab,
+          floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
           bottomNavigationBar: bottomNavigationBar,
           bottomSheet: bottomSheet,
           resizeToAvoidBottomInset: resizeToAvoidBottomInset,

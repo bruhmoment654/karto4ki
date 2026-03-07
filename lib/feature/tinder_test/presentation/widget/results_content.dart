@@ -4,6 +4,7 @@ import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_screen.dar
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/content_card/content_card_type.dart';
+import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 class ResultsContent extends StatelessWidget {
@@ -48,10 +49,13 @@ class ResultsContent extends StatelessWidget {
             ),
             const SizedBox(height: 32),
             ContentCard(
+              elevation: 1,
               type: ContentCardType.medium,
+              padding: EdgeInsets.zero,
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  const Height(16),
                   _ResultRow(
                     icon: Icons.check_circle,
                     color: colorScheme.primary,
@@ -65,13 +69,16 @@ class ResultsContent extends StatelessWidget {
                     label: context.l10n.tinderTestResultsIncorrectLabel,
                     value: session.incorrectCount.toString(),
                   ),
-                  const SizedBox(height: 16),
+                  const Divider(
+                    height: 16,
+                  ),
                   _ResultRow(
                     icon: Icons.percent,
                     color: colorScheme.info,
                     label: context.l10n.tinderTestResultsPercentageLabel,
                     value: '$percentage%',
                   ),
+                  const Height(16),
                 ],
               ),
             ),
@@ -116,30 +123,33 @@ class _ResultRow extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Icon(icon, color: color, size: 32),
-        const SizedBox(width: 16),
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 14,
-                color: Theme.of(context).colorScheme.onSurfaceVariant,
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Row(
+        children: [
+          Icon(icon, color: color, size: 32),
+          const SizedBox(width: 16),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                label,
+                style: TextStyle(
+                  fontSize: 14,
+                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+                ),
               ),
-            ),
-            Text(
-              value,
-              style: const TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+              Text(
+                value,
+                style: const TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                ),
               ),
-            ),
-          ],
-        ),
-      ],
+            ],
+          ),
+        ],
+      ),
     );
   }
 }

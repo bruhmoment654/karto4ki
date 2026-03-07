@@ -5,6 +5,10 @@ allprojects {
     }
 }
 
+dependencies {
+    classpath("com.google.gms:google-services:4.3.10")
+}
+
 val newBuildDir: Directory =
     rootProject.layout.buildDirectory
         .dir("../../build")
