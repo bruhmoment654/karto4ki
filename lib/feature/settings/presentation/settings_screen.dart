@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
 import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/feature/settings/presentation/settings_view.dart';
@@ -18,8 +19,22 @@ class _SettingsScreenState extends State<SettingsScreen>
   late final _settingsStorage = context.read<IAppScope>().settingsStorage;
   late SettingsDto _settings = _settingsStorage.get();
 
+  String _appVersion = '';
   double? _pendingHue;
   Timer? _colorDebounceTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    PackageInfo.fromPlatform().then((info) {
+      setState(() {
+        _appVersion = '${info.version} (${info.buildNumber})';
+      });
+    });
+  }
+
+  @override
+  String get appVersion => _appVersion;
 
   @override
   int get animationDurationMs => _settings.animationDurationMs;
@@ -90,6 +105,7 @@ class _SettingsScreenState extends State<SettingsScreen>
 }
 
 abstract interface class ISettingsViewModel {
+  String get appVersion;
   int get animationDurationMs;
   bool get shaderAnimationEnabled;
   double get accentColorHue;

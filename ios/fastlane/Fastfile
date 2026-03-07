@@ -1,0 +1,39 @@
+# This file contains the fastlane.tools configuration
+# You can find the documentation at https://docs.fastlane.tools
+#
+# For a list of all available actions, check out
+#
+#     https://docs.fastlane.tools/actions
+#
+# For a list of all available plugins, check out
+#
+#     https://docs.fastlane.tools/plugins/available-plugins
+#
+
+# Uncomment the line if you want fastlane to automatically update itself
+# update_fastlane
+
+default_platform(:ios)
+
+platform :ios do
+  lane :firebase do
+    app_id = ENV["FIREBASE_APP_ID"]
+    groups = ENV["FIREBASE_GROUPS"]
+    firebase_cli_token = ENV["FIREBASE_TOKEN"]
+    ipa_path = ENV["IPA_PATH"]
+    
+    ipa_path = File.expand_path(ipa_path, __dir__)
+
+    puts "FASTLANE APP_ID: #{app_id}"
+    puts "FASTLANE GROUPS: #{groups}"
+    puts "FASTLANE FIREBASE_TOKEN: #{firebase_cli_token}"
+    puts "FASTLANE IPA_PATH: #{ipa_path}"
+
+    firebase_app_distribution(
+      app: app_id,
+      ipa_path: ipa_path,
+      groups: groups,
+      firebase_cli_token: firebase_cli_token,
+   )
+  end
+end

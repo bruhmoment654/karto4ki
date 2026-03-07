@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:quizzerg/feature/settings/presentation/settings_screen.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
-import 'package:quizzerg/uikit/content_card/content_card.dart';
-import 'package:quizzerg/uikit/content_card/content_card_type.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/slider/app_slider.dart';
 import 'package:quizzerg/uikit/switch/app_switch.dart';
@@ -20,44 +18,44 @@ class SettingsView extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         children: [
-          _ShaderAnimationCard(viewModel: viewModel),
-          const SizedBox(height: 12),
-          _AccentColorCard(viewModel: viewModel),
-          const SizedBox(height: 12),
-          _AnimationSpeedCard(viewModel: viewModel),
+          _ShaderAnimationSection(viewModel: viewModel),
+          const Divider(height: 32),
+          _AccentColorSection(viewModel: viewModel),
+          const Divider(height: 32),
+          _AnimationSpeedSection(viewModel: viewModel),
+          const SizedBox(height: 32),
+          _VersionLabel(version: viewModel.appVersion),
         ],
       ),
     );
   }
 }
 
-class _AccentColorCard extends StatelessWidget {
+class _AccentColorSection extends StatelessWidget {
   final ISettingsViewModel viewModel;
 
-  const _AccentColorCard({required this.viewModel});
+  const _AccentColorSection({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return ContentCard(
-      elevation: 5,
-      type: ContentCardType.smallWide,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            context.l10n.profileAccentColorTitle,
-            style: theme.textTheme.titleMedium,
-          ),
-          const SizedBox(height: 16),
-          _HueSlider(
-            hue: viewModel.accentColorHue,
-            previewColor: viewModel.previewAccentColor,
-            onChanged: viewModel.onAccentColorHueChanged,
-          ),
-        ],
-      ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          context.l10n.profileAccentColorTitle,
+          style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+        ),
+        const SizedBox(height: 16),
+        _HueSlider(
+          hue: viewModel.accentColorHue,
+          previewColor: viewModel.previewAccentColor,
+          onChanged: viewModel.onAccentColorHueChanged,
+        ),
+      ],
     );
   }
 }
@@ -145,77 +143,93 @@ class _ColorPreview extends StatelessWidget {
   }
 }
 
-class _ShaderAnimationCard extends StatelessWidget {
+class _ShaderAnimationSection extends StatelessWidget {
   final ISettingsViewModel viewModel;
 
-  const _ShaderAnimationCard({required this.viewModel});
+  const _ShaderAnimationSection({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return ContentCard(
-      elevation: 5,
-      type: ContentCardType.smallWide,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Expanded(
-            child: Text(
-              context.l10n.profileShaderAnimationTitle,
-              style: theme.textTheme.titleMedium,
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(
+            context.l10n.profileShaderAnimationTitle,
+            style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
             ),
           ),
-          AppSwitch(
-            value: viewModel.shaderAnimationEnabled,
-            onChanged: (value) =>
-                viewModel.onShaderAnimationToggled(value: value),
-          ),
-        ],
+        ),
+        AppSwitch(
+          value: viewModel.shaderAnimationEnabled,
+          onChanged: (value) =>
+              viewModel.onShaderAnimationToggled(value: value),
+        ),
+      ],
+    );
+  }
+}
+
+class _VersionLabel extends StatelessWidget {
+  final String version;
+
+  const _VersionLabel({required this.version});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Center(
+      child: Text(
+        version,
+        style: theme.textTheme.bodySmall?.copyWith(
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
       ),
     );
   }
 }
 
-class _AnimationSpeedCard extends StatelessWidget {
+class _AnimationSpeedSection extends StatelessWidget {
   final ISettingsViewModel viewModel;
 
-  const _AnimationSpeedCard({required this.viewModel});
+  const _AnimationSpeedSection({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return ContentCard(
-      elevation: 5,
-      type: ContentCardType.smallWide,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            context.l10n.profileAnimationSpeedTitle,
-            style: theme.textTheme.titleMedium,
-          ),
-          const SizedBox(height: 16),
-          AppSlider(
-            value: viewModel.animationDurationMs.toDouble(),
-            max: 1000,
-            divisions: 10,
-            onChanged: viewModel.onAnimationDurationChanged,
-          ),
-          const SizedBox(height: 4),
-          Center(
-            child: Text(
-              context.l10n.profileAnimationDurationLabel(
-                viewModel.animationDurationMs,
-              ),
-              style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.onSurfaceVariant,
-              ),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          context.l10n.profileAnimationSpeedTitle,
+          style: theme.textTheme.titleLarge?.copyWith(
+              fontWeight: FontWeight.bold,
+            ),
+        ),
+        const SizedBox(height: 16),
+        AppSlider(
+          value: viewModel.animationDurationMs.toDouble(),
+          max: 1000,
+          divisions: 10,
+          onChanged: viewModel.onAnimationDurationChanged,
+        ),
+        const SizedBox(height: 4),
+        Center(
+          child: Text(
+            context.l10n.profileAnimationDurationLabel(
+              viewModel.animationDurationMs,
+            ),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
             ),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
