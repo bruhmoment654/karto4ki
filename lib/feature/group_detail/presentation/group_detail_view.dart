@@ -13,6 +13,7 @@ import 'package:quizzerg/uikit/content_card/content_card_type.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
+import 'package:quizzerg/uikit/slider/app_range_slider.dart';
 import 'package:quizzerg/uikit/switch/app_switch.dart';
 
 /// UI-слой экрана деталки группы.
@@ -72,9 +73,7 @@ class GroupDetailView extends StatelessWidget {
                         context.l10n.groupDetailEmptyMessage,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
+                              color: Theme.of(context).colorScheme.onSurfaceVariant,
                             ),
                       ),
                       const SizedBox(height: 12),
@@ -95,15 +94,22 @@ class GroupDetailView extends StatelessWidget {
                         children: [
                           _MixupToggle(
                             value: mixupState.enabled,
-                            onChanged: (v) =>
-                                viewModel.onMixupChanged(value: v),
+                            onChanged: (value) => viewModel.onMixupChanged(value: value),
                           ),
-                          if (mixupState.enabled)
-                            _MixupRangeSlider(
+                          AnimatedCrossFade(
+                            firstChild: _MixupRangeSlider(
                               min: mixupState.mixupMin,
                               max: mixupState.mixupMax,
                               onChanged: viewModel.onMixupRangeChanged,
                             ),
+                            firstCurve: Curves.easeOut,
+                            sizeCurve: Curves.fastEaseInToSlowEaseOut,
+                            secondChild: const SizedBox(width: double.infinity),
+                            crossFadeState: mixupState.enabled
+                                ? CrossFadeState.showFirst
+                                : CrossFadeState.showSecond,
+                            duration: const Duration(milliseconds: 200),
+                          ),
                         ],
                       );
                     },
@@ -257,7 +263,7 @@ class _MixupRangeSlider extends StatelessWidget {
                   color: Theme.of(context).colorScheme.onSurfaceVariant,
                 ),
           ),
-          RangeSlider(
+          AppRangeSlider(
             values: RangeValues(min.toDouble(), max.toDouble()),
             min: 1,
             max: 20,
