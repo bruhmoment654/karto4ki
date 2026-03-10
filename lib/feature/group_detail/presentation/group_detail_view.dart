@@ -73,7 +73,9 @@ class GroupDetailView extends StatelessWidget {
                         context.l10n.groupDetailEmptyMessage,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context).colorScheme.onSurfaceVariant,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
                             ),
                       ),
                       const SizedBox(height: 12),
@@ -94,7 +96,8 @@ class GroupDetailView extends StatelessWidget {
                         children: [
                           _MixupToggle(
                             value: mixupState.enabled,
-                            onChanged: (value) => viewModel.onMixupChanged(value: value),
+                            onChanged: (value) =>
+                                viewModel.onMixupChanged(value: value),
                           ),
                           AnimatedCrossFade(
                             firstChild: _MixupRangeSlider(

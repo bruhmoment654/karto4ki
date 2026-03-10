@@ -3,6 +3,7 @@ import 'package:quizzerg/feature/settings/presentation/settings_screen.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
+import 'package:quizzerg/uikit/skeleton_gif/skeleton_gif.dart';
 import 'package:quizzerg/uikit/slider/app_slider.dart';
 import 'package:quizzerg/uikit/switch/app_switch.dart';
 
@@ -24,6 +25,8 @@ class SettingsView extends StatelessWidget {
           const Divider(height: 32),
           _AnimationSpeedSection(viewModel: viewModel),
           const SizedBox(height: 32),
+          const SkeletonGif(),
+          const SizedBox(height: 16),
           _VersionLabel(version: viewModel.appVersion),
         ],
       ),
@@ -46,8 +49,8 @@ class _AccentColorSection extends StatelessWidget {
         Text(
           context.l10n.profileAccentColorTitle,
           style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            fontWeight: FontWeight.bold,
+          ),
         ),
         const SizedBox(height: 16),
         _HueSlider(
@@ -208,8 +211,8 @@ class _AnimationSpeedSection extends StatelessWidget {
         Text(
           context.l10n.profileAnimationSpeedTitle,
           style: theme.textTheme.titleLarge?.copyWith(
-              fontWeight: FontWeight.bold,
-            ),
+            fontWeight: FontWeight.bold,
+          ),
         ),
         const SizedBox(height: 16),
         AppSlider(

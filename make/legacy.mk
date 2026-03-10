@@ -49,10 +49,7 @@ bump-patch:
 set-version:
 	sh ./scripts/version.sh $(v)
 
-ez-qa-deploy:
-	@echo "Обновление версии"
-	$(MAKE) bump-version
-
+ez-qa-deploy: ## Билд и деплой Android + iOS в Firebase
 	@echo "Билд Android"
 	cd android && $(MAKE) build-qa
 
@@ -64,6 +61,13 @@ ez-qa-deploy:
 
 	@echo "Деплой iOS"
 	cd ios && $(MAKE) deploy-firebase
+
+ez-android-deploy: ## Билд и деплой только Android в Firebase
+	@echo "Билд Android"
+	cd android && $(MAKE) build-qa
+
+	@echo "Деплой Android"
+	cd android && $(MAKE) deploy-firebase
 
 firebase-init-dev:
 	sh ./scripts/firebase.sh dev

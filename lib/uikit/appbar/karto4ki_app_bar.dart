@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizzerg/uikit/skeleton_gif/skeleton_gif.dart';
 
 class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
   final Widget title;
@@ -86,7 +87,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       elevation: elevation,
       scrolledUnderElevation: 0,
       toolbarHeight: _toolbarHeight,
-      leading: leading,
+      leading: leading ?? const SkeletonGif(),
       centerTitle: centerTitle,
       title: resolvedTitle,
       flexibleSpace: onTap != null

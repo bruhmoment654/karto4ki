@@ -2,7 +2,7 @@ name: quizzerg
 description: "Quizzerg is a quiz app that allows you to create and share quizzes with your friends."
 publish_to: "none"
 
-version: 0.4.0
+version: 0.5.0
 
 environment:
   sdk: ">=3.5.0 <4.0.0"
@@ -90,5 +90,13 @@ flutter:
         - asset: assets/fonts/Nexa-Black_0.otf
           weight: 900
 
+  assets:
+    - assets/icons/
+
   shaders:
     - assets/shaders/background.frag
+
+flutter_gen:
+  output: lib/gen/
+  integrations:
+    flutter_svg: true
