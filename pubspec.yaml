@@ -48,7 +48,6 @@ dependencies:
   csv: 6.0.0
   equatable: 2.0.5
   file_picker: 8.1.7
-  firebase_core: ^4.5.0
   package_info_plus: ^9.0.0
 
 dev_dependencies:
