@@ -176,7 +176,7 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
                   textAlign: TextAlign.center,
                 ),
                 back: Text(
-                  widget.card.back,
+                  widget.card.formattedBack,
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,

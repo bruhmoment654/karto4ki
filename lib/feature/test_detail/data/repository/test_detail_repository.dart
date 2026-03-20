@@ -59,7 +59,7 @@ class TestDetailRepository extends BaseRepository
           await _cardsDatabase.updateCard(
             dto.copyWith(
               question: card.front,
-              answer: card.back,
+              answer: card.formattedBack,
               updatedAt: DateTime.now(),
             ),
           );

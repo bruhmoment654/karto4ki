@@ -51,7 +51,9 @@ final class MainBloc extends Bloc<MainEvent, MainState> {
 
     final cards = currentState.cards.toList();
     final index = cards.indexWhere(
-      (c) => c.front == event.oldCard.front || c.back == event.oldCard.back,
+      (c) =>
+          c.front == event.oldCard.front ||
+          c.formattedBack == event.oldCard.formattedBack,
     );
     if (index == -1) return;
 

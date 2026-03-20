@@ -12,7 +12,6 @@ import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/spacing/sliver_height.dart';
-import 'package:quizzerg/uikit/switch/app_switch.dart' show AppSwitch;
 
 /// UI layer for test detail screen.
 ///
@@ -21,12 +20,10 @@ import 'package:quizzerg/uikit/switch/app_switch.dart' show AppSwitch;
 class TestDetailView extends StatelessWidget {
   final ITestDetailViewModel viewModel;
   final TestDetailState state;
-  final bool swapSides;
 
   const TestDetailView({
     required this.viewModel,
     required this.state,
-    required this.swapSides,
     super.key,
   });
 
@@ -73,7 +70,6 @@ class TestDetailView extends StatelessWidget {
           ),
         TestDetailState$Loaded(:final cards) => _TestDetailContent(
             cards: cards,
-            swapSides: swapSides,
             viewModel: viewModel,
           ),
       },
@@ -178,31 +174,19 @@ class _TestDescription extends StatelessWidget {
   }
 }
 
-class _SwapSidesToggle extends StatelessWidget {
-  final bool value;
-  final ValueChanged<bool> onChanged;
+class _TestSettingsButton extends StatelessWidget {
+  final VoidCallback onPressed;
 
-  const _SwapSidesToggle({
-    required this.value,
-    required this.onChanged,
-  });
+  const _TestSettingsButton({required this.onPressed});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            context.l10n.testDetailSwapSides,
-            style: Theme.of(context).textTheme.bodyMedium,
-          ),
-          AppSwitch(
-            value: value,
-            onChanged: onChanged,
-          ),
-        ],
+      child: OutlinedButton.icon(
+        onPressed: onPressed,
+        icon: const Icon(Icons.tune, size: 18),
+        label: const Text('Настройка теста'),
       ),
     );
   }
@@ -245,12 +229,10 @@ class _CardsCountWithImport extends StatelessWidget {
 
 class _TestDetailContent extends StatelessWidget {
   final List<CardEntity> cards;
-  final bool swapSides;
   final ITestDetailViewModel viewModel;
 
   const _TestDetailContent({
     required this.cards,
-    required this.swapSides,
     required this.viewModel,
   });
 
@@ -262,9 +244,8 @@ class _TestDetailContent extends StatelessWidget {
         slivers: [
           const SliverHeight(8),
           SliverToBoxAdapter(
-            child: _SwapSidesToggle(
-              value: swapSides,
-              onChanged: (v) => viewModel.onSwapSidesChanged(value: v),
+            child: _TestSettingsButton(
+              onPressed: viewModel.onTestSettingsPressed,
             ),
           ),
           SliverToBoxAdapter(
@@ -381,7 +362,7 @@ class _CardListItem extends StatelessWidget {
                 overflow: TextOverflow.ellipsis,
               ),
               subtitle: Text(
-                card.back,
+                card.formattedBack,
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
               ),

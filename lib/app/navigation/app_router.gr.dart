@@ -353,6 +353,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
   TinderTestRoute({
     required int testId,
     bool swapSides = false,
+    int answerIndex = 0,
     bool mixup = false,
     int mixupMin = 1,
     int mixupMax = 5,
@@ -363,6 +364,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
           args: TinderTestRouteArgs(
             testId: testId,
             swapSides: swapSides,
+            answerIndex: answerIndex,
             mixup: mixup,
             mixupMin: mixupMin,
             mixupMax: mixupMax,
@@ -385,6 +387,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
           child: TinderTestFlow(
         testId: args.testId,
         swapSides: args.swapSides,
+        answerIndex: args.answerIndex,
         mixup: args.mixup,
         mixupMin: args.mixupMin,
         mixupMax: args.mixupMax,
@@ -398,6 +401,7 @@ class TinderTestRouteArgs {
   const TinderTestRouteArgs({
     required this.testId,
     this.swapSides = false,
+    this.answerIndex = 0,
     this.mixup = false,
     this.mixupMin = 1,
     this.mixupMax = 5,
@@ -407,6 +411,8 @@ class TinderTestRouteArgs {
   final int testId;
 
   final bool swapSides;
+
+  final int answerIndex;
 
   final bool mixup;
 
@@ -418,6 +424,6 @@ class TinderTestRouteArgs {
 
   @override
   String toString() {
-    return 'TinderTestRouteArgs{testId: $testId, swapSides: $swapSides, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, key: $key}';
+    return 'TinderTestRouteArgs{testId: $testId, swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, key: $key}';
   }
 }

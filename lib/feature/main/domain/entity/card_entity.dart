@@ -5,6 +5,8 @@ part 'card_entity.freezed.dart';
 /// Card entity.
 @freezed
 sealed class CardEntity with _$CardEntity {
+  const CardEntity._();
+
   const factory CardEntity({
     /// Unique card identifier.
     required String id,
@@ -15,8 +17,8 @@ sealed class CardEntity with _$CardEntity {
     /// Question (front side of the card).
     required String front,
 
-    /// Answer (back side of the card).
-    required String back,
+    /// Варианты ответов (до 3).
+    required List<String> answers,
 
     /// Creation date.
     required DateTime createdAt,
@@ -27,4 +29,7 @@ sealed class CardEntity with _$CardEntity {
     /// Флаг подмешанной карточки (только в памяти, не в БД).
     @Default(false) bool isMixedIn,
   }) = _CardEntity;
+
+  /// Форматированная строка всех ответов для отображения.
+  String get formattedBack => answers.join(' | ');
 }

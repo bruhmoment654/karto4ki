@@ -25,7 +25,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 6;
+  int get schemaVersion => 7;
 
   @override
   MigrationStrategy get migration {
@@ -77,6 +77,26 @@ class AppDatabase extends _$AppDatabase {
           await customStatement(
             'UPDATE question_stats SET last_shown_at = last_answered_at '
             'WHERE last_answered_at IS NOT NULL',
+          );
+        }
+        if (from < 7) {
+          // Миграция: "яблоко (яблочко)" → "яблоко | яблочко"
+          await customStatement(
+            'UPDATE cards '
+            "SET answer = TRIM(SUBSTR(answer, 1, INSTR(answer, '(') - 1))"
+            " || ' | '"
+            " || TRIM(SUBSTR(answer, INSTR(answer, '(') + 1,"
+            " INSTR(answer, ')') - INSTR(answer, '(') - 1))"
+            " WHERE answer LIKE '%(%)%'",
+          );
+          // Миграция: "яблоко - яблочко" → "яблоко | яблочко"
+          await customStatement(
+            'UPDATE cards '
+            "SET answer = TRIM(SUBSTR(answer, 1, INSTR(answer, ' - ') - 1))"
+            " || ' | '"
+            " || TRIM(SUBSTR(answer, INSTR(answer, ' - ') + 3))"
+            " WHERE answer LIKE '% - %'"
+            " AND answer NOT LIKE '%|%'",
           );
         }
       },

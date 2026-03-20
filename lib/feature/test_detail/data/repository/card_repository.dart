@@ -46,7 +46,7 @@ class CardRepository extends BaseRepository implements ICardRepository {
           await _cardsDatabase.updateCard(
             dto.copyWith(
               question: card.front,
-              answer: card.back,
+              answer: card.formattedBack,
               updatedAt: DateTime.now(),
             ),
           );

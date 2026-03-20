@@ -7,6 +7,7 @@ sealed class TinderTestEvent with _$TinderTestEvent {
   const factory TinderTestEvent.started({
     required int testId,
     @Default(false) bool swapSides,
+    @Default(0) int answerIndex,
     @Default(false) bool mixup,
     @Default(1) int mixupMin,
     @Default(5) int mixupMax,

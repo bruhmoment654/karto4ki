@@ -278,6 +278,8 @@ class _ExpandedCardContent extends StatelessWidget {
                   questionText,
                   style: theme.textTheme.titleMedium,
                   textAlign: TextAlign.center,
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
                 ),
               ),
             ],

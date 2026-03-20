@@ -14,6 +14,7 @@ import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_screen.dar
 class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
   final int testId;
   final bool swapSides;
+  final int answerIndex;
   final bool mixup;
   final int mixupMin;
   final int mixupMax;
@@ -21,6 +22,7 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
   const TinderTestFlow({
     @PathParam('testId') required this.testId,
     this.swapSides = false,
+    this.answerIndex = 0,
     this.mixup = false,
     this.mixupMin = 1,
     this.mixupMax = 5,
@@ -43,6 +45,7 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
       )..add(TinderTestEvent.started(
           testId: testId,
           swapSides: swapSides,
+          answerIndex: answerIndex,
           mixup: mixup,
           mixupMin: mixupMin,
           mixupMax: mixupMax,

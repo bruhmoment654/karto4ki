@@ -5,10 +5,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/core/services/csv_import_service.dart';
+import 'package:quizzerg/core/utils/answer_parser.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:quizzerg/feature/test_detail/presentation/csv_import_dialog.dart';
 import 'package:quizzerg/feature/test_detail/presentation/test_detail_view.dart';
+import 'package:quizzerg/feature/test_detail/presentation/test_settings_dialog.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_type.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
@@ -35,6 +37,7 @@ class TestDetailScreen extends StatefulWidget {
 class _TestDetailScreenState extends State<TestDetailScreen>
     implements ITestDetailViewModel {
   bool _swapSides = false;
+  int _answerIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +46,6 @@ class _TestDetailScreenState extends State<TestDetailScreen>
         return TestDetailView(
           viewModel: this,
           state: state,
-          swapSides: _swapSides,
         );
       },
     );
@@ -99,7 +101,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
               controller: backController,
               decoration: const InputDecoration(
                 labelText: 'Ответ',
-                hintText: 'Введите ответ',
+                hintText: 'Введите ответ (варианты через |)',
               ),
               maxLines: 2,
             ),
@@ -133,7 +135,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
 
   void _showEditCardDialog(CardEntity card) {
     final frontController = TextEditingController(text: card.front);
-    final backController = TextEditingController(text: card.back);
+    final backController = TextEditingController(text: card.formattedBack);
 
     showDialog<void>(
       context: context,
@@ -174,7 +176,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
                   id: card.id,
                   testId: card.testId,
                   front: front,
-                  back: back,
+                  answers: AnswerParser.parse(back),
                   createdAt: card.createdAt,
                   updatedAt: DateTime.now(),
                 );
@@ -261,6 +263,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
           TinderTestRoute(
             testId: testId,
             swapSides: _swapSides,
+            answerIndex: _answerIndex,
             mixup: widget.mixup,
             mixupMin: widget.mixupMin,
             mixupMax: widget.mixupMax,
@@ -270,8 +273,28 @@ class _TestDetailScreenState extends State<TestDetailScreen>
   }
 
   @override
-  void onSwapSidesChanged({required bool value}) {
-    setState(() => _swapSides = value);
+  void onTestSettingsPressed() {
+    final state = context.read<TestDetailBloc>().state;
+    if (state is! TestDetailState$Loaded) return;
+
+    final maxVariants = state.cards
+        .map((card) => card.answers.length)
+        .fold(1, (prev, len) => len > prev ? len : prev);
+
+    showDialog<TestSettingsResult>(
+      context: context,
+      builder: (_) => TestSettingsDialog(
+        swapSides: _swapSides,
+        answerIndex: _answerIndex,
+        maxAnswerVariants: maxVariants,
+      ),
+    ).then((result) {
+      if (result == null) return;
+      setState(() {
+        _swapSides = result.swapSides;
+        _answerIndex = result.answerIndex;
+      });
+    });
   }
 
   @override
@@ -362,6 +385,6 @@ abstract interface class ITestDetailViewModel {
   /// Called when import CSV button is pressed.
   void onImportCsvPressed();
 
-  /// Called when swap sides toggle is changed.
-  void onSwapSidesChanged({required bool value});
+  /// Called when test settings button is pressed.
+  void onTestSettingsPressed();
 }

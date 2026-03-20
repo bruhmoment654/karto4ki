@@ -36,7 +36,7 @@ class _MockViewModel implements ITestDetailViewModel {
   void onImportCsvPressed() {}
 
   @override
-  void onSwapSidesChanged({required bool value}) {}
+  void onTestSettingsPressed() {}
 }
 
 class _MockSettingsStorage implements ISettingsStorage {
@@ -95,7 +95,7 @@ final _sampleCards = [
     id: '1',
     testId: '1',
     front: 'Apple',
-    back: 'Яблоко',
+    answers: ['Яблоко'],
     createdAt: DateTime(2024),
     updatedAt: DateTime(2024),
   ),
@@ -103,7 +103,7 @@ final _sampleCards = [
     id: '2',
     testId: '1',
     front: 'Serendipity',
-    back: 'Счастливая случайность',
+    answers: ['Счастливая случайность'],
     createdAt: DateTime(2024),
     updatedAt: DateTime(2024),
   ),
@@ -111,7 +111,7 @@ final _sampleCards = [
     id: '3',
     testId: '1',
     front: 'Ephemeral',
-    back: 'Мимолётный, недолговечный',
+    answers: ['Мимолётный', 'недолговечный'],
     createdAt: DateTime(2024),
     updatedAt: DateTime(2024),
   ),
@@ -121,7 +121,6 @@ final _sampleCards = [
 
 Widget _buildView({
   required TestDetailState state,
-  bool swapSides = false,
 }) {
   return Provider<IAppScope>.value(
     value: _appScope,
@@ -130,7 +129,6 @@ Widget _buildView({
       child: TestDetailView(
         viewModel: _viewModel,
         state: state,
-        swapSides: swapSides,
       ),
     ),
   );
@@ -196,15 +194,14 @@ void main() {
     ),
   );
 
-  // 6. Loaded — "swap sides" toggle enabled
+  // 6. Loaded — with settings button visible
   Zoloto.zolotoTest(
-    'test_detail_loaded_swap_sides',
+    'test_detail_loaded_settings_button',
     widgetBuilder: (context, tester, testCase) => _buildView(
       state: TestDetailState.loaded(
         test: _testEntity,
         cards: _sampleCards,
       ),
-      swapSides: true,
     ),
   );
 }

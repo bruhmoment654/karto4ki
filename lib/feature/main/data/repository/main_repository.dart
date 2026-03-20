@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:quizzerg/core/utils/answer_parser.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/main/domain/repository/i_main_repository.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -23,7 +24,7 @@ class MainRepository implements IMainRepository {
         id: '',
         testId: '',
         front: json['front'] as String,
-        back: json['back'] as String,
+        answers: AnswerParser.parse(json['back'] as String),
         createdAt: now,
         updatedAt: now,
       );
@@ -33,7 +34,7 @@ class MainRepository implements IMainRepository {
   @override
   void updateCardList(List<CardEntity> cards) {
     final jsonList = cards.map((card) {
-      return jsonEncode({'front': card.front, 'back': card.back});
+      return jsonEncode({'front': card.front, 'back': card.formattedBack});
     }).toList();
     _prefs.setStringList(_cardListKey, jsonList);
   }

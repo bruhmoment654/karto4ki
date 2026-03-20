@@ -23,6 +23,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   final IQuestionStatsRepository _questionStatsRepository;
   final QuestionMixupService? _mixupService;
   bool _swapSides = false;
+  int _answerIndex = 0;
   bool _mixup = false;
   int _mixupMin = 1;
   int _mixupMax = 5;
@@ -53,6 +54,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   ) async {
     emit(const TinderTestState.loading());
     _swapSides = event.swapSides;
+    _answerIndex = event.answerIndex;
     _mixup = event.mixup;
     _mixupMin = event.mixupMin;
     _mixupMax = event.mixupMax;
@@ -78,9 +80,16 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
         }
 
         if (_swapSides) {
-          cards = cards
-              .map((c) => c.copyWith(front: c.back, back: c.front))
-              .toList();
+          cards = cards.map((card) {
+            final idx = _answerIndex.clamp(0, card.answers.length - 1);
+            final newFront = card.answers[idx];
+            final remainingAnswers = [
+              card.front,
+              for (var i = 0; i < card.answers.length; i++)
+                if (i != idx) card.answers[i],
+            ];
+            return card.copyWith(front: newFront, answers: remainingAnswers);
+          }).toList();
         }
 
         final session = _createSession(event.testId, cards);
@@ -197,6 +206,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     add(TinderTestEvent.started(
       testId: testId,
       swapSides: _swapSides,
+      answerIndex: _answerIndex,
       mixup: _mixup,
       mixupMin: _mixupMin,
       mixupMax: _mixupMax,

@@ -39,7 +39,7 @@ class QuestionMixupService {
     if (otherTestIds.isEmpty) return [];
 
     final mainKeys = mainCards
-        .map((c) => QuestionKeyNormalizer.normalize(c.front, c.back))
+        .map((c) => QuestionKeyNormalizer.normalize(c.front, c.formattedBack))
         .toSet();
 
     final candidates = <CardEntity>[];
@@ -47,7 +47,8 @@ class QuestionMixupService {
       final result = await _cardRepository.getCardsByTestId(id);
       if (result case ResultOk(:final data)) {
         for (final card in data) {
-          final key = QuestionKeyNormalizer.normalize(card.front, card.back);
+          final key =
+              QuestionKeyNormalizer.normalize(card.front, card.formattedBack);
           if (!mainKeys.contains(key)) {
             candidates.add(card);
           }
@@ -58,7 +59,7 @@ class QuestionMixupService {
     if (candidates.isEmpty) return [];
 
     final candidateKeys = candidates
-        .map((c) => QuestionKeyNormalizer.normalize(c.front, c.back))
+        .map((c) => QuestionKeyNormalizer.normalize(c.front, c.formattedBack))
         .toList();
 
     final statsResult =
@@ -77,8 +78,8 @@ class QuestionMixupService {
 
     if (hasNegativeStreak) {
       candidates.sort((a, b) {
-        final keyA = QuestionKeyNormalizer.normalize(a.front, a.back);
-        final keyB = QuestionKeyNormalizer.normalize(b.front, b.back);
+        final keyA = QuestionKeyNormalizer.normalize(a.front, a.formattedBack);
+        final keyB = QuestionKeyNormalizer.normalize(b.front, b.formattedBack);
         final statA = statsMap[keyA];
         final statB = statsMap[keyB];
 
@@ -93,8 +94,8 @@ class QuestionMixupService {
       });
     } else {
       candidates.sort((a, b) {
-        final keyA = QuestionKeyNormalizer.normalize(a.front, a.back);
-        final keyB = QuestionKeyNormalizer.normalize(b.front, b.back);
+        final keyA = QuestionKeyNormalizer.normalize(a.front, a.formattedBack);
+        final keyB = QuestionKeyNormalizer.normalize(b.front, b.formattedBack);
         final statA = statsMap[keyA];
         final statB = statsMap[keyB];
 

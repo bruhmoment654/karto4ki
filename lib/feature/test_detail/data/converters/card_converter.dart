@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 
+import 'package:quizzerg/core/utils/answer_parser.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
 
@@ -11,7 +12,7 @@ abstract final class CardConverter {
       id: dto.id.toString(),
       testId: dto.testId.toString(),
       front: dto.question,
-      back: dto.answer,
+      answers: AnswerParser.parse(dto.answer),
       createdAt: dto.createdAt,
       updatedAt: dto.updatedAt,
     );
@@ -29,7 +30,7 @@ abstract final class CardConverter {
           : const Value.absent(),
       testId: Value(int.parse(entity.testId)),
       question: Value(entity.front),
-      answer: Value(entity.back),
+      answer: Value(AnswerParser.format(entity.answers)),
       createdAt: Value(entity.createdAt),
       updatedAt: updateTimestamp ? Value(now) : Value(entity.updatedAt),
     );

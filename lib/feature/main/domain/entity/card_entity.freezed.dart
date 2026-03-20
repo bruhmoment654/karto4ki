@@ -25,8 +25,8 @@ mixin _$CardEntity {
   /// Question (front side of the card).
   String get front => throw _privateConstructorUsedError;
 
-  /// Answer (back side of the card).
-  String get back => throw _privateConstructorUsedError;
+  /// Варианты ответов (до 3).
+  List<String> get answers => throw _privateConstructorUsedError;
 
   /// Creation date.
   DateTime get createdAt => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $CardEntityCopyWith<$Res> {
       {String id,
       String testId,
       String front,
-      String back,
+      List<String> answers,
       DateTime createdAt,
       DateTime updatedAt,
       bool isMixedIn});
@@ -74,7 +74,7 @@ class _$CardEntityCopyWithImpl<$Res, $Val extends CardEntity>
     Object? id = null,
     Object? testId = null,
     Object? front = null,
-    Object? back = null,
+    Object? answers = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? isMixedIn = null,
@@ -92,10 +92,10 @@ class _$CardEntityCopyWithImpl<$Res, $Val extends CardEntity>
           ? _value.front
           : front // ignore: cast_nullable_to_non_nullable
               as String,
-      back: null == back
-          ? _value.back
-          : back // ignore: cast_nullable_to_non_nullable
-              as String,
+      answers: null == answers
+          ? _value.answers
+          : answers // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -124,7 +124,7 @@ abstract class _$$CardEntityImplCopyWith<$Res>
       {String id,
       String testId,
       String front,
-      String back,
+      List<String> answers,
       DateTime createdAt,
       DateTime updatedAt,
       bool isMixedIn});
@@ -144,7 +144,7 @@ class __$$CardEntityImplCopyWithImpl<$Res>
     Object? id = null,
     Object? testId = null,
     Object? front = null,
-    Object? back = null,
+    Object? answers = null,
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? isMixedIn = null,
@@ -162,10 +162,10 @@ class __$$CardEntityImplCopyWithImpl<$Res>
           ? _value.front
           : front // ignore: cast_nullable_to_non_nullable
               as String,
-      back: null == back
-          ? _value.back
-          : back // ignore: cast_nullable_to_non_nullable
-              as String,
+      answers: null == answers
+          ? _value._answers
+          : answers // ignore: cast_nullable_to_non_nullable
+              as List<String>,
       createdAt: null == createdAt
           ? _value.createdAt
           : createdAt // ignore: cast_nullable_to_non_nullable
@@ -184,15 +184,17 @@ class __$$CardEntityImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$CardEntityImpl implements _CardEntity {
+class _$CardEntityImpl extends _CardEntity {
   const _$CardEntityImpl(
       {required this.id,
       required this.testId,
       required this.front,
-      required this.back,
+      required final List<String> answers,
       required this.createdAt,
       required this.updatedAt,
-      this.isMixedIn = false});
+      this.isMixedIn = false})
+      : _answers = answers,
+        super._();
 
   /// Unique card identifier.
   @override
@@ -206,9 +208,16 @@ class _$CardEntityImpl implements _CardEntity {
   @override
   final String front;
 
-  /// Answer (back side of the card).
+  /// Варианты ответов (до 3).
+  final List<String> _answers;
+
+  /// Варианты ответов (до 3).
   @override
-  final String back;
+  List<String> get answers {
+    if (_answers is EqualUnmodifiableListView) return _answers;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_answers);
+  }
 
   /// Creation date.
   @override
@@ -225,7 +234,7 @@ class _$CardEntityImpl implements _CardEntity {
 
   @override
   String toString() {
-    return 'CardEntity(id: $id, testId: $testId, front: $front, back: $back, createdAt: $createdAt, updatedAt: $updatedAt, isMixedIn: $isMixedIn)';
+    return 'CardEntity(id: $id, testId: $testId, front: $front, answers: $answers, createdAt: $createdAt, updatedAt: $updatedAt, isMixedIn: $isMixedIn)';
   }
 
   @override
@@ -236,7 +245,7 @@ class _$CardEntityImpl implements _CardEntity {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.testId, testId) || other.testId == testId) &&
             (identical(other.front, front) || other.front == front) &&
-            (identical(other.back, back) || other.back == back) &&
+            const DeepCollectionEquality().equals(other._answers, _answers) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt) &&
             (identical(other.updatedAt, updatedAt) ||
@@ -247,7 +256,14 @@ class _$CardEntityImpl implements _CardEntity {
 
   @override
   int get hashCode => Object.hash(
-      runtimeType, id, testId, front, back, createdAt, updatedAt, isMixedIn);
+      runtimeType,
+      id,
+      testId,
+      front,
+      const DeepCollectionEquality().hash(_answers),
+      createdAt,
+      updatedAt,
+      isMixedIn);
 
   @JsonKey(ignore: true)
   @override
@@ -256,15 +272,16 @@ class _$CardEntityImpl implements _CardEntity {
       __$$CardEntityImplCopyWithImpl<_$CardEntityImpl>(this, _$identity);
 }
 
-abstract class _CardEntity implements CardEntity {
+abstract class _CardEntity extends CardEntity {
   const factory _CardEntity(
       {required final String id,
       required final String testId,
       required final String front,
-      required final String back,
+      required final List<String> answers,
       required final DateTime createdAt,
       required final DateTime updatedAt,
       final bool isMixedIn}) = _$CardEntityImpl;
+  const _CardEntity._() : super._();
 
   @override
 
@@ -280,8 +297,8 @@ abstract class _CardEntity implements CardEntity {
   String get front;
   @override
 
-  /// Answer (back side of the card).
-  String get back;
+  /// Варианты ответов (до 3).
+  List<String> get answers;
   @override
 
   /// Creation date.
