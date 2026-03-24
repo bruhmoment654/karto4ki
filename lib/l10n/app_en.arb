@@ -328,5 +328,8 @@
         "example": "5"
       }
     }
-  }
+  },
+  "groupDetailMixupAlgorithm": "Mixup algorithm",
+  "groupDetailMixupAlgorithmClassic": "Classic",
+  "groupDetailMixupAlgorithmScoring": "Smart"
 }

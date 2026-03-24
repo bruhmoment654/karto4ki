@@ -3,8 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:quizzerg/feature/mixup/domain/bloc/mixup_bloc.dart';
 import 'package:quizzerg/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
+import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_algorithm.dart';
+import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_candidate_loader.dart';
 import 'package:quizzerg/feature/tinder_test/domain/mixup/question_mixup_service.dart';
+import 'package:quizzerg/feature/tinder_test/domain/mixup/scoring_mixup_service.dart';
 import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_screen.dart';
 
 /// Entry point for tinder test screen.
@@ -32,11 +36,23 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     final scope = context.read<IAppScope>();
-    final mixupService = QuestionMixupService(
+    final algorithm = context.read<MixupBloc>().state.algorithm;
+
+    final candidateLoader = MixupCandidateLoader(
       cardRepository: scope.cardRepository,
       groupsDatabase: scope.database.groupsDatabase,
       questionStatsRepository: scope.questionStatsRepository,
     );
+
+    final mixupService = switch (algorithm) {
+      MixupAlgorithm.classic => QuestionMixupService(
+          candidateLoader: candidateLoader,
+        ),
+      MixupAlgorithm.scoring => ScoringMixupService(
+          candidateLoader: candidateLoader,
+        ),
+    };
+
     return BlocProvider(
       create: (context) => TinderTestBloc(
         cardRepository: scope.cardRepository,

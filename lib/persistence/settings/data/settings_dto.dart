@@ -1,6 +1,15 @@
 import 'package:json_annotation/json_annotation.dart';
 
+import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_algorithm.dart';
+
 part 'settings_dto.g.dart';
+
+/// Режим темы приложения.
+enum AppThemeMode {
+  light,
+  dark,
+  system,
+}
 
 /// DTO настроек приложения.
 @JsonSerializable(checked: true)
@@ -23,6 +32,12 @@ class SettingsDto {
   /// Максимальное количество подмешиваемых вопросов.
   final int mixupMax;
 
+  /// Режим темы (light / dark / system).
+  final AppThemeMode themeMode;
+
+  /// Алгоритм подмешивания вопросов.
+  final MixupAlgorithm mixupAlgorithm;
+
   const SettingsDto({
     this.animationDurationMs = 300,
     this.shaderAnimationEnabled = true,
@@ -30,6 +45,8 @@ class SettingsDto {
     this.mixupEnabled = false,
     this.mixupMin = 1,
     this.mixupMax = 5,
+    this.themeMode = AppThemeMode.system,
+    this.mixupAlgorithm = MixupAlgorithm.classic,
   });
 
   factory SettingsDto.fromJson(Map<String, dynamic> json) =>

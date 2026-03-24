@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:quizzerg/app/di/app_scope.dart';
-import 'package:quizzerg/uikit/background/shader_background.dart';
 
 class AppScaffold extends StatelessWidget {
   final PreferredSizeWidget? appBar;
@@ -44,31 +41,20 @@ class AppScaffold extends StatelessWidget {
           )
         : fab;
 
-    final settings = context.read<IAppScope>().settingsStorage.get();
-    final accentColor = Theme.of(context).colorScheme.primary;
-
-    return Stack(
-      children: [
-        ShaderBackground(
-          animationEnabled: settings.shaderAnimationEnabled,
-          accentColor: accentColor,
-        ),
-        Scaffold(
-          appBar: appBar,
-          body: content,
-          drawer: drawer,
-          endDrawer: endDrawer,
-          floatingActionButton: adjustedFab,
-          floatingActionButtonAnimator:
-              FloatingActionButtonAnimator.noAnimation,
-          bottomNavigationBar: bottomNavigationBar,
-          bottomSheet: bottomSheet,
-          resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-          backgroundColor: backgroundColor ?? Colors.transparent,
-          floatingActionButtonLocation: floatingActionButtonLocation ??
-              FloatingActionButtonLocation.centerFloat,
-        ),
-      ],
+    return Scaffold(
+      appBar: appBar,
+      body: content,
+      drawer: drawer,
+      endDrawer: endDrawer,
+      floatingActionButton: adjustedFab,
+      floatingActionButtonAnimator: FloatingActionButtonAnimator.noAnimation,
+      bottomNavigationBar: bottomNavigationBar,
+      bottomSheet: bottomSheet,
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
+      backgroundColor:
+          backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+      floatingActionButtonLocation:
+          floatingActionButtonLocation ?? FloatingActionButtonLocation.centerFloat,
     );
   }
 }

@@ -766,5 +766,8 @@
         "example": "5"
       }
     }
-  }
+  },
+  "groupDetailMixupAlgorithm": "Алгоритм подмешивания",
+  "groupDetailMixupAlgorithmClassic": "Классический",
+  "groupDetailMixupAlgorithmScoring": "Умный"
 }

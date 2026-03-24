@@ -7,5 +7,6 @@ sealed class MixupState with _$MixupState {
     @Default(false) bool enabled,
     @Default(1) int mixupMin,
     @Default(5) int mixupMax,
+    @Default(MixupAlgorithm.classic) MixupAlgorithm algorithm,
   }) = _MixupState;
 }

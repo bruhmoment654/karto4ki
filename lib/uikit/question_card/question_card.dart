@@ -159,8 +159,6 @@ class QuestionCardContent extends StatelessWidget {
         transform: transform,
         child: ContentCard(
           type: ContentCardType.large,
-          accentColor:
-              isMixedIn ? Theme.of(context).colorScheme.tertiary : null,
           child: SizedBox.expand(
             child: Center(child: face),
           ),
@@ -203,8 +201,6 @@ class QuestionCardContent extends StatelessWidget {
           transform: transform,
           child: ContentCard(
             type: ContentCardType.large,
-            accentColor:
-                isMixedIn ? Theme.of(context).colorScheme.tertiary : null,
             child: SizedBox.expand(
               child: Center(child: face),
             ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
+import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 class AppDropdown extends StatefulWidget {
   const AppDropdown({
@@ -38,7 +39,9 @@ class _AppDropdownState extends State<AppDropdown> {
                 children: [
                   Text(
                     widget.title,
-                    style: textTheme.bodyLarge,
+                    style: textTheme.bodyLarge?.copyWith(
+                      color: colorScheme.foreground,
+                    ),
                   ),
                   AnimatedRotation(
                     turns: _isExpanded ? 0.25 : 0,
@@ -46,7 +49,7 @@ class _AppDropdownState extends State<AppDropdown> {
                     child: Icon(
                       Icons.chevron_right,
                       size: 20,
-                      color: colorScheme.onSurfaceVariant,
+                      color: colorScheme.mutedForeground,
                     ),
                   ),
                 ],

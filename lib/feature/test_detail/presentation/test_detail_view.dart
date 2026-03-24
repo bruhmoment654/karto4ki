@@ -107,9 +107,7 @@ class _TestDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
       }
     }
     return Size.fromHeight(
-      DefaultAppBar.expandedToolbarHeight +
-          bottomHeight +
-          DefaultAppBar.dividerHeight,
+      DefaultAppBar.expandedToolbarHeight + bottomHeight,
     );
   }
 

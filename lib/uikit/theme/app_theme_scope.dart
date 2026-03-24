@@ -50,10 +50,19 @@ class _AppThemeScopeState extends State<AppThemeScope> {
 
   Color get _seedColor => AppTheme.seedColorFromHue(_settings.accentColorHue);
 
+  ThemeMode get _themeMode => switch (_settings.themeMode) {
+        AppThemeMode.light => ThemeMode.light,
+        AppThemeMode.dark => ThemeMode.dark,
+        AppThemeMode.system => ThemeMode.system,
+      };
+
   @override
   Widget build(BuildContext context) {
     return _AppThemeScopeInherited(
-      data: AppThemeScopeData(seedColor: _seedColor),
+      data: AppThemeScopeData(
+        seedColor: _seedColor,
+        themeMode: _themeMode,
+      ),
       child: widget.child,
     );
   }
@@ -61,12 +70,18 @@ class _AppThemeScopeState extends State<AppThemeScope> {
 
 class AppThemeScopeData {
   final Color seedColor;
+  final ThemeMode themeMode;
 
-  const AppThemeScopeData({this.seedColor = AppTheme.defaultSeedColor});
+  const AppThemeScopeData({
+    this.seedColor = AppTheme.defaultSeedColor,
+    this.themeMode = ThemeMode.system,
+  });
 
-  ThemeMode get themeMode => ThemeMode.dark;
+  bool get isDark => themeMode == ThemeMode.dark;
 
-  bool get isDark => true;
+  ThemeData get lightTheme => AppTheme.light(seedColor: seedColor);
+
+  ThemeData get darkTheme => AppTheme.dark(seedColor: seedColor);
 }
 
 class _AppThemeScopeInherited extends InheritedWidget {
@@ -79,5 +94,6 @@ class _AppThemeScopeInherited extends InheritedWidget {
 
   @override
   bool updateShouldNotify(_AppThemeScopeInherited oldWidget) =>
-      data.seedColor != oldWidget.data.seedColor;
+      data.seedColor != oldWidget.data.seedColor ||
+      data.themeMode != oldWidget.data.themeMode;
 }

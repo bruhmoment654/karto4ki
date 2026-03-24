@@ -13,8 +13,6 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   static const compactToolbarHeight = kToolbarHeight;
   static const expandedToolbarHeight = kToolbarHeight + 32;
-  static const dividerHeight = 1.0;
-
   const DefaultAppBar({
     required this.title,
     this.onTap,
@@ -43,7 +41,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Size get preferredSize => Size.fromHeight(
-        _toolbarHeight + (bottom?.preferredSize.height ?? 0) + dividerHeight,
+        _toolbarHeight + (bottom?.preferredSize.height ?? 0),
       );
 
   @override
@@ -65,25 +63,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     final resolvedTitle =
         onTap != null ? IgnorePointer(child: styledTitle) : styledTitle;
 
-    final defaultBottom = PreferredSize(
-      preferredSize: Size.fromHeight(
-        (bottom?.preferredSize.height ?? 0) + dividerHeight,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          if (bottom != null) bottom!,
-          Divider(
-            height: dividerHeight,
-            thickness: dividerHeight,
-            color: colorScheme.onSurfaceVariant.withValues(alpha: 0.1),
-          ),
-        ],
-      ),
-    );
-
     return AppBar(
-      backgroundColor: colorScheme.surface.withAlpha(50),
+      backgroundColor: Colors.transparent,
       elevation: elevation,
       scrolledUnderElevation: 0,
       toolbarHeight: _toolbarHeight,
@@ -96,7 +77,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
               child: const SizedBox.expand(),
             )
           : null,
-      bottom: defaultBottom,
+      bottom: bottom,
       actions: actions,
     );
   }

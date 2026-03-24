@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:quizzerg/feature/settings/presentation/settings_screen.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/skeleton_gif/skeleton_gif.dart';
 import 'package:quizzerg/uikit/slider/app_slider.dart';
+import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/switch/app_switch.dart';
 
 class SettingsView extends StatelessWidget {
@@ -19,10 +21,12 @@ class SettingsView extends StatelessWidget {
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         children: [
+          _ThemeModeSection(viewModel: viewModel),
+          const Height(32),
           _ShaderAnimationSection(viewModel: viewModel),
-          const Divider(height: 32),
+          const Height(32),
           _AccentColorSection(viewModel: viewModel),
-          const Divider(height: 32),
+          const Height(32),
           _AnimationSpeedSection(viewModel: viewModel),
           const SizedBox(height: 32),
           const SkeletonGif(),
@@ -168,8 +172,7 @@ class _ShaderAnimationSection extends StatelessWidget {
         ),
         AppSwitch(
           value: viewModel.shaderAnimationEnabled,
-          onChanged: (value) =>
-              viewModel.onShaderAnimationToggled(value: value),
+          onChanged: (value) => viewModel.onShaderAnimationToggled(value: value),
         ),
       ],
     );
@@ -192,6 +195,53 @@ class _VersionLabel extends StatelessWidget {
           color: theme.colorScheme.onSurfaceVariant,
         ),
       ),
+    );
+  }
+}
+
+class _ThemeModeSection extends StatelessWidget {
+  final ISettingsViewModel viewModel;
+
+  const _ThemeModeSection({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Тема',
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const SizedBox(height: 16),
+        SegmentedButton<AppThemeMode>(
+          segments: const [
+            ButtonSegment(
+              value: AppThemeMode.system,
+              label: Text('Системная'),
+              icon: Icon(Icons.settings_brightness),
+            ),
+            ButtonSegment(
+              value: AppThemeMode.light,
+              label: Text('Светлая'),
+              icon: Icon(Icons.light_mode),
+            ),
+            ButtonSegment(
+              value: AppThemeMode.dark,
+              label: Text('Тёмная'),
+              icon: Icon(Icons.dark_mode),
+            ),
+          ],
+          selected: {viewModel.themeMode},
+          onSelectionChanged: (selected) {
+            viewModel.onThemeModeChanged(selected.first);
+          },
+        ),
+      ],
     );
   }
 }

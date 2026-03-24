@@ -4,7 +4,6 @@ import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/l10n/app_localizations.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
 import 'package:quizzerg/uikit/theme/app_theme_scope.dart';
 
 /// {@template app.class}
@@ -26,8 +25,7 @@ class _AppState extends State<App> {
       child: Builder(
         builder: (context) {
           final themeScope = AppThemeScope.of(context);
-          final isDark = themeScope.isDark;
-          final theme = AppTheme.dark(seedColor: themeScope.seedColor);
+          final isDark = themeScope.themeMode == ThemeMode.dark;
 
           return AnnotatedRegion<SystemUiOverlayStyle>(
             value: SystemUiOverlayStyle(
@@ -42,9 +40,9 @@ class _AppState extends State<App> {
                 navigatorObservers: () => [AutoRouteObserver()],
               ),
               scrollBehavior: const _AppScrollBehavior(),
-              theme: theme,
-              darkTheme: theme,
-              themeMode: ThemeMode.dark,
+              theme: themeScope.lightTheme,
+              darkTheme: themeScope.darkTheme,
+              themeMode: themeScope.themeMode,
               locale: _locale,
               localizationsDelegates: _localizationsDelegates,
               supportedLocales: const [_locale],

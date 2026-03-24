@@ -1,6 +1,7 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_algorithm.dart';
 import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
 import 'package:quizzerg/persistence/settings/i_settings_storage.dart';
 
@@ -18,9 +19,11 @@ final class MixupBloc extends Bloc<MixupEvent, MixupState> {
           enabled: settingsStorage.get().mixupEnabled,
           mixupMin: settingsStorage.get().mixupMin,
           mixupMax: settingsStorage.get().mixupMax,
+          algorithm: settingsStorage.get().mixupAlgorithm,
         )) {
     on<_MixupEvent$Toggled>(_onToggled);
     on<_MixupEvent$RangeChanged>(_onRangeChanged);
+    on<_MixupEvent$AlgorithmChanged>(_onAlgorithmChanged);
   }
 
   void _onToggled(
@@ -39,10 +42,19 @@ final class MixupBloc extends Bloc<MixupEvent, MixupState> {
     _saveSettings(mixupMin: event.min, mixupMax: event.max);
   }
 
+  void _onAlgorithmChanged(
+    _MixupEvent$AlgorithmChanged event,
+    Emitter<MixupState> emit,
+  ) {
+    emit(state.copyWith(algorithm: event.algorithm));
+    _saveSettings(algorithm: event.algorithm);
+  }
+
   void _saveSettings({
     bool? enabled,
     int? mixupMin,
     int? mixupMax,
+    MixupAlgorithm? algorithm,
   }) {
     final current = _settingsStorage.get();
     _settingsStorage.save(SettingsDto(
@@ -52,6 +64,8 @@ final class MixupBloc extends Bloc<MixupEvent, MixupState> {
       mixupEnabled: enabled ?? current.mixupEnabled,
       mixupMin: mixupMin ?? current.mixupMin,
       mixupMax: mixupMax ?? current.mixupMax,
+      themeMode: current.themeMode,
+      mixupAlgorithm: algorithm ?? current.mixupAlgorithm,
     ));
   }
 }

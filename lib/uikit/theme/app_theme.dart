@@ -1,18 +1,46 @@
 import 'package:flutter/material.dart';
 
+import 'package:quizzerg/uikit/theme/app_colors.dart';
+
 class AppTheme {
   static const defaultSeedColor = Color.fromARGB(255, 35, 255, 142);
 
+  static ThemeData light({Color seedColor = defaultSeedColor}) {
+    const colors = AppColorsLight();
+    final colorScheme = ColorScheme.fromSeed(
+      seedColor: seedColor,
+    ).copyWith(
+      primary: colors.primary,
+      secondary: colors.secondary,
+      surface: colors.card,
+      error: colors.destructive,
+      outline: colors.border,
+    );
+
+    return _buildThemeData(colorScheme, colors);
+  }
+
   static ThemeData dark({Color seedColor = defaultSeedColor}) {
+    const colors = AppColorsDark();
     final colorScheme = ColorScheme.fromSeed(
       seedColor: seedColor,
       brightness: Brightness.dark,
+    ).copyWith(
+      primary: colors.primary,
+      secondary: colors.secondary,
+      surface: colors.card,
+      error: colors.destructive,
+      outline: colors.border,
     );
 
+    return _buildThemeData(colorScheme, colors);
+  }
+
+  static ThemeData _buildThemeData(ColorScheme colorScheme, AppColors colors) {
     return ThemeData(
       useMaterial3: true,
       colorScheme: colorScheme,
-      scaffoldBackgroundColor: colorScheme.scaffoldBackground,
+      scaffoldBackgroundColor: colors.background,
       fontFamily: 'Nexa',
       appBarTheme: AppBarTheme(
         elevation: 0,
@@ -66,9 +94,30 @@ class AppTheme {
 }
 
 extension AppThemeColorSchemeX on ColorScheme {
-  Color get scaffoldBackground => const Color(0xFF121212);
+  bool get _isDark => brightness == Brightness.dark;
 
-  Color get success => const Color(0xFFFFCA28);
+  AppColors get _colors =>
+      _isDark ? const AppColorsDark() : const AppColorsLight();
+
+  Color get scaffoldBackground => _colors.background;
+
+  Color get success => _colors.success;
 
   Color get info => const Color(0xFF42A5F5);
+
+  Color get muted => _colors.muted;
+
+  Color get mutedForeground => _colors.mutedForeground;
+
+  Color get accent => _colors.accent;
+
+  Color get warning => _colors.warning;
+
+  Color get card => _colors.card;
+
+  Color get border => _colors.border;
+
+  Color get foreground => _colors.foreground;
+
+  Color get secondaryForeground => _colors.secondaryForeground;
 }

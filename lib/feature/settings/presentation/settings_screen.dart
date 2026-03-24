@@ -49,12 +49,35 @@ class _SettingsScreenState extends State<SettingsScreen>
   Color get previewAccentColor => AppTheme.seedColorFromHue(accentColorHue);
 
   @override
+  AppThemeMode get themeMode => _settings.themeMode;
+
+  @override
+  void onThemeModeChanged(AppThemeMode mode) {
+    setState(() {
+      _settings = SettingsDto(
+        animationDurationMs: _settings.animationDurationMs,
+        shaderAnimationEnabled: _settings.shaderAnimationEnabled,
+        accentColorHue: _settings.accentColorHue,
+        mixupEnabled: _settings.mixupEnabled,
+        mixupMin: _settings.mixupMin,
+        mixupMax: _settings.mixupMax,
+        themeMode: mode,
+      );
+      _settingsStorage.save(_settings);
+    });
+  }
+
+  @override
   void onAnimationDurationChanged(double value) {
     setState(() {
       _settings = SettingsDto(
         animationDurationMs: value.round(),
         shaderAnimationEnabled: _settings.shaderAnimationEnabled,
         accentColorHue: _settings.accentColorHue,
+        mixupEnabled: _settings.mixupEnabled,
+        mixupMin: _settings.mixupMin,
+        mixupMax: _settings.mixupMax,
+        themeMode: _settings.themeMode,
       );
       _settingsStorage.save(_settings);
     });
@@ -67,6 +90,10 @@ class _SettingsScreenState extends State<SettingsScreen>
         animationDurationMs: _settings.animationDurationMs,
         shaderAnimationEnabled: value,
         accentColorHue: _settings.accentColorHue,
+        mixupEnabled: _settings.mixupEnabled,
+        mixupMin: _settings.mixupMin,
+        mixupMax: _settings.mixupMax,
+        themeMode: _settings.themeMode,
       );
       _settingsStorage.save(_settings);
     });
@@ -85,6 +112,10 @@ class _SettingsScreenState extends State<SettingsScreen>
           animationDurationMs: _settings.animationDurationMs,
           shaderAnimationEnabled: _settings.shaderAnimationEnabled,
           accentColorHue: value,
+          mixupEnabled: _settings.mixupEnabled,
+          mixupMin: _settings.mixupMin,
+          mixupMax: _settings.mixupMax,
+          themeMode: _settings.themeMode,
         );
         _pendingHue = null;
       });
@@ -110,8 +141,10 @@ abstract interface class ISettingsViewModel {
   bool get shaderAnimationEnabled;
   double get accentColorHue;
   Color get previewAccentColor;
+  AppThemeMode get themeMode;
 
   void onAnimationDurationChanged(double value);
   void onShaderAnimationToggled({required bool value});
   void onAccentColorHueChanged(double value);
+  void onThemeModeChanged(AppThemeMode mode);
 }

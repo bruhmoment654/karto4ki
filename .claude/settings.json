@@ -1,0 +1,10 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(grep -E \"\\\\.\\(dart\\)$\")"
+    ],
+    "additionalDirectories": [
+      "/Users/user/Documents/work/karto4ki/.claude/docs"
+    ]
+  }
+}

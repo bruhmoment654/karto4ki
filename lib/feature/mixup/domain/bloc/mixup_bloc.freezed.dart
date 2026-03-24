@@ -20,18 +20,21 @@ mixin _$MixupEvent {
   TResult when<TResult extends Object?>({
     required TResult Function(bool enabled) toggled,
     required TResult Function(int min, int max) rangeChanged,
+    required TResult Function(MixupAlgorithm algorithm) algorithmChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(bool enabled)? toggled,
     TResult? Function(int min, int max)? rangeChanged,
+    TResult? Function(MixupAlgorithm algorithm)? algorithmChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(bool enabled)? toggled,
     TResult Function(int min, int max)? rangeChanged,
+    TResult Function(MixupAlgorithm algorithm)? algorithmChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -39,18 +42,22 @@ mixin _$MixupEvent {
   TResult map<TResult extends Object?>({
     required TResult Function(_MixupEvent$Toggled value) toggled,
     required TResult Function(_MixupEvent$RangeChanged value) rangeChanged,
+    required TResult Function(_MixupEvent$AlgorithmChanged value)
+        algorithmChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_MixupEvent$Toggled value)? toggled,
     TResult? Function(_MixupEvent$RangeChanged value)? rangeChanged,
+    TResult? Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_MixupEvent$Toggled value)? toggled,
     TResult Function(_MixupEvent$RangeChanged value)? rangeChanged,
+    TResult Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -141,6 +148,7 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
   TResult when<TResult extends Object?>({
     required TResult Function(bool enabled) toggled,
     required TResult Function(int min, int max) rangeChanged,
+    required TResult Function(MixupAlgorithm algorithm) algorithmChanged,
   }) {
     return toggled(enabled);
   }
@@ -150,6 +158,7 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(bool enabled)? toggled,
     TResult? Function(int min, int max)? rangeChanged,
+    TResult? Function(MixupAlgorithm algorithm)? algorithmChanged,
   }) {
     return toggled?.call(enabled);
   }
@@ -159,6 +168,7 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(bool enabled)? toggled,
     TResult Function(int min, int max)? rangeChanged,
+    TResult Function(MixupAlgorithm algorithm)? algorithmChanged,
     required TResult orElse(),
   }) {
     if (toggled != null) {
@@ -172,6 +182,8 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
   TResult map<TResult extends Object?>({
     required TResult Function(_MixupEvent$Toggled value) toggled,
     required TResult Function(_MixupEvent$RangeChanged value) rangeChanged,
+    required TResult Function(_MixupEvent$AlgorithmChanged value)
+        algorithmChanged,
   }) {
     return toggled(this);
   }
@@ -181,6 +193,7 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_MixupEvent$Toggled value)? toggled,
     TResult? Function(_MixupEvent$RangeChanged value)? rangeChanged,
+    TResult? Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
   }) {
     return toggled?.call(this);
   }
@@ -190,6 +203,7 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_MixupEvent$Toggled value)? toggled,
     TResult Function(_MixupEvent$RangeChanged value)? rangeChanged,
+    TResult Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
     required TResult orElse(),
   }) {
     if (toggled != null) {
@@ -286,6 +300,7 @@ class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
   TResult when<TResult extends Object?>({
     required TResult Function(bool enabled) toggled,
     required TResult Function(int min, int max) rangeChanged,
+    required TResult Function(MixupAlgorithm algorithm) algorithmChanged,
   }) {
     return rangeChanged(min, max);
   }
@@ -295,6 +310,7 @@ class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(bool enabled)? toggled,
     TResult? Function(int min, int max)? rangeChanged,
+    TResult? Function(MixupAlgorithm algorithm)? algorithmChanged,
   }) {
     return rangeChanged?.call(min, max);
   }
@@ -304,6 +320,7 @@ class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(bool enabled)? toggled,
     TResult Function(int min, int max)? rangeChanged,
+    TResult Function(MixupAlgorithm algorithm)? algorithmChanged,
     required TResult orElse(),
   }) {
     if (rangeChanged != null) {
@@ -317,6 +334,8 @@ class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
   TResult map<TResult extends Object?>({
     required TResult Function(_MixupEvent$Toggled value) toggled,
     required TResult Function(_MixupEvent$RangeChanged value) rangeChanged,
+    required TResult Function(_MixupEvent$AlgorithmChanged value)
+        algorithmChanged,
   }) {
     return rangeChanged(this);
   }
@@ -326,6 +345,7 @@ class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_MixupEvent$Toggled value)? toggled,
     TResult? Function(_MixupEvent$RangeChanged value)? rangeChanged,
+    TResult? Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
   }) {
     return rangeChanged?.call(this);
   }
@@ -335,6 +355,7 @@ class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_MixupEvent$Toggled value)? toggled,
     TResult Function(_MixupEvent$RangeChanged value)? rangeChanged,
+    TResult Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
     required TResult orElse(),
   }) {
     if (rangeChanged != null) {
@@ -357,10 +378,158 @@ abstract class _MixupEvent$RangeChanged implements MixupEvent {
 }
 
 /// @nodoc
+abstract class _$$MixupEvent$AlgorithmChangedImplCopyWith<$Res> {
+  factory _$$MixupEvent$AlgorithmChangedImplCopyWith(
+          _$MixupEvent$AlgorithmChangedImpl value,
+          $Res Function(_$MixupEvent$AlgorithmChangedImpl) then) =
+      __$$MixupEvent$AlgorithmChangedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({MixupAlgorithm algorithm});
+}
+
+/// @nodoc
+class __$$MixupEvent$AlgorithmChangedImplCopyWithImpl<$Res>
+    extends _$MixupEventCopyWithImpl<$Res, _$MixupEvent$AlgorithmChangedImpl>
+    implements _$$MixupEvent$AlgorithmChangedImplCopyWith<$Res> {
+  __$$MixupEvent$AlgorithmChangedImplCopyWithImpl(
+      _$MixupEvent$AlgorithmChangedImpl _value,
+      $Res Function(_$MixupEvent$AlgorithmChangedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? algorithm = null,
+  }) {
+    return _then(_$MixupEvent$AlgorithmChangedImpl(
+      algorithm: null == algorithm
+          ? _value.algorithm
+          : algorithm // ignore: cast_nullable_to_non_nullable
+              as MixupAlgorithm,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$MixupEvent$AlgorithmChangedImpl
+    implements _MixupEvent$AlgorithmChanged {
+  const _$MixupEvent$AlgorithmChangedImpl({required this.algorithm});
+
+  @override
+  final MixupAlgorithm algorithm;
+
+  @override
+  String toString() {
+    return 'MixupEvent.algorithmChanged(algorithm: $algorithm)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MixupEvent$AlgorithmChangedImpl &&
+            (identical(other.algorithm, algorithm) ||
+                other.algorithm == algorithm));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, algorithm);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MixupEvent$AlgorithmChangedImplCopyWith<_$MixupEvent$AlgorithmChangedImpl>
+      get copyWith => __$$MixupEvent$AlgorithmChangedImplCopyWithImpl<
+          _$MixupEvent$AlgorithmChangedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(bool enabled) toggled,
+    required TResult Function(int min, int max) rangeChanged,
+    required TResult Function(MixupAlgorithm algorithm) algorithmChanged,
+  }) {
+    return algorithmChanged(algorithm);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(bool enabled)? toggled,
+    TResult? Function(int min, int max)? rangeChanged,
+    TResult? Function(MixupAlgorithm algorithm)? algorithmChanged,
+  }) {
+    return algorithmChanged?.call(algorithm);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(bool enabled)? toggled,
+    TResult Function(int min, int max)? rangeChanged,
+    TResult Function(MixupAlgorithm algorithm)? algorithmChanged,
+    required TResult orElse(),
+  }) {
+    if (algorithmChanged != null) {
+      return algorithmChanged(algorithm);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_MixupEvent$Toggled value) toggled,
+    required TResult Function(_MixupEvent$RangeChanged value) rangeChanged,
+    required TResult Function(_MixupEvent$AlgorithmChanged value)
+        algorithmChanged,
+  }) {
+    return algorithmChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_MixupEvent$Toggled value)? toggled,
+    TResult? Function(_MixupEvent$RangeChanged value)? rangeChanged,
+    TResult? Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
+  }) {
+    return algorithmChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_MixupEvent$Toggled value)? toggled,
+    TResult Function(_MixupEvent$RangeChanged value)? rangeChanged,
+    TResult Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
+    required TResult orElse(),
+  }) {
+    if (algorithmChanged != null) {
+      return algorithmChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _MixupEvent$AlgorithmChanged implements MixupEvent {
+  const factory _MixupEvent$AlgorithmChanged(
+          {required final MixupAlgorithm algorithm}) =
+      _$MixupEvent$AlgorithmChangedImpl;
+
+  MixupAlgorithm get algorithm;
+  @JsonKey(ignore: true)
+  _$$MixupEvent$AlgorithmChangedImplCopyWith<_$MixupEvent$AlgorithmChangedImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$MixupState {
   bool get enabled => throw _privateConstructorUsedError;
   int get mixupMin => throw _privateConstructorUsedError;
   int get mixupMax => throw _privateConstructorUsedError;
+  MixupAlgorithm get algorithm => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MixupStateCopyWith<MixupState> get copyWith =>
@@ -373,7 +542,8 @@ abstract class $MixupStateCopyWith<$Res> {
           MixupState value, $Res Function(MixupState) then) =
       _$MixupStateCopyWithImpl<$Res, MixupState>;
   @useResult
-  $Res call({bool enabled, int mixupMin, int mixupMax});
+  $Res call(
+      {bool enabled, int mixupMin, int mixupMax, MixupAlgorithm algorithm});
 }
 
 /// @nodoc
@@ -392,6 +562,7 @@ class _$MixupStateCopyWithImpl<$Res, $Val extends MixupState>
     Object? enabled = null,
     Object? mixupMin = null,
     Object? mixupMax = null,
+    Object? algorithm = null,
   }) {
     return _then(_value.copyWith(
       enabled: null == enabled
@@ -406,6 +577,10 @@ class _$MixupStateCopyWithImpl<$Res, $Val extends MixupState>
           ? _value.mixupMax
           : mixupMax // ignore: cast_nullable_to_non_nullable
               as int,
+      algorithm: null == algorithm
+          ? _value.algorithm
+          : algorithm // ignore: cast_nullable_to_non_nullable
+              as MixupAlgorithm,
     ) as $Val);
   }
 }
@@ -418,7 +593,8 @@ abstract class _$$MixupStateImplCopyWith<$Res>
       __$$MixupStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool enabled, int mixupMin, int mixupMax});
+  $Res call(
+      {bool enabled, int mixupMin, int mixupMax, MixupAlgorithm algorithm});
 }
 
 /// @nodoc
@@ -435,6 +611,7 @@ class __$$MixupStateImplCopyWithImpl<$Res>
     Object? enabled = null,
     Object? mixupMin = null,
     Object? mixupMax = null,
+    Object? algorithm = null,
   }) {
     return _then(_$MixupStateImpl(
       enabled: null == enabled
@@ -449,6 +626,10 @@ class __$$MixupStateImplCopyWithImpl<$Res>
           ? _value.mixupMax
           : mixupMax // ignore: cast_nullable_to_non_nullable
               as int,
+      algorithm: null == algorithm
+          ? _value.algorithm
+          : algorithm // ignore: cast_nullable_to_non_nullable
+              as MixupAlgorithm,
     ));
   }
 }
@@ -457,7 +638,10 @@ class __$$MixupStateImplCopyWithImpl<$Res>
 
 class _$MixupStateImpl implements _MixupState {
   const _$MixupStateImpl(
-      {this.enabled = false, this.mixupMin = 1, this.mixupMax = 5});
+      {this.enabled = false,
+      this.mixupMin = 1,
+      this.mixupMax = 5,
+      this.algorithm = MixupAlgorithm.classic});
 
   @override
   @JsonKey()
@@ -468,10 +652,13 @@ class _$MixupStateImpl implements _MixupState {
   @override
   @JsonKey()
   final int mixupMax;
+  @override
+  @JsonKey()
+  final MixupAlgorithm algorithm;
 
   @override
   String toString() {
-    return 'MixupState(enabled: $enabled, mixupMin: $mixupMin, mixupMax: $mixupMax)';
+    return 'MixupState(enabled: $enabled, mixupMin: $mixupMin, mixupMax: $mixupMax, algorithm: $algorithm)';
   }
 
   @override
@@ -483,11 +670,14 @@ class _$MixupStateImpl implements _MixupState {
             (identical(other.mixupMin, mixupMin) ||
                 other.mixupMin == mixupMin) &&
             (identical(other.mixupMax, mixupMax) ||
-                other.mixupMax == mixupMax));
+                other.mixupMax == mixupMax) &&
+            (identical(other.algorithm, algorithm) ||
+                other.algorithm == algorithm));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, enabled, mixupMin, mixupMax);
+  int get hashCode =>
+      Object.hash(runtimeType, enabled, mixupMin, mixupMax, algorithm);
 
   @JsonKey(ignore: true)
   @override
@@ -500,7 +690,8 @@ abstract class _MixupState implements MixupState {
   const factory _MixupState(
       {final bool enabled,
       final int mixupMin,
-      final int mixupMax}) = _$MixupStateImpl;
+      final int mixupMax,
+      final MixupAlgorithm algorithm}) = _$MixupStateImpl;
 
   @override
   bool get enabled;
@@ -508,6 +699,8 @@ abstract class _MixupState implements MixupState {
   int get mixupMin;
   @override
   int get mixupMax;
+  @override
+  MixupAlgorithm get algorithm;
   @override
   @JsonKey(ignore: true)
   _$$MixupStateImplCopyWith<_$MixupStateImpl> get copyWith =>

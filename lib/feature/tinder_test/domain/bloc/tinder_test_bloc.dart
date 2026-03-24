@@ -9,7 +9,7 @@ import 'package:quizzerg/feature/question_stats/domain/repository/i_question_sta
 import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/card_result.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
-import 'package:quizzerg/feature/tinder_test/domain/mixup/question_mixup_service.dart';
+import 'package:quizzerg/feature/tinder_test/domain/mixup/i_question_mixup_service.dart';
 
 part 'tinder_test_event.dart';
 part 'tinder_test_state.dart';
@@ -21,7 +21,7 @@ part 'tinder_test_bloc.freezed.dart';
 final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   final ICardRepository _cardRepository;
   final IQuestionStatsRepository _questionStatsRepository;
-  final QuestionMixupService? _mixupService;
+  final IQuestionMixupService? _mixupService;
   bool _swapSides = false;
   int _answerIndex = 0;
   bool _mixup = false;
@@ -31,7 +31,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   TinderTestBloc({
     required ICardRepository cardRepository,
     required IQuestionStatsRepository questionStatsRepository,
-    QuestionMixupService? mixupService,
+    IQuestionMixupService? mixupService,
   })  : _cardRepository = cardRepository,
         _questionStatsRepository = questionStatsRepository,
         _mixupService = mixupService,

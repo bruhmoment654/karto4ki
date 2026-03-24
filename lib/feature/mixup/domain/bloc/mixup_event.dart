@@ -13,4 +13,9 @@ sealed class MixupEvent with _$MixupEvent {
     required int min,
     required int max,
   }) = _MixupEvent$RangeChanged;
+
+  /// Изменить алгоритм подмешивания.
+  const factory MixupEvent.algorithmChanged({
+    required MixupAlgorithm algorithm,
+  }) = _MixupEvent$AlgorithmChanged;
 }

@@ -8,6 +8,7 @@ import 'package:quizzerg/feature/group_detail/domain/bloc/group_detail_bloc.dart
 import 'package:quizzerg/feature/group_detail/presentation/group_detail_view.dart';
 import 'package:quizzerg/feature/mixup/domain/bloc/mixup_bloc.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
+import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_algorithm.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 
@@ -59,6 +60,13 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   @override
   void onMixupRangeChanged({required int min, required int max}) {
     context.read<MixupBloc>().add(MixupEvent.rangeChanged(min: min, max: max));
+  }
+
+  @override
+  void onMixupAlgorithmChanged({required MixupAlgorithm algorithm}) {
+    context
+        .read<MixupBloc>()
+        .add(MixupEvent.algorithmChanged(algorithm: algorithm));
   }
 
   @override
@@ -339,4 +347,6 @@ abstract interface class IGroupDetailViewModel {
   void onMixupChanged({required bool value});
 
   void onMixupRangeChanged({required int min, required int max});
+
+  void onMixupAlgorithmChanged({required MixupAlgorithm algorithm});
 }
