@@ -5,6 +5,7 @@ abstract final class AnswerParser {
   /// Парсит строку ответов.
   /// Поддерживаемые форматы:
   /// - `"a | b | c"` — основной формат через `|`
+  /// - `"a // b // c"` — альтернативный формат через `//`
   /// - `"a (b)"` — старый формат со скобками
   /// - `"a - b"` — старый формат с дефисом
   /// Пустые варианты отбрасываются. Максимум 3.
@@ -12,6 +13,15 @@ abstract final class AnswerParser {
     if (raw.contains('|')) {
       return raw
           .split('|')
+          .map((it) => it.trim())
+          .where((it) => it.isNotEmpty)
+          .take(3)
+          .toList();
+    }
+
+    if (raw.contains('//')) {
+      return raw
+          .split('//')
           .map((it) => it.trim())
           .where((it) => it.isNotEmpty)
           .take(3)

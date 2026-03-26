@@ -41,7 +41,7 @@ class _CsvImportDialogState extends State<CsvImportDialog> {
       title: Text(l10n.csvImportDialogTitle),
       content: ConstrainedBox(
         constraints: BoxConstraints(
-          maxHeight: MediaQuery.sizeOf(context).height * 0.6,
+          maxHeight: MediaQuery.sizeOf(context).height * 0.7,
         ),
         child: SizedBox(
           width: double.maxFinite,
@@ -51,6 +51,8 @@ class _CsvImportDialogState extends State<CsvImportDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(l10n.csvImportDialogDescription),
+                const SizedBox(height: 12),
+                _ExampleBlock(text: l10n.csvImportDialogExample),
                 const SizedBox(height: 16),
                 TextField(
                   controller: _delimiterController,
@@ -136,6 +138,33 @@ class _CsvImportDialogState extends State<CsvImportDialog> {
   String _baseName(String path) {
     final separator = path.contains(r'\') ? r'\' : '/';
     return path.split(separator).last;
+  }
+}
+
+class _ExampleBlock extends StatelessWidget {
+  final String text;
+
+  const _ExampleBlock({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: theme.colorScheme.surfaceContainerHighest,
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Text(
+        text,
+        style: theme.textTheme.bodySmall?.copyWith(
+          fontFamily: 'monospace',
+          color: theme.colorScheme.onSurfaceVariant,
+        ),
+      ),
+    );
   }
 }
 

@@ -470,8 +470,14 @@ abstract class AppLocalizations {
   /// No description provided for @csvImportDialogDescription.
   ///
   /// In en, this message translates to:
-  /// **'Supported formats: CSV, TXT, TSV\n\nFile format:\n• 1st column — question (word)\n• 2nd column — answer (translation)'**
+  /// **'Supported formats: CSV, TXT, TSV\n\nFile format:\n• 1st column — question (word)\n• 2nd column — answer (translation)\n\nMultiple answer variants can be separated with | or //'**
   String get csvImportDialogDescription;
+
+  /// No description provided for @csvImportDialogExample.
+  ///
+  /// In en, this message translates to:
+  /// **'apple;яблоко\ncat;кот | кошка\ndog;собака // пёс'**
+  String get csvImportDialogExample;
 
   /// No description provided for @csvImportDelimiterLabel.
   ///

@@ -205,7 +205,10 @@ class AppLocalizationsEn extends AppLocalizations {
   String get csvImportDialogTitle => 'Import cards from file';
 
   @override
-  String get csvImportDialogDescription => 'Supported formats: CSV, TXT, TSV\n\nFile format:\n• 1st column — question (word)\n• 2nd column — answer (translation)';
+  String get csvImportDialogDescription => 'Supported formats: CSV, TXT, TSV\n\nFile format:\n• 1st column — question (word)\n• 2nd column — answer (translation)\n\nMultiple answer variants can be separated with | or //';
+
+  @override
+  String get csvImportDialogExample => 'apple;яблоко\ncat;кот | кошка\ndog;собака // пёс';
 
   @override
   String get csvImportDelimiterLabel => 'Delimiter';
