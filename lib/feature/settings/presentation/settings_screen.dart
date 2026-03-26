@@ -23,6 +23,13 @@ class _SettingsScreenState extends State<SettingsScreen>
   double? _pendingHue;
   Timer? _colorDebounceTimer;
 
+  void _saveSettings(SettingsDto settings) {
+    setState(() {
+      _settings = settings;
+    });
+    _settingsStorage.save(_settings);
+  }
+
   @override
   void initState() {
     super.initState();
@@ -52,51 +59,66 @@ class _SettingsScreenState extends State<SettingsScreen>
   AppThemeMode get themeMode => _settings.themeMode;
 
   @override
+  double get cardFontSize => _settings.cardFontSize;
+
+  @override
+  void onCardFontSizeChanged(double value) {
+    _saveSettings(SettingsDto(
+      animationDurationMs: _settings.animationDurationMs,
+      shaderAnimationEnabled: _settings.shaderAnimationEnabled,
+      accentColorHue: _settings.accentColorHue,
+      mixupEnabled: _settings.mixupEnabled,
+      mixupMin: _settings.mixupMin,
+      mixupMax: _settings.mixupMax,
+      themeMode: _settings.themeMode,
+      mixupAlgorithm: _settings.mixupAlgorithm,
+      cardFontSize: value,
+    ));
+  }
+
+  @override
   void onThemeModeChanged(AppThemeMode mode) {
-    setState(() {
-      _settings = SettingsDto(
-        animationDurationMs: _settings.animationDurationMs,
-        shaderAnimationEnabled: _settings.shaderAnimationEnabled,
-        accentColorHue: _settings.accentColorHue,
-        mixupEnabled: _settings.mixupEnabled,
-        mixupMin: _settings.mixupMin,
-        mixupMax: _settings.mixupMax,
-        themeMode: mode,
-      );
-      _settingsStorage.save(_settings);
-    });
+    _saveSettings(SettingsDto(
+      animationDurationMs: _settings.animationDurationMs,
+      shaderAnimationEnabled: _settings.shaderAnimationEnabled,
+      accentColorHue: _settings.accentColorHue,
+      mixupEnabled: _settings.mixupEnabled,
+      mixupMin: _settings.mixupMin,
+      mixupMax: _settings.mixupMax,
+      themeMode: mode,
+      mixupAlgorithm: _settings.mixupAlgorithm,
+      cardFontSize: _settings.cardFontSize,
+    ));
   }
 
   @override
   void onAnimationDurationChanged(double value) {
-    setState(() {
-      _settings = SettingsDto(
-        animationDurationMs: value.round(),
-        shaderAnimationEnabled: _settings.shaderAnimationEnabled,
-        accentColorHue: _settings.accentColorHue,
-        mixupEnabled: _settings.mixupEnabled,
-        mixupMin: _settings.mixupMin,
-        mixupMax: _settings.mixupMax,
-        themeMode: _settings.themeMode,
-      );
-      _settingsStorage.save(_settings);
-    });
+    _saveSettings(SettingsDto(
+      animationDurationMs: value.round(),
+      shaderAnimationEnabled: _settings.shaderAnimationEnabled,
+      accentColorHue: _settings.accentColorHue,
+      mixupEnabled: _settings.mixupEnabled,
+      mixupMin: _settings.mixupMin,
+      mixupMax: _settings.mixupMax,
+      themeMode: _settings.themeMode,
+      mixupAlgorithm: _settings.mixupAlgorithm,
+      cardFontSize: _settings.cardFontSize,
+    ));
   }
 
   @override
   void onShaderAnimationToggled({required bool value}) {
-    setState(() {
-      _settings = SettingsDto(
-        animationDurationMs: _settings.animationDurationMs,
-        shaderAnimationEnabled: value,
-        accentColorHue: _settings.accentColorHue,
-        mixupEnabled: _settings.mixupEnabled,
-        mixupMin: _settings.mixupMin,
-        mixupMax: _settings.mixupMax,
-        themeMode: _settings.themeMode,
-      );
-      _settingsStorage.save(_settings);
-    });
+    _saveSettings(SettingsDto(
+      animationDurationMs: _settings.animationDurationMs,
+      shaderAnimationEnabled: value,
+      accentColorHue: _settings.accentColorHue,
+      mixupEnabled: _settings.mixupEnabled,
+      mixupMin: _settings.mixupMin,
+      mixupMax: _settings.mixupMax,
+      themeMode: _settings.themeMode,
+      mixupAlgorithm: _settings.mixupAlgorithm,
+      cardFontSize: _settings.cardFontSize,
+    ));
   }
 
   @override
@@ -107,19 +129,18 @@ class _SettingsScreenState extends State<SettingsScreen>
 
     _colorDebounceTimer?.cancel();
     _colorDebounceTimer = Timer(const Duration(milliseconds: 500), () {
-      setState(() {
-        _settings = SettingsDto(
-          animationDurationMs: _settings.animationDurationMs,
-          shaderAnimationEnabled: _settings.shaderAnimationEnabled,
-          accentColorHue: value,
-          mixupEnabled: _settings.mixupEnabled,
-          mixupMin: _settings.mixupMin,
-          mixupMax: _settings.mixupMax,
-          themeMode: _settings.themeMode,
-        );
-        _pendingHue = null;
-      });
-      _settingsStorage.save(_settings);
+      _pendingHue = null;
+      _saveSettings(SettingsDto(
+        animationDurationMs: _settings.animationDurationMs,
+        shaderAnimationEnabled: _settings.shaderAnimationEnabled,
+        accentColorHue: value,
+        mixupEnabled: _settings.mixupEnabled,
+        mixupMin: _settings.mixupMin,
+        mixupMax: _settings.mixupMax,
+        themeMode: _settings.themeMode,
+        mixupAlgorithm: _settings.mixupAlgorithm,
+        cardFontSize: _settings.cardFontSize,
+      ));
     });
   }
 
@@ -142,9 +163,11 @@ abstract interface class ISettingsViewModel {
   double get accentColorHue;
   Color get previewAccentColor;
   AppThemeMode get themeMode;
+  double get cardFontSize;
 
   void onAnimationDurationChanged(double value);
   void onShaderAnimationToggled({required bool value});
   void onAccentColorHueChanged(double value);
   void onThemeModeChanged(AppThemeMode mode);
+  void onCardFontSizeChanged(double value);
 }

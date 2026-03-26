@@ -558,6 +558,7 @@
   "testDetailDeleteCardMessage": "Вы уверены, что хотите удалить эту карточку?",
   "testDetailDeleteCardCancel": "Отмена",
   "testDetailDeleteCardConfirm": "Удалить",
+  "testDetailSettingsButton": "Настройки",
   "testDetailSwapSides": "Поменять стороны местами",
   "groupDetailMixup": "Подмешивание вопросов",
   "groupDetailMixupDescription": "Добавляет вопросы из других тестов группы",
@@ -639,6 +640,16 @@
       "duration": {
         "type": "int",
         "example": "300"
+      }
+    }
+  },
+  "profileCardFontSizeTitle": "Размер шрифта на карточке",
+  "profileCardFontSizeLabel": "{size} pt",
+  "@profileCardFontSizeLabel": {
+    "placeholders": {
+      "size": {
+        "type": "int",
+        "example": "24"
       }
     }
   },

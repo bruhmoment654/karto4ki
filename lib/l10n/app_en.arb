@@ -120,6 +120,7 @@
   "testDetailDeleteCardMessage": "Are you sure you want to delete this card?",
   "testDetailDeleteCardCancel": "Cancel",
   "testDetailDeleteCardConfirm": "Delete",
+  "testDetailSettingsButton": "Settings",
   "testDetailSwapSides": "Swap sides",
   "groupDetailMixup": "Question mixup",
   "groupDetailMixupDescription": "Adds questions from other tests in the group",
@@ -196,6 +197,16 @@
   "profileAccentColorTitle": "App color",
   "profileAnimationSpeedTitle": "Animation speed",
   "profileAnimationDurationLabel": "{duration} ms",
+  "profileCardFontSizeTitle": "Card font size",
+  "profileCardFontSizeLabel": "{size} pt",
+  "@profileCardFontSizeLabel": {
+    "placeholders": {
+      "size": {
+        "type": "int",
+        "example": "24"
+      }
+    }
+  },
   "@profileAnimationDurationLabel": {
     "placeholders": {
       "duration": {

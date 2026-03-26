@@ -20,12 +20,9 @@ class TestMergeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: DefaultAppBar(
+      appBar: DefaultAppBar.withBack(
         title: Text(context.l10n.testMergeAppBarTitle),
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: viewModel.onBackPressed,
-        ),
+        onBackPressed: viewModel.onBackPressed,
         actions: [
           if (state is TestMergeState$Loaded)
             TextButton(

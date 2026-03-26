@@ -26,6 +26,7 @@ class SwipeableCardWrapper extends StatefulWidget {
   final bool showAnswer;
   final bool enableFlipAnimation;
   final Duration flipDuration;
+  final double fontSize;
   final VoidCallback onTap;
   final VoidCallback onSwipeLeft;
   final VoidCallback onSwipeRight;
@@ -40,6 +41,7 @@ class SwipeableCardWrapper extends StatefulWidget {
     required this.onSwipeRight,
     this.enterFromLeft = false,
     this.flipDuration = const Duration(milliseconds: 300),
+    this.fontSize = 24,
     super.key,
   });
 
@@ -169,16 +171,16 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
               child: QuestionCardContent(
                 front: Text(
                   widget.card.front,
-                  style: const TextStyle(
-                    fontSize: 24,
+                  style: TextStyle(
+                    fontSize: widget.fontSize,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,
                 ),
                 back: Text(
                   widget.card.formattedBack,
-                  style: const TextStyle(
-                    fontSize: 24,
+                  style: TextStyle(
+                    fontSize: widget.fontSize,
                     fontWeight: FontWeight.bold,
                   ),
                   textAlign: TextAlign.center,

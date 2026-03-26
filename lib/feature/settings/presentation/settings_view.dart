@@ -28,7 +28,9 @@ class SettingsView extends StatelessWidget {
           _AccentColorSection(viewModel: viewModel),
           const Height(32),
           _AnimationSpeedSection(viewModel: viewModel),
-          const SizedBox(height: 32),
+          const Height(32),
+          _CardFontSizeSection(viewModel: viewModel),
+          const Height(32),
           const SkeletonGif(),
           const SizedBox(height: 16),
           _VersionLabel(version: viewModel.appVersion),
@@ -219,6 +221,14 @@ class _ThemeModeSection extends StatelessWidget {
         ),
         const SizedBox(height: 16),
         SegmentedButton<AppThemeMode>(
+          style: const ButtonStyle(
+            visualDensity: VisualDensity.compact,
+            tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+            padding: WidgetStatePropertyAll(
+              EdgeInsets.symmetric(horizontal: 8),
+            ),
+            iconSize: WidgetStatePropertyAll(18),
+          ),
           segments: const [
             ButtonSegment(
               value: AppThemeMode.system,
@@ -240,6 +250,57 @@ class _ThemeModeSection extends StatelessWidget {
           onSelectionChanged: (selected) {
             viewModel.onThemeModeChanged(selected.first);
           },
+        ),
+      ],
+    );
+  }
+}
+
+class _CardFontSizeSection extends StatelessWidget {
+  final ISettingsViewModel viewModel;
+
+  const _CardFontSizeSection({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final fontSize = viewModel.cardFontSize;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          context.l10n.profileCardFontSizeTitle,
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const Height(16),
+        AppSlider(
+          value: fontSize,
+          min: 14,
+          max: 40,
+          divisions: 13,
+          onChanged: viewModel.onCardFontSizeChanged,
+        ),
+        const Height(4),
+        Center(
+          child: Text(
+            context.l10n.profileCardFontSizeLabel(fontSize.round()),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+          ),
+        ),
+        const Height(12),
+        Center(
+          child: Text(
+            'Aa Бб',
+            style: TextStyle(
+              fontSize: fontSize,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
         ),
       ],
     );

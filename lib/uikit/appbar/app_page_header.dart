@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 
 import 'package:quizzerg/uikit/skeleton_gif/skeleton_gif.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
@@ -75,6 +76,8 @@ class AppPageHeader extends StatelessWidget {
     String? subtitle,
     VoidCallback? onTitlePressed,
     Widget? action,
+    Color? foregroundColor,
+    Color? subtitleColor,
     Key? key,
   }) {
     return _AppPageHeaderWithBack(
@@ -83,6 +86,8 @@ class AppPageHeader extends StatelessWidget {
       subtitle: subtitle,
       onTitlePressed: onTitlePressed,
       action: action,
+      foregroundColor: foregroundColor,
+      subtitleColor: subtitleColor,
       key: key,
     );
   }
@@ -94,6 +99,8 @@ class _AppPageHeaderWithBack extends StatelessWidget {
   final VoidCallback onBackPressed;
   final VoidCallback? onTitlePressed;
   final Widget? action;
+  final Color? foregroundColor;
+  final Color? subtitleColor;
 
   const _AppPageHeaderWithBack({
     required this.title,
@@ -101,6 +108,8 @@ class _AppPageHeaderWithBack extends StatelessWidget {
     this.subtitle,
     this.onTitlePressed,
     this.action,
+    this.foregroundColor,
+    this.subtitleColor,
     super.key,
   });
 
@@ -112,57 +121,58 @@ class _AppPageHeaderWithBack extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(4, 4, 16, 0),
-            child: Row(
-              children: [
-                IconButton(
-                  onPressed: onBackPressed,
-                  icon: Icon(
-                    Icons.chevron_left,
-                    color: colorScheme.foreground,
-                    size: 28,
-                  ),
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(4, 4, 16, 0),
+          child: Row(
+            children: [
+              IconButton(
+                onPressed: onBackPressed,
+                icon: Icon(
+                  Icons.chevron_left,
+                  color: foregroundColor ?? colorScheme.foreground,
+                  size: 28,
                 ),
-                const SkeletonGif(height: 36),
-                const Spacer(),
-                if (action != null) action!,
+              ),
+              const SkeletonGif(height: 36),
+              const Spacer(),
+              if (action != null) action!,
+            ],
+          ),
+        ),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(44, 12, 16, 24),
+          child: GestureDetector(
+            onTap: onTitlePressed,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                    color: foregroundColor ?? colorScheme.foreground,
+                  ),
+                  maxLines: 2,
+                  overflow: TextOverflow.ellipsis,
+                ),
+                if (subtitle != null) ...[
+                  const SizedBox(height: 4),
+                  Text(
+                    subtitle!,
+                    style: textTheme.bodyMedium?.copyWith(
+                      color: subtitleColor ?? colorScheme.mutedForeground,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(44, 12, 16, 24),
-            child: GestureDetector(
-              onTap: onTitlePressed,
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
-                      color: colorScheme.foreground,
-                    ),
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  if (subtitle != null) ...[
-                    const SizedBox(height: 4),
-                    Text(
-                      subtitle!,
-                      style: textTheme.bodyMedium?.copyWith(
-                        color: colorScheme.mutedForeground,
-                      ),
-                    ),
-                  ],
-                ],
-              ),
-            ),
-          ),
-        ],
+        ),
+      ],
       ),
     );
   }
+
 }

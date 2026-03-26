@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quizzerg/app/di/app_scope.dart';
@@ -10,8 +11,10 @@ import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/content_card/content_card_type.dart';
+import 'package:quizzerg/uikit/progress/animated_linear_progress.dart';
 import 'package:quizzerg/uikit/question_card/swipable_card_wrapper.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
+import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// UI layer for tinder test screen.
@@ -31,12 +34,9 @@ class TinderTestView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: DefaultAppBar(
+      appBar: DefaultAppBar.withBack(
         title: Text(context.l10n.tinderTestAppBarTitle),
-        leading: IconButton(
-          icon: const Icon(Icons.close),
-          onPressed: viewModel.onBackPressed,
-        ),
+        onBackPressed: viewModel.onBackPressed,
       ),
       body: switch (state) {
         TinderTestState$Initial() ||
@@ -85,17 +85,17 @@ class _EmptyContent extends StatelessWidget {
             size: 64,
             color: colorScheme.onSurfaceVariant,
           ),
-          const SizedBox(height: 16),
+          const Height(16),
           Text(
             context.l10n.tinderTestEmptyTitle,
             style: const TextStyle(fontSize: 18),
           ),
-          const SizedBox(height: 8),
+          const Height(8),
           Text(
             context.l10n.tinderTestEmptySubtitle,
             style: TextStyle(color: colorScheme.onSurfaceVariant),
           ),
-          const SizedBox(height: 24),
+          const Height(24),
           ElevatedButton(
             onPressed: viewModel.onBackPressed,
             child: Text(context.l10n.tinderTestBackButton),
@@ -128,13 +128,13 @@ class _ErrorContent extends StatelessWidget {
             size: 64,
             color: colorScheme.error,
           ),
-          const SizedBox(height: 16),
+          const Height(16),
           Text(
             message,
             textAlign: TextAlign.center,
             style: const TextStyle(fontSize: 16),
           ),
-          const SizedBox(height: 24),
+          const Height(24),
           ElevatedButton(
             onPressed: viewModel.onBackPressed,
             child: Text(context.l10n.tinderTestBackButton),
@@ -165,10 +165,18 @@ class _TestContent extends StatefulWidget {
 class _TestContentState extends State<_TestContent> {
   final ValueNotifier<bool> _showAnswer = ValueNotifier(false);
   final ValueNotifier<bool> _enableFlipAnimation = ValueNotifier(true);
+  late final ValueNotifier<double> _progress;
+
+  @override
+  void initState() {
+    super.initState();
+    _progress = ValueNotifier(widget.session.progress);
+  }
 
   @override
   void didUpdateWidget(_TestContent oldWidget) {
     super.didUpdateWidget(oldWidget);
+    _progress.value = widget.session.progress;
     if (oldWidget.currentCard.id != widget.currentCard.id) {
       _showAnswer.value = false;
       _enableFlipAnimation.value = false;
@@ -184,6 +192,7 @@ class _TestContentState extends State<_TestContent> {
   void dispose() {
     _showAnswer.dispose();
     _enableFlipAnimation.dispose();
+    _progress.dispose();
     super.dispose();
   }
 
@@ -191,13 +200,14 @@ class _TestContentState extends State<_TestContent> {
   Widget build(BuildContext context) {
     final settings = context.read<IAppScope>().settingsStorage.get();
     final flipDuration = Duration(milliseconds: settings.animationDurationMs);
+    final cardFontSize = settings.cardFontSize;
 
     return Column(
       children: [
-        const SizedBox(height: 8),
-        _ProgressIndicator(session: widget.session),
+        const Height(8),
+        _ProgressIndicator(session: widget.session, progress: _progress),
         _SwipeHints(),
-        const SizedBox(height: 12),
+        const Height(12),
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16),
@@ -215,6 +225,7 @@ class _TestContentState extends State<_TestContent> {
                   enableFlipAnimation: enableFlipAnimation,
                   enterFromLeft: widget.isUndo,
                   flipDuration: flipDuration,
+                  fontSize: cardFontSize,
                   onTap: () => _showAnswer.value = !currentShowAnswer,
                   onSwipeLeft: () =>
                       widget.viewModel.onSwipeLeft(widget.currentCard),
@@ -229,7 +240,7 @@ class _TestContentState extends State<_TestContent> {
           canUndo: widget.session.canUndo,
           onPressed: widget.viewModel.onDiscardPressed,
         ),
-        const SizedBox(height: 16),
+        const Height(16),
       ],
     );
   }
@@ -237,8 +248,12 @@ class _TestContentState extends State<_TestContent> {
 
 class _ProgressIndicator extends StatelessWidget {
   final TestSession session;
+  final ValueListenable<double> progress;
 
-  const _ProgressIndicator({required this.session});
+  const _ProgressIndicator({
+    required this.session,
+    required this.progress,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -271,11 +286,11 @@ class _ProgressIndicator extends StatelessWidget {
             ],
           ),
         ),
-        const SizedBox(height: 8),
-        LinearProgressIndicator(
-          value: session.progress,
+        const Height(8),
+        AnimatedLinearProgress(
+          progress: progress,
           backgroundColor: colorScheme.surfaceContainerHighest,
-          valueColor: AlwaysStoppedAnimation<Color>(colorScheme.info),
+          valueColor: colorScheme.info,
         ),
       ],
     );

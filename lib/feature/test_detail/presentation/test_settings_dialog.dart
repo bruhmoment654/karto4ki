@@ -63,14 +63,23 @@ class _TestSettingsDialogState extends State<TestSettingsDialog> {
               ),
             ],
           ),
-          if (_swapSides && widget.maxAnswerVariants > 1) ...[
-            const SizedBox(height: 12),
-            _AnswerIndexSelector(
-              answerIndex: _answerIndex,
-              maxVariants: widget.maxAnswerVariants,
-              onChanged: (idx) => setState(() => _answerIndex = idx),
-            ),
-          ],
+          AnimatedCrossFade(
+            firstChild: widget.maxAnswerVariants > 1
+                ? Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: _AnswerIndexSelector(
+                      answerIndex: _answerIndex,
+                      maxVariants: widget.maxAnswerVariants,
+                      onChanged: (idx) => setState(() => _answerIndex = idx),
+                    ),
+                  )
+                : const SizedBox(width: double.infinity),
+            secondChild: const SizedBox(width: double.infinity),
+            crossFadeState:
+                _swapSides ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+            sizeCurve: Curves.fastEaseInToSlowEaseOut,
+            duration: const Duration(milliseconds: 200),
+          ),
         ],
       ),
       actions: [

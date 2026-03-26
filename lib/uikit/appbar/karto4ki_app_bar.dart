@@ -25,6 +25,22 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
   });
 
+  /// Вариант с кнопкой назад (шеврон).
+  DefaultAppBar.withBack({
+    required this.title,
+    required VoidCallback onBackPressed,
+    this.onTap,
+    this.bottom,
+    this.centerTitle = true,
+    this.actions,
+    this.elevation = 0,
+    this.expanded = false,
+    super.key,
+  }) : leading = IconButton(
+          icon: const Icon(Icons.chevron_left, size: 28),
+          onPressed: onBackPressed,
+        );
+
   const DefaultAppBar.expanded({
     required this.title,
     this.onTap,
@@ -36,8 +52,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
   }) : expanded = true;
 
-  double get _toolbarHeight =>
-      expanded ? expandedToolbarHeight : compactToolbarHeight;
+  double get _toolbarHeight => expanded ? expandedToolbarHeight : compactToolbarHeight;
 
   @override
   Size get preferredSize => Size.fromHeight(
@@ -50,8 +65,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     final itemsColor = colorScheme.onSurfaceVariant;
 
     final styledTitle = DefaultTextStyle(
-      style: (Theme.of(context).textTheme.titleLarge ?? const TextStyle())
-          .copyWith(
+      style: (Theme.of(context).textTheme.headlineMedium ?? const TextStyle()).copyWith(
+        fontWeight: FontWeight.bold,
         color: itemsColor,
       ),
       child: IconTheme(
@@ -60,8 +75,7 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
 
-    final resolvedTitle =
-        onTap != null ? IgnorePointer(child: styledTitle) : styledTitle;
+    final resolvedTitle = onTap != null ? IgnorePointer(child: styledTitle) : styledTitle;
 
     return AppBar(
       backgroundColor: Colors.transparent,

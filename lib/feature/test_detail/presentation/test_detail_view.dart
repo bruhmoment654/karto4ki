@@ -7,11 +7,12 @@ import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
-import 'package:quizzerg/uikit/buttons/app_glow_button.dart';
 import 'package:quizzerg/uikit/item_card/app_item_card.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
+import 'package:quizzerg/uikit/spacing/sliver_height.dart';
+import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// UI layer for test detail screen.
 ///
@@ -87,18 +88,18 @@ class _TestDetailLoadedBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return CustomScrollView(
+      physics: const BouncingScrollPhysics(
+        parent: AlwaysScrollableScrollPhysics(),
+      ),
       slivers: [
-        const SliverFillRemaining(),
-        SliverToBoxAdapter(
-          child: _TestDetailHeader(
-            test: test,
-            canStart: cards.isNotEmpty,
-            viewModel: viewModel,
-            onBackPressed: onBackPressed,
-          ),
+        _TestDetailHeader(
+          test: test,
+          canStart: cards.isNotEmpty,
+          viewModel: viewModel,
+          onBackPressed: onBackPressed,
         ),
+        const SliverHeight(16),
         SliverToBoxAdapter(
           child: _TestSettingsButton(onPressed: viewModel.onTestSettingsPressed),
         ),
@@ -151,55 +152,33 @@ class _TestDetailHeader extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppPageHeader.withBack(
-      title: test.title,
-      subtitle: test.description,
-      onBackPressed: onBackPressed,
-      onTitlePressed: viewModel.onEditTestPressed,
-      action: _StartTestButton(
-        canStart: canStart,
-        onPressed: viewModel.onStartTestPressed,
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return SliverAppBar(
+      backgroundColor: colorScheme.primary,
+      toolbarHeight: 0,
+      centerTitle: true,
+      expandedHeight: 150,
+      pinned: true,
+      stretch: true,
+      flexibleSpace: FlexibleSpaceBar(
+        background: ScalePressable(
+          onTap: canStart ? viewModel.onStartTestPressed : null,
+          child: AppPageHeader.withBack(
+            title: test.title,
+            subtitle: test.description,
+            onBackPressed: onBackPressed,
+            onTitlePressed: viewModel.onEditTestPressed,
+            foregroundColor: colorScheme.onPrimary,
+            subtitleColor: colorScheme.onPrimary.withValues(alpha: 0.7),
+          ),
+        ),
       ),
     );
   }
 }
 
-class _StartTestButton extends StatelessWidget {
-  final bool canStart;
-  final VoidCallback onPressed;
 
-  const _StartTestButton({
-    required this.canStart,
-    required this.onPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    if (!canStart) {
-      return DecoratedBox(
-        decoration: BoxDecoration(
-          color: colorScheme.onSurface.withValues(alpha: 0.12),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
-          child: Icon(
-            Icons.play_arrow_rounded,
-            color: colorScheme.onSurface.withValues(alpha: 0.38),
-            size: 20,
-          ),
-        ),
-      );
-    }
-
-    return AppGlowButton(
-      onPressed: onPressed,
-      child: const Icon(Icons.play_arrow_rounded),
-    );
-  }
-}
 
 class _ActionsRow extends StatelessWidget {
   final int cardsCount;
@@ -213,7 +192,7 @@ class _ActionsRow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
           Flexible(
@@ -242,20 +221,34 @@ class _TestSettingsButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Align(
         alignment: Alignment.centerRight,
-        child: AppGlowButton(
-          onPressed: onPressed,
-          color: Theme.of(context).colorScheme.secondary,
-          child: const Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(Icons.tune, size: 18),
-              SizedBox(width: 6),
-              Text('Настройки'),
-            ],
+        child: Material(
+          color: colorScheme.secondary,
+          borderRadius: BorderRadius.circular(12),
+          child: InkWell(
+            onTap: onPressed,
+            borderRadius: BorderRadius.circular(12),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Icon(Icons.tune, size: 16),
+                  const SizedBox(width: 6),
+                  Text(
+                    context.l10n.testDetailSettingsButton,
+                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                          fontWeight: FontWeight.w600,
+                        ),
+                  ),
+                ],
+              ),
+            ),
           ),
         ),
       ),

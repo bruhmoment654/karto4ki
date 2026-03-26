@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:quizzerg/feature/group_detail/domain/bloc/group_detail_bloc.dart';
 import 'package:quizzerg/feature/group_detail/presentation/group_detail_screen.dart';
 import 'package:quizzerg/feature/mixup/domain/bloc/mixup_bloc.dart';
@@ -95,7 +94,11 @@ class _LoadedBody extends StatelessWidget {
           child: _MixupSettingsSection(viewModel: viewModel),
         ),
         _TestListSliver(tests: tests, viewModel: viewModel),
-        const SliverPadding(padding: EdgeInsets.only(bottom: 32)),
+        SliverPadding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).padding.bottom + 80,
+          ),
+        ),
       ],
     );
   }
@@ -190,6 +193,7 @@ class _MixupSettingsSection extends StatelessWidget {
                       algorithm: algorithm,
                     ),
                   ),
+                  const Height(16),
                   _MixupRangeSlider(
                     min: mixupState.mixupMin,
                     max: mixupState.mixupMax,
@@ -338,34 +342,43 @@ class _MixupAlgorithmSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isClassic = algorithm == MixupAlgorithm.classic;
+    final labelStyle = Theme.of(context).textTheme.bodySmall?.copyWith(
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          fontWeight: FontWeight.bold,
+        );
+    final valueStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        );
+
+    final classicText = context.l10n.groupDetailMixupAlgorithmClassic;
+    final scoringText = context.l10n.groupDetailMixupAlgorithmScoring;
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Row(
         children: [
-          Text(
-            context.l10n.groupDetailMixupAlgorithm,
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
-                ),
-          ),
+          Text(context.l10n.groupDetailMixupAlgorithm, style: labelStyle),
           const Spacer(),
-          SegmentedButton<MixupAlgorithm>(
-            segments: [
-              ButtonSegment(
-                value: MixupAlgorithm.classic,
-                label: Text(context.l10n.groupDetailMixupAlgorithmClassic),
+          SizedBox(
+            width: 120,
+            child: ScalePressable(
+              onTap: () => onChanged(
+                isClassic ? MixupAlgorithm.scoring : MixupAlgorithm.classic,
               ),
-              ButtonSegment(
-                value: MixupAlgorithm.scoring,
-                label: Text(context.l10n.groupDetailMixupAlgorithmScoring),
+              child: AnimatedCrossFade(
+                alignment: Alignment.centerRight,
+                firstChild: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(classicText, style: valueStyle),
+                ),
+                secondChild: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(scoringText, style: valueStyle),
+                ),
+                crossFadeState: isClassic ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+                duration: const Duration(milliseconds: 200),
               ),
-            ],
-            selected: {algorithm},
-            onSelectionChanged: (selected) => onChanged(selected.first),
-            showSelectedIcon: false,
-            style: const ButtonStyle(
-              visualDensity: VisualDensity.compact,
-              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
             ),
           ),
         ],

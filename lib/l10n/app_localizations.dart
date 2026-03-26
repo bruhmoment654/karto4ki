@@ -407,6 +407,12 @@ abstract class AppLocalizations {
   /// **'Delete'**
   String get testDetailDeleteCardConfirm;
 
+  /// No description provided for @testDetailSettingsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Settings'**
+  String get testDetailSettingsButton;
+
   /// No description provided for @testDetailSwapSides.
   ///
   /// In en, this message translates to:
@@ -622,6 +628,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{duration} ms'**
   String profileAnimationDurationLabel(int duration);
+
+  /// No description provided for @profileCardFontSizeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Card font size'**
+  String get profileCardFontSizeTitle;
+
+  /// No description provided for @profileCardFontSizeLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} pt'**
+  String profileCardFontSizeLabel(int size);
 
   /// No description provided for @questionStatsTitle.
   ///

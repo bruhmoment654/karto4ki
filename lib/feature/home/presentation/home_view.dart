@@ -1,3 +1,5 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
@@ -23,28 +25,35 @@ class HomeView extends StatelessWidget {
       ],
       extendBody: true,
       bottomNavigationBuilder: (context, tabsRouter) {
-        return DecoratedBox(
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.1),
+        return ClipRect(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+            child: DecoratedBox(
+              decoration: BoxDecoration(
+                color: colorScheme.surface.withValues(alpha: 0.5),
+                border: Border(
+                  top: BorderSide(
+                    color:
+                        colorScheme.onSurfaceVariant.withValues(alpha: 0.1),
+                  ),
+                ),
+              ),
+              child: BottomNavigationBar(
+                backgroundColor: Colors.transparent,
+                currentIndex: tabsRouter.activeIndex,
+                onTap: tabsRouter.setActiveIndex,
+                items: [
+                  BottomNavigationBarItem(
+                    icon: const Icon(Icons.home_outlined),
+                    label: context.l10n.navigationMain,
+                  ),
+                  BottomNavigationBarItem(
+                    icon: const Icon(Icons.person_outline),
+                    label: context.l10n.navigationProfile,
+                  ),
+                ],
               ),
             ),
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: colorScheme.surface.withAlpha(50),
-            currentIndex: tabsRouter.activeIndex,
-            onTap: tabsRouter.setActiveIndex,
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.home_outlined),
-                label: context.l10n.navigationMain,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.person_outline),
-                label: context.l10n.navigationProfile,
-              ),
-            ],
           ),
         );
       },

@@ -38,6 +38,9 @@ class SettingsDto {
   /// Алгоритм подмешивания вопросов.
   final MixupAlgorithm mixupAlgorithm;
 
+  /// Размер шрифта на карточках (14–40).
+  final double cardFontSize;
+
   const SettingsDto({
     this.animationDurationMs = 300,
     this.shaderAnimationEnabled = true,
@@ -47,6 +50,7 @@ class SettingsDto {
     this.mixupMax = 5,
     this.themeMode = AppThemeMode.system,
     this.mixupAlgorithm = MixupAlgorithm.classic,
+    this.cardFontSize = 24.0,
   });
 
   factory SettingsDto.fromJson(Map<String, dynamic> json) =>

@@ -175,6 +175,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String get testDetailDeleteCardConfirm => 'Delete';
 
   @override
+  String get testDetailSettingsButton => 'Settings';
+
+  @override
   String get testDetailSwapSides => 'Swap sides';
 
   @override
@@ -286,6 +289,14 @@ class AppLocalizationsEn extends AppLocalizations {
   @override
   String profileAnimationDurationLabel(int duration) {
     return '$duration ms';
+  }
+
+  @override
+  String get profileCardFontSizeTitle => 'Card font size';
+
+  @override
+  String profileCardFontSizeLabel(int size) {
+    return '$size pt';
   }
 
   @override

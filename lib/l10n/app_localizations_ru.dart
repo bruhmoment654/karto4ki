@@ -175,6 +175,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String get testDetailDeleteCardConfirm => 'Удалить';
 
   @override
+  String get testDetailSettingsButton => 'Настройки';
+
+  @override
   String get testDetailSwapSides => 'Поменять стороны местами';
 
   @override
@@ -286,6 +289,14 @@ class AppLocalizationsRu extends AppLocalizations {
   @override
   String profileAnimationDurationLabel(int duration) {
     return '$duration мс';
+  }
+
+  @override
+  String get profileCardFontSizeTitle => 'Размер шрифта на карточке';
+
+  @override
+  String profileCardFontSizeLabel(int size) {
+    return '$size pt';
   }
 
   @override
