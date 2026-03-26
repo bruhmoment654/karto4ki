@@ -1,8 +1,8 @@
 # karto4ki
 
-## Стиль кода
+## Code Style
 
-- Для спейсинга использовать `Height`, `SliverHeight` (и аналогичные `Width`) вместо `SizedBox`. Например: `const Height(16)` вместо `const SizedBox(height: 16)`, `const SliverHeight(8)` вместо `SliverToBoxAdapter(child: SizedBox(height: 8))`.
+- Use `Height`, `SliverHeight` (and analogous `Width`) instead of `SizedBox` for spacing. Example: `const Height(16)` instead of `const SizedBox(height: 16)`, `const SliverHeight(8)` instead of `SliverToBoxAdapter(child: SizedBox(height: 8))`.
 
 ## Reference Materials
 
