@@ -475,4 +475,19 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get groupDetailMixupAlgorithmScoring => 'Smart';
+
+  @override
+  String get groupDetailNewTestButton => 'New test';
+
+  @override
+  String groupDetailQuestionCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count questions',
+      one: '$count question',
+      zero: 'No questions',
+    );
+    return '$_temp0';
+  }
 }

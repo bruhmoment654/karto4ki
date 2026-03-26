@@ -35,6 +35,11 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   }
 
   @override
+  void onBackPressed() {
+    Navigator.of(context).pop();
+  }
+
+  @override
   void onAddTestPressed() {
     _showAddTestDialog();
   }
@@ -75,8 +80,18 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   }
 
   @override
-  void onTestRemovePressed(TestEntity test) {
-    _showRemoveTestDialog(test);
+  void onTestRemovePressed(TestEntity test) async {
+    final confirmed = await confirmTestRemove(test);
+    if (confirmed ?? false) {
+      onTestRemoveConfirmed(test);
+    }
+  }
+
+  @override
+  void onTestRemoveConfirmed(TestEntity test) {
+    context.read<GroupDetailBloc>().add(
+          GroupDetailEvent.testRemoved(testId: int.parse(test.id)),
+        );
   }
 
   @override
@@ -142,48 +157,28 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     );
   }
 
-  Future<void> _showRemoveTestDialog(TestEntity test) async {
+  @override
+  Future<bool?> confirmTestRemove(TestEntity test) async {
     final scope = context.read<IAppScope>();
-    final bloc = context.read<GroupDetailBloc>();
     final countResult = await scope.groupDetailRepository.getGroupCountForTest(
       int.parse(test.id),
     );
 
-    if (!mounted) return;
+    if (!mounted) return false;
 
     final isLastGroup = countResult.dataOrNull == 1;
 
-    final confirmed = await showDialog<bool>(
+    return AppDialog.confirm(
       context: context,
-      builder: (dialogContext) => AppDialog(
-        title: Text(
-          isLastGroup
-              ? context.l10n.groupDetailRemoveTestLastGroupTitle
-              : context.l10n.groupDetailRemoveTestTitle,
-        ),
-        content: Text(
-          isLastGroup
-              ? context.l10n.groupDetailRemoveTestLastGroupMessage(test.title)
-              : context.l10n.groupDetailRemoveTestMessage(test.title),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(false),
-            child: Text(context.l10n.groupDetailRemoveTestCancel),
-          ),
-          TextButton(
-            onPressed: () => Navigator.of(dialogContext).pop(true),
-            child: Text(context.l10n.groupDetailRemoveTestConfirm),
-          ),
-        ],
-      ),
+      title: isLastGroup
+          ? context.l10n.groupDetailRemoveTestLastGroupTitle
+          : context.l10n.groupDetailRemoveTestTitle,
+      message: isLastGroup
+          ? context.l10n.groupDetailRemoveTestLastGroupMessage(test.title)
+          : context.l10n.groupDetailRemoveTestMessage(test.title),
+      cancelLabel: context.l10n.groupDetailRemoveTestCancel,
+      confirmLabel: context.l10n.groupDetailRemoveTestConfirm,
     );
-
-    if ((confirmed ?? false) && mounted) {
-      bloc.add(
-        GroupDetailEvent.testRemoved(testId: int.parse(test.id)),
-      );
-    }
   }
 
   void _showTestActionsDialog(TestEntity test) {
@@ -334,6 +329,8 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
 
 /// ViewModel интерфейс для экрана деталки группы.
 abstract interface class IGroupDetailViewModel {
+  void onBackPressed();
+
   void onAddTestPressed();
 
   void onTestTapped(TestEntity test);
@@ -341,6 +338,10 @@ abstract interface class IGroupDetailViewModel {
   void onTestLongPressed(TestEntity test);
 
   void onTestRemovePressed(TestEntity test);
+
+  Future<bool?> confirmTestRemove(TestEntity test);
+
+  void onTestRemoveConfirmed(TestEntity test);
 
   void onEditTitlePressed();
 

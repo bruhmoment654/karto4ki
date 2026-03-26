@@ -477,4 +477,21 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get groupDetailMixupAlgorithmScoring => 'Умный';
+
+  @override
+  String get groupDetailNewTestButton => 'Новый тест';
+
+  @override
+  String groupDetailQuestionCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count вопросов',
+      many: '$count вопросов',
+      few: '$count вопроса',
+      one: '$count вопрос',
+      zero: 'Нет вопросов',
+    );
+    return '$_temp0';
+  }
 }

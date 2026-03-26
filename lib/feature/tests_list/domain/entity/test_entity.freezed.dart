@@ -34,6 +34,9 @@ mixin _$TestEntity {
   /// Test description.
   String? get description => throw _privateConstructorUsedError;
 
+  /// Количество вопросов (карточек) в тесте.
+  int get questionCount => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $TestEntityCopyWith<TestEntity> get copyWith =>
       throw _privateConstructorUsedError;
@@ -51,7 +54,8 @@ abstract class $TestEntityCopyWith<$Res> {
       TestType type,
       DateTime createdAt,
       DateTime updatedAt,
-      String? description});
+      String? description,
+      int questionCount});
 }
 
 /// @nodoc
@@ -73,6 +77,7 @@ class _$TestEntityCopyWithImpl<$Res, $Val extends TestEntity>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? description = freezed,
+    Object? questionCount = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -99,6 +104,10 @@ class _$TestEntityCopyWithImpl<$Res, $Val extends TestEntity>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      questionCount: null == questionCount
+          ? _value.questionCount
+          : questionCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ) as $Val);
   }
 }
@@ -117,7 +126,8 @@ abstract class _$$TestEntityImplCopyWith<$Res>
       TestType type,
       DateTime createdAt,
       DateTime updatedAt,
-      String? description});
+      String? description,
+      int questionCount});
 }
 
 /// @nodoc
@@ -137,6 +147,7 @@ class __$$TestEntityImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? description = freezed,
+    Object? questionCount = null,
   }) {
     return _then(_$TestEntityImpl(
       id: null == id
@@ -163,6 +174,10 @@ class __$$TestEntityImplCopyWithImpl<$Res>
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
               as String?,
+      questionCount: null == questionCount
+          ? _value.questionCount
+          : questionCount // ignore: cast_nullable_to_non_nullable
+              as int,
     ));
   }
 }
@@ -176,7 +191,8 @@ class _$TestEntityImpl implements _TestEntity {
       required this.type,
       required this.createdAt,
       required this.updatedAt,
-      this.description});
+      this.description,
+      this.questionCount = 0});
 
   /// Unique test identifier.
   @override
@@ -202,9 +218,14 @@ class _$TestEntityImpl implements _TestEntity {
   @override
   final String? description;
 
+  /// Количество вопросов (карточек) в тесте.
+  @override
+  @JsonKey()
+  final int questionCount;
+
   @override
   String toString() {
-    return 'TestEntity(id: $id, title: $title, type: $type, createdAt: $createdAt, updatedAt: $updatedAt, description: $description)';
+    return 'TestEntity(id: $id, title: $title, type: $type, createdAt: $createdAt, updatedAt: $updatedAt, description: $description, questionCount: $questionCount)';
   }
 
   @override
@@ -220,12 +241,14 @@ class _$TestEntityImpl implements _TestEntity {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.description, description) ||
-                other.description == description));
+                other.description == description) &&
+            (identical(other.questionCount, questionCount) ||
+                other.questionCount == questionCount));
   }
 
   @override
-  int get hashCode => Object.hash(
-      runtimeType, id, title, type, createdAt, updatedAt, description);
+  int get hashCode => Object.hash(runtimeType, id, title, type, createdAt,
+      updatedAt, description, questionCount);
 
   @JsonKey(ignore: true)
   @override
@@ -241,7 +264,8 @@ abstract class _TestEntity implements TestEntity {
       required final TestType type,
       required final DateTime createdAt,
       required final DateTime updatedAt,
-      final String? description}) = _$TestEntityImpl;
+      final String? description,
+      final int questionCount}) = _$TestEntityImpl;
 
   @override
 
@@ -267,6 +291,10 @@ abstract class _TestEntity implements TestEntity {
 
   /// Test description.
   String? get description;
+  @override
+
+  /// Количество вопросов (карточек) в тесте.
+  int get questionCount;
   @override
   @JsonKey(ignore: true)
   _$$TestEntityImplCopyWith<_$TestEntityImpl> get copyWith =>

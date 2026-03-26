@@ -769,5 +769,14 @@
   },
   "groupDetailMixupAlgorithm": "Алгоритм подмешивания",
   "groupDetailMixupAlgorithmClassic": "Классический",
-  "groupDetailMixupAlgorithmScoring": "Умный"
+  "groupDetailMixupAlgorithmScoring": "Умный",
+  "groupDetailNewTestButton": "Новый тест",
+  "groupDetailQuestionCount": "{count, plural, =0{Нет вопросов} one{{count} вопрос} few{{count} вопроса} many{{count} вопросов} other{{count} вопросов}}",
+  "@groupDetailQuestionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

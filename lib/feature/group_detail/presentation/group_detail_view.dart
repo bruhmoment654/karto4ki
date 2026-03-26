@@ -9,13 +9,12 @@ import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_algorithm.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
 import 'package:quizzerg/uikit/buttons/app_glow_button.dart';
-import 'package:quizzerg/uikit/content_card/content_card.dart';
-import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/item_card/app_item_card.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/slider/app_range_slider.dart';
+import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/switch/app_switch.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// UI-слой экрана деталки группы.
 class GroupDetailView extends StatelessWidget {
@@ -48,7 +47,7 @@ class GroupDetailView extends StatelessWidget {
             groupTitle: group.title,
             tests: tests,
             viewModel: viewModel,
-            onBackPressed: () => Navigator.of(context).pop(),
+            onBackPressed: viewModel.onBackPressed,
           ),
       },
     );
@@ -73,47 +72,12 @@ class _LoadedBody extends StatelessWidget {
     if (tests.isEmpty) {
       return Column(
         children: [
-          AppPageHeader.withBack(
-            title: groupTitle,
+          _GroupDetailHeader(
+            groupTitle: groupTitle,
             onBackPressed: onBackPressed,
-            onTitlePressed: viewModel.onEditTitlePressed,
-            action: AppGlowButton(
-              onPressed: viewModel.onAddTestPressed,
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.add),
-                  SizedBox(width: 6),
-                  Text('Новый тест'),
-                ],
-              ),
-            ),
+            viewModel: viewModel,
           ),
-          Expanded(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      context.l10n.groupDetailEmptyMessage,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color:
-                                Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                    ),
-                    const SizedBox(height: 12),
-                    Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
+          const Expanded(child: _EmptyTestsPlaceholder()),
         ],
       );
     }
@@ -121,83 +85,159 @@ class _LoadedBody extends StatelessWidget {
     return CustomScrollView(
       slivers: [
         SliverToBoxAdapter(
-          child: AppPageHeader.withBack(
-            title: groupTitle,
+          child: _GroupDetailHeader(
+            groupTitle: groupTitle,
             onBackPressed: onBackPressed,
-            onTitlePressed: viewModel.onEditTitlePressed,
-            action: AppGlowButton(
-              onPressed: viewModel.onAddTestPressed,
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.add),
-                  SizedBox(width: 6),
-                  Text('Новый тест'),
-                ],
-              ),
-            ),
+            viewModel: viewModel,
           ),
         ),
         SliverToBoxAdapter(
-          child: BlocBuilder<MixupBloc, MixupState>(
-            builder: (context, mixupState) {
-              return Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _MixupToggle(
-                    value: mixupState.enabled,
-                    onChanged: (value) =>
-                        viewModel.onMixupChanged(value: value),
-                  ),
-                  AnimatedCrossFade(
-                    firstChild: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _MixupAlgorithmSelector(
-                          algorithm: mixupState.algorithm,
-                          onChanged: (algorithm) =>
-                              viewModel.onMixupAlgorithmChanged(
-                            algorithm: algorithm,
-                          ),
-                        ),
-                        _MixupRangeSlider(
-                          min: mixupState.mixupMin,
-                          max: mixupState.mixupMax,
-                          onChanged: viewModel.onMixupRangeChanged,
-                        ),
-                      ],
-                    ),
-                    firstCurve: Curves.easeOut,
-                    sizeCurve: Curves.fastEaseInToSlowEaseOut,
-                    secondChild: const SizedBox(width: double.infinity),
-                    crossFadeState: mixupState.enabled
-                        ? CrossFadeState.showFirst
-                        : CrossFadeState.showSecond,
-                    duration: const Duration(milliseconds: 200),
-                  ),
-                ],
-              );
-            },
-          ),
+          child: _MixupSettingsSection(viewModel: viewModel),
         ),
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          sliver: SliverList.separated(
-            itemCount: tests.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 8),
-            itemBuilder: (context, index) {
-              final test = tests[index];
-              return _TestListItem(
-                test: test,
-                onTap: () => viewModel.onTestTapped(test),
-                onLongPress: () => viewModel.onTestLongPressed(test),
-                onRemove: () => viewModel.onTestRemovePressed(test),
-              );
-            },
-          ),
-        ),
+        _TestListSliver(tests: tests, viewModel: viewModel),
         const SliverPadding(padding: EdgeInsets.only(bottom: 32)),
       ],
+    );
+  }
+}
+
+class _GroupDetailHeader extends StatelessWidget {
+  final String groupTitle;
+  final VoidCallback onBackPressed;
+  final IGroupDetailViewModel viewModel;
+
+  const _GroupDetailHeader({
+    required this.groupTitle,
+    required this.onBackPressed,
+    required this.viewModel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppPageHeader.withBack(
+      title: groupTitle,
+      onBackPressed: onBackPressed,
+      onTitlePressed: viewModel.onEditTitlePressed,
+      action: AppGlowButton(
+        onPressed: viewModel.onAddTestPressed,
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(Icons.add),
+            const SizedBox(width: 6),
+            Text(context.l10n.groupDetailNewTestButton),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _EmptyTestsPlaceholder extends StatelessWidget {
+  const _EmptyTestsPlaceholder();
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              context.l10n.groupDetailEmptyMessage,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
+                  ),
+            ),
+            const Height(12),
+            Icon(
+              Icons.keyboard_arrow_down_rounded,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MixupSettingsSection extends StatelessWidget {
+  final IGroupDetailViewModel viewModel;
+
+  const _MixupSettingsSection({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MixupBloc, MixupState>(
+      builder: (context, mixupState) {
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            _MixupToggle(
+              value: mixupState.enabled,
+              onChanged: (value) => viewModel.onMixupChanged(value: value),
+            ),
+            const Height(8),
+            AnimatedCrossFade(
+              firstChild: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  _MixupAlgorithmSelector(
+                    algorithm: mixupState.algorithm,
+                    onChanged: (algorithm) => viewModel.onMixupAlgorithmChanged(
+                      algorithm: algorithm,
+                    ),
+                  ),
+                  _MixupRangeSlider(
+                    min: mixupState.mixupMin,
+                    max: mixupState.mixupMax,
+                    onChanged: viewModel.onMixupRangeChanged,
+                  ),
+                ],
+              ),
+              firstCurve: Curves.easeOut,
+              sizeCurve: Curves.fastEaseInToSlowEaseOut,
+              secondChild: const SizedBox(width: double.infinity),
+              crossFadeState:
+                  mixupState.enabled ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+              duration: const Duration(milliseconds: 200),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _TestListSliver extends StatelessWidget {
+  final List<TestEntity> tests;
+  final IGroupDetailViewModel viewModel;
+
+  const _TestListSliver({
+    required this.tests,
+    required this.viewModel,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverPadding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      sliver: SliverList.separated(
+        itemCount: tests.length,
+        separatorBuilder: (_, __) => const SizedBox(height: 8),
+        itemBuilder: (context, index) {
+          final test = tests[index];
+          return _TestListItem(
+            test: test,
+            onTap: () => viewModel.onTestTapped(test),
+            onLongPress: () => viewModel.onTestLongPressed(test),
+            onConfirmDismiss: () => viewModel.confirmTestRemove(test),
+            onDismissed: () => viewModel.onTestRemoveConfirmed(test),
+          );
+        },
+      ),
     );
   }
 }
@@ -206,19 +246,20 @@ class _TestListItem extends StatelessWidget {
   final TestEntity test;
   final VoidCallback onTap;
   final VoidCallback onLongPress;
-  final VoidCallback onRemove;
+  final Future<bool?> Function() onConfirmDismiss;
+  final VoidCallback onDismissed;
 
   const _TestListItem({
     required this.test,
     required this.onTap,
     required this.onLongPress,
-    required this.onRemove,
+    required this.onConfirmDismiss,
+    required this.onDismissed,
   });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
 
     return Dismissible(
       key: ValueKey(test.id),
@@ -227,81 +268,16 @@ class _TestListItem extends StatelessWidget {
         Icons.remove_circle_outline,
         color: colorScheme.onSurface,
       ),
-      confirmDismiss: (direction) async {
-        return showDialog<bool>(
-          context: context,
-          builder: (dialogContext) => AppDialog(
-            title: Text(context.l10n.groupDetailRemoveTestTitle),
-            content: Text(
-              context.l10n.groupDetailRemoveTestMessage(test.title),
-            ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(dialogContext).pop(false),
-                child: Text(context.l10n.groupDetailRemoveTestCancel),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(dialogContext).pop(true),
-                child: Text(context.l10n.groupDetailRemoveTestConfirm),
-              ),
-            ],
-          ),
-        );
-      },
-      onDismissed: (_) => onRemove(),
+      confirmDismiss: (_) => onConfirmDismiss(),
+      onDismissed: (_) => onDismissed(),
       child: ScalePressable(
         onTap: onTap,
         onLongPress: onLongPress,
-        child: ContentCard(
-          borderColor: colorScheme.border.withValues(alpha: 0.35),
-          borderWidth: 0.5,
-          borderRadius: BorderRadius.circular(16),
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-          child: Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: colorScheme.primary.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  Icons.auto_stories_outlined,
-                  size: 20,
-                  color: colorScheme.primary,
-                ),
-              ),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      test.title,
-                      style: textTheme.titleSmall?.copyWith(
-                        fontWeight: FontWeight.bold,
-                        color: colorScheme.foreground,
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    if (test.description != null) ...[
-                      const SizedBox(height: 2),
-                      Text(
-                        test.description!,
-                        style: textTheme.bodySmall?.copyWith(
-                          color: colorScheme.mutedForeground,
-                        ),
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                    ],
-                  ],
-                ),
-              ),
-            ],
-          ),
+        child: AppItemCard(
+          icon: Icons.auto_stories_outlined,
+          title: test.title,
+          subtitle: test.description,
+          caption: context.l10n.groupDetailQuestionCount(test.questionCount),
         ),
       ),
     );

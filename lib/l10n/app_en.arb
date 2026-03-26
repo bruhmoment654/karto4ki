@@ -331,5 +331,14 @@
   },
   "groupDetailMixupAlgorithm": "Mixup algorithm",
   "groupDetailMixupAlgorithmClassic": "Classic",
-  "groupDetailMixupAlgorithmScoring": "Smart"
+  "groupDetailMixupAlgorithmScoring": "Smart",
+  "groupDetailNewTestButton": "New test",
+  "groupDetailQuestionCount": "{count, plural, =0{No questions} one{{count} question} other{{count} questions}}",
+  "@groupDetailQuestionCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  }
 }

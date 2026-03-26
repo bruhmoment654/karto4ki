@@ -67,6 +67,7 @@ class AppScopeRegister {
     final groupDetailRepository = GroupDetailRepository(
       groupsDatabase: database.groupsDatabase,
       testsDatabase: database.testsDatabase,
+      cardsDatabase: database.cardsDatabase,
       errorLogger: errorLogger,
     );
 

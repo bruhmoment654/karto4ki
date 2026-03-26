@@ -4,6 +4,7 @@ import 'package:quizzerg/feature/group_detail/domain/repository/i_group_detail_r
 import 'package:quizzerg/feature/groups_list/data/converters/test_group_converter.dart';
 import 'package:quizzerg/feature/groups_list/data/database/groups_database.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
+import 'package:quizzerg/feature/test_detail/data/database/cards_database.dart';
 import 'package:quizzerg/feature/tests_list/data/converters/test_converter.dart';
 import 'package:quizzerg/feature/tests_list/data/database/tests_database.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
@@ -13,13 +14,16 @@ class GroupDetailRepository extends BaseRepository
     implements IGroupDetailRepository {
   final GroupsDatabase _groupsDatabase;
   final TestsDatabase _testsDatabase;
+  final CardsDatabase _cardsDatabase;
 
   const GroupDetailRepository({
     required GroupsDatabase groupsDatabase,
     required TestsDatabase testsDatabase,
+    required CardsDatabase cardsDatabase,
     required super.errorLogger,
   })  : _groupsDatabase = groupsDatabase,
-        _testsDatabase = testsDatabase;
+        _testsDatabase = testsDatabase,
+        _cardsDatabase = cardsDatabase;
 
   @override
   Stream<void> get groupChanges => _groupsDatabase.watchGroupChanges();
@@ -41,7 +45,11 @@ class GroupDetailRepository extends BaseRepository
         for (final testId in testIds) {
           final dto = await _testsDatabase.getTestById(testId);
           if (dto != null) {
-            tests.add(TestConverter.fromDto(dto));
+            final questionCount =
+                await _cardsDatabase.getCardCountByTestId(testId);
+            tests.add(
+              TestConverter.fromDto(dto, questionCount: questionCount),
+            );
           }
         }
         return tests;

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/content_card/content_card_type.dart';
+import 'package:quizzerg/uikit/dialogs/app_dialog_action.dart';
 
 /// Общий декоратор диалогов приложения.
 ///
@@ -17,6 +18,29 @@ class AppDialog extends StatelessWidget {
     this.actions,
     super.key,
   });
+
+  /// Показывает диалог подтверждения с кнопками «Отмена» и «Подтвердить».
+  ///
+  /// Возвращает `true` при подтверждении, `false` при отмене.
+  static Future<bool?> confirm({
+    required BuildContext context,
+    required String title,
+    required String message,
+    required String cancelLabel,
+    required String confirmLabel,
+  }) {
+    return showDialog<bool>(
+      context: context,
+      builder: (_) => AppDialog(
+        title: Text(title),
+        content: Text(message),
+        actions: [
+          AppDialogAction<bool>(label: cancelLabel, result: false),
+          AppDialogAction<bool>(label: confirmLabel, result: true),
+        ],
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -25,5 +25,8 @@ sealed class TestEntity with _$TestEntity {
 
     /// Test description.
     String? description,
+
+    /// Количество вопросов (карточек) в тесте.
+    @Default(0) int questionCount,
   }) = _TestEntity;
 }

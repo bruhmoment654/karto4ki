@@ -958,6 +958,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Smart'**
   String get groupDetailMixupAlgorithmScoring;
+
+  /// No description provided for @groupDetailNewTestButton.
+  ///
+  /// In en, this message translates to:
+  /// **'New test'**
+  String get groupDetailNewTestButton;
+
+  /// No description provided for @groupDetailQuestionCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No questions} one{{count} question} other{{count} questions}}'**
+  String groupDetailQuestionCount(int count);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

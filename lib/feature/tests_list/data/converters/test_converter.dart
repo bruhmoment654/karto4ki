@@ -8,7 +8,10 @@ import 'package:quizzerg/persistence/database/app_database.dart';
 /// Converter for [TestEntity] and [TestDatabaseDto].
 abstract final class TestConverter {
   /// Converts [TestDatabaseDto] to [TestEntity].
-  static TestEntity fromDto(TestDatabaseDto dto) {
+  static TestEntity fromDto(
+    TestDatabaseDto dto, {
+    int questionCount = 0,
+  }) {
     return TestEntity(
       id: dto.id.toString(),
       title: dto.title,
@@ -16,6 +19,7 @@ abstract final class TestConverter {
       type: TestTypeConverter.fromDto(dto.type),
       createdAt: dto.createdAt,
       updatedAt: dto.updatedAt,
+      questionCount: questionCount,
     );
   }
 

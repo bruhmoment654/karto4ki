@@ -52,6 +52,22 @@ class _TestDetailScreenState extends State<TestDetailScreen>
   }
 
   @override
+  void onBackPressed() {
+    Navigator.of(context).pop();
+  }
+
+  @override
+  Future<bool?> confirmCardDelete(CardEntity card) {
+    return AppDialog.confirm(
+      context: context,
+      title: context.l10n.testDetailDeleteCardTitle,
+      message: context.l10n.testDetailDeleteCardMessage,
+      cancelLabel: context.l10n.testDetailDeleteCardCancel,
+      confirmLabel: context.l10n.testDetailDeleteCardConfirm,
+    );
+  }
+
+  @override
   void onAddCardPressed() {
     _showAddCardDialog();
   }
@@ -363,28 +379,25 @@ class _TestDetailScreenState extends State<TestDetailScreen>
   }
 }
 
-/// ViewModel interface for test detail screen.
+/// ViewModel интерфейс для экрана деталки теста.
 ///
-/// Defines interaction contract between [TestDetailScreen] and [TestDetailView].
+/// Определяет контракт между [TestDetailScreen] и [TestDetailView].
 abstract interface class ITestDetailViewModel {
-  /// Called when add card button is pressed.
+  void onBackPressed();
+
   void onAddCardPressed();
 
-  /// Called when a card is tapped.
   void onCardTapped(CardEntity card);
 
-  /// Called when delete card button is pressed.
   void onCardDeletePressed(CardEntity card);
 
-  /// Called when edit test button is pressed.
+  Future<bool?> confirmCardDelete(CardEntity card);
+
   void onEditTestPressed();
 
-  /// Called when start test button is pressed.
   void onStartTestPressed();
 
-  /// Called when import CSV button is pressed.
   void onImportCsvPressed();
 
-  /// Called when test settings button is pressed.
   void onTestSettingsPressed();
 }

@@ -51,6 +51,16 @@ class CardsDatabase extends DatabaseAccessor<AppDatabase>
   Future<int> deleteCardsByTestId(int testId) =>
       (delete(cards)..where((c) => c.testId.equals(testId))).go();
 
+  /// Get card count by test id.
+  Future<int> getCardCountByTestId(int testId) async {
+    final count = cards.id.count();
+    final query = selectOnly(cards)
+      ..addColumns([count])
+      ..where(cards.testId.equals(testId));
+    final row = await query.getSingle();
+    return row.read(count) ?? 0;
+  }
+
   /// Delete all cards.
   Future<int> deleteAllCards() => delete(cards).go();
 }

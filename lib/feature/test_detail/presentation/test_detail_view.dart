@@ -3,15 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dart';
+import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
-import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
+import 'package:quizzerg/uikit/appbar/app_page_header.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
-import 'package:quizzerg/uikit/content_card/content_card.dart';
-import 'package:quizzerg/uikit/content_card/content_card_type.dart';
-import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/buttons/app_glow_button.dart';
+import 'package:quizzerg/uikit/item_card/app_item_card.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
-import 'package:quizzerg/uikit/spacing/sliver_height.dart';
+import 'package:quizzerg/uikit/spacing/height.dart';
 
 /// UI layer for test detail screen.
 ///
@@ -29,23 +29,8 @@ class TestDetailView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final canStartTest = switch (state) {
-      TestDetailState$Loaded(:final cards) => cards.isNotEmpty,
-      _ => false,
-    };
-    final startIcon = switch (state) {
-      TestDetailState$Loaded(:final cards) when cards.isEmpty => Icons.close,
-      _ => Icons.play_arrow_rounded,
-    };
-
     return AppScaffold(
       useSafeArea: false,
-      appBar: _TestDetailAppBar(
-        state: state,
-        canStartTest: canStartTest,
-        startIcon: startIcon,
-        viewModel: viewModel,
-      ),
       body: switch (state) {
         TestDetailState$Loading() => const Center(
             child: CircularProgressIndicator(),
@@ -60,7 +45,7 @@ class TestDetailView extends StatelessWidget {
                   ),
                   textAlign: TextAlign.center,
                 ),
-                const SizedBox(height: 16),
+                const Height(16),
                 ElevatedButton(
                   onPressed: () {},
                   child: Text(context.l10n.testDetailRetryButton),
@@ -68,9 +53,11 @@ class TestDetailView extends StatelessWidget {
               ],
             ),
           ),
-        TestDetailState$Loaded(:final cards) => _TestDetailContent(
+        TestDetailState$Loaded(:final test, :final cards) => _TestDetailLoadedBody(
+            test: test,
             cards: cards,
             viewModel: viewModel,
+            onBackPressed: viewModel.onBackPressed,
           ),
       },
       floatingActionButton: state is TestDetailState$Loaded
@@ -85,88 +72,164 @@ class TestDetailView extends StatelessWidget {
   }
 }
 
-class _TestDetailAppBar extends StatelessWidget implements PreferredSizeWidget {
-  final TestDetailState state;
-  final bool canStartTest;
-  final IconData startIcon;
+class _TestDetailLoadedBody extends StatelessWidget {
+  final TestEntity test;
+  final List<CardEntity> cards;
   final ITestDetailViewModel viewModel;
+  final VoidCallback onBackPressed;
 
-  const _TestDetailAppBar({
-    required this.state,
-    required this.canStartTest,
-    required this.startIcon,
+  const _TestDetailLoadedBody({
+    required this.test,
+    required this.cards,
     required this.viewModel,
+    required this.onBackPressed,
   });
 
   @override
-  Size get preferredSize {
-    double bottomHeight = 0;
-    if (state case TestDetailState$Loaded(:final test)) {
-      if (test.description != null && test.description!.isNotEmpty) {
-        bottomHeight += 56.0;
-      }
-    }
-    return Size.fromHeight(
-      DefaultAppBar.expandedToolbarHeight + bottomHeight,
-    );
-  }
-
-  @override
   Widget build(BuildContext context) {
-    final titleText = switch (state) {
-      TestDetailState$Loaded(:final test) => test.title.toUpperCase(),
-      _ => context.l10n.testDetailLoadingTitle,
-    };
 
-    final hasDescription = switch (state) {
-      TestDetailState$Loaded(:final test) =>
-        test.description != null && test.description!.isNotEmpty,
-      _ => false,
-    };
-
-    final bottom = hasDescription
-        ? PreferredSize(
-            preferredSize: const Size.fromHeight(56),
-            child: _TestDescription(
-              description: (state as TestDetailState$Loaded).test.description!,
-            ),
+    return CustomScrollView(
+      slivers: [
+        const SliverFillRemaining(),
+        SliverToBoxAdapter(
+          child: _TestDetailHeader(
+            test: test,
+            canStart: cards.isNotEmpty,
+            viewModel: viewModel,
+            onBackPressed: onBackPressed,
+          ),
+        ),
+        SliverToBoxAdapter(
+          child: _TestSettingsButton(onPressed: viewModel.onTestSettingsPressed),
+        ),
+        SliverToBoxAdapter(
+          child: _ActionsRow(
+            cardsCount: cards.length,
+            onImportCsvPressed: viewModel.onImportCsvPressed,
+          ),
+        ),
+        if (cards.isEmpty)
+          const SliverFillRemaining(
+            hasScrollBody: false,
+            child: _EmptyCardsPlaceholder(),
           )
-        : null;
-
-    return DefaultAppBar.expanded(
-      title: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Icon(startIcon),
-          const SizedBox(height: 8),
-          Text(titleText),
-        ],
-      ),
-      onTap: canStartTest ? viewModel.onStartTestPressed : null,
-      leading: IconButton(
-        onPressed: () => Navigator.of(context).pop(),
-        icon: const Icon(Icons.close, color: Colors.white),
-      ),
-      bottom: bottom,
-      elevation: 1,
+        else
+          SliverList.builder(
+            itemCount: cards.length,
+            itemBuilder: (context, index) {
+              final card = cards[index];
+              return _CardListItem(
+                card: card,
+                onTap: () => viewModel.onCardTapped(card),
+                onConfirmDismiss: () => viewModel.confirmCardDelete(card),
+                onDelete: () => viewModel.onCardDeletePressed(card),
+              );
+            },
+          ),
+        SliverPadding(
+          padding: EdgeInsets.only(
+            bottom: MediaQuery.of(context).padding.bottom + 80,
+          ),
+        ),
+      ],
     );
   }
 }
 
-class _TestDescription extends StatelessWidget {
-  final String description;
+class _TestDetailHeader extends StatelessWidget {
+  final TestEntity test;
+  final bool canStart;
+  final ITestDetailViewModel viewModel;
+  final VoidCallback onBackPressed;
 
-  const _TestDescription({required this.description});
+  const _TestDetailHeader({
+    required this.test,
+    required this.canStart,
+    required this.viewModel,
+    required this.onBackPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return AppPageHeader.withBack(
+      title: test.title,
+      subtitle: test.description,
+      onBackPressed: onBackPressed,
+      onTitlePressed: viewModel.onEditTestPressed,
+      action: _StartTestButton(
+        canStart: canStart,
+        onPressed: viewModel.onStartTestPressed,
+      ),
+    );
+  }
+}
+
+class _StartTestButton extends StatelessWidget {
+  final bool canStart;
+  final VoidCallback onPressed;
+
+  const _StartTestButton({
+    required this.canStart,
+    required this.onPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    if (!canStart) {
+      return DecoratedBox(
+        decoration: BoxDecoration(
+          color: colorScheme.onSurface.withValues(alpha: 0.12),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+          child: Icon(
+            Icons.play_arrow_rounded,
+            color: colorScheme.onSurface.withValues(alpha: 0.38),
+            size: 20,
+          ),
+        ),
+      );
+    }
+
+    return AppGlowButton(
+      onPressed: onPressed,
+      child: const Icon(Icons.play_arrow_rounded),
+    );
+  }
+}
+
+class _ActionsRow extends StatelessWidget {
+  final int cardsCount;
+  final VoidCallback onImportCsvPressed;
+
+  const _ActionsRow({
+    required this.cardsCount,
+    required this.onImportCsvPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
-      child: Text(
-        description,
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      child: Row(
+        children: [
+          Flexible(
+            child: Text(
+              context.l10n.testDetailCardsTitle(cardsCount),
+              style: Theme.of(context).textTheme.titleMedium,
+              overflow: TextOverflow.ellipsis,
             ),
+          ),
+          const Spacer(),
+          TextButton.icon(
+            onPressed: onImportCsvPressed,
+            icon: const Icon(Icons.upload_file, size: 18),
+            label: Text(context.l10n.csvImportButton),
+          ),
+        ],
       ),
     );
   }
@@ -180,124 +243,51 @@ class _TestSettingsButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-      child: OutlinedButton.icon(
-        onPressed: onPressed,
-        icon: const Icon(Icons.tune, size: 18),
-        label: const Text('Настройка теста'),
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Align(
+        alignment: Alignment.centerRight,
+        child: AppGlowButton(
+          onPressed: onPressed,
+          color: Theme.of(context).colorScheme.secondary,
+          child: const Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(Icons.tune, size: 18),
+              SizedBox(width: 6),
+              Text('Настройки'),
+            ],
+          ),
+        ),
       ),
     );
   }
 }
 
-class _CardsCountWithImport extends StatelessWidget {
-  final int count;
-  final VoidCallback onImportPressed;
-
-  const _CardsCountWithImport({
-    required this.count,
-    required this.onImportPressed,
-  });
+class _EmptyCardsPlaceholder extends StatelessWidget {
+  const _EmptyCardsPlaceholder();
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      child: Row(
-        children: [
-          Flexible(
-            child: Text(
-              context.l10n.testDetailCardsTitle(count),
-              style: Theme.of(context).textTheme.titleMedium,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-          const SizedBox(width: 8),
-          const Spacer(),
-          TextButton.icon(
-            onPressed: onImportPressed,
-            icon: const Icon(Icons.upload_file, size: 18),
-            label: Text(context.l10n.csvImportButton),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TestDetailContent extends StatelessWidget {
-  final List<CardEntity> cards;
-  final ITestDetailViewModel viewModel;
-
-  const _TestDetailContent({
-    required this.cards,
-    required this.viewModel,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.only(bottom: MediaQuery.of(context).padding.bottom),
-      child: CustomScrollView(
-        slivers: [
-          const SliverHeight(8),
-          SliverToBoxAdapter(
-            child: _TestSettingsButton(
-              onPressed: viewModel.onTestSettingsPressed,
-            ),
-          ),
-          SliverToBoxAdapter(
-            child: _CardsCountWithImport(
-              count: cards.length,
-              onImportPressed: viewModel.onImportCsvPressed,
-            ),
-          ),
-          if (cards.isEmpty)
-            SliverFillRemaining(
-              hasScrollBody: false,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        context.l10n.testDetailEmptyCardsMessage,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                            ),
-                      ),
-                      const SizedBox(height: 12),
-                      Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                    ],
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(
+              context.l10n.testDetailEmptyCardsMessage,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: Theme.of(context).colorScheme.onSurfaceVariant,
                   ),
-                ),
-              ),
-            )
-          else
-            SliverList.builder(
-              itemCount: cards.length,
-              itemBuilder: (context, index) {
-                final card = cards[index];
-                return _CardListItem(
-                  card: card,
-                  onTap: () => viewModel.onCardTapped(card),
-                  onDelete: () => viewModel.onCardDeletePressed(card),
-                );
-              },
             ),
-          SliverPadding(
-            padding: EdgeInsets.only(
-              bottom: MediaQuery.of(context).padding.bottom + 80,
+            const Height(12),
+            Icon(
+              Icons.keyboard_arrow_down_rounded,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -306,11 +296,13 @@ class _TestDetailContent extends StatelessWidget {
 class _CardListItem extends StatelessWidget {
   final CardEntity card;
   final VoidCallback onTap;
+  final Future<bool?> Function() onConfirmDismiss;
   final VoidCallback onDelete;
 
   const _CardListItem({
     required this.card,
     required this.onTap,
+    required this.onConfirmDismiss,
     required this.onDelete,
   });
 
@@ -325,46 +317,19 @@ class _CardListItem extends StatelessWidget {
         Icons.delete,
         color: colorScheme.onSurface,
       ),
-      confirmDismiss: (direction) async {
-        return showDialog<bool>(
-          context: context,
-          builder: (context) => AppDialog(
-            title: Text(context.l10n.testDetailDeleteCardTitle),
-            content: Text(context.l10n.testDetailDeleteCardMessage),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(false),
-                child: Text(context.l10n.testDetailDeleteCardCancel),
-              ),
-              TextButton(
-                onPressed: () => Navigator.of(context).pop(true),
-                child: Text(context.l10n.testDetailDeleteCardConfirm),
-              ),
-            ],
-          ),
-        );
-      },
+      confirmDismiss: (_) => onConfirmDismiss(),
       onDismissed: (_) => onDelete(),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
         child: ScalePressable(
           onTap: onTap,
-          child: ContentCard(
-            elevation: 5,
-            type: ContentCardType.smallWide,
-            padding: EdgeInsets.zero,
-            child: ListTile(
-              title: Text(
-                card.front,
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              subtitle: Text(
-                card.formattedBack,
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-              ),
-              trailing: const Icon(Icons.chevron_right),
+          child: AppItemCard(
+            icon: Icons.style_outlined,
+            title: card.front,
+            subtitle: card.formattedBack,
+            trailing: Icon(
+              Icons.chevron_right,
+              color: colorScheme.onSurfaceVariant,
             ),
           ),
         ),
