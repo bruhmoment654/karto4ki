@@ -22,6 +22,33 @@ class GroupDetailScreen extends StatefulWidget {
 
 class _GroupDetailScreenState extends State<GroupDetailScreen>
     implements IGroupDetailViewModel {
+  static const _defaultStreakValue = 0.35;
+
+  @override
+  late final TextEditingController streakNegativeBonusController;
+
+  @override
+  late final TextEditingController streakPositivePenaltyController;
+
+  @override
+  void initState() {
+    super.initState();
+    final mixupState = context.read<MixupBloc>().state;
+    streakNegativeBonusController = TextEditingController(
+      text: mixupState.streakNegativeBonus.toStringAsFixed(2),
+    );
+    streakPositivePenaltyController = TextEditingController(
+      text: mixupState.streakPositivePenalty.toStringAsFixed(2),
+    );
+  }
+
+  @override
+  void dispose() {
+    streakNegativeBonusController.dispose();
+    streakPositivePenaltyController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<GroupDetailBloc, GroupDetailState>(
@@ -75,12 +102,36 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   }
 
   @override
+  void onStreakCoefficientsSubmitted() {
+    final negative = double.tryParse(streakNegativeBonusController.text) ??
+        _defaultStreakValue;
+    final positive = double.tryParse(streakPositivePenaltyController.text) ??
+        _defaultStreakValue;
+    context.read<MixupBloc>().add(MixupEvent.streakCoefficientsChanged(
+          negativeBonus: negative.clamp(0.0, 1.0),
+          positivePenalty: positive.clamp(0.0, 1.0),
+        ));
+  }
+
+  @override
+  void onStreakCoefficientsReset() {
+    streakNegativeBonusController.text =
+        _defaultStreakValue.toStringAsFixed(2);
+    streakPositivePenaltyController.text =
+        _defaultStreakValue.toStringAsFixed(2);
+    context.read<MixupBloc>().add(MixupEvent.streakCoefficientsChanged(
+          negativeBonus: _defaultStreakValue,
+          positivePenalty: _defaultStreakValue,
+        ));
+  }
+
+  @override
   void onTestLongPressed(TestEntity test) {
     _showTestActionsDialog(test);
   }
 
   @override
-  void onTestRemovePressed(TestEntity test) async {
+  Future<void> onTestRemovePressed(TestEntity test) async {
     final confirmed = await confirmTestRemove(test);
     if (confirmed ?? false) {
       onTestRemoveConfirmed(test);
@@ -350,4 +401,12 @@ abstract interface class IGroupDetailViewModel {
   void onMixupRangeChanged({required int min, required int max});
 
   void onMixupAlgorithmChanged({required MixupAlgorithm algorithm});
+
+  TextEditingController get streakNegativeBonusController;
+
+  TextEditingController get streakPositivePenaltyController;
+
+  void onStreakCoefficientsSubmitted();
+
+  void onStreakCoefficientsReset();
 }

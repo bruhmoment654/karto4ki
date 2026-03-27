@@ -344,6 +344,10 @@
   "groupDetailMixupAlgorithm": "Mixup algorithm",
   "groupDetailMixupAlgorithmClassic": "Classic",
   "groupDetailMixupAlgorithmScoring": "Smart",
+  "groupDetailStreakCoefficients": "Streak coefficients",
+  "groupDetailStreakNegativeBonus": "Errors bonus",
+  "groupDetailStreakPositivePenalty": "Correct penalty",
+  "groupDetailStreakReset": "Reset to defaults",
   "groupDetailNewTestButton": "New test",
   "groupDetailQuestionCount": "{count, plural, =0{No questions} one{{count} question} other{{count} questions}}",
   "@groupDetailQuestionCount": {

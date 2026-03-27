@@ -21,6 +21,8 @@ mixin _$MixupEvent {
     required TResult Function(bool enabled) toggled,
     required TResult Function(int min, int max) rangeChanged,
     required TResult Function(MixupAlgorithm algorithm) algorithmChanged,
+    required TResult Function(double negativeBonus, double positivePenalty)
+        streakCoefficientsChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -28,6 +30,8 @@ mixin _$MixupEvent {
     TResult? Function(bool enabled)? toggled,
     TResult? Function(int min, int max)? rangeChanged,
     TResult? Function(MixupAlgorithm algorithm)? algorithmChanged,
+    TResult? Function(double negativeBonus, double positivePenalty)?
+        streakCoefficientsChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -35,6 +39,8 @@ mixin _$MixupEvent {
     TResult Function(bool enabled)? toggled,
     TResult Function(int min, int max)? rangeChanged,
     TResult Function(MixupAlgorithm algorithm)? algorithmChanged,
+    TResult Function(double negativeBonus, double positivePenalty)?
+        streakCoefficientsChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -44,6 +50,8 @@ mixin _$MixupEvent {
     required TResult Function(_MixupEvent$RangeChanged value) rangeChanged,
     required TResult Function(_MixupEvent$AlgorithmChanged value)
         algorithmChanged,
+    required TResult Function(_MixupEvent$StreakCoefficientsChanged value)
+        streakCoefficientsChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -51,6 +59,8 @@ mixin _$MixupEvent {
     TResult? Function(_MixupEvent$Toggled value)? toggled,
     TResult? Function(_MixupEvent$RangeChanged value)? rangeChanged,
     TResult? Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
+    TResult? Function(_MixupEvent$StreakCoefficientsChanged value)?
+        streakCoefficientsChanged,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -58,6 +68,8 @@ mixin _$MixupEvent {
     TResult Function(_MixupEvent$Toggled value)? toggled,
     TResult Function(_MixupEvent$RangeChanged value)? rangeChanged,
     TResult Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
+    TResult Function(_MixupEvent$StreakCoefficientsChanged value)?
+        streakCoefficientsChanged,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -149,6 +161,8 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
     required TResult Function(bool enabled) toggled,
     required TResult Function(int min, int max) rangeChanged,
     required TResult Function(MixupAlgorithm algorithm) algorithmChanged,
+    required TResult Function(double negativeBonus, double positivePenalty)
+        streakCoefficientsChanged,
   }) {
     return toggled(enabled);
   }
@@ -159,6 +173,8 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
     TResult? Function(bool enabled)? toggled,
     TResult? Function(int min, int max)? rangeChanged,
     TResult? Function(MixupAlgorithm algorithm)? algorithmChanged,
+    TResult? Function(double negativeBonus, double positivePenalty)?
+        streakCoefficientsChanged,
   }) {
     return toggled?.call(enabled);
   }
@@ -169,6 +185,8 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
     TResult Function(bool enabled)? toggled,
     TResult Function(int min, int max)? rangeChanged,
     TResult Function(MixupAlgorithm algorithm)? algorithmChanged,
+    TResult Function(double negativeBonus, double positivePenalty)?
+        streakCoefficientsChanged,
     required TResult orElse(),
   }) {
     if (toggled != null) {
@@ -184,6 +202,8 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
     required TResult Function(_MixupEvent$RangeChanged value) rangeChanged,
     required TResult Function(_MixupEvent$AlgorithmChanged value)
         algorithmChanged,
+    required TResult Function(_MixupEvent$StreakCoefficientsChanged value)
+        streakCoefficientsChanged,
   }) {
     return toggled(this);
   }
@@ -194,6 +214,8 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
     TResult? Function(_MixupEvent$Toggled value)? toggled,
     TResult? Function(_MixupEvent$RangeChanged value)? rangeChanged,
     TResult? Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
+    TResult? Function(_MixupEvent$StreakCoefficientsChanged value)?
+        streakCoefficientsChanged,
   }) {
     return toggled?.call(this);
   }
@@ -204,6 +226,8 @@ class _$MixupEvent$ToggledImpl implements _MixupEvent$Toggled {
     TResult Function(_MixupEvent$Toggled value)? toggled,
     TResult Function(_MixupEvent$RangeChanged value)? rangeChanged,
     TResult Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
+    TResult Function(_MixupEvent$StreakCoefficientsChanged value)?
+        streakCoefficientsChanged,
     required TResult orElse(),
   }) {
     if (toggled != null) {
@@ -301,6 +325,8 @@ class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
     required TResult Function(bool enabled) toggled,
     required TResult Function(int min, int max) rangeChanged,
     required TResult Function(MixupAlgorithm algorithm) algorithmChanged,
+    required TResult Function(double negativeBonus, double positivePenalty)
+        streakCoefficientsChanged,
   }) {
     return rangeChanged(min, max);
   }
@@ -311,6 +337,8 @@ class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
     TResult? Function(bool enabled)? toggled,
     TResult? Function(int min, int max)? rangeChanged,
     TResult? Function(MixupAlgorithm algorithm)? algorithmChanged,
+    TResult? Function(double negativeBonus, double positivePenalty)?
+        streakCoefficientsChanged,
   }) {
     return rangeChanged?.call(min, max);
   }
@@ -321,6 +349,8 @@ class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
     TResult Function(bool enabled)? toggled,
     TResult Function(int min, int max)? rangeChanged,
     TResult Function(MixupAlgorithm algorithm)? algorithmChanged,
+    TResult Function(double negativeBonus, double positivePenalty)?
+        streakCoefficientsChanged,
     required TResult orElse(),
   }) {
     if (rangeChanged != null) {
@@ -336,6 +366,8 @@ class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
     required TResult Function(_MixupEvent$RangeChanged value) rangeChanged,
     required TResult Function(_MixupEvent$AlgorithmChanged value)
         algorithmChanged,
+    required TResult Function(_MixupEvent$StreakCoefficientsChanged value)
+        streakCoefficientsChanged,
   }) {
     return rangeChanged(this);
   }
@@ -346,6 +378,8 @@ class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
     TResult? Function(_MixupEvent$Toggled value)? toggled,
     TResult? Function(_MixupEvent$RangeChanged value)? rangeChanged,
     TResult? Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
+    TResult? Function(_MixupEvent$StreakCoefficientsChanged value)?
+        streakCoefficientsChanged,
   }) {
     return rangeChanged?.call(this);
   }
@@ -356,6 +390,8 @@ class _$MixupEvent$RangeChangedImpl implements _MixupEvent$RangeChanged {
     TResult Function(_MixupEvent$Toggled value)? toggled,
     TResult Function(_MixupEvent$RangeChanged value)? rangeChanged,
     TResult Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
+    TResult Function(_MixupEvent$StreakCoefficientsChanged value)?
+        streakCoefficientsChanged,
     required TResult orElse(),
   }) {
     if (rangeChanged != null) {
@@ -449,6 +485,8 @@ class _$MixupEvent$AlgorithmChangedImpl
     required TResult Function(bool enabled) toggled,
     required TResult Function(int min, int max) rangeChanged,
     required TResult Function(MixupAlgorithm algorithm) algorithmChanged,
+    required TResult Function(double negativeBonus, double positivePenalty)
+        streakCoefficientsChanged,
   }) {
     return algorithmChanged(algorithm);
   }
@@ -459,6 +497,8 @@ class _$MixupEvent$AlgorithmChangedImpl
     TResult? Function(bool enabled)? toggled,
     TResult? Function(int min, int max)? rangeChanged,
     TResult? Function(MixupAlgorithm algorithm)? algorithmChanged,
+    TResult? Function(double negativeBonus, double positivePenalty)?
+        streakCoefficientsChanged,
   }) {
     return algorithmChanged?.call(algorithm);
   }
@@ -469,6 +509,8 @@ class _$MixupEvent$AlgorithmChangedImpl
     TResult Function(bool enabled)? toggled,
     TResult Function(int min, int max)? rangeChanged,
     TResult Function(MixupAlgorithm algorithm)? algorithmChanged,
+    TResult Function(double negativeBonus, double positivePenalty)?
+        streakCoefficientsChanged,
     required TResult orElse(),
   }) {
     if (algorithmChanged != null) {
@@ -484,6 +526,8 @@ class _$MixupEvent$AlgorithmChangedImpl
     required TResult Function(_MixupEvent$RangeChanged value) rangeChanged,
     required TResult Function(_MixupEvent$AlgorithmChanged value)
         algorithmChanged,
+    required TResult Function(_MixupEvent$StreakCoefficientsChanged value)
+        streakCoefficientsChanged,
   }) {
     return algorithmChanged(this);
   }
@@ -494,6 +538,8 @@ class _$MixupEvent$AlgorithmChangedImpl
     TResult? Function(_MixupEvent$Toggled value)? toggled,
     TResult? Function(_MixupEvent$RangeChanged value)? rangeChanged,
     TResult? Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
+    TResult? Function(_MixupEvent$StreakCoefficientsChanged value)?
+        streakCoefficientsChanged,
   }) {
     return algorithmChanged?.call(this);
   }
@@ -504,6 +550,8 @@ class _$MixupEvent$AlgorithmChangedImpl
     TResult Function(_MixupEvent$Toggled value)? toggled,
     TResult Function(_MixupEvent$RangeChanged value)? rangeChanged,
     TResult Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
+    TResult Function(_MixupEvent$StreakCoefficientsChanged value)?
+        streakCoefficientsChanged,
     required TResult orElse(),
   }) {
     if (algorithmChanged != null) {
@@ -525,11 +573,187 @@ abstract class _MixupEvent$AlgorithmChanged implements MixupEvent {
 }
 
 /// @nodoc
+abstract class _$$MixupEvent$StreakCoefficientsChangedImplCopyWith<$Res> {
+  factory _$$MixupEvent$StreakCoefficientsChangedImplCopyWith(
+          _$MixupEvent$StreakCoefficientsChangedImpl value,
+          $Res Function(_$MixupEvent$StreakCoefficientsChangedImpl) then) =
+      __$$MixupEvent$StreakCoefficientsChangedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({double negativeBonus, double positivePenalty});
+}
+
+/// @nodoc
+class __$$MixupEvent$StreakCoefficientsChangedImplCopyWithImpl<$Res>
+    extends _$MixupEventCopyWithImpl<$Res,
+        _$MixupEvent$StreakCoefficientsChangedImpl>
+    implements _$$MixupEvent$StreakCoefficientsChangedImplCopyWith<$Res> {
+  __$$MixupEvent$StreakCoefficientsChangedImplCopyWithImpl(
+      _$MixupEvent$StreakCoefficientsChangedImpl _value,
+      $Res Function(_$MixupEvent$StreakCoefficientsChangedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? negativeBonus = null,
+    Object? positivePenalty = null,
+  }) {
+    return _then(_$MixupEvent$StreakCoefficientsChangedImpl(
+      negativeBonus: null == negativeBonus
+          ? _value.negativeBonus
+          : negativeBonus // ignore: cast_nullable_to_non_nullable
+              as double,
+      positivePenalty: null == positivePenalty
+          ? _value.positivePenalty
+          : positivePenalty // ignore: cast_nullable_to_non_nullable
+              as double,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$MixupEvent$StreakCoefficientsChangedImpl
+    implements _MixupEvent$StreakCoefficientsChanged {
+  const _$MixupEvent$StreakCoefficientsChangedImpl(
+      {required this.negativeBonus, required this.positivePenalty});
+
+  @override
+  final double negativeBonus;
+  @override
+  final double positivePenalty;
+
+  @override
+  String toString() {
+    return 'MixupEvent.streakCoefficientsChanged(negativeBonus: $negativeBonus, positivePenalty: $positivePenalty)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MixupEvent$StreakCoefficientsChangedImpl &&
+            (identical(other.negativeBonus, negativeBonus) ||
+                other.negativeBonus == negativeBonus) &&
+            (identical(other.positivePenalty, positivePenalty) ||
+                other.positivePenalty == positivePenalty));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, negativeBonus, positivePenalty);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MixupEvent$StreakCoefficientsChangedImplCopyWith<
+          _$MixupEvent$StreakCoefficientsChangedImpl>
+      get copyWith => __$$MixupEvent$StreakCoefficientsChangedImplCopyWithImpl<
+          _$MixupEvent$StreakCoefficientsChangedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(bool enabled) toggled,
+    required TResult Function(int min, int max) rangeChanged,
+    required TResult Function(MixupAlgorithm algorithm) algorithmChanged,
+    required TResult Function(double negativeBonus, double positivePenalty)
+        streakCoefficientsChanged,
+  }) {
+    return streakCoefficientsChanged(negativeBonus, positivePenalty);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(bool enabled)? toggled,
+    TResult? Function(int min, int max)? rangeChanged,
+    TResult? Function(MixupAlgorithm algorithm)? algorithmChanged,
+    TResult? Function(double negativeBonus, double positivePenalty)?
+        streakCoefficientsChanged,
+  }) {
+    return streakCoefficientsChanged?.call(negativeBonus, positivePenalty);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(bool enabled)? toggled,
+    TResult Function(int min, int max)? rangeChanged,
+    TResult Function(MixupAlgorithm algorithm)? algorithmChanged,
+    TResult Function(double negativeBonus, double positivePenalty)?
+        streakCoefficientsChanged,
+    required TResult orElse(),
+  }) {
+    if (streakCoefficientsChanged != null) {
+      return streakCoefficientsChanged(negativeBonus, positivePenalty);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_MixupEvent$Toggled value) toggled,
+    required TResult Function(_MixupEvent$RangeChanged value) rangeChanged,
+    required TResult Function(_MixupEvent$AlgorithmChanged value)
+        algorithmChanged,
+    required TResult Function(_MixupEvent$StreakCoefficientsChanged value)
+        streakCoefficientsChanged,
+  }) {
+    return streakCoefficientsChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_MixupEvent$Toggled value)? toggled,
+    TResult? Function(_MixupEvent$RangeChanged value)? rangeChanged,
+    TResult? Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
+    TResult? Function(_MixupEvent$StreakCoefficientsChanged value)?
+        streakCoefficientsChanged,
+  }) {
+    return streakCoefficientsChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_MixupEvent$Toggled value)? toggled,
+    TResult Function(_MixupEvent$RangeChanged value)? rangeChanged,
+    TResult Function(_MixupEvent$AlgorithmChanged value)? algorithmChanged,
+    TResult Function(_MixupEvent$StreakCoefficientsChanged value)?
+        streakCoefficientsChanged,
+    required TResult orElse(),
+  }) {
+    if (streakCoefficientsChanged != null) {
+      return streakCoefficientsChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _MixupEvent$StreakCoefficientsChanged implements MixupEvent {
+  const factory _MixupEvent$StreakCoefficientsChanged(
+          {required final double negativeBonus,
+          required final double positivePenalty}) =
+      _$MixupEvent$StreakCoefficientsChangedImpl;
+
+  double get negativeBonus;
+  double get positivePenalty;
+  @JsonKey(ignore: true)
+  _$$MixupEvent$StreakCoefficientsChangedImplCopyWith<
+          _$MixupEvent$StreakCoefficientsChangedImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
 mixin _$MixupState {
   bool get enabled => throw _privateConstructorUsedError;
   int get mixupMin => throw _privateConstructorUsedError;
   int get mixupMax => throw _privateConstructorUsedError;
   MixupAlgorithm get algorithm => throw _privateConstructorUsedError;
+  double get streakNegativeBonus => throw _privateConstructorUsedError;
+  double get streakPositivePenalty => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $MixupStateCopyWith<MixupState> get copyWith =>
@@ -543,7 +767,12 @@ abstract class $MixupStateCopyWith<$Res> {
       _$MixupStateCopyWithImpl<$Res, MixupState>;
   @useResult
   $Res call(
-      {bool enabled, int mixupMin, int mixupMax, MixupAlgorithm algorithm});
+      {bool enabled,
+      int mixupMin,
+      int mixupMax,
+      MixupAlgorithm algorithm,
+      double streakNegativeBonus,
+      double streakPositivePenalty});
 }
 
 /// @nodoc
@@ -563,6 +792,8 @@ class _$MixupStateCopyWithImpl<$Res, $Val extends MixupState>
     Object? mixupMin = null,
     Object? mixupMax = null,
     Object? algorithm = null,
+    Object? streakNegativeBonus = null,
+    Object? streakPositivePenalty = null,
   }) {
     return _then(_value.copyWith(
       enabled: null == enabled
@@ -581,6 +812,14 @@ class _$MixupStateCopyWithImpl<$Res, $Val extends MixupState>
           ? _value.algorithm
           : algorithm // ignore: cast_nullable_to_non_nullable
               as MixupAlgorithm,
+      streakNegativeBonus: null == streakNegativeBonus
+          ? _value.streakNegativeBonus
+          : streakNegativeBonus // ignore: cast_nullable_to_non_nullable
+              as double,
+      streakPositivePenalty: null == streakPositivePenalty
+          ? _value.streakPositivePenalty
+          : streakPositivePenalty // ignore: cast_nullable_to_non_nullable
+              as double,
     ) as $Val);
   }
 }
@@ -594,7 +833,12 @@ abstract class _$$MixupStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call(
-      {bool enabled, int mixupMin, int mixupMax, MixupAlgorithm algorithm});
+      {bool enabled,
+      int mixupMin,
+      int mixupMax,
+      MixupAlgorithm algorithm,
+      double streakNegativeBonus,
+      double streakPositivePenalty});
 }
 
 /// @nodoc
@@ -612,6 +856,8 @@ class __$$MixupStateImplCopyWithImpl<$Res>
     Object? mixupMin = null,
     Object? mixupMax = null,
     Object? algorithm = null,
+    Object? streakNegativeBonus = null,
+    Object? streakPositivePenalty = null,
   }) {
     return _then(_$MixupStateImpl(
       enabled: null == enabled
@@ -630,6 +876,14 @@ class __$$MixupStateImplCopyWithImpl<$Res>
           ? _value.algorithm
           : algorithm // ignore: cast_nullable_to_non_nullable
               as MixupAlgorithm,
+      streakNegativeBonus: null == streakNegativeBonus
+          ? _value.streakNegativeBonus
+          : streakNegativeBonus // ignore: cast_nullable_to_non_nullable
+              as double,
+      streakPositivePenalty: null == streakPositivePenalty
+          ? _value.streakPositivePenalty
+          : streakPositivePenalty // ignore: cast_nullable_to_non_nullable
+              as double,
     ));
   }
 }
@@ -641,7 +895,9 @@ class _$MixupStateImpl implements _MixupState {
       {this.enabled = false,
       this.mixupMin = 1,
       this.mixupMax = 5,
-      this.algorithm = MixupAlgorithm.classic});
+      this.algorithm = MixupAlgorithm.classic,
+      this.streakNegativeBonus = 0.35,
+      this.streakPositivePenalty = 0.35});
 
   @override
   @JsonKey()
@@ -655,10 +911,16 @@ class _$MixupStateImpl implements _MixupState {
   @override
   @JsonKey()
   final MixupAlgorithm algorithm;
+  @override
+  @JsonKey()
+  final double streakNegativeBonus;
+  @override
+  @JsonKey()
+  final double streakPositivePenalty;
 
   @override
   String toString() {
-    return 'MixupState(enabled: $enabled, mixupMin: $mixupMin, mixupMax: $mixupMax, algorithm: $algorithm)';
+    return 'MixupState(enabled: $enabled, mixupMin: $mixupMin, mixupMax: $mixupMax, algorithm: $algorithm, streakNegativeBonus: $streakNegativeBonus, streakPositivePenalty: $streakPositivePenalty)';
   }
 
   @override
@@ -672,12 +934,16 @@ class _$MixupStateImpl implements _MixupState {
             (identical(other.mixupMax, mixupMax) ||
                 other.mixupMax == mixupMax) &&
             (identical(other.algorithm, algorithm) ||
-                other.algorithm == algorithm));
+                other.algorithm == algorithm) &&
+            (identical(other.streakNegativeBonus, streakNegativeBonus) ||
+                other.streakNegativeBonus == streakNegativeBonus) &&
+            (identical(other.streakPositivePenalty, streakPositivePenalty) ||
+                other.streakPositivePenalty == streakPositivePenalty));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, enabled, mixupMin, mixupMax, algorithm);
+  int get hashCode => Object.hash(runtimeType, enabled, mixupMin, mixupMax,
+      algorithm, streakNegativeBonus, streakPositivePenalty);
 
   @JsonKey(ignore: true)
   @override
@@ -691,7 +957,9 @@ abstract class _MixupState implements MixupState {
       {final bool enabled,
       final int mixupMin,
       final int mixupMax,
-      final MixupAlgorithm algorithm}) = _$MixupStateImpl;
+      final MixupAlgorithm algorithm,
+      final double streakNegativeBonus,
+      final double streakPositivePenalty}) = _$MixupStateImpl;
 
   @override
   bool get enabled;
@@ -701,6 +969,10 @@ abstract class _MixupState implements MixupState {
   int get mixupMax;
   @override
   MixupAlgorithm get algorithm;
+  @override
+  double get streakNegativeBonus;
+  @override
+  double get streakPositivePenalty;
   @override
   @JsonKey(ignore: true)
   _$$MixupStateImplCopyWith<_$MixupStateImpl> get copyWith =>

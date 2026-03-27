@@ -493,6 +493,18 @@ class AppLocalizationsRu extends AppLocalizations {
   String get groupDetailMixupAlgorithmScoring => 'Умный';
 
   @override
+  String get groupDetailStreakCoefficients => 'Коэффициенты streak';
+
+  @override
+  String get groupDetailStreakNegativeBonus => 'Бонус ошибок';
+
+  @override
+  String get groupDetailStreakPositivePenalty => 'Штраф верных';
+
+  @override
+  String get groupDetailStreakReset => 'Сбросить по умолчанию';
+
+  @override
   String get groupDetailNewTestButton => 'Новый тест';
 
   @override

@@ -983,6 +983,30 @@ abstract class AppLocalizations {
   /// **'Smart'**
   String get groupDetailMixupAlgorithmScoring;
 
+  /// No description provided for @groupDetailStreakCoefficients.
+  ///
+  /// In en, this message translates to:
+  /// **'Streak coefficients'**
+  String get groupDetailStreakCoefficients;
+
+  /// No description provided for @groupDetailStreakNegativeBonus.
+  ///
+  /// In en, this message translates to:
+  /// **'Errors bonus'**
+  String get groupDetailStreakNegativeBonus;
+
+  /// No description provided for @groupDetailStreakPositivePenalty.
+  ///
+  /// In en, this message translates to:
+  /// **'Correct penalty'**
+  String get groupDetailStreakPositivePenalty;
+
+  /// No description provided for @groupDetailStreakReset.
+  ///
+  /// In en, this message translates to:
+  /// **'Reset to defaults'**
+  String get groupDetailStreakReset;
+
   /// No description provided for @groupDetailNewTestButton.
   ///
   /// In en, this message translates to:

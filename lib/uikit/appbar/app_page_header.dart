@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
-
 import 'package:quizzerg/uikit/skeleton_gif/skeleton_gif.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
 

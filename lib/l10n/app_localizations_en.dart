@@ -491,6 +491,18 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupDetailMixupAlgorithmScoring => 'Smart';
 
   @override
+  String get groupDetailStreakCoefficients => 'Streak coefficients';
+
+  @override
+  String get groupDetailStreakNegativeBonus => 'Errors bonus';
+
+  @override
+  String get groupDetailStreakPositivePenalty => 'Correct penalty';
+
+  @override
+  String get groupDetailStreakReset => 'Reset to defaults';
+
+  @override
   String get groupDetailNewTestButton => 'New test';
 
   @override

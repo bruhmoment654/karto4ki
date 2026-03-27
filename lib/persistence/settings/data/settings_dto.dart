@@ -41,6 +41,12 @@ class SettingsDto {
   /// Размер шрифта на карточках (14–40).
   final double cardFontSize;
 
+  /// Бонус за отрицательный streak (вес в скоринге, 0.0–1.0).
+  final double streakNegativeBonus;
+
+  /// Штраф за положительный streak (вес в скоринге, 0.0–1.0).
+  final double streakPositivePenalty;
+
   const SettingsDto({
     this.animationDurationMs = 300,
     this.shaderAnimationEnabled = true,
@@ -51,6 +57,8 @@ class SettingsDto {
     this.themeMode = AppThemeMode.system,
     this.mixupAlgorithm = MixupAlgorithm.classic,
     this.cardFontSize = 24.0,
+    this.streakNegativeBonus = 0.35,
+    this.streakPositivePenalty = 0.35,
   });
 
   factory SettingsDto.fromJson(Map<String, dynamic> json) =>

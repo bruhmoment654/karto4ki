@@ -8,5 +8,7 @@ sealed class MixupState with _$MixupState {
     @Default(1) int mixupMin,
     @Default(5) int mixupMax,
     @Default(MixupAlgorithm.classic) MixupAlgorithm algorithm,
+    @Default(0.35) double streakNegativeBonus,
+    @Default(0.35) double streakPositivePenalty,
   }) = _MixupState;
 }

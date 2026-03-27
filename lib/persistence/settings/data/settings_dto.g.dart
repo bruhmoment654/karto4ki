@@ -35,6 +35,10 @@ SettingsDto _$SettingsDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
                   MixupAlgorithm.classic),
           cardFontSize: $checkedConvert(
               'cardFontSize', (v) => (v as num?)?.toDouble() ?? 24.0),
+          streakNegativeBonus: $checkedConvert(
+              'streakNegativeBonus', (v) => (v as num?)?.toDouble() ?? 0.35),
+          streakPositivePenalty: $checkedConvert(
+              'streakPositivePenalty', (v) => (v as num?)?.toDouble() ?? 0.35),
         );
         return val;
       },
@@ -51,6 +55,8 @@ Map<String, dynamic> _$SettingsDtoToJson(SettingsDto instance) =>
       'themeMode': _$AppThemeModeEnumMap[instance.themeMode]!,
       'mixupAlgorithm': _$MixupAlgorithmEnumMap[instance.mixupAlgorithm]!,
       'cardFontSize': instance.cardFontSize,
+      'streakNegativeBonus': instance.streakNegativeBonus,
+      'streakPositivePenalty': instance.streakPositivePenalty,
     };
 
 const _$AppThemeModeEnumMap = {

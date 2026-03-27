@@ -18,4 +18,10 @@ sealed class MixupEvent with _$MixupEvent {
   const factory MixupEvent.algorithmChanged({
     required MixupAlgorithm algorithm,
   }) = _MixupEvent$AlgorithmChanged;
+
+  /// Изменить коэффициенты streak.
+  const factory MixupEvent.streakCoefficientsChanged({
+    required double negativeBonus,
+    required double positivePenalty,
+  }) = _MixupEvent$StreakCoefficientsChanged;
 }

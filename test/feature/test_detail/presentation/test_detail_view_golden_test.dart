@@ -18,6 +18,9 @@ import 'package:zoloto/zoloto.dart';
 
 class _MockViewModel implements ITestDetailViewModel {
   @override
+  void onBackPressed() {}
+
+  @override
   void onAddCardPressed() {}
 
   @override
@@ -25,6 +28,9 @@ class _MockViewModel implements ITestDetailViewModel {
 
   @override
   void onCardDeletePressed(CardEntity card) {}
+
+  @override
+  Future<bool?> confirmCardDelete(CardEntity card) async => true;
 
   @override
   void onEditTestPressed() {}

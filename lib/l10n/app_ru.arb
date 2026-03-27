@@ -782,6 +782,10 @@
   "groupDetailMixupAlgorithm": "Алгоритм подмешивания",
   "groupDetailMixupAlgorithmClassic": "Классический",
   "groupDetailMixupAlgorithmScoring": "Умный",
+  "groupDetailStreakCoefficients": "Коэффициенты streak",
+  "groupDetailStreakNegativeBonus": "Бонус ошибок",
+  "groupDetailStreakPositivePenalty": "Штраф верных",
+  "groupDetailStreakReset": "Сбросить по умолчанию",
   "groupDetailNewTestButton": "Новый тест",
   "groupDetailQuestionCount": "{count, plural, =0{Нет вопросов} one{{count} вопрос} few{{count} вопроса} many{{count} вопросов} other{{count} вопросов}}",
   "@groupDetailQuestionCount": {

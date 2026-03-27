@@ -49,6 +49,8 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
         ),
       MixupAlgorithm.scoring => ScoringMixupService(
           candidateLoader: candidateLoader,
+          streakNegativeBonus: scope.mixupBloc.state.streakNegativeBonus,
+          streakPositivePenalty: scope.mixupBloc.state.streakPositivePenalty,
         ),
     };
 

@@ -8,6 +8,7 @@ import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_algorithm.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
 import 'package:quizzerg/uikit/buttons/app_glow_button.dart';
+import 'package:quizzerg/uikit/dropdown/app_dropdown.dart';
 import 'package:quizzerg/uikit/item_card/app_item_card.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
@@ -183,30 +184,36 @@ class _MixupSettingsSection extends StatelessWidget {
               onChanged: (value) => viewModel.onMixupChanged(value: value),
             ),
             const Height(8),
-            AnimatedCrossFade(
-              firstChild: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  _MixupAlgorithmSelector(
-                    algorithm: mixupState.algorithm,
-                    onChanged: (algorithm) => viewModel.onMixupAlgorithmChanged(
-                      algorithm: algorithm,
-                    ),
-                  ),
-                  const Height(16),
-                  _MixupRangeSlider(
-                    min: mixupState.mixupMin,
-                    max: mixupState.mixupMax,
-                    onChanged: viewModel.onMixupRangeChanged,
-                  ),
-                ],
-              ),
-              firstCurve: Curves.easeOut,
-              sizeCurve: Curves.fastEaseInToSlowEaseOut,
-              secondChild: const SizedBox(width: double.infinity),
-              crossFadeState:
-                  mixupState.enabled ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-              duration: const Duration(milliseconds: 200),
+            AnimatedSize(
+              duration: const Duration(milliseconds: 500),
+              curve: Curves.fastEaseInToSlowEaseOut,
+              alignment: Alignment.topCenter,
+              child: mixupState.enabled
+                  ? Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        _MixupAlgorithmSelector(
+                          algorithm: mixupState.algorithm,
+                          onChanged: (algorithm) =>
+                              viewModel.onMixupAlgorithmChanged(
+                            algorithm: algorithm,
+                          ),
+                        ),
+                        const Height(16),
+                        _MixupRangeSlider(
+                          min: mixupState.mixupMin,
+                          max: mixupState.mixupMax,
+                          onChanged: viewModel.onMixupRangeChanged,
+                        ),
+                        if (mixupState.algorithm ==
+                            MixupAlgorithm.scoring) ...[
+                          const Height(16),
+                          _StreakCoefficientsEditor(viewModel: viewModel),
+                          const Height(16),
+                        ],
+                      ],
+                    )
+                  : const SizedBox(width: double.infinity),
             ),
           ],
         );
@@ -379,6 +386,106 @@ class _MixupAlgorithmSelector extends StatelessWidget {
                 crossFadeState: isClassic ? CrossFadeState.showFirst : CrossFadeState.showSecond,
                 duration: const Duration(milliseconds: 200),
               ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _StreakCoefficientsEditor extends StatelessWidget {
+  final IGroupDetailViewModel viewModel;
+
+  const _StreakCoefficientsEditor({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    final labelStyle = Theme.of(context).textTheme.bodySmall?.copyWith(
+          color: Theme.of(context).colorScheme.onSurfaceVariant,
+        );
+    return AppDropdown(
+      title: context.l10n.groupDetailStreakCoefficients,
+      child: Row(
+        children: [
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.l10n.groupDetailStreakNegativeBonus,
+                  style: labelStyle,
+                ),
+                const Height(4),
+                SizedBox(
+                  width: 56,
+                  child: TextField(
+                    controller: viewModel.streakNegativeBonusController,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    style: Theme.of(context).textTheme.bodySmall,
+                    decoration: const InputDecoration(
+                      isDense: true,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 8,
+                      ),
+                    ),
+                    onEditingComplete:
+                        viewModel.onStreakCoefficientsSubmitted,
+                    onTapOutside: (_) {
+                      FocusScope.of(context).unfocus();
+                      viewModel.onStreakCoefficientsSubmitted();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  context.l10n.groupDetailStreakPositivePenalty,
+                  style: labelStyle,
+                ),
+                const Height(4),
+                SizedBox(
+                  width: 56,
+                  child: TextField(
+                    controller: viewModel.streakPositivePenaltyController,
+                    keyboardType: const TextInputType.numberWithOptions(
+                      decimal: true,
+                    ),
+                    style: Theme.of(context).textTheme.bodySmall,
+                    decoration: const InputDecoration(
+                      isDense: true,
+                      contentPadding: EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 8,
+                      ),
+                    ),
+                    onEditingComplete:
+                        viewModel.onStreakCoefficientsSubmitted,
+                    onTapOutside: (_) {
+                      FocusScope.of(context).unfocus();
+                      viewModel.onStreakCoefficientsSubmitted();
+                    },
+                  ),
+                ),
+              ],
+            ),
+          ),
+          IconButton(
+            onPressed: viewModel.onStreakCoefficientsReset,
+            icon: const Icon(Icons.restart_alt, size: 20),
+            tooltip: context.l10n.groupDetailStreakReset,
+            padding: EdgeInsets.zero,
+            constraints: const BoxConstraints(
+              minWidth: 36,
+              minHeight: 36,
             ),
           ),
         ],

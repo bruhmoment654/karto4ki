@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dart';
@@ -12,7 +11,6 @@ import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/sliver_height.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// UI layer for test detail screen.
 ///

@@ -20,10 +20,13 @@ final class MixupBloc extends Bloc<MixupEvent, MixupState> {
           mixupMin: settingsStorage.get().mixupMin,
           mixupMax: settingsStorage.get().mixupMax,
           algorithm: settingsStorage.get().mixupAlgorithm,
+          streakNegativeBonus: settingsStorage.get().streakNegativeBonus,
+          streakPositivePenalty: settingsStorage.get().streakPositivePenalty,
         )) {
     on<_MixupEvent$Toggled>(_onToggled);
     on<_MixupEvent$RangeChanged>(_onRangeChanged);
     on<_MixupEvent$AlgorithmChanged>(_onAlgorithmChanged);
+    on<_MixupEvent$StreakCoefficientsChanged>(_onStreakCoefficientsChanged);
   }
 
   void _onToggled(
@@ -50,11 +53,27 @@ final class MixupBloc extends Bloc<MixupEvent, MixupState> {
     _saveSettings(algorithm: event.algorithm);
   }
 
+  void _onStreakCoefficientsChanged(
+    _MixupEvent$StreakCoefficientsChanged event,
+    Emitter<MixupState> emit,
+  ) {
+    emit(state.copyWith(
+      streakNegativeBonus: event.negativeBonus,
+      streakPositivePenalty: event.positivePenalty,
+    ));
+    _saveSettings(
+      streakNegativeBonus: event.negativeBonus,
+      streakPositivePenalty: event.positivePenalty,
+    );
+  }
+
   void _saveSettings({
     bool? enabled,
     int? mixupMin,
     int? mixupMax,
     MixupAlgorithm? algorithm,
+    double? streakNegativeBonus,
+    double? streakPositivePenalty,
   }) {
     final current = _settingsStorage.get();
     _settingsStorage.save(SettingsDto(
@@ -66,6 +85,10 @@ final class MixupBloc extends Bloc<MixupEvent, MixupState> {
       mixupMax: mixupMax ?? current.mixupMax,
       themeMode: current.themeMode,
       mixupAlgorithm: algorithm ?? current.mixupAlgorithm,
+      cardFontSize: current.cardFontSize,
+      streakNegativeBonus: streakNegativeBonus ?? current.streakNegativeBonus,
+      streakPositivePenalty:
+          streakPositivePenalty ?? current.streakPositivePenalty,
     ));
   }
 }

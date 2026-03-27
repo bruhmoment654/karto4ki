@@ -7,3 +7,4 @@
 ## Reference Materials
 
 - [Zoloto — Golden Testing](.claude/ZOLOTO-SKILL.md) — full documentation for the `zoloto` library (API, examples, usage patterns)
+- [Система множественных ответов](.claude/docs/answer_system.md) — парсинг, форматирование, хранение и импорт множественных вариантов ответа

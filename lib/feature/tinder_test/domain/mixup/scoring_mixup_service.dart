@@ -7,15 +7,20 @@ import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_candidate_loader
 
 class ScoringMixupService implements IQuestionMixupService {
   final MixupCandidateLoader _candidateLoader;
+  final double _wStreakNegative;
+  final double _wStreakPositive;
 
-  static const _wStreak = 0.35;
   static const _wDecay = 0.30;
   static const _wNew = 0.20;
   static const _wFreq = 0.15;
 
   const ScoringMixupService({
     required MixupCandidateLoader candidateLoader,
-  }) : _candidateLoader = candidateLoader;
+    double streakNegativeBonus = 0.35,
+    double streakPositivePenalty = 0.35,
+  })  : _candidateLoader = candidateLoader,
+        _wStreakNegative = streakNegativeBonus,
+        _wStreakPositive = streakPositivePenalty;
 
   @override
   Future<List<CardEntity>> getMixupCards({
@@ -40,8 +45,16 @@ class ScoringMixupService implements IQuestionMixupService {
           QuestionKeyNormalizer.normalize(card.front, card.formattedBack);
       final stat = result.statsMap[key];
 
-      final streakFactor =
-          stat != null && stat.streak < 0 ? (-stat.streak / 5).clamp(0, 1) : 0;
+      final double streakContribution;
+      if (stat != null && stat.streak < 0) {
+        streakContribution =
+            _wStreakNegative * (-stat.streak / 5).clamp(0.0, 1.0);
+      } else if (stat != null && stat.streak > 0) {
+        streakContribution =
+            -_wStreakPositive * (stat.streak / 5).clamp(0.0, 1.0);
+      } else {
+        streakContribution = 0;
+      }
 
       final double decayFactor;
       if (stat?.lastShownAt case final lastShown?) {
@@ -61,7 +74,7 @@ class ScoringMixupService implements IQuestionMixupService {
 
       final noise = random.nextDouble() * 0.05;
 
-      final score = _wStreak * streakFactor +
+      final score = streakContribution +
           _wDecay * decayFactor +
           _wNew * newFactor +
           _wFreq * frequencyFactor +
