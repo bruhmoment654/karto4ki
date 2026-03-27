@@ -14,6 +14,6 @@ build-ios-no-sign: ## Build iOS without code signing
 	@echo "🐄 iOS no-sign build started"
 	fvm flutter build ios -t lib/main_dev.dart --flavor dev --release --no-codesign
 
-build:
+build-android:
 	@echo "🐄 Build started"
 	fvm flutter build apk --split-per-abi --release 
