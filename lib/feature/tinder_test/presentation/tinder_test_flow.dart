@@ -41,6 +41,7 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
       cardRepository: scope.cardRepository,
       groupsDatabase: scope.database.groupsDatabase,
       questionStatsRepository: scope.questionStatsRepository,
+      questionStatsDatabase: scope.database.questionStatsDatabase,
     );
 
     final mixupService = switch (algorithm) {

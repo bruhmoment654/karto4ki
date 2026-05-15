@@ -22,6 +22,7 @@ typedef _EnrichedRow = ({
   double scoreNoNoise,
   double? accuracy,
   int? daysSinceLastShown,
+  int? activeDaysSinceLastShown,
   int ageDays,
   List<int> hostingTestIds,
   List<int> hostingGroupIds,
@@ -91,12 +92,15 @@ class StatsExportService implements IStatsExportService {
         streakPositivePenalty: settings.streakPositivePenalty,
       );
       final now = DateTime.now();
+      final activeDates =
+          (await _questionStatsDatabase.getActiveDates()).toSet();
 
       final enriched = stats
           .map((stat) => _enrich(
                 stat: stat,
                 weights: weights,
                 now: now,
+                activeDates: activeDates,
                 cardsByKey: cardsByKey,
                 keysByTestId: keysByTestId,
                 groupIdsByTestId: groupIdsByTestId,
@@ -109,7 +113,10 @@ class StatsExportService implements IStatsExportService {
       final statsPath = p.join(dirPath, 'question_stats_$timestamp.csv');
       final cardsPath = p.join(dirPath, 'cards_$timestamp.csv');
 
-      await _writeCsv(statsPath, _statsRows(enriched, weights));
+      await _writeCsv(
+        statsPath,
+        _statsRows(enriched, weights, activeDates.length),
+      );
       await _writeCsv(
         cardsPath,
         _cardsRows(allCards, testTitleById, groupIdsByTestId),
@@ -130,6 +137,7 @@ class StatsExportService implements IStatsExportService {
     required QuestionStatsEntity stat,
     required ScoringWeights weights,
     required DateTime now,
+    required Set<DateTime> activeDates,
     required Map<String, List<CardDatabaseDto>> cardsByKey,
     required Map<int, Set<String>> keysByTestId,
     required Map<int, List<int>> groupIdsByTestId,
@@ -139,6 +147,7 @@ class StatsExportService implements IStatsExportService {
       stat: stat,
       now: now,
       weights: weights,
+      activeDates: activeDates,
     );
 
     final hostingCards = cardsByKey[stat.questionKey] ?? const [];
@@ -167,6 +176,8 @@ class StatsExportService implements IStatsExportService {
       daysSinceLastShown: stat.lastShownAt != null
           ? now.difference(stat.lastShownAt!).inDays
           : null,
+      activeDaysSinceLastShown:
+          stat.lastShownAt != null ? components.activeDaysSinceLastShown : null,
       ageDays: now.difference(stat.createdAt).inDays,
       hostingTestIds: hostingTestIds,
       hostingGroupIds: hostingGroupIds.toList()..sort(),
@@ -177,10 +188,11 @@ class StatsExportService implements IStatsExportService {
   List<List<dynamic>> _statsRows(
     List<_EnrichedRow> enriched,
     ScoringWeights weights,
+    int totalActiveDays,
   ) {
     final rows = <List<dynamic>>[_statsHeader()];
     for (var index = 0; index < enriched.length; index++) {
-      rows.add(_statsRow(enriched[index], index + 1, weights));
+      rows.add(_statsRow(enriched[index], index + 1, weights, totalActiveDays));
     }
     return rows;
   }
@@ -199,6 +211,7 @@ class StatsExportService implements IStatsExportService {
         'last_shown_at',
         'last_answered_at',
         'days_since_last_shown',
+        'active_days_since_last_shown',
         'age_days',
         'streak_contribution',
         'decay_factor',
@@ -215,12 +228,15 @@ class StatsExportService implements IStatsExportService {
         'w_decay',
         'w_new',
         'w_freq',
+        'total_active_days',
+        'n_active_days_cap',
       ];
 
   List<dynamic> _statsRow(
     _EnrichedRow row,
     int rank,
     ScoringWeights weights,
+    int totalActiveDays,
   ) {
     final stat = row.stat;
     return [
@@ -237,6 +253,7 @@ class StatsExportService implements IStatsExportService {
       stat.lastShownAt?.toIso8601String() ?? '',
       stat.lastAnsweredAt?.toIso8601String() ?? '',
       row.daysSinceLastShown ?? '',
+      row.activeDaysSinceLastShown ?? '',
       row.ageDays,
       row.components.streakContribution,
       row.components.decayFactor,
@@ -253,6 +270,8 @@ class StatsExportService implements IStatsExportService {
       weights.decayWeight,
       weights.newWeight,
       weights.freqWeight,
+      totalActiveDays,
+      ScoringCalculator.kActiveDaysCap,
     ];
   }
 

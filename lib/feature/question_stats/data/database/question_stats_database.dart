@@ -78,6 +78,23 @@ class QuestionStatsDatabase extends DatabaseAccessor<AppDatabase>
       (select(questionStats)..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
           .get();
 
+  /// Возвращает отсортированный список уникальных дат (time = 00:00),
+  /// в которые был зафиксирован хотя бы один ответ (`last_answered_at`).
+  Future<List<DateTime>> getActiveDates() async {
+    final query = selectOnly(questionStats, distinct: true)
+      ..addColumns([questionStats.lastAnsweredAt])
+      ..where(questionStats.lastAnsweredAt.isNotNull());
+    final rows = await query.get();
+    final dates = <DateTime>{};
+    for (final row in rows) {
+      final value = row.read(questionStats.lastAnsweredAt);
+      if (value == null) continue;
+      dates.add(DateTime(value.year, value.month, value.day));
+    }
+    final result = dates.toList()..sort();
+    return result;
+  }
+
   Future<List<QuestionStatsDatabaseDto>> getStatsByKeys(
     List<String> keys,
   ) =>

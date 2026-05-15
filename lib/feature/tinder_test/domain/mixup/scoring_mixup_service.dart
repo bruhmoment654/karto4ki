@@ -46,6 +46,7 @@ class ScoringMixupService implements IQuestionMixupService {
         stat: stat,
         now: now,
         weights: _weights,
+        activeDates: result.activeDates,
       );
       final noise = random.nextDouble() * 0.05;
       final score = components.weightedSum(_weights) + noise;

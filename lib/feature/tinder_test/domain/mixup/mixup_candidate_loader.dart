@@ -1,6 +1,7 @@
 import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/feature/groups_list/data/database/groups_database.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/question_stats/data/database/question_stats_database.dart';
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
 import 'package:quizzerg/feature/question_stats/domain/util/question_key_normalizer.dart';
@@ -9,33 +10,45 @@ import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository
 class MixupCandidates {
   final List<CardEntity> cards;
   final Map<String, QuestionStatsEntity> statsMap;
+  final Set<DateTime> activeDates;
 
   const MixupCandidates({
     required this.cards,
     required this.statsMap,
+    required this.activeDates,
   });
+
+  const MixupCandidates.empty()
+      : cards = const [],
+        statsMap = const {},
+        activeDates = const {};
 }
 
 class MixupCandidateLoader {
   final ICardRepository _cardRepository;
   final GroupsDatabase _groupsDatabase;
   final IQuestionStatsRepository _questionStatsRepository;
+  final QuestionStatsDatabase _questionStatsDatabase;
 
   const MixupCandidateLoader({
     required ICardRepository cardRepository,
     required GroupsDatabase groupsDatabase,
     required IQuestionStatsRepository questionStatsRepository,
+    required QuestionStatsDatabase questionStatsDatabase,
   })  : _cardRepository = cardRepository,
         _groupsDatabase = groupsDatabase,
-        _questionStatsRepository = questionStatsRepository;
+        _questionStatsRepository = questionStatsRepository,
+        _questionStatsDatabase = questionStatsDatabase;
 
   Future<MixupCandidates> loadCandidates({
     required int testId,
     required List<CardEntity> mainCards,
   }) async {
+    final activeDates = (await _questionStatsDatabase.getActiveDates()).toSet();
+
     final groupIds = await _groupsDatabase.getGroupIdsByTestId(testId);
     if (groupIds.isEmpty) {
-      return const MixupCandidates(cards: [], statsMap: {});
+      return const MixupCandidates.empty();
     }
 
     final otherTestIds = <int>{};
@@ -45,7 +58,7 @@ class MixupCandidateLoader {
     }
     otherTestIds.remove(testId);
     if (otherTestIds.isEmpty) {
-      return const MixupCandidates(cards: [], statsMap: {});
+      return const MixupCandidates.empty();
     }
 
     final mainKeys = mainCards
@@ -67,7 +80,11 @@ class MixupCandidateLoader {
     }
 
     if (candidates.isEmpty) {
-      return const MixupCandidates(cards: [], statsMap: {});
+      return MixupCandidates(
+        cards: const [],
+        statsMap: const {},
+        activeDates: activeDates,
+      );
     }
 
     final candidateKeys = candidates
@@ -83,6 +100,10 @@ class MixupCandidateLoader {
       }
     }
 
-    return MixupCandidates(cards: candidates, statsMap: statsMap);
+    return MixupCandidates(
+      cards: candidates,
+      statsMap: statsMap,
+      activeDates: activeDates,
+    );
   }
 }
