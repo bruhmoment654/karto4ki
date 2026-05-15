@@ -4,23 +4,21 @@ import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/util/question_key_normalizer.dart';
 import 'package:quizzerg/feature/tinder_test/domain/mixup/i_question_mixup_service.dart';
 import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_candidate_loader.dart';
+import 'package:quizzerg/feature/tinder_test/domain/mixup/scoring_calculator.dart';
 
 class ScoringMixupService implements IQuestionMixupService {
   final MixupCandidateLoader _candidateLoader;
-  final double _wStreakNegative;
-  final double _wStreakPositive;
+  final ScoringWeights _weights;
 
-  static const _wDecay = 0.30;
-  static const _wNew = 0.20;
-  static const _wFreq = 0.15;
-
-  const ScoringMixupService({
+  ScoringMixupService({
     required MixupCandidateLoader candidateLoader,
     double streakNegativeBonus = 0.35,
     double streakPositivePenalty = 0.35,
   })  : _candidateLoader = candidateLoader,
-        _wStreakNegative = streakNegativeBonus,
-        _wStreakPositive = streakPositivePenalty;
+        _weights = ScoringWeights(
+          streakNegativeBonus: streakNegativeBonus,
+          streakPositivePenalty: streakPositivePenalty,
+        );
 
   @override
   Future<List<CardEntity>> getMixupCards({
@@ -44,49 +42,20 @@ class ScoringMixupService implements IQuestionMixupService {
       final key =
           QuestionKeyNormalizer.normalize(card.front, card.formattedBack);
       final stat = result.statsMap[key];
-
-      final double streakContribution;
-      if (stat != null && stat.streak < 0) {
-        streakContribution =
-            _wStreakNegative * (-stat.streak / 5).clamp(0.0, 1.0);
-      } else if (stat != null && stat.streak > 0) {
-        streakContribution =
-            -_wStreakPositive * (stat.streak / 5).clamp(0.0, 1.0);
-      } else {
-        streakContribution = 0;
-      }
-
-      final double decayFactor;
-      if (stat?.lastShownAt case final lastShown?) {
-        decayFactor =
-            (now.difference(lastShown).inDays / 30).clamp(0, 1).toDouble();
-      } else {
-        decayFactor = 1.0;
-      }
-
-      final newFactor = stat != null
-          ? 1 - (stat.totalShown / 5).clamp(0, 1)
-          : 1.0;
-
-      final frequencyFactor = stat != null && stat.totalShown > 0
-          ? stat.totalIncorrect / stat.totalShown
-          : 0.5;
-
+      final components = ScoringCalculator.components(
+        stat: stat,
+        now: now,
+        weights: _weights,
+      );
       final noise = random.nextDouble() * 0.05;
-
-      final score = streakContribution +
-          _wDecay * decayFactor +
-          _wNew * newFactor +
-          _wFreq * frequencyFactor +
-          noise;
-
+      final score = components.weightedSum(_weights) + noise;
       return (card: card, score: score);
     }).toList()
       ..sort((a, b) => b.score.compareTo(a.score));
 
     return scored
         .take(min(count, scored.length))
-        .map((e) => e.card.copyWith(isMixedIn: true))
+        .map((entry) => entry.card.copyWith(isMixedIn: true))
         .toList();
   }
 }

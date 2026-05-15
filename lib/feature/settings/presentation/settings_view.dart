@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:quizzerg/feature/question_stats/domain/service/i_stats_export_service.dart';
 import 'package:quizzerg/feature/settings/presentation/settings_screen.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
@@ -31,11 +34,85 @@ class SettingsView extends StatelessWidget {
           const Height(32),
           _CardFontSizeSection(viewModel: viewModel),
           const Height(32),
+          const _StatsExportSection(),
+          const Height(32),
           const SkeletonGif(),
           const SizedBox(height: 16),
           _VersionLabel(version: viewModel.appVersion),
         ],
       ),
+    );
+  }
+}
+
+class _StatsExportSection extends StatefulWidget {
+  const _StatsExportSection();
+
+  @override
+  State<_StatsExportSection> createState() => _StatsExportSectionState();
+}
+
+class _StatsExportSectionState extends State<_StatsExportSection> {
+  bool _isExporting = false;
+
+  Future<void> _onPressed() async {
+    if (_isExporting) return;
+    setState(() => _isExporting = true);
+
+    final service = context.read<IAppScope>().statsExportService;
+    final messenger = ScaffoldMessenger.of(context);
+    final result = await service.export();
+
+    if (!mounted) return;
+    setState(() => _isExporting = false);
+
+    final message = switch (result) {
+      StatsExportSuccess() =>
+        'Экспорт: ${result.questionCount} вопросов, ${result.cardCount} карточек\n'
+            '${result.statsFilePath}\n${result.cardsFilePath}',
+      StatsExportCancelled() => 'Экспорт отменён',
+      StatsExportEmpty() => 'Нет данных для экспорта',
+      StatsExportFailure() => 'Ошибка экспорта: ${result.message}',
+    };
+    messenger.showSnackBar(
+      SnackBar(content: Text(message), duration: const Duration(seconds: 6)),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'Экспорт статистики',
+          style: theme.textTheme.titleLarge?.copyWith(
+            fontWeight: FontWeight.bold,
+          ),
+        ),
+        const Height(8),
+        Text(
+          'Сохранит два CSV: question_stats и cards. '
+          'В stats — счётчики ответов и компоненты score под текущими весами.',
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+        const Height(12),
+        FilledButton.tonalIcon(
+          onPressed: _isExporting ? null : _onPressed,
+          icon: _isExporting
+              ? const SizedBox(
+                  width: 16,
+                  height: 16,
+                  child: CircularProgressIndicator(strokeWidth: 2),
+                )
+              : const Icon(Icons.download),
+          label: const Text('Экспортировать в CSV'),
+        ),
+      ],
     );
   }
 }

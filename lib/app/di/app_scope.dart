@@ -4,6 +4,7 @@ import 'package:quizzerg/feature/groups_list/domain/repository/i_groups_list_rep
 import 'package:quizzerg/feature/main/domain/repository/i_main_repository.dart';
 import 'package:quizzerg/feature/mixup/domain/bloc/mixup_bloc.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
+import 'package:quizzerg/feature/question_stats/domain/service/i_stats_export_service.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_test_detail_repository.dart';
 import 'package:quizzerg/feature/test_merge/domain/repository/i_test_merge_repository.dart';
@@ -48,6 +49,9 @@ final class AppScope implements IAppScope {
   @override
   final MixupBloc mixupBloc;
 
+  @override
+  final IStatsExportService statsExportService;
+
   const AppScope({
     required this.database,
     required this.mainRepository,
@@ -61,6 +65,7 @@ final class AppScope implements IAppScope {
     required this.groupsListRepository,
     required this.groupDetailRepository,
     required this.mixupBloc,
+    required this.statsExportService,
   });
 }
 
@@ -88,4 +93,6 @@ abstract interface class IAppScope {
   IGroupDetailRepository get groupDetailRepository;
 
   MixupBloc get mixupBloc;
+
+  IStatsExportService get statsExportService;
 }
