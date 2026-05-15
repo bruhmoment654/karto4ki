@@ -1,8 +1,14 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
+import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/feature/groups_list/domain/bloc/groups_list_bloc.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
 import 'package:quizzerg/feature/groups_list/presentation/groups_list_screen.dart';
+import 'package:quizzerg/feature/groups_list/presentation/widget/active_session_card.dart';
+import 'package:quizzerg/feature/test_execution/domain/bloc/active_session_bloc.dart';
+import 'package:quizzerg/feature/test_execution/domain/entity/active_test_session.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
 import 'package:quizzerg/uikit/buttons/app_glow_button.dart';
@@ -76,6 +82,7 @@ class _GroupsBody extends StatelessWidget {
             ),
           ),
         ),
+        const _ActiveSessionSliver(),
         if (groups.isEmpty)
           SliverFillRemaining(
             child: Center(
@@ -124,6 +131,64 @@ class _GroupsBody extends StatelessWidget {
   }
 }
 
+
+class _ActiveSessionSliver extends StatefulWidget {
+  const _ActiveSessionSliver();
+
+  @override
+  State<_ActiveSessionSliver> createState() => _ActiveSessionSliverState();
+}
+
+class _ActiveSessionSliverState extends State<_ActiveSessionSliver> {
+  ActiveTestSession? _lastSession;
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: BlocBuilder<ActiveSessionBloc, ActiveSessionState>(
+        builder: (context, state) {
+          if (state is ActiveSessionState$Available) {
+            _lastSession = state.session;
+          }
+
+          final session = _lastSession;
+          final isVisible = state is ActiveSessionState$Available;
+
+          return AnimatedCrossFade(
+            duration: const Duration(milliseconds: 250),
+            sizeCurve: Curves.easeInOut,
+            crossFadeState: isVisible
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
+            firstChild: session == null
+                ? const SizedBox.shrink()
+                : Padding(
+                    padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
+                    child: ActiveSessionCard(
+                      session: session,
+                      onResume: () => context.router.push(
+                        TinderTestRoute(
+                          testId: int.parse(session.session.testId),
+                          swapSides: session.params.swapSides,
+                          answerIndex: session.params.answerIndex,
+                          mixup: session.params.mixup,
+                          mixupMin: session.params.mixupMin,
+                          mixupMax: session.params.mixupMax,
+                          resume: true,
+                        ),
+                      ),
+                      onDismiss: () => context
+                          .read<ActiveSessionBloc>()
+                          .add(const ActiveSessionEvent.cleared()),
+                    ),
+                  ),
+            secondChild: const SizedBox.shrink(),
+          );
+        },
+      ),
+    );
+  }
+}
 
 class _GroupListTile extends StatelessWidget {
   final TestGroupEntity group;

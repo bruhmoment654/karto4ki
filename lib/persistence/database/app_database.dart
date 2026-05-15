@@ -4,6 +4,7 @@ import 'package:drift_flutter/drift_flutter.dart';
 import 'package:quizzerg/feature/groups_list/data/database/groups_database.dart';
 import 'package:quizzerg/feature/question_stats/data/database/question_stats_database.dart';
 import 'package:quizzerg/feature/test_detail/data/database/cards_database.dart';
+import 'package:quizzerg/feature/test_execution/data/database/active_sessions_database.dart';
 import 'package:quizzerg/feature/tests_list/data/database/tests_database.dart';
 
 part 'app_database.g.dart';
@@ -16,8 +17,15 @@ part 'app_database.g.dart';
     'package:quizzerg/feature/question_stats/data/database/question_stats.drift',
     'package:quizzerg/feature/groups_list/data/database/test_groups.drift',
     'package:quizzerg/feature/groups_list/data/database/test_group_entries.drift',
+    'package:quizzerg/feature/test_execution/data/database/active_sessions.drift',
   },
-  daos: [TestsDatabase, CardsDatabase, QuestionStatsDatabase, GroupsDatabase],
+  daos: [
+    TestsDatabase,
+    CardsDatabase,
+    QuestionStatsDatabase,
+    GroupsDatabase,
+    ActiveSessionsDatabase,
+  ],
 )
 class AppDatabase extends _$AppDatabase {
   AppDatabase() : super(_openConnection());
@@ -25,7 +33,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 7;
+  int get schemaVersion => 8;
 
   @override
   MigrationStrategy get migration {
@@ -98,6 +106,9 @@ class AppDatabase extends _$AppDatabase {
             " WHERE answer LIKE '% - %'"
             " AND answer NOT LIKE '%|%'",
           );
+        }
+        if (from < 8) {
+          await m.createTable(activeSessions);
         }
       },
     );

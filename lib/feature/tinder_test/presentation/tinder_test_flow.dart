@@ -21,6 +21,7 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
   final bool mixup;
   final int mixupMin;
   final int mixupMax;
+  final bool resume;
 
   const TinderTestFlow({
     @PathParam('testId') required this.testId,
@@ -29,6 +30,7 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
     this.mixup = false,
     this.mixupMin = 1,
     this.mixupMax = 5,
+    this.resume = false,
     super.key,
   });
 
@@ -56,9 +58,12 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
     };
 
     return BlocProvider(
-      create: (context) => TinderTestBloc(
+      create: (_) => TinderTestBloc(
         cardRepository: scope.cardRepository,
         questionStatsRepository: scope.questionStatsRepository,
+        activeSessionRepository: scope.activeSessionRepository,
+        testsListRepository: scope.testsListRepository,
+        algorithm: algorithm,
         mixupService: mixupService,
       )..add(TinderTestEvent.started(
           testId: testId,
@@ -67,6 +72,7 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
           mixup: mixup,
           mixupMin: mixupMin,
           mixupMax: mixupMax,
+          resume: resume,
         )),
       child: this,
     );

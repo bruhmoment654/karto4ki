@@ -710,6 +710,29 @@
   "groupsListNewGroupNameHint": "Название группы",
   "groupsListNewGroupCancel": "Отмена",
   "groupsListNewGroupCreate": "Создать",
+  "groupsListActiveSessionTitle": "Продолжить: {title}",
+  "@groupsListActiveSessionTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Биология"
+      }
+    }
+  },
+  "groupsListActiveSessionProgress": "{current} из {total}",
+  "@groupsListActiveSessionProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "3"
+      },
+      "total": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "groupsListActiveSessionDismiss": "Отменить",
   "@segmentGroupDetail": {
     "---------": "---------",
     "description": "Деталка группы"

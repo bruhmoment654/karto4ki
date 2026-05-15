@@ -22,6 +22,12 @@ class TestsListRepository extends BaseRepository
       });
 
   @override
+  RequestOperation<TestEntity?> getTestById(int testId) => makeCall(() async {
+        final dto = await _testsDatabase.getTestById(testId);
+        return dto == null ? null : TestConverter.fromDto(dto);
+      });
+
+  @override
   RequestOperation<void> addTest({
     required String title,
     String? description,

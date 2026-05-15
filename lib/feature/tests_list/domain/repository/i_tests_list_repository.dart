@@ -6,6 +6,9 @@ abstract interface class ITestsListRepository {
   /// Get all tests.
   RequestOperation<List<TestEntity>> getTests();
 
+  /// Get test by id. Returns `null` if not found.
+  RequestOperation<TestEntity?> getTestById(int testId);
+
   /// Add new test.
   RequestOperation<void> addTest({
     required String title,

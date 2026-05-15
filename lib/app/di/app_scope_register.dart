@@ -11,6 +11,7 @@ import 'package:quizzerg/feature/question_stats/data/repository/question_stats_r
 import 'package:quizzerg/feature/question_stats/data/service/stats_export_service.dart';
 import 'package:quizzerg/feature/test_detail/data/repository/card_repository.dart';
 import 'package:quizzerg/feature/test_detail/data/repository/test_detail_repository.dart';
+import 'package:quizzerg/feature/test_execution/data/repository/active_session_drift_repository.dart';
 import 'package:quizzerg/feature/test_merge/data/repository/test_merge_repository.dart';
 import 'package:quizzerg/feature/tests_list/data/repository/tests_list_repository.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
@@ -82,6 +83,11 @@ class AppScopeRegister {
       settingsStorage: settingsStorage,
     );
 
+    final activeSessionRepository = ActiveSessionDriftRepository(
+      database: database.activeSessionsDatabase,
+      errorLogger: errorLogger,
+    );
+
     return AppScope(
       database: database,
       mainRepository: mainRepository,
@@ -96,6 +102,7 @@ class AppScopeRegister {
       groupDetailRepository: groupDetailRepository,
       mixupBloc: mixupBloc,
       statsExportService: statsExportService,
+      activeSessionRepository: activeSessionRepository,
     );
   }
 }

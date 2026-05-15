@@ -7,9 +7,14 @@ import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository.dart';
+import 'package:quizzerg/feature/test_execution/domain/entity/active_session_launch_params.dart';
+import 'package:quizzerg/feature/test_execution/domain/entity/active_test_session.dart';
+import 'package:quizzerg/feature/test_execution/domain/repository/i_active_session_repository.dart';
+import 'package:quizzerg/feature/tests_list/domain/repository/i_tests_list_repository.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/card_result.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
 import 'package:quizzerg/feature/tinder_test/domain/mixup/i_question_mixup_service.dart';
+import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_algorithm.dart';
 
 part 'tinder_test_event.dart';
 part 'tinder_test_state.dart';
@@ -22,19 +27,29 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   final ICardRepository _cardRepository;
   final IQuestionStatsRepository _questionStatsRepository;
   final IQuestionMixupService? _mixupService;
+  final IActiveSessionRepository _activeSessionRepository;
+  final ITestsListRepository _testsListRepository;
+  final MixupAlgorithm _algorithm;
   bool _swapSides = false;
   int _answerIndex = 0;
   bool _mixup = false;
   int _mixupMin = 1;
   int _mixupMax = 5;
+  String _testTitle = '';
 
   TinderTestBloc({
     required ICardRepository cardRepository,
     required IQuestionStatsRepository questionStatsRepository,
+    required IActiveSessionRepository activeSessionRepository,
+    required ITestsListRepository testsListRepository,
+    required MixupAlgorithm algorithm,
     IQuestionMixupService? mixupService,
   })  : _cardRepository = cardRepository,
         _questionStatsRepository = questionStatsRepository,
         _mixupService = mixupService,
+        _activeSessionRepository = activeSessionRepository,
+        _testsListRepository = testsListRepository,
+        _algorithm = algorithm,
         super(const TinderTestState.initial()) {
     on<TinderTestEvent>(
       (event, emit) => switch (event) {
@@ -53,11 +68,20 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     Emitter<TinderTestState> emit,
   ) async {
     emit(const TinderTestState.loading());
+
+    if (event.resume) {
+      final restored = await _tryRestoreSession(event.testId, emit);
+      if (restored) return;
+    }
+
     _swapSides = event.swapSides;
     _answerIndex = event.answerIndex;
     _mixup = event.mixup;
     _mixupMin = event.mixupMin;
     _mixupMax = event.mixupMax;
+
+    final titleResult = await _testsListRepository.getTestById(event.testId);
+    _testTitle = titleResult.dataOrNull?.title ?? '';
 
     final result = await _cardRepository.getCardsByTestId(event.testId);
     switch (result) {
@@ -97,11 +121,53 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
           session: session,
           currentCard: session.currentCard!,
         ));
+        unawaited(_persistSession(session));
       case ResultFailed():
         emit(
           const TinderTestState.error(message: 'Не удалось загрузить тест'),
         );
     }
+  }
+
+  /// Пытается восстановить сессию из репозитория.
+  ///
+  /// Возвращает `true`, если сессия найдена и состояние эмитировано;
+  /// `false` — если сессии нет или она от другого теста (тогда вызывающий
+  /// код продолжит обычный старт).
+  Future<bool> _tryRestoreSession(
+    int testId,
+    Emitter<TinderTestState> emit,
+  ) async {
+    final result = await _activeSessionRepository.getActiveSession();
+    if (result is! ResultOk) return false;
+
+    final active = (result as ResultOk<ActiveTestSession?, Object>).data;
+    if (active == null) return false;
+    if (active.session.testId != testId.toString()) return false;
+
+    _swapSides = active.params.swapSides;
+    _answerIndex = active.params.answerIndex;
+    _mixup = active.params.mixup;
+    _mixupMin = active.params.mixupMin;
+    _mixupMax = active.params.mixupMax;
+    _testTitle = active.testTitle;
+
+    if (active.session.isCompleted) {
+      emit(TinderTestState.completed(session: active.session));
+      return true;
+    }
+
+    final currentCard = active.session.currentCard;
+    if (currentCard == null) {
+      emit(const TinderTestState.empty());
+      return true;
+    }
+
+    emit(TinderTestState.inProgress(
+      session: active.session,
+      currentCard: currentCard,
+    ));
+    return true;
   }
 
   TestSession _createSession(int testId, List<CardEntity> cards) {
@@ -157,11 +223,13 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
       );
       emit(TinderTestState.completed(session: completedSession));
       unawaited(_saveStats(completedSession));
+      unawaited(_clearSession());
     } else {
       emit(TinderTestState.inProgress(
         session: updatedSession,
         currentCard: updatedSession.currentCard!,
       ));
+      unawaited(_persistSession(updatedSession));
     }
   }
 
@@ -177,6 +245,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     );
     emit(TinderTestState.completed(session: completedSession));
     unawaited(_saveStats(completedSession));
+    unawaited(_clearSession());
   }
 
   Future<void> _saveStats(TestSession session) async {
@@ -227,5 +296,27 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
       currentCard: previousSession.currentCard!,
       isUndo: true,
     ));
+    unawaited(_persistSession(previousSession));
+  }
+
+  Future<void> _persistSession(TestSession session) async {
+    final active = ActiveTestSession(
+      session: session,
+      params: ActiveSessionLaunchParams(
+        swapSides: _swapSides,
+        answerIndex: _answerIndex,
+        mixup: _mixup,
+        mixupMin: _mixupMin,
+        mixupMax: _mixupMax,
+        algorithm: _algorithm,
+      ),
+      testTitle: _testTitle,
+      updatedAt: DateTime.now(),
+    );
+    await _activeSessionRepository.saveActiveSession(active);
+  }
+
+  Future<void> _clearSession() async {
+    await _activeSessionRepository.clearActiveSession();
   }
 }

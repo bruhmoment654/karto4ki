@@ -357,6 +357,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
     bool mixup = false,
     int mixupMin = 1,
     int mixupMax = 5,
+    bool resume = false,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -368,6 +369,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
             mixup: mixup,
             mixupMin: mixupMin,
             mixupMax: mixupMax,
+            resume: resume,
             key: key,
           ),
           rawPathParams: {'testId': testId},
@@ -391,6 +393,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
         mixup: args.mixup,
         mixupMin: args.mixupMin,
         mixupMax: args.mixupMax,
+        resume: args.resume,
         key: args.key,
       ));
     },
@@ -405,6 +408,7 @@ class TinderTestRouteArgs {
     this.mixup = false,
     this.mixupMin = 1,
     this.mixupMax = 5,
+    this.resume = false,
     this.key,
   });
 
@@ -420,10 +424,12 @@ class TinderTestRouteArgs {
 
   final int mixupMax;
 
+  final bool resume;
+
   final Key? key;
 
   @override
   String toString() {
-    return 'TinderTestRouteArgs{testId: $testId, swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, key: $key}';
+    return 'TinderTestRouteArgs{testId: $testId, swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, resume: $resume, key: $key}';
   }
 }

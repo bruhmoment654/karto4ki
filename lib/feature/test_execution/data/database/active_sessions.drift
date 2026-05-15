@@ -1,0 +1,8 @@
+-- Активная (последняя) сессия прохождения теста.
+-- Singleton: всегда не более одной строки с id = 1.
+-- В колонке data хранится JSON ActiveTestSessionDto.
+
+CREATE TABLE active_sessions (
+  id INTEGER NOT NULL PRIMARY KEY,
+  data TEXT NOT NULL
+) AS ActiveSessionDatabaseDto;

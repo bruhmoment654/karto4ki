@@ -791,6 +791,24 @@ abstract class AppLocalizations {
   /// **'Create'**
   String get groupsListNewGroupCreate;
 
+  /// No description provided for @groupsListActiveSessionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue: {title}'**
+  String groupsListActiveSessionTitle(String title);
+
+  /// No description provided for @groupsListActiveSessionProgress.
+  ///
+  /// In en, this message translates to:
+  /// **'{current} of {total}'**
+  String groupsListActiveSessionProgress(int current, int total);
+
+  /// No description provided for @groupsListActiveSessionDismiss.
+  ///
+  /// In en, this message translates to:
+  /// **'Dismiss'**
+  String get groupsListActiveSessionDismiss;
+
   /// No description provided for @groupDetailLoadingTitle.
   ///
   /// In en, this message translates to:

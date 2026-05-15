@@ -389,6 +389,19 @@ class AppLocalizationsRu extends AppLocalizations {
   String get groupsListNewGroupCreate => 'Создать';
 
   @override
+  String groupsListActiveSessionTitle(String title) {
+    return 'Продолжить: $title';
+  }
+
+  @override
+  String groupsListActiveSessionProgress(int current, int total) {
+    return '$current из $total';
+  }
+
+  @override
+  String get groupsListActiveSessionDismiss => 'Отменить';
+
+  @override
   String get groupDetailLoadingTitle => 'Загрузка...';
 
   @override

@@ -4,6 +4,9 @@ part of 'tinder_test_bloc.dart';
 @freezed
 sealed class TinderTestEvent with _$TinderTestEvent {
   /// Start test with given test ID.
+  ///
+  /// If [resume] is true, bloc tries to restore the saved session from
+  /// the repository before starting a fresh one.
   const factory TinderTestEvent.started({
     required int testId,
     @Default(false) bool swapSides,
@@ -11,6 +14,7 @@ sealed class TinderTestEvent with _$TinderTestEvent {
     @Default(false) bool mixup,
     @Default(1) int mixupMin,
     @Default(5) int mixupMax,
+    @Default(false) bool resume,
   }) = _TinderTestEvent$Started;
 
   /// Swipe left (incorrect answer).

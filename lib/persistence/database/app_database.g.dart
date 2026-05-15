@@ -3,6 +3,191 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
+class ActiveSessions extends Table
+    with TableInfo<ActiveSessions, ActiveSessionDatabaseDto> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  ActiveSessions(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+      'id', aliasedName, false,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
+  static const VerificationMeta _dataMeta = const VerificationMeta('data');
+  late final GeneratedColumn<String> data = GeneratedColumn<String>(
+      'data', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  @override
+  List<GeneratedColumn> get $columns => [id, data];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'active_sessions';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<ActiveSessionDatabaseDto> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('data')) {
+      context.handle(
+          _dataMeta, this.data.isAcceptableOrUnknown(data['data']!, _dataMeta));
+    } else if (isInserting) {
+      context.missing(_dataMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  ActiveSessionDatabaseDto map(Map<String, dynamic> data,
+      {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return ActiveSessionDatabaseDto(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+      data: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}data'])!,
+    );
+  }
+
+  @override
+  ActiveSessions createAlias(String alias) {
+    return ActiveSessions(attachedDatabase, alias);
+  }
+
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class ActiveSessionDatabaseDto extends DataClass
+    implements Insertable<ActiveSessionDatabaseDto> {
+  final int id;
+  final String data;
+  const ActiveSessionDatabaseDto({required this.id, required this.data});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['data'] = Variable<String>(data);
+    return map;
+  }
+
+  ActiveSessionsCompanion toCompanion(bool nullToAbsent) {
+    return ActiveSessionsCompanion(
+      id: Value(id),
+      data: Value(data),
+    );
+  }
+
+  factory ActiveSessionDatabaseDto.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ActiveSessionDatabaseDto(
+      id: serializer.fromJson<int>(json['id']),
+      data: serializer.fromJson<String>(json['data']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'data': serializer.toJson<String>(data),
+    };
+  }
+
+  ActiveSessionDatabaseDto copyWith({int? id, String? data}) =>
+      ActiveSessionDatabaseDto(
+        id: id ?? this.id,
+        data: data ?? this.data,
+      );
+  ActiveSessionDatabaseDto copyWithCompanion(ActiveSessionsCompanion data) {
+    return ActiveSessionDatabaseDto(
+      id: data.id.present ? data.id.value : this.id,
+      data: data.data.present ? data.data.value : this.data,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ActiveSessionDatabaseDto(')
+          ..write('id: $id, ')
+          ..write('data: $data')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, data);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ActiveSessionDatabaseDto &&
+          other.id == this.id &&
+          other.data == this.data);
+}
+
+class ActiveSessionsCompanion
+    extends UpdateCompanion<ActiveSessionDatabaseDto> {
+  final Value<int> id;
+  final Value<String> data;
+  const ActiveSessionsCompanion({
+    this.id = const Value.absent(),
+    this.data = const Value.absent(),
+  });
+  ActiveSessionsCompanion.insert({
+    this.id = const Value.absent(),
+    required String data,
+  }) : data = Value(data);
+  static Insertable<ActiveSessionDatabaseDto> custom({
+    Expression<int>? id,
+    Expression<String>? data,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (data != null) 'data': data,
+    });
+  }
+
+  ActiveSessionsCompanion copyWith({Value<int>? id, Value<String>? data}) {
+    return ActiveSessionsCompanion(
+      id: id ?? this.id,
+      data: data ?? this.data,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (data.present) {
+      map['data'] = Variable<String>(data.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ActiveSessionsCompanion(')
+          ..write('id: $id, ')
+          ..write('data: $data')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class TestGroups extends Table
     with TableInfo<TestGroups, TestGroupDatabaseDto> {
   @override
@@ -1795,6 +1980,7 @@ class CardsCompanion extends UpdateCompanion<CardDatabaseDto> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
+  late final ActiveSessions activeSessions = ActiveSessions(this);
   late final TestGroups testGroups = TestGroups(this);
   late final Tests tests = Tests(this);
   late final TestGroupEntries testGroupEntries = TestGroupEntries(this);
@@ -1806,12 +1992,20 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       QuestionStatsDatabase(this as AppDatabase);
   late final GroupsDatabase groupsDatabase =
       GroupsDatabase(this as AppDatabase);
+  late final ActiveSessionsDatabase activeSessionsDatabase =
+      ActiveSessionsDatabase(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities =>
-      [testGroups, tests, testGroupEntries, questionStats, cards];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [
+        activeSessions,
+        testGroups,
+        tests,
+        testGroupEntries,
+        questionStats,
+        cards
+      ];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
         [
@@ -1840,6 +2034,128 @@ abstract class _$AppDatabase extends GeneratedDatabase {
       );
 }
 
+typedef $ActiveSessionsCreateCompanionBuilder = ActiveSessionsCompanion
+    Function({
+  Value<int> id,
+  required String data,
+});
+typedef $ActiveSessionsUpdateCompanionBuilder = ActiveSessionsCompanion
+    Function({
+  Value<int> id,
+  Value<String> data,
+});
+
+class $ActiveSessionsFilterComposer
+    extends Composer<_$AppDatabase, ActiveSessions> {
+  $ActiveSessionsFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get data => $composableBuilder(
+      column: $table.data, builder: (column) => ColumnFilters(column));
+}
+
+class $ActiveSessionsOrderingComposer
+    extends Composer<_$AppDatabase, ActiveSessions> {
+  $ActiveSessionsOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get data => $composableBuilder(
+      column: $table.data, builder: (column) => ColumnOrderings(column));
+}
+
+class $ActiveSessionsAnnotationComposer
+    extends Composer<_$AppDatabase, ActiveSessions> {
+  $ActiveSessionsAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get data =>
+      $composableBuilder(column: $table.data, builder: (column) => column);
+}
+
+class $ActiveSessionsTableManager extends RootTableManager<
+    _$AppDatabase,
+    ActiveSessions,
+    ActiveSessionDatabaseDto,
+    $ActiveSessionsFilterComposer,
+    $ActiveSessionsOrderingComposer,
+    $ActiveSessionsAnnotationComposer,
+    $ActiveSessionsCreateCompanionBuilder,
+    $ActiveSessionsUpdateCompanionBuilder,
+    (
+      ActiveSessionDatabaseDto,
+      BaseReferences<_$AppDatabase, ActiveSessions, ActiveSessionDatabaseDto>
+    ),
+    ActiveSessionDatabaseDto,
+    PrefetchHooks Function()> {
+  $ActiveSessionsTableManager(_$AppDatabase db, ActiveSessions table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $ActiveSessionsFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $ActiveSessionsOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $ActiveSessionsAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            Value<String> data = const Value.absent(),
+          }) =>
+              ActiveSessionsCompanion(
+            id: id,
+            data: data,
+          ),
+          createCompanionCallback: ({
+            Value<int> id = const Value.absent(),
+            required String data,
+          }) =>
+              ActiveSessionsCompanion.insert(
+            id: id,
+            data: data,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $ActiveSessionsProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    ActiveSessions,
+    ActiveSessionDatabaseDto,
+    $ActiveSessionsFilterComposer,
+    $ActiveSessionsOrderingComposer,
+    $ActiveSessionsAnnotationComposer,
+    $ActiveSessionsCreateCompanionBuilder,
+    $ActiveSessionsUpdateCompanionBuilder,
+    (
+      ActiveSessionDatabaseDto,
+      BaseReferences<_$AppDatabase, ActiveSessions, ActiveSessionDatabaseDto>
+    ),
+    ActiveSessionDatabaseDto,
+    PrefetchHooks Function()>;
 typedef $TestGroupsCreateCompanionBuilder = TestGroupsCompanion Function({
   Value<int> id,
   required String title,
@@ -3256,6 +3572,8 @@ typedef $CardsProcessedTableManager = ProcessedTableManager<
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
+  $ActiveSessionsTableManager get activeSessions =>
+      $ActiveSessionsTableManager(_db, _db.activeSessions);
   $TestGroupsTableManager get testGroups =>
       $TestGroupsTableManager(_db, _db.testGroups);
   $TestsTableManager get tests => $TestsTableManager(_db, _db.tests);

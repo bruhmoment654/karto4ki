@@ -272,6 +272,29 @@
   "groupsListNewGroupNameHint": "Group name",
   "groupsListNewGroupCancel": "Cancel",
   "groupsListNewGroupCreate": "Create",
+  "groupsListActiveSessionTitle": "Continue: {title}",
+  "@groupsListActiveSessionTitle": {
+    "placeholders": {
+      "title": {
+        "type": "String",
+        "example": "Biology"
+      }
+    }
+  },
+  "groupsListActiveSessionProgress": "{current} of {total}",
+  "@groupsListActiveSessionProgress": {
+    "placeholders": {
+      "current": {
+        "type": "int",
+        "example": "3"
+      },
+      "total": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "groupsListActiveSessionDismiss": "Dismiss",
   "@segmentGroupDetail": {
     "---------": "---------",
     "description": "Group detail"

@@ -387,6 +387,19 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupsListNewGroupCreate => 'Create';
 
   @override
+  String groupsListActiveSessionTitle(String title) {
+    return 'Continue: $title';
+  }
+
+  @override
+  String groupsListActiveSessionProgress(int current, int total) {
+    return '$current of $total';
+  }
+
+  @override
+  String get groupsListActiveSessionDismiss => 'Dismiss';
+
+  @override
   String get groupDetailLoadingTitle => 'Loading...';
 
   @override
