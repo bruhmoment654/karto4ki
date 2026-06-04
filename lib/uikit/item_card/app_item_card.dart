@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:quizzerg/uikit/content_card/content_card.dart';
-import 'package:quizzerg/uikit/content_card/content_card_type.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// Переиспользуемая карточка элемента списка.
 ///
@@ -29,20 +27,20 @@ class AppItemCard extends StatelessWidget {
     final textTheme = Theme.of(context).textTheme;
 
     return ContentCard(
-      type: ContentCardType.medium,
+      padding: const EdgeInsets.all(12),
       child: Row(
         children: [
           Container(
-            width: 40,
-            height: 40,
+            width: 52,
+            height: 52,
             decoration: BoxDecoration(
-              color: colorScheme.primary.withValues(alpha: 0.15),
-              borderRadius: BorderRadius.circular(10),
+              color: colorScheme.primaryContainer,
+              borderRadius: BorderRadius.circular(12),
             ),
             child: Icon(
               icon,
-              size: 20,
-              color: colorScheme.primary,
+              size: 24,
+              color: colorScheme.onPrimaryContainer,
             ),
           ),
           const SizedBox(width: 12),
@@ -52,9 +50,9 @@ class AppItemCard extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: textTheme.titleSmall?.copyWith(
-                    fontWeight: FontWeight.bold,
-                    color: colorScheme.foreground,
+                  style: textTheme.titleMedium?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    color: colorScheme.onSurface,
                   ),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -64,7 +62,7 @@ class AppItemCard extends StatelessWidget {
                   Text(
                     subtitle!,
                     style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.mutedForeground,
+                      color: colorScheme.onSurfaceVariant,
                     ),
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
@@ -75,7 +73,7 @@ class AppItemCard extends StatelessWidget {
                   Text(
                     caption!,
                     style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.mutedForeground,
+                      color: colorScheme.onSurfaceVariant,
                     ),
                   ),
                 ],

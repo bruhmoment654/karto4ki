@@ -14,6 +14,8 @@ import 'package:quizzerg/feature/test_detail/presentation/test_settings_dialog.d
 import 'package:quizzerg/feature/tests_list/domain/entity/test_type.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
+import 'package:quizzerg/uikit/spacing/height.dart';
 
 /// Test detail screen.
 ///
@@ -99,26 +101,27 @@ class _TestDetailScreenState extends State<TestDetailScreen>
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AppDialog(
-        title: const Text('Новая карточка'),
+        title: Text(
+          dialogContext.l10n.testDetailNewCardTitle,
+          style: Theme.of(dialogContext).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
+            Karto4kiTextField(
               controller: frontController,
-              decoration: const InputDecoration(
-                labelText: 'Вопрос',
-                hintText: 'Введите вопрос',
-              ),
+              labelText: dialogContext.l10n.testDetailCardFrontLabel,
+              hintText: dialogContext.l10n.testDetailCardFrontHint,
               autofocus: true,
               maxLines: 2,
             ),
-            const SizedBox(height: 16),
-            TextField(
+            const Height(16),
+            Karto4kiTextField(
               controller: backController,
-              decoration: const InputDecoration(
-                labelText: 'Ответ',
-                hintText: 'Введите ответ (варианты через |)',
-              ),
+              labelText: dialogContext.l10n.testDetailCardBackLabel,
+              hintText: dialogContext.l10n.testDetailCardBackHint,
               maxLines: 2,
             ),
           ],
@@ -126,7 +129,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('Отмена'),
+            child: Text(dialogContext.l10n.commonCancel),
           ),
           TextButton(
             onPressed: () {
@@ -142,7 +145,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
                 Navigator.of(dialogContext).pop();
               }
             },
-            child: const Text('Создать'),
+            child: Text(dialogContext.l10n.commonCreate),
           ),
         ],
       ),
@@ -156,24 +159,25 @@ class _TestDetailScreenState extends State<TestDetailScreen>
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AppDialog(
-        title: const Text('Редактировать карточку'),
+        title: Text(
+          dialogContext.l10n.testDetailEditCardTitle,
+          style: Theme.of(dialogContext).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
+            Karto4kiTextField(
               controller: frontController,
-              decoration: const InputDecoration(
-                labelText: 'Вопрос',
-              ),
+              labelText: dialogContext.l10n.testDetailCardFrontLabel,
               autofocus: true,
               maxLines: 2,
             ),
-            const SizedBox(height: 16),
-            TextField(
+            const Height(16),
+            Karto4kiTextField(
               controller: backController,
-              decoration: const InputDecoration(
-                labelText: 'Ответ',
-              ),
+              labelText: dialogContext.l10n.testDetailCardBackLabel,
               maxLines: 2,
             ),
           ],
@@ -181,7 +185,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('Отмена'),
+            child: Text(dialogContext.l10n.commonCancel),
           ),
           TextButton(
             onPressed: () {
@@ -202,7 +206,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
                 Navigator.of(dialogContext).pop();
               }
             },
-            child: const Text('Сохранить'),
+            child: Text(dialogContext.l10n.commonSave),
           ),
         ],
       ),
@@ -217,23 +221,24 @@ class _TestDetailScreenState extends State<TestDetailScreen>
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AppDialog(
-        title: const Text('Редактировать тест'),
+        title: Text(
+          dialogContext.l10n.testDetailEditTestTitle,
+          style: Theme.of(dialogContext).textTheme.headlineSmall?.copyWith(
+                fontWeight: FontWeight.w600,
+              ),
+        ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
+            Karto4kiTextField(
               controller: titleController,
-              decoration: const InputDecoration(
-                labelText: 'Название',
-              ),
+              labelText: dialogContext.l10n.testDetailTestTitleLabel,
               autofocus: true,
             ),
-            const SizedBox(height: 16),
-            TextField(
+            const Height(16),
+            Karto4kiTextField(
               controller: descriptionController,
-              decoration: const InputDecoration(
-                labelText: 'Описание',
-              ),
+              labelText: dialogContext.l10n.testDetailTestDescriptionLabel,
               maxLines: 2,
             ),
           ],
@@ -241,7 +246,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
         actions: [
           TextButton(
             onPressed: () => Navigator.of(dialogContext).pop(),
-            child: const Text('Отмена'),
+            child: Text(dialogContext.l10n.commonCancel),
           ),
           TextButton(
             onPressed: () {
@@ -258,7 +263,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
                 Navigator.of(dialogContext).pop();
               }
             },
-            child: const Text('Сохранить'),
+            child: Text(dialogContext.l10n.commonSave),
           ),
         ],
       ),

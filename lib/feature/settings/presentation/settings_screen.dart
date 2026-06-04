@@ -47,9 +47,6 @@ class _SettingsScreenState extends State<SettingsScreen>
   int get animationDurationMs => _settings.animationDurationMs;
 
   @override
-  bool get shaderAnimationEnabled => _settings.shaderAnimationEnabled;
-
-  @override
   double get accentColorHue => _pendingHue ?? _settings.accentColorHue;
 
   @override
@@ -59,10 +56,10 @@ class _SettingsScreenState extends State<SettingsScreen>
   AppThemeMode get themeMode => _settings.themeMode;
 
   @override
-  double get cardFontSize => _settings.cardFontSize;
+  double get cardHorizontalPadding => _settings.cardHorizontalPadding;
 
   @override
-  void onCardFontSizeChanged(double value) {
+  void onCardHorizontalPaddingChanged(double value) {
     _saveSettings(SettingsDto(
       animationDurationMs: _settings.animationDurationMs,
       shaderAnimationEnabled: _settings.shaderAnimationEnabled,
@@ -72,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen>
       mixupMax: _settings.mixupMax,
       themeMode: _settings.themeMode,
       mixupAlgorithm: _settings.mixupAlgorithm,
-      cardFontSize: value,
+      cardHorizontalPadding: value,
     ));
   }
 
@@ -87,7 +84,7 @@ class _SettingsScreenState extends State<SettingsScreen>
       mixupMax: _settings.mixupMax,
       themeMode: mode,
       mixupAlgorithm: _settings.mixupAlgorithm,
-      cardFontSize: _settings.cardFontSize,
+      cardHorizontalPadding: _settings.cardHorizontalPadding,
     ));
   }
 
@@ -102,22 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen>
       mixupMax: _settings.mixupMax,
       themeMode: _settings.themeMode,
       mixupAlgorithm: _settings.mixupAlgorithm,
-      cardFontSize: _settings.cardFontSize,
-    ));
-  }
-
-  @override
-  void onShaderAnimationToggled({required bool value}) {
-    _saveSettings(SettingsDto(
-      animationDurationMs: _settings.animationDurationMs,
-      shaderAnimationEnabled: value,
-      accentColorHue: _settings.accentColorHue,
-      mixupEnabled: _settings.mixupEnabled,
-      mixupMin: _settings.mixupMin,
-      mixupMax: _settings.mixupMax,
-      themeMode: _settings.themeMode,
-      mixupAlgorithm: _settings.mixupAlgorithm,
-      cardFontSize: _settings.cardFontSize,
+      cardHorizontalPadding: _settings.cardHorizontalPadding,
     ));
   }
 
@@ -139,7 +121,7 @@ class _SettingsScreenState extends State<SettingsScreen>
         mixupMax: _settings.mixupMax,
         themeMode: _settings.themeMode,
         mixupAlgorithm: _settings.mixupAlgorithm,
-        cardFontSize: _settings.cardFontSize,
+        cardHorizontalPadding: _settings.cardHorizontalPadding,
       ));
     });
   }
@@ -159,15 +141,13 @@ class _SettingsScreenState extends State<SettingsScreen>
 abstract interface class ISettingsViewModel {
   String get appVersion;
   int get animationDurationMs;
-  bool get shaderAnimationEnabled;
   double get accentColorHue;
   Color get previewAccentColor;
   AppThemeMode get themeMode;
-  double get cardFontSize;
+  double get cardHorizontalPadding;
 
   void onAnimationDurationChanged(double value);
-  void onShaderAnimationToggled({required bool value});
   void onAccentColorHueChanged(double value);
   void onThemeModeChanged(AppThemeMode mode);
-  void onCardFontSizeChanged(double value);
+  void onCardHorizontalPaddingChanged(double value);
 }

@@ -7,11 +7,15 @@ class AppDropdown extends StatefulWidget {
   const AppDropdown({
     required this.title,
     required this.child,
+    this.leading,
     super.key,
   });
 
   final String title;
   final Widget child;
+
+  /// Необязательный виджет слева от заголовка (например, плашка-иконка).
+  final Widget? leading;
 
   @override
   State<AppDropdown> createState() => _AppDropdownState();
@@ -35,12 +39,17 @@ class _AppDropdownState extends State<AppDropdown> {
             child: SizedBox(
               height: 56,
               child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    widget.title,
-                    style: textTheme.bodyLarge?.copyWith(
-                      color: colorScheme.foreground,
+                  if (widget.leading != null) ...[
+                    widget.leading!,
+                    const SizedBox(width: 14),
+                  ],
+                  Expanded(
+                    child: Text(
+                      widget.title,
+                      style: textTheme.titleMedium?.copyWith(
+                        color: colorScheme.foreground,
+                      ),
                     ),
                   ),
                   AnimatedRotation(

@@ -119,7 +119,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         _defaultStreakValue.toStringAsFixed(2);
     streakPositivePenaltyController.text =
         _defaultStreakValue.toStringAsFixed(2);
-    context.read<MixupBloc>().add(MixupEvent.streakCoefficientsChanged(
+    context.read<MixupBloc>().add(const MixupEvent.streakCoefficientsChanged(
           negativeBonus: _defaultStreakValue,
           positivePenalty: _defaultStreakValue,
         ));

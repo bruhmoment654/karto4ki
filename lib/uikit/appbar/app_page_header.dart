@@ -40,8 +40,9 @@ class AppPageHeader extends StatelessWidget {
                   onTap: onTitlePressed,
                   child: Text(
                     title,
-                    style: textTheme.headlineMedium?.copyWith(
-                      fontWeight: FontWeight.bold,
+                    style: textTheme.displaySmall?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: -0.5,
                       color: colorScheme.foreground,
                     ),
                   ),
@@ -148,8 +149,9 @@ class _AppPageHeaderWithBack extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: textTheme.headlineMedium?.copyWith(
-                    fontWeight: FontWeight.bold,
+                  style: textTheme.displaySmall?.copyWith(
+                    fontWeight: FontWeight.w500,
+                    letterSpacing: -0.5,
                     color: foregroundColor ?? colorScheme.foreground,
                   ),
                   maxLines: 2,

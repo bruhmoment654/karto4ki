@@ -4,13 +4,12 @@ import 'package:quizzerg/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
-import 'package:quizzerg/uikit/appbar/app_page_header.dart';
+import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
-import 'package:quizzerg/uikit/item_card/app_item_card.dart';
+import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
-import 'package:quizzerg/uikit/spacing/sliver_height.dart';
 
 /// UI layer for test detail screen.
 ///
@@ -66,7 +65,7 @@ class TestDetailView extends StatelessWidget {
               icon: Icons.add,
             )
           : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
@@ -93,18 +92,16 @@ class _TestDetailLoadedBody extends StatelessWidget {
       slivers: [
         _TestDetailHeader(
           test: test,
+          cardsCount: cards.length,
           canStart: cards.isNotEmpty,
           viewModel: viewModel,
           onBackPressed: onBackPressed,
-        ),
-        const SliverHeight(16),
-        SliverToBoxAdapter(
-          child: _TestSettingsButton(onPressed: viewModel.onTestSettingsPressed),
         ),
         SliverToBoxAdapter(
           child: _ActionsRow(
             cardsCount: cards.length,
             onImportCsvPressed: viewModel.onImportCsvPressed,
+            onSettingsPressed: viewModel.onTestSettingsPressed,
           ),
         ),
         if (cards.isEmpty)
@@ -137,12 +134,14 @@ class _TestDetailLoadedBody extends StatelessWidget {
 
 class _TestDetailHeader extends StatelessWidget {
   final TestEntity test;
+  final int cardsCount;
   final bool canStart;
   final ITestDetailViewModel viewModel;
   final VoidCallback onBackPressed;
 
   const _TestDetailHeader({
     required this.test,
+    required this.cardsCount,
     required this.canStart,
     required this.viewModel,
     required this.onBackPressed,
@@ -151,104 +150,136 @@ class _TestDetailHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
+    final onContainer = colorScheme.onPrimaryContainer;
+    final topInset = MediaQuery.of(context).padding.top;
 
     return SliverAppBar(
-      backgroundColor: colorScheme.primary,
+      backgroundColor: Colors.transparent,
+      surfaceTintColor: Colors.transparent,
       toolbarHeight: 0,
-      centerTitle: true,
-      expandedHeight: 150,
+      expandedHeight: topInset + _contentHeight,
       pinned: true,
       stretch: true,
+      automaticallyImplyLeading: false,
       flexibleSpace: FlexibleSpaceBar(
-        background: ScalePressable(
-          onTap: canStart ? viewModel.onStartTestPressed : null,
-          child: AppPageHeader.withBack(
-            title: test.title,
-            subtitle: test.description,
-            onBackPressed: onBackPressed,
-            onTitlePressed: viewModel.onEditTestPressed,
-            foregroundColor: colorScheme.onPrimary,
-            subtitleColor: colorScheme.onPrimary.withValues(alpha: 0.7),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-
-
-class _ActionsRow extends StatelessWidget {
-  final int cardsCount;
-  final VoidCallback onImportCsvPressed;
-
-  const _ActionsRow({
-    required this.cardsCount,
-    required this.onImportCsvPressed,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          Flexible(
-            child: Text(
-              context.l10n.testDetailCardsTitle(cardsCount),
-              style: Theme.of(context).textTheme.titleMedium,
-              overflow: TextOverflow.ellipsis,
+        background: DecoratedBox(
+          decoration: BoxDecoration(
+            color: colorScheme.primaryContainer,
+            borderRadius: const BorderRadius.vertical(
+              bottom: Radius.circular(AppDimens.radius28),
             ),
           ),
-          const Spacer(),
-          TextButton.icon(
-            onPressed: onImportCsvPressed,
-            icon: const Icon(Icons.upload_file, size: 18),
-            label: Text(context.l10n.csvImportButton),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _TestSettingsButton extends StatelessWidget {
-  final VoidCallback onPressed;
-
-  const _TestSettingsButton({required this.onPressed});
-
-  @override
-  Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Align(
-        alignment: Alignment.centerRight,
-        child: Material(
-          color: colorScheme.secondary,
-          borderRadius: BorderRadius.circular(12),
-          child: InkWell(
-            onTap: onPressed,
-            borderRadius: BorderRadius.circular(12),
+          child: SafeArea(
+            bottom: false,
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
-              child: Row(
+              padding: const EdgeInsets.fromLTRB(8, 4, 8, 22),
+              child: Column(
                 mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(Icons.tune, size: 16),
-                  const SizedBox(width: 6),
-                  Text(
-                    context.l10n.testDetailSettingsButton,
-                    style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                          fontWeight: FontWeight.w600,
+                  SizedBox(
+                    height: 56,
+                    child: Row(
+                      children: [
+                        IconButton(
+                          onPressed: onBackPressed,
+                          icon: Icon(Icons.arrow_back, color: onContainer),
                         ),
+                        const Spacer(),
+                        IconButton(
+                          onPressed:
+                              canStart ? viewModel.onStartTestPressed : null,
+                          icon: Icon(Icons.play_arrow, color: onContainer),
+                        ),
+                      ],
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: viewModel.onEditTestPressed,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 12),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            test.title,
+                            style: textTheme.displaySmall?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              letterSpacing: -0.5,
+                              color: onContainer,
+                            ),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                          const Height(6),
+                          Text(
+                            context.l10n.testDetailCardsCount(cardsCount),
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: onContainer.withValues(alpha: 0.78),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   ),
                 ],
               ),
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  /// Высота контента шапки без учёта верхнего системного отступа.
+  static const double _contentHeight = 152;
+}
+
+class _ActionsRow extends StatelessWidget {
+  final int cardsCount;
+  final VoidCallback onImportCsvPressed;
+  final VoidCallback onSettingsPressed;
+
+  const _ActionsRow({
+    required this.cardsCount,
+    required this.onImportCsvPressed,
+    required this.onSettingsPressed,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 16, 16, 6),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  context.l10n.testDetailCardsTitle(cardsCount),
+                  style: Theme.of(context).textTheme.titleMedium,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              const SizedBox(width: 8),
+              FilledButton.tonalIcon(
+                onPressed: onSettingsPressed,
+                icon: const Icon(Icons.tune, size: 18),
+                label: Text(context.l10n.testDetailSettingsButton),
+              ),
+            ],
+          ),
+          Align(
+            alignment: Alignment.centerRight,
+            child: TextButton.icon(
+              onPressed: onImportCsvPressed,
+              icon: const Icon(Icons.upload_file, size: 18),
+              label: Text(context.l10n.csvImportButton),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -300,6 +331,7 @@ class _CardListItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final textTheme = Theme.of(context).textTheme;
 
     return Dismissible(
       key: ValueKey(card.id),
@@ -311,16 +343,43 @@ class _CardListItem extends StatelessWidget {
       confirmDismiss: (_) => onConfirmDismiss(),
       onDismissed: (_) => onDelete(),
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
         child: ScalePressable(
           onTap: onTap,
-          child: AppItemCard(
-            icon: Icons.style_outlined,
-            title: card.front,
-            subtitle: card.formattedBack,
-            trailing: Icon(
-              Icons.chevron_right,
-              color: colorScheme.onSurfaceVariant,
+          child: ContentCard(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        card.front,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: textTheme.titleMedium?.copyWith(
+                          color: colorScheme.onSurface,
+                        ),
+                      ),
+                      const Height(2),
+                      Text(
+                        card.formattedBack,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                Icon(
+                  Icons.chevron_right,
+                  size: 22,
+                  color: colorScheme.onSurfaceVariant,
+                ),
+              ],
             ),
           ),
         ),

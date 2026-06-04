@@ -64,12 +64,12 @@ class AppRouter extends RootStackRouter {
                 AutoRoute(page: TestMergeRoute.page),
               ],
             ),
+            AutoRoute(page: QuestionStatsRoute.page),
             AutoRoute(
               page: ProfileRoute.page,
               children: [
                 AutoRoute(page: ProfileMainRoute.page, initial: true),
                 AutoRoute(page: SettingsRoute.page),
-                AutoRoute(page: QuestionStatsRoute.page),
               ],
             ),
           ],

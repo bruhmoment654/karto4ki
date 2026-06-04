@@ -26,7 +26,7 @@ class SwipeableCardWrapper extends StatefulWidget {
   final bool showAnswer;
   final bool enableFlipAnimation;
   final Duration flipDuration;
-  final double fontSize;
+  final double horizontalPadding;
   final VoidCallback onTap;
   final VoidCallback onSwipeLeft;
   final VoidCallback onSwipeRight;
@@ -41,7 +41,7 @@ class SwipeableCardWrapper extends StatefulWidget {
     required this.onSwipeRight,
     this.enterFromLeft = false,
     this.flipDuration = const Duration(milliseconds: 300),
-    this.fontSize = 24,
+    this.horizontalPadding = 24,
     super.key,
   });
 
@@ -171,23 +171,18 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
               child: QuestionCardContent(
                 front: Text(
                   widget.card.front,
-                  style: TextStyle(
-                    fontSize: widget.fontSize,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 back: Text(
                   widget.card.formattedBack,
-                  style: TextStyle(
-                    fontSize: widget.fontSize,
-                    fontWeight: FontWeight.bold,
-                  ),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
                   textAlign: TextAlign.center,
                 ),
                 showAnswer: widget.showAnswer,
                 enableFlipAnimation: widget.enableFlipAnimation,
                 flipDuration: widget.flipDuration,
+                horizontalPadding: widget.horizontalPadding,
                 isMixedIn: widget.card.isMixedIn,
                 cardOffset: offset,
                 leftBadgeText: context.l10n.tinderTestUnknownBadge,

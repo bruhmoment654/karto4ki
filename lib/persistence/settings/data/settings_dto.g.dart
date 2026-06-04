@@ -33,8 +33,8 @@ SettingsDto _$SettingsDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
               (v) =>
                   $enumDecodeNullable(_$MixupAlgorithmEnumMap, v) ??
                   MixupAlgorithm.classic),
-          cardFontSize: $checkedConvert(
-              'cardFontSize', (v) => (v as num?)?.toDouble() ?? 24.0),
+          cardHorizontalPadding: $checkedConvert(
+              'cardHorizontalPadding', (v) => (v as num?)?.toDouble() ?? 24.0),
           streakNegativeBonus: $checkedConvert(
               'streakNegativeBonus', (v) => (v as num?)?.toDouble() ?? 0.35),
           streakPositivePenalty: $checkedConvert(
@@ -54,7 +54,7 @@ Map<String, dynamic> _$SettingsDtoToJson(SettingsDto instance) =>
       'mixupMax': instance.mixupMax,
       'themeMode': _$AppThemeModeEnumMap[instance.themeMode]!,
       'mixupAlgorithm': _$MixupAlgorithmEnumMap[instance.mixupAlgorithm]!,
-      'cardFontSize': instance.cardFontSize,
+      'cardHorizontalPadding': instance.cardHorizontalPadding,
       'streakNegativeBonus': instance.streakNegativeBonus,
       'streakPositivePenalty': instance.streakPositivePenalty,
     };

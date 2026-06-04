@@ -3,7 +3,10 @@ import 'package:flutter/services.dart';
 
 import 'package:quizzerg/core/services/csv_import_service.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
+import 'package:quizzerg/uikit/spacing/height.dart';
 
 /// CSV import dialog result.
 typedef CsvImportDialogResult = ({List<String> files, String delimiter});
@@ -38,45 +41,32 @@ class _CsvImportDialogState extends State<CsvImportDialog> {
         _selectedFiles.isNotEmpty && _delimiterController.text.isNotEmpty;
 
     return AppDialog(
-      title: Text(l10n.csvImportDialogTitle),
-      content: ConstrainedBox(
-        constraints: BoxConstraints(
-          maxHeight: MediaQuery.sizeOf(context).height * 0.7,
-        ),
-        child: SizedBox(
-          width: double.maxFinite,
-          child: SingleChildScrollView(
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(l10n.csvImportDialogDescription),
-                const SizedBox(height: 12),
+      title: _DialogTitle(text: l10n.csvImportDialogTitle),
+      content: SizedBox(
+        width: double.maxFinite,
+        child: SingleChildScrollView(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+                Text(
+                  l10n.csvImportDialogDescription,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                ),
+                const Height(14),
                 _ExampleBlock(text: l10n.csvImportDialogExample),
-                const SizedBox(height: 16),
-                TextField(
+                const Height(16),
+                Karto4kiTextField(
                   controller: _delimiterController,
-                  decoration: InputDecoration(
-                    labelText: l10n.csvImportDelimiterLabel,
-                    hintText: l10n.csvImportDelimiterHint,
-                  ),
+                  labelText: l10n.csvImportDelimiterLabel,
+                  hintText: l10n.csvImportDelimiterHint,
                   inputFormatters: [LengthLimitingTextInputFormatter(2)],
                   onChanged: (_) => setState(() {}),
                 ),
-                const SizedBox(height: 16),
-                Text(
-                  l10n.csvImportFilesTitle,
-                  style: Theme.of(context).textTheme.titleSmall,
-                ),
-                const SizedBox(height: 8),
-                if (_selectedFiles.isEmpty)
-                  Text(
-                    l10n.csvImportNoFiles,
-                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          color: Theme.of(context).colorScheme.onSurfaceVariant,
-                        ),
-                  )
-                else
+                if (_selectedFiles.isNotEmpty) ...[
+                  const Height(12),
                   ListView.builder(
                     shrinkWrap: true,
                     physics: const NeverScrollableScrollPhysics(),
@@ -91,17 +81,16 @@ class _CsvImportDialogState extends State<CsvImportDialog> {
                       );
                     },
                   ),
-                const SizedBox(height: 8),
-                TextButton.icon(
-                  onPressed: _onAddFiles,
-                  icon: const Icon(Icons.add, size: 18),
-                  label: Text(l10n.csvImportAddFiles),
+                ],
+                const Height(16),
+                _FileDropZone(
+                  hasFiles: _selectedFiles.isNotEmpty,
+                  onAddFiles: _onAddFiles,
                 ),
               ],
             ),
           ),
         ),
-      ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -152,20 +141,155 @@ class _ExampleBlock extends StatelessWidget {
 
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.all(12),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       decoration: BoxDecoration(
         color: theme.colorScheme.surfaceContainerHighest,
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(AppDimens.radius12),
       ),
       child: Text(
         text,
         style: theme.textTheme.bodySmall?.copyWith(
           fontFamily: 'monospace',
+          height: 1.6,
           color: theme.colorScheme.onSurfaceVariant,
         ),
       ),
     );
   }
+}
+
+/// Заголовок диалога импорта: плашка-иконка + текст в две строки.
+class _DialogTitle extends StatelessWidget {
+  final String text;
+
+  const _DialogTitle({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return Row(
+      children: [
+        Container(
+          width: 44,
+          height: 44,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: colorScheme.primaryContainer,
+            borderRadius: BorderRadius.circular(AppDimens.radius12),
+          ),
+          child: Icon(
+            Icons.upload_file,
+            size: 24,
+            color: colorScheme.onPrimaryContainer,
+          ),
+        ),
+        const SizedBox(width: 12),
+        Expanded(
+          child: Text(
+            text,
+            style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w600,
+                ),
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Пунктирная зона выбора файлов с outlined-кнопкой.
+class _FileDropZone extends StatelessWidget {
+  final bool hasFiles;
+  final VoidCallback onAddFiles;
+
+  const _FileDropZone({
+    required this.hasFiles,
+    required this.onAddFiles,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+    final l10n = context.l10n;
+
+    return SizedBox(
+      width: double.infinity,
+      child: CustomPaint(
+        painter: _DashedBorderPainter(
+          color: colorScheme.outline,
+          radius: AppDimens.radius12,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(18),
+          child: Column(
+            children: [
+            Icon(Icons.add_circle, size: 28, color: colorScheme.primary),
+            const Height(10),
+            if (!hasFiles) ...[
+              Text(
+                l10n.csvImportNoFiles,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                      color: colorScheme.onSurfaceVariant,
+                    ),
+              ),
+              const Height(10),
+            ],
+            OutlinedButton.icon(
+              onPressed: onAddFiles,
+              icon: const Icon(Icons.attach_file, size: 18),
+              label: Text(l10n.csvImportAddFiles),
+            ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+/// Рисует пунктирную рамку со скруглёнными углами.
+class _DashedBorderPainter extends CustomPainter {
+  final Color color;
+  final double radius;
+
+  const _DashedBorderPainter({
+    required this.color,
+    required this.radius,
+  });
+
+  static const _dashWidth = 6.0;
+  static const _dashGap = 4.0;
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint()
+      ..color = color
+      ..strokeWidth = 1.5
+      ..style = PaintingStyle.stroke;
+
+    final rrect = RRect.fromRectAndRadius(
+      Offset.zero & size,
+      Radius.circular(radius),
+    );
+    final path = Path()..addRRect(rrect);
+
+    for (final metric in path.computeMetrics()) {
+      var distance = 0.0;
+      while (distance < metric.length) {
+        final end = distance + _dashWidth;
+        canvas.drawPath(
+          metric.extractPath(distance, end.clamp(0, metric.length)),
+          paint,
+        );
+        distance = end + _dashGap;
+      }
+    }
+  }
+
+  @override
+  bool shouldRepaint(_DashedBorderPainter oldDelegate) =>
+      oldDelegate.color != color || oldDelegate.radius != radius;
 }
 
 class _FileListItem extends StatelessWidget {

@@ -2,16 +2,20 @@ import 'package:flutter/material.dart';
 
 import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/content_card/content_card_type.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 class ContentCard extends StatelessWidget {
   final Widget child;
   final ContentCardType type;
   final Color? backgroundColor;
+
+  /// Граница рисуется только если задан [borderColor] и [borderWidth] > 0.
+  /// По умолчанию заполненная тональная поверхность M3 — без «Cupertino-обводки».
   final Color? borderColor;
   final double borderWidth;
   final BorderRadius? borderRadius;
   final EdgeInsetsGeometry? padding;
+
+  /// Тень рисуется только при [elevation] > 0 (elevated-карточка).
   final double? elevation;
 
   const ContentCard({
@@ -19,7 +23,7 @@ class ContentCard extends StatelessWidget {
     this.type = ContentCardType.small,
     this.backgroundColor,
     this.borderColor,
-    this.borderWidth = 1.0,
+    this.borderWidth = 0,
     this.borderRadius,
     this.padding,
     this.elevation,
@@ -30,25 +34,26 @@ class ContentCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final resolvedBorderRadius = borderRadius ?? _defaultBorderRadius(type);
-    final bgColor = backgroundColor ?? colorScheme.card;
-    final resolvedBorderColor =
-        borderColor ?? colorScheme.border.withValues(alpha: 0.6);
+    final bgColor = backgroundColor ?? colorScheme.surfaceContainer;
+    final hasBorder = borderColor != null && borderWidth > 0;
+    final hasShadow = elevation != null && elevation! > 0;
 
     return DecoratedBox(
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: resolvedBorderRadius,
-        border: Border.all(
-          color: resolvedBorderColor,
-          width: borderWidth,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 4,
-            offset: const Offset(0, 1),
-          ),
-        ],
+        border: hasBorder
+            ? Border.all(color: borderColor!, width: borderWidth)
+            : null,
+        boxShadow: hasShadow
+            ? [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.08),
+                  blurRadius: elevation! * 2,
+                  offset: Offset(0, elevation!),
+                ),
+              ]
+            : null,
       ),
       child: ClipRRect(
         borderRadius: resolvedBorderRadius,
@@ -60,14 +65,15 @@ class ContentCard extends StatelessWidget {
     );
   }
 
+  // Маленькие карточки списков — r16 (lg); крупные/цветные — r28 (xl).
   static BorderRadius _defaultBorderRadius(ContentCardType type) =>
       switch (type) {
         ContentCardType.large ||
         ContentCardType.medium =>
-          BorderRadius.circular(AppDimens.radius16),
+          BorderRadius.circular(AppDimens.radius28),
         ContentCardType.smallWide ||
         ContentCardType.small =>
-          BorderRadius.circular(AppDimens.radius8),
+          BorderRadius.circular(AppDimens.radius16),
       };
 
   static EdgeInsetsGeometry _defaultPadding(ContentCardType type) =>

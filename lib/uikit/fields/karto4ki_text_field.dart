@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart' show TextInputFormatter;
 
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/app_radii.dart';
 
 class Karto4kiTextField extends StatelessWidget {
   final TextEditingController? controller;
@@ -17,6 +18,8 @@ class Karto4kiTextField extends StatelessWidget {
   final Widget? prefixIcon;
   final Widget? suffixIcon;
   final bool enabled;
+  final bool autofocus;
+  final List<TextInputFormatter>? inputFormatters;
 
   const Karto4kiTextField({
     this.controller,
@@ -33,12 +36,15 @@ class Karto4kiTextField extends StatelessWidget {
     this.prefixIcon,
     this.suffixIcon,
     this.enabled = true,
+    this.autofocus = false,
+    this.inputFormatters,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final radius = BorderRadius.circular(AppDimens.radius4);
 
     return TextField(
       controller: controller,
@@ -49,7 +55,8 @@ class Karto4kiTextField extends StatelessWidget {
       onChanged: onChanged,
       onEditingComplete: onEditingComplete,
       enabled: enabled,
-      style: TextStyle(color: colorScheme.foreground),
+      autofocus: autofocus,
+      inputFormatters: inputFormatters,
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
@@ -57,35 +64,21 @@ class Karto4kiTextField extends StatelessWidget {
         errorText: errorText,
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon,
-        prefixIconColor: colorScheme.mutedForeground,
-        suffixIconColor: colorScheme.mutedForeground,
-        labelStyle: TextStyle(
-          color: colorScheme.foreground,
-          fontWeight: FontWeight.w500,
-        ),
-        hintStyle: TextStyle(
-          color: colorScheme.mutedForeground.withValues(alpha: 0.6),
-        ),
-        filled: true,
-        fillColor: colorScheme.card,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: colorScheme.border),
-        ),
+        border: OutlineInputBorder(borderRadius: radius),
         enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: colorScheme.border),
+          borderRadius: radius,
+          borderSide: BorderSide(color: colorScheme.outline),
         ),
         focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: radius,
           borderSide: BorderSide(color: colorScheme.primary, width: 2),
         ),
         errorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: radius,
           borderSide: BorderSide(color: colorScheme.error),
         ),
         focusedErrorBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
+          borderRadius: radius,
           borderSide: BorderSide(color: colorScheme.error, width: 2),
         ),
       ),

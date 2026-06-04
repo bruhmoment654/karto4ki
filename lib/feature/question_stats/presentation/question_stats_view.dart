@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:quizzerg/core/utils/answer_parser.dart';
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_sort.dart';
 import 'package:quizzerg/feature/question_stats/presentation/question_stats_screen.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
-import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
+import 'package:quizzerg/uikit/appbar/app_page_header.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
-import 'package:quizzerg/uikit/content_card/content_card_type.dart';
-import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
+import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 class QuestionStatsView extends StatelessWidget {
   final IQuestionStatsViewModel viewModel;
@@ -17,7 +17,6 @@ class QuestionStatsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: DefaultAppBar(title: Text(context.l10n.questionStatsTitle)),
       body: _Body(viewModel: viewModel),
       floatingActionButton: _ScrollToTopFab(viewModel: viewModel),
     );
@@ -42,38 +41,97 @@ class _Body extends StatelessWidget {
       );
     }
 
-    final stats = viewModel.stats;
-    if (stats == null || stats.isEmpty) {
+    if (!viewModel.hasAnyStats) {
       return _EmptyContent();
     }
 
-    return CustomScrollView(
-      controller: viewModel.scrollController,
-      slivers: [
-        SliverToBoxAdapter(child: _SortPanel(viewModel: viewModel)),
-        SliverPadding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          sliver: SliverList.separated(
-            itemCount: stats.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 12),
-            itemBuilder: (_, index) => _StatsCard(stat: stats[index]),
-          ),
+    final stats = viewModel.stats ?? const [];
+    final query = viewModel.searchQuery.trim();
+
+    return Column(
+      children: [
+        AppPageHeader(title: context.l10n.questionStatsTitle),
+        _SearchBar(viewModel: viewModel),
+        _InfoPanel(viewModel: viewModel, foundCount: stats.length),
+        Expanded(
+          child: stats.isEmpty
+              ? _SearchEmptyContent()
+              : CustomScrollView(
+                  controller: viewModel.scrollController,
+                  slivers: [
+                    SliverPadding(
+                      padding: const EdgeInsets.symmetric(horizontal: 16),
+                      sliver: SliverList.separated(
+                        itemCount: stats.length,
+                        separatorBuilder: (_, __) => const SizedBox(height: 10),
+                        itemBuilder: (_, index) => _StatsCard(
+                          stat: stats[index],
+                          query: query,
+                        ),
+                      ),
+                    ),
+                    const SliverPadding(padding: EdgeInsets.only(bottom: 24)),
+                  ],
+                ),
         ),
-        const SliverPadding(padding: EdgeInsets.only(bottom: 24)),
       ],
     );
   }
 }
 
-class _SortPanel extends StatelessWidget {
+class _SearchBar extends StatelessWidget {
   final IQuestionStatsViewModel viewModel;
 
-  const _SortPanel({required this.viewModel});
+  const _SearchBar({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+      child: SearchBar(
+        controller: viewModel.searchController,
+        hintText: context.l10n.questionStatsSearchHint,
+        leading: const Icon(Icons.search),
+        trailing: [
+          if (viewModel.searchQuery.isNotEmpty)
+            IconButton(
+              icon: const Icon(Icons.close),
+              onPressed: viewModel.onSearchCleared,
+            ),
+        ],
+        onChanged: viewModel.onSearchChanged,
+      ),
+    );
+  }
+}
+
+class _InfoPanel extends StatelessWidget {
+  final IQuestionStatsViewModel viewModel;
+  final int foundCount;
+
+  const _InfoPanel({required this.viewModel, required this.foundCount});
 
   @override
   Widget build(BuildContext context) {
     final l10n = context.l10n;
     final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+
+    if (viewModel.searchQuery.trim().isNotEmpty) {
+      return Padding(
+        padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
+        child: Align(
+          alignment: Alignment.centerLeft,
+          child: Text(
+            l10n.questionStatsSearchFound(foundCount),
+            style: theme.textTheme.bodyMedium?.copyWith(
+              color: cs.onSurfaceVariant,
+            ),
+          ),
+        ),
+      );
+    }
+
     final sortLabel = switch (viewModel.currentSort) {
       QuestionStatsSort.byDate => l10n.questionStatsSortByDate,
       QuestionStatsSort.byStreak => l10n.questionStatsSortByStreak,
@@ -82,24 +140,72 @@ class _SortPanel extends StatelessWidget {
     final isAsc = viewModel.sortOrder == SortOrder.ascending;
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 12),
+      padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
       child: Row(
         children: [
           ActionChip(
-            avatar: const Icon(Icons.sort, size: 18),
-            label: Text(
-              sortLabel,
-              style: theme.textTheme.bodyMedium,
+            avatar: Icon(Icons.sort, size: 18, color: cs.onSecondaryContainer),
+            label: Text(sortLabel),
+            labelStyle: theme.textTheme.bodyMedium?.copyWith(
+              color: cs.onSecondaryContainer,
+              fontWeight: FontWeight.w600,
             ),
+            backgroundColor: cs.secondaryContainer,
+            side: BorderSide.none,
             onPressed: viewModel.onSortTap,
           ),
           const SizedBox(width: 8),
           IconButton(
-            icon: Icon(isAsc ? Icons.arrow_upward : Icons.arrow_downward),
+            icon: Icon(
+              isAsc ? Icons.arrow_upward : Icons.arrow_downward,
+              size: 20,
+            ),
             onPressed: viewModel.onSortOrderTap,
             visualDensity: VisualDensity.compact,
+            style: IconButton.styleFrom(
+              backgroundColor: cs.surfaceContainerHigh,
+              foregroundColor: cs.onSurfaceVariant,
+            ),
+          ),
+          const Spacer(),
+          Text(
+            l10n.questionStatsTotalCount(foundCount),
+            style: theme.textTheme.bodySmall?.copyWith(
+              color: cs.onSurfaceVariant,
+            ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class _SearchEmptyContent extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return Center(
+      child: Padding(
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(
+              Icons.search_off,
+              size: 48,
+              color: theme.colorScheme.onSurfaceVariant,
+            ),
+            const SizedBox(height: 12),
+            Text(
+              context.l10n.questionStatsSearchEmpty,
+              style: theme.textTheme.bodyLarge?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -180,197 +286,194 @@ class _EmptyContent extends StatelessWidget {
   }
 }
 
-class _StatsCard extends StatefulWidget {
+/// Карточка статистики по карточке: переводы + написание, точность с цветовым
+/// порогом, иконочные статы и прогресс-бар точности.
+class _StatsCard extends StatelessWidget {
   final QuestionStatsEntity stat;
+  final String query;
 
-  const _StatsCard({required this.stat});
-
-  @override
-  State<_StatsCard> createState() => _StatsCardState();
-}
-
-class _StatsCardState extends State<_StatsCard> {
-  bool _isExpanded = false;
+  const _StatsCard({required this.stat, required this.query});
 
   @override
   Widget build(BuildContext context) {
-    final stat = widget.stat;
     final theme = Theme.of(context);
-    final l10n = context.l10n;
+    final cs = theme.colorScheme;
     final total = stat.totalCorrect + stat.totalIncorrect;
     final accuracy = total > 0 ? (stat.totalCorrect / total * 100).round() : 0;
+    final accuracyColor = _accuracyColor(cs, accuracy);
 
-    final values = [
-      '${stat.totalCorrect}',
-      '${stat.totalIncorrect}',
-      '${stat.streak}',
-      '$accuracy%',
-    ];
-    final labels = [
-      l10n.questionStatsCorrectLabel,
-      l10n.questionStatsIncorrectLabel,
-      l10n.questionStatsStreakLabel,
-      l10n.questionStatsAccuracyLabel,
-    ];
-    final colors = [
-      Colors.green,
-      Colors.red,
-      theme.colorScheme.primary,
-      theme.colorScheme.tertiary,
-    ];
-    final questionText = '${stat.frontText} — ${stat.backText}';
+    final answers = AnswerParser.parse(stat.backText).join(' | ');
 
-    return ScalePressable(
-      onTap: () => setState(() => _isExpanded = !_isExpanded),
-      child: ContentCard(
-        elevation: 5,
-        type: ContentCardType.smallWide,
-        padding: const EdgeInsets.symmetric(vertical: 16),
-        child: AnimatedCrossFade(
-          firstChild: _ExpandedCardContent(
-            questionText: questionText,
-            values: values,
-            labels: labels,
-            colors: colors,
-          ),
-          secondChild: _CollapsedCardContent(
-            questionText: questionText,
-            values: values,
-            colors: colors,
-          ),
-          crossFadeState: _isExpanded
-              ? CrossFadeState.showFirst
-              : CrossFadeState.showSecond,
-          duration: const Duration(milliseconds: 300),
-          sizeCurve: Curves.fastEaseInToSlowEaseOut,
-        ),
-      ),
-    );
-  }
-}
-
-class _ExpandedCardContent extends StatelessWidget {
-  final String questionText;
-  final List<String> values;
-  final List<String> labels;
-  final List<Color> colors;
-
-  const _ExpandedCardContent({
-    required this.questionText,
-    required this.values,
-    required this.labels,
-    required this.colors,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return Column(
-      children: [
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+    return ContentCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Flexible(
-                child: Text(
-                  questionText,
-                  style: theme.textTheme.titleMedium,
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _HighlightedText(
+                      text: stat.frontText,
+                      query: query,
+                      style: theme.textTheme.titleMedium,
+                      maxLines: 1,
+                    ),
+                    const SizedBox(height: 2),
+                    _HighlightedText(
+                      text: answers,
+                      query: query,
+                      style: theme.textTheme.bodySmall?.copyWith(
+                        color: cs.onSurfaceVariant,
+                      ),
+                      maxLines: 1,
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(width: 12),
+              Text(
+                '$accuracy%',
+                style: theme.textTheme.titleLarge?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  color: accuracyColor,
                 ),
               ),
             ],
           ),
-        ),
-        const Divider(height: 16, thickness: 1),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
+          const SizedBox(height: 12),
+          Row(
             children: [
-              Row(
-                children: [
-                  for (var i = 0; i < values.length; i++)
-                    Expanded(
-                      child: Text(
-                        values[i],
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.titleMedium?.copyWith(
-                          color: colors[i],
-                        ),
-                      ),
-                    ),
-                ],
+              _MiniStat(
+                icon: Icons.check_circle,
+                value: stat.totalCorrect,
+                color: cs.success,
               ),
-              const SizedBox(height: 2),
-              Row(
-                children: [
-                  for (var i = 0; i < labels.length; i++)
-                    Expanded(
-                      child: Text(
-                        labels[i],
-                        textAlign: TextAlign.center,
-                        style: theme.textTheme.bodySmall?.copyWith(
-                          color: theme.colorScheme.onSurfaceVariant,
-                        ),
-                      ),
-                    ),
-                ],
+              const SizedBox(width: 18),
+              _MiniStat(
+                icon: Icons.cancel,
+                value: stat.totalIncorrect,
+                color: cs.error,
+              ),
+              const SizedBox(width: 18),
+              _MiniStat(
+                icon: Icons.local_fire_department,
+                value: stat.streak,
+                color: cs.primary,
+              ),
+              const SizedBox(width: 18),
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(99),
+                  child: LinearProgressIndicator(
+                    value: accuracy / 100,
+                    minHeight: 6,
+                    color: accuracyColor,
+                    backgroundColor: cs.surfaceContainerHighest,
+                  ),
+                ),
               ),
             ],
           ),
+        ],
+      ),
+    );
+  }
+
+  /// Цвет точности по порогам: ≥90 — успех, ≥60 — предупреждение, иначе ошибка.
+  Color _accuracyColor(ColorScheme cs, int accuracy) {
+    if (accuracy >= 90) return cs.success;
+    if (accuracy >= 60) return cs.warning;
+    return cs.error;
+  }
+}
+
+/// Иконка + числовое значение для строки статов карточки.
+class _MiniStat extends StatelessWidget {
+  final IconData icon;
+  final int value;
+  final Color color;
+
+  const _MiniStat({
+    required this.icon,
+    required this.value,
+    required this.color,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Icon(icon, size: 16, color: color),
+        const SizedBox(width: 4),
+        Text(
+          '$value',
+          style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                color: color,
+                fontWeight: FontWeight.w700,
+              ),
         ),
       ],
     );
   }
 }
 
-class _CollapsedCardContent extends StatelessWidget {
-  final String questionText;
-  final List<String> values;
-  final List<Color> colors;
+/// Текст с подсветкой совпавшего с поисковым запросом фрагмента.
+class _HighlightedText extends StatelessWidget {
+  final String text;
+  final String query;
+  final TextStyle? style;
+  final int? maxLines;
 
-  const _CollapsedCardContent({
-    required this.questionText,
-    required this.values,
-    required this.colors,
+  const _HighlightedText({
+    required this.text,
+    required this.query,
+    this.style,
+    this.maxLines,
   });
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
+    final normalizedQuery = query.trim().toLowerCase();
+    if (normalizedQuery.isEmpty) {
+      return Text(
+        text,
+        style: style,
+        maxLines: maxLines,
+        overflow: TextOverflow.ellipsis,
+      );
+    }
 
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: Row(
-        children: [
-          Flexible(
-            child: Text(
-              questionText,
-              style: theme.textTheme.bodyMedium,
-              overflow: TextOverflow.ellipsis,
-              maxLines: 1,
-            ),
-          ),
-          const SizedBox(width: 12),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              for (var i = 0; i < values.length; i++) ...[
-                if (i > 0) const SizedBox(width: 8),
-                Text(
-                  values[i],
-                  style: theme.textTheme.bodyMedium?.copyWith(
-                    color: colors[i],
-                  ),
-                ),
-              ],
-            ],
-          ),
-        ],
-      ),
+    final cs = Theme.of(context).colorScheme;
+    final highlightStyle = (style ?? const TextStyle()).copyWith(
+      backgroundColor: cs.primaryContainer,
+      color: cs.onPrimaryContainer,
+    );
+
+    final spans = <TextSpan>[];
+    final lowerText = text.toLowerCase();
+    var start = 0;
+    while (true) {
+      final index = lowerText.indexOf(normalizedQuery, start);
+      if (index < 0) {
+        spans.add(TextSpan(text: text.substring(start)));
+        break;
+      }
+      if (index > start) {
+        spans.add(TextSpan(text: text.substring(start, index)));
+      }
+      final end = index + normalizedQuery.length;
+      spans.add(TextSpan(text: text.substring(index, end), style: highlightStyle));
+      start = end;
+    }
+
+    return Text.rich(
+      TextSpan(style: style, children: spans),
+      maxLines: maxLines,
+      overflow: TextOverflow.ellipsis,
     );
   }
 }

@@ -115,6 +115,15 @@
       }
     }
   },
+  "testDetailCardsCount": "{count, plural, =0{No cards} one{{count} card} other{{count} cards}}",
+  "@testDetailCardsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
   "testDetailEmptyCardsMessage": "No cards.\nTap + to add the first one.",
   "testDetailDeleteCardTitle": "Delete card?",
   "testDetailDeleteCardMessage": "Are you sure you want to delete this card?",
@@ -122,6 +131,23 @@
   "testDetailDeleteCardConfirm": "Delete",
   "testDetailSettingsButton": "Settings",
   "testDetailSwapSides": "Swap sides",
+  "commonCancel": "Cancel",
+  "commonSave": "Save",
+  "commonCreate": "Create",
+  "testDetailNewCardTitle": "New card",
+  "testDetailEditCardTitle": "Edit card",
+  "testDetailEditTestTitle": "Edit test",
+  "testDetailCardFrontLabel": "Question",
+  "testDetailCardFrontHint": "Enter question",
+  "testDetailCardBackLabel": "Answer",
+  "testDetailCardBackHint": "Enter answer (variants separated by |)",
+  "testDetailTestTitleLabel": "Title",
+  "testDetailTestDescriptionLabel": "Description",
+  "testSettingsTitle": "Test settings",
+  "testSettingsSwapSides": "Invert sides",
+  "testSettingsSwapSidesSubtitle": "Swap question and answer",
+  "testSettingsAnswerVariant": "Answer variant",
+  "testSettingsApply": "Apply",
   "groupDetailMixup": "Question mixup",
   "groupDetailMixupDescription": "Adds questions from other tests in the group",
   "testDetailAddCardFab": "Add",
@@ -198,11 +224,11 @@
   "profileAccentColorTitle": "App color",
   "profileAnimationSpeedTitle": "Animation speed",
   "profileAnimationDurationLabel": "{duration} ms",
-  "profileCardFontSizeTitle": "Card font size",
-  "profileCardFontSizeLabel": "{size} pt",
-  "@profileCardFontSizeLabel": {
+  "profileCardPaddingTitle": "Card text padding",
+  "profileCardPaddingLabel": "{value} px",
+  "@profileCardPaddingLabel": {
     "placeholders": {
-      "size": {
+      "value": {
         "type": "int",
         "example": "24"
       }
@@ -230,6 +256,24 @@
   "questionStatsSortByStreak": "By streak",
   "questionStatsSortByAccuracy": "By accuracy",
   "questionStatsSortTitle": "Sort",
+  "questionStatsSearchHint": "Search cards",
+  "questionStatsSearchFound": "Found: {count}",
+  "@questionStatsSearchFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "questionStatsSearchEmpty": "Nothing found",
+  "questionStatsTotalCount": "Total: {count}",
+  "@questionStatsTotalCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@segmentGroupsList": {
     "---------": "---------",
     "description": "Groups list"
@@ -364,6 +408,7 @@
       }
     }
   },
+  "groupDetailMixupCountLabel": "Count",
   "groupDetailMixupAlgorithm": "Mixup algorithm",
   "groupDetailMixupAlgorithmClassic": "Classic",
   "groupDetailMixupAlgorithmScoring": "Smart",

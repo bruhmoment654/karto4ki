@@ -14,39 +14,38 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-
     return AutoTabsScaffold(
       routes: const [
         MainTabRoute(),
+        QuestionStatsRoute(),
         ProfileRoute(),
       ],
       extendBody: true,
       bottomNavigationBuilder: (context, tabsRouter) {
-        return DecoratedBox(
-          decoration: BoxDecoration(
-            color: colorScheme.surface,
-            border: Border(
-              top: BorderSide(
-                color: colorScheme.onSurfaceVariant.withValues(alpha: 0.1),
-              ),
+        return NavigationBar(
+          selectedIndex: tabsRouter.activeIndex,
+          onDestinationSelected: (index) {
+            tabsRouter.setActiveIndex(index);
+            // Любое нажатие на таб возвращает его вложенный стек к корню.
+            tabsRouter.stackRouterOfIndex(index)?.popUntilRoot();
+          },
+          destinations: [
+            NavigationDestination(
+              icon: const Icon(Icons.home_outlined),
+              selectedIcon: const Icon(Icons.home),
+              label: context.l10n.navigationMain,
             ),
-          ),
-          child: BottomNavigationBar(
-            backgroundColor: Colors.transparent,
-            currentIndex: tabsRouter.activeIndex,
-            onTap: tabsRouter.setActiveIndex,
-            items: [
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.home_outlined),
-                label: context.l10n.navigationMain,
-              ),
-              BottomNavigationBarItem(
-                icon: const Icon(Icons.person_outline),
-                label: context.l10n.navigationProfile,
-              ),
-            ],
-          ),
+            NavigationDestination(
+              icon: const Icon(Icons.bar_chart_outlined),
+              selectedIcon: const Icon(Icons.bar_chart),
+              label: context.l10n.questionStatsTitle,
+            ),
+            NavigationDestination(
+              icon: const Icon(Icons.person_outline),
+              selectedIcon: const Icon(Icons.person),
+              label: context.l10n.navigationProfile,
+            ),
+          ],
         );
       },
     );

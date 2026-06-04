@@ -6,8 +6,11 @@ import 'package:quizzerg/feature/mixup/domain/bloc/mixup_bloc.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_algorithm.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
-import 'package:quizzerg/uikit/buttons/app_glow_button.dart';
+import 'package:quizzerg/uikit/buttons/app_fab.dart';
+import 'package:quizzerg/uikit/content_card/content_card.dart';
+import 'package:quizzerg/uikit/content_card/content_card_type.dart';
 import 'package:quizzerg/uikit/dropdown/app_dropdown.dart';
 import 'package:quizzerg/uikit/item_card/app_item_card.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
@@ -31,6 +34,13 @@ class GroupDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return AppScaffold(
       useSafeArea: false,
+      floatingActionButton: state is GroupDetailState$Loaded
+          ? AppFloatingActionButton(
+              label: context.l10n.groupDetailNewTestButton,
+              onPressed: viewModel.onAddTestPressed,
+            )
+          : null,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: switch (state) {
         GroupDetailState$Loading() => const Center(
             child: CircularProgressIndicator(),
@@ -122,17 +132,6 @@ class _GroupDetailHeader extends StatelessWidget {
       title: groupTitle,
       onBackPressed: onBackPressed,
       onTitlePressed: viewModel.onEditTitlePressed,
-      action: AppGlowButton(
-        onPressed: viewModel.onAddTestPressed,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(Icons.add),
-            const SizedBox(width: 6),
-            Text(context.l10n.groupDetailNewTestButton),
-          ],
-        ),
-      ),
     );
   }
 }
@@ -176,42 +175,72 @@ class _MixupSettingsSection extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<MixupBloc, MixupState>(
       builder: (context, mixupState) {
+        final showStreak = mixupState.enabled &&
+            mixupState.algorithm == MixupAlgorithm.scoring;
+
         return Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _MixupToggle(
-              value: mixupState.enabled,
-              onChanged: (value) => viewModel.onMixupChanged(value: value),
+            // Карточка настроек подмешивания.
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
+              child: ContentCard(
+                type: ContentCardType.medium,
+                padding: const EdgeInsets.symmetric(vertical: 4),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    _MixupToggle(
+                      value: mixupState.enabled,
+                      onChanged: (value) =>
+                          viewModel.onMixupChanged(value: value),
+                    ),
+                    AnimatedSize(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.fastEaseInToSlowEaseOut,
+                      alignment: Alignment.topCenter,
+                      child: mixupState.enabled
+                          ? Column(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Divider(
+                                  height: 1,
+                                  indent: 16,
+                                  endIndent: 16,
+                                ),
+                                _MixupAlgorithmSelector(
+                                  algorithm: mixupState.algorithm,
+                                  onChanged: (algorithm) =>
+                                      viewModel.onMixupAlgorithmChanged(
+                                    algorithm: algorithm,
+                                  ),
+                                ),
+                                _MixupCountSlider(
+                                  min: mixupState.mixupMin,
+                                  max: mixupState.mixupMax,
+                                  onChanged: viewModel.onMixupRangeChanged,
+                                ),
+                              ],
+                            )
+                          : const SizedBox(width: double.infinity),
+                    ),
+                  ],
+                ),
+              ),
             ),
-            const Height(8),
+            // Отдельный блок коэффициентов streak (только для «Умного»).
             AnimatedSize(
               duration: const Duration(milliseconds: 500),
               curve: Curves.fastEaseInToSlowEaseOut,
               alignment: Alignment.topCenter,
-              child: mixupState.enabled
-                  ? Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        _MixupAlgorithmSelector(
-                          algorithm: mixupState.algorithm,
-                          onChanged: (algorithm) =>
-                              viewModel.onMixupAlgorithmChanged(
-                            algorithm: algorithm,
-                          ),
-                        ),
-                        const Height(16),
-                        _MixupRangeSlider(
-                          min: mixupState.mixupMin,
-                          max: mixupState.mixupMax,
-                          onChanged: viewModel.onMixupRangeChanged,
-                        ),
-                        if (mixupState.algorithm ==
-                            MixupAlgorithm.scoring) ...[
-                          const Height(16),
-                          _StreakCoefficientsEditor(viewModel: viewModel),
-                          const Height(16),
-                        ],
-                      ],
+              child: showStreak
+                  ? Padding(
+                      padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
+                      child: ContentCard(
+                        type: ContentCardType.medium,
+                        padding: const EdgeInsets.symmetric(vertical: 12),
+                        child: _StreakCoefficientsEditor(viewModel: viewModel),
+                      ),
                     )
                   : const SizedBox(width: double.infinity),
             ),
@@ -295,12 +324,12 @@ class _TestListItem extends StatelessWidget {
   }
 }
 
-class _MixupRangeSlider extends StatelessWidget {
+class _MixupCountSlider extends StatelessWidget {
   final int min;
   final int max;
   final void Function({required int min, required int max}) onChanged;
 
-  const _MixupRangeSlider({
+  const _MixupCountSlider({
     required this.min,
     required this.max,
     required this.onChanged,
@@ -308,16 +337,27 @@ class _MixupRangeSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            context.l10n.groupDetailMixupRange(min, max),
-            style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: Theme.of(context).colorScheme.onSurfaceVariant,
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                context.l10n.groupDetailMixupCountLabel,
+                style: theme.textTheme.titleMedium,
+              ),
+              Text(
+                '$min–$max',
+                style: theme.textTheme.titleMedium?.copyWith(
+                  color: theme.colorScheme.primary,
                 ),
+              ),
+            ],
           ),
           AppRangeSlider(
             values: RangeValues(min.toDouble(), max.toDouble()),
@@ -349,42 +389,58 @@ class _MixupAlgorithmSelector extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isClassic = algorithm == MixupAlgorithm.classic;
-    final labelStyle = Theme.of(context).textTheme.bodySmall?.copyWith(
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-          fontWeight: FontWeight.bold,
-        );
-    final valueStyle = Theme.of(context).textTheme.bodyMedium?.copyWith(
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
-        );
-
+    final theme = Theme.of(context);
     final classicText = context.l10n.groupDetailMixupAlgorithmClassic;
     final scoringText = context.l10n.groupDetailMixupAlgorithmScoring;
+    final currentText =
+        algorithm == MixupAlgorithm.classic ? classicText : scoringText;
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
       child: Row(
         children: [
-          Text(context.l10n.groupDetailMixupAlgorithm, style: labelStyle),
-          const Spacer(),
-          SizedBox(
-            width: 120,
-            child: ScalePressable(
-              onTap: () => onChanged(
-                isClassic ? MixupAlgorithm.scoring : MixupAlgorithm.classic,
+          Expanded(
+            child: Text(
+              context.l10n.groupDetailMixupAlgorithm,
+              style: theme.textTheme.titleMedium,
+            ),
+          ),
+          PopupMenuButton<MixupAlgorithm>(
+            initialValue: algorithm,
+            onSelected: onChanged,
+            position: PopupMenuPosition.under,
+            itemBuilder: (_) => [
+              PopupMenuItem(
+                value: MixupAlgorithm.classic,
+                child: Text(classicText),
               ),
-              child: AnimatedCrossFade(
-                alignment: Alignment.centerRight,
-                firstChild: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(classicText, style: valueStyle),
-                ),
-                secondChild: Align(
-                  alignment: Alignment.centerRight,
-                  child: Text(scoringText, style: valueStyle),
-                ),
-                crossFadeState: isClassic ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-                duration: const Duration(milliseconds: 200),
+              PopupMenuItem(
+                value: MixupAlgorithm.scoring,
+                child: Text(scoringText),
+              ),
+            ],
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              decoration: BoxDecoration(
+                color: theme.colorScheme.surfaceContainerHighest,
+                borderRadius: BorderRadius.circular(AppDimens.radius8),
+              ),
+              child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    currentText,
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: theme.colorScheme.onSurface,
+                    ),
+                  ),
+                  Icon(
+                    Icons.arrow_drop_down,
+                    size: 20,
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
+                ],
               ),
             ),
           ),
@@ -401,11 +457,25 @@ class _StreakCoefficientsEditor extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
     final labelStyle = Theme.of(context).textTheme.bodySmall?.copyWith(
-          color: Theme.of(context).colorScheme.onSurfaceVariant,
+          color: colorScheme.onSurfaceVariant,
         );
     return AppDropdown(
       title: context.l10n.groupDetailStreakCoefficients,
+      leading: Container(
+        width: 44,
+        height: 44,
+        decoration: BoxDecoration(
+          color: colorScheme.tertiaryContainer,
+          borderRadius: BorderRadius.circular(AppDimens.radius12),
+        ),
+        child: Icon(
+          Icons.local_fire_department,
+          size: 22,
+          color: colorScheme.onTertiaryContainer,
+        ),
+      ),
       child: Row(
         children: [
           Expanded(
@@ -505,10 +575,11 @@ class _MixupToggle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Expanded(
             child: Column(
@@ -516,17 +587,19 @@ class _MixupToggle extends StatelessWidget {
               children: [
                 Text(
                   context.l10n.groupDetailMixup,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: theme.textTheme.titleMedium,
                 ),
+                const Height(3),
                 Text(
                   context.l10n.groupDetailMixupDescription,
-                  style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
+                  style: theme.textTheme.bodySmall?.copyWith(
+                    color: theme.colorScheme.onSurfaceVariant,
+                  ),
                 ),
               ],
             ),
           ),
+          const SizedBox(width: 14),
           AppSwitch(
             value: value,
             onChanged: onChanged,

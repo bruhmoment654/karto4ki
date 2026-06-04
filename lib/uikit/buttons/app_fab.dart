@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:quizzerg/uikit/content_card/content_card.dart';
-
+/// Крупный expressive FAB (64dp, r28, primaryContainer/onPrimaryContainer).
+///
+/// Параметры размера/формы/цвета берутся из `floatingActionButtonTheme`.
+/// [label] используется как tooltip (иконочный FAB по дизайну M3).
 class AppFloatingActionButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -16,28 +18,10 @@ class AppFloatingActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final textStyle = Theme.of(context).textTheme.labelMedium?.copyWith(
-          color: colorScheme.onSurface,
-          fontWeight: FontWeight.w600,
-        );
-
-    return GestureDetector(
-      onTap: onPressed,
-      child: ContentCard(
-        elevation: 5,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(label, style: textStyle),
-            if (icon != null) ...[
-              const SizedBox(width: 4),
-              Icon(icon, size: 16, color: colorScheme.onSurface),
-            ],
-          ],
-        ),
-      ),
+    return FloatingActionButton(
+      onPressed: onPressed,
+      tooltip: label,
+      child: Icon(icon ?? Icons.add, size: 28),
     );
   }
 }

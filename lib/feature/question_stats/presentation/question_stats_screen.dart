@@ -1,7 +1,10 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/core/feature/core/entity/result.dart';
+import 'package:quizzerg/core/utils/answer_parser.dart';
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_sort.dart';
 import 'package:quizzerg/feature/question_stats/presentation/question_stats_view.dart';
@@ -25,11 +28,40 @@ class _QuestionStatsScreenState extends State<QuestionStatsScreen>
   final ScrollController _scrollController = ScrollController();
   bool _showScrollToTop = false;
 
+  final TextEditingController _searchController = TextEditingController();
+  String _searchQuery = '';
+  Timer? _searchDebounce;
+
   @override
   List<QuestionStatsEntity>? get stats {
     final raw = _rawStats;
     if (raw == null) return null;
-    return _sortedStats(raw);
+    return _sortedStats(_filteredStats(raw));
+  }
+
+  @override
+  TextEditingController get searchController => _searchController;
+
+  @override
+  String get searchQuery => _searchQuery;
+
+  @override
+  bool get hasAnyStats => _rawStats?.isNotEmpty ?? false;
+
+  /// Универсальный поиск: совпадение ищется в написании/вопросе и КАЖДОМ
+  /// варианте перевода (ответы разбираются [AnswerParser]).
+  List<QuestionStatsEntity> _filteredStats(List<QuestionStatsEntity> stats) {
+    final query = _searchQuery.trim().toLowerCase();
+    if (query.isEmpty) return stats;
+    return stats.where((stat) => _matches(stat, query)).toList();
+  }
+
+  bool _matches(QuestionStatsEntity stat, String query) {
+    final haystack = <String>[
+      stat.frontText,
+      ...AnswerParser.parse(stat.backText),
+    ];
+    return haystack.any((it) => it.toLowerCase().contains(query));
   }
 
   @override
@@ -59,10 +91,28 @@ class _QuestionStatsScreenState extends State<QuestionStatsScreen>
 
   @override
   void dispose() {
+    _searchDebounce?.cancel();
+    _searchController.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
     super.dispose();
+  }
+
+  @override
+  void onSearchChanged(String value) {
+    _searchDebounce?.cancel();
+    _searchDebounce = Timer(const Duration(milliseconds: 200), () {
+      if (!mounted) return;
+      setState(() => _searchQuery = value);
+    });
+  }
+
+  @override
+  void onSearchCleared() {
+    _searchDebounce?.cancel();
+    _searchController.clear();
+    setState(() => _searchQuery = '');
   }
 
   void _onScroll() {
@@ -164,8 +214,13 @@ abstract interface class IQuestionStatsViewModel {
   SortOrder get sortOrder;
   bool get showScrollToTop;
   ScrollController get scrollController;
+  TextEditingController get searchController;
+  String get searchQuery;
+  bool get hasAnyStats;
   void onRetryTap();
   void onSortTap();
   void onSortOrderTap();
   void onScrollToTopTap();
+  void onSearchChanged(String value);
+  void onSearchCleared();
 }

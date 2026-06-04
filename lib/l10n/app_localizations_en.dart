@@ -160,6 +160,18 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String testDetailCardsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count cards',
+      one: '$count card',
+      zero: 'No cards',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get testDetailEmptyCardsMessage => 'No cards.\nTap + to add the first one.';
 
   @override
@@ -179,6 +191,57 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get testDetailSwapSides => 'Swap sides';
+
+  @override
+  String get commonCancel => 'Cancel';
+
+  @override
+  String get commonSave => 'Save';
+
+  @override
+  String get commonCreate => 'Create';
+
+  @override
+  String get testDetailNewCardTitle => 'New card';
+
+  @override
+  String get testDetailEditCardTitle => 'Edit card';
+
+  @override
+  String get testDetailEditTestTitle => 'Edit test';
+
+  @override
+  String get testDetailCardFrontLabel => 'Question';
+
+  @override
+  String get testDetailCardFrontHint => 'Enter question';
+
+  @override
+  String get testDetailCardBackLabel => 'Answer';
+
+  @override
+  String get testDetailCardBackHint => 'Enter answer (variants separated by |)';
+
+  @override
+  String get testDetailTestTitleLabel => 'Title';
+
+  @override
+  String get testDetailTestDescriptionLabel => 'Description';
+
+  @override
+  String get testSettingsTitle => 'Test settings';
+
+  @override
+  String get testSettingsSwapSides => 'Invert sides';
+
+  @override
+  String get testSettingsSwapSidesSubtitle => 'Swap question and answer';
+
+  @override
+  String get testSettingsAnswerVariant => 'Answer variant';
+
+  @override
+  String get testSettingsApply => 'Apply';
 
   @override
   String get groupDetailMixup => 'Question mixup';
@@ -295,11 +358,11 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get profileCardFontSizeTitle => 'Card font size';
+  String get profileCardPaddingTitle => 'Card text padding';
 
   @override
-  String profileCardFontSizeLabel(int size) {
-    return '$size pt';
+  String profileCardPaddingLabel(int value) {
+    return '$value px';
   }
 
   @override
@@ -331,6 +394,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get questionStatsSortTitle => 'Sort';
+
+  @override
+  String get questionStatsSearchHint => 'Search cards';
+
+  @override
+  String questionStatsSearchFound(int count) {
+    return 'Found: $count';
+  }
+
+  @override
+  String get questionStatsSearchEmpty => 'Nothing found';
+
+  @override
+  String questionStatsTotalCount(int count) {
+    return 'Total: $count';
+  }
 
   @override
   String get groupsListAppBarTitle => 'Groups';
@@ -493,6 +572,9 @@ class AppLocalizationsEn extends AppLocalizations {
   String groupDetailMixupRange(int min, int max) {
     return 'Count: $min–$max';
   }
+
+  @override
+  String get groupDetailMixupCountLabel => 'Count';
 
   @override
   String get groupDetailMixupAlgorithm => 'Mixup algorithm';

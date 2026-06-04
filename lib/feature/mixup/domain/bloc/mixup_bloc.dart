@@ -85,7 +85,7 @@ final class MixupBloc extends Bloc<MixupEvent, MixupState> {
       mixupMax: mixupMax ?? current.mixupMax,
       themeMode: current.themeMode,
       mixupAlgorithm: algorithm ?? current.mixupAlgorithm,
-      cardFontSize: current.cardFontSize,
+      cardHorizontalPadding: current.cardHorizontalPadding,
       streakNegativeBonus: streakNegativeBonus ?? current.streakNegativeBonus,
       streakPositivePenalty:
           streakPositivePenalty ?? current.streakPositivePenalty,

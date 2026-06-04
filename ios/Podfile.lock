@@ -70,6 +70,10 @@ PODS:
     - sqlite3/perf-threadsafe
     - sqlite3/rtree
   - SwiftyGif (5.4.5)
+  - yandex_maps_mapkit_lite (1.0.0):
+    - Flutter
+    - YandexMapsMobile (= 4.36.0-lite-flutter)
+  - YandexMapsMobile (4.36.0-lite-flutter)
 
 DEPENDENCIES:
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
@@ -80,6 +84,7 @@ DEPENDENCIES:
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
   - sqflite_darwin (from `.symlinks/plugins/sqflite_darwin/darwin`)
   - sqlite3_flutter_libs (from `.symlinks/plugins/sqlite3_flutter_libs/darwin`)
+  - yandex_maps_mapkit_lite (from `.symlinks/plugins/yandex_maps_mapkit_lite/ios`)
 
 SPEC REPOS:
   trunk:
@@ -88,6 +93,7 @@ SPEC REPOS:
     - SDWebImage
     - sqlite3
     - SwiftyGif
+    - YandexMapsMobile
 
 EXTERNAL SOURCES:
   file_picker:
@@ -106,6 +112,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sqflite_darwin/darwin"
   sqlite3_flutter_libs:
     :path: ".symlinks/plugins/sqlite3_flutter_libs/darwin"
+  yandex_maps_mapkit_lite:
+    :path: ".symlinks/plugins/yandex_maps_mapkit_lite/ios"
 
 SPEC CHECKSUMS:
   DKImagePickerController: 946cec48c7873164274ecc4624d19e3da4c1ef3c
@@ -121,6 +129,8 @@ SPEC CHECKSUMS:
   sqlite3: 7559e33dae4c78538df563795af3a86fc887ee71
   sqlite3_flutter_libs: 5235ce0546528db87927a3ef1baff8b7d5107f0e
   SwiftyGif: 706c60cf65fa2bc5ee0313beece843c8eb8194d4
+  yandex_maps_mapkit_lite: 604a511d650bde891ef0695e0a2e90dfba057e3b
+  YandexMapsMobile: a70f752ac36032e38eed684de6feba1e90b3382b
 
 PODFILE CHECKSUM: 53a6aebc29ccee84c41f92f409fc20cd4ca011f1
 

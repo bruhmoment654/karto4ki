@@ -160,6 +160,20 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String testDetailCardsCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count карточек',
+      many: '$count карточек',
+      few: '$count карточки',
+      one: '$count карточка',
+      zero: 'Нет карточек',
+    );
+    return '$_temp0';
+  }
+
+  @override
   String get testDetailEmptyCardsMessage => 'Нет карточек.\nНажмите + чтобы добавить первую.';
 
   @override
@@ -179,6 +193,57 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get testDetailSwapSides => 'Поменять стороны местами';
+
+  @override
+  String get commonCancel => 'Отмена';
+
+  @override
+  String get commonSave => 'Сохранить';
+
+  @override
+  String get commonCreate => 'Создать';
+
+  @override
+  String get testDetailNewCardTitle => 'Новая карточка';
+
+  @override
+  String get testDetailEditCardTitle => 'Редактировать карточку';
+
+  @override
+  String get testDetailEditTestTitle => 'Редактировать тест';
+
+  @override
+  String get testDetailCardFrontLabel => 'Вопрос';
+
+  @override
+  String get testDetailCardFrontHint => 'Введите вопрос';
+
+  @override
+  String get testDetailCardBackLabel => 'Ответ';
+
+  @override
+  String get testDetailCardBackHint => 'Введите ответ (варианты через |)';
+
+  @override
+  String get testDetailTestTitleLabel => 'Название';
+
+  @override
+  String get testDetailTestDescriptionLabel => 'Описание';
+
+  @override
+  String get testSettingsTitle => 'Настройка теста';
+
+  @override
+  String get testSettingsSwapSides => 'Инвертировать стороны';
+
+  @override
+  String get testSettingsSwapSidesSubtitle => 'Поменять вопрос и ответ местами';
+
+  @override
+  String get testSettingsAnswerVariant => 'Вариант для вопроса';
+
+  @override
+  String get testSettingsApply => 'Применить';
 
   @override
   String get groupDetailMixup => 'Подмешивание вопросов';
@@ -295,11 +360,11 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get profileCardFontSizeTitle => 'Размер шрифта на карточке';
+  String get profileCardPaddingTitle => 'Отступ текста на карточке';
 
   @override
-  String profileCardFontSizeLabel(int size) {
-    return '$size pt';
+  String profileCardPaddingLabel(int value) {
+    return '$value px';
   }
 
   @override
@@ -331,6 +396,22 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get questionStatsSortTitle => 'Сортировка';
+
+  @override
+  String get questionStatsSearchHint => 'Поиск по карточкам';
+
+  @override
+  String questionStatsSearchFound(int count) {
+    return 'Найдено: $count';
+  }
+
+  @override
+  String get questionStatsSearchEmpty => 'Ничего не найдено';
+
+  @override
+  String questionStatsTotalCount(int count) {
+    return 'Всего: $count';
+  }
 
   @override
   String get groupsListAppBarTitle => 'Группы';
@@ -495,6 +576,9 @@ class AppLocalizationsRu extends AppLocalizations {
   String groupDetailMixupRange(int min, int max) {
     return 'Количество: $min–$max';
   }
+
+  @override
+  String get groupDetailMixupCountLabel => 'Количество';
 
   @override
   String get groupDetailMixupAlgorithm => 'Алгоритм подмешивания';

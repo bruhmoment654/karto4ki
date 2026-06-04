@@ -81,7 +81,7 @@ class _QuestionCardText extends StatelessWidget {
     return Text(
       text,
       style: textTheme.headlineMedium?.copyWith(
-        color: colorScheme.onPrimaryContainer,
+        color: colorScheme.onSurface,
         fontWeight: FontWeight.w600,
       ),
       textAlign: TextAlign.center,
@@ -99,6 +99,7 @@ class QuestionCardContent extends StatelessWidget {
   final String? leftBadgeText;
   final String? rightBadgeText;
   final bool isMixedIn;
+  final double horizontalPadding;
 
   const QuestionCardContent({
     required this.front,
@@ -108,6 +109,7 @@ class QuestionCardContent extends StatelessWidget {
     this.enableFlipAnimation = true,
     this.flipDuration = const Duration(milliseconds: 300),
     this.isMixedIn = false,
+    this.horizontalPadding = 24,
     super.key,
     this.leftBadgeText,
     this.rightBadgeText,
@@ -159,8 +161,12 @@ class QuestionCardContent extends StatelessWidget {
         transform: transform,
         child: ContentCard(
           type: ContentCardType.large,
+          backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
           child: SizedBox.expand(
-            child: Center(child: face),
+            child: Padding(
+              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              child: Center(child: face),
+            ),
           ),
         ),
       );
@@ -201,8 +207,12 @@ class QuestionCardContent extends StatelessWidget {
           transform: transform,
           child: ContentCard(
             type: ContentCardType.large,
+            backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
             child: SizedBox.expand(
-              child: Center(child: face),
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                child: Center(child: face),
+              ),
             ),
           ),
         );
@@ -226,16 +236,24 @@ class _QuestionCardFace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
+    // Stack с StackFit.expand задаёт FittedBox жёсткие (tight) ограничения —
+    // иначе он подгонялся бы под натуральный размер текста и не увеличивал его.
+    // Текст центрируется по всей площади карточки, бейдж лежит поверх сверху,
+    // чтобы не сдвигать текст вниз.
+    return Stack(
+      fit: StackFit.expand,
       children: [
-        AnimatedOpacity(
-          opacity: showBadge ? badgeOpacity : 0,
-          duration: const Duration(milliseconds: 150),
-          child: _QuestionCardText(text: badgeText),
+        FittedBox(child: body),
+        Positioned(
+          top: 0,
+          left: 0,
+          right: 0,
+          child: AnimatedOpacity(
+            opacity: showBadge ? badgeOpacity : 0,
+            duration: const Duration(milliseconds: 150),
+            child: Center(child: _QuestionCardText(text: badgeText)),
+          ),
         ),
-        const SizedBox(height: 16),
-        body,
       ],
     );
   }

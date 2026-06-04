@@ -8,9 +8,8 @@ import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
 import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_screen.dart';
 import 'package:quizzerg/feature/tinder_test/presentation/widget/results_content.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
-import 'package:quizzerg/uikit/content_card/content_card.dart';
-import 'package:quizzerg/uikit/content_card/content_card_type.dart';
 import 'package:quizzerg/uikit/progress/animated_linear_progress.dart';
 import 'package:quizzerg/uikit/question_card/swipable_card_wrapper.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
@@ -200,7 +199,7 @@ class _TestContentState extends State<_TestContent> {
   Widget build(BuildContext context) {
     final settings = context.read<IAppScope>().settingsStorage.get();
     final flipDuration = Duration(milliseconds: settings.animationDurationMs);
-    final cardFontSize = settings.cardFontSize;
+    final cardHorizontalPadding = settings.cardHorizontalPadding;
 
     return Column(
       children: [
@@ -211,28 +210,35 @@ class _TestContentState extends State<_TestContent> {
         Expanded(
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: AnimatedBuilder(
-              animation: Listenable.merge([
-                _showAnswer,
-                _enableFlipAnimation,
-              ]),
-              builder: (context, child) {
-                final currentShowAnswer = _showAnswer.value;
-                final enableFlipAnimation = _enableFlipAnimation.value;
-                return SwipeableCardWrapper(
-                  card: widget.currentCard,
-                  showAnswer: currentShowAnswer,
-                  enableFlipAnimation: enableFlipAnimation,
-                  enterFromLeft: widget.isUndo,
-                  flipDuration: flipDuration,
-                  fontSize: cardFontSize,
-                  onTap: () => _showAnswer.value = !currentShowAnswer,
-                  onSwipeLeft: () =>
-                      widget.viewModel.onSwipeLeft(widget.currentCard),
-                  onSwipeRight: () =>
-                      widget.viewModel.onSwipeRight(widget.currentCard),
-                );
-              },
+            child: Stack(
+              children: [
+                if (widget.session.currentIndex <
+                    widget.session.cards.length - 1)
+                  const Positioned.fill(child: _PeekCard()),
+                AnimatedBuilder(
+                  animation: Listenable.merge([
+                    _showAnswer,
+                    _enableFlipAnimation,
+                  ]),
+                  builder: (context, child) {
+                    final currentShowAnswer = _showAnswer.value;
+                    final enableFlipAnimation = _enableFlipAnimation.value;
+                    return SwipeableCardWrapper(
+                      card: widget.currentCard,
+                      showAnswer: currentShowAnswer,
+                      enableFlipAnimation: enableFlipAnimation,
+                      enterFromLeft: widget.isUndo,
+                      flipDuration: flipDuration,
+                      horizontalPadding: cardHorizontalPadding,
+                      onTap: () => _showAnswer.value = !currentShowAnswer,
+                      onSwipeLeft: () =>
+                          widget.viewModel.onSwipeLeft(widget.currentCard),
+                      onSwipeRight: () =>
+                          widget.viewModel.onSwipeRight(widget.currentCard),
+                    );
+                  },
+                ),
+              ],
             ),
           ),
         ),
@@ -297,26 +303,49 @@ class _ProgressIndicator extends StatelessWidget {
   }
 }
 
+/// Подложка-следующая карточка под текущей: повёрнутый прямоугольник,
+/// создающий эффект стопки карт.
+class _PeekCard extends StatelessWidget {
+  const _PeekCard();
+
+  @override
+  Widget build(BuildContext context) {
+    return Transform.rotate(
+      angle: -0.0436,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
+        child: DecoratedBox(
+          decoration: BoxDecoration(
+            color: Theme.of(context).colorScheme.surfaceContainerLow,
+            borderRadius: BorderRadius.circular(AppDimens.radius28),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
 class _SwipeHints extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    return ContentCard(
-      borderRadius: BorderRadius.zero,
-      type: ContentCardType.smallWide,
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(20, 14, 20, 4),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.arrow_back, color: colorScheme.error),
+              Icon(Icons.west, color: colorScheme.error, size: 20),
               const SizedBox(width: 8),
               Text(
                 context.l10n.tinderTestSwipeUnknownHint,
-                style: TextStyle(color: colorScheme.onSurfaceVariant),
+                style: TextStyle(
+                  color: colorScheme.error,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ],
           ),
@@ -325,10 +354,13 @@ class _SwipeHints extends StatelessWidget {
             children: [
               Text(
                 context.l10n.tinderTestSwipeKnownHint,
-                style: TextStyle(color: colorScheme.onSurfaceVariant),
+                style: TextStyle(
+                  color: colorScheme.primary,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
               const SizedBox(width: 8),
-              Icon(Icons.arrow_forward, color: colorScheme.primary),
+              Icon(Icons.east, color: colorScheme.primary, size: 20),
             ],
           ),
         ],

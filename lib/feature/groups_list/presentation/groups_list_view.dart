@@ -10,8 +10,9 @@ import 'package:quizzerg/feature/groups_list/presentation/widget/active_session_
 import 'package:quizzerg/feature/test_execution/domain/bloc/active_session_bloc.dart';
 import 'package:quizzerg/feature/test_execution/domain/entity/active_test_session.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
-import 'package:quizzerg/uikit/buttons/app_glow_button.dart';
+import 'package:quizzerg/uikit/buttons/app_fab.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
@@ -31,6 +32,11 @@ class GroupsListView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
+      floatingActionButton: AppFloatingActionButton(
+        label: 'Новая группа',
+        onPressed: viewModel.onAddGroupPressed,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       body: switch (state) {
         GroupsListState$Loading() => const Center(
             child: CircularProgressIndicator(),
@@ -65,21 +71,10 @@ class _GroupsBody extends StatelessWidget {
   Widget build(BuildContext context) {
     return CustomScrollView(
       slivers: [
-        SliverToBoxAdapter(
+        const SliverToBoxAdapter(
           child: AppPageHeader(
             title: 'Мои группы',
             subtitle: 'Группы тестов для обучения по карточкам',
-            action: AppGlowButton(
-              onPressed: viewModel.onAddGroupPressed,
-              child: const Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.add),
-                  SizedBox(width: 6),
-                  Text('Новая группа'),
-                ],
-              ),
-            ),
           ),
         ),
         const _ActiveSessionSliver(),
@@ -190,6 +185,16 @@ class _ActiveSessionSliverState extends State<_ActiveSessionSliver> {
   }
 }
 
+/// Пул иконок для карточек групп (Material Symbols), выбирается по индексу.
+const _groupIcons = <IconData>[
+  Icons.translate,
+  Icons.bolt,
+  Icons.menu_book,
+  Icons.auto_stories,
+  Icons.science_outlined,
+  Icons.calculate_outlined,
+];
+
 class _GroupListTile extends StatelessWidget {
   final TestGroupEntity group;
   final int index;
@@ -205,68 +210,69 @@ class _GroupListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final tint = _groupPalette(isDark)[index % _groupPalette(isDark).length];
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
+    // Тональный контейнер из seed-пула — реагирует на смену seed-цвета.
+    final pool = colorScheme.groupCardPool;
+    final (background, foreground) = pool[index % pool.length];
+    final icon = _groupIcons[index % _groupIcons.length];
 
     return ScalePressable(
       onTap: onTap,
       child: GestureDetector(
         onLongPress: onLongPress,
         child: ContentCard(
-          backgroundColor: tint.background,
-          borderColor: tint.border.withValues(alpha: 0.35),
-          borderWidth: 0.5,
-          borderRadius: BorderRadius.circular(16),
+          backgroundColor: background,
+          borderRadius: BorderRadius.circular(AppDimens.radius28),
           padding: const EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: tint.iconBackground,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Center(
-                  child: Text(
-                    tint.emoji,
-                    style: const TextStyle(fontSize: 24),
+              Row(
+                children: [
+                  Container(
+                    width: 56,
+                    height: 56,
+                    decoration: BoxDecoration(
+                      color: foreground.withValues(alpha: 0.16),
+                      borderRadius: BorderRadius.circular(AppDimens.radius16),
+                    ),
+                    child: Icon(icon, size: 28, color: foreground),
                   ),
-                ),
+                  const Spacer(),
+                  Icon(
+                    Icons.chevron_right,
+                    size: 26,
+                    color: foreground.withValues(alpha: 0.55),
+                  ),
+                ],
               ),
-              const SizedBox(height: 16),
+              const SizedBox(height: 18),
               Text(
                 group.title,
-                style: textTheme.titleLarge?.copyWith(
-                  fontWeight: FontWeight.bold,
-                  color: colorScheme.foreground,
+                style: textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: foreground,
                 ),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 12),
+              const SizedBox(height: 14),
               Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.fromLTRB(11, 5, 14, 5),
                 decoration: BoxDecoration(
-                  color: tint.border.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(8),
+                  color: foreground.withValues(alpha: 0.14),
+                  borderRadius: BorderRadius.circular(AppDimens.radius8),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Icon(
-                      Icons.auto_stories_outlined,
-                      size: 14,
-                      color: tint.border,
-                    ),
-                    const SizedBox(width: 4),
+                    Icon(Icons.menu_book, size: 16, color: foreground),
+                    const SizedBox(width: 7),
                     Text(
                       context.l10n.groupsListTestCount(group.testCount),
-                      style: textTheme.labelSmall?.copyWith(
-                        color: tint.border,
+                      style: textTheme.labelLarge?.copyWith(
+                        color: foreground,
                         fontWeight: FontWeight.w600,
                       ),
                     ),
@@ -280,97 +286,3 @@ class _GroupListTile extends StatelessWidget {
     );
   }
 }
-
-class _GroupTint {
-  final Color background;
-  final Color border;
-  final Color iconBackground;
-  final String emoji;
-
-  const _GroupTint({
-    required this.background,
-    required this.border,
-    required this.iconBackground,
-    required this.emoji,
-  });
-}
-
-List<_GroupTint> _groupPalette(bool isDark) => isDark ? _darkPalette : _lightPalette;
-
-const _darkPalette = [
-  _GroupTint(
-    background: Color(0xFF1A1A35),
-    border: Color(0xFF7B6FD4),
-    iconBackground: Color(0xFF2A2650),
-    emoji: '🧬',
-  ),
-  _GroupTint(
-    background: Color(0xFF251E15),
-    border: Color(0xFFC4873A),
-    iconBackground: Color(0xFF3A2E1E),
-    emoji: '⚡',
-  ),
-  _GroupTint(
-    background: Color(0xFF152520),
-    border: Color(0xFF3DAA7A),
-    iconBackground: Color(0xFF1E3A30),
-    emoji: '🌍',
-  ),
-  _GroupTint(
-    background: Color(0xFF251520),
-    border: Color(0xFFC44E7A),
-    iconBackground: Color(0xFF3A1E30),
-    emoji: '🎨',
-  ),
-  _GroupTint(
-    background: Color(0xFF152535),
-    border: Color(0xFF4A8AC4),
-    iconBackground: Color(0xFF1E3050),
-    emoji: '📐',
-  ),
-  _GroupTint(
-    background: Color(0xFF252015),
-    border: Color(0xFFB8A03A),
-    iconBackground: Color(0xFF3A351E),
-    emoji: '📚',
-  ),
-];
-
-const _lightPalette = [
-  _GroupTint(
-    background: Color(0xFFF0EEFA),
-    border: Color(0xFF8B7FE8),
-    iconBackground: Color(0xFFE0DCFF),
-    emoji: '🧬',
-  ),
-  _GroupTint(
-    background: Color(0xFFFAF0E6),
-    border: Color(0xFFD4974A),
-    iconBackground: Color(0xFFF5E0C5),
-    emoji: '⚡',
-  ),
-  _GroupTint(
-    background: Color(0xFFE8F5F0),
-    border: Color(0xFF4DBB8A),
-    iconBackground: Color(0xFFD0F0E0),
-    emoji: '🌍',
-  ),
-  _GroupTint(
-    background: Color(0xFFFAE8F0),
-    border: Color(0xFFD45E8A),
-    iconBackground: Color(0xFFF5D0E0),
-    emoji: '🎨',
-  ),
-  _GroupTint(
-    background: Color(0xFFE8F0FA),
-    border: Color(0xFF5A9AD4),
-    iconBackground: Color(0xFFD0E5FF),
-    emoji: '📐',
-  ),
-  _GroupTint(
-    background: Color(0xFFFAF5E8),
-    border: Color(0xFFC8B04A),
-    iconBackground: Color(0xFFF0E8C5),
-    emoji: '📚',
-  ),
-];

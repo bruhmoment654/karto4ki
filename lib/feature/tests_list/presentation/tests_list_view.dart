@@ -86,7 +86,7 @@ class TestsListView extends StatelessWidget {
         onPressed: viewModel.onAddTestPressed,
         icon: Icons.add,
       ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }

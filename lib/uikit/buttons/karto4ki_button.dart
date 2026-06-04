@@ -12,6 +12,13 @@ enum Karto4kiButtonVariant {
   success,
 }
 
+/// Кнопка дизайн-системы на каноничных M3-кнопках (pill-форма).
+///
+/// - primary → [FilledButton]
+/// - secondary → [FilledButton.tonal]
+/// - ghost → [TextButton]
+/// - outline → [OutlinedButton]
+/// - accent/destructive/success → Filled с tertiary/error/success-контейнером
 class Karto4kiButton extends StatelessWidget {
   final String label;
   final VoidCallback? onPressed;
@@ -32,89 +39,105 @@ class Karto4kiButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final style = _resolveStyle(context);
     final effectiveOnPressed = isLoading ? null : onPressed;
+    final child = _ButtonContent(label: label, isLoading: isLoading);
+    final iconWidget = icon != null ? Icon(icon) : null;
 
-    final button = icon == null
-        ? ElevatedButton(
-            onPressed: effectiveOnPressed,
-            style: style,
-            child: _ButtonContent(label: label, isLoading: isLoading),
-          )
-        : ElevatedButton.icon(
-            onPressed: effectiveOnPressed,
-            style: style,
-            icon: Icon(icon),
-            label: _ButtonContent(label: label, isLoading: isLoading),
-          );
+    final button = _build(context, effectiveOnPressed, child, iconWidget);
 
     if (!isExpanded) return button;
 
     return SizedBox(width: double.infinity, child: button);
   }
 
-  ButtonStyle _resolveStyle(BuildContext context) {
-    final colorScheme = Theme.of(context).colorScheme;
-    final colors = _variantColors(colorScheme);
+  Widget _build(
+    BuildContext context,
+    VoidCallback? onPressed,
+    Widget child,
+    Widget? iconWidget,
+  ) {
+    final cs = Theme.of(context).colorScheme;
 
-    return ElevatedButton.styleFrom(
-      foregroundColor: colors.foreground,
-      backgroundColor: colors.background,
-      disabledForegroundColor: colors.foreground.withValues(alpha: 0.4),
-      disabledBackgroundColor: colors.background.withValues(alpha: 0.4),
-      textStyle: const TextStyle(fontWeight: FontWeight.w600),
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: colors.borderSide,
-      ),
-    );
+    switch (variant) {
+      case Karto4kiButtonVariant.primary:
+        return iconWidget == null
+            ? FilledButton(onPressed: onPressed, child: child)
+            : FilledButton.icon(
+                onPressed: onPressed,
+                icon: iconWidget,
+                label: child,
+              );
+      case Karto4kiButtonVariant.secondary:
+        return iconWidget == null
+            ? FilledButton.tonal(onPressed: onPressed, child: child)
+            : FilledButton.tonalIcon(
+                onPressed: onPressed,
+                icon: iconWidget,
+                label: child,
+              );
+      case Karto4kiButtonVariant.ghost:
+        return iconWidget == null
+            ? TextButton(onPressed: onPressed, child: child)
+            : TextButton.icon(
+                onPressed: onPressed,
+                icon: iconWidget,
+                label: child,
+              );
+      case Karto4kiButtonVariant.outline:
+        return iconWidget == null
+            ? OutlinedButton(onPressed: onPressed, child: child)
+            : OutlinedButton.icon(
+                onPressed: onPressed,
+                icon: iconWidget,
+                label: child,
+              );
+      case Karto4kiButtonVariant.accent:
+        return _filledColored(
+          onPressed,
+          child,
+          iconWidget,
+          background: cs.tertiaryContainer,
+          foreground: cs.onTertiaryContainer,
+        );
+      case Karto4kiButtonVariant.destructive:
+        return _filledColored(
+          onPressed,
+          child,
+          iconWidget,
+          background: cs.errorContainer,
+          foreground: cs.onErrorContainer,
+        );
+      case Karto4kiButtonVariant.success:
+        return _filledColored(
+          onPressed,
+          child,
+          iconWidget,
+          background: cs.success,
+          foreground: cs.onSuccess,
+        );
+    }
   }
 
-  _VariantColors _variantColors(ColorScheme cs) => switch (variant) {
-        Karto4kiButtonVariant.primary => _VariantColors(
-            background: cs.primary,
-            foreground: Colors.white,
-          ),
-        Karto4kiButtonVariant.secondary => _VariantColors(
-            background: cs.secondary,
-            foreground: cs.secondaryForeground,
-          ),
-        Karto4kiButtonVariant.accent => _VariantColors(
-            background: cs.accent,
-            foreground: Colors.white,
-          ),
-        Karto4kiButtonVariant.ghost => _VariantColors(
-            background: Colors.transparent,
-            foreground: cs.foreground,
-          ),
-        Karto4kiButtonVariant.outline => _VariantColors(
-            background: Colors.transparent,
-            foreground: cs.primary,
-            borderSide: BorderSide(color: cs.primary, width: 2),
-          ),
-        Karto4kiButtonVariant.destructive => _VariantColors(
-            background: cs.error,
-            foreground: Colors.white,
-          ),
-        Karto4kiButtonVariant.success => _VariantColors(
-            background: cs.success,
-            foreground: Colors.white,
-          ),
-      };
-}
-
-class _VariantColors {
-  final Color background;
-  final Color foreground;
-  final BorderSide borderSide;
-
-  const _VariantColors({
-    required this.background,
-    required this.foreground,
-    this.borderSide = BorderSide.none,
-  });
+  Widget _filledColored(
+    VoidCallback? onPressed,
+    Widget child,
+    Widget? iconWidget, {
+    required Color background,
+    required Color foreground,
+  }) {
+    final style = FilledButton.styleFrom(
+      backgroundColor: background,
+      foregroundColor: foreground,
+    );
+    return iconWidget == null
+        ? FilledButton(onPressed: onPressed, style: style, child: child)
+        : FilledButton.icon(
+            onPressed: onPressed,
+            style: style,
+            icon: iconWidget,
+            label: child,
+          );
+  }
 }
 
 class _ButtonContent extends StatelessWidget {

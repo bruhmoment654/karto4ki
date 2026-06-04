@@ -377,6 +377,12 @@ abstract class AppLocalizations {
   /// **'Cards ({count})'**
   String testDetailCardsTitle(int count);
 
+  /// No description provided for @testDetailCardsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, =0{No cards} one{{count} card} other{{count} cards}}'**
+  String testDetailCardsCount(int count);
+
   /// No description provided for @testDetailEmptyCardsMessage.
   ///
   /// In en, this message translates to:
@@ -418,6 +424,108 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Swap sides'**
   String get testDetailSwapSides;
+
+  /// No description provided for @commonCancel.
+  ///
+  /// In en, this message translates to:
+  /// **'Cancel'**
+  String get commonCancel;
+
+  /// No description provided for @commonSave.
+  ///
+  /// In en, this message translates to:
+  /// **'Save'**
+  String get commonSave;
+
+  /// No description provided for @commonCreate.
+  ///
+  /// In en, this message translates to:
+  /// **'Create'**
+  String get commonCreate;
+
+  /// No description provided for @testDetailNewCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'New card'**
+  String get testDetailNewCardTitle;
+
+  /// No description provided for @testDetailEditCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit card'**
+  String get testDetailEditCardTitle;
+
+  /// No description provided for @testDetailEditTestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Edit test'**
+  String get testDetailEditTestTitle;
+
+  /// No description provided for @testDetailCardFrontLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Question'**
+  String get testDetailCardFrontLabel;
+
+  /// No description provided for @testDetailCardFrontHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter question'**
+  String get testDetailCardFrontHint;
+
+  /// No description provided for @testDetailCardBackLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer'**
+  String get testDetailCardBackLabel;
+
+  /// No description provided for @testDetailCardBackHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Enter answer (variants separated by |)'**
+  String get testDetailCardBackHint;
+
+  /// No description provided for @testDetailTestTitleLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Title'**
+  String get testDetailTestTitleLabel;
+
+  /// No description provided for @testDetailTestDescriptionLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Description'**
+  String get testDetailTestDescriptionLabel;
+
+  /// No description provided for @testSettingsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Test settings'**
+  String get testSettingsTitle;
+
+  /// No description provided for @testSettingsSwapSides.
+  ///
+  /// In en, this message translates to:
+  /// **'Invert sides'**
+  String get testSettingsSwapSides;
+
+  /// No description provided for @testSettingsSwapSidesSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Swap question and answer'**
+  String get testSettingsSwapSidesSubtitle;
+
+  /// No description provided for @testSettingsAnswerVariant.
+  ///
+  /// In en, this message translates to:
+  /// **'Answer variant'**
+  String get testSettingsAnswerVariant;
+
+  /// No description provided for @testSettingsApply.
+  ///
+  /// In en, this message translates to:
+  /// **'Apply'**
+  String get testSettingsApply;
 
   /// No description provided for @groupDetailMixup.
   ///
@@ -635,17 +743,17 @@ abstract class AppLocalizations {
   /// **'{duration} ms'**
   String profileAnimationDurationLabel(int duration);
 
-  /// No description provided for @profileCardFontSizeTitle.
+  /// No description provided for @profileCardPaddingTitle.
   ///
   /// In en, this message translates to:
-  /// **'Card font size'**
-  String get profileCardFontSizeTitle;
+  /// **'Card text padding'**
+  String get profileCardPaddingTitle;
 
-  /// No description provided for @profileCardFontSizeLabel.
+  /// No description provided for @profileCardPaddingLabel.
   ///
   /// In en, this message translates to:
-  /// **'{size} pt'**
-  String profileCardFontSizeLabel(int size);
+  /// **'{value} px'**
+  String profileCardPaddingLabel(int value);
 
   /// No description provided for @questionStatsTitle.
   ///
@@ -706,6 +814,30 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sort'**
   String get questionStatsSortTitle;
+
+  /// No description provided for @questionStatsSearchHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Search cards'**
+  String get questionStatsSearchHint;
+
+  /// No description provided for @questionStatsSearchFound.
+  ///
+  /// In en, this message translates to:
+  /// **'Found: {count}'**
+  String questionStatsSearchFound(int count);
+
+  /// No description provided for @questionStatsSearchEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Nothing found'**
+  String get questionStatsSearchEmpty;
+
+  /// No description provided for @questionStatsTotalCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Total: {count}'**
+  String questionStatsTotalCount(int count);
 
   /// No description provided for @groupsListAppBarTitle.
   ///
@@ -982,6 +1114,12 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Count: {min}–{max}'**
   String groupDetailMixupRange(int min, int max);
+
+  /// No description provided for @groupDetailMixupCountLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Count'**
+  String get groupDetailMixupCountLabel;
 
   /// No description provided for @groupDetailMixupAlgorithm.
   ///

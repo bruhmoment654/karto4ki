@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:quizzerg/uikit/slider/bar_slider_shapes.dart';
+
 class AppRangeSlider extends StatelessWidget {
   final RangeValues values;
   final ValueChanged<RangeValues>? onChanged;
@@ -20,11 +22,12 @@ class AppRangeSlider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Толстый «expressive» трек, как у одиночного AppSlider (из sliderTheme).
     return SliderTheme(
       data: SliderTheme.of(context).copyWith(
         overlayShape: const RoundSliderOverlayShape(overlayRadius: 20),
-        trackHeight: 1,
-        rangeTrackShape: const RoundedRectRangeSliderTrackShape(),
+        rangeTrackShape: const CutoutRangeSliderTrackShape(),
+        year2023: true,
       ),
       child: RangeSlider(
         values: values,

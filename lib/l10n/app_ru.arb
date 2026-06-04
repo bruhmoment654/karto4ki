@@ -553,6 +553,15 @@
       }
     }
   },
+  "testDetailCardsCount": "{count, plural, =0{Нет карточек} one{{count} карточка} few{{count} карточки} many{{count} карточек} other{{count} карточек}}",
+  "@testDetailCardsCount": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
   "testDetailEmptyCardsMessage": "Нет карточек.\nНажмите + чтобы добавить первую.",
   "testDetailDeleteCardTitle": "Удалить карточку?",
   "testDetailDeleteCardMessage": "Вы уверены, что хотите удалить эту карточку?",
@@ -560,6 +569,23 @@
   "testDetailDeleteCardConfirm": "Удалить",
   "testDetailSettingsButton": "Настройки",
   "testDetailSwapSides": "Поменять стороны местами",
+  "commonCancel": "Отмена",
+  "commonSave": "Сохранить",
+  "commonCreate": "Создать",
+  "testDetailNewCardTitle": "Новая карточка",
+  "testDetailEditCardTitle": "Редактировать карточку",
+  "testDetailEditTestTitle": "Редактировать тест",
+  "testDetailCardFrontLabel": "Вопрос",
+  "testDetailCardFrontHint": "Введите вопрос",
+  "testDetailCardBackLabel": "Ответ",
+  "testDetailCardBackHint": "Введите ответ (варианты через |)",
+  "testDetailTestTitleLabel": "Название",
+  "testDetailTestDescriptionLabel": "Описание",
+  "testSettingsTitle": "Настройка теста",
+  "testSettingsSwapSides": "Инвертировать стороны",
+  "testSettingsSwapSidesSubtitle": "Поменять вопрос и ответ местами",
+  "testSettingsAnswerVariant": "Вариант для вопроса",
+  "testSettingsApply": "Применить",
   "groupDetailMixup": "Подмешивание вопросов",
   "groupDetailMixupDescription": "Добавляет вопросы из других тестов группы",
   "testDetailAddCardFab": "Добавить",
@@ -644,11 +670,11 @@
       }
     }
   },
-  "profileCardFontSizeTitle": "Размер шрифта на карточке",
-  "profileCardFontSizeLabel": "{size} pt",
-  "@profileCardFontSizeLabel": {
+  "profileCardPaddingTitle": "Отступ текста на карточке",
+  "profileCardPaddingLabel": "{value} px",
+  "@profileCardPaddingLabel": {
     "placeholders": {
-      "size": {
+      "value": {
         "type": "int",
         "example": "24"
       }
@@ -668,6 +694,24 @@
   "questionStatsSortByStreak": "По серии",
   "questionStatsSortByAccuracy": "По точности",
   "questionStatsSortTitle": "Сортировка",
+  "questionStatsSearchHint": "Поиск по карточкам",
+  "questionStatsSearchFound": "Найдено: {count}",
+  "@questionStatsSearchFound": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "questionStatsSearchEmpty": "Ничего не найдено",
+  "questionStatsTotalCount": "Всего: {count}",
+  "@questionStatsTotalCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "@segmentGroupsList": {
     "---------": "---------",
     "description": "Список групп"
@@ -802,6 +846,7 @@
       }
     }
   },
+  "groupDetailMixupCountLabel": "Количество",
   "groupDetailMixupAlgorithm": "Алгоритм подмешивания",
   "groupDetailMixupAlgorithmClassic": "Классический",
   "groupDetailMixupAlgorithmScoring": "Умный",
