@@ -2,7 +2,7 @@ name: quizzerg
 description: "Quizzerg is a quiz app that allows you to create and share quizzes with your friends."
 publish_to: "none"
 
-version: 1.0.1
+version: 1.0.3
 
 environment:
   sdk: ">=3.5.0 <4.0.0"
@@ -38,6 +38,9 @@ dependencies:
   flutter_svg: 2.0.6
   octo_image: 2.1.0
   cached_network_image: 3.4.1
+  auto_size_text: 3.0.0
+  flutter_staggered_animations: 1.1.1
+  animations: 2.0.11
 
   # Utils
   surf_logger: 2.0.2

@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -10,6 +11,7 @@ import 'package:quizzerg/feature/tinder_test/presentation/widget/results_content
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
+import 'package:quizzerg/uikit/motion/app_motion.dart';
 import 'package:quizzerg/uikit/progress/animated_linear_progress.dart';
 import 'package:quizzerg/uikit/question_card/swipable_card_wrapper.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
@@ -32,36 +34,60 @@ class TinderTestView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Переход между состояниями (в т.ч. прохождение → результат) — shared axis
+    // Z (масштаб + fade) по M3.
+    final body = switch (state) {
+      TinderTestState$Initial() || TinderTestState$Loading() => const Center(
+          key: ValueKey('loading'),
+          child: CircularProgressIndicator(),
+        ),
+      TinderTestState$Empty() => _EmptyContent(
+          key: const ValueKey('empty'),
+          viewModel: viewModel,
+        ),
+      TinderTestState$Error(:final message) => _ErrorContent(
+          key: const ValueKey('error'),
+          message: message,
+          viewModel: viewModel,
+        ),
+      TinderTestState$InProgress(
+        :final session,
+        :final currentCard,
+        :final isUndo
+      ) =>
+        _TestContent(
+          key: const ValueKey('in_progress'),
+          session: session,
+          currentCard: currentCard,
+          isUndo: isUndo,
+          viewModel: viewModel,
+        ),
+      TinderTestState$Completed(:final session) => ResultsContent(
+          key: const ValueKey('completed'),
+          session: session,
+          viewModel: viewModel,
+        ),
+    };
+
     return AppScaffold(
       appBar: DefaultAppBar.withBack(
         title: Text(context.l10n.tinderTestAppBarTitle),
         onBackPressed: viewModel.onBackPressed,
       ),
-      body: switch (state) {
-        TinderTestState$Initial() ||
-        TinderTestState$Loading() =>
-          const Center(child: CircularProgressIndicator()),
-        TinderTestState$Empty() => _EmptyContent(viewModel: viewModel),
-        TinderTestState$Error(:final message) => _ErrorContent(
-            message: message,
-            viewModel: viewModel,
-          ),
-        TinderTestState$InProgress(
-          :final session,
-          :final currentCard,
-          :final isUndo
-        ) =>
-          _TestContent(
-            session: session,
-            currentCard: currentCard,
-            isUndo: isUndo,
-            viewModel: viewModel,
-          ),
-        TinderTestState$Completed(:final session) => ResultsContent(
-            session: session,
-            viewModel: viewModel,
-          ),
-      },
+      body: PageTransitionSwitcher(
+        duration: AppMotion.reduced(context)
+            ? Duration.zero
+            : const Duration(milliseconds: 400),
+        transitionBuilder: (child, primaryAnimation, secondaryAnimation) =>
+            SharedAxisTransition(
+          animation: primaryAnimation,
+          secondaryAnimation: secondaryAnimation,
+          transitionType: SharedAxisTransitionType.scaled,
+          fillColor: Colors.transparent,
+          child: child,
+        ),
+        child: body,
+      ),
     );
   }
 }
@@ -69,7 +95,7 @@ class TinderTestView extends StatelessWidget {
 class _EmptyContent extends StatelessWidget {
   final ITinderTestViewModel viewModel;
 
-  const _EmptyContent({required this.viewModel});
+  const _EmptyContent({required this.viewModel, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -112,6 +138,7 @@ class _ErrorContent extends StatelessWidget {
   const _ErrorContent({
     required this.message,
     required this.viewModel,
+    super.key,
   });
 
   @override
@@ -155,6 +182,7 @@ class _TestContent extends StatefulWidget {
     required this.currentCard,
     required this.isUndo,
     required this.viewModel,
+    super.key,
   });
 
   @override
@@ -199,7 +227,7 @@ class _TestContentState extends State<_TestContent> {
   Widget build(BuildContext context) {
     final settings = context.read<IAppScope>().settingsStorage.get();
     final flipDuration = Duration(milliseconds: settings.animationDurationMs);
-    final cardHorizontalPadding = settings.cardHorizontalPadding;
+    final cardFontSize = settings.cardFontSize;
 
     return Column(
       children: [
@@ -229,7 +257,7 @@ class _TestContentState extends State<_TestContent> {
                       enableFlipAnimation: enableFlipAnimation,
                       enterFromLeft: widget.isUndo,
                       flipDuration: flipDuration,
-                      horizontalPadding: cardHorizontalPadding,
+                      fontSize: cardFontSize,
                       onTap: () => _showAnswer.value = !currentShowAnswer,
                       onSwipeLeft: () =>
                           widget.viewModel.onSwipeLeft(widget.currentCard),

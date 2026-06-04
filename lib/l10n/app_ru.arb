@@ -670,13 +670,13 @@
       }
     }
   },
-  "profileCardPaddingTitle": "Отступ текста на карточке",
-  "profileCardPaddingLabel": "{value} px",
-  "@profileCardPaddingLabel": {
+  "profileCardFontSizeTitle": "Размер шрифта на карточке",
+  "profileCardFontSizeLabel": "{value} px",
+  "@profileCardFontSizeLabel": {
     "placeholders": {
       "value": {
         "type": "int",
-        "example": "24"
+        "example": "96"
       }
     }
   },

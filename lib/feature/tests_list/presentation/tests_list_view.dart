@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import 'package:quizzerg/feature/tests_list/domain/bloc/tests_list_bloc.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
@@ -7,6 +8,7 @@ import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/motion/staggered_appear.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 
 /// UI layer for tests list screen.
@@ -102,17 +104,22 @@ class _TestsList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView.builder(
-      itemCount: tests.length,
-      itemBuilder: (context, index) {
-        final test = tests[index];
-        return _TestListItem(
-          test: test,
-          onTap: () => viewModel.onTestTapped(test),
-          onDelete: () => viewModel.onTestDeletePressed(test),
-          onLongPress: () => viewModel.onTestLongPressed(test),
-        );
-      },
+    return AnimationLimiter(
+      child: ListView.builder(
+        itemCount: tests.length,
+        itemBuilder: (context, index) {
+          final test = tests[index];
+          return StaggeredAppear(
+            position: index,
+            child: _TestListItem(
+              test: test,
+              onTap: () => viewModel.onTestTapped(test),
+              onDelete: () => viewModel.onTestDeletePressed(test),
+              onLongPress: () => viewModel.onTestLongPressed(test),
+            ),
+          );
+        },
+      ),
     );
   }
 }

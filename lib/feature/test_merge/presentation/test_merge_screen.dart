@@ -7,6 +7,7 @@ import 'package:quizzerg/feature/test_merge/presentation/test_merge_view.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
 
 class TestMergeScreen extends StatefulWidget {
   const TestMergeScreen({super.key});
@@ -60,11 +61,9 @@ class _TestMergeScreenState extends State<TestMergeScreen>
       context: context,
       builder: (dialogContext) => AppDialog(
         title: Text(context.l10n.testMergeNewTestTitle),
-        content: TextField(
+        content: Karto4kiTextField(
           controller: titleController,
-          decoration: InputDecoration(
-            hintText: context.l10n.testMergeNewTestTitle,
-          ),
+          hintText: context.l10n.testMergeNewTestTitle,
           autofocus: true,
         ),
         actions: [

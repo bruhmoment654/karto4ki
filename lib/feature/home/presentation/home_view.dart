@@ -1,8 +1,10 @@
+import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/feature/home/presentation/home_screen.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/motion/app_motion.dart';
 
 /// UI layer for Home screen.
 ///
@@ -20,6 +22,15 @@ class HomeView extends StatelessWidget {
         QuestionStatsRoute(),
         ProfileRoute(),
       ],
+      // Смена вкладок — M3 fade through.
+      transitionBuilder: (context, child, animation) => FadeThroughTransition(
+        animation: AppMotion.reduced(context)
+            ? const AlwaysStoppedAnimation(1)
+            : animation,
+        secondaryAnimation: kAlwaysDismissedAnimation,
+        fillColor: Colors.transparent,
+        child: child,
+      ),
       extendBody: true,
       bottomNavigationBuilder: (context, tabsRouter) {
         return NavigationBar(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dart';
@@ -7,6 +8,7 @@ import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
+import 'package:quizzerg/uikit/motion/staggered_appear.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
@@ -51,7 +53,8 @@ class TestDetailView extends StatelessWidget {
               ],
             ),
           ),
-        TestDetailState$Loaded(:final test, :final cards) => _TestDetailLoadedBody(
+        TestDetailState$Loaded(:final test, :final cards) =>
+          _TestDetailLoadedBody(
             test: test,
             cards: cards,
             viewModel: viewModel,
@@ -85,49 +88,54 @@ class _TestDetailLoadedBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      physics: const BouncingScrollPhysics(
-        parent: AlwaysScrollableScrollPhysics(),
-      ),
-      slivers: [
-        _TestDetailHeader(
-          test: test,
-          cardsCount: cards.length,
-          canStart: cards.isNotEmpty,
-          viewModel: viewModel,
-          onBackPressed: onBackPressed,
+    return AnimationLimiter(
+      child: CustomScrollView(
+        physics: const BouncingScrollPhysics(
+          parent: AlwaysScrollableScrollPhysics(),
         ),
-        SliverToBoxAdapter(
-          child: _ActionsRow(
+        slivers: [
+          _TestDetailHeader(
+            test: test,
             cardsCount: cards.length,
-            onImportCsvPressed: viewModel.onImportCsvPressed,
-            onSettingsPressed: viewModel.onTestSettingsPressed,
+            canStart: cards.isNotEmpty,
+            viewModel: viewModel,
+            onBackPressed: onBackPressed,
           ),
-        ),
-        if (cards.isEmpty)
-          const SliverFillRemaining(
-            hasScrollBody: false,
-            child: _EmptyCardsPlaceholder(),
-          )
-        else
-          SliverList.builder(
-            itemCount: cards.length,
-            itemBuilder: (context, index) {
-              final card = cards[index];
-              return _CardListItem(
-                card: card,
-                onTap: () => viewModel.onCardTapped(card),
-                onConfirmDismiss: () => viewModel.confirmCardDelete(card),
-                onDelete: () => viewModel.onCardDeletePressed(card),
-              );
-            },
+          SliverToBoxAdapter(
+            child: _ActionsRow(
+              cardsCount: cards.length,
+              onImportCsvPressed: viewModel.onImportCsvPressed,
+              onSettingsPressed: viewModel.onTestSettingsPressed,
+            ),
           ),
-        SliverPadding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom + 80,
+          if (cards.isEmpty)
+            const SliverFillRemaining(
+              hasScrollBody: false,
+              child: _EmptyCardsPlaceholder(),
+            )
+          else
+            SliverList.builder(
+              itemCount: cards.length,
+              itemBuilder: (context, index) {
+                final card = cards[index];
+                return StaggeredAppear(
+                  position: index,
+                  child: _CardListItem(
+                    card: card,
+                    onTap: () => viewModel.onCardTapped(card),
+                    onConfirmDismiss: () => viewModel.confirmCardDelete(card),
+                    onDelete: () => viewModel.onCardDeletePressed(card),
+                  ),
+                );
+              },
+            ),
+          SliverPadding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).padding.bottom + 80,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }
@@ -170,60 +178,64 @@ class _TestDetailHeader extends StatelessWidget {
               bottom: Radius.circular(AppDimens.radius28),
             ),
           ),
-          child: SafeArea(
-            bottom: false,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8, 4, 8, 22),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    height: 56,
-                    child: Row(
-                      children: [
-                        IconButton(
-                          onPressed: onBackPressed,
-                          icon: Icon(Icons.arrow_back, color: onContainer),
-                        ),
-                        const Spacer(),
-                        IconButton(
-                          onPressed:
-                              canStart ? viewModel.onStartTestPressed : null,
-                          icon: Icon(Icons.play_arrow, color: onContainer),
-                        ),
-                      ],
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: viewModel.onEditTestPressed,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 12),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+          child: GestureDetector(
+            behavior: HitTestBehavior.opaque,
+            onTap: canStart ? viewModel.onStartTestPressed : null,
+            child: SafeArea(
+              bottom: false,
+              child: Padding(
+                padding: const EdgeInsets.fromLTRB(8, 4, 8, 22),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(
+                      height: 56,
+                      child: Row(
                         children: [
-                          Text(
-                            test.title,
-                            style: textTheme.displaySmall?.copyWith(
-                              fontWeight: FontWeight.w600,
-                              letterSpacing: -0.5,
-                              color: onContainer,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
+                          IconButton(
+                            onPressed: onBackPressed,
+                            icon: Icon(Icons.arrow_back, color: onContainer),
                           ),
-                          const Height(6),
-                          Text(
-                            context.l10n.testDetailCardsCount(cardsCount),
-                            style: textTheme.bodyMedium?.copyWith(
-                              color: onContainer.withValues(alpha: 0.78),
-                            ),
+                          const Spacer(),
+                          IconButton(
+                            onPressed:
+                                canStart ? viewModel.onStartTestPressed : null,
+                            icon: Icon(Icons.play_arrow, color: onContainer),
                           ),
                         ],
                       ),
                     ),
-                  ),
-                ],
+                    GestureDetector(
+                      onTap: viewModel.onEditTestPressed,
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              test.title,
+                              style: textTheme.displaySmall?.copyWith(
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: -0.5,
+                                color: onContainer,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const Height(6),
+                            Text(
+                              context.l10n.testDetailCardsCount(cardsCount),
+                              style: textTheme.bodyMedium?.copyWith(
+                                color: onContainer.withValues(alpha: 0.78),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),

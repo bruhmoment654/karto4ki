@@ -97,8 +97,9 @@ class _TestSettingsDialogState extends State<TestSettingsDialog> {
                   )
                 : const SizedBox(width: double.infinity),
             secondChild: const SizedBox(width: double.infinity),
-            crossFadeState:
-                _swapSides ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+            crossFadeState: _swapSides
+                ? CrossFadeState.showFirst
+                : CrossFadeState.showSecond,
             sizeCurve: Curves.fastEaseInToSlowEaseOut,
             duration: const Duration(milliseconds: 200),
           ),
@@ -189,12 +190,10 @@ class _StepperButton extends StatelessWidget {
     final colorScheme = Theme.of(context).colorScheme;
     final enabled = onPressed != null;
 
-    final background = filled
-        ? colorScheme.primary
-        : colorScheme.surfaceContainerHighest;
-    final foreground = filled
-        ? colorScheme.onPrimary
-        : colorScheme.onSurfaceVariant;
+    final background =
+        filled ? colorScheme.primary : colorScheme.surfaceContainerHighest;
+    final foreground =
+        filled ? colorScheme.onPrimary : colorScheme.onSurfaceVariant;
 
     return Material(
       color: enabled ? background : background.withValues(alpha: 0.4),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:quizzerg/core/utils/answer_parser.dart';
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_sort.dart';
@@ -6,6 +7,10 @@ import 'package:quizzerg/feature/question_stats/presentation/question_stats_scre
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
+import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
+import 'package:quizzerg/uikit/motion/count_up_text.dart';
+import 'package:quizzerg/uikit/motion/staggered_appear.dart';
+import 'package:quizzerg/uikit/progress/wave_fill_bar.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
 
@@ -56,22 +61,30 @@ class _Body extends StatelessWidget {
         Expanded(
           child: stats.isEmpty
               ? _SearchEmptyContent()
-              : CustomScrollView(
-                  controller: viewModel.scrollController,
-                  slivers: [
-                    SliverPadding(
-                      padding: const EdgeInsets.symmetric(horizontal: 16),
-                      sliver: SliverList.separated(
-                        itemCount: stats.length,
-                        separatorBuilder: (_, __) => const SizedBox(height: 10),
-                        itemBuilder: (_, index) => _StatsCard(
-                          stat: stats[index],
-                          query: query,
+              : AnimationLimiter(
+                  child: CustomScrollView(
+                    controller: viewModel.scrollController,
+                    slivers: [
+                      SliverPadding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        sliver: SliverList.separated(
+                          itemCount: stats.length,
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(height: 10),
+                          itemBuilder: (_, index) => StaggeredAppear(
+                            position: index,
+                            child: _StatsCard(
+                              stat: stats[index],
+                              query: query,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                    const SliverPadding(padding: EdgeInsets.only(bottom: 24)),
-                  ],
+                      const SliverPadding(
+                        padding: EdgeInsets.only(bottom: 24),
+                      ),
+                    ],
+                  ),
                 ),
         ),
       ],
@@ -88,17 +101,17 @@ class _SearchBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
-      child: SearchBar(
+      child: Karto4kiTextField(
         controller: viewModel.searchController,
         hintText: context.l10n.questionStatsSearchHint,
-        leading: const Icon(Icons.search),
-        trailing: [
-          if (viewModel.searchQuery.isNotEmpty)
-            IconButton(
-              icon: const Icon(Icons.close),
-              onPressed: viewModel.onSearchCleared,
-            ),
-        ],
+        textInputAction: TextInputAction.search,
+        prefixIcon: const Icon(Icons.search),
+        suffixIcon: viewModel.searchQuery.isNotEmpty
+            ? IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: viewModel.onSearchCleared,
+              )
+            : null,
         onChanged: viewModel.onSearchChanged,
       ),
     );
@@ -334,8 +347,9 @@ class _StatsCard extends StatelessWidget {
                 ),
               ),
               const SizedBox(width: 12),
-              Text(
-                '$accuracy%',
+              CountUpText(
+                value: accuracy,
+                suffix: '%',
                 style: theme.textTheme.titleLarge?.copyWith(
                   fontWeight: FontWeight.w700,
                   color: accuracyColor,
@@ -365,14 +379,10 @@ class _StatsCard extends StatelessWidget {
               ),
               const SizedBox(width: 18),
               Expanded(
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(99),
-                  child: LinearProgressIndicator(
-                    value: accuracy / 100,
-                    minHeight: 6,
-                    color: accuracyColor,
-                    backgroundColor: cs.surfaceContainerHighest,
-                  ),
+                child: WaveFillBar(
+                  value: accuracy / 100,
+                  color: accuracyColor,
+                  backgroundColor: cs.surfaceContainerHighest,
                 ),
               ),
             ],
@@ -383,10 +393,14 @@ class _StatsCard extends StatelessWidget {
   }
 
   /// Цвет точности по порогам: ≥90 — успех, ≥60 — предупреждение, иначе ошибка.
+  ///
+  /// На светлой теме — более яркие оттенки (тёмные семантические роли подобраны
+  /// под читаемость мелкого текста и смотрятся блёкло на крупных числах/полоске).
   Color _accuracyColor(ColorScheme cs, int accuracy) {
-    if (accuracy >= 90) return cs.success;
-    if (accuracy >= 60) return cs.warning;
-    return cs.error;
+    final isLight = cs.brightness == Brightness.light;
+    if (accuracy >= 90) return isLight ? const Color(0xFF15A34A) : cs.success;
+    if (accuracy >= 60) return isLight ? const Color(0xFFF59E0B) : cs.warning;
+    return isLight ? const Color(0xFFE5342B) : cs.error;
   }
 }
 
@@ -466,7 +480,8 @@ class _HighlightedText extends StatelessWidget {
         spans.add(TextSpan(text: text.substring(start, index)));
       }
       final end = index + normalizedQuery.length;
-      spans.add(TextSpan(text: text.substring(index, end), style: highlightStyle));
+      spans.add(
+          TextSpan(text: text.substring(index, end), style: highlightStyle));
       start = end;
     }
 

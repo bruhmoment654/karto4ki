@@ -8,6 +8,7 @@ import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
 import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
+import 'package:quizzerg/uikit/question_card/question_card.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/skeleton_gif/skeleton_gif.dart';
 import 'package:quizzerg/uikit/slider/app_slider.dart';
@@ -41,8 +42,9 @@ class SettingsView extends StatelessWidget {
           _SettingsCard(
             icon: Icons.dashboard_customize_outlined,
             title: 'Карточки',
+            fadeInDelay: const Duration(milliseconds: 80),
             children: [
-              _CardPaddingSection(viewModel: viewModel),
+              _CardFontSizeSection(viewModel: viewModel),
             ],
           ),
           const Height(32),
@@ -62,11 +64,13 @@ class _SettingsCard extends StatelessWidget {
   final IconData icon;
   final String title;
   final List<Widget> children;
+  final Duration fadeInDelay;
 
   const _SettingsCard({
     required this.icon,
     required this.title,
     required this.children,
+    this.fadeInDelay = Duration.zero,
   });
 
   @override
@@ -74,6 +78,8 @@ class _SettingsCard extends StatelessWidget {
     final theme = Theme.of(context);
 
     return ContentCard(
+      fadeIn: true,
+      fadeInDelay: fadeInDelay,
       borderRadius: BorderRadius.circular(AppDimens.radius28),
       padding: const EdgeInsets.all(20),
       child: Column(
@@ -332,7 +338,7 @@ class _ThemeModeSection extends StatelessWidget {
 }
 
 /// Сегментированный переключатель темы по дизайну: pill с обводкой, сегменты
-/// на всю ширину, активный — на `secondaryContainer` с галочкой.
+/// на всю ширину, активный — выделен фоном `secondaryContainer`.
 class _ThemeModeSwitch extends StatelessWidget {
   final AppThemeMode value;
   final ValueChanged<AppThemeMode> onChanged;
@@ -354,13 +360,19 @@ class _ThemeModeSwitch extends StatelessWidget {
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(99),
+      ),
+      // Обводка рисуется поверх содержимого, иначе фон активного сегмента
+      // перекрывает её по краям из-за клипа скруглённого контейнера.
+      foregroundDecoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(99),
         border: Border.all(color: cs.outline),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           for (var i = 0; i < _items.length; i++) ...[
-            if (i > 0) ColoredBox(color: cs.outline, child: const SizedBox(width: 1)),
+            if (i > 0)
+              ColoredBox(color: cs.outline, child: const SizedBox(width: 1)),
             Expanded(
               child: _ThemeModeSegment(
                 label: _items[i].$2,
@@ -395,57 +407,48 @@ class _ThemeModeSegment extends StatelessWidget {
       color: selected ? cs.secondaryContainer : Colors.transparent,
       child: InkWell(
         onTap: onTap,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            AnimatedCrossFade(
-              duration: const Duration(milliseconds: 220),
-              sizeCurve: Curves.easeInOut,
-              firstCurve: Curves.easeIn,
-              secondCurve: Curves.easeOut,
-              crossFadeState: selected ? CrossFadeState.showFirst : CrossFadeState.showSecond,
-              alignment: Alignment.center,
-              firstChild: Padding(
-                padding: const EdgeInsets.only(right: 6),
-                child: Icon(Icons.check, size: 18, color: foreground),
-              ),
-              secondChild: Icon(Icons.check, size: 0, color: foreground),
+        child: Center(
+          child: Text(
+            label,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w600,
+              color: foreground,
             ),
-            Text(
-              label,
-              style: TextStyle(
-                fontSize: 14,
-                fontWeight: FontWeight.w600,
-                color: foreground,
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );
   }
 }
 
-class _CardPaddingSection extends StatefulWidget {
+class _CardFontSizeSection extends StatefulWidget {
   final ISettingsViewModel viewModel;
 
-  const _CardPaddingSection({required this.viewModel});
+  const _CardFontSizeSection({required this.viewModel});
+
+  /// Минимальный размер шрифта на карточке (px).
+  static const double minFontSize = 24;
+
+  /// Максимальный размер шрифта на карточке (px).
+  static const double maxFontSize = 200;
 
   @override
-  State<_CardPaddingSection> createState() => _CardPaddingSectionState();
+  State<_CardFontSizeSection> createState() => _CardFontSizeSectionState();
 }
 
-class _CardPaddingSectionState extends State<_CardPaddingSection> {
-  late final ValueNotifier<double> _padding = ValueNotifier(widget.viewModel.cardHorizontalPadding);
+class _CardFontSizeSectionState extends State<_CardFontSizeSection> {
+  late final ValueNotifier<double> _fontSize =
+      ValueNotifier(widget.viewModel.cardFontSize);
 
   void _onChanged(double value) {
-    _padding.value = value;
-    widget.viewModel.onCardHorizontalPaddingChanged(value);
+    _fontSize.value = value;
+    widget.viewModel.onCardFontSizeChanged(value);
   }
 
   @override
   void dispose() {
-    _padding.dispose();
+    _fontSize.dispose();
     super.dispose();
   }
 
@@ -454,17 +457,17 @@ class _CardPaddingSectionState extends State<_CardPaddingSection> {
     final theme = Theme.of(context);
 
     return ValueListenableBuilder<double>(
-      valueListenable: _padding,
-      builder: (context, padding, child) {
+      valueListenable: _fontSize,
+      builder: (context, fontSize, child) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                _SettingsSectionLabel(context.l10n.profileCardPaddingTitle),
+                _SettingsSectionLabel(context.l10n.profileCardFontSizeTitle),
                 Text(
-                  context.l10n.profileCardPaddingLabel(padding.round()),
+                  context.l10n.profileCardFontSizeLabel(fontSize.round()),
                   style: theme.textTheme.titleMedium?.copyWith(
                     color: theme.colorScheme.primary,
                   ),
@@ -473,12 +476,13 @@ class _CardPaddingSectionState extends State<_CardPaddingSection> {
             ),
             const Height(8),
             AppSlider(
-              value: padding,
-              max: 96,
+              value: fontSize,
+              min: _CardFontSizeSection.minFontSize,
+              max: _CardFontSizeSection.maxFontSize,
               onChanged: _onChanged,
             ),
             const Height(12),
-            _CardPaddingPreview(horizontalPadding: padding),
+            _CardFontSizePreview(fontSize: fontSize),
           ],
         );
       },
@@ -486,28 +490,25 @@ class _CardPaddingSectionState extends State<_CardPaddingSection> {
   }
 }
 
-/// Превью карточки теста: повторяет фон, скругление и отступы реальной карточки
-/// (базовый отступ контента `ContentCard.large` + регулируемый горизонтальный),
-/// а текст масштабируется через `FittedBox`, как в фиче — так видно, каким он
-/// будет на карточке при текущем отступе.
-class _CardPaddingPreview extends StatelessWidget {
+/// Превью карточки теста: повторяет фон, скругление и отступы реальной карточки,
+/// а текст рендерится через `CardBodyText` с выбранным размером — так видно,
+/// каким он будет на карточке при текущей настройке.
+class _CardFontSizePreview extends StatelessWidget {
   /// Базовый отступ контента карточки (`ContentCard.large`) в фиче.
   static const double _baseCardPadding = 24;
 
   /// Пример текста на карточке.
   static const String _sampleText = '渡る';
 
-  final double horizontalPadding;
+  final double fontSize;
 
-  const _CardPaddingPreview({required this.horizontalPadding});
+  const _CardFontSizePreview({required this.fontSize});
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
 
-    // Портретная пропорция, как у карточки в тесте: так текст ограничен по
-    // ширине и горизонтальный отступ реально меняет его размер (в низком
-    // широком контейнере ограничивала бы высота, и отступ был бы не виден).
+    // Портретная пропорция, как у карточки в тесте.
     return AspectRatio(
       aspectRatio: 3 / 4,
       child: DecoratedBox(
@@ -516,18 +517,9 @@ class _CardPaddingPreview extends StatelessWidget {
           borderRadius: BorderRadius.circular(AppDimens.radius28),
         ),
         child: Padding(
-          padding: EdgeInsets.symmetric(
-            horizontal: _baseCardPadding + horizontalPadding,
-            vertical: _baseCardPadding,
-          ),
-          child: const SizedBox.expand(
-            child: FittedBox(
-              child: Text(
-                _sampleText,
-                style: TextStyle(fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-            ),
+          padding: const EdgeInsets.all(_baseCardPadding),
+          child: Center(
+            child: CardBodyText(_sampleText, maxFontSize: fontSize),
           ),
         ),
       ),

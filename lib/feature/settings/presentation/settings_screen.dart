@@ -56,10 +56,10 @@ class _SettingsScreenState extends State<SettingsScreen>
   AppThemeMode get themeMode => _settings.themeMode;
 
   @override
-  double get cardHorizontalPadding => _settings.cardHorizontalPadding;
+  double get cardFontSize => _settings.cardFontSize;
 
   @override
-  void onCardHorizontalPaddingChanged(double value) {
+  void onCardFontSizeChanged(double value) {
     _saveSettings(SettingsDto(
       animationDurationMs: _settings.animationDurationMs,
       shaderAnimationEnabled: _settings.shaderAnimationEnabled,
@@ -69,7 +69,7 @@ class _SettingsScreenState extends State<SettingsScreen>
       mixupMax: _settings.mixupMax,
       themeMode: _settings.themeMode,
       mixupAlgorithm: _settings.mixupAlgorithm,
-      cardHorizontalPadding: value,
+      cardFontSize: value,
     ));
   }
 
@@ -84,7 +84,7 @@ class _SettingsScreenState extends State<SettingsScreen>
       mixupMax: _settings.mixupMax,
       themeMode: mode,
       mixupAlgorithm: _settings.mixupAlgorithm,
-      cardHorizontalPadding: _settings.cardHorizontalPadding,
+      cardFontSize: _settings.cardFontSize,
     ));
   }
 
@@ -99,7 +99,7 @@ class _SettingsScreenState extends State<SettingsScreen>
       mixupMax: _settings.mixupMax,
       themeMode: _settings.themeMode,
       mixupAlgorithm: _settings.mixupAlgorithm,
-      cardHorizontalPadding: _settings.cardHorizontalPadding,
+      cardFontSize: _settings.cardFontSize,
     ));
   }
 
@@ -121,7 +121,7 @@ class _SettingsScreenState extends State<SettingsScreen>
         mixupMax: _settings.mixupMax,
         themeMode: _settings.themeMode,
         mixupAlgorithm: _settings.mixupAlgorithm,
-        cardHorizontalPadding: _settings.cardHorizontalPadding,
+        cardFontSize: _settings.cardFontSize,
       ));
     });
   }
@@ -144,10 +144,10 @@ abstract interface class ISettingsViewModel {
   double get accentColorHue;
   Color get previewAccentColor;
   AppThemeMode get themeMode;
-  double get cardHorizontalPadding;
+  double get cardFontSize;
 
   void onAnimationDurationChanged(double value);
   void onAccentColorHueChanged(double value);
   void onThemeModeChanged(AppThemeMode mode);
-  void onCardHorizontalPaddingChanged(double value);
+  void onCardFontSizeChanged(double value);
 }

@@ -8,6 +8,7 @@ import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/feature/tests_list/presentation/tests_list_view.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 
 /// Tests list screen.
@@ -91,21 +92,17 @@ class _TestsListScreenState extends State<TestsListScreen>
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
+            Karto4kiTextField(
               controller: titleController,
-              decoration: const InputDecoration(
-                labelText: 'Название',
-                hintText: 'Введите название теста',
-              ),
+              labelText: 'Название',
+              hintText: 'Введите название теста',
               autofocus: true,
             ),
             const SizedBox(height: 16),
-            TextField(
+            Karto4kiTextField(
               controller: descriptionController,
-              decoration: const InputDecoration(
-                labelText: 'Описание',
-                hintText: 'Введите описание (необязательно)',
-              ),
+              labelText: 'Описание',
+              hintText: 'Введите описание (необязательно)',
               maxLines: 2,
             ),
           ],

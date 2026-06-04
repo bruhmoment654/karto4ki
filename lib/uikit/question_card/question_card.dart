@@ -1,5 +1,6 @@
 import 'dart:math' as math;
 
+import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
 import 'package:quizzerg/uikit/content_card/content_card.dart';
@@ -24,8 +25,8 @@ class QuestionCard extends StatefulWidget {
     Key? key,
   }) {
     return QuestionCard(
-      front: _QuestionCardText(text: frontText),
-      back: _QuestionCardText(text: backText),
+      front: CardBodyText(frontText),
+      back: CardBodyText(backText),
       onFlip: onFlip,
       key: key,
     );
@@ -89,6 +90,44 @@ class _QuestionCardText extends StatelessWidget {
   }
 }
 
+/// Текст тела карточки (вопрос/ответ): сам подбирает размер шрифта под
+/// доступное место с переносом по ширине. Короткий текст растёт до
+/// [maxFontSize], а длинный переносится на несколько строк и ужимается
+/// только при нехватке места.
+class CardBodyText extends StatelessWidget {
+  final String text;
+
+  /// Максимальный (и стартовый) размер шрифта в px — задаётся настройкой.
+  final double maxFontSize;
+
+  const CardBodyText(this.text, {this.maxFontSize = 96, super.key});
+
+  /// Минимальный размер шрифта при нехватке места.
+  static const double _minFontSize = 14;
+
+  /// Максимум строк при переносе.
+  static const int _maxLines = 2;
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return AutoSizeText(
+      text,
+      style: TextStyle(
+        fontSize: maxFontSize,
+        fontWeight: FontWeight.bold,
+        color: colorScheme.onSurface,
+      ),
+      textAlign: TextAlign.center,
+      minFontSize: _minFontSize,
+      maxLines: _maxLines,
+      // Не рвать слова по частям: длинное слово целиком, иначе уменьшаем шрифт.
+      wrapWords: false,
+    );
+  }
+}
+
 class QuestionCardContent extends StatelessWidget {
   final Widget front;
   final Widget back;
@@ -99,7 +138,9 @@ class QuestionCardContent extends StatelessWidget {
   final String? leftBadgeText;
   final String? rightBadgeText;
   final bool isMixedIn;
-  final double horizontalPadding;
+
+  /// Фиксированный горизонтальный отступ текста от краёв карточки.
+  static const double _contentHorizontalPadding = 24;
 
   const QuestionCardContent({
     required this.front,
@@ -109,7 +150,6 @@ class QuestionCardContent extends StatelessWidget {
     this.enableFlipAnimation = true,
     this.flipDuration = const Duration(milliseconds: 300),
     this.isMixedIn = false,
-    this.horizontalPadding = 24,
     super.key,
     this.leftBadgeText,
     this.rightBadgeText,
@@ -164,7 +204,8 @@ class QuestionCardContent extends StatelessWidget {
           backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
           child: SizedBox.expand(
             child: Padding(
-              padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: _contentHorizontalPadding),
               child: Center(child: face),
             ),
           ),
@@ -210,7 +251,8 @@ class QuestionCardContent extends StatelessWidget {
             backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
             child: SizedBox.expand(
               child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: horizontalPadding),
+                padding: const EdgeInsets.symmetric(
+                    horizontal: _contentHorizontalPadding),
                 child: Center(child: face),
               ),
             ),
@@ -236,14 +278,13 @@ class _QuestionCardFace extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Stack с StackFit.expand задаёт FittedBox жёсткие (tight) ограничения —
-    // иначе он подгонялся бы под натуральный размер текста и не увеличивал его.
-    // Текст центрируется по всей площади карточки, бейдж лежит поверх сверху,
-    // чтобы не сдвигать текст вниз.
+    // Тело занимает всю площадь карточки и центрируется; размер шрифта
+    // подбирает сам `CardBodyText` (AutoSizeText) под доступное место.
+    // Бейдж лежит поверх сверху, чтобы не сдвигать текст вниз.
     return Stack(
       fit: StackFit.expand,
       children: [
-        FittedBox(child: body),
+        Center(child: body),
         Positioned(
           top: 0,
           left: 0,

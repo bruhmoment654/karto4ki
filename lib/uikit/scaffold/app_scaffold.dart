@@ -53,8 +53,8 @@ class AppScaffold extends StatelessWidget {
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       backgroundColor:
           backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
-      floatingActionButtonLocation:
-          floatingActionButtonLocation ?? FloatingActionButtonLocation.centerFloat,
+      floatingActionButtonLocation: floatingActionButtonLocation ??
+          FloatingActionButtonLocation.centerFloat,
     );
   }
 }

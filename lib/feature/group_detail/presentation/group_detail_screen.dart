@@ -11,6 +11,7 @@ import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_algorithm.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
 
 /// Экран деталки группы.
 class GroupDetailScreen extends StatefulWidget {
@@ -115,8 +116,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
 
   @override
   void onStreakCoefficientsReset() {
-    streakNegativeBonusController.text =
-        _defaultStreakValue.toStringAsFixed(2);
+    streakNegativeBonusController.text = _defaultStreakValue.toStringAsFixed(2);
     streakPositivePenaltyController.text =
         _defaultStreakValue.toStringAsFixed(2);
     context.read<MixupBloc>().add(const MixupEvent.streakCoefficientsChanged(
@@ -164,19 +164,15 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         content: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            TextField(
+            Karto4kiTextField(
               controller: titleController,
-              decoration: InputDecoration(
-                labelText: context.l10n.groupDetailNewTestNameHint,
-              ),
+              labelText: context.l10n.groupDetailNewTestNameHint,
               autofocus: true,
             ),
             const SizedBox(height: 16),
-            TextField(
+            Karto4kiTextField(
               controller: descriptionController,
-              decoration: InputDecoration(
-                labelText: context.l10n.groupDetailNewTestDescriptionHint,
-              ),
+              labelText: context.l10n.groupDetailNewTestDescriptionHint,
               maxLines: 2,
             ),
           ],
@@ -348,11 +344,9 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
       context: context,
       builder: (dialogContext) => AppDialog(
         title: Text(context.l10n.groupDetailEditTitleDialogTitle),
-        content: TextField(
+        content: Karto4kiTextField(
           controller: titleController,
-          decoration: InputDecoration(
-            labelText: context.l10n.groupDetailEditTitleHint,
-          ),
+          labelText: context.l10n.groupDetailEditTitleHint,
           autofocus: true,
         ),
         actions: [

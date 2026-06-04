@@ -16,8 +16,7 @@ class BarSliderThumbShape extends SliderComponentShape {
   const BarSliderThumbShape({this.width = 4, this.height = 44});
 
   @override
-  Size getPreferredSize(bool isEnabled, bool isDiscrete) =>
-      Size(width, height);
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) => Size(width, height);
 
   @override
   void paint(
@@ -34,9 +33,8 @@ class BarSliderThumbShape extends SliderComponentShape {
     required double textScaleFactor,
     required Size sizeWithOverflow,
   }) {
-    final color = sliderTheme.thumbColor ??
-        sliderTheme.activeTrackColor ??
-        Colors.black;
+    final color =
+        sliderTheme.thumbColor ?? sliderTheme.activeTrackColor ?? Colors.black;
     _paintBar(context.canvas, center, width, height, color);
   }
 }
@@ -49,8 +47,7 @@ class BarRangeSliderThumbShape extends RangeSliderThumbShape {
   const BarRangeSliderThumbShape({this.width = 4, this.height = 44});
 
   @override
-  Size getPreferredSize(bool isEnabled, bool isDiscrete) =>
-      Size(width, height);
+  Size getPreferredSize(bool isEnabled, bool isDiscrete) => Size(width, height);
 
   @override
   void paint(
@@ -88,7 +85,8 @@ void _paintBar(
 /// Трек одиночного [Slider] с «вырезом» под ручку: активный сегмент от старта
 /// до ручки (с отступом [gap]), затем после отступа — неактивный сегмент.
 /// Все сегменты со скруглёнными концами — эффект выреза трека thumb-ом.
-class CutoutSliderTrackShape extends SliderTrackShape with BaseSliderTrackShape {
+class CutoutSliderTrackShape extends SliderTrackShape
+    with BaseSliderTrackShape {
   final double gap;
 
   const CutoutSliderTrackShape({this.gap = 14});

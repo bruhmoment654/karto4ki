@@ -8,6 +8,7 @@ import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dar
 import 'package:quizzerg/feature/groups_list/presentation/groups_list_view.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
 
 /// Экран списка групп.
 class GroupsListScreen extends StatefulWidget {
@@ -55,11 +56,9 @@ class _GroupsListScreenState extends State<GroupsListScreen>
       context: context,
       builder: (dialogContext) => AppDialog(
         title: Text(context.l10n.groupsListNewGroupDialogTitle),
-        content: TextField(
+        content: Karto4kiTextField(
           controller: titleController,
-          decoration: InputDecoration(
-            labelText: context.l10n.groupsListNewGroupNameHint,
-          ),
+          labelText: context.l10n.groupsListNewGroupNameHint,
           autofocus: true,
         ),
         actions: [

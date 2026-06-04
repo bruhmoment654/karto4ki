@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:quizzerg/feature/group_detail/domain/bloc/group_detail_bloc.dart';
 import 'package:quizzerg/feature/group_detail/presentation/group_detail_screen.dart';
 import 'package:quizzerg/feature/mixup/domain/bloc/mixup_bloc.dart';
@@ -12,7 +13,9 @@ import 'package:quizzerg/uikit/buttons/app_fab.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/content_card/content_card_type.dart';
 import 'package:quizzerg/uikit/dropdown/app_dropdown.dart';
+import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
 import 'package:quizzerg/uikit/item_card/app_item_card.dart';
+import 'package:quizzerg/uikit/motion/staggered_appear.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/slider/app_range_slider.dart';
@@ -92,25 +95,27 @@ class _LoadedBody extends StatelessWidget {
       );
     }
 
-    return CustomScrollView(
-      slivers: [
-        SliverToBoxAdapter(
-          child: _GroupDetailHeader(
-            groupTitle: groupTitle,
-            onBackPressed: onBackPressed,
-            viewModel: viewModel,
+    return AnimationLimiter(
+      child: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(
+            child: _GroupDetailHeader(
+              groupTitle: groupTitle,
+              onBackPressed: onBackPressed,
+              viewModel: viewModel,
+            ),
           ),
-        ),
-        SliverToBoxAdapter(
-          child: _MixupSettingsSection(viewModel: viewModel),
-        ),
-        _TestListSliver(tests: tests, viewModel: viewModel),
-        SliverPadding(
-          padding: EdgeInsets.only(
-            bottom: MediaQuery.of(context).padding.bottom + 80,
+          SliverToBoxAdapter(
+            child: _MixupSettingsSection(viewModel: viewModel),
           ),
-        ),
-      ],
+          _TestListSliver(tests: tests, viewModel: viewModel),
+          SliverPadding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).padding.bottom + 80,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
@@ -185,6 +190,7 @@ class _MixupSettingsSection extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.fromLTRB(16, 8, 16, 8),
               child: ContentCard(
+                fadeIn: true,
                 type: ContentCardType.medium,
                 padding: const EdgeInsets.symmetric(vertical: 4),
                 child: Column(
@@ -237,6 +243,7 @@ class _MixupSettingsSection extends StatelessWidget {
                   ? Padding(
                       padding: const EdgeInsets.fromLTRB(16, 0, 16, 8),
                       child: ContentCard(
+                        fadeIn: true,
                         type: ContentCardType.medium,
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         child: _StreakCoefficientsEditor(viewModel: viewModel),
@@ -269,12 +276,15 @@ class _TestListSliver extends StatelessWidget {
         separatorBuilder: (_, __) => const SizedBox(height: 8),
         itemBuilder: (context, index) {
           final test = tests[index];
-          return _TestListItem(
-            test: test,
-            onTap: () => viewModel.onTestTapped(test),
-            onLongPress: () => viewModel.onTestLongPressed(test),
-            onConfirmDismiss: () => viewModel.confirmTestRemove(test),
-            onDismissed: () => viewModel.onTestRemoveConfirmed(test),
+          return StaggeredAppear(
+            position: index,
+            child: _TestListItem(
+              test: test,
+              onTap: () => viewModel.onTestTapped(test),
+              onLongPress: () => viewModel.onTestLongPressed(test),
+              onConfirmDismiss: () => viewModel.confirmTestRemove(test),
+              onDismissed: () => viewModel.onTestRemoveConfirmed(test),
+            ),
           );
         },
       ),
@@ -489,21 +499,18 @@ class _StreakCoefficientsEditor extends StatelessWidget {
                 const Height(4),
                 SizedBox(
                   width: 56,
-                  child: TextField(
+                  child: Karto4kiTextField(
                     controller: viewModel.streakNegativeBonusController,
                     keyboardType: const TextInputType.numberWithOptions(
                       decimal: true,
                     ),
-                    style: Theme.of(context).textTheme.bodySmall,
-                    decoration: const InputDecoration(
-                      isDense: true,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 8,
-                      ),
+                    textAlign: TextAlign.center,
+                    textStyle: Theme.of(context).textTheme.bodyMedium,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
                     ),
-                    onEditingComplete:
-                        viewModel.onStreakCoefficientsSubmitted,
+                    onEditingComplete: viewModel.onStreakCoefficientsSubmitted,
                     onTapOutside: (_) {
                       FocusScope.of(context).unfocus();
                       viewModel.onStreakCoefficientsSubmitted();
@@ -524,21 +531,18 @@ class _StreakCoefficientsEditor extends StatelessWidget {
                 const Height(4),
                 SizedBox(
                   width: 56,
-                  child: TextField(
+                  child: Karto4kiTextField(
                     controller: viewModel.streakPositivePenaltyController,
                     keyboardType: const TextInputType.numberWithOptions(
                       decimal: true,
                     ),
-                    style: Theme.of(context).textTheme.bodySmall,
-                    decoration: const InputDecoration(
-                      isDense: true,
-                      contentPadding: EdgeInsets.symmetric(
-                        horizontal: 8,
-                        vertical: 8,
-                      ),
+                    textAlign: TextAlign.center,
+                    textStyle: Theme.of(context).textTheme.bodyMedium,
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 8,
                     ),
-                    onEditingComplete:
-                        viewModel.onStreakCoefficientsSubmitted,
+                    onEditingComplete: viewModel.onStreakCoefficientsSubmitted,
                     onTapOutside: (_) {
                       FocusScope.of(context).unfocus();
                       viewModel.onStreakCoefficientsSubmitted();

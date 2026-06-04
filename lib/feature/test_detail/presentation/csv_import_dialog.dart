@@ -49,48 +49,48 @@ class _CsvImportDialogState extends State<CsvImportDialog> {
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-                Text(
-                  l10n.csvImportDialogDescription,
-                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+              Text(
+                l10n.csvImportDialogDescription,
+                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                      color: Theme.of(context).colorScheme.onSurfaceVariant,
+                    ),
+              ),
+              const Height(14),
+              _ExampleBlock(text: l10n.csvImportDialogExample),
+              const Height(16),
+              Karto4kiTextField(
+                controller: _delimiterController,
+                labelText: l10n.csvImportDelimiterLabel,
+                hintText: l10n.csvImportDelimiterHint,
+                inputFormatters: [LengthLimitingTextInputFormatter(2)],
+                onChanged: (_) => setState(() {}),
+              ),
+              if (_selectedFiles.isNotEmpty) ...[
+                const Height(12),
+                ListView.builder(
+                  shrinkWrap: true,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _selectedFiles.length,
+                  itemBuilder: (context, index) {
+                    final path = _selectedFiles[index];
+                    return _FileListItem(
+                      fileName: _baseName(path),
+                      onRemove: () => setState(
+                        () => _selectedFiles.removeAt(index),
                       ),
-                ),
-                const Height(14),
-                _ExampleBlock(text: l10n.csvImportDialogExample),
-                const Height(16),
-                Karto4kiTextField(
-                  controller: _delimiterController,
-                  labelText: l10n.csvImportDelimiterLabel,
-                  hintText: l10n.csvImportDelimiterHint,
-                  inputFormatters: [LengthLimitingTextInputFormatter(2)],
-                  onChanged: (_) => setState(() {}),
-                ),
-                if (_selectedFiles.isNotEmpty) ...[
-                  const Height(12),
-                  ListView.builder(
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: _selectedFiles.length,
-                    itemBuilder: (context, index) {
-                      final path = _selectedFiles[index];
-                      return _FileListItem(
-                        fileName: _baseName(path),
-                        onRemove: () => setState(
-                          () => _selectedFiles.removeAt(index),
-                        ),
-                      );
-                    },
-                  ),
-                ],
-                const Height(16),
-                _FileDropZone(
-                  hasFiles: _selectedFiles.isNotEmpty,
-                  onAddFiles: _onAddFiles,
+                    );
+                  },
                 ),
               ],
-            ),
+              const Height(16),
+              _FileDropZone(
+                hasFiles: _selectedFiles.isNotEmpty,
+                onAddFiles: _onAddFiles,
+              ),
+            ],
           ),
         ),
+      ),
       actions: [
         TextButton(
           onPressed: () => Navigator.of(context).pop(),
@@ -224,22 +224,22 @@ class _FileDropZone extends StatelessWidget {
           padding: const EdgeInsets.all(18),
           child: Column(
             children: [
-            Icon(Icons.add_circle, size: 28, color: colorScheme.primary),
-            const Height(10),
-            if (!hasFiles) ...[
-              Text(
-                l10n.csvImportNoFiles,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
-                    ),
-              ),
+              Icon(Icons.add_circle, size: 28, color: colorScheme.primary),
               const Height(10),
-            ],
-            OutlinedButton.icon(
-              onPressed: onAddFiles,
-              icon: const Icon(Icons.attach_file, size: 18),
-              label: Text(l10n.csvImportAddFiles),
-            ),
+              if (!hasFiles) ...[
+                Text(
+                  l10n.csvImportNoFiles,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
+                ),
+                const Height(10),
+              ],
+              OutlinedButton.icon(
+                onPressed: onAddFiles,
+                icon: const Icon(Icons.attach_file, size: 18),
+                label: Text(l10n.csvImportAddFiles),
+              ),
             ],
           ),
         ),

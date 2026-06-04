@@ -120,59 +120,58 @@ class _AppPageHeaderWithBack extends StatelessWidget {
     return SafeArea(
       bottom: false,
       child: Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: const EdgeInsets.fromLTRB(4, 4, 16, 0),
-          child: Row(
-            children: [
-              IconButton(
-                onPressed: onBackPressed,
-                icon: Icon(
-                  Icons.chevron_left,
-                  color: foregroundColor ?? colorScheme.foreground,
-                  size: 28,
-                ),
-              ),
-              const SkeletonGif(height: 36),
-              const Spacer(),
-              if (action != null) action!,
-            ],
-          ),
-        ),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(44, 12, 16, 24),
-          child: GestureDetector(
-            onTap: onTitlePressed,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(4, 4, 16, 0),
+            child: Row(
               children: [
-                Text(
-                  title,
-                  style: textTheme.displaySmall?.copyWith(
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: -0.5,
+                IconButton(
+                  onPressed: onBackPressed,
+                  icon: Icon(
+                    Icons.chevron_left,
                     color: foregroundColor ?? colorScheme.foreground,
+                    size: 28,
                   ),
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis,
                 ),
-                if (subtitle != null) ...[
-                  const SizedBox(height: 4),
-                  Text(
-                    subtitle!,
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: subtitleColor ?? colorScheme.mutedForeground,
-                    ),
-                  ),
-                ],
+                const SkeletonGif(height: 36),
+                const Spacer(),
+                if (action != null) action!,
               ],
             ),
           ),
-        ),
-      ],
+          Padding(
+            padding: const EdgeInsets.fromLTRB(44, 12, 16, 24),
+            child: GestureDetector(
+              onTap: onTitlePressed,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: textTheme.displaySmall?.copyWith(
+                      fontWeight: FontWeight.w500,
+                      letterSpacing: -0.5,
+                      color: foregroundColor ?? colorScheme.foreground,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  if (subtitle != null) ...[
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle!,
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: subtitleColor ?? colorScheme.mutedForeground,
+                      ),
+                    ),
+                  ],
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
-
 }

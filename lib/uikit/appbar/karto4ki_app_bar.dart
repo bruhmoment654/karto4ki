@@ -52,7 +52,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     super.key,
   }) : expanded = true;
 
-  double get _toolbarHeight => expanded ? expandedToolbarHeight : compactToolbarHeight;
+  double get _toolbarHeight =>
+      expanded ? expandedToolbarHeight : compactToolbarHeight;
 
   @override
   Size get preferredSize => Size.fromHeight(
@@ -65,7 +66,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
     final itemsColor = colorScheme.onSurfaceVariant;
 
     final styledTitle = DefaultTextStyle(
-      style: (Theme.of(context).textTheme.headlineMedium ?? const TextStyle()).copyWith(
+      style: (Theme.of(context).textTheme.headlineMedium ?? const TextStyle())
+          .copyWith(
         fontWeight: FontWeight.bold,
         color: itemsColor,
       ),
@@ -75,7 +77,8 @@ class DefaultAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
     );
 
-    final resolvedTitle = onTap != null ? IgnorePointer(child: styledTitle) : styledTitle;
+    final resolvedTitle =
+        onTap != null ? IgnorePointer(child: styledTitle) : styledTitle;
 
     return AppBar(
       backgroundColor: Colors.transparent,

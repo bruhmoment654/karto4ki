@@ -1,3 +1,4 @@
+import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:quizzerg/feature/group_detail/presentation/group_detail_flow.dart';
@@ -13,6 +14,7 @@ import 'package:quizzerg/feature/test_detail/presentation/test_detail_flow.dart'
 import 'package:quizzerg/feature/test_merge/presentation/test_merge_flow.dart';
 import 'package:quizzerg/feature/tests_list/presentation/tests_list_flow.dart';
 import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_flow.dart';
+import 'package:quizzerg/uikit/motion/app_motion.dart';
 
 part 'app_router.gr.dart';
 
@@ -32,7 +34,32 @@ extension TransitionsBuildersX on TransitionsBuilders {
       child: ScaleTransition(scale: scale, child: child),
     );
   }
+
+  /// M3 shared axis по горизонтали — для переходов список → деталь.
+  static Widget sharedAxisHorizontal(
+    BuildContext context,
+    Animation<double> animation,
+    Animation<double> secondaryAnimation,
+    Widget child,
+  ) {
+    if (AppMotion.reduced(context)) return child;
+
+    return SharedAxisTransition(
+      animation: animation,
+      secondaryAnimation: secondaryAnimation,
+      transitionType: SharedAxisTransitionType.horizontal,
+      fillColor: Colors.transparent,
+      child: child,
+    );
+  }
 }
+
+/// Тип маршрута для переходов список → деталь (shared axis X).
+const _sharedAxisX = RouteType.custom(
+  transitionsBuilder: TransitionsBuildersX.sharedAxisHorizontal,
+  durationInMilliseconds: 300,
+  reverseDurationInMilliseconds: 250,
+);
 
 /// {@template router.class}
 /// Main point of the application navigation.
@@ -57,10 +84,10 @@ class AppRouter extends RootStackRouter {
               initial: true,
               children: [
                 AutoRoute(page: GroupsListRoute.page, initial: true),
-                AutoRoute(page: GroupDetailRoute.page),
+                AutoRoute(page: GroupDetailRoute.page, type: _sharedAxisX),
                 AutoRoute(page: MainRoute.page),
                 AutoRoute(page: TinderTestRoute.page),
-                AutoRoute(page: TestDetailRoute.page),
+                AutoRoute(page: TestDetailRoute.page, type: _sharedAxisX),
                 AutoRoute(page: TestMergeRoute.page),
               ],
             ),

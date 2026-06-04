@@ -38,11 +38,11 @@ class SettingsDto {
   /// Алгоритм подмешивания вопросов.
   final MixupAlgorithm mixupAlgorithm;
 
-  /// Горизонтальный отступ текста на карточке (0–96).
+  /// Максимальный размер шрифта текста на карточке в px (24–200).
   ///
-  /// Чем больше отступ, тем уже область под текст и тем мельче сам текст,
-  /// который масштабируется под доступное пространство.
-  final double cardHorizontalPadding;
+  /// Текст подгоняется под доступное место: короткий растёт до этого размера,
+  /// длинный переносится и ужимается. Чем больше значение, тем крупнее текст.
+  final double cardFontSize;
 
   /// Бонус за отрицательный streak (вес в скоринге, 0.0–1.0).
   final double streakNegativeBonus;
@@ -59,7 +59,7 @@ class SettingsDto {
     this.mixupMax = 5,
     this.themeMode = AppThemeMode.system,
     this.mixupAlgorithm = MixupAlgorithm.classic,
-    this.cardHorizontalPadding = 24.0,
+    this.cardFontSize = 96.0,
     this.streakNegativeBonus = 0.35,
     this.streakPositivePenalty = 0.35,
   });

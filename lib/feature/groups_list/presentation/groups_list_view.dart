@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/feature/groups_list/domain/bloc/groups_list_bloc.dart';
@@ -14,6 +15,7 @@ import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
+import 'package:quizzerg/uikit/motion/staggered_appear.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
@@ -69,63 +71,68 @@ class _GroupsBody extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: [
-        const SliverToBoxAdapter(
-          child: AppPageHeader(
-            title: 'Мои группы',
-            subtitle: 'Группы тестов для обучения по карточкам',
+    return AnimationLimiter(
+      child: CustomScrollView(
+        slivers: [
+          const SliverToBoxAdapter(
+            child: AppPageHeader(
+              title: 'Мои группы',
+              subtitle: 'Группы тестов для обучения по карточкам',
+            ),
           ),
-        ),
-        const _ActiveSessionSliver(),
-        if (groups.isEmpty)
-          SliverFillRemaining(
-            child: Center(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 32),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      context.l10n.groupsListEmptyMessage,
-                      textAlign: TextAlign.center,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                            color: Theme.of(context).colorScheme.onSurfaceVariant,
-                          ),
-                    ),
-                    const SizedBox(height: 12),
-                    Icon(
-                      Icons.keyboard_arrow_down_rounded,
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-                  ],
+          const _ActiveSessionSliver(),
+          if (groups.isEmpty)
+            SliverFillRemaining(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 32),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        context.l10n.groupsListEmptyMessage,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant,
+                            ),
+                      ),
+                      const SizedBox(height: 12),
+                      Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                    ],
+                  ),
                 ),
               ),
+            )
+          else
+            SliverPadding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              sliver: SliverList.separated(
+                itemCount: groups.length,
+                separatorBuilder: (_, __) => const SizedBox(height: 16),
+                itemBuilder: (context, index) {
+                  final group = groups[index];
+                  final tile = _GroupListTile(
+                    group: group,
+                    index: index,
+                    onTap: () => viewModel.onGroupTapped(group),
+                    onLongPress: () => viewModel.onGroupLongPressed(group),
+                  );
+
+                  return StaggeredAppear(position: index, child: tile);
+                },
+              ),
             ),
-          )
-        else
-          SliverPadding(
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            sliver: SliverList.separated(
-              itemCount: groups.length,
-              separatorBuilder: (_, __) => const SizedBox(height: 16),
-              itemBuilder: (context, index) {
-                final group = groups[index];
-                return _GroupListTile(
-                  group: group,
-                  index: index,
-                  onTap: () => viewModel.onGroupTapped(group),
-                  onLongPress: () => viewModel.onGroupLongPressed(group),
-                );
-              },
-            ),
-          ),
-        const SliverPadding(padding: EdgeInsets.only(bottom: 32)),
-      ],
+          const SliverPadding(padding: EdgeInsets.only(bottom: 32)),
+        ],
+      ),
     );
   }
 }
-
 
 class _ActiveSessionSliver extends StatefulWidget {
   const _ActiveSessionSliver();

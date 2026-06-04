@@ -172,7 +172,8 @@ class StatsExportService implements IStatsExportService {
       stat: stat,
       components: components,
       scoreNoNoise: components.weightedSum(weights),
-      accuracy: stat.totalShown > 0 ? stat.totalCorrect / stat.totalShown : null,
+      accuracy:
+          stat.totalShown > 0 ? stat.totalCorrect / stat.totalShown : null,
       daysSinceLastShown: stat.lastShownAt != null
           ? now.difference(stat.lastShownAt!).inDays
           : null,

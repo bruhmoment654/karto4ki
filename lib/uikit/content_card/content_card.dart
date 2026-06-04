@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/content_card/content_card_type.dart';
+import 'package:quizzerg/uikit/motion/fade_in.dart';
 
 class ContentCard extends StatelessWidget {
   final Widget child;
@@ -18,6 +19,11 @@ class ContentCard extends StatelessWidget {
   /// Тень рисуется только при [elevation] > 0 (elevated-карточка).
   final double? elevation;
 
+  /// Появление карточки через [FadeIn] (fade + сдвиг снизу). Для каскада
+  /// нескольких карточек задавайте [fadeInDelay] кратно их порядку.
+  final bool fadeIn;
+  final Duration fadeInDelay;
+
   const ContentCard({
     required this.child,
     this.type = ContentCardType.small,
@@ -27,6 +33,8 @@ class ContentCard extends StatelessWidget {
     this.borderRadius,
     this.padding,
     this.elevation,
+    this.fadeIn = false,
+    this.fadeInDelay = Duration.zero,
     super.key,
   });
 
@@ -38,7 +46,7 @@ class ContentCard extends StatelessWidget {
     final hasBorder = borderColor != null && borderWidth > 0;
     final hasShadow = elevation != null && elevation! > 0;
 
-    return DecoratedBox(
+    final card = DecoratedBox(
       decoration: BoxDecoration(
         color: bgColor,
         borderRadius: resolvedBorderRadius,
@@ -63,6 +71,10 @@ class ContentCard extends StatelessWidget {
         ),
       ),
     );
+
+    if (!fadeIn) return card;
+
+    return FadeIn(delay: fadeInDelay, child: card);
   }
 
   // Маленькие карточки списков — r16 (lg); крупные/цветные — r28 (xl).

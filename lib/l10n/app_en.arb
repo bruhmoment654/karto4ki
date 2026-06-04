@@ -224,13 +224,13 @@
   "profileAccentColorTitle": "App color",
   "profileAnimationSpeedTitle": "Animation speed",
   "profileAnimationDurationLabel": "{duration} ms",
-  "profileCardPaddingTitle": "Card text padding",
-  "profileCardPaddingLabel": "{value} px",
-  "@profileCardPaddingLabel": {
+  "profileCardFontSizeTitle": "Card font size",
+  "profileCardFontSizeLabel": "{value} px",
+  "@profileCardFontSizeLabel": {
     "placeholders": {
       "value": {
         "type": "int",
-        "example": "24"
+        "example": "96"
       }
     }
   },

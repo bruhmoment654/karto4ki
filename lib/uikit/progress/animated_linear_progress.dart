@@ -21,8 +21,7 @@ class AnimatedLinearProgress extends StatefulWidget {
   });
 
   @override
-  State<AnimatedLinearProgress> createState() =>
-      _AnimatedLinearProgressState();
+  State<AnimatedLinearProgress> createState() => _AnimatedLinearProgressState();
 }
 
 class _AnimatedLinearProgressState extends State<AnimatedLinearProgress>
