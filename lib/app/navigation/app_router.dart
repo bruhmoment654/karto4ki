@@ -19,23 +19,7 @@ import 'package:quizzerg/uikit/motion/app_motion.dart';
 part 'app_router.gr.dart';
 
 extension TransitionsBuildersX on TransitionsBuilders {
-  static Widget zoomInWithFade(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    final scale = Tween<double>(begin: 0.8, end: 1).animate(
-      CurvedAnimation(parent: animation, curve: Curves.easeOutCubic),
-    );
-
-    return FadeTransition(
-      opacity: animation,
-      child: ScaleTransition(scale: scale, child: child),
-    );
-  }
-
-  /// M3 shared axis по горизонтали — для переходов список → деталь.
+  /// M3 shared axis по горизонтали — основной переход между экранами.
   static Widget sharedAxisHorizontal(
     BuildContext context,
     Animation<double> animation,
@@ -54,13 +38,6 @@ extension TransitionsBuildersX on TransitionsBuilders {
   }
 }
 
-/// Тип маршрута для переходов список → деталь (shared axis X).
-const _sharedAxisX = RouteType.custom(
-  transitionsBuilder: TransitionsBuildersX.sharedAxisHorizontal,
-  durationInMilliseconds: 300,
-  reverseDurationInMilliseconds: 250,
-);
-
 /// {@template router.class}
 /// Main point of the application navigation.
 /// {@endtemplate}
@@ -68,9 +45,9 @@ const _sharedAxisX = RouteType.custom(
 class AppRouter extends RootStackRouter {
   @override
   RouteType get defaultRouteType => const RouteType.custom(
-        transitionsBuilder: TransitionsBuildersX.zoomInWithFade,
-        durationInMilliseconds: 150,
-        reverseDurationInMilliseconds: 100,
+        transitionsBuilder: TransitionsBuildersX.sharedAxisHorizontal,
+        durationInMilliseconds: 300,
+        reverseDurationInMilliseconds: 250,
       );
 
   @override
@@ -84,10 +61,10 @@ class AppRouter extends RootStackRouter {
               initial: true,
               children: [
                 AutoRoute(page: GroupsListRoute.page, initial: true),
-                AutoRoute(page: GroupDetailRoute.page, type: _sharedAxisX),
+                AutoRoute(page: GroupDetailRoute.page),
                 AutoRoute(page: MainRoute.page),
                 AutoRoute(page: TinderTestRoute.page),
-                AutoRoute(page: TestDetailRoute.page, type: _sharedAxisX),
+                AutoRoute(page: TestDetailRoute.page),
                 AutoRoute(page: TestMergeRoute.page),
               ],
             ),

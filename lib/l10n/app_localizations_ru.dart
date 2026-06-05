@@ -118,8 +118,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get testsListRetryButton => 'Повторить';
 
   @override
-  String get testsListEmptyMessage =>
-      'Нет тестов.\nНажмите + чтобы создать первый тест.';
+  String get testsListEmptyMessage => 'Нет тестов.\nНажмите + чтобы создать первый тест.';
 
   @override
   String get testsListDeleteDialogTitle => 'Удалить тест?';
@@ -175,15 +174,13 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get testDetailEmptyCardsMessage =>
-      'Нет карточек.\nНажмите + чтобы добавить первую.';
+  String get testDetailEmptyCardsMessage => 'Нет карточек.\nНажмите + чтобы добавить первую.';
 
   @override
   String get testDetailDeleteCardTitle => 'Удалить карточку?';
 
   @override
-  String get testDetailDeleteCardMessage =>
-      'Вы уверены, что хотите удалить эту карточку?';
+  String get testDetailDeleteCardMessage => 'Вы уверены, что хотите удалить эту карточку?';
 
   @override
   String get testDetailDeleteCardCancel => 'Отмена';
@@ -252,8 +249,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get groupDetailMixup => 'Подмешивание вопросов';
 
   @override
-  String get groupDetailMixupDescription =>
-      'Добавляет вопросы из других тестов группы';
+  String get groupDetailMixupDescription => 'Добавляет вопросы из других тестов группы';
 
   @override
   String get testDetailAddCardFab => 'Добавить';
@@ -274,12 +270,10 @@ class AppLocalizationsRu extends AppLocalizations {
   String get csvImportDialogTitle => 'Импорт карточек из файла';
 
   @override
-  String get csvImportDialogDescription =>
-      'Поддерживаемые форматы: CSV, TXT, TSV\n\nФормат файла:\n• 1 столбец — вопрос (слово)\n• 2 столбец — ответ (перевод)\n\nНесколько вариантов ответа можно разделить через | или //';
+  String get csvImportDialogDescription => 'Поддерживаемые форматы: CSV, TXT, TSV\n\nФормат файла:\n• 1 столбец — вопрос (слово)\n• 2 столбец — ответ (перевод)\n\nНесколько вариантов ответа можно разделить через | или //';
 
   @override
-  String get csvImportDialogExample =>
-      'apple;яблоко\ncat;кот | кошка\ndog;собака // пёс';
+  String get csvImportDialogExample => 'apple;яблоко\ncat;кот | кошка\ndog;собака // пёс';
 
   @override
   String get csvImportDelimiterLabel => 'Разделитель';
@@ -306,8 +300,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get csvImportErrorEmpty => 'Файл пустой или не содержит данных';
 
   @override
-  String get csvImportErrorFormat =>
-      'Неверный формат файла. Требуется минимум 2 столбца.';
+  String get csvImportErrorFormat => 'Неверный формат файла. Требуется минимум 2 столбца.';
 
   @override
   String get csvImportErrorRead => 'Не удалось прочитать файл';
@@ -378,8 +371,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get questionStatsTitle => 'Статистика';
 
   @override
-  String get questionStatsEmptyMessage =>
-      'Статистика пока пуста.\nПройдите тест, чтобы начать отслеживание.';
+  String get questionStatsEmptyMessage => 'Статистика пока пуста.\nПройдите тест, чтобы начать отслеживание.';
 
   @override
   String get questionStatsCorrectLabel => 'Правильно';
@@ -425,8 +417,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get groupsListAppBarTitle => 'Группы';
 
   @override
-  String get groupsListEmptyMessage =>
-      'Нет групп.\nНажмите + чтобы создать первую группу.';
+  String get groupsListEmptyMessage => 'Нет групп.\nНажмите + чтобы создать первую группу.';
 
   @override
   String get groupsListAddGroupFab => 'Создать';
@@ -498,8 +489,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get groupDetailAddTestFab => 'Добавить';
 
   @override
-  String get groupDetailEmptyMessage =>
-      'Нет тестов в группе.\nНажмите + чтобы добавить первый тест.';
+  String get groupDetailEmptyMessage => 'Нет тестов в группе.\nНажмите + чтобы добавить первый тест.';
 
   @override
   String groupDetailErrorMessage(String message) {

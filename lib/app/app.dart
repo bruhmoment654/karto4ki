@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
+import 'package:quizzerg/feature/splash/presentation/card_swipe_splash.dart';
 import 'package:quizzerg/l10n/app_localizations.dart';
 import 'package:quizzerg/uikit/theme/app_theme_scope.dart';
 
@@ -38,6 +39,9 @@ class _AppState extends State<App> {
               routeInformationParser: _appRouter.defaultRouteParser(),
               routerDelegate: _appRouter.delegate(
                 navigatorObservers: () => [AutoRouteObserver()],
+              ),
+              builder: (context, child) => CardSwipeSplash(
+                child: child ?? const SizedBox.shrink(),
               ),
               scrollBehavior: const _AppScrollBehavior(),
               theme: themeScope.lightTheme,
