@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:quizzerg/core/sync/domain/entity/sync_state.dart';
+import 'package:quizzerg/core/sync/sync_manager.dart';
 import 'package:quizzerg/feature/question_stats/domain/service/i_stats_export_service.dart';
 import 'package:quizzerg/feature/settings/presentation/settings_screen.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
@@ -45,6 +47,7 @@ class SettingsView extends StatelessWidget {
               _CardPaddingSection(viewModel: viewModel),
             ],
           ),
+          const _SyncSection(),
           const Height(32),
           const _StatsExportSection(),
           const Height(32),
@@ -109,6 +112,113 @@ class _SettingsSectionLabel extends StatelessWidget {
       style: theme.textTheme.labelLarge?.copyWith(
         color: theme.colorScheme.onSurfaceVariant,
       ),
+    );
+  }
+}
+
+/// Секция «Синхронизация»: статус по [SyncState] и кнопка ручного запуска.
+///
+/// Показывается только когда синхронизация сконфигурирована
+/// (`authService.isAvailable`), иначе не занимает места.
+class _SyncSection extends StatelessWidget {
+  const _SyncSection();
+
+  @override
+  Widget build(BuildContext context) {
+    final scope = context.read<IAppScope>();
+    if (!scope.authService.isAvailable) {
+      return const SizedBox.shrink();
+    }
+
+    return Column(
+      children: [
+        const Height(16),
+        _SettingsCard(
+          icon: Icons.sync,
+          title: context.l10n.syncSectionTitle,
+          children: [
+            _SyncStatusContent(syncManager: scope.syncManager),
+          ],
+        ),
+      ],
+    );
+  }
+}
+
+class _SyncStatusContent extends StatelessWidget {
+  final SyncManager syncManager;
+
+  const _SyncStatusContent({required this.syncManager});
+
+  String _statusText(BuildContext context, SyncState state) {
+    final l10n = context.l10n;
+    return switch (state.phase) {
+      SyncPhase.syncing => l10n.syncStatusSyncing,
+      SyncPhase.error => l10n.syncStatusError,
+      SyncPhase.idle => switch (state.lastSyncedAt) {
+          null => l10n.syncStatusNever,
+          final lastSyncedAt =>
+            l10n.syncStatusSynced(_relativeTime(context, lastSyncedAt)),
+        },
+    };
+  }
+
+  /// Относительное время для строки «Синхронизировано …».
+  String _relativeTime(BuildContext context, DateTime time) {
+    final l10n = context.l10n;
+    final diff = DateTime.now().difference(time);
+    if (diff.inMinutes < 1) return l10n.syncTimeJustNow;
+    if (diff.inHours < 1) return l10n.syncTimeMinutesAgo(diff.inMinutes);
+    if (diff.inDays < 1) return l10n.syncTimeHoursAgo(diff.inHours);
+    return l10n.syncTimeDaysAgo(diff.inDays);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return StreamBuilder<SyncState>(
+      stream: syncManager.state,
+      initialData: syncManager.currentState,
+      builder: (context, snapshot) {
+        final state = snapshot.data ?? syncManager.currentState;
+        final isSyncing = state.phase == SyncPhase.syncing;
+
+        return Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              _statusText(context, state),
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: state.phase == SyncPhase.error
+                    ? theme.colorScheme.error
+                    : theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+            if (state.pendingCount > 0) ...[
+              const Height(4),
+              Text(
+                context.l10n.syncPendingCount(state.pendingCount),
+                style: theme.textTheme.bodySmall?.copyWith(
+                  color: theme.colorScheme.onSurfaceVariant,
+                ),
+              ),
+            ],
+            const Height(12),
+            FilledButton.tonalIcon(
+              onPressed: isSyncing ? null : syncManager.syncNow,
+              icon: isSyncing
+                  ? const SizedBox(
+                      width: 16,
+                      height: 16,
+                      child: CircularProgressIndicator(strokeWidth: 2),
+                    )
+                  : const Icon(Icons.sync),
+              label: Text(context.l10n.syncNowButton),
+            ),
+          ],
+        );
+      },
     );
   }
 }

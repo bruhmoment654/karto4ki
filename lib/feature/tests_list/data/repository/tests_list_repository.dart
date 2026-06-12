@@ -22,7 +22,8 @@ class TestsListRepository extends BaseRepository
       });
 
   @override
-  RequestOperation<TestEntity?> getTestById(int testId) => makeCall(() async {
+  RequestOperation<TestEntity?> getTestById(String testId) =>
+      makeCall(() async {
         final dto = await _testsDatabase.getTestById(testId);
         return dto == null ? null : TestConverter.fromDto(dto);
       });
@@ -42,7 +43,12 @@ class TestsListRepository extends BaseRepository
       });
 
   @override
-  RequestOperation<void> deleteTest(int testId) => makeCall(() async {
-        await _testsDatabase.deleteTestById(testId);
+  RequestOperation<void> deleteTest(String testId) => makeCall(() async {
+        await _testsDatabase.softDeleteTestById(testId);
+      });
+
+  @override
+  RequestOperation<void> restoreTest(String testId) => makeCall(() async {
+        await _testsDatabase.restoreTestById(testId);
       });
 }

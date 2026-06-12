@@ -862,5 +862,63 @@
         "type": "int"
       }
     }
+  },
+  "@segmentSync": {
+    "---------": "---------",
+    "description": "Синхронизация"
+  },
+  "syncBadgeTooltip": "Не синхронизировано",
+  "syncDeletedLabel": "Удалён",
+  "syncRestoreButton": "Восстановить",
+  "syncSectionTitle": "Синхронизация",
+  "syncStatusSyncing": "Синхронизация…",
+  "syncStatusSynced": "Синхронизировано {time}",
+  "@syncStatusSynced": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "5 мин назад"
+      }
+    }
+  },
+  "syncStatusNever": "Ещё не синхронизировано",
+  "syncStatusError": "Ошибка синхронизации",
+  "syncPendingCount": "Ожидают отправки: {count}",
+  "@syncPendingCount": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "syncNowButton": "Синхронизировать сейчас",
+  "syncTimeJustNow": "только что",
+  "syncTimeMinutesAgo": "{count} мин назад",
+  "@syncTimeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "syncTimeHoursAgo": "{count} ч назад",
+  "@syncTimeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "syncTimeDaysAgo": "{count} дн назад",
+  "@syncTimeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
   }
 }

@@ -28,9 +28,9 @@ class TestMergeRepository extends BaseRepository
       });
 
   @override
-  RequestOperation<int> mergeTests({
+  RequestOperation<String> mergeTests({
     required String title,
-    required List<int> testIds,
+    required List<String> testIds,
     String? description,
   }) =>
       makeCall(() async {
@@ -38,7 +38,8 @@ class TestMergeRepository extends BaseRepository
           title: title,
           description: description,
         );
-        final newTestId = await _testsDatabase.insertTest(newTestCompanion);
+        await _testsDatabase.insertTest(newTestCompanion);
+        final newTestId = newTestCompanion.id.value;
 
         final companions = <CardsCompanion>[];
 

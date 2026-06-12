@@ -135,7 +135,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   /// `false` — если сессии нет или она от другого теста (тогда вызывающий
   /// код продолжит обычный старт).
   Future<bool> _tryRestoreSession(
-    int testId,
+    String testId,
     Emitter<TinderTestState> emit,
   ) async {
     final result = await _activeSessionRepository.getActiveSession();
@@ -143,7 +143,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
 
     final active = (result as ResultOk<ActiveTestSession?, Object>).data;
     if (active == null) return false;
-    if (active.session.testId != testId.toString()) return false;
+    if (active.session.testId != testId) return false;
 
     _swapSides = active.params.swapSides;
     _answerIndex = active.params.answerIndex;
@@ -170,10 +170,10 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     return true;
   }
 
-  TestSession _createSession(int testId, List<CardEntity> cards) {
+  TestSession _createSession(String testId, List<CardEntity> cards) {
     final shuffledCards = List<CardEntity>.from(cards)..shuffle();
     return TestSession(
-      testId: testId.toString(),
+      testId: testId,
       cards: shuffledCards,
       currentIndex: 0,
       results: const [],
@@ -271,9 +271,8 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
 
     if (session == null) return;
 
-    final testId = int.parse(session.testId);
     add(TinderTestEvent.started(
-      testId: testId,
+      testId: session.testId,
       swapSides: _swapSides,
       answerIndex: _answerIndex,
       mixup: _mixup,

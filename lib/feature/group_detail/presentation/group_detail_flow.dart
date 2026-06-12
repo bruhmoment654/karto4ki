@@ -9,7 +9,7 @@ import 'package:quizzerg/feature/group_detail/presentation/group_detail_screen.d
 /// Точка входа в экран деталки группы.
 @RoutePage()
 class GroupDetailFlow extends StatelessWidget implements AutoRouteWrapper {
-  final int groupId;
+  final String groupId;
 
   const GroupDetailFlow({
     @PathParam('groupId') required this.groupId,

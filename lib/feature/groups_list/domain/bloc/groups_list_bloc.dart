@@ -27,6 +27,7 @@ final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
         _GroupsListEvent$Started() => _onStarted(event, emit),
         _GroupsListEvent$GroupAdded() => _onGroupAdded(event, emit),
         _GroupsListEvent$GroupDeleted() => _onGroupDeleted(event, emit),
+        _GroupsListEvent$RestoreRequested() => _onRestoreRequested(event, emit),
       },
     );
 
@@ -35,6 +36,13 @@ final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
         .debounceTime(const Duration(milliseconds: 300))
         .listen((_) => add(const GroupsListEvent.started()));
   }
+
+  /// Живые группы — в исходном порядке, soft-deleted — в конце списка.
+  static List<TestGroupEntity> _withDeletedLast(List<TestGroupEntity> groups) =>
+      [
+        ...groups.where((group) => !group.isDeleted),
+        ...groups.where((group) => group.isDeleted),
+      ];
 
   Future<void> _onStarted(
     _GroupsListEvent$Started event,
@@ -47,7 +55,7 @@ final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
     final result = await _repository.getGroups();
     switch (result) {
       case ResultOk(:final data):
-        emit(GroupsListState.loaded(groups: data));
+        emit(GroupsListState.loaded(groups: _withDeletedLast(data)));
       case ResultFailed(:final error, :final stackTrace):
         emit(GroupsListState.error(
           failure: UnknownFailure.fromException(error, stackTrace),
@@ -67,7 +75,7 @@ final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
         final groupsResult = await _repository.getGroups();
         switch (groupsResult) {
           case ResultOk(:final data):
-            emit(GroupsListState.loaded(groups: data));
+            emit(GroupsListState.loaded(groups: _withDeletedLast(data)));
           case ResultFailed(:final error, :final stackTrace):
             emit(GroupsListState.error(
               failure: UnknownFailure.fromException(error, stackTrace),
@@ -90,7 +98,30 @@ final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
         final groupsResult = await _repository.getGroups();
         switch (groupsResult) {
           case ResultOk(:final data):
-            emit(GroupsListState.loaded(groups: data));
+            emit(GroupsListState.loaded(groups: _withDeletedLast(data)));
+          case ResultFailed(:final error, :final stackTrace):
+            emit(GroupsListState.error(
+              failure: UnknownFailure.fromException(error, stackTrace),
+            ));
+        }
+      case ResultFailed(:final error, :final stackTrace):
+        emit(GroupsListState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
+    }
+  }
+
+  Future<void> _onRestoreRequested(
+    _GroupsListEvent$RestoreRequested event,
+    Emitter<GroupsListState> emit,
+  ) async {
+    final restoreResult = await _repository.restoreGroup(event.groupId);
+    switch (restoreResult) {
+      case ResultOk():
+        final groupsResult = await _repository.getGroups();
+        switch (groupsResult) {
+          case ResultOk(:final data):
+            emit(GroupsListState.loaded(groups: _withDeletedLast(data)));
           case ResultFailed(:final error, :final stackTrace):
             emit(GroupsListState.error(
               failure: UnknownFailure.fromException(error, stackTrace),

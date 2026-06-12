@@ -18,7 +18,7 @@ part 'test_detail_bloc.freezed.dart';
 /// Manages loading test with cards, adding, updating and deleting cards.
 final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
   final ITestDetailRepository _repository;
-  int? _currentTestId;
+  String? _currentTestId;
 
   TestDetailBloc({required ITestDetailRepository repository})
       : _repository = repository,

@@ -76,7 +76,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     final mixupState = context.read<MixupBloc>().state;
     context.router.push(
       TestDetailRoute(
-        testId: int.parse(test.id),
+        testId: test.id,
         mixup: mixupState.enabled,
         mixupMin: mixupState.mixupMin,
         mixupMax: mixupState.mixupMax,
@@ -141,7 +141,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   @override
   void onTestRemoveConfirmed(TestEntity test) {
     context.read<GroupDetailBloc>().add(
-          GroupDetailEvent.testRemoved(testId: int.parse(test.id)),
+          GroupDetailEvent.testRemoved(testId: test.id),
         );
   }
 
@@ -212,7 +212,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   Future<bool?> confirmTestRemove(TestEntity test) async {
     final scope = context.read<IAppScope>();
     final countResult = await scope.groupDetailRepository.getGroupCountForTest(
-      int.parse(test.id),
+      test.id,
     );
 
     if (!mounted) return false;
@@ -276,8 +276,8 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     final state = bloc.state;
     if (state is! GroupDetailState$Loaded) return;
 
-    final currentGroupId = int.parse(state.group.id);
-    final testId = int.parse(test.id);
+    final currentGroupId = state.group.id;
+    final testId = test.id;
 
     final repo = context.read<IAppScope>().groupDetailRepository;
     final groupsResult = await repo.getAllGroups();
@@ -285,11 +285,13 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
 
     if (!mounted) return;
 
-    final allGroups = groupsResult.dataOrNull;
+    // В диалоге выбора показываем только живые (не удалённые) группы.
+    final allGroups =
+        groupsResult.dataOrNull?.where((group) => !group.isDeleted).toList();
     final currentGroupIds = groupIdsResult.dataOrNull;
     if (allGroups == null || currentGroupIds == null) return;
 
-    final selectedIds = Set<int>.from(currentGroupIds);
+    final selectedIds = Set<String>.from(currentGroupIds);
 
     await showDialog<void>(
       context: context,
@@ -303,15 +305,15 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
                   children: [
                     for (final group in allGroups)
                       CheckboxListTile(
-                        value: selectedIds.contains(int.parse(group.id)),
-                        onChanged: int.parse(group.id) == currentGroupId
+                        value: selectedIds.contains(group.id),
+                        onChanged: group.id == currentGroupId
                             ? null
                             : (value) {
                                 setDialogState(() {
                                   if (value ?? false) {
-                                    selectedIds.add(int.parse(group.id));
+                                    selectedIds.add(group.id);
                                   } else {
-                                    selectedIds.remove(int.parse(group.id));
+                                    selectedIds.remove(group.id);
                                   }
                                 });
                               },

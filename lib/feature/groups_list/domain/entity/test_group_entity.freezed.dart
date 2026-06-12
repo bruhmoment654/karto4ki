@@ -21,6 +21,8 @@ mixin _$TestGroupEntity {
   DateTime get createdAt => throw _privateConstructorUsedError;
   DateTime get updatedAt => throw _privateConstructorUsedError;
   int get testCount => throw _privateConstructorUsedError;
+  SyncStatus get syncStatus => throw _privateConstructorUsedError;
+  DateTime? get deletedAt => throw _privateConstructorUsedError;
 
   @JsonKey(ignore: true)
   $TestGroupEntityCopyWith<TestGroupEntity> get copyWith =>
@@ -38,7 +40,9 @@ abstract class $TestGroupEntityCopyWith<$Res> {
       String title,
       DateTime createdAt,
       DateTime updatedAt,
-      int testCount});
+      int testCount,
+      SyncStatus syncStatus,
+      DateTime? deletedAt});
 }
 
 /// @nodoc
@@ -59,6 +63,8 @@ class _$TestGroupEntityCopyWithImpl<$Res, $Val extends TestGroupEntity>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? testCount = null,
+    Object? syncStatus = null,
+    Object? deletedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -81,6 +87,14 @@ class _$TestGroupEntityCopyWithImpl<$Res, $Val extends TestGroupEntity>
           ? _value.testCount
           : testCount // ignore: cast_nullable_to_non_nullable
               as int,
+      syncStatus: null == syncStatus
+          ? _value.syncStatus
+          : syncStatus // ignore: cast_nullable_to_non_nullable
+              as SyncStatus,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -98,7 +112,9 @@ abstract class _$$TestGroupEntityImplCopyWith<$Res>
       String title,
       DateTime createdAt,
       DateTime updatedAt,
-      int testCount});
+      int testCount,
+      SyncStatus syncStatus,
+      DateTime? deletedAt});
 }
 
 /// @nodoc
@@ -117,6 +133,8 @@ class __$$TestGroupEntityImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? testCount = null,
+    Object? syncStatus = null,
+    Object? deletedAt = freezed,
   }) {
     return _then(_$TestGroupEntityImpl(
       id: null == id
@@ -139,19 +157,30 @@ class __$$TestGroupEntityImplCopyWithImpl<$Res>
           ? _value.testCount
           : testCount // ignore: cast_nullable_to_non_nullable
               as int,
+      syncStatus: null == syncStatus
+          ? _value.syncStatus
+          : syncStatus // ignore: cast_nullable_to_non_nullable
+              as SyncStatus,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$TestGroupEntityImpl implements _TestGroupEntity {
+class _$TestGroupEntityImpl extends _TestGroupEntity {
   const _$TestGroupEntityImpl(
       {required this.id,
       required this.title,
       required this.createdAt,
       required this.updatedAt,
-      required this.testCount});
+      required this.testCount,
+      this.syncStatus = SyncStatus.local,
+      this.deletedAt})
+      : super._();
 
   @override
   final String id;
@@ -163,10 +192,15 @@ class _$TestGroupEntityImpl implements _TestGroupEntity {
   final DateTime updatedAt;
   @override
   final int testCount;
+  @override
+  @JsonKey()
+  final SyncStatus syncStatus;
+  @override
+  final DateTime? deletedAt;
 
   @override
   String toString() {
-    return 'TestGroupEntity(id: $id, title: $title, createdAt: $createdAt, updatedAt: $updatedAt, testCount: $testCount)';
+    return 'TestGroupEntity(id: $id, title: $title, createdAt: $createdAt, updatedAt: $updatedAt, testCount: $testCount, syncStatus: $syncStatus, deletedAt: $deletedAt)';
   }
 
   @override
@@ -181,12 +215,16 @@ class _$TestGroupEntityImpl implements _TestGroupEntity {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.testCount, testCount) ||
-                other.testCount == testCount));
+                other.testCount == testCount) &&
+            (identical(other.syncStatus, syncStatus) ||
+                other.syncStatus == syncStatus) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, title, createdAt, updatedAt, testCount);
+  int get hashCode => Object.hash(runtimeType, id, title, createdAt, updatedAt,
+      testCount, syncStatus, deletedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -196,13 +234,16 @@ class _$TestGroupEntityImpl implements _TestGroupEntity {
           this, _$identity);
 }
 
-abstract class _TestGroupEntity implements TestGroupEntity {
+abstract class _TestGroupEntity extends TestGroupEntity {
   const factory _TestGroupEntity(
       {required final String id,
       required final String title,
       required final DateTime createdAt,
       required final DateTime updatedAt,
-      required final int testCount}) = _$TestGroupEntityImpl;
+      required final int testCount,
+      final SyncStatus syncStatus,
+      final DateTime? deletedAt}) = _$TestGroupEntityImpl;
+  const _TestGroupEntity._() : super._();
 
   @override
   String get id;
@@ -214,6 +255,10 @@ abstract class _TestGroupEntity implements TestGroupEntity {
   DateTime get updatedAt;
   @override
   int get testCount;
+  @override
+  SyncStatus get syncStatus;
+  @override
+  DateTime? get deletedAt;
   @override
   @JsonKey(ignore: true)
   _$$TestGroupEntityImplCopyWith<_$TestGroupEntityImpl> get copyWith =>

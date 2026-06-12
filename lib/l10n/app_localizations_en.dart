@@ -611,4 +611,56 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get syncBadgeTooltip => 'Not synced';
+
+  @override
+  String get syncDeletedLabel => 'Deleted';
+
+  @override
+  String get syncRestoreButton => 'Restore';
+
+  @override
+  String get syncSectionTitle => 'Synchronization';
+
+  @override
+  String get syncStatusSyncing => 'Syncing…';
+
+  @override
+  String syncStatusSynced(String time) {
+    return 'Synced $time';
+  }
+
+  @override
+  String get syncStatusNever => 'Not synced yet';
+
+  @override
+  String get syncStatusError => 'Sync error';
+
+  @override
+  String syncPendingCount(int count) {
+    return 'Pending upload: $count';
+  }
+
+  @override
+  String get syncNowButton => 'Sync now';
+
+  @override
+  String get syncTimeJustNow => 'just now';
+
+  @override
+  String syncTimeMinutesAgo(int count) {
+    return '$count min ago';
+  }
+
+  @override
+  String syncTimeHoursAgo(int count) {
+    return '$count h ago';
+  }
+
+  @override
+  String syncTimeDaysAgo(int count) {
+    return '$count d ago';
+  }
 }

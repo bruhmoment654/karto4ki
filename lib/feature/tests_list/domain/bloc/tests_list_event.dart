@@ -14,6 +14,11 @@ sealed class TestsListEvent with _$TestsListEvent {
 
   /// Delete test event.
   const factory TestsListEvent.testDeleted({
-    required int testId,
+    required String testId,
   }) = _TestsListEvent$TestDeleted;
+
+  /// Restore soft-deleted test event.
+  const factory TestsListEvent.restoreRequested({
+    required String testId,
+  }) = _TestsListEvent$RestoreRequested;
 }

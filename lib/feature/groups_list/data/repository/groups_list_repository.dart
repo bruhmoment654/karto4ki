@@ -38,20 +38,25 @@ class GroupsListRepository extends BaseRepository
       });
 
   @override
-  RequestOperation<void> deleteGroup(int groupId) => makeCall(() async {
-        await _groupsDatabase.deleteGroupById(groupId);
+  RequestOperation<void> deleteGroup(String groupId) => makeCall(() async {
+        await _groupsDatabase.softDeleteGroupById(groupId);
+      });
+
+  @override
+  RequestOperation<void> restoreGroup(String groupId) => makeCall(() async {
+        await _groupsDatabase.restoreGroupById(groupId);
       });
 
   @override
   RequestOperation<void> updateTestGroups({
-    required int testId,
-    required List<int> groupIds,
+    required String testId,
+    required List<String> groupIds,
   }) =>
       makeCall(() async {
         await _groupsDatabase.updateTestGroups(testId, groupIds);
       });
 
   @override
-  RequestOperation<List<int>> getGroupIdsForTest(int testId) =>
+  RequestOperation<List<String>> getGroupIdsForTest(String testId) =>
       makeCall(() => _groupsDatabase.getGroupIdsByTestId(testId));
 }

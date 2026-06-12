@@ -424,5 +424,63 @@
         "type": "int"
       }
     }
+  },
+  "@segmentSync": {
+    "---------": "---------",
+    "description": "Sync"
+  },
+  "syncBadgeTooltip": "Not synced",
+  "syncDeletedLabel": "Deleted",
+  "syncRestoreButton": "Restore",
+  "syncSectionTitle": "Synchronization",
+  "syncStatusSyncing": "Syncing…",
+  "syncStatusSynced": "Synced {time}",
+  "@syncStatusSynced": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "5 min ago"
+      }
+    }
+  },
+  "syncStatusNever": "Not synced yet",
+  "syncStatusError": "Sync error",
+  "syncPendingCount": "Pending upload: {count}",
+  "@syncPendingCount": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "syncNowButton": "Sync now",
+  "syncTimeJustNow": "just now",
+  "syncTimeMinutesAgo": "{count} min ago",
+  "@syncTimeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "5"
+      }
+    }
+  },
+  "syncTimeHoursAgo": "{count} h ago",
+  "@syncTimeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "3"
+      }
+    }
+  },
+  "syncTimeDaysAgo": "{count} d ago",
+  "@syncTimeDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int",
+        "example": "2"
+      }
+    }
   }
 }

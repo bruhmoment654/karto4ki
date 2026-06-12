@@ -2,6 +2,7 @@ import 'package:quizzerg/core/feature/core/entity/request_operation.dart';
 import 'package:quizzerg/core/feature/data/repository/base_repository.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/question_stats/data/converters/question_stats_converter.dart';
+import 'package:quizzerg/feature/question_stats/data/database/answer_events_database.dart';
 import 'package:quizzerg/feature/question_stats/data/database/question_stats_database.dart';
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
@@ -11,11 +12,14 @@ import 'package:quizzerg/feature/tinder_test/domain/entity/card_result.dart';
 class QuestionStatsRepository extends BaseRepository
     implements IQuestionStatsRepository {
   final QuestionStatsDatabase _questionStatsDatabase;
+  final AnswerEventsDatabase _answerEventsDatabase;
 
   const QuestionStatsRepository({
     required QuestionStatsDatabase questionStatsDatabase,
+    required AnswerEventsDatabase answerEventsDatabase,
     required super.errorLogger,
-  }) : _questionStatsDatabase = questionStatsDatabase;
+  })  : _questionStatsDatabase = questionStatsDatabase,
+        _answerEventsDatabase = answerEventsDatabase;
 
   @override
   RequestOperation<void> saveSessionResults({
@@ -24,6 +28,7 @@ class QuestionStatsRepository extends BaseRepository
   }) =>
       makeCall(() async {
         final cardMap = {for (final card in cards) card.id: card};
+        final now = DateTime.now();
 
         final upsertData = <({
           String questionKey,
@@ -36,13 +41,23 @@ class QuestionStatsRepository extends BaseRepository
           final card = cardMap[result.cardId];
           if (card == null) continue;
 
+          final questionKey =
+              QuestionKeyNormalizer.normalize(card.front, card.formattedBack);
+
           upsertData.add((
-            questionKey:
-                QuestionKeyNormalizer.normalize(card.front, card.formattedBack),
+            questionKey: questionKey,
             frontText: card.front,
             backText: card.formattedBack,
             isCorrect: result.isCorrect,
           ));
+
+          // Outbox: событие уйдёт на бэкенд при следующей синхронизации.
+          await _answerEventsDatabase.insertEvent(
+            cardId: card.id,
+            questionKey: questionKey,
+            isCorrect: result.isCorrect,
+            answeredAt: now,
+          );
         }
 
         await _questionStatsDatabase.upsertStats(upsertData);

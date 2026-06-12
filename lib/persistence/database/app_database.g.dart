@@ -195,18 +195,32 @@ class TestGroups extends Table
   final String? _alias;
   TestGroups(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
       'title', aliasedName, false,
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
+  static const VerificationMeta _syncStatusMeta =
+      const VerificationMeta('syncStatus');
+  late final GeneratedColumn<String> syncStatus = GeneratedColumn<String>(
+      'sync_status', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT \'local\'',
+      defaultValue: const CustomExpression('\'local\''));
+  static const VerificationMeta _deletedAtMeta =
+      const VerificationMeta('deletedAt');
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+      'deleted_at', aliasedName, true,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
@@ -222,7 +236,8 @@ class TestGroups extends Table
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
   @override
-  List<GeneratedColumn> get $columns => [id, title, createdAt, updatedAt];
+  List<GeneratedColumn> get $columns =>
+      [id, title, syncStatus, deletedAt, createdAt, updatedAt];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -236,12 +251,24 @@ class TestGroups extends Table
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('title')) {
       context.handle(
           _titleMeta, title.isAcceptableOrUnknown(data['title']!, _titleMeta));
     } else if (isInserting) {
       context.missing(_titleMeta);
+    }
+    if (data.containsKey('sync_status')) {
+      context.handle(
+          _syncStatusMeta,
+          syncStatus.isAcceptableOrUnknown(
+              data['sync_status']!, _syncStatusMeta));
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(_deletedAtMeta,
+          deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -265,9 +292,13 @@ class TestGroups extends Table
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return TestGroupDatabaseDto(
       id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       title: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
+      syncStatus: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}sync_status'])!,
+      deletedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}deleted_at']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -286,20 +317,28 @@ class TestGroups extends Table
 
 class TestGroupDatabaseDto extends DataClass
     implements Insertable<TestGroupDatabaseDto> {
-  final int id;
+  final String id;
   final String title;
+  final String syncStatus;
+  final DateTime? deletedAt;
   final DateTime createdAt;
   final DateTime updatedAt;
   const TestGroupDatabaseDto(
       {required this.id,
       required this.title,
+      required this.syncStatus,
+      this.deletedAt,
       required this.createdAt,
       required this.updatedAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['id'] = Variable<String>(id);
     map['title'] = Variable<String>(title);
+    map['sync_status'] = Variable<String>(syncStatus);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     return map;
@@ -309,6 +348,10 @@ class TestGroupDatabaseDto extends DataClass
     return TestGroupsCompanion(
       id: Value(id),
       title: Value(title),
+      syncStatus: Value(syncStatus),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
     );
@@ -318,8 +361,10 @@ class TestGroupDatabaseDto extends DataClass
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TestGroupDatabaseDto(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       title: serializer.fromJson<String>(json['title']),
+      syncStatus: serializer.fromJson<String>(json['sync_status']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deleted_at']),
       createdAt: serializer.fromJson<DateTime>(json['created_at']),
       updatedAt: serializer.fromJson<DateTime>(json['updated_at']),
     );
@@ -328,18 +373,27 @@ class TestGroupDatabaseDto extends DataClass
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'title': serializer.toJson<String>(title),
+      'sync_status': serializer.toJson<String>(syncStatus),
+      'deleted_at': serializer.toJson<DateTime?>(deletedAt),
       'created_at': serializer.toJson<DateTime>(createdAt),
       'updated_at': serializer.toJson<DateTime>(updatedAt),
     };
   }
 
   TestGroupDatabaseDto copyWith(
-          {int? id, String? title, DateTime? createdAt, DateTime? updatedAt}) =>
+          {String? id,
+          String? title,
+          String? syncStatus,
+          Value<DateTime?> deletedAt = const Value.absent(),
+          DateTime? createdAt,
+          DateTime? updatedAt}) =>
       TestGroupDatabaseDto(
         id: id ?? this.id,
         title: title ?? this.title,
+        syncStatus: syncStatus ?? this.syncStatus,
+        deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -347,6 +401,9 @@ class TestGroupDatabaseDto extends DataClass
     return TestGroupDatabaseDto(
       id: data.id.present ? data.id.value : this.id,
       title: data.title.present ? data.title.value : this.title,
+      syncStatus:
+          data.syncStatus.present ? data.syncStatus.value : this.syncStatus,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -357,6 +414,8 @@ class TestGroupDatabaseDto extends DataClass
     return (StringBuffer('TestGroupDatabaseDto(')
           ..write('id: $id, ')
           ..write('title: $title, ')
+          ..write('syncStatus: $syncStatus, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -364,60 +423,85 @@ class TestGroupDatabaseDto extends DataClass
   }
 
   @override
-  int get hashCode => Object.hash(id, title, createdAt, updatedAt);
+  int get hashCode =>
+      Object.hash(id, title, syncStatus, deletedAt, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
       (other is TestGroupDatabaseDto &&
           other.id == this.id &&
           other.title == this.title &&
+          other.syncStatus == this.syncStatus &&
+          other.deletedAt == this.deletedAt &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
 
 class TestGroupsCompanion extends UpdateCompanion<TestGroupDatabaseDto> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> title;
+  final Value<String> syncStatus;
+  final Value<DateTime?> deletedAt;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
+  final Value<int> rowid;
   const TestGroupsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
+    this.syncStatus = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   TestGroupsCompanion.insert({
-    this.id = const Value.absent(),
+    required String id,
     required String title,
+    this.syncStatus = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
-  })  : title = Value(title),
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        title = Value(title),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt);
   static Insertable<TestGroupDatabaseDto> custom({
-    Expression<int>? id,
+    Expression<String>? id,
     Expression<String>? title,
+    Expression<String>? syncStatus,
+    Expression<DateTime>? deletedAt,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
+      if (syncStatus != null) 'sync_status': syncStatus,
+      if (deletedAt != null) 'deleted_at': deletedAt,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   TestGroupsCompanion copyWith(
-      {Value<int>? id,
+      {Value<String>? id,
       Value<String>? title,
+      Value<String>? syncStatus,
+      Value<DateTime?>? deletedAt,
       Value<DateTime>? createdAt,
-      Value<DateTime>? updatedAt}) {
+      Value<DateTime>? updatedAt,
+      Value<int>? rowid}) {
     return TestGroupsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
+      syncStatus: syncStatus ?? this.syncStatus,
+      deletedAt: deletedAt ?? this.deletedAt,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -425,16 +509,25 @@ class TestGroupsCompanion extends UpdateCompanion<TestGroupDatabaseDto> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
+    }
+    if (syncStatus.present) {
+      map['sync_status'] = Variable<String>(syncStatus.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
     }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
     if (updatedAt.present) {
       map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -444,8 +537,11 @@ class TestGroupsCompanion extends UpdateCompanion<TestGroupDatabaseDto> {
     return (StringBuffer('TestGroupsCompanion(')
           ..write('id: $id, ')
           ..write('title: $title, ')
+          ..write('syncStatus: $syncStatus, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -457,12 +553,11 @@ class Tests extends Table with TableInfo<Tests, TestDatabaseDto> {
   final String? _alias;
   Tests(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
   static const VerificationMeta _titleMeta = const VerificationMeta('title');
   late final GeneratedColumn<String> title = GeneratedColumn<String>(
       'title', aliasedName, false,
@@ -482,6 +577,21 @@ class Tests extends Table with TableInfo<Tests, TestDatabaseDto> {
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
+  static const VerificationMeta _syncStatusMeta =
+      const VerificationMeta('syncStatus');
+  late final GeneratedColumn<String> syncStatus = GeneratedColumn<String>(
+      'sync_status', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT \'local\'',
+      defaultValue: const CustomExpression('\'local\''));
+  static const VerificationMeta _deletedAtMeta =
+      const VerificationMeta('deletedAt');
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+      'deleted_at', aliasedName, true,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
@@ -497,8 +607,16 @@ class Tests extends Table with TableInfo<Tests, TestDatabaseDto> {
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, title, description, type, createdAt, updatedAt];
+  List<GeneratedColumn> get $columns => [
+        id,
+        title,
+        description,
+        type,
+        syncStatus,
+        deletedAt,
+        createdAt,
+        updatedAt
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -511,6 +629,8 @@ class Tests extends Table with TableInfo<Tests, TestDatabaseDto> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('title')) {
       context.handle(
@@ -529,6 +649,16 @@ class Tests extends Table with TableInfo<Tests, TestDatabaseDto> {
           _typeMeta, type.isAcceptableOrUnknown(data['type']!, _typeMeta));
     } else if (isInserting) {
       context.missing(_typeMeta);
+    }
+    if (data.containsKey('sync_status')) {
+      context.handle(
+          _syncStatusMeta,
+          syncStatus.isAcceptableOrUnknown(
+              data['sync_status']!, _syncStatusMeta));
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(_deletedAtMeta,
+          deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -552,13 +682,17 @@ class Tests extends Table with TableInfo<Tests, TestDatabaseDto> {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return TestDatabaseDto(
       id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       title: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}title'])!,
       description: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}description']),
       type: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}type'])!,
+      syncStatus: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}sync_status'])!,
+      deletedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}deleted_at']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -576,10 +710,12 @@ class Tests extends Table with TableInfo<Tests, TestDatabaseDto> {
 }
 
 class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
-  final int id;
+  final String id;
   final String title;
   final String? description;
   final String type;
+  final String syncStatus;
+  final DateTime? deletedAt;
   final DateTime createdAt;
   final DateTime updatedAt;
   const TestDatabaseDto(
@@ -587,17 +723,23 @@ class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
       required this.title,
       this.description,
       required this.type,
+      required this.syncStatus,
+      this.deletedAt,
       required this.createdAt,
       required this.updatedAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
+    map['id'] = Variable<String>(id);
     map['title'] = Variable<String>(title);
     if (!nullToAbsent || description != null) {
       map['description'] = Variable<String>(description);
     }
     map['type'] = Variable<String>(type);
+    map['sync_status'] = Variable<String>(syncStatus);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     return map;
@@ -611,6 +753,10 @@ class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
           ? const Value.absent()
           : Value(description),
       type: Value(type),
+      syncStatus: Value(syncStatus),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
     );
@@ -620,10 +766,12 @@ class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TestDatabaseDto(
-      id: serializer.fromJson<int>(json['id']),
+      id: serializer.fromJson<String>(json['id']),
       title: serializer.fromJson<String>(json['title']),
       description: serializer.fromJson<String?>(json['description']),
       type: serializer.fromJson<String>(json['type']),
+      syncStatus: serializer.fromJson<String>(json['sync_status']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deleted_at']),
       createdAt: serializer.fromJson<DateTime>(json['created_at']),
       updatedAt: serializer.fromJson<DateTime>(json['updated_at']),
     );
@@ -632,20 +780,24 @@ class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
+      'id': serializer.toJson<String>(id),
       'title': serializer.toJson<String>(title),
       'description': serializer.toJson<String?>(description),
       'type': serializer.toJson<String>(type),
+      'sync_status': serializer.toJson<String>(syncStatus),
+      'deleted_at': serializer.toJson<DateTime?>(deletedAt),
       'created_at': serializer.toJson<DateTime>(createdAt),
       'updated_at': serializer.toJson<DateTime>(updatedAt),
     };
   }
 
   TestDatabaseDto copyWith(
-          {int? id,
+          {String? id,
           String? title,
           Value<String?> description = const Value.absent(),
           String? type,
+          String? syncStatus,
+          Value<DateTime?> deletedAt = const Value.absent(),
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       TestDatabaseDto(
@@ -653,6 +805,8 @@ class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
         title: title ?? this.title,
         description: description.present ? description.value : this.description,
         type: type ?? this.type,
+        syncStatus: syncStatus ?? this.syncStatus,
+        deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -663,6 +817,9 @@ class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
       description:
           data.description.present ? data.description.value : this.description,
       type: data.type.present ? data.type.value : this.type,
+      syncStatus:
+          data.syncStatus.present ? data.syncStatus.value : this.syncStatus,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -675,6 +832,8 @@ class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
           ..write('title: $title, ')
           ..write('description: $description, ')
           ..write('type: $type, ')
+          ..write('syncStatus: $syncStatus, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -682,8 +841,8 @@ class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, title, description, type, createdAt, updatedAt);
+  int get hashCode => Object.hash(id, title, description, type, syncStatus,
+      deletedAt, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -692,68 +851,92 @@ class TestDatabaseDto extends DataClass implements Insertable<TestDatabaseDto> {
           other.title == this.title &&
           other.description == this.description &&
           other.type == this.type &&
+          other.syncStatus == this.syncStatus &&
+          other.deletedAt == this.deletedAt &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
 
 class TestsCompanion extends UpdateCompanion<TestDatabaseDto> {
-  final Value<int> id;
+  final Value<String> id;
   final Value<String> title;
   final Value<String?> description;
   final Value<String> type;
+  final Value<String> syncStatus;
+  final Value<DateTime?> deletedAt;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
+  final Value<int> rowid;
   const TestsCompanion({
     this.id = const Value.absent(),
     this.title = const Value.absent(),
     this.description = const Value.absent(),
     this.type = const Value.absent(),
+    this.syncStatus = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   TestsCompanion.insert({
-    this.id = const Value.absent(),
+    required String id,
     required String title,
     this.description = const Value.absent(),
     required String type,
+    this.syncStatus = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
-  })  : title = Value(title),
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        title = Value(title),
         type = Value(type),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt);
   static Insertable<TestDatabaseDto> custom({
-    Expression<int>? id,
+    Expression<String>? id,
     Expression<String>? title,
     Expression<String>? description,
     Expression<String>? type,
+    Expression<String>? syncStatus,
+    Expression<DateTime>? deletedAt,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (title != null) 'title': title,
       if (description != null) 'description': description,
       if (type != null) 'type': type,
+      if (syncStatus != null) 'sync_status': syncStatus,
+      if (deletedAt != null) 'deleted_at': deletedAt,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   TestsCompanion copyWith(
-      {Value<int>? id,
+      {Value<String>? id,
       Value<String>? title,
       Value<String?>? description,
       Value<String>? type,
+      Value<String>? syncStatus,
+      Value<DateTime?>? deletedAt,
       Value<DateTime>? createdAt,
-      Value<DateTime>? updatedAt}) {
+      Value<DateTime>? updatedAt,
+      Value<int>? rowid}) {
     return TestsCompanion(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       type: type ?? this.type,
+      syncStatus: syncStatus ?? this.syncStatus,
+      deletedAt: deletedAt ?? this.deletedAt,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -761,7 +944,7 @@ class TestsCompanion extends UpdateCompanion<TestDatabaseDto> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (title.present) {
       map['title'] = Variable<String>(title.value);
@@ -772,11 +955,20 @@ class TestsCompanion extends UpdateCompanion<TestDatabaseDto> {
     if (type.present) {
       map['type'] = Variable<String>(type.value);
     }
+    if (syncStatus.present) {
+      map['sync_status'] = Variable<String>(syncStatus.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
     if (updatedAt.present) {
       map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -788,8 +980,11 @@ class TestsCompanion extends UpdateCompanion<TestDatabaseDto> {
           ..write('title: $title, ')
           ..write('description: $description, ')
           ..write('type: $type, ')
+          ..write('syncStatus: $syncStatus, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -810,16 +1005,16 @@ class TestGroupEntries extends Table
       $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
   static const VerificationMeta _groupIdMeta =
       const VerificationMeta('groupId');
-  late final GeneratedColumn<int> groupId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> groupId = GeneratedColumn<String>(
       'group_id', aliasedName, false,
-      type: DriftSqlType.int,
+      type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints:
           'NOT NULL REFERENCES test_groups(id)ON DELETE CASCADE');
   static const VerificationMeta _testIdMeta = const VerificationMeta('testId');
-  late final GeneratedColumn<int> testId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> testId = GeneratedColumn<String>(
       'test_id', aliasedName, false,
-      type: DriftSqlType.int,
+      type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL REFERENCES tests(id)ON DELETE CASCADE');
   @override
@@ -867,9 +1062,9 @@ class TestGroupEntries extends Table
       id: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
       groupId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}group_id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}group_id'])!,
       testId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}test_id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}test_id'])!,
     );
   }
 
@@ -887,16 +1082,16 @@ class TestGroupEntries extends Table
 class TestGroupEntryDatabaseDto extends DataClass
     implements Insertable<TestGroupEntryDatabaseDto> {
   final int id;
-  final int groupId;
-  final int testId;
+  final String groupId;
+  final String testId;
   const TestGroupEntryDatabaseDto(
       {required this.id, required this.groupId, required this.testId});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     map['id'] = Variable<int>(id);
-    map['group_id'] = Variable<int>(groupId);
-    map['test_id'] = Variable<int>(testId);
+    map['group_id'] = Variable<String>(groupId);
+    map['test_id'] = Variable<String>(testId);
     return map;
   }
 
@@ -913,8 +1108,8 @@ class TestGroupEntryDatabaseDto extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return TestGroupEntryDatabaseDto(
       id: serializer.fromJson<int>(json['id']),
-      groupId: serializer.fromJson<int>(json['group_id']),
-      testId: serializer.fromJson<int>(json['test_id']),
+      groupId: serializer.fromJson<String>(json['group_id']),
+      testId: serializer.fromJson<String>(json['test_id']),
     );
   }
   @override
@@ -922,12 +1117,13 @@ class TestGroupEntryDatabaseDto extends DataClass
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
       'id': serializer.toJson<int>(id),
-      'group_id': serializer.toJson<int>(groupId),
-      'test_id': serializer.toJson<int>(testId),
+      'group_id': serializer.toJson<String>(groupId),
+      'test_id': serializer.toJson<String>(testId),
     };
   }
 
-  TestGroupEntryDatabaseDto copyWith({int? id, int? groupId, int? testId}) =>
+  TestGroupEntryDatabaseDto copyWith(
+          {int? id, String? groupId, String? testId}) =>
       TestGroupEntryDatabaseDto(
         id: id ?? this.id,
         groupId: groupId ?? this.groupId,
@@ -965,8 +1161,8 @@ class TestGroupEntryDatabaseDto extends DataClass
 class TestGroupEntriesCompanion
     extends UpdateCompanion<TestGroupEntryDatabaseDto> {
   final Value<int> id;
-  final Value<int> groupId;
-  final Value<int> testId;
+  final Value<String> groupId;
+  final Value<String> testId;
   const TestGroupEntriesCompanion({
     this.id = const Value.absent(),
     this.groupId = const Value.absent(),
@@ -974,14 +1170,14 @@ class TestGroupEntriesCompanion
   });
   TestGroupEntriesCompanion.insert({
     this.id = const Value.absent(),
-    required int groupId,
-    required int testId,
+    required String groupId,
+    required String testId,
   })  : groupId = Value(groupId),
         testId = Value(testId);
   static Insertable<TestGroupEntryDatabaseDto> custom({
     Expression<int>? id,
-    Expression<int>? groupId,
-    Expression<int>? testId,
+    Expression<String>? groupId,
+    Expression<String>? testId,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
@@ -991,7 +1187,7 @@ class TestGroupEntriesCompanion
   }
 
   TestGroupEntriesCompanion copyWith(
-      {Value<int>? id, Value<int>? groupId, Value<int>? testId}) {
+      {Value<int>? id, Value<String>? groupId, Value<String>? testId}) {
     return TestGroupEntriesCompanion(
       id: id ?? this.id,
       groupId: groupId ?? this.groupId,
@@ -1006,10 +1202,10 @@ class TestGroupEntriesCompanion
       map['id'] = Variable<int>(id.value);
     }
     if (groupId.present) {
-      map['group_id'] = Variable<int>(groupId.value);
+      map['group_id'] = Variable<String>(groupId.value);
     }
     if (testId.present) {
-      map['test_id'] = Variable<int>(testId.value);
+      map['test_id'] = Variable<String>(testId.value);
     }
     return map;
   }
@@ -1020,6 +1216,366 @@ class TestGroupEntriesCompanion
           ..write('id: $id, ')
           ..write('groupId: $groupId, ')
           ..write('testId: $testId')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class AnswerEvents extends Table
+    with TableInfo<AnswerEvents, AnswerEventDatabaseDto> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  AnswerEvents(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+      'id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
+  static const VerificationMeta _cardIdMeta = const VerificationMeta('cardId');
+  late final GeneratedColumn<String> cardId = GeneratedColumn<String>(
+      'card_id', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _questionKeyMeta =
+      const VerificationMeta('questionKey');
+  late final GeneratedColumn<String> questionKey = GeneratedColumn<String>(
+      'question_key', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _isCorrectMeta =
+      const VerificationMeta('isCorrect');
+  late final GeneratedColumn<bool> isCorrect = GeneratedColumn<bool>(
+      'is_correct', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _answeredAtMeta =
+      const VerificationMeta('answeredAt');
+  late final GeneratedColumn<DateTime> answeredAt = GeneratedColumn<DateTime>(
+      'answered_at', aliasedName, false,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL');
+  static const VerificationMeta _sentMeta = const VerificationMeta('sent');
+  late final GeneratedColumn<bool> sent = GeneratedColumn<bool>(
+      'sent', aliasedName, false,
+      type: DriftSqlType.bool,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT FALSE',
+      defaultValue: const CustomExpression('FALSE'));
+  @override
+  List<GeneratedColumn> get $columns =>
+      [id, cardId, questionKey, isCorrect, answeredAt, sent];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'answer_events';
+  @override
+  VerificationContext validateIntegrity(
+      Insertable<AnswerEventDatabaseDto> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('card_id')) {
+      context.handle(_cardIdMeta,
+          cardId.isAcceptableOrUnknown(data['card_id']!, _cardIdMeta));
+    } else if (isInserting) {
+      context.missing(_cardIdMeta);
+    }
+    if (data.containsKey('question_key')) {
+      context.handle(
+          _questionKeyMeta,
+          questionKey.isAcceptableOrUnknown(
+              data['question_key']!, _questionKeyMeta));
+    } else if (isInserting) {
+      context.missing(_questionKeyMeta);
+    }
+    if (data.containsKey('is_correct')) {
+      context.handle(_isCorrectMeta,
+          isCorrect.isAcceptableOrUnknown(data['is_correct']!, _isCorrectMeta));
+    } else if (isInserting) {
+      context.missing(_isCorrectMeta);
+    }
+    if (data.containsKey('answered_at')) {
+      context.handle(
+          _answeredAtMeta,
+          answeredAt.isAcceptableOrUnknown(
+              data['answered_at']!, _answeredAtMeta));
+    } else if (isInserting) {
+      context.missing(_answeredAtMeta);
+    }
+    if (data.containsKey('sent')) {
+      context.handle(
+          _sentMeta, sent.isAcceptableOrUnknown(data['sent']!, _sentMeta));
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  AnswerEventDatabaseDto map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return AnswerEventDatabaseDto(
+      id: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
+      cardId: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}card_id'])!,
+      questionKey: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}question_key'])!,
+      isCorrect: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}is_correct'])!,
+      answeredAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}answered_at'])!,
+      sent: attachedDatabase.typeMapping
+          .read(DriftSqlType.bool, data['${effectivePrefix}sent'])!,
+    );
+  }
+
+  @override
+  AnswerEvents createAlias(String alias) {
+    return AnswerEvents(attachedDatabase, alias);
+  }
+
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class AnswerEventDatabaseDto extends DataClass
+    implements Insertable<AnswerEventDatabaseDto> {
+  final String id;
+  final String cardId;
+  final String questionKey;
+  final bool isCorrect;
+  final DateTime answeredAt;
+  final bool sent;
+  const AnswerEventDatabaseDto(
+      {required this.id,
+      required this.cardId,
+      required this.questionKey,
+      required this.isCorrect,
+      required this.answeredAt,
+      required this.sent});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['card_id'] = Variable<String>(cardId);
+    map['question_key'] = Variable<String>(questionKey);
+    map['is_correct'] = Variable<bool>(isCorrect);
+    map['answered_at'] = Variable<DateTime>(answeredAt);
+    map['sent'] = Variable<bool>(sent);
+    return map;
+  }
+
+  AnswerEventsCompanion toCompanion(bool nullToAbsent) {
+    return AnswerEventsCompanion(
+      id: Value(id),
+      cardId: Value(cardId),
+      questionKey: Value(questionKey),
+      isCorrect: Value(isCorrect),
+      answeredAt: Value(answeredAt),
+      sent: Value(sent),
+    );
+  }
+
+  factory AnswerEventDatabaseDto.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return AnswerEventDatabaseDto(
+      id: serializer.fromJson<String>(json['id']),
+      cardId: serializer.fromJson<String>(json['card_id']),
+      questionKey: serializer.fromJson<String>(json['question_key']),
+      isCorrect: serializer.fromJson<bool>(json['is_correct']),
+      answeredAt: serializer.fromJson<DateTime>(json['answered_at']),
+      sent: serializer.fromJson<bool>(json['sent']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'card_id': serializer.toJson<String>(cardId),
+      'question_key': serializer.toJson<String>(questionKey),
+      'is_correct': serializer.toJson<bool>(isCorrect),
+      'answered_at': serializer.toJson<DateTime>(answeredAt),
+      'sent': serializer.toJson<bool>(sent),
+    };
+  }
+
+  AnswerEventDatabaseDto copyWith(
+          {String? id,
+          String? cardId,
+          String? questionKey,
+          bool? isCorrect,
+          DateTime? answeredAt,
+          bool? sent}) =>
+      AnswerEventDatabaseDto(
+        id: id ?? this.id,
+        cardId: cardId ?? this.cardId,
+        questionKey: questionKey ?? this.questionKey,
+        isCorrect: isCorrect ?? this.isCorrect,
+        answeredAt: answeredAt ?? this.answeredAt,
+        sent: sent ?? this.sent,
+      );
+  AnswerEventDatabaseDto copyWithCompanion(AnswerEventsCompanion data) {
+    return AnswerEventDatabaseDto(
+      id: data.id.present ? data.id.value : this.id,
+      cardId: data.cardId.present ? data.cardId.value : this.cardId,
+      questionKey:
+          data.questionKey.present ? data.questionKey.value : this.questionKey,
+      isCorrect: data.isCorrect.present ? data.isCorrect.value : this.isCorrect,
+      answeredAt:
+          data.answeredAt.present ? data.answeredAt.value : this.answeredAt,
+      sent: data.sent.present ? data.sent.value : this.sent,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AnswerEventDatabaseDto(')
+          ..write('id: $id, ')
+          ..write('cardId: $cardId, ')
+          ..write('questionKey: $questionKey, ')
+          ..write('isCorrect: $isCorrect, ')
+          ..write('answeredAt: $answeredAt, ')
+          ..write('sent: $sent')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(id, cardId, questionKey, isCorrect, answeredAt, sent);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is AnswerEventDatabaseDto &&
+          other.id == this.id &&
+          other.cardId == this.cardId &&
+          other.questionKey == this.questionKey &&
+          other.isCorrect == this.isCorrect &&
+          other.answeredAt == this.answeredAt &&
+          other.sent == this.sent);
+}
+
+class AnswerEventsCompanion extends UpdateCompanion<AnswerEventDatabaseDto> {
+  final Value<String> id;
+  final Value<String> cardId;
+  final Value<String> questionKey;
+  final Value<bool> isCorrect;
+  final Value<DateTime> answeredAt;
+  final Value<bool> sent;
+  final Value<int> rowid;
+  const AnswerEventsCompanion({
+    this.id = const Value.absent(),
+    this.cardId = const Value.absent(),
+    this.questionKey = const Value.absent(),
+    this.isCorrect = const Value.absent(),
+    this.answeredAt = const Value.absent(),
+    this.sent = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  AnswerEventsCompanion.insert({
+    required String id,
+    required String cardId,
+    required String questionKey,
+    required bool isCorrect,
+    required DateTime answeredAt,
+    this.sent = const Value.absent(),
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        cardId = Value(cardId),
+        questionKey = Value(questionKey),
+        isCorrect = Value(isCorrect),
+        answeredAt = Value(answeredAt);
+  static Insertable<AnswerEventDatabaseDto> custom({
+    Expression<String>? id,
+    Expression<String>? cardId,
+    Expression<String>? questionKey,
+    Expression<bool>? isCorrect,
+    Expression<DateTime>? answeredAt,
+    Expression<bool>? sent,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (cardId != null) 'card_id': cardId,
+      if (questionKey != null) 'question_key': questionKey,
+      if (isCorrect != null) 'is_correct': isCorrect,
+      if (answeredAt != null) 'answered_at': answeredAt,
+      if (sent != null) 'sent': sent,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  AnswerEventsCompanion copyWith(
+      {Value<String>? id,
+      Value<String>? cardId,
+      Value<String>? questionKey,
+      Value<bool>? isCorrect,
+      Value<DateTime>? answeredAt,
+      Value<bool>? sent,
+      Value<int>? rowid}) {
+    return AnswerEventsCompanion(
+      id: id ?? this.id,
+      cardId: cardId ?? this.cardId,
+      questionKey: questionKey ?? this.questionKey,
+      isCorrect: isCorrect ?? this.isCorrect,
+      answeredAt: answeredAt ?? this.answeredAt,
+      sent: sent ?? this.sent,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (cardId.present) {
+      map['card_id'] = Variable<String>(cardId.value);
+    }
+    if (questionKey.present) {
+      map['question_key'] = Variable<String>(questionKey.value);
+    }
+    if (isCorrect.present) {
+      map['is_correct'] = Variable<bool>(isCorrect.value);
+    }
+    if (answeredAt.present) {
+      map['answered_at'] = Variable<DateTime>(answeredAt.value);
+    }
+    if (sent.present) {
+      map['sent'] = Variable<bool>(sent.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('AnswerEventsCompanion(')
+          ..write('id: $id, ')
+          ..write('cardId: $cardId, ')
+          ..write('questionKey: $questionKey, ')
+          ..write('isCorrect: $isCorrect, ')
+          ..write('answeredAt: $answeredAt, ')
+          ..write('sent: $sent, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -1643,16 +2199,15 @@ class Cards extends Table with TableInfo<Cards, CardDatabaseDto> {
   final String? _alias;
   Cards(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _idMeta = const VerificationMeta('id');
-  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
       'id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT');
+      type: DriftSqlType.string,
+      requiredDuringInsert: true,
+      $customConstraints: 'NOT NULL PRIMARY KEY');
   static const VerificationMeta _testIdMeta = const VerificationMeta('testId');
-  late final GeneratedColumn<int> testId = GeneratedColumn<int>(
+  late final GeneratedColumn<String> testId = GeneratedColumn<String>(
       'test_id', aliasedName, false,
-      type: DriftSqlType.int,
+      type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL REFERENCES tests(id)ON DELETE CASCADE');
   static const VerificationMeta _questionMeta =
@@ -1668,6 +2223,21 @@ class Cards extends Table with TableInfo<Cards, CardDatabaseDto> {
       type: DriftSqlType.string,
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
+  static const VerificationMeta _syncStatusMeta =
+      const VerificationMeta('syncStatus');
+  late final GeneratedColumn<String> syncStatus = GeneratedColumn<String>(
+      'sync_status', aliasedName, false,
+      type: DriftSqlType.string,
+      requiredDuringInsert: false,
+      $customConstraints: 'NOT NULL DEFAULT \'local\'',
+      defaultValue: const CustomExpression('\'local\''));
+  static const VerificationMeta _deletedAtMeta =
+      const VerificationMeta('deletedAt');
+  late final GeneratedColumn<DateTime> deletedAt = GeneratedColumn<DateTime>(
+      'deleted_at', aliasedName, true,
+      type: DriftSqlType.dateTime,
+      requiredDuringInsert: false,
+      $customConstraints: '');
   static const VerificationMeta _createdAtMeta =
       const VerificationMeta('createdAt');
   late final GeneratedColumn<DateTime> createdAt = GeneratedColumn<DateTime>(
@@ -1683,8 +2253,16 @@ class Cards extends Table with TableInfo<Cards, CardDatabaseDto> {
       requiredDuringInsert: true,
       $customConstraints: 'NOT NULL');
   @override
-  List<GeneratedColumn> get $columns =>
-      [id, testId, question, answer, createdAt, updatedAt];
+  List<GeneratedColumn> get $columns => [
+        id,
+        testId,
+        question,
+        answer,
+        syncStatus,
+        deletedAt,
+        createdAt,
+        updatedAt
+      ];
   @override
   String get aliasedName => _alias ?? actualTableName;
   @override
@@ -1697,6 +2275,8 @@ class Cards extends Table with TableInfo<Cards, CardDatabaseDto> {
     final data = instance.toColumns(true);
     if (data.containsKey('id')) {
       context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
     }
     if (data.containsKey('test_id')) {
       context.handle(_testIdMeta,
@@ -1715,6 +2295,16 @@ class Cards extends Table with TableInfo<Cards, CardDatabaseDto> {
           answer.isAcceptableOrUnknown(data['answer']!, _answerMeta));
     } else if (isInserting) {
       context.missing(_answerMeta);
+    }
+    if (data.containsKey('sync_status')) {
+      context.handle(
+          _syncStatusMeta,
+          syncStatus.isAcceptableOrUnknown(
+              data['sync_status']!, _syncStatusMeta));
+    }
+    if (data.containsKey('deleted_at')) {
+      context.handle(_deletedAtMeta,
+          deletedAt.isAcceptableOrUnknown(data['deleted_at']!, _deletedAtMeta));
     }
     if (data.containsKey('created_at')) {
       context.handle(_createdAtMeta,
@@ -1738,13 +2328,17 @@ class Cards extends Table with TableInfo<Cards, CardDatabaseDto> {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
     return CardDatabaseDto(
       id: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}id'])!,
       testId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}test_id'])!,
+          .read(DriftSqlType.string, data['${effectivePrefix}test_id'])!,
       question: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}question'])!,
       answer: attachedDatabase.typeMapping
           .read(DriftSqlType.string, data['${effectivePrefix}answer'])!,
+      syncStatus: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}sync_status'])!,
+      deletedAt: attachedDatabase.typeMapping
+          .read(DriftSqlType.dateTime, data['${effectivePrefix}deleted_at']),
       createdAt: attachedDatabase.typeMapping
           .read(DriftSqlType.dateTime, data['${effectivePrefix}created_at'])!,
       updatedAt: attachedDatabase.typeMapping
@@ -1762,10 +2356,12 @@ class Cards extends Table with TableInfo<Cards, CardDatabaseDto> {
 }
 
 class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
-  final int id;
-  final int testId;
+  final String id;
+  final String testId;
   final String question;
   final String answer;
+  final String syncStatus;
+  final DateTime? deletedAt;
   final DateTime createdAt;
   final DateTime updatedAt;
   const CardDatabaseDto(
@@ -1773,15 +2369,21 @@ class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
       required this.testId,
       required this.question,
       required this.answer,
+      required this.syncStatus,
+      this.deletedAt,
       required this.createdAt,
       required this.updatedAt});
   @override
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
-    map['id'] = Variable<int>(id);
-    map['test_id'] = Variable<int>(testId);
+    map['id'] = Variable<String>(id);
+    map['test_id'] = Variable<String>(testId);
     map['question'] = Variable<String>(question);
     map['answer'] = Variable<String>(answer);
+    map['sync_status'] = Variable<String>(syncStatus);
+    if (!nullToAbsent || deletedAt != null) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt);
+    }
     map['created_at'] = Variable<DateTime>(createdAt);
     map['updated_at'] = Variable<DateTime>(updatedAt);
     return map;
@@ -1793,6 +2395,10 @@ class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
       testId: Value(testId),
       question: Value(question),
       answer: Value(answer),
+      syncStatus: Value(syncStatus),
+      deletedAt: deletedAt == null && nullToAbsent
+          ? const Value.absent()
+          : Value(deletedAt),
       createdAt: Value(createdAt),
       updatedAt: Value(updatedAt),
     );
@@ -1802,10 +2408,12 @@ class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
       {ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return CardDatabaseDto(
-      id: serializer.fromJson<int>(json['id']),
-      testId: serializer.fromJson<int>(json['test_id']),
+      id: serializer.fromJson<String>(json['id']),
+      testId: serializer.fromJson<String>(json['test_id']),
       question: serializer.fromJson<String>(json['question']),
       answer: serializer.fromJson<String>(json['answer']),
+      syncStatus: serializer.fromJson<String>(json['sync_status']),
+      deletedAt: serializer.fromJson<DateTime?>(json['deleted_at']),
       createdAt: serializer.fromJson<DateTime>(json['created_at']),
       updatedAt: serializer.fromJson<DateTime>(json['updated_at']),
     );
@@ -1814,20 +2422,24 @@ class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
   Map<String, dynamic> toJson({ValueSerializer? serializer}) {
     serializer ??= driftRuntimeOptions.defaultSerializer;
     return <String, dynamic>{
-      'id': serializer.toJson<int>(id),
-      'test_id': serializer.toJson<int>(testId),
+      'id': serializer.toJson<String>(id),
+      'test_id': serializer.toJson<String>(testId),
       'question': serializer.toJson<String>(question),
       'answer': serializer.toJson<String>(answer),
+      'sync_status': serializer.toJson<String>(syncStatus),
+      'deleted_at': serializer.toJson<DateTime?>(deletedAt),
       'created_at': serializer.toJson<DateTime>(createdAt),
       'updated_at': serializer.toJson<DateTime>(updatedAt),
     };
   }
 
   CardDatabaseDto copyWith(
-          {int? id,
-          int? testId,
+          {String? id,
+          String? testId,
           String? question,
           String? answer,
+          String? syncStatus,
+          Value<DateTime?> deletedAt = const Value.absent(),
           DateTime? createdAt,
           DateTime? updatedAt}) =>
       CardDatabaseDto(
@@ -1835,6 +2447,8 @@ class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
         testId: testId ?? this.testId,
         question: question ?? this.question,
         answer: answer ?? this.answer,
+        syncStatus: syncStatus ?? this.syncStatus,
+        deletedAt: deletedAt.present ? deletedAt.value : this.deletedAt,
         createdAt: createdAt ?? this.createdAt,
         updatedAt: updatedAt ?? this.updatedAt,
       );
@@ -1844,6 +2458,9 @@ class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
       testId: data.testId.present ? data.testId.value : this.testId,
       question: data.question.present ? data.question.value : this.question,
       answer: data.answer.present ? data.answer.value : this.answer,
+      syncStatus:
+          data.syncStatus.present ? data.syncStatus.value : this.syncStatus,
+      deletedAt: data.deletedAt.present ? data.deletedAt.value : this.deletedAt,
       createdAt: data.createdAt.present ? data.createdAt.value : this.createdAt,
       updatedAt: data.updatedAt.present ? data.updatedAt.value : this.updatedAt,
     );
@@ -1856,6 +2473,8 @@ class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
           ..write('testId: $testId, ')
           ..write('question: $question, ')
           ..write('answer: $answer, ')
+          ..write('syncStatus: $syncStatus, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('createdAt: $createdAt, ')
           ..write('updatedAt: $updatedAt')
           ..write(')'))
@@ -1863,8 +2482,8 @@ class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
   }
 
   @override
-  int get hashCode =>
-      Object.hash(id, testId, question, answer, createdAt, updatedAt);
+  int get hashCode => Object.hash(id, testId, question, answer, syncStatus,
+      deletedAt, createdAt, updatedAt);
   @override
   bool operator ==(Object other) =>
       identical(this, other) ||
@@ -1873,69 +2492,93 @@ class CardDatabaseDto extends DataClass implements Insertable<CardDatabaseDto> {
           other.testId == this.testId &&
           other.question == this.question &&
           other.answer == this.answer &&
+          other.syncStatus == this.syncStatus &&
+          other.deletedAt == this.deletedAt &&
           other.createdAt == this.createdAt &&
           other.updatedAt == this.updatedAt);
 }
 
 class CardsCompanion extends UpdateCompanion<CardDatabaseDto> {
-  final Value<int> id;
-  final Value<int> testId;
+  final Value<String> id;
+  final Value<String> testId;
   final Value<String> question;
   final Value<String> answer;
+  final Value<String> syncStatus;
+  final Value<DateTime?> deletedAt;
   final Value<DateTime> createdAt;
   final Value<DateTime> updatedAt;
+  final Value<int> rowid;
   const CardsCompanion({
     this.id = const Value.absent(),
     this.testId = const Value.absent(),
     this.question = const Value.absent(),
     this.answer = const Value.absent(),
+    this.syncStatus = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     this.createdAt = const Value.absent(),
     this.updatedAt = const Value.absent(),
+    this.rowid = const Value.absent(),
   });
   CardsCompanion.insert({
-    this.id = const Value.absent(),
-    required int testId,
+    required String id,
+    required String testId,
     required String question,
     required String answer,
+    this.syncStatus = const Value.absent(),
+    this.deletedAt = const Value.absent(),
     required DateTime createdAt,
     required DateTime updatedAt,
-  })  : testId = Value(testId),
+    this.rowid = const Value.absent(),
+  })  : id = Value(id),
+        testId = Value(testId),
         question = Value(question),
         answer = Value(answer),
         createdAt = Value(createdAt),
         updatedAt = Value(updatedAt);
   static Insertable<CardDatabaseDto> custom({
-    Expression<int>? id,
-    Expression<int>? testId,
+    Expression<String>? id,
+    Expression<String>? testId,
     Expression<String>? question,
     Expression<String>? answer,
+    Expression<String>? syncStatus,
+    Expression<DateTime>? deletedAt,
     Expression<DateTime>? createdAt,
     Expression<DateTime>? updatedAt,
+    Expression<int>? rowid,
   }) {
     return RawValuesInsertable({
       if (id != null) 'id': id,
       if (testId != null) 'test_id': testId,
       if (question != null) 'question': question,
       if (answer != null) 'answer': answer,
+      if (syncStatus != null) 'sync_status': syncStatus,
+      if (deletedAt != null) 'deleted_at': deletedAt,
       if (createdAt != null) 'created_at': createdAt,
       if (updatedAt != null) 'updated_at': updatedAt,
+      if (rowid != null) 'rowid': rowid,
     });
   }
 
   CardsCompanion copyWith(
-      {Value<int>? id,
-      Value<int>? testId,
+      {Value<String>? id,
+      Value<String>? testId,
       Value<String>? question,
       Value<String>? answer,
+      Value<String>? syncStatus,
+      Value<DateTime?>? deletedAt,
       Value<DateTime>? createdAt,
-      Value<DateTime>? updatedAt}) {
+      Value<DateTime>? updatedAt,
+      Value<int>? rowid}) {
     return CardsCompanion(
       id: id ?? this.id,
       testId: testId ?? this.testId,
       question: question ?? this.question,
       answer: answer ?? this.answer,
+      syncStatus: syncStatus ?? this.syncStatus,
+      deletedAt: deletedAt ?? this.deletedAt,
       createdAt: createdAt ?? this.createdAt,
       updatedAt: updatedAt ?? this.updatedAt,
+      rowid: rowid ?? this.rowid,
     );
   }
 
@@ -1943,10 +2586,10 @@ class CardsCompanion extends UpdateCompanion<CardDatabaseDto> {
   Map<String, Expression> toColumns(bool nullToAbsent) {
     final map = <String, Expression>{};
     if (id.present) {
-      map['id'] = Variable<int>(id.value);
+      map['id'] = Variable<String>(id.value);
     }
     if (testId.present) {
-      map['test_id'] = Variable<int>(testId.value);
+      map['test_id'] = Variable<String>(testId.value);
     }
     if (question.present) {
       map['question'] = Variable<String>(question.value);
@@ -1954,11 +2597,20 @@ class CardsCompanion extends UpdateCompanion<CardDatabaseDto> {
     if (answer.present) {
       map['answer'] = Variable<String>(answer.value);
     }
+    if (syncStatus.present) {
+      map['sync_status'] = Variable<String>(syncStatus.value);
+    }
+    if (deletedAt.present) {
+      map['deleted_at'] = Variable<DateTime>(deletedAt.value);
+    }
     if (createdAt.present) {
       map['created_at'] = Variable<DateTime>(createdAt.value);
     }
     if (updatedAt.present) {
       map['updated_at'] = Variable<DateTime>(updatedAt.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
     }
     return map;
   }
@@ -1970,8 +2622,11 @@ class CardsCompanion extends UpdateCompanion<CardDatabaseDto> {
           ..write('testId: $testId, ')
           ..write('question: $question, ')
           ..write('answer: $answer, ')
+          ..write('syncStatus: $syncStatus, ')
+          ..write('deletedAt: $deletedAt, ')
           ..write('createdAt: $createdAt, ')
-          ..write('updatedAt: $updatedAt')
+          ..write('updatedAt: $updatedAt, ')
+          ..write('rowid: $rowid')
           ..write(')'))
         .toString();
   }
@@ -1984,12 +2639,15 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final TestGroups testGroups = TestGroups(this);
   late final Tests tests = Tests(this);
   late final TestGroupEntries testGroupEntries = TestGroupEntries(this);
+  late final AnswerEvents answerEvents = AnswerEvents(this);
   late final QuestionStats questionStats = QuestionStats(this);
   late final Cards cards = Cards(this);
   late final TestsDatabase testsDatabase = TestsDatabase(this as AppDatabase);
   late final CardsDatabase cardsDatabase = CardsDatabase(this as AppDatabase);
   late final QuestionStatsDatabase questionStatsDatabase =
       QuestionStatsDatabase(this as AppDatabase);
+  late final AnswerEventsDatabase answerEventsDatabase =
+      AnswerEventsDatabase(this as AppDatabase);
   late final GroupsDatabase groupsDatabase =
       GroupsDatabase(this as AppDatabase);
   late final ActiveSessionsDatabase activeSessionsDatabase =
@@ -2003,6 +2661,7 @@ abstract class _$AppDatabase extends GeneratedDatabase {
         testGroups,
         tests,
         testGroupEntries,
+        answerEvents,
         questionStats,
         cards
       ];
@@ -2157,16 +2816,22 @@ typedef $ActiveSessionsProcessedTableManager = ProcessedTableManager<
     ActiveSessionDatabaseDto,
     PrefetchHooks Function()>;
 typedef $TestGroupsCreateCompanionBuilder = TestGroupsCompanion Function({
-  Value<int> id,
+  required String id,
   required String title,
+  Value<String> syncStatus,
+  Value<DateTime?> deletedAt,
   required DateTime createdAt,
   required DateTime updatedAt,
+  Value<int> rowid,
 });
 typedef $TestGroupsUpdateCompanionBuilder = TestGroupsCompanion Function({
-  Value<int> id,
+  Value<String> id,
   Value<String> title,
+  Value<String> syncStatus,
+  Value<DateTime?> deletedAt,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
+  Value<int> rowid,
 });
 
 final class $TestGroupsReferences
@@ -2198,11 +2863,17 @@ class $TestGroupsFilterComposer extends Composer<_$AppDatabase, TestGroups> {
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id => $composableBuilder(
+  ColumnFilters<String> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get title => $composableBuilder(
       column: $table.title, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get syncStatus => $composableBuilder(
+      column: $table.syncStatus, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+      column: $table.deletedAt, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
@@ -2240,11 +2911,17 @@ class $TestGroupsOrderingComposer extends Composer<_$AppDatabase, TestGroups> {
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
+  ColumnOrderings<String> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get title => $composableBuilder(
       column: $table.title, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get syncStatus => $composableBuilder(
+      column: $table.syncStatus, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+      column: $table.deletedAt, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
@@ -2262,11 +2939,17 @@ class $TestGroupsAnnotationComposer
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
+  GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get title =>
       $composableBuilder(column: $table.title, builder: (column) => column);
+
+  GeneratedColumn<String> get syncStatus => $composableBuilder(
+      column: $table.syncStatus, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -2319,28 +3002,40 @@ class $TestGroupsTableManager extends RootTableManager<
           createComputedFieldComposer: () =>
               $TestGroupsAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
+            Value<String> id = const Value.absent(),
             Value<String> title = const Value.absent(),
+            Value<String> syncStatus = const Value.absent(),
+            Value<DateTime?> deletedAt = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
           }) =>
               TestGroupsCompanion(
             id: id,
             title: title,
+            syncStatus: syncStatus,
+            deletedAt: deletedAt,
             createdAt: createdAt,
             updatedAt: updatedAt,
+            rowid: rowid,
           ),
           createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
+            required String id,
             required String title,
+            Value<String> syncStatus = const Value.absent(),
+            Value<DateTime?> deletedAt = const Value.absent(),
             required DateTime createdAt,
             required DateTime updatedAt,
+            Value<int> rowid = const Value.absent(),
           }) =>
               TestGroupsCompanion.insert(
             id: id,
             title: title,
+            syncStatus: syncStatus,
+            deletedAt: deletedAt,
             createdAt: createdAt,
             updatedAt: updatedAt,
+            rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) =>
@@ -2387,20 +3082,26 @@ typedef $TestGroupsProcessedTableManager = ProcessedTableManager<
     TestGroupDatabaseDto,
     PrefetchHooks Function({bool testGroupEntriesRefs})>;
 typedef $TestsCreateCompanionBuilder = TestsCompanion Function({
-  Value<int> id,
+  required String id,
   required String title,
   Value<String?> description,
   required String type,
+  Value<String> syncStatus,
+  Value<DateTime?> deletedAt,
   required DateTime createdAt,
   required DateTime updatedAt,
+  Value<int> rowid,
 });
 typedef $TestsUpdateCompanionBuilder = TestsCompanion Function({
-  Value<int> id,
+  Value<String> id,
   Value<String> title,
   Value<String?> description,
   Value<String> type,
+  Value<String> syncStatus,
+  Value<DateTime?> deletedAt,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
+  Value<int> rowid,
 });
 
 final class $TestsReferences
@@ -2446,7 +3147,7 @@ class $TestsFilterComposer extends Composer<_$AppDatabase, Tests> {
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id => $composableBuilder(
+  ColumnFilters<String> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get title => $composableBuilder(
@@ -2457,6 +3158,12 @@ class $TestsFilterComposer extends Composer<_$AppDatabase, Tests> {
 
   ColumnFilters<String> get type => $composableBuilder(
       column: $table.type, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get syncStatus => $composableBuilder(
+      column: $table.syncStatus, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+      column: $table.deletedAt, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
@@ -2515,7 +3222,7 @@ class $TestsOrderingComposer extends Composer<_$AppDatabase, Tests> {
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
+  ColumnOrderings<String> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get title => $composableBuilder(
@@ -2526,6 +3233,12 @@ class $TestsOrderingComposer extends Composer<_$AppDatabase, Tests> {
 
   ColumnOrderings<String> get type => $composableBuilder(
       column: $table.type, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get syncStatus => $composableBuilder(
+      column: $table.syncStatus, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+      column: $table.deletedAt, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
@@ -2542,7 +3255,7 @@ class $TestsAnnotationComposer extends Composer<_$AppDatabase, Tests> {
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
+  GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get title =>
@@ -2553,6 +3266,12 @@ class $TestsAnnotationComposer extends Composer<_$AppDatabase, Tests> {
 
   GeneratedColumn<String> get type =>
       $composableBuilder(column: $table.type, builder: (column) => column);
+
+  GeneratedColumn<String> get syncStatus => $composableBuilder(
+      column: $table.syncStatus, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -2626,36 +3345,48 @@ class $TestsTableManager extends RootTableManager<
           createComputedFieldComposer: () =>
               $TestsAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
+            Value<String> id = const Value.absent(),
             Value<String> title = const Value.absent(),
             Value<String?> description = const Value.absent(),
             Value<String> type = const Value.absent(),
+            Value<String> syncStatus = const Value.absent(),
+            Value<DateTime?> deletedAt = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
           }) =>
               TestsCompanion(
             id: id,
             title: title,
             description: description,
             type: type,
+            syncStatus: syncStatus,
+            deletedAt: deletedAt,
             createdAt: createdAt,
             updatedAt: updatedAt,
+            rowid: rowid,
           ),
           createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
+            required String id,
             required String title,
             Value<String?> description = const Value.absent(),
             required String type,
+            Value<String> syncStatus = const Value.absent(),
+            Value<DateTime?> deletedAt = const Value.absent(),
             required DateTime createdAt,
             required DateTime updatedAt,
+            Value<int> rowid = const Value.absent(),
           }) =>
               TestsCompanion.insert(
             id: id,
             title: title,
             description: description,
             type: type,
+            syncStatus: syncStatus,
+            deletedAt: deletedAt,
             createdAt: createdAt,
             updatedAt: updatedAt,
+            rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), $TestsReferences(db, table, e)))
@@ -2715,14 +3446,14 @@ typedef $TestsProcessedTableManager = ProcessedTableManager<
 typedef $TestGroupEntriesCreateCompanionBuilder = TestGroupEntriesCompanion
     Function({
   Value<int> id,
-  required int groupId,
-  required int testId,
+  required String groupId,
+  required String testId,
 });
 typedef $TestGroupEntriesUpdateCompanionBuilder = TestGroupEntriesCompanion
     Function({
   Value<int> id,
-  Value<int> groupId,
-  Value<int> testId,
+  Value<String> groupId,
+  Value<String> testId,
 });
 
 final class $TestGroupEntriesReferences extends BaseReferences<_$AppDatabase,
@@ -2938,8 +3669,8 @@ class $TestGroupEntriesTableManager extends RootTableManager<
               $TestGroupEntriesAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
             Value<int> id = const Value.absent(),
-            Value<int> groupId = const Value.absent(),
-            Value<int> testId = const Value.absent(),
+            Value<String> groupId = const Value.absent(),
+            Value<String> testId = const Value.absent(),
           }) =>
               TestGroupEntriesCompanion(
             id: id,
@@ -2948,8 +3679,8 @@ class $TestGroupEntriesTableManager extends RootTableManager<
           ),
           createCompanionCallback: ({
             Value<int> id = const Value.absent(),
-            required int groupId,
-            required int testId,
+            required String groupId,
+            required String testId,
           }) =>
               TestGroupEntriesCompanion.insert(
             id: id,
@@ -3022,6 +3753,192 @@ typedef $TestGroupEntriesProcessedTableManager = ProcessedTableManager<
     (TestGroupEntryDatabaseDto, $TestGroupEntriesReferences),
     TestGroupEntryDatabaseDto,
     PrefetchHooks Function({bool groupId, bool testId})>;
+typedef $AnswerEventsCreateCompanionBuilder = AnswerEventsCompanion Function({
+  required String id,
+  required String cardId,
+  required String questionKey,
+  required bool isCorrect,
+  required DateTime answeredAt,
+  Value<bool> sent,
+  Value<int> rowid,
+});
+typedef $AnswerEventsUpdateCompanionBuilder = AnswerEventsCompanion Function({
+  Value<String> id,
+  Value<String> cardId,
+  Value<String> questionKey,
+  Value<bool> isCorrect,
+  Value<DateTime> answeredAt,
+  Value<bool> sent,
+  Value<int> rowid,
+});
+
+class $AnswerEventsFilterComposer
+    extends Composer<_$AppDatabase, AnswerEvents> {
+  $AnswerEventsFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get cardId => $composableBuilder(
+      column: $table.cardId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get questionKey => $composableBuilder(
+      column: $table.questionKey, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get isCorrect => $composableBuilder(
+      column: $table.isCorrect, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get answeredAt => $composableBuilder(
+      column: $table.answeredAt, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<bool> get sent => $composableBuilder(
+      column: $table.sent, builder: (column) => ColumnFilters(column));
+}
+
+class $AnswerEventsOrderingComposer
+    extends Composer<_$AppDatabase, AnswerEvents> {
+  $AnswerEventsOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+      column: $table.id, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get cardId => $composableBuilder(
+      column: $table.cardId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get questionKey => $composableBuilder(
+      column: $table.questionKey, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get isCorrect => $composableBuilder(
+      column: $table.isCorrect, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get answeredAt => $composableBuilder(
+      column: $table.answeredAt, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<bool> get sent => $composableBuilder(
+      column: $table.sent, builder: (column) => ColumnOrderings(column));
+}
+
+class $AnswerEventsAnnotationComposer
+    extends Composer<_$AppDatabase, AnswerEvents> {
+  $AnswerEventsAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get cardId =>
+      $composableBuilder(column: $table.cardId, builder: (column) => column);
+
+  GeneratedColumn<String> get questionKey => $composableBuilder(
+      column: $table.questionKey, builder: (column) => column);
+
+  GeneratedColumn<bool> get isCorrect =>
+      $composableBuilder(column: $table.isCorrect, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get answeredAt => $composableBuilder(
+      column: $table.answeredAt, builder: (column) => column);
+
+  GeneratedColumn<bool> get sent =>
+      $composableBuilder(column: $table.sent, builder: (column) => column);
+}
+
+class $AnswerEventsTableManager extends RootTableManager<
+    _$AppDatabase,
+    AnswerEvents,
+    AnswerEventDatabaseDto,
+    $AnswerEventsFilterComposer,
+    $AnswerEventsOrderingComposer,
+    $AnswerEventsAnnotationComposer,
+    $AnswerEventsCreateCompanionBuilder,
+    $AnswerEventsUpdateCompanionBuilder,
+    (
+      AnswerEventDatabaseDto,
+      BaseReferences<_$AppDatabase, AnswerEvents, AnswerEventDatabaseDto>
+    ),
+    AnswerEventDatabaseDto,
+    PrefetchHooks Function()> {
+  $AnswerEventsTableManager(_$AppDatabase db, AnswerEvents table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $AnswerEventsFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $AnswerEventsOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $AnswerEventsAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<String> id = const Value.absent(),
+            Value<String> cardId = const Value.absent(),
+            Value<String> questionKey = const Value.absent(),
+            Value<bool> isCorrect = const Value.absent(),
+            Value<DateTime> answeredAt = const Value.absent(),
+            Value<bool> sent = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              AnswerEventsCompanion(
+            id: id,
+            cardId: cardId,
+            questionKey: questionKey,
+            isCorrect: isCorrect,
+            answeredAt: answeredAt,
+            sent: sent,
+            rowid: rowid,
+          ),
+          createCompanionCallback: ({
+            required String id,
+            required String cardId,
+            required String questionKey,
+            required bool isCorrect,
+            required DateTime answeredAt,
+            Value<bool> sent = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
+          }) =>
+              AnswerEventsCompanion.insert(
+            id: id,
+            cardId: cardId,
+            questionKey: questionKey,
+            isCorrect: isCorrect,
+            answeredAt: answeredAt,
+            sent: sent,
+            rowid: rowid,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $AnswerEventsProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    AnswerEvents,
+    AnswerEventDatabaseDto,
+    $AnswerEventsFilterComposer,
+    $AnswerEventsOrderingComposer,
+    $AnswerEventsAnnotationComposer,
+    $AnswerEventsCreateCompanionBuilder,
+    $AnswerEventsUpdateCompanionBuilder,
+    (
+      AnswerEventDatabaseDto,
+      BaseReferences<_$AppDatabase, AnswerEvents, AnswerEventDatabaseDto>
+    ),
+    AnswerEventDatabaseDto,
+    PrefetchHooks Function()>;
 typedef $QuestionStatsCreateCompanionBuilder = QuestionStatsCompanion Function({
   Value<int> id,
   required String questionKey,
@@ -3298,20 +4215,26 @@ typedef $QuestionStatsProcessedTableManager = ProcessedTableManager<
     QuestionStatsDatabaseDto,
     PrefetchHooks Function()>;
 typedef $CardsCreateCompanionBuilder = CardsCompanion Function({
-  Value<int> id,
-  required int testId,
+  required String id,
+  required String testId,
   required String question,
   required String answer,
+  Value<String> syncStatus,
+  Value<DateTime?> deletedAt,
   required DateTime createdAt,
   required DateTime updatedAt,
+  Value<int> rowid,
 });
 typedef $CardsUpdateCompanionBuilder = CardsCompanion Function({
-  Value<int> id,
-  Value<int> testId,
+  Value<String> id,
+  Value<String> testId,
   Value<String> question,
   Value<String> answer,
+  Value<String> syncStatus,
+  Value<DateTime?> deletedAt,
   Value<DateTime> createdAt,
   Value<DateTime> updatedAt,
+  Value<int> rowid,
 });
 
 final class $CardsReferences
@@ -3339,7 +4262,7 @@ class $CardsFilterComposer extends Composer<_$AppDatabase, Cards> {
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnFilters<int> get id => $composableBuilder(
+  ColumnFilters<String> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<String> get question => $composableBuilder(
@@ -3347,6 +4270,12 @@ class $CardsFilterComposer extends Composer<_$AppDatabase, Cards> {
 
   ColumnFilters<String> get answer => $composableBuilder(
       column: $table.answer, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get syncStatus => $composableBuilder(
+      column: $table.syncStatus, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<DateTime> get deletedAt => $composableBuilder(
+      column: $table.deletedAt, builder: (column) => ColumnFilters(column));
 
   ColumnFilters<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnFilters(column));
@@ -3383,7 +4312,7 @@ class $CardsOrderingComposer extends Composer<_$AppDatabase, Cards> {
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  ColumnOrderings<int> get id => $composableBuilder(
+  ColumnOrderings<String> get id => $composableBuilder(
       column: $table.id, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<String> get question => $composableBuilder(
@@ -3391,6 +4320,12 @@ class $CardsOrderingComposer extends Composer<_$AppDatabase, Cards> {
 
   ColumnOrderings<String> get answer => $composableBuilder(
       column: $table.answer, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get syncStatus => $composableBuilder(
+      column: $table.syncStatus, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<DateTime> get deletedAt => $composableBuilder(
+      column: $table.deletedAt, builder: (column) => ColumnOrderings(column));
 
   ColumnOrderings<DateTime> get createdAt => $composableBuilder(
       column: $table.createdAt, builder: (column) => ColumnOrderings(column));
@@ -3427,7 +4362,7 @@ class $CardsAnnotationComposer extends Composer<_$AppDatabase, Cards> {
     super.$addJoinBuilderToRootComposer,
     super.$removeJoinBuilderFromRootComposer,
   });
-  GeneratedColumn<int> get id =>
+  GeneratedColumn<String> get id =>
       $composableBuilder(column: $table.id, builder: (column) => column);
 
   GeneratedColumn<String> get question =>
@@ -3435,6 +4370,12 @@ class $CardsAnnotationComposer extends Composer<_$AppDatabase, Cards> {
 
   GeneratedColumn<String> get answer =>
       $composableBuilder(column: $table.answer, builder: (column) => column);
+
+  GeneratedColumn<String> get syncStatus => $composableBuilder(
+      column: $table.syncStatus, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get deletedAt =>
+      $composableBuilder(column: $table.deletedAt, builder: (column) => column);
 
   GeneratedColumn<DateTime> get createdAt =>
       $composableBuilder(column: $table.createdAt, builder: (column) => column);
@@ -3486,36 +4427,48 @@ class $CardsTableManager extends RootTableManager<
           createComputedFieldComposer: () =>
               $CardsAnnotationComposer($db: db, $table: table),
           updateCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            Value<int> testId = const Value.absent(),
+            Value<String> id = const Value.absent(),
+            Value<String> testId = const Value.absent(),
             Value<String> question = const Value.absent(),
             Value<String> answer = const Value.absent(),
+            Value<String> syncStatus = const Value.absent(),
+            Value<DateTime?> deletedAt = const Value.absent(),
             Value<DateTime> createdAt = const Value.absent(),
             Value<DateTime> updatedAt = const Value.absent(),
+            Value<int> rowid = const Value.absent(),
           }) =>
               CardsCompanion(
             id: id,
             testId: testId,
             question: question,
             answer: answer,
+            syncStatus: syncStatus,
+            deletedAt: deletedAt,
             createdAt: createdAt,
             updatedAt: updatedAt,
+            rowid: rowid,
           ),
           createCompanionCallback: ({
-            Value<int> id = const Value.absent(),
-            required int testId,
+            required String id,
+            required String testId,
             required String question,
             required String answer,
+            Value<String> syncStatus = const Value.absent(),
+            Value<DateTime?> deletedAt = const Value.absent(),
             required DateTime createdAt,
             required DateTime updatedAt,
+            Value<int> rowid = const Value.absent(),
           }) =>
               CardsCompanion.insert(
             id: id,
             testId: testId,
             question: question,
             answer: answer,
+            syncStatus: syncStatus,
+            deletedAt: deletedAt,
             createdAt: createdAt,
             updatedAt: updatedAt,
+            rowid: rowid,
           ),
           withReferenceMapper: (p0) => p0
               .map((e) => (e.readTable(table), $CardsReferences(db, table, e)))
@@ -3579,6 +4532,8 @@ class $AppDatabaseManager {
   $TestsTableManager get tests => $TestsTableManager(_db, _db.tests);
   $TestGroupEntriesTableManager get testGroupEntries =>
       $TestGroupEntriesTableManager(_db, _db.testGroupEntries);
+  $AnswerEventsTableManager get answerEvents =>
+      $AnswerEventsTableManager(_db, _db.answerEvents);
   $QuestionStatsTableManager get questionStats =>
       $QuestionStatsTableManager(_db, _db.questionStats);
   $CardsTableManager get cards => $CardsTableManager(_db, _db.cards);

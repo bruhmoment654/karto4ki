@@ -26,9 +26,16 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
         _TestsListEvent$Started() => _onStarted(event, emit),
         _TestsListEvent$TestAdded() => _onTestAdded(event, emit),
         _TestsListEvent$TestDeleted() => _onTestDeleted(event, emit),
+        _TestsListEvent$RestoreRequested() => _onRestoreRequested(event, emit),
       },
     );
   }
+
+  /// Живые тесты — в исходном порядке, soft-deleted — в конце списка.
+  static List<TestEntity> _withDeletedLast(List<TestEntity> tests) => [
+        ...tests.where((test) => !test.isDeleted),
+        ...tests.where((test) => test.isDeleted),
+      ];
 
   Future<void> _onStarted(
     _TestsListEvent$Started event,
@@ -39,7 +46,7 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
     final result = await _repository.getTests();
     switch (result) {
       case ResultOk(:final data):
-        emit(TestsListState.loaded(tests: data));
+        emit(TestsListState.loaded(tests: _withDeletedLast(data)));
       case ResultFailed(:final error, :final stackTrace):
         emit(TestsListState.error(
           failure: UnknownFailure.fromException(error, stackTrace),
@@ -60,7 +67,30 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
         final testsResult = await _repository.getTests();
         switch (testsResult) {
           case ResultOk(:final data):
-            emit(TestsListState.loaded(tests: data));
+            emit(TestsListState.loaded(tests: _withDeletedLast(data)));
+          case ResultFailed(:final error, :final stackTrace):
+            emit(TestsListState.error(
+              failure: UnknownFailure.fromException(error, stackTrace),
+            ));
+        }
+      case ResultFailed(:final error, :final stackTrace):
+        emit(TestsListState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
+    }
+  }
+
+  Future<void> _onRestoreRequested(
+    _TestsListEvent$RestoreRequested event,
+    Emitter<TestsListState> emit,
+  ) async {
+    final restoreResult = await _repository.restoreTest(event.testId);
+    switch (restoreResult) {
+      case ResultOk():
+        final testsResult = await _repository.getTests();
+        switch (testsResult) {
+          case ResultOk(:final data):
+            emit(TestsListState.loaded(tests: _withDeletedLast(data)));
           case ResultFailed(:final error, :final stackTrace):
             emit(TestsListState.error(
               failure: UnknownFailure.fromException(error, stackTrace),
@@ -83,7 +113,7 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
         final testsResult = await _repository.getTests();
         switch (testsResult) {
           case ResultOk(:final data):
-            emit(TestsListState.loaded(tests: data));
+            emit(TestsListState.loaded(tests: _withDeletedLast(data)));
           case ResultFailed(:final error, :final stackTrace):
             emit(TestsListState.error(
               failure: UnknownFailure.fromException(error, stackTrace),

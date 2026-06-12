@@ -24,8 +24,8 @@ typedef _EnrichedRow = ({
   int? daysSinceLastShown,
   int? activeDaysSinceLastShown,
   int ageDays,
-  List<int> hostingTestIds,
-  List<int> hostingGroupIds,
+  List<String> hostingTestIds,
+  List<String> hostingGroupIds,
   int mixupTargetCount,
 });
 
@@ -66,19 +66,19 @@ class StatsExportService implements IStatsExportService {
       final allTests = await _testsDatabase.getAllTests();
       final testTitleById = {for (final test in allTests) test.id: test.title};
 
-      final groupIdsByTestId = <int, List<int>>{};
+      final groupIdsByTestId = <String, List<String>>{};
       for (final test in allTests) {
         groupIdsByTestId[test.id] =
             await _groupsDatabase.getGroupIdsByTestId(test.id);
       }
-      final testIdsByGroupId = <int, List<int>>{};
+      final testIdsByGroupId = <String, List<String>>{};
       final allGroups = await _groupsDatabase.getAllGroups();
       for (final group in allGroups) {
         testIdsByGroupId[group.id] =
             await _groupsDatabase.getTestIdsByGroupId(group.id);
       }
 
-      final keysByTestId = <int, Set<String>>{};
+      final keysByTestId = <String, Set<String>>{};
       final cardsByKey = <String, List<CardDatabaseDto>>{};
       for (final card in allCards) {
         final key = QuestionKeyNormalizer.normalize(card.question, card.answer);
@@ -139,9 +139,9 @@ class StatsExportService implements IStatsExportService {
     required DateTime now,
     required Set<DateTime> activeDates,
     required Map<String, List<CardDatabaseDto>> cardsByKey,
-    required Map<int, Set<String>> keysByTestId,
-    required Map<int, List<int>> groupIdsByTestId,
-    required Map<int, List<int>> testIdsByGroupId,
+    required Map<String, Set<String>> keysByTestId,
+    required Map<String, List<String>> groupIdsByTestId,
+    required Map<String, List<String>> testIdsByGroupId,
   }) {
     final components = ScoringCalculator.components(
       stat: stat,
@@ -153,14 +153,14 @@ class StatsExportService implements IStatsExportService {
     final hostingCards = cardsByKey[stat.questionKey] ?? const [];
     final hostingTestIds =
         hostingCards.map((card) => card.testId).toSet().toList()..sort();
-    final hostingGroupIds = <int>{};
+    final hostingGroupIds = <String>{};
     for (final testId in hostingTestIds) {
       hostingGroupIds.addAll(groupIdsByTestId[testId] ?? const []);
     }
 
-    final mixupTargetTestIds = <int>{};
+    final mixupTargetTestIds = <String>{};
     for (final groupId in hostingGroupIds) {
-      for (final testId in testIdsByGroupId[groupId] ?? const <int>[]) {
+      for (final testId in testIdsByGroupId[groupId] ?? const <String>[]) {
         if (keysByTestId[testId]?.contains(stat.questionKey) ?? false) {
           continue;
         }
@@ -277,8 +277,8 @@ class StatsExportService implements IStatsExportService {
 
   List<List<dynamic>> _cardsRows(
     List<CardDatabaseDto> allCards,
-    Map<int, String> testTitleById,
-    Map<int, List<int>> groupIdsByTestId,
+    Map<String, String> testTitleById,
+    Map<String, List<String>> groupIdsByTestId,
   ) {
     final rows = <List<dynamic>>[
       const [
@@ -297,7 +297,7 @@ class StatsExportService implements IStatsExportService {
         card.id,
         card.testId,
         testTitleById[card.testId] ?? '',
-        (groupIdsByTestId[card.testId] ?? const <int>[]).join('|'),
+        (groupIdsByTestId[card.testId] ?? const <String>[]).join('|'),
         key,
         card.question,
         card.answer,

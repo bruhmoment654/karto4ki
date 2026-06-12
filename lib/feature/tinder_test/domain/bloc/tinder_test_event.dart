@@ -8,7 +8,7 @@ sealed class TinderTestEvent with _$TinderTestEvent {
   /// If [resume] is true, bloc tries to restore the saved session from
   /// the repository before starting a fresh one.
   const factory TinderTestEvent.started({
-    required int testId,
+    required String testId,
     @Default(false) bool swapSides,
     @Default(0) int answerIndex,
     @Default(false) bool mixup,

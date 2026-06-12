@@ -6,6 +6,7 @@ import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_ent
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
 import 'package:quizzerg/feature/question_stats/domain/util/question_key_normalizer.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository.dart';
+import 'package:quizzerg/feature/tests_list/data/database/tests_database.dart';
 
 class MixupCandidates {
   final List<CardEntity> cards;
@@ -27,21 +28,24 @@ class MixupCandidates {
 class MixupCandidateLoader {
   final ICardRepository _cardRepository;
   final GroupsDatabase _groupsDatabase;
+  final TestsDatabase _testsDatabase;
   final IQuestionStatsRepository _questionStatsRepository;
   final QuestionStatsDatabase _questionStatsDatabase;
 
   const MixupCandidateLoader({
     required ICardRepository cardRepository,
     required GroupsDatabase groupsDatabase,
+    required TestsDatabase testsDatabase,
     required IQuestionStatsRepository questionStatsRepository,
     required QuestionStatsDatabase questionStatsDatabase,
   })  : _cardRepository = cardRepository,
         _groupsDatabase = groupsDatabase,
+        _testsDatabase = testsDatabase,
         _questionStatsRepository = questionStatsRepository,
         _questionStatsDatabase = questionStatsDatabase;
 
   Future<MixupCandidates> loadCandidates({
-    required int testId,
+    required String testId,
     required List<CardEntity> mainCards,
   }) async {
     final activeDates = (await _questionStatsDatabase.getActiveDates()).toSet();
@@ -51,12 +55,18 @@ class MixupCandidateLoader {
       return const MixupCandidates.empty();
     }
 
-    final otherTestIds = <int>{};
+    final otherTestIds = <String>{};
     for (final groupId in groupIds) {
       final testIds = await _groupsDatabase.getTestIdsByGroupId(groupId);
       otherTestIds.addAll(testIds);
     }
     otherTestIds.remove(testId);
+
+    // Подмешиваем только из живых (не soft-deleted) тестов.
+    final aliveTestIds =
+        (await _testsDatabase.getAliveTests()).map((t) => t.id).toSet();
+    otherTestIds.removeWhere((id) => !aliveTestIds.contains(id));
+
     if (otherTestIds.isEmpty) {
       return const MixupCandidates.empty();
     }

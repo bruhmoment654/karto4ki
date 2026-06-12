@@ -12,7 +12,7 @@ part 'active_test_session_dto.g.dart';
 /// после перезапуска приложения.
 @JsonSerializable(checked: true, explicitToJson: true)
 class ActiveTestSessionDto {
-  final int testId;
+  final String testId;
   final String testTitle;
   final int currentIndex;
   final DateTime startedAt;

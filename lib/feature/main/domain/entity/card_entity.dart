@@ -1,5 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:quizzerg/core/sync/domain/entity/sync_status.dart';
+
 part 'card_entity.freezed.dart';
 
 /// Card entity.
@@ -28,6 +30,9 @@ sealed class CardEntity with _$CardEntity {
 
     /// Флаг подмешанной карточки (только в памяти, не в БД).
     @Default(false) bool isMixedIn,
+
+    /// Статус синхронизации с бэкендом.
+    @Default(SyncStatus.local) SyncStatus syncStatus,
   }) = _CardEntity;
 
   /// Форматированная строка всех ответов для отображения.

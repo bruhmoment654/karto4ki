@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:quizzerg/core/sync/presentation/sync_badge.dart';
 import 'package:quizzerg/feature/tests_list/domain/bloc/tests_list_bloc.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/feature/tests_list/presentation/tests_list_screen.dart';
@@ -8,6 +9,7 @@ import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
+import 'package:quizzerg/uikit/spacing/width.dart';
 
 /// UI layer for tests list screen.
 ///
@@ -106,6 +108,12 @@ class _TestsList extends StatelessWidget {
       itemCount: tests.length,
       itemBuilder: (context, index) {
         final test = tests[index];
+        if (test.isDeleted) {
+          return _DeletedTestListItem(
+            test: test,
+            onRestore: () => viewModel.onTestRestorePressed(test),
+          );
+        }
         return _TestListItem(
           test: test,
           onTap: () => viewModel.onTestTapped(test),
@@ -169,11 +177,58 @@ class _TestListItem extends StatelessWidget {
       },
       onDismissed: (_) => onDelete(),
       child: ListTile(
-        title: Text(test.title),
+        title: Row(
+          children: [
+            Flexible(
+              child: Text(
+                test.title,
+                overflow: TextOverflow.ellipsis,
+              ),
+            ),
+            const Width(8),
+            SyncBadge(syncStatus: test.syncStatus),
+          ],
+        ),
         subtitle: test.description != null ? Text(test.description!) : null,
         trailing: const Icon(Icons.chevron_right),
         onTap: onTap,
         onLongPress: onLongPress,
+      ),
+    );
+  }
+}
+
+/// Soft-deleted тест: приглушённая строка с пометкой «Удалён»,
+/// деталка недоступна, вместо действий — кнопка восстановления.
+class _DeletedTestListItem extends StatelessWidget {
+  final TestEntity test;
+  final VoidCallback onRestore;
+
+  const _DeletedTestListItem({
+    required this.test,
+    required this.onRestore,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
+
+    return ListTile(
+      enabled: false,
+      title: Text(
+        test.title,
+        overflow: TextOverflow.ellipsis,
+      ),
+      subtitle: Text(context.l10n.syncDeletedLabel),
+      leading: Icon(
+        Icons.delete_outline,
+        color: colorScheme.onSurfaceVariant.withValues(alpha: 0.6),
+      ),
+      trailing: IconButton(
+        icon: const Icon(Icons.restore),
+        color: colorScheme.primary,
+        tooltip: context.l10n.syncRestoreButton,
+        onPressed: onRestore,
       ),
     );
   }

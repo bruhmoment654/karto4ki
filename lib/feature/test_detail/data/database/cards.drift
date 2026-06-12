@@ -3,10 +3,12 @@ import 'package:quizzerg/feature/tests_list/data/database/tests.drift';
 -- Cards table definition
 
 CREATE TABLE cards (
-  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-  test_id INTEGER NOT NULL REFERENCES tests(id) ON DELETE CASCADE,
+  id TEXT NOT NULL PRIMARY KEY,
+  test_id TEXT NOT NULL REFERENCES tests(id) ON DELETE CASCADE,
   question TEXT NOT NULL,
   answer TEXT NOT NULL,
+  sync_status TEXT NOT NULL DEFAULT 'local',
+  deleted_at DATETIME,
   created_at DATETIME NOT NULL,
   updated_at DATETIME NOT NULL
 ) AS CardDatabaseDto;

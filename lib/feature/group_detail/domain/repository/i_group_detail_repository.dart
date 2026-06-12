@@ -8,42 +8,42 @@ abstract interface class IGroupDetailRepository {
   Stream<void> get groupChanges;
 
   /// Получить группу по id.
-  RequestOperation<TestGroupEntity?> getGroupById(int groupId);
+  RequestOperation<TestGroupEntity?> getGroupById(String groupId);
 
-  /// Получить тесты в группе.
-  RequestOperation<List<TestEntity>> getTestsByGroupId(int groupId);
+  /// Получить живые (не удалённые) тесты в группе.
+  RequestOperation<List<TestEntity>> getTestsByGroupId(String groupId);
 
   /// Добавить тест в группу (создаёт тест и связывает).
   RequestOperation<void> addTestToGroup({
-    required int groupId,
+    required String groupId,
     required String title,
     String? description,
   });
 
   /// Убрать тест из группы (тест остаётся в БД).
   RequestOperation<void> removeTestFromGroup({
-    required int groupId,
-    required int testId,
+    required String groupId,
+    required String testId,
   });
 
   /// Обновить название группы.
   RequestOperation<void> updateGroupTitle({
-    required int groupId,
+    required String groupId,
     required String title,
   });
 
   /// Количество групп, в которых состоит тест.
-  RequestOperation<int> getGroupCountForTest(int testId);
+  RequestOperation<int> getGroupCountForTest(String testId);
 
   /// Получить все группы.
   RequestOperation<List<TestGroupEntity>> getAllGroups();
 
   /// Получить id групп, в которых состоит тест.
-  RequestOperation<List<int>> getGroupIdsForTest(int testId);
+  RequestOperation<List<String>> getGroupIdsForTest(String testId);
 
   /// Обновить привязки теста к группам.
   RequestOperation<void> updateTestGroups({
-    required int testId,
-    required List<int> groupIds,
+    required String testId,
+    required List<String> groupIds,
   });
 }

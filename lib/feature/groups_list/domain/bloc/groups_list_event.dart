@@ -13,6 +13,11 @@ sealed class GroupsListEvent with _$GroupsListEvent {
 
   /// Удалить группу.
   const factory GroupsListEvent.groupDeleted({
-    required int groupId,
+    required String groupId,
   }) = _GroupsListEvent$GroupDeleted;
+
+  /// Восстановить soft-deleted группу.
+  const factory GroupsListEvent.restoreRequested({
+    required String groupId,
+  }) = _GroupsListEvent$RestoreRequested;
 }

@@ -35,7 +35,7 @@ class _GroupsListScreenState extends State<GroupsListScreen>
 
   @override
   void onGroupTapped(TestGroupEntity group) {
-    context.router.push(GroupDetailRoute(groupId: int.parse(group.id)));
+    context.router.push(GroupDetailRoute(groupId: group.id));
   }
 
   @override
@@ -46,6 +46,13 @@ class _GroupsListScreenState extends State<GroupsListScreen>
   @override
   void onGroupLongPressed(TestGroupEntity group) {
     _showDeleteGroupDialog(group);
+  }
+
+  @override
+  void onGroupRestorePressed(TestGroupEntity group) {
+    context.read<GroupsListBloc>().add(
+          GroupsListEvent.restoreRequested(groupId: group.id),
+        );
   }
 
   void _showAddGroupDialog() {
@@ -101,7 +108,7 @@ class _GroupsListScreenState extends State<GroupsListScreen>
             onPressed: () {
               context.read<GroupsListBloc>().add(
                     GroupsListEvent.groupDeleted(
-                      groupId: int.parse(group.id),
+                      groupId: group.id,
                     ),
                   );
               Navigator.of(dialogContext).pop(true);
@@ -123,4 +130,6 @@ abstract interface class IGroupsListViewModel {
   void onGroupDeletePressed(TestGroupEntity group);
 
   void onGroupLongPressed(TestGroupEntity group);
+
+  void onGroupRestorePressed(TestGroupEntity group);
 }

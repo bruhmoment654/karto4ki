@@ -18,7 +18,7 @@ abstract final class ActiveTestSessionConverter {
     final cards = dto.cards.map(_cardFromDto).toList();
     final results = dto.results.map(_resultFromDto).toList();
     final session = TestSession(
-      testId: dto.testId.toString(),
+      testId: dto.testId,
       cards: cards,
       currentIndex: dto.currentIndex,
       results: results,
@@ -34,7 +34,7 @@ abstract final class ActiveTestSessionConverter {
 
   static ActiveTestSessionDto toDto(ActiveTestSession entity) {
     return ActiveTestSessionDto(
-      testId: int.parse(entity.session.testId),
+      testId: entity.session.testId,
       testTitle: entity.testTitle,
       currentIndex: entity.session.currentIndex,
       startedAt: entity.session.startedAt,

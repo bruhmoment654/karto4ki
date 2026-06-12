@@ -22,7 +22,7 @@ class ScoringMixupService implements IQuestionMixupService {
 
   @override
   Future<List<CardEntity>> getMixupCards({
-    required int testId,
+    required String testId,
     required List<CardEntity> mainCards,
     required int mixupMin,
     required int mixupMax,

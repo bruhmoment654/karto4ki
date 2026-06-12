@@ -38,19 +38,26 @@ class _TestsListScreenState extends State<TestsListScreen>
 
   @override
   void onTestTapped(TestEntity test) {
-    context.router.push(TestDetailRoute(testId: int.parse(test.id)));
+    context.router.push(TestDetailRoute(testId: test.id));
   }
 
   @override
   void onTestDeletePressed(TestEntity test) {
     context.read<TestsListBloc>().add(
-          TestsListEvent.testDeleted(testId: int.parse(test.id)),
+          TestsListEvent.testDeleted(testId: test.id),
         );
   }
 
   @override
   void onTestLongPressed(TestEntity test) {
     _showActionsDialog(test);
+  }
+
+  @override
+  void onTestRestorePressed(TestEntity test) {
+    context.read<TestsListBloc>().add(
+          TestsListEvent.restoreRequested(testId: test.id),
+        );
   }
 
   void _showActionsDialog(TestEntity test) {
@@ -62,7 +69,7 @@ class _TestsListScreenState extends State<TestsListScreen>
           onTap: () async {
             Navigator.of(dialogContext).pop();
             final result = await context.router.push(
-              TestMergeRoute(initialTestId: int.parse(test.id)),
+              TestMergeRoute(initialTestId: test.id),
             );
             if (result == true && mounted) {
               context.read<TestsListBloc>().add(const TestsListEvent.started());
@@ -153,4 +160,7 @@ abstract interface class ITestsListViewModel {
 
   /// Called when a test is long pressed.
   void onTestLongPressed(TestEntity test);
+
+  /// Called when restore button is pressed on a deleted test.
+  void onTestRestorePressed(TestEntity test);
 }

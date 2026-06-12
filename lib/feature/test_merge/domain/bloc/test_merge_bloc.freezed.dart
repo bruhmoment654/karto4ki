@@ -18,21 +18,21 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TestMergeEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int initialTestId) started,
+    required TResult Function(String initialTestId) started,
     required TResult Function(String testId) testToggled,
     required TResult Function(String title) mergeConfirmed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int initialTestId)? started,
+    TResult? Function(String initialTestId)? started,
     TResult? Function(String testId)? testToggled,
     TResult? Function(String title)? mergeConfirmed,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int initialTestId)? started,
+    TResult Function(String initialTestId)? started,
     TResult Function(String testId)? testToggled,
     TResult Function(String title)? mergeConfirmed,
     required TResult orElse(),
@@ -88,7 +88,7 @@ abstract class _$$TestMergeEvent$StartedImplCopyWith<$Res> {
           $Res Function(_$TestMergeEvent$StartedImpl) then) =
       __$$TestMergeEvent$StartedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int initialTestId});
+  $Res call({String initialTestId});
 }
 
 /// @nodoc
@@ -109,7 +109,7 @@ class __$$TestMergeEvent$StartedImplCopyWithImpl<$Res>
       initialTestId: null == initialTestId
           ? _value.initialTestId
           : initialTestId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -120,7 +120,7 @@ class _$TestMergeEvent$StartedImpl implements _TestMergeEvent$Started {
   const _$TestMergeEvent$StartedImpl({required this.initialTestId});
 
   @override
-  final int initialTestId;
+  final String initialTestId;
 
   @override
   String toString() {
@@ -149,7 +149,7 @@ class _$TestMergeEvent$StartedImpl implements _TestMergeEvent$Started {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int initialTestId) started,
+    required TResult Function(String initialTestId) started,
     required TResult Function(String testId) testToggled,
     required TResult Function(String title) mergeConfirmed,
   }) {
@@ -159,7 +159,7 @@ class _$TestMergeEvent$StartedImpl implements _TestMergeEvent$Started {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int initialTestId)? started,
+    TResult? Function(String initialTestId)? started,
     TResult? Function(String testId)? testToggled,
     TResult? Function(String title)? mergeConfirmed,
   }) {
@@ -169,7 +169,7 @@ class _$TestMergeEvent$StartedImpl implements _TestMergeEvent$Started {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int initialTestId)? started,
+    TResult Function(String initialTestId)? started,
     TResult Function(String testId)? testToggled,
     TResult Function(String title)? mergeConfirmed,
     required TResult orElse(),
@@ -217,10 +217,10 @@ class _$TestMergeEvent$StartedImpl implements _TestMergeEvent$Started {
 }
 
 abstract class _TestMergeEvent$Started implements TestMergeEvent {
-  const factory _TestMergeEvent$Started({required final int initialTestId}) =
+  const factory _TestMergeEvent$Started({required final String initialTestId}) =
       _$TestMergeEvent$StartedImpl;
 
-  int get initialTestId;
+  String get initialTestId;
   @JsonKey(ignore: true)
   _$$TestMergeEvent$StartedImplCopyWith<_$TestMergeEvent$StartedImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -293,7 +293,7 @@ class _$TestMergeEvent$TestToggledImpl implements _TestMergeEvent$TestToggled {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int initialTestId) started,
+    required TResult Function(String initialTestId) started,
     required TResult Function(String testId) testToggled,
     required TResult Function(String title) mergeConfirmed,
   }) {
@@ -303,7 +303,7 @@ class _$TestMergeEvent$TestToggledImpl implements _TestMergeEvent$TestToggled {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int initialTestId)? started,
+    TResult? Function(String initialTestId)? started,
     TResult? Function(String testId)? testToggled,
     TResult? Function(String title)? mergeConfirmed,
   }) {
@@ -313,7 +313,7 @@ class _$TestMergeEvent$TestToggledImpl implements _TestMergeEvent$TestToggled {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int initialTestId)? started,
+    TResult Function(String initialTestId)? started,
     TResult Function(String testId)? testToggled,
     TResult Function(String title)? mergeConfirmed,
     required TResult orElse(),
@@ -440,7 +440,7 @@ class _$TestMergeEvent$MergeConfirmedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int initialTestId) started,
+    required TResult Function(String initialTestId) started,
     required TResult Function(String testId) testToggled,
     required TResult Function(String title) mergeConfirmed,
   }) {
@@ -450,7 +450,7 @@ class _$TestMergeEvent$MergeConfirmedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int initialTestId)? started,
+    TResult? Function(String initialTestId)? started,
     TResult? Function(String testId)? testToggled,
     TResult? Function(String title)? mergeConfirmed,
   }) {
@@ -460,7 +460,7 @@ class _$TestMergeEvent$MergeConfirmedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int initialTestId)? started,
+    TResult Function(String initialTestId)? started,
     TResult Function(String testId)? testToggled,
     TResult Function(String title)? mergeConfirmed,
     required TResult orElse(),
@@ -527,7 +527,7 @@ mixin _$TestMergeState {
             Set<String> selectedTestIds, String initialTestId)
         loaded,
     required TResult Function() merging,
-    required TResult Function(int newTestId) success,
+    required TResult Function(String newTestId) success,
     required TResult Function(Failure failure) error,
   }) =>
       throw _privateConstructorUsedError;
@@ -538,7 +538,7 @@ mixin _$TestMergeState {
             String initialTestId)?
         loaded,
     TResult? Function()? merging,
-    TResult? Function(int newTestId)? success,
+    TResult? Function(String newTestId)? success,
     TResult? Function(Failure failure)? error,
   }) =>
       throw _privateConstructorUsedError;
@@ -549,7 +549,7 @@ mixin _$TestMergeState {
             String initialTestId)?
         loaded,
     TResult Function()? merging,
-    TResult Function(int newTestId)? success,
+    TResult Function(String newTestId)? success,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) =>
@@ -648,7 +648,7 @@ class _$TestMergeState$LoadingImpl extends TestMergeState$Loading {
             Set<String> selectedTestIds, String initialTestId)
         loaded,
     required TResult Function() merging,
-    required TResult Function(int newTestId) success,
+    required TResult Function(String newTestId) success,
     required TResult Function(Failure failure) error,
   }) {
     return loading();
@@ -662,7 +662,7 @@ class _$TestMergeState$LoadingImpl extends TestMergeState$Loading {
             String initialTestId)?
         loaded,
     TResult? Function()? merging,
-    TResult? Function(int newTestId)? success,
+    TResult? Function(String newTestId)? success,
     TResult? Function(Failure failure)? error,
   }) {
     return loading?.call();
@@ -676,7 +676,7 @@ class _$TestMergeState$LoadingImpl extends TestMergeState$Loading {
             String initialTestId)?
         loaded,
     TResult Function()? merging,
-    TResult Function(int newTestId)? success,
+    TResult Function(String newTestId)? success,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
@@ -846,7 +846,7 @@ class _$TestMergeState$LoadedImpl extends TestMergeState$Loaded {
             Set<String> selectedTestIds, String initialTestId)
         loaded,
     required TResult Function() merging,
-    required TResult Function(int newTestId) success,
+    required TResult Function(String newTestId) success,
     required TResult Function(Failure failure) error,
   }) {
     return loaded(tests, selectedTestIds, initialTestId);
@@ -860,7 +860,7 @@ class _$TestMergeState$LoadedImpl extends TestMergeState$Loaded {
             String initialTestId)?
         loaded,
     TResult? Function()? merging,
-    TResult? Function(int newTestId)? success,
+    TResult? Function(String newTestId)? success,
     TResult? Function(Failure failure)? error,
   }) {
     return loaded?.call(tests, selectedTestIds, initialTestId);
@@ -874,7 +874,7 @@ class _$TestMergeState$LoadedImpl extends TestMergeState$Loaded {
             String initialTestId)?
         loaded,
     TResult Function()? merging,
-    TResult Function(int newTestId)? success,
+    TResult Function(String newTestId)? success,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
@@ -986,7 +986,7 @@ class _$TestMergeState$MergingImpl extends TestMergeState$Merging {
             Set<String> selectedTestIds, String initialTestId)
         loaded,
     required TResult Function() merging,
-    required TResult Function(int newTestId) success,
+    required TResult Function(String newTestId) success,
     required TResult Function(Failure failure) error,
   }) {
     return merging();
@@ -1000,7 +1000,7 @@ class _$TestMergeState$MergingImpl extends TestMergeState$Merging {
             String initialTestId)?
         loaded,
     TResult? Function()? merging,
-    TResult? Function(int newTestId)? success,
+    TResult? Function(String newTestId)? success,
     TResult? Function(Failure failure)? error,
   }) {
     return merging?.call();
@@ -1014,7 +1014,7 @@ class _$TestMergeState$MergingImpl extends TestMergeState$Merging {
             String initialTestId)?
         loaded,
     TResult Function()? merging,
-    TResult Function(int newTestId)? success,
+    TResult Function(String newTestId)? success,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
@@ -1077,7 +1077,7 @@ abstract class _$$TestMergeState$SuccessImplCopyWith<$Res> {
           $Res Function(_$TestMergeState$SuccessImpl) then) =
       __$$TestMergeState$SuccessImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int newTestId});
+  $Res call({String newTestId});
 }
 
 /// @nodoc
@@ -1098,7 +1098,7 @@ class __$$TestMergeState$SuccessImplCopyWithImpl<$Res>
       newTestId: null == newTestId
           ? _value.newTestId
           : newTestId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -1109,7 +1109,7 @@ class _$TestMergeState$SuccessImpl extends TestMergeState$Success {
   const _$TestMergeState$SuccessImpl({required this.newTestId}) : super._();
 
   @override
-  final int newTestId;
+  final String newTestId;
 
   @override
   String toString() {
@@ -1143,7 +1143,7 @@ class _$TestMergeState$SuccessImpl extends TestMergeState$Success {
             Set<String> selectedTestIds, String initialTestId)
         loaded,
     required TResult Function() merging,
-    required TResult Function(int newTestId) success,
+    required TResult Function(String newTestId) success,
     required TResult Function(Failure failure) error,
   }) {
     return success(newTestId);
@@ -1157,7 +1157,7 @@ class _$TestMergeState$SuccessImpl extends TestMergeState$Success {
             String initialTestId)?
         loaded,
     TResult? Function()? merging,
-    TResult? Function(int newTestId)? success,
+    TResult? Function(String newTestId)? success,
     TResult? Function(Failure failure)? error,
   }) {
     return success?.call(newTestId);
@@ -1171,7 +1171,7 @@ class _$TestMergeState$SuccessImpl extends TestMergeState$Success {
             String initialTestId)?
         loaded,
     TResult Function()? merging,
-    TResult Function(int newTestId)? success,
+    TResult Function(String newTestId)? success,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {
@@ -1223,11 +1223,11 @@ class _$TestMergeState$SuccessImpl extends TestMergeState$Success {
 }
 
 abstract class TestMergeState$Success extends TestMergeState {
-  const factory TestMergeState$Success({required final int newTestId}) =
+  const factory TestMergeState$Success({required final String newTestId}) =
       _$TestMergeState$SuccessImpl;
   const TestMergeState$Success._() : super._();
 
-  int get newTestId;
+  String get newTestId;
   @JsonKey(ignore: true)
   _$$TestMergeState$SuccessImplCopyWith<_$TestMergeState$SuccessImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -1304,7 +1304,7 @@ class _$TestMergeState$ErrorImpl extends TestMergeState$Error {
             Set<String> selectedTestIds, String initialTestId)
         loaded,
     required TResult Function() merging,
-    required TResult Function(int newTestId) success,
+    required TResult Function(String newTestId) success,
     required TResult Function(Failure failure) error,
   }) {
     return error(failure);
@@ -1318,7 +1318,7 @@ class _$TestMergeState$ErrorImpl extends TestMergeState$Error {
             String initialTestId)?
         loaded,
     TResult? Function()? merging,
-    TResult? Function(int newTestId)? success,
+    TResult? Function(String newTestId)? success,
     TResult? Function(Failure failure)? error,
   }) {
     return error?.call(failure);
@@ -1332,7 +1332,7 @@ class _$TestMergeState$ErrorImpl extends TestMergeState$Error {
             String initialTestId)?
         loaded,
     TResult Function()? merging,
-    TResult Function(int newTestId)? success,
+    TResult Function(String newTestId)? success,
     TResult Function(Failure failure)? error,
     required TResult orElse(),
   }) {

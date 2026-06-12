@@ -18,9 +18,9 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$TestDetailEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId) started,
+    required TResult Function(String testId) started,
     required TResult Function(String front, String back) cardAdded,
-    required TResult Function(int cardId) cardDeleted,
+    required TResult Function(String cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
     required TResult Function(List<({String back, String front})> cards)
@@ -29,9 +29,9 @@ mixin _$TestDetailEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId)? started,
+    TResult? Function(String testId)? started,
     TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(int cardId)? cardDeleted,
+    TResult? Function(String cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
     TResult? Function(List<({String back, String front})> cards)? cardsImported,
@@ -39,9 +39,9 @@ mixin _$TestDetailEvent {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId)? started,
+    TResult Function(String testId)? started,
     TResult Function(String front, String back)? cardAdded,
-    TResult Function(int cardId)? cardDeleted,
+    TResult Function(String cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
     TResult Function(List<({String back, String front})> cards)? cardsImported,
@@ -107,7 +107,7 @@ abstract class _$$TestDetailEvent$StartedImplCopyWith<$Res> {
           $Res Function(_$TestDetailEvent$StartedImpl) then) =
       __$$TestDetailEvent$StartedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int testId});
+  $Res call({String testId});
 }
 
 /// @nodoc
@@ -128,7 +128,7 @@ class __$$TestDetailEvent$StartedImplCopyWithImpl<$Res>
       testId: null == testId
           ? _value.testId
           : testId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -139,7 +139,7 @@ class _$TestDetailEvent$StartedImpl implements _TestDetailEvent$Started {
   const _$TestDetailEvent$StartedImpl({required this.testId});
 
   @override
-  final int testId;
+  final String testId;
 
   @override
   String toString() {
@@ -167,9 +167,9 @@ class _$TestDetailEvent$StartedImpl implements _TestDetailEvent$Started {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId) started,
+    required TResult Function(String testId) started,
     required TResult Function(String front, String back) cardAdded,
-    required TResult Function(int cardId) cardDeleted,
+    required TResult Function(String cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
     required TResult Function(List<({String back, String front})> cards)
@@ -181,9 +181,9 @@ class _$TestDetailEvent$StartedImpl implements _TestDetailEvent$Started {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId)? started,
+    TResult? Function(String testId)? started,
     TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(int cardId)? cardDeleted,
+    TResult? Function(String cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
     TResult? Function(List<({String back, String front})> cards)? cardsImported,
@@ -194,9 +194,9 @@ class _$TestDetailEvent$StartedImpl implements _TestDetailEvent$Started {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId)? started,
+    TResult Function(String testId)? started,
     TResult Function(String front, String back)? cardAdded,
-    TResult Function(int cardId)? cardDeleted,
+    TResult Function(String cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
     TResult Function(List<({String back, String front})> cards)? cardsImported,
@@ -254,10 +254,10 @@ class _$TestDetailEvent$StartedImpl implements _TestDetailEvent$Started {
 }
 
 abstract class _TestDetailEvent$Started implements TestDetailEvent {
-  const factory _TestDetailEvent$Started({required final int testId}) =
+  const factory _TestDetailEvent$Started({required final String testId}) =
       _$TestDetailEvent$StartedImpl;
 
-  int get testId;
+  String get testId;
   @JsonKey(ignore: true)
   _$$TestDetailEvent$StartedImplCopyWith<_$TestDetailEvent$StartedImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -339,9 +339,9 @@ class _$TestDetailEvent$CardAddedImpl implements _TestDetailEvent$CardAdded {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId) started,
+    required TResult Function(String testId) started,
     required TResult Function(String front, String back) cardAdded,
-    required TResult Function(int cardId) cardDeleted,
+    required TResult Function(String cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
     required TResult Function(List<({String back, String front})> cards)
@@ -353,9 +353,9 @@ class _$TestDetailEvent$CardAddedImpl implements _TestDetailEvent$CardAdded {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId)? started,
+    TResult? Function(String testId)? started,
     TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(int cardId)? cardDeleted,
+    TResult? Function(String cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
     TResult? Function(List<({String back, String front})> cards)? cardsImported,
@@ -366,9 +366,9 @@ class _$TestDetailEvent$CardAddedImpl implements _TestDetailEvent$CardAdded {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId)? started,
+    TResult Function(String testId)? started,
     TResult Function(String front, String back)? cardAdded,
-    TResult Function(int cardId)? cardDeleted,
+    TResult Function(String cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
     TResult Function(List<({String back, String front})> cards)? cardsImported,
@@ -444,7 +444,7 @@ abstract class _$$TestDetailEvent$CardDeletedImplCopyWith<$Res> {
           $Res Function(_$TestDetailEvent$CardDeletedImpl) then) =
       __$$TestDetailEvent$CardDeletedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int cardId});
+  $Res call({String cardId});
 }
 
 /// @nodoc
@@ -466,7 +466,7 @@ class __$$TestDetailEvent$CardDeletedImplCopyWithImpl<$Res>
       cardId: null == cardId
           ? _value.cardId
           : cardId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -478,7 +478,7 @@ class _$TestDetailEvent$CardDeletedImpl
   const _$TestDetailEvent$CardDeletedImpl({required this.cardId});
 
   @override
-  final int cardId;
+  final String cardId;
 
   @override
   String toString() {
@@ -506,9 +506,9 @@ class _$TestDetailEvent$CardDeletedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId) started,
+    required TResult Function(String testId) started,
     required TResult Function(String front, String back) cardAdded,
-    required TResult Function(int cardId) cardDeleted,
+    required TResult Function(String cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
     required TResult Function(List<({String back, String front})> cards)
@@ -520,9 +520,9 @@ class _$TestDetailEvent$CardDeletedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId)? started,
+    TResult? Function(String testId)? started,
     TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(int cardId)? cardDeleted,
+    TResult? Function(String cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
     TResult? Function(List<({String back, String front})> cards)? cardsImported,
@@ -533,9 +533,9 @@ class _$TestDetailEvent$CardDeletedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId)? started,
+    TResult Function(String testId)? started,
     TResult Function(String front, String back)? cardAdded,
-    TResult Function(int cardId)? cardDeleted,
+    TResult Function(String cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
     TResult Function(List<({String back, String front})> cards)? cardsImported,
@@ -593,10 +593,10 @@ class _$TestDetailEvent$CardDeletedImpl
 }
 
 abstract class _TestDetailEvent$CardDeleted implements TestDetailEvent {
-  const factory _TestDetailEvent$CardDeleted({required final int cardId}) =
+  const factory _TestDetailEvent$CardDeleted({required final String cardId}) =
       _$TestDetailEvent$CardDeletedImpl;
 
-  int get cardId;
+  String get cardId;
   @JsonKey(ignore: true)
   _$$TestDetailEvent$CardDeletedImplCopyWith<_$TestDetailEvent$CardDeletedImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -681,9 +681,9 @@ class _$TestDetailEvent$CardUpdatedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId) started,
+    required TResult Function(String testId) started,
     required TResult Function(String front, String back) cardAdded,
-    required TResult Function(int cardId) cardDeleted,
+    required TResult Function(String cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
     required TResult Function(List<({String back, String front})> cards)
@@ -695,9 +695,9 @@ class _$TestDetailEvent$CardUpdatedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId)? started,
+    TResult? Function(String testId)? started,
     TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(int cardId)? cardDeleted,
+    TResult? Function(String cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
     TResult? Function(List<({String back, String front})> cards)? cardsImported,
@@ -708,9 +708,9 @@ class _$TestDetailEvent$CardUpdatedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId)? started,
+    TResult Function(String testId)? started,
     TResult Function(String front, String back)? cardAdded,
-    TResult Function(int cardId)? cardDeleted,
+    TResult Function(String cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
     TResult Function(List<({String back, String front})> cards)? cardsImported,
@@ -856,9 +856,9 @@ class _$TestDetailEvent$TestUpdatedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId) started,
+    required TResult Function(String testId) started,
     required TResult Function(String front, String back) cardAdded,
-    required TResult Function(int cardId) cardDeleted,
+    required TResult Function(String cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
     required TResult Function(List<({String back, String front})> cards)
@@ -870,9 +870,9 @@ class _$TestDetailEvent$TestUpdatedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId)? started,
+    TResult? Function(String testId)? started,
     TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(int cardId)? cardDeleted,
+    TResult? Function(String cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
     TResult? Function(List<({String back, String front})> cards)? cardsImported,
@@ -883,9 +883,9 @@ class _$TestDetailEvent$TestUpdatedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId)? started,
+    TResult Function(String testId)? started,
     TResult Function(String front, String back)? cardAdded,
-    TResult Function(int cardId)? cardDeleted,
+    TResult Function(String cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
     TResult Function(List<({String back, String front})> cards)? cardsImported,
@@ -1032,9 +1032,9 @@ class _$TestDetailEvent$CardsImportedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int testId) started,
+    required TResult Function(String testId) started,
     required TResult Function(String front, String back) cardAdded,
-    required TResult Function(int cardId) cardDeleted,
+    required TResult Function(String cardId) cardDeleted,
     required TResult Function(CardEntity card) cardUpdated,
     required TResult Function(String title, String? description) testUpdated,
     required TResult Function(List<({String back, String front})> cards)
@@ -1046,9 +1046,9 @@ class _$TestDetailEvent$CardsImportedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int testId)? started,
+    TResult? Function(String testId)? started,
     TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(int cardId)? cardDeleted,
+    TResult? Function(String cardId)? cardDeleted,
     TResult? Function(CardEntity card)? cardUpdated,
     TResult? Function(String title, String? description)? testUpdated,
     TResult? Function(List<({String back, String front})> cards)? cardsImported,
@@ -1059,9 +1059,9 @@ class _$TestDetailEvent$CardsImportedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int testId)? started,
+    TResult Function(String testId)? started,
     TResult Function(String front, String back)? cardAdded,
-    TResult Function(int cardId)? cardDeleted,
+    TResult Function(String cardId)? cardDeleted,
     TResult Function(CardEntity card)? cardUpdated,
     TResult Function(String title, String? description)? testUpdated,
     TResult Function(List<({String back, String front})> cards)? cardsImported,

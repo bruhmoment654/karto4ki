@@ -5,7 +5,7 @@ part of 'test_merge_bloc.dart';
 sealed class TestMergeEvent with _$TestMergeEvent {
   /// Load tests list.
   const factory TestMergeEvent.started({
-    required int initialTestId,
+    required String initialTestId,
   }) = _TestMergeEvent$Started;
 
   /// Toggle test selection.

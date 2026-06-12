@@ -1174,6 +1174,90 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =0{No questions} one{{count} question} other{{count} questions}}'**
   String groupDetailQuestionCount(int count);
+
+  /// No description provided for @syncBadgeTooltip.
+  ///
+  /// In en, this message translates to:
+  /// **'Not synced'**
+  String get syncBadgeTooltip;
+
+  /// No description provided for @syncDeletedLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Deleted'**
+  String get syncDeletedLabel;
+
+  /// No description provided for @syncRestoreButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Restore'**
+  String get syncRestoreButton;
+
+  /// No description provided for @syncSectionTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Synchronization'**
+  String get syncSectionTitle;
+
+  /// No description provided for @syncStatusSyncing.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing…'**
+  String get syncStatusSyncing;
+
+  /// No description provided for @syncStatusSynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Synced {time}'**
+  String syncStatusSynced(String time);
+
+  /// No description provided for @syncStatusNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Not synced yet'**
+  String get syncStatusNever;
+
+  /// No description provided for @syncStatusError.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync error'**
+  String get syncStatusError;
+
+  /// No description provided for @syncPendingCount.
+  ///
+  /// In en, this message translates to:
+  /// **'Pending upload: {count}'**
+  String syncPendingCount(int count);
+
+  /// No description provided for @syncNowButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync now'**
+  String get syncNowButton;
+
+  /// No description provided for @syncTimeJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get syncTimeJustNow;
+
+  /// No description provided for @syncTimeMinutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} min ago'**
+  String syncTimeMinutesAgo(int count);
+
+  /// No description provided for @syncTimeHoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} h ago'**
+  String syncTimeHoursAgo(int count);
+
+  /// No description provided for @syncTimeDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} d ago'**
+  String syncTimeDaysAgo(int count);
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

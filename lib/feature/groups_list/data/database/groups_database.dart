@@ -14,27 +14,51 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
     with _$GroupsDatabaseMixin {
   GroupsDatabase(super.attachedDatabase);
 
-  /// Получить все группы.
+  /// Получить все группы (включая soft-deleted — для UI «Удалён» и синка).
   Future<List<TestGroupDatabaseDto>> getAllGroups() => select(testGroups).get();
 
+  /// Получить живые (не soft-deleted) группы.
+  Future<List<TestGroupDatabaseDto>> getAliveGroups() =>
+      (select(testGroups)..where((g) => g.deletedAt.isNull())).get();
+
   /// Получить группу по id.
-  Future<TestGroupDatabaseDto?> getGroupById(int id) =>
+  Future<TestGroupDatabaseDto?> getGroupById(String id) =>
       (select(testGroups)..where((g) => g.id.equals(id))).getSingleOrNull();
 
   /// Вставить новую группу.
-  Future<int> insertGroup(TestGroupsCompanion group) =>
+  Future<void> insertGroup(TestGroupsCompanion group) =>
       into(testGroups).insert(group);
 
   /// Обновить группу.
   Future<bool> updateGroup(TestGroupDatabaseDto group) =>
       update(testGroups).replace(group);
 
-  /// Удалить группу по id.
-  Future<int> deleteGroupById(int id) =>
+  /// Soft delete: пометить группу удалённой и ожидающей отправки.
+  Future<int> softDeleteGroupById(String id) =>
+      (update(testGroups)..where((g) => g.id.equals(id))).write(
+        TestGroupsCompanion(
+          deletedAt: Value(DateTime.now()),
+          syncStatus: const Value('pending'),
+          updatedAt: Value(DateTime.now()),
+        ),
+      );
+
+  /// Restore: снять метку удаления, пометить ожидающей восстановления.
+  Future<int> restoreGroupById(String id) =>
+      (update(testGroups)..where((g) => g.id.equals(id))).write(
+        TestGroupsCompanion(
+          deletedAt: const Value(null),
+          syncStatus: const Value('pending_restore'),
+          updatedAt: Value(DateTime.now()),
+        ),
+      );
+
+  /// Физически удалить группу (после подтверждения бэкендом).
+  Future<int> hardDeleteGroupById(String id) =>
       (delete(testGroups)..where((g) => g.id.equals(id))).go();
 
   /// Получить id тестов в группе.
-  Future<List<int>> getTestIdsByGroupId(int groupId) async {
+  Future<List<String>> getTestIdsByGroupId(String groupId) async {
     final entries = await (select(testGroupEntries)
           ..where((e) => e.groupId.equals(groupId)))
         .get();
@@ -42,7 +66,7 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
   }
 
   /// Получить id групп, в которых состоит тест.
-  Future<List<int>> getGroupIdsByTestId(int testId) async {
+  Future<List<String>> getGroupIdsByTestId(String testId) async {
     final entries = await (select(testGroupEntries)
           ..where((e) => e.testId.equals(testId)))
         .get();
@@ -50,7 +74,7 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
   }
 
   /// Добавить тест в группу (игнорировать если уже есть).
-  Future<void> addTestToGroup(int groupId, int testId) =>
+  Future<void> addTestToGroup(String groupId, String testId) =>
       into(testGroupEntries).insert(
         TestGroupEntriesCompanion.insert(
           groupId: groupId,
@@ -60,25 +84,33 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
       );
 
   /// Убрать тест из группы.
-  Future<int> removeTestFromGroup(int groupId, int testId) =>
+  Future<int> removeTestFromGroup(String groupId, String testId) =>
       (delete(testGroupEntries)
             ..where(
               (e) => e.groupId.equals(groupId) & e.testId.equals(testId),
             ))
           .go();
 
-  /// Количество тестов в группе.
-  Future<int> getTestCountByGroupId(int groupId) async {
+  /// Количество живых тестов в группе.
+  Future<int> getTestCountByGroupId(String groupId) async {
     final count = countAll();
-    final query = selectOnly(testGroupEntries)
+    final query = selectOnly(testGroupEntries).join([
+      innerJoin(
+        attachedDatabase.tests,
+        attachedDatabase.tests.id.equalsExp(testGroupEntries.testId),
+      ),
+    ])
       ..addColumns([count])
-      ..where(testGroupEntries.groupId.equals(groupId));
+      ..where(
+        testGroupEntries.groupId.equals(groupId) &
+            attachedDatabase.tests.deletedAt.isNull(),
+      );
     final result = await query.getSingle();
     return result.read(count) ?? 0;
   }
 
   /// Обновить привязки теста к группам (в транзакции).
-  Future<void> updateTestGroups(int testId, List<int> groupIds) =>
+  Future<void> updateTestGroups(String testId, List<String> groupIds) =>
       transaction(() async {
         await (delete(testGroupEntries)..where((e) => e.testId.equals(testId)))
             .go();
@@ -93,7 +125,7 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
       });
 
   /// Количество групп, в которых состоит тест.
-  Future<int> getGroupCountByTestId(int testId) async {
+  Future<int> getGroupCountByTestId(String testId) async {
     final count = countAll();
     final query = selectOnly(testGroupEntries)
       ..addColumns([count])
@@ -101,6 +133,25 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
     final result = await query.getSingle();
     return result.read(count) ?? 0;
   }
+
+  /// Группы, ожидающие отправки на бэкенд.
+  Future<List<TestGroupDatabaseDto>> getPendingGroups() => (select(testGroups)
+        ..where((g) => g.syncStatus.isIn(['pending', 'pending_restore'])))
+      .get();
+
+  /// Установить статус синхронизации.
+  Future<int> setSyncStatus(String id, String status) =>
+      (update(testGroups)..where((g) => g.id.equals(id)))
+          .write(TestGroupsCompanion(syncStatus: Value(status)));
+
+  /// Пометить все local-записи как pending (первый вход в аккаунт).
+  Future<int> markAllLocalPending() =>
+      (update(testGroups)..where((g) => g.syncStatus.equals('local')))
+          .write(const TestGroupsCompanion(syncStatus: Value('pending')));
+
+  /// Upsert из pull-синка.
+  Future<void> upsertFromServer(TestGroupsCompanion group) =>
+      into(testGroups).insertOnConflictUpdate(group);
 
   /// Stream, эмитящий при изменении таблиц групп или связей.
   Stream<void> watchGroupChanges() => Rx.merge([

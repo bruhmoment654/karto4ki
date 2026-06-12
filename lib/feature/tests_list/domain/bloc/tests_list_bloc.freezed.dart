@@ -20,21 +20,24 @@ mixin _$TestsListEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String title, String? description) testAdded,
-    required TResult Function(int testId) testDeleted,
+    required TResult Function(String testId) testDeleted,
+    required TResult Function(String testId) restoreRequested,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(int testId)? testDeleted,
+    TResult? Function(String testId)? testDeleted,
+    TResult? Function(String testId)? restoreRequested,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String title, String? description)? testAdded,
-    TResult Function(int testId)? testDeleted,
+    TResult Function(String testId)? testDeleted,
+    TResult Function(String testId)? restoreRequested,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -43,6 +46,8 @@ mixin _$TestsListEvent {
     required TResult Function(_TestsListEvent$Started value) started,
     required TResult Function(_TestsListEvent$TestAdded value) testAdded,
     required TResult Function(_TestsListEvent$TestDeleted value) testDeleted,
+    required TResult Function(_TestsListEvent$RestoreRequested value)
+        restoreRequested,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -50,6 +55,7 @@ mixin _$TestsListEvent {
     TResult? Function(_TestsListEvent$Started value)? started,
     TResult? Function(_TestsListEvent$TestAdded value)? testAdded,
     TResult? Function(_TestsListEvent$TestDeleted value)? testDeleted,
+    TResult? Function(_TestsListEvent$RestoreRequested value)? restoreRequested,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -57,6 +63,7 @@ mixin _$TestsListEvent {
     TResult Function(_TestsListEvent$Started value)? started,
     TResult Function(_TestsListEvent$TestAdded value)? testAdded,
     TResult Function(_TestsListEvent$TestDeleted value)? testDeleted,
+    TResult Function(_TestsListEvent$RestoreRequested value)? restoreRequested,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -123,7 +130,8 @@ class _$TestsListEvent$StartedImpl implements _TestsListEvent$Started {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String title, String? description) testAdded,
-    required TResult Function(int testId) testDeleted,
+    required TResult Function(String testId) testDeleted,
+    required TResult Function(String testId) restoreRequested,
   }) {
     return started();
   }
@@ -133,7 +141,8 @@ class _$TestsListEvent$StartedImpl implements _TestsListEvent$Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(int testId)? testDeleted,
+    TResult? Function(String testId)? testDeleted,
+    TResult? Function(String testId)? restoreRequested,
   }) {
     return started?.call();
   }
@@ -143,7 +152,8 @@ class _$TestsListEvent$StartedImpl implements _TestsListEvent$Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String title, String? description)? testAdded,
-    TResult Function(int testId)? testDeleted,
+    TResult Function(String testId)? testDeleted,
+    TResult Function(String testId)? restoreRequested,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -158,6 +168,8 @@ class _$TestsListEvent$StartedImpl implements _TestsListEvent$Started {
     required TResult Function(_TestsListEvent$Started value) started,
     required TResult Function(_TestsListEvent$TestAdded value) testAdded,
     required TResult Function(_TestsListEvent$TestDeleted value) testDeleted,
+    required TResult Function(_TestsListEvent$RestoreRequested value)
+        restoreRequested,
   }) {
     return started(this);
   }
@@ -168,6 +180,7 @@ class _$TestsListEvent$StartedImpl implements _TestsListEvent$Started {
     TResult? Function(_TestsListEvent$Started value)? started,
     TResult? Function(_TestsListEvent$TestAdded value)? testAdded,
     TResult? Function(_TestsListEvent$TestDeleted value)? testDeleted,
+    TResult? Function(_TestsListEvent$RestoreRequested value)? restoreRequested,
   }) {
     return started?.call(this);
   }
@@ -178,6 +191,7 @@ class _$TestsListEvent$StartedImpl implements _TestsListEvent$Started {
     TResult Function(_TestsListEvent$Started value)? started,
     TResult Function(_TestsListEvent$TestAdded value)? testAdded,
     TResult Function(_TestsListEvent$TestDeleted value)? testDeleted,
+    TResult Function(_TestsListEvent$RestoreRequested value)? restoreRequested,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -269,7 +283,8 @@ class _$TestsListEvent$TestAddedImpl implements _TestsListEvent$TestAdded {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String title, String? description) testAdded,
-    required TResult Function(int testId) testDeleted,
+    required TResult Function(String testId) testDeleted,
+    required TResult Function(String testId) restoreRequested,
   }) {
     return testAdded(title, description);
   }
@@ -279,7 +294,8 @@ class _$TestsListEvent$TestAddedImpl implements _TestsListEvent$TestAdded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(int testId)? testDeleted,
+    TResult? Function(String testId)? testDeleted,
+    TResult? Function(String testId)? restoreRequested,
   }) {
     return testAdded?.call(title, description);
   }
@@ -289,7 +305,8 @@ class _$TestsListEvent$TestAddedImpl implements _TestsListEvent$TestAdded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String title, String? description)? testAdded,
-    TResult Function(int testId)? testDeleted,
+    TResult Function(String testId)? testDeleted,
+    TResult Function(String testId)? restoreRequested,
     required TResult orElse(),
   }) {
     if (testAdded != null) {
@@ -304,6 +321,8 @@ class _$TestsListEvent$TestAddedImpl implements _TestsListEvent$TestAdded {
     required TResult Function(_TestsListEvent$Started value) started,
     required TResult Function(_TestsListEvent$TestAdded value) testAdded,
     required TResult Function(_TestsListEvent$TestDeleted value) testDeleted,
+    required TResult Function(_TestsListEvent$RestoreRequested value)
+        restoreRequested,
   }) {
     return testAdded(this);
   }
@@ -314,6 +333,7 @@ class _$TestsListEvent$TestAddedImpl implements _TestsListEvent$TestAdded {
     TResult? Function(_TestsListEvent$Started value)? started,
     TResult? Function(_TestsListEvent$TestAdded value)? testAdded,
     TResult? Function(_TestsListEvent$TestDeleted value)? testDeleted,
+    TResult? Function(_TestsListEvent$RestoreRequested value)? restoreRequested,
   }) {
     return testAdded?.call(this);
   }
@@ -324,6 +344,7 @@ class _$TestsListEvent$TestAddedImpl implements _TestsListEvent$TestAdded {
     TResult Function(_TestsListEvent$Started value)? started,
     TResult Function(_TestsListEvent$TestAdded value)? testAdded,
     TResult Function(_TestsListEvent$TestDeleted value)? testDeleted,
+    TResult Function(_TestsListEvent$RestoreRequested value)? restoreRequested,
     required TResult orElse(),
   }) {
     if (testAdded != null) {
@@ -352,7 +373,7 @@ abstract class _$$TestsListEvent$TestDeletedImplCopyWith<$Res> {
           $Res Function(_$TestsListEvent$TestDeletedImpl) then) =
       __$$TestsListEvent$TestDeletedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int testId});
+  $Res call({String testId});
 }
 
 /// @nodoc
@@ -373,7 +394,7 @@ class __$$TestsListEvent$TestDeletedImplCopyWithImpl<$Res>
       testId: null == testId
           ? _value.testId
           : testId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -384,7 +405,7 @@ class _$TestsListEvent$TestDeletedImpl implements _TestsListEvent$TestDeleted {
   const _$TestsListEvent$TestDeletedImpl({required this.testId});
 
   @override
-  final int testId;
+  final String testId;
 
   @override
   String toString() {
@@ -414,7 +435,8 @@ class _$TestsListEvent$TestDeletedImpl implements _TestsListEvent$TestDeleted {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String title, String? description) testAdded,
-    required TResult Function(int testId) testDeleted,
+    required TResult Function(String testId) testDeleted,
+    required TResult Function(String testId) restoreRequested,
   }) {
     return testDeleted(testId);
   }
@@ -424,7 +446,8 @@ class _$TestsListEvent$TestDeletedImpl implements _TestsListEvent$TestDeleted {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(int testId)? testDeleted,
+    TResult? Function(String testId)? testDeleted,
+    TResult? Function(String testId)? restoreRequested,
   }) {
     return testDeleted?.call(testId);
   }
@@ -434,7 +457,8 @@ class _$TestsListEvent$TestDeletedImpl implements _TestsListEvent$TestDeleted {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String title, String? description)? testAdded,
-    TResult Function(int testId)? testDeleted,
+    TResult Function(String testId)? testDeleted,
+    TResult Function(String testId)? restoreRequested,
     required TResult orElse(),
   }) {
     if (testDeleted != null) {
@@ -449,6 +473,8 @@ class _$TestsListEvent$TestDeletedImpl implements _TestsListEvent$TestDeleted {
     required TResult Function(_TestsListEvent$Started value) started,
     required TResult Function(_TestsListEvent$TestAdded value) testAdded,
     required TResult Function(_TestsListEvent$TestDeleted value) testDeleted,
+    required TResult Function(_TestsListEvent$RestoreRequested value)
+        restoreRequested,
   }) {
     return testDeleted(this);
   }
@@ -459,6 +485,7 @@ class _$TestsListEvent$TestDeletedImpl implements _TestsListEvent$TestDeleted {
     TResult? Function(_TestsListEvent$Started value)? started,
     TResult? Function(_TestsListEvent$TestAdded value)? testAdded,
     TResult? Function(_TestsListEvent$TestDeleted value)? testDeleted,
+    TResult? Function(_TestsListEvent$RestoreRequested value)? restoreRequested,
   }) {
     return testDeleted?.call(this);
   }
@@ -469,6 +496,7 @@ class _$TestsListEvent$TestDeletedImpl implements _TestsListEvent$TestDeleted {
     TResult Function(_TestsListEvent$Started value)? started,
     TResult Function(_TestsListEvent$TestAdded value)? testAdded,
     TResult Function(_TestsListEvent$TestDeleted value)? testDeleted,
+    TResult Function(_TestsListEvent$RestoreRequested value)? restoreRequested,
     required TResult orElse(),
   }) {
     if (testDeleted != null) {
@@ -479,12 +507,166 @@ class _$TestsListEvent$TestDeletedImpl implements _TestsListEvent$TestDeleted {
 }
 
 abstract class _TestsListEvent$TestDeleted implements TestsListEvent {
-  const factory _TestsListEvent$TestDeleted({required final int testId}) =
+  const factory _TestsListEvent$TestDeleted({required final String testId}) =
       _$TestsListEvent$TestDeletedImpl;
 
-  int get testId;
+  String get testId;
   @JsonKey(ignore: true)
   _$$TestsListEvent$TestDeletedImplCopyWith<_$TestsListEvent$TestDeletedImpl>
+      get copyWith => throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$TestsListEvent$RestoreRequestedImplCopyWith<$Res> {
+  factory _$$TestsListEvent$RestoreRequestedImplCopyWith(
+          _$TestsListEvent$RestoreRequestedImpl value,
+          $Res Function(_$TestsListEvent$RestoreRequestedImpl) then) =
+      __$$TestsListEvent$RestoreRequestedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String testId});
+}
+
+/// @nodoc
+class __$$TestsListEvent$RestoreRequestedImplCopyWithImpl<$Res>
+    extends _$TestsListEventCopyWithImpl<$Res,
+        _$TestsListEvent$RestoreRequestedImpl>
+    implements _$$TestsListEvent$RestoreRequestedImplCopyWith<$Res> {
+  __$$TestsListEvent$RestoreRequestedImplCopyWithImpl(
+      _$TestsListEvent$RestoreRequestedImpl _value,
+      $Res Function(_$TestsListEvent$RestoreRequestedImpl) _then)
+      : super(_value, _then);
+
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? testId = null,
+  }) {
+    return _then(_$TestsListEvent$RestoreRequestedImpl(
+      testId: null == testId
+          ? _value.testId
+          : testId // ignore: cast_nullable_to_non_nullable
+              as String,
+    ));
+  }
+}
+
+/// @nodoc
+
+class _$TestsListEvent$RestoreRequestedImpl
+    implements _TestsListEvent$RestoreRequested {
+  const _$TestsListEvent$RestoreRequestedImpl({required this.testId});
+
+  @override
+  final String testId;
+
+  @override
+  String toString() {
+    return 'TestsListEvent.restoreRequested(testId: $testId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TestsListEvent$RestoreRequestedImpl &&
+            (identical(other.testId, testId) || other.testId == testId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, testId);
+
+  @JsonKey(ignore: true)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TestsListEvent$RestoreRequestedImplCopyWith<
+          _$TestsListEvent$RestoreRequestedImpl>
+      get copyWith => __$$TestsListEvent$RestoreRequestedImplCopyWithImpl<
+          _$TestsListEvent$RestoreRequestedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function(String title, String? description) testAdded,
+    required TResult Function(String testId) testDeleted,
+    required TResult Function(String testId) restoreRequested,
+  }) {
+    return restoreRequested(testId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function(String title, String? description)? testAdded,
+    TResult? Function(String testId)? testDeleted,
+    TResult? Function(String testId)? restoreRequested,
+  }) {
+    return restoreRequested?.call(testId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function(String title, String? description)? testAdded,
+    TResult Function(String testId)? testDeleted,
+    TResult Function(String testId)? restoreRequested,
+    required TResult orElse(),
+  }) {
+    if (restoreRequested != null) {
+      return restoreRequested(testId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_TestsListEvent$Started value) started,
+    required TResult Function(_TestsListEvent$TestAdded value) testAdded,
+    required TResult Function(_TestsListEvent$TestDeleted value) testDeleted,
+    required TResult Function(_TestsListEvent$RestoreRequested value)
+        restoreRequested,
+  }) {
+    return restoreRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_TestsListEvent$Started value)? started,
+    TResult? Function(_TestsListEvent$TestAdded value)? testAdded,
+    TResult? Function(_TestsListEvent$TestDeleted value)? testDeleted,
+    TResult? Function(_TestsListEvent$RestoreRequested value)? restoreRequested,
+  }) {
+    return restoreRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_TestsListEvent$Started value)? started,
+    TResult Function(_TestsListEvent$TestAdded value)? testAdded,
+    TResult Function(_TestsListEvent$TestDeleted value)? testDeleted,
+    TResult Function(_TestsListEvent$RestoreRequested value)? restoreRequested,
+    required TResult orElse(),
+  }) {
+    if (restoreRequested != null) {
+      return restoreRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TestsListEvent$RestoreRequested implements TestsListEvent {
+  const factory _TestsListEvent$RestoreRequested(
+      {required final String testId}) = _$TestsListEvent$RestoreRequestedImpl;
+
+  String get testId;
+  @JsonKey(ignore: true)
+  _$$TestsListEvent$RestoreRequestedImplCopyWith<
+          _$TestsListEvent$RestoreRequestedImpl>
       get copyWith => throw _privateConstructorUsedError;
 }
 

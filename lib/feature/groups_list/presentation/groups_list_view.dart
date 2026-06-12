@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:quizzerg/app/navigation/app_router.dart';
+import 'package:quizzerg/core/sync/presentation/sync_badge.dart';
 import 'package:quizzerg/feature/groups_list/domain/bloc/groups_list_bloc.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
 import 'package:quizzerg/feature/groups_list/presentation/groups_list_screen.dart';
@@ -16,6 +17,8 @@ import 'package:quizzerg/uikit/buttons/app_fab.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
+import 'package:quizzerg/uikit/spacing/height.dart';
+import 'package:quizzerg/uikit/spacing/width.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// UI-слой экрана списка групп.
@@ -111,6 +114,12 @@ class _GroupsBody extends StatelessWidget {
               separatorBuilder: (_, __) => const SizedBox(height: 16),
               itemBuilder: (context, index) {
                 final group = groups[index];
+                if (group.isDeleted) {
+                  return _DeletedGroupTile(
+                    group: group,
+                    onRestore: () => viewModel.onGroupRestorePressed(group),
+                  );
+                }
                 return _GroupListTile(
                   group: group,
                   index: index,
@@ -163,7 +172,7 @@ class _ActiveSessionSliverState extends State<_ActiveSessionSliver> {
                       session: session,
                       onResume: () => context.router.push(
                         TinderTestRoute(
-                          testId: int.parse(session.session.testId),
+                          testId: session.session.testId,
                           swapSides: session.params.swapSides,
                           answerIndex: session.params.answerIndex,
                           mixup: session.params.mixup,
@@ -180,6 +189,79 @@ class _ActiveSessionSliverState extends State<_ActiveSessionSliver> {
             secondChild: const SizedBox.shrink(),
           );
         },
+      ),
+    );
+  }
+}
+
+/// Soft-deleted группа: приглушённая карточка с пометкой «Удалён»,
+/// деталка недоступна, вместо действий — кнопка восстановления.
+class _DeletedGroupTile extends StatelessWidget {
+  final TestGroupEntity group;
+  final VoidCallback onRestore;
+
+  const _DeletedGroupTile({
+    required this.group,
+    required this.onRestore,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final textTheme = Theme.of(context).textTheme;
+    final colorScheme = Theme.of(context).colorScheme;
+    final foreground = colorScheme.onSurfaceVariant;
+
+    return ContentCard(
+      backgroundColor: colorScheme.surfaceContainerHigh,
+      borderRadius: BorderRadius.circular(AppDimens.radius28),
+      padding: const EdgeInsets.all(20),
+      child: Row(
+        children: [
+          Opacity(
+            opacity: 0.55,
+            child: Container(
+              width: 56,
+              height: 56,
+              decoration: BoxDecoration(
+                color: foreground.withValues(alpha: 0.12),
+                borderRadius: BorderRadius.circular(AppDimens.radius16),
+              ),
+              child: Icon(Icons.delete_outline, size: 28, color: foreground),
+            ),
+          ),
+          const Width(16),
+          Expanded(
+            child: Opacity(
+              opacity: 0.55,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    group.title,
+                    style: textTheme.titleMedium?.copyWith(
+                      fontWeight: FontWeight.w600,
+                      color: foreground,
+                    ),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const Height(4),
+                  Text(
+                    context.l10n.syncDeletedLabel,
+                    style: textTheme.bodySmall?.copyWith(color: foreground),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          const Width(12),
+          IconButton(
+            icon: const Icon(Icons.restore),
+            color: colorScheme.primary,
+            tooltip: context.l10n.syncRestoreButton,
+            onPressed: onRestore,
+          ),
+        ],
       ),
     );
   }
@@ -240,6 +322,8 @@ class _GroupListTile extends StatelessWidget {
                     child: Icon(icon, size: 28, color: foreground),
                   ),
                   const Spacer(),
+                  SyncBadge(syncStatus: group.syncStatus, color: foreground),
+                  const Width(8),
                   Icon(
                     Icons.chevron_right,
                     size: 26,

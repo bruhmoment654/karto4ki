@@ -3,14 +3,14 @@ import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 
 /// Test merge repository interface.
 abstract interface class ITestMergeRepository {
-  /// Get all tests.
+  /// Get all tests (включая soft-deleted).
   RequestOperation<List<TestEntity>> getTests();
 
   /// Merge tests: create a new test and copy questions.
   /// Returns the new test ID.
-  RequestOperation<int> mergeTests({
+  RequestOperation<String> mergeTests({
     required String title,
-    required List<int> testIds,
+    required List<String> testIds,
     String? description,
   });
 }

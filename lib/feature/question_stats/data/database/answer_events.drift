@@ -1,0 +1,10 @@
+-- Outbox: события ответов для отправки на бэкенд (POST /v1/stats/answers/batch).
+
+CREATE TABLE answer_events (
+  id TEXT NOT NULL PRIMARY KEY,
+  card_id TEXT NOT NULL,
+  question_key TEXT NOT NULL,
+  is_correct BOOLEAN NOT NULL,
+  answered_at DATETIME NOT NULL,
+  sent BOOLEAN NOT NULL DEFAULT FALSE
+) AS AnswerEventDatabaseDto;

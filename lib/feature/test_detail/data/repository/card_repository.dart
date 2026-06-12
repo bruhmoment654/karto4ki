@@ -1,5 +1,6 @@
 import 'package:quizzerg/core/feature/core/entity/request_operation.dart';
 import 'package:quizzerg/core/feature/data/repository/base_repository.dart';
+import 'package:quizzerg/core/sync/domain/entity/sync_status.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/test_detail/data/converters/card_converter.dart';
 import 'package:quizzerg/feature/test_detail/data/database/cards_database.dart';
@@ -21,14 +22,14 @@ class CardRepository extends BaseRepository implements ICardRepository {
       });
 
   @override
-  RequestOperation<CardEntity?> getCardById(int id) => makeCall(() async {
+  RequestOperation<CardEntity?> getCardById(String id) => makeCall(() async {
         final dto = await _cardsDatabase.getCardById(id);
         if (dto == null) return null;
         return CardConverter.fromDto(dto);
       });
 
   @override
-  RequestOperation<List<CardEntity>> getCardsByTestId(int testId) =>
+  RequestOperation<List<CardEntity>> getCardsByTestId(String testId) =>
       makeCall(() async {
         final dtos = await _cardsDatabase.getCardsByTestId(testId);
         return dtos.map(CardConverter.fromDto).toList();
@@ -41,12 +42,13 @@ class CardRepository extends BaseRepository implements ICardRepository {
 
   @override
   RequestOperation<void> updateCard(CardEntity card) => makeCall(() async {
-        final dto = await _cardsDatabase.getCardById(int.parse(card.id));
+        final dto = await _cardsDatabase.getCardById(card.id);
         if (dto != null) {
           await _cardsDatabase.updateCard(
             dto.copyWith(
               question: card.front,
               answer: card.formattedBack,
+              syncStatus: SyncStatus.pending.dbValue,
               updatedAt: DateTime.now(),
             ),
           );
@@ -54,7 +56,7 @@ class CardRepository extends BaseRepository implements ICardRepository {
       });
 
   @override
-  RequestOperation<void> deleteCard(int id) => makeCall(() async {
-        await _cardsDatabase.deleteCardById(id);
+  RequestOperation<void> deleteCard(String id) => makeCall(() async {
+        await _cardsDatabase.softDeleteCardById(id);
       });
 }

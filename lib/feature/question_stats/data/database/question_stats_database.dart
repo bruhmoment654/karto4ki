@@ -100,6 +100,58 @@ class QuestionStatsDatabase extends DatabaseAccessor<AppDatabase>
   ) =>
       (select(questionStats)..where((t) => t.questionKey.isIn(keys))).get();
 
+  /// Применить агрегат, пришедший с бэкенда (pull-синк).
+  ///
+  /// Серверные агрегаты авторитетны: включают события всех источников
+  /// (МП, MCP), поэтому локальные значения перезаписываются целиком.
+  Future<void> upsertFromServer({
+    required String questionKey,
+    required String frontText,
+    required String backText,
+    required int streak,
+    required int totalCorrect,
+    required int totalIncorrect,
+    required int totalShown,
+    DateTime? lastAnsweredAt,
+    DateTime? lastShownAt,
+  }) async {
+    final now = DateTime.now();
+    final existing = await getByQuestionKey(questionKey);
+    if (existing != null) {
+      await (update(questionStats)
+            ..where((t) => t.questionKey.equals(questionKey)))
+          .write(
+        QuestionStatsCompanion(
+          frontText: Value(frontText),
+          backText: Value(backText),
+          streak: Value(streak),
+          totalCorrect: Value(totalCorrect),
+          totalIncorrect: Value(totalIncorrect),
+          totalShown: Value(totalShown),
+          lastAnsweredAt: Value(lastAnsweredAt),
+          lastShownAt: Value(lastShownAt),
+          updatedAt: Value(now),
+        ),
+      );
+    } else {
+      await into(questionStats).insert(
+        QuestionStatsCompanion.insert(
+          questionKey: questionKey,
+          frontText: frontText,
+          backText: backText,
+          streak: Value(streak),
+          totalCorrect: Value(totalCorrect),
+          totalIncorrect: Value(totalIncorrect),
+          totalShown: Value(totalShown),
+          lastAnsweredAt: Value(lastAnsweredAt),
+          lastShownAt: Value(lastShownAt),
+          createdAt: now,
+          updatedAt: now,
+        ),
+      );
+    }
+  }
+
   Future<void> upsertStats(
     List<
             ({

@@ -37,6 +37,9 @@ mixin _$CardEntity {
   /// Флаг подмешанной карточки (только в памяти, не в БД).
   bool get isMixedIn => throw _privateConstructorUsedError;
 
+  /// Статус синхронизации с бэкендом.
+  SyncStatus get syncStatus => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $CardEntityCopyWith<CardEntity> get copyWith =>
       throw _privateConstructorUsedError;
@@ -55,7 +58,8 @@ abstract class $CardEntityCopyWith<$Res> {
       List<String> answers,
       DateTime createdAt,
       DateTime updatedAt,
-      bool isMixedIn});
+      bool isMixedIn,
+      SyncStatus syncStatus});
 }
 
 /// @nodoc
@@ -78,6 +82,7 @@ class _$CardEntityCopyWithImpl<$Res, $Val extends CardEntity>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? isMixedIn = null,
+    Object? syncStatus = null,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -108,6 +113,10 @@ class _$CardEntityCopyWithImpl<$Res, $Val extends CardEntity>
           ? _value.isMixedIn
           : isMixedIn // ignore: cast_nullable_to_non_nullable
               as bool,
+      syncStatus: null == syncStatus
+          ? _value.syncStatus
+          : syncStatus // ignore: cast_nullable_to_non_nullable
+              as SyncStatus,
     ) as $Val);
   }
 }
@@ -127,7 +136,8 @@ abstract class _$$CardEntityImplCopyWith<$Res>
       List<String> answers,
       DateTime createdAt,
       DateTime updatedAt,
-      bool isMixedIn});
+      bool isMixedIn,
+      SyncStatus syncStatus});
 }
 
 /// @nodoc
@@ -148,6 +158,7 @@ class __$$CardEntityImplCopyWithImpl<$Res>
     Object? createdAt = null,
     Object? updatedAt = null,
     Object? isMixedIn = null,
+    Object? syncStatus = null,
   }) {
     return _then(_$CardEntityImpl(
       id: null == id
@@ -178,6 +189,10 @@ class __$$CardEntityImplCopyWithImpl<$Res>
           ? _value.isMixedIn
           : isMixedIn // ignore: cast_nullable_to_non_nullable
               as bool,
+      syncStatus: null == syncStatus
+          ? _value.syncStatus
+          : syncStatus // ignore: cast_nullable_to_non_nullable
+              as SyncStatus,
     ));
   }
 }
@@ -192,7 +207,8 @@ class _$CardEntityImpl extends _CardEntity {
       required final List<String> answers,
       required this.createdAt,
       required this.updatedAt,
-      this.isMixedIn = false})
+      this.isMixedIn = false,
+      this.syncStatus = SyncStatus.local})
       : _answers = answers,
         super._();
 
@@ -232,9 +248,14 @@ class _$CardEntityImpl extends _CardEntity {
   @JsonKey()
   final bool isMixedIn;
 
+  /// Статус синхронизации с бэкендом.
+  @override
+  @JsonKey()
+  final SyncStatus syncStatus;
+
   @override
   String toString() {
-    return 'CardEntity(id: $id, testId: $testId, front: $front, answers: $answers, createdAt: $createdAt, updatedAt: $updatedAt, isMixedIn: $isMixedIn)';
+    return 'CardEntity(id: $id, testId: $testId, front: $front, answers: $answers, createdAt: $createdAt, updatedAt: $updatedAt, isMixedIn: $isMixedIn, syncStatus: $syncStatus)';
   }
 
   @override
@@ -251,7 +272,9 @@ class _$CardEntityImpl extends _CardEntity {
             (identical(other.updatedAt, updatedAt) ||
                 other.updatedAt == updatedAt) &&
             (identical(other.isMixedIn, isMixedIn) ||
-                other.isMixedIn == isMixedIn));
+                other.isMixedIn == isMixedIn) &&
+            (identical(other.syncStatus, syncStatus) ||
+                other.syncStatus == syncStatus));
   }
 
   @override
@@ -263,7 +286,8 @@ class _$CardEntityImpl extends _CardEntity {
       const DeepCollectionEquality().hash(_answers),
       createdAt,
       updatedAt,
-      isMixedIn);
+      isMixedIn,
+      syncStatus);
 
   @JsonKey(ignore: true)
   @override
@@ -280,7 +304,8 @@ abstract class _CardEntity extends CardEntity {
       required final List<String> answers,
       required final DateTime createdAt,
       required final DateTime updatedAt,
-      final bool isMixedIn}) = _$CardEntityImpl;
+      final bool isMixedIn,
+      final SyncStatus syncStatus}) = _$CardEntityImpl;
   const _CardEntity._() : super._();
 
   @override
@@ -311,6 +336,10 @@ abstract class _CardEntity extends CardEntity {
 
   /// Флаг подмешанной карточки (только в памяти, не в БД).
   bool get isMixedIn;
+  @override
+
+  /// Статус синхронизации с бэкендом.
+  SyncStatus get syncStatus;
   @override
   @JsonKey(ignore: true)
   _$$CardEntityImplCopyWith<_$CardEntityImpl> get copyWith =>

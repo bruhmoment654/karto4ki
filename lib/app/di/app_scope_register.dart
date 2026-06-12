@@ -1,8 +1,12 @@
 import 'package:logger/logger.dart' as pkg_logger;
 import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:quizzerg/core/auth/token_auth_service.dart';
 import 'package:quizzerg/core/logger/error_logger.dart';
 import 'package:quizzerg/core/logger/strategies/debug_log_strategy.dart';
+import 'package:quizzerg/core/network/api_factory.dart';
 import 'package:quizzerg/core/services/csv_import_service.dart';
+import 'package:quizzerg/core/sync/data/sync_preferences.dart';
+import 'package:quizzerg/core/sync/sync_manager.dart';
 import 'package:quizzerg/feature/group_detail/data/repository/group_detail_repository.dart';
 import 'package:quizzerg/feature/groups_list/data/repository/groups_list_repository.dart';
 import 'package:quizzerg/feature/main/data/repository/main_repository.dart';
@@ -58,6 +62,7 @@ class AppScopeRegister {
 
     final questionStatsRepository = QuestionStatsRepository(
       questionStatsDatabase: database.questionStatsDatabase,
+      answerEventsDatabase: database.answerEventsDatabase,
       errorLogger: errorLogger,
     );
 
@@ -88,6 +93,15 @@ class AppScopeRegister {
       errorLogger: errorLogger,
     );
 
+    const authService = TokenAuthService();
+    final syncManager = SyncManager(
+      database: database,
+      api: ApiFactory.create(authService),
+      authService: authService,
+      preferences: SyncPreferences(prefs),
+      errorLogger: errorLogger,
+    )..start();
+
     return AppScope(
       database: database,
       mainRepository: mainRepository,
@@ -103,6 +117,8 @@ class AppScopeRegister {
       mixupBloc: mixupBloc,
       statsExportService: statsExportService,
       activeSessionRepository: activeSessionRepository,
+      authService: authService,
+      syncManager: syncManager,
     );
   }
 }

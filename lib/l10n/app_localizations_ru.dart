@@ -617,4 +617,56 @@ class AppLocalizationsRu extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get syncBadgeTooltip => 'Не синхронизировано';
+
+  @override
+  String get syncDeletedLabel => 'Удалён';
+
+  @override
+  String get syncRestoreButton => 'Восстановить';
+
+  @override
+  String get syncSectionTitle => 'Синхронизация';
+
+  @override
+  String get syncStatusSyncing => 'Синхронизация…';
+
+  @override
+  String syncStatusSynced(String time) {
+    return 'Синхронизировано $time';
+  }
+
+  @override
+  String get syncStatusNever => 'Ещё не синхронизировано';
+
+  @override
+  String get syncStatusError => 'Ошибка синхронизации';
+
+  @override
+  String syncPendingCount(int count) {
+    return 'Ожидают отправки: $count';
+  }
+
+  @override
+  String get syncNowButton => 'Синхронизировать сейчас';
+
+  @override
+  String get syncTimeJustNow => 'только что';
+
+  @override
+  String syncTimeMinutesAgo(int count) {
+    return '$count мин назад';
+  }
+
+  @override
+  String syncTimeHoursAgo(int count) {
+    return '$count ч назад';
+  }
+
+  @override
+  String syncTimeDaysAgo(int count) {
+    return '$count дн назад';
+  }
 }

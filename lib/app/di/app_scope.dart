@@ -1,4 +1,6 @@
+import 'package:quizzerg/core/auth/i_auth_service.dart';
 import 'package:quizzerg/core/services/csv_import_service.dart';
+import 'package:quizzerg/core/sync/sync_manager.dart';
 import 'package:quizzerg/feature/group_detail/domain/repository/i_group_detail_repository.dart';
 import 'package:quizzerg/feature/groups_list/domain/repository/i_groups_list_repository.dart';
 import 'package:quizzerg/feature/main/domain/repository/i_main_repository.dart';
@@ -56,6 +58,12 @@ final class AppScope implements IAppScope {
   @override
   final IActiveSessionRepository activeSessionRepository;
 
+  @override
+  final IAuthService authService;
+
+  @override
+  final SyncManager syncManager;
+
   const AppScope({
     required this.database,
     required this.mainRepository,
@@ -71,6 +79,8 @@ final class AppScope implements IAppScope {
     required this.mixupBloc,
     required this.statsExportService,
     required this.activeSessionRepository,
+    required this.authService,
+    required this.syncManager,
   });
 }
 
@@ -102,4 +112,8 @@ abstract interface class IAppScope {
   IStatsExportService get statsExportService;
 
   IActiveSessionRepository get activeSessionRepository;
+
+  IAuthService get authService;
+
+  SyncManager get syncManager;
 }

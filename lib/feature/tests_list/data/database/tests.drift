@@ -1,10 +1,12 @@
 -- Tests table definition
 
 CREATE TABLE tests (
-  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  id TEXT NOT NULL PRIMARY KEY,
   title TEXT NOT NULL,
   description TEXT,
   type TEXT NOT NULL,
+  sync_status TEXT NOT NULL DEFAULT 'local',
+  deleted_at DATETIME,
   created_at DATETIME NOT NULL,
   updated_at DATETIME NOT NULL
 ) AS TestDatabaseDto;

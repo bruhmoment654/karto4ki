@@ -37,6 +37,12 @@ mixin _$TestEntity {
   /// Количество вопросов (карточек) в тесте.
   int get questionCount => throw _privateConstructorUsedError;
 
+  /// Статус синхронизации с бэкендом.
+  SyncStatus get syncStatus => throw _privateConstructorUsedError;
+
+  /// Момент soft delete (null — тест жив).
+  DateTime? get deletedAt => throw _privateConstructorUsedError;
+
   @JsonKey(ignore: true)
   $TestEntityCopyWith<TestEntity> get copyWith =>
       throw _privateConstructorUsedError;
@@ -55,7 +61,9 @@ abstract class $TestEntityCopyWith<$Res> {
       DateTime createdAt,
       DateTime updatedAt,
       String? description,
-      int questionCount});
+      int questionCount,
+      SyncStatus syncStatus,
+      DateTime? deletedAt});
 }
 
 /// @nodoc
@@ -78,6 +86,8 @@ class _$TestEntityCopyWithImpl<$Res, $Val extends TestEntity>
     Object? updatedAt = null,
     Object? description = freezed,
     Object? questionCount = null,
+    Object? syncStatus = null,
+    Object? deletedAt = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -108,6 +118,14 @@ class _$TestEntityCopyWithImpl<$Res, $Val extends TestEntity>
           ? _value.questionCount
           : questionCount // ignore: cast_nullable_to_non_nullable
               as int,
+      syncStatus: null == syncStatus
+          ? _value.syncStatus
+          : syncStatus // ignore: cast_nullable_to_non_nullable
+              as SyncStatus,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ) as $Val);
   }
 }
@@ -127,7 +145,9 @@ abstract class _$$TestEntityImplCopyWith<$Res>
       DateTime createdAt,
       DateTime updatedAt,
       String? description,
-      int questionCount});
+      int questionCount,
+      SyncStatus syncStatus,
+      DateTime? deletedAt});
 }
 
 /// @nodoc
@@ -148,6 +168,8 @@ class __$$TestEntityImplCopyWithImpl<$Res>
     Object? updatedAt = null,
     Object? description = freezed,
     Object? questionCount = null,
+    Object? syncStatus = null,
+    Object? deletedAt = freezed,
   }) {
     return _then(_$TestEntityImpl(
       id: null == id
@@ -178,13 +200,21 @@ class __$$TestEntityImplCopyWithImpl<$Res>
           ? _value.questionCount
           : questionCount // ignore: cast_nullable_to_non_nullable
               as int,
+      syncStatus: null == syncStatus
+          ? _value.syncStatus
+          : syncStatus // ignore: cast_nullable_to_non_nullable
+              as SyncStatus,
+      deletedAt: freezed == deletedAt
+          ? _value.deletedAt
+          : deletedAt // ignore: cast_nullable_to_non_nullable
+              as DateTime?,
     ));
   }
 }
 
 /// @nodoc
 
-class _$TestEntityImpl implements _TestEntity {
+class _$TestEntityImpl extends _TestEntity {
   const _$TestEntityImpl(
       {required this.id,
       required this.title,
@@ -192,7 +222,10 @@ class _$TestEntityImpl implements _TestEntity {
       required this.createdAt,
       required this.updatedAt,
       this.description,
-      this.questionCount = 0});
+      this.questionCount = 0,
+      this.syncStatus = SyncStatus.local,
+      this.deletedAt})
+      : super._();
 
   /// Unique test identifier.
   @override
@@ -223,9 +256,18 @@ class _$TestEntityImpl implements _TestEntity {
   @JsonKey()
   final int questionCount;
 
+  /// Статус синхронизации с бэкендом.
+  @override
+  @JsonKey()
+  final SyncStatus syncStatus;
+
+  /// Момент soft delete (null — тест жив).
+  @override
+  final DateTime? deletedAt;
+
   @override
   String toString() {
-    return 'TestEntity(id: $id, title: $title, type: $type, createdAt: $createdAt, updatedAt: $updatedAt, description: $description, questionCount: $questionCount)';
+    return 'TestEntity(id: $id, title: $title, type: $type, createdAt: $createdAt, updatedAt: $updatedAt, description: $description, questionCount: $questionCount, syncStatus: $syncStatus, deletedAt: $deletedAt)';
   }
 
   @override
@@ -243,12 +285,16 @@ class _$TestEntityImpl implements _TestEntity {
             (identical(other.description, description) ||
                 other.description == description) &&
             (identical(other.questionCount, questionCount) ||
-                other.questionCount == questionCount));
+                other.questionCount == questionCount) &&
+            (identical(other.syncStatus, syncStatus) ||
+                other.syncStatus == syncStatus) &&
+            (identical(other.deletedAt, deletedAt) ||
+                other.deletedAt == deletedAt));
   }
 
   @override
   int get hashCode => Object.hash(runtimeType, id, title, type, createdAt,
-      updatedAt, description, questionCount);
+      updatedAt, description, questionCount, syncStatus, deletedAt);
 
   @JsonKey(ignore: true)
   @override
@@ -257,7 +303,7 @@ class _$TestEntityImpl implements _TestEntity {
       __$$TestEntityImplCopyWithImpl<_$TestEntityImpl>(this, _$identity);
 }
 
-abstract class _TestEntity implements TestEntity {
+abstract class _TestEntity extends TestEntity {
   const factory _TestEntity(
       {required final String id,
       required final String title,
@@ -265,7 +311,10 @@ abstract class _TestEntity implements TestEntity {
       required final DateTime createdAt,
       required final DateTime updatedAt,
       final String? description,
-      final int questionCount}) = _$TestEntityImpl;
+      final int questionCount,
+      final SyncStatus syncStatus,
+      final DateTime? deletedAt}) = _$TestEntityImpl;
+  const _TestEntity._() : super._();
 
   @override
 
@@ -295,6 +344,14 @@ abstract class _TestEntity implements TestEntity {
 
   /// Количество вопросов (карточек) в тесте.
   int get questionCount;
+  @override
+
+  /// Статус синхронизации с бэкендом.
+  SyncStatus get syncStatus;
+  @override
+
+  /// Момент soft delete (null — тест жив).
+  DateTime? get deletedAt;
   @override
   @JsonKey(ignore: true)
   _$$TestEntityImplCopyWith<_$TestEntityImpl> get copyWith =>

@@ -82,7 +82,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
   @override
   void onCardDeletePressed(CardEntity card) {
     context.read<TestDetailBloc>().add(
-          TestDetailEvent.cardDeleted(cardId: int.parse(card.id)),
+          TestDetailEvent.cardDeleted(cardId: card.id),
         );
   }
 
@@ -276,7 +276,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
     if (state is! TestDetailState$Loaded) return;
 
     final test = state.test;
-    final testId = int.parse(test.id);
+    final testId = test.id;
 
     switch (test.type) {
       case TestType.tinder:
