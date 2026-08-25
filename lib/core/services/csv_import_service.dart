@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:csv/csv.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:quizzerg/core/utils/answer_parser.dart';
 
 /// CSV import result.
 sealed class CsvImportResult {
@@ -89,7 +90,10 @@ class CsvImportService implements ICsvImportService {
 
     for (final filePath in filePaths) {
       try {
-        final content = await File(filePath).readAsString();
+        final rawContent = await File(filePath).readAsString();
+        // Normalize line endings (\r\n, \r, NEL, LS, PS → \n) so the CSV
+        // converter doesn't leave \r at the end of field values.
+        final content = AnswerParser.normalizeNewlines(rawContent);
 
         if (content.trim().isEmpty) {
           failedFiles.add(_baseName(filePath));
