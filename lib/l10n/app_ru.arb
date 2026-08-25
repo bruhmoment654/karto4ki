@@ -712,6 +712,51 @@
       }
     }
   },
+  "@segmentProfileDashboard": {
+    "---------": "---------",
+    "description": "Профиль — дашборд статистики"
+  },
+  "profileDashboardTitle": "Профиль",
+  "profileIdentityName": "karto4ki",
+  "profileIdentitySubtitle": "{groups, plural, one{{groups} группа} few{{groups} группы} many{{groups} групп} other{{groups} групп}} · {tests, plural, one{{tests} тест} few{{tests} теста} many{{tests} тестов} other{{tests} тестов}}",
+  "@profileIdentitySubtitle": {
+    "placeholders": {
+      "groups": {
+        "type": "int"
+      },
+      "tests": {
+        "type": "int"
+      }
+    }
+  },
+  "profileStatsCardTitle": "Статистика",
+  "profileStatsCardMore": "Подробнее",
+  "profileRingAccuracy": "Точность",
+  "profileRingMastered": "Изучено",
+  "profileRingFlawless": "Без ошибок",
+  "profileStreakDaysSuffix": "дней подряд",
+  "profileStreakBest": "Лучшая серия: {count, plural, one{{count} день} few{{count} дня} many{{count} дней} other{{count} дней}}",
+  "@profileStreakBest": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "profileWeekdayMon": "Пн",
+  "profileWeekdayTue": "Вт",
+  "profileWeekdayWed": "Ср",
+  "profileWeekdayThu": "Чт",
+  "profileWeekdayFri": "Пт",
+  "profileWeekdaySat": "Сб",
+  "profileWeekdaySun": "Вс",
+  "profileMetricAnswers": "Всего ответов",
+  "profileMetricCards": "Всего карточек",
+  "profileMetricWeak": "Слабые карточки",
+  "profileMetricActiveDays": "Дней активности",
+  "profileMetricAvgPerDay": "Ответов в день",
+  "profileLoadError": "Не удалось загрузить статистику",
+  "profileRetryButton": "Повторить",
   "@segmentGroupsList": {
     "---------": "---------",
     "description": "Список групп"

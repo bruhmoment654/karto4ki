@@ -7,6 +7,15 @@ import 'package:quizzerg/feature/splash/presentation/card_back.dart';
 /// (`flutter_native_splash.yaml`) для бесшовного перехода native → Flutter.
 const kSplashColor = Color(0xFF4A2FB0);
 
+/// Верхний цвет брендового градиента рубашки (нижний — [kSplashColor]).
+const _kSplashGradientTop = Color(0xFF6E50D8);
+
+/// Осветляет [color] на [amount] по светлоте (HSL), клампит в `[0; 1]`.
+Color _lighten(Color color, double amount) {
+  final hsl = HSLColor.fromColor(color);
+  return hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0)).toColor();
+}
+
 /// {@template card_swipe_splash.class}
 /// Враппер анимированного сплеша поверх контента приложения.
 ///
@@ -89,6 +98,9 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    // Доступен внутри builder MaterialApp: тот оборачивает builder в Builder
+    // под AnimatedTheme, поэтому Theme.of резолвится в актуальную тему.
+    final primary = Theme.of(context).colorScheme.onPrimary;
 
     return Stack(
       children: [
@@ -108,6 +120,16 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
               final wind = _segment(value, 0.5, 0.6, Curves.easeOut);
               // Смах за край.
               final swipe = _segment(value, 0.6, 1, Curves.easeInCubic);
+
+              // Перекрас брендового фиолетового в primary темы по мере
+              // сжатия: к моменту, когда карта сжата и вот-вот поедет, она
+              // целиком в цвете темы. На старте (shrink == 0) — kSplashColor
+              // для бесшовного стыка с нативным сплешом.
+              final baseColor = Color.lerp(kSplashColor, primary, shrink)!;
+              final cardColors = <Color>[
+                Color.lerp(_kSplashGradientTop, _lighten(primary, 0.12), shrink)!,
+                baseColor,
+              ];
 
               final scale = 1.0 - 0.38 * shrink; // 1 → 0.62
               final radius = 44.0 * shrink; // 0 → 44
@@ -136,6 +158,8 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
                             radius: radius,
                             draw: lattice,
                             appear: appear,
+                            baseColor: baseColor,
+                            colors: cardColors,
                           ),
                         ),
                       ),
@@ -150,10 +174,11 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
   }
 }
 
-/// Карта сплеша: плоский [kSplashColor] во весь экран на старте (бесшовный стык
+/// Карта сплеша: плоский [baseColor] во весь экран на старте (бесшовный стык
 /// с нативным сплешом), поверх по мере сжатия проявляется рубашка ([CardBack]),
 /// решётка которой прочерчивается через [draw]. При сжатии добавляется
-/// тень-приподнятость.
+/// тень-приподнятость. [baseColor] и [colors] перетекают из брендового
+/// фиолетового в цвет темы по мере сжатия.
 class _SplashCard extends StatelessWidget {
   /// Радиус скругления углов карты.
   final double radius;
@@ -164,17 +189,25 @@ class _SplashCard extends StatelessWidget {
   /// Прогресс проявления рубашки `[0; 1]` (плавно поверх плоского цвета).
   final double appear;
 
+  /// Плоский цвет-заливка карты (под рубашкой).
+  final Color baseColor;
+
+  /// Цвета градиента рубашки.
+  final List<Color> colors;
+
   const _SplashCard({
     required this.radius,
     required this.draw,
     required this.appear,
+    required this.baseColor,
+    required this.colors,
   });
 
   @override
   Widget build(BuildContext context) {
     return DecoratedBox(
       decoration: BoxDecoration(
-        color: kSplashColor,
+        color: baseColor,
         borderRadius: BorderRadius.circular(radius),
         boxShadow: radius > 4
             ? const [
@@ -188,7 +221,7 @@ class _SplashCard extends StatelessWidget {
       ),
       child: Opacity(
         opacity: appear,
-        child: CardBack(draw: draw, radius: radius),
+        child: CardBack(draw: draw, radius: radius, colors: colors),
       ),
     );
   }

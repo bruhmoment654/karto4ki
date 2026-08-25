@@ -54,3 +54,6 @@ app.*.map.json
 
 # Design handoff (Material You)
 design_handoff_material_you/
+
+# Golden test failure artifacts
+test/**/failures/

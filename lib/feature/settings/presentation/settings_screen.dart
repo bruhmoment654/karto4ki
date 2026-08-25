@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 import 'package:provider/provider.dart';
@@ -127,6 +128,11 @@ class _SettingsScreenState extends State<SettingsScreen>
   }
 
   @override
+  void onBackPressed() {
+    context.router.maybePop();
+  }
+
+  @override
   void dispose() {
     _colorDebounceTimer?.cancel();
     super.dispose();
@@ -150,4 +156,5 @@ abstract interface class ISettingsViewModel {
   void onAccentColorHueChanged(double value);
   void onThemeModeChanged(AppThemeMode mode);
   void onCardFontSizeChanged(double value);
+  void onBackPressed();
 }

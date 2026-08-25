@@ -23,7 +23,10 @@ class SettingsView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBar: DefaultAppBar(title: Text(context.l10n.settingsTitle)),
+      appBar: DefaultAppBar.withBack(
+        title: Text(context.l10n.settingsTitle),
+        onBackPressed: viewModel.onBackPressed,
+      ),
       body: ListView(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
         children: [

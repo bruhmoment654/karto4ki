@@ -14,4 +14,7 @@ abstract interface class IQuestionStatsRepository {
   RequestOperation<List<QuestionStatsEntity>> getLeastRemembered(int limit);
 
   RequestOperation<List<QuestionStatsEntity>> getStatsByKeys(List<String> keys);
+
+  /// Отсортированные уникальные даты (00:00) с хотя бы одним ответом.
+  RequestOperation<List<DateTime>> getActiveDates();
 }

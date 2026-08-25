@@ -412,6 +412,100 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get profileDashboardTitle => 'Profile';
+
+  @override
+  String get profileIdentityName => 'karto4ki';
+
+  @override
+  String profileIdentitySubtitle(int groups, int tests) {
+    String _temp0 = intl.Intl.pluralLogic(
+      groups,
+      locale: localeName,
+      other: '$groups groups',
+      one: '$groups group',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      tests,
+      locale: localeName,
+      other: '$tests tests',
+      one: '$tests test',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String get profileStatsCardTitle => 'Statistics';
+
+  @override
+  String get profileStatsCardMore => 'More';
+
+  @override
+  String get profileRingAccuracy => 'Accuracy';
+
+  @override
+  String get profileRingMastered => 'Mastered';
+
+  @override
+  String get profileRingFlawless => 'Flawless';
+
+  @override
+  String get profileStreakDaysSuffix => 'day streak';
+
+  @override
+  String profileStreakBest(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count days',
+      one: '$count day',
+    );
+    return 'Best streak: $_temp0';
+  }
+
+  @override
+  String get profileWeekdayMon => 'Mon';
+
+  @override
+  String get profileWeekdayTue => 'Tue';
+
+  @override
+  String get profileWeekdayWed => 'Wed';
+
+  @override
+  String get profileWeekdayThu => 'Thu';
+
+  @override
+  String get profileWeekdayFri => 'Fri';
+
+  @override
+  String get profileWeekdaySat => 'Sat';
+
+  @override
+  String get profileWeekdaySun => 'Sun';
+
+  @override
+  String get profileMetricAnswers => 'Total answers';
+
+  @override
+  String get profileMetricCards => 'Total cards';
+
+  @override
+  String get profileMetricWeak => 'Weak cards';
+
+  @override
+  String get profileMetricActiveDays => 'Active days';
+
+  @override
+  String get profileMetricAvgPerDay => 'Answers per day';
+
+  @override
+  String get profileLoadError => 'Failed to load statistics';
+
+  @override
+  String get profileRetryButton => 'Retry';
+
+  @override
   String get groupsListAppBarTitle => 'Groups';
 
   @override

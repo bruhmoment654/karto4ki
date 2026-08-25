@@ -839,6 +839,150 @@ abstract class AppLocalizations {
   /// **'Total: {count}'**
   String questionStatsTotalCount(int count);
 
+  /// No description provided for @profileDashboardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Profile'**
+  String get profileDashboardTitle;
+
+  /// No description provided for @profileIdentityName.
+  ///
+  /// In en, this message translates to:
+  /// **'karto4ki'**
+  String get profileIdentityName;
+
+  /// No description provided for @profileIdentitySubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'{groups, plural, one{{groups} group} other{{groups} groups}} · {tests, plural, one{{tests} test} other{{tests} tests}}'**
+  String profileIdentitySubtitle(int groups, int tests);
+
+  /// No description provided for @profileStatsCardTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Statistics'**
+  String get profileStatsCardTitle;
+
+  /// No description provided for @profileStatsCardMore.
+  ///
+  /// In en, this message translates to:
+  /// **'More'**
+  String get profileStatsCardMore;
+
+  /// No description provided for @profileRingAccuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Accuracy'**
+  String get profileRingAccuracy;
+
+  /// No description provided for @profileRingMastered.
+  ///
+  /// In en, this message translates to:
+  /// **'Mastered'**
+  String get profileRingMastered;
+
+  /// No description provided for @profileRingFlawless.
+  ///
+  /// In en, this message translates to:
+  /// **'Flawless'**
+  String get profileRingFlawless;
+
+  /// No description provided for @profileStreakDaysSuffix.
+  ///
+  /// In en, this message translates to:
+  /// **'day streak'**
+  String get profileStreakDaysSuffix;
+
+  /// No description provided for @profileStreakBest.
+  ///
+  /// In en, this message translates to:
+  /// **'Best streak: {count, plural, one{{count} day} other{{count} days}}'**
+  String profileStreakBest(int count);
+
+  /// No description provided for @profileWeekdayMon.
+  ///
+  /// In en, this message translates to:
+  /// **'Mon'**
+  String get profileWeekdayMon;
+
+  /// No description provided for @profileWeekdayTue.
+  ///
+  /// In en, this message translates to:
+  /// **'Tue'**
+  String get profileWeekdayTue;
+
+  /// No description provided for @profileWeekdayWed.
+  ///
+  /// In en, this message translates to:
+  /// **'Wed'**
+  String get profileWeekdayWed;
+
+  /// No description provided for @profileWeekdayThu.
+  ///
+  /// In en, this message translates to:
+  /// **'Thu'**
+  String get profileWeekdayThu;
+
+  /// No description provided for @profileWeekdayFri.
+  ///
+  /// In en, this message translates to:
+  /// **'Fri'**
+  String get profileWeekdayFri;
+
+  /// No description provided for @profileWeekdaySat.
+  ///
+  /// In en, this message translates to:
+  /// **'Sat'**
+  String get profileWeekdaySat;
+
+  /// No description provided for @profileWeekdaySun.
+  ///
+  /// In en, this message translates to:
+  /// **'Sun'**
+  String get profileWeekdaySun;
+
+  /// No description provided for @profileMetricAnswers.
+  ///
+  /// In en, this message translates to:
+  /// **'Total answers'**
+  String get profileMetricAnswers;
+
+  /// No description provided for @profileMetricCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Total cards'**
+  String get profileMetricCards;
+
+  /// No description provided for @profileMetricWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak cards'**
+  String get profileMetricWeak;
+
+  /// No description provided for @profileMetricActiveDays.
+  ///
+  /// In en, this message translates to:
+  /// **'Active days'**
+  String get profileMetricActiveDays;
+
+  /// No description provided for @profileMetricAvgPerDay.
+  ///
+  /// In en, this message translates to:
+  /// **'Answers per day'**
+  String get profileMetricAvgPerDay;
+
+  /// No description provided for @profileLoadError.
+  ///
+  /// In en, this message translates to:
+  /// **'Failed to load statistics'**
+  String get profileLoadError;
+
+  /// No description provided for @profileRetryButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get profileRetryButton;
+
   /// No description provided for @groupsListAppBarTitle.
   ///
   /// In en, this message translates to:

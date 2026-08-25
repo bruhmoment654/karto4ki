@@ -1,16 +1,63 @@
-# karto4ki
+# Quizzerg (karto4ki)
 
-A new Flutter project.
+Мобильное приложение карточек и тестов для запоминания: создавайте тесты, объединяйте их в группы, проходите в разных режимах и отслеживайте статистику по вопросам.
 
-## Getting Started
+| Группы | Настройки теста | Tinder-режим | Статистика | Профиль |
+|---|---|---|---|---|
+| ![Группы](docs/screenshots/groups.jpg) | ![Настройки теста](docs/screenshots/test_settings.jpg) | ![Tinder-режим](docs/screenshots/tinder.jpg) | ![Статистика](docs/screenshots/stats.jpg) | ![Профиль](docs/screenshots/profile.jpg) |
 
-This project is a starting point for a Flutter application.
+## Возможности
 
-A few resources to get you started if this is your first Flutter project:
+- **Тесты и группы** — создание тестов с несколькими вариантами ответов, объединение в группы, слияние тестов (merge)
+- **Режимы прохождения** — классический, перемешивание вопросов (mixup), tinder-свайпы для быстрого повторения
+- **Статистика по вопросам** — какие вопросы западают, прогресс по тестам, экспорт в CSV
+- **Профиль и стрик** — сводка по точности/прогрессу, серия дней подряд с недельной лентой
+- **Оффлайн-first** — все данные хранятся локально (Drift/SQLite)
+- **Локализация** — русский и английский (l10n/ARB)
+- **Material You** — дизайн-система на основе Material 3
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Стек
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+| Слой | Технологии |
+|---|---|
+| Язык / фреймворк | Dart, Flutter |
+| Состояние | BLoC (flutter_bloc), Provider, RxDart |
+| Навигация | auto_route |
+| Хранение | Drift (SQLite), shared_preferences |
+| Кодогенерация | build_runner, freezed, json_serializable, flutter_gen |
+| UI | собственный UIKit, theme_tailor, flutter_svg, cached_network_image |
+| Тесты | unit + golden-тесты (Alchemist) |
+| Инфраструктура | Mason-шаблоны, Makefile-пайплайны, строгий статический анализ |
+
+## Архитектура
+
+Фичевая структура (`lib/feature/*`) с разделением на слои, собственная дизайн-система в `lib/uikit`, локальная персистентность в `lib/persistence`. Boilerplate экранов, BLoC и репозиториев генерируется Mason-briks.
+
+```
+lib/
+├── app/          # инициализация приложения, DI, роутинг
+├── core/         # базовые утилиты и расширения
+├── feature/      # фичи: tests_list, test_execution, tinder_test, mixup,
+│                 # groups_list, question_stats, profile, settings, ...
+├── persistence/  # Drift БД, DAO
+├── uikit/        # дизайн-система (Material You)
+└── l10n/         # локализация
+```
+
+## Запуск
+
+```bash
+flutter pub get
+make gen-all      # кодогенерация (build_runner) + локализация
+flutter run
+```
+
+Полный список команд — в `Makefile` и папке `make/`.
+
+## Тестирование
+
+```bash
+flutter test                              # unit- и golden-тесты
+flutter test --update-goldens             # обновление golden-эталонов
+make analyze                              # статический анализ (dart analyze + DCM)
+```

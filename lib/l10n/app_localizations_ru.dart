@@ -414,6 +414,106 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get profileDashboardTitle => 'Профиль';
+
+  @override
+  String get profileIdentityName => 'karto4ki';
+
+  @override
+  String profileIdentitySubtitle(int groups, int tests) {
+    String _temp0 = intl.Intl.pluralLogic(
+      groups,
+      locale: localeName,
+      other: '$groups групп',
+      many: '$groups групп',
+      few: '$groups группы',
+      one: '$groups группа',
+    );
+    String _temp1 = intl.Intl.pluralLogic(
+      tests,
+      locale: localeName,
+      other: '$tests тестов',
+      many: '$tests тестов',
+      few: '$tests теста',
+      one: '$tests тест',
+    );
+    return '$_temp0 · $_temp1';
+  }
+
+  @override
+  String get profileStatsCardTitle => 'Статистика';
+
+  @override
+  String get profileStatsCardMore => 'Подробнее';
+
+  @override
+  String get profileRingAccuracy => 'Точность';
+
+  @override
+  String get profileRingMastered => 'Изучено';
+
+  @override
+  String get profileRingFlawless => 'Без ошибок';
+
+  @override
+  String get profileStreakDaysSuffix => 'дней подряд';
+
+  @override
+  String profileStreakBest(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count дней',
+      many: '$count дней',
+      few: '$count дня',
+      one: '$count день',
+    );
+    return 'Лучшая серия: $_temp0';
+  }
+
+  @override
+  String get profileWeekdayMon => 'Пн';
+
+  @override
+  String get profileWeekdayTue => 'Вт';
+
+  @override
+  String get profileWeekdayWed => 'Ср';
+
+  @override
+  String get profileWeekdayThu => 'Чт';
+
+  @override
+  String get profileWeekdayFri => 'Пт';
+
+  @override
+  String get profileWeekdaySat => 'Сб';
+
+  @override
+  String get profileWeekdaySun => 'Вс';
+
+  @override
+  String get profileMetricAnswers => 'Всего ответов';
+
+  @override
+  String get profileMetricCards => 'Всего карточек';
+
+  @override
+  String get profileMetricWeak => 'Слабые карточки';
+
+  @override
+  String get profileMetricActiveDays => 'Дней активности';
+
+  @override
+  String get profileMetricAvgPerDay => 'Ответов в день';
+
+  @override
+  String get profileLoadError => 'Не удалось загрузить статистику';
+
+  @override
+  String get profileRetryButton => 'Повторить';
+
+  @override
   String get groupsListAppBarTitle => 'Группы';
 
   @override

@@ -70,4 +70,8 @@ class QuestionStatsRepository extends BaseRepository
         final dtos = await _questionStatsDatabase.getStatsByKeys(keys);
         return dtos.map(QuestionStatsConverter.fromDto).toList();
       });
+
+  @override
+  RequestOperation<List<DateTime>> getActiveDates() =>
+      makeCall(_questionStatsDatabase.getActiveDates);
 }

@@ -274,6 +274,51 @@
       }
     }
   },
+  "@segmentProfileDashboard": {
+    "---------": "---------",
+    "description": "Profile — stats dashboard"
+  },
+  "profileDashboardTitle": "Profile",
+  "profileIdentityName": "karto4ki",
+  "profileIdentitySubtitle": "{groups, plural, one{{groups} group} other{{groups} groups}} · {tests, plural, one{{tests} test} other{{tests} tests}}",
+  "@profileIdentitySubtitle": {
+    "placeholders": {
+      "groups": {
+        "type": "int"
+      },
+      "tests": {
+        "type": "int"
+      }
+    }
+  },
+  "profileStatsCardTitle": "Statistics",
+  "profileStatsCardMore": "More",
+  "profileRingAccuracy": "Accuracy",
+  "profileRingMastered": "Mastered",
+  "profileRingFlawless": "Flawless",
+  "profileStreakDaysSuffix": "day streak",
+  "profileStreakBest": "Best streak: {count, plural, one{{count} day} other{{count} days}}",
+  "@profileStreakBest": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "profileWeekdayMon": "Mon",
+  "profileWeekdayTue": "Tue",
+  "profileWeekdayWed": "Wed",
+  "profileWeekdayThu": "Thu",
+  "profileWeekdayFri": "Fri",
+  "profileWeekdaySat": "Sat",
+  "profileWeekdaySun": "Sun",
+  "profileMetricAnswers": "Total answers",
+  "profileMetricCards": "Total cards",
+  "profileMetricWeak": "Weak cards",
+  "profileMetricActiveDays": "Active days",
+  "profileMetricAvgPerDay": "Answers per day",
+  "profileLoadError": "Failed to load statistics",
+  "profileRetryButton": "Retry",
   "@segmentGroupsList": {
     "---------": "---------",
     "description": "Groups list"
