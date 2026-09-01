@@ -10,6 +10,25 @@
 part of 'app_router.dart';
 
 /// generated route for
+/// [DeveloperDebugFlow]
+class DeveloperDebugRoute extends PageRouteInfo<void> {
+  const DeveloperDebugRoute({List<PageRouteInfo>? children})
+      : super(
+          DeveloperDebugRoute.name,
+          initialChildren: children,
+        );
+
+  static const String name = 'DeveloperDebugRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const DeveloperDebugFlow());
+    },
+  );
+}
+
+/// generated route for
 /// [GroupDetailFlow]
 class GroupDetailRoute extends PageRouteInfo<GroupDetailRouteArgs> {
   GroupDetailRoute({

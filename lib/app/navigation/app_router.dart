@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:quizzerg/feature/developer/presentation/developer_debug_flow.dart';
 import 'package:quizzerg/feature/group_detail/presentation/group_detail_flow.dart';
 import 'package:quizzerg/feature/groups_list/presentation/groups_list_flow.dart';
 import 'package:quizzerg/feature/home/presentation/home_flow.dart';
@@ -78,6 +79,9 @@ class AppRouter extends RootStackRouter {
             ),
           ],
         ),
+        // Дебаг-экран поверх навигации: вход — лонг-тап по табу профиля
+        // в dev-сборке.
+        AutoRoute(page: DeveloperDebugRoute.page),
       ];
 
   AppRouter({super.navigatorKey});

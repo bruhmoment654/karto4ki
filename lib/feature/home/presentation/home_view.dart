@@ -1,6 +1,10 @@
+import 'dart:async';
+
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/feature/home/presentation/home_screen.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
@@ -52,13 +56,37 @@ class HomeView extends StatelessWidget {
               label: context.l10n.questionStatsTitle,
             ),
             NavigationDestination(
-              icon: const Icon(Icons.person_outline),
-              selectedIcon: const Icon(Icons.person),
+              icon: const _DebugEntryPoint(child: Icon(Icons.person_outline)),
+              selectedIcon: const _DebugEntryPoint(child: Icon(Icons.person)),
               label: context.l10n.navigationProfile,
             ),
           ],
         );
       },
+    );
+  }
+}
+
+/// Скрытый вход в дебаг-экран: лонг-тап по иконке таба профиля.
+///
+/// В релизной сборке — обычная иконка без жеста.
+class _DebugEntryPoint extends StatelessWidget {
+  final Widget child;
+
+  const _DebugEntryPoint({required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    if (!kDebugMode) return child;
+
+    return GestureDetector(
+      // Обычный тап должен по-прежнему доходить до NavigationBar.
+      behavior: HitTestBehavior.translucent,
+      onLongPress: () {
+        unawaited(HapticFeedback.mediumImpact());
+        unawaited(context.router.root.push(const DeveloperDebugRoute()));
+      },
+      child: child,
     );
   }
 }

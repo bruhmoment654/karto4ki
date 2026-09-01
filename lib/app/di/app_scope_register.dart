@@ -5,6 +5,7 @@ import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/core/logger/error_logger.dart';
 import 'package:quizzerg/core/logger/strategies/debug_log_strategy.dart';
 import 'package:quizzerg/core/services/csv_import_service.dart';
+import 'package:quizzerg/feature/developer/data/repository/debug_repository.dart';
 import 'package:quizzerg/feature/group_detail/data/repository/group_detail_repository.dart';
 import 'package:quizzerg/feature/group_detail/domain/repository/i_group_detail_repository.dart';
 import 'package:quizzerg/feature/groups_list/data/repository/groups_api_repository.dart';
@@ -46,8 +47,11 @@ import 'package:quizzerg/network/api/api_config.dart';
 import 'package:quizzerg/network/api/api_environment.dart';
 import 'package:quizzerg/network/api/auth_token_provider.dart';
 import 'package:quizzerg/network/api/dio_factory.dart';
+import 'package:quizzerg/network/api/dio_proxy.dart';
 import 'package:quizzerg/network/health/health_api_repository.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
+import 'package:quizzerg/persistence/debug/debug_config_storage.dart';
+import 'package:quizzerg/persistence/debug/i_debug_config_storage.dart';
 import 'package:quizzerg/persistence/settings/settings_storage.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:surf_logger/surf_logger.dart' as surf_logger;
@@ -61,6 +65,7 @@ class AppScopeRegister {
     final database = AppDatabase();
     final errorLogger = _createErrorLogger();
     final settingsStorage = SettingsStorage(prefs);
+    final debugConfigStorage = DebugConfigStorage(prefs);
     final local = _createLocalDependencies(
       database: database,
       prefs: prefs,
@@ -68,7 +73,10 @@ class AppScopeRegister {
       errorLogger: errorLogger,
     );
 
-    final network = _createNetwork(errorLogger: errorLogger);
+    final network = _createNetwork(
+      errorLogger: errorLogger,
+      debugConfigStorage: debugConfigStorage,
+    );
     final syncApiRepository = SyncApiRepository(
       client: network.client,
       config: network.config,
@@ -111,6 +119,13 @@ class AppScopeRegister {
         config: network.config,
       ),
       healthApiRepository: HealthApiRepository(client: network.client),
+      debugConfigStorage: debugConfigStorage,
+      debugRepository: DebugRepository(
+        debugConfigStorage: debugConfigStorage,
+        apiConfig: network.config,
+        dio: network.client.dio,
+        errorLogger: errorLogger,
+      ),
     );
   }
 
@@ -179,23 +194,28 @@ class AppScopeRegister {
 
   /// Транспорт. Источник токена пока анонимный — его подменит
   /// фича авторизации, когда появится.
-  _Network _createNetwork({required ErrorLogger errorLogger}) {
+  _Network _createNetwork({
+    required ErrorLogger errorLogger,
+    required IDebugConfigStorage debugConfigStorage,
+  }) {
     const config = ApiConfig(
       environment: kDebugMode ? ApiEnvironment.dev : ApiEnvironment.prod,
       enableLogging: kDebugMode,
     );
     const tokenProvider = AnonymousAuthTokenProvider();
 
+    final dio = DioFactory.create(
+      config: config,
+      tokenProvider: tokenProvider,
+      errorLogger: errorLogger,
+    );
+    // Прокси, сохранённый на дебаг-экране, должен работать сразу после старта.
+    DioProxy.apply(dio, debugConfigStorage.getProxyUrl());
+
     return _Network(
       config: config,
       tokenProvider: tokenProvider,
-      client: ApiClient(
-        DioFactory.create(
-          config: config,
-          tokenProvider: tokenProvider,
-          errorLogger: errorLogger,
-        ),
-      ),
+      client: ApiClient(dio),
     );
   }
 

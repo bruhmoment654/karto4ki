@@ -1,4 +1,5 @@
 import 'package:quizzerg/core/services/csv_import_service.dart';
+import 'package:quizzerg/feature/developer/domain/repository/i_debug_repository.dart';
 import 'package:quizzerg/feature/group_detail/domain/repository/i_group_detail_repository.dart';
 import 'package:quizzerg/feature/groups_list/domain/repository/i_groups_api_repository.dart';
 import 'package:quizzerg/feature/groups_list/domain/repository/i_groups_list_repository.dart';
@@ -24,6 +25,7 @@ import 'package:quizzerg/network/api/api_config.dart';
 import 'package:quizzerg/network/api/auth_token_provider.dart';
 import 'package:quizzerg/network/health/health_api_repository.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
+import 'package:quizzerg/persistence/debug/i_debug_config_storage.dart';
 import 'package:quizzerg/persistence/settings/i_settings_storage.dart';
 
 final class AppScope implements IAppScope {
@@ -108,6 +110,12 @@ final class AppScope implements IAppScope {
   @override
   final IHealthApiRepository healthApiRepository;
 
+  @override
+  final IDebugConfigStorage debugConfigStorage;
+
+  @override
+  final IDebugRepository debugRepository;
+
   const AppScope({
     required this.database,
     required this.mainRepository,
@@ -136,6 +144,8 @@ final class AppScope implements IAppScope {
     required this.tokensApiRepository,
     required this.importApiRepository,
     required this.healthApiRepository,
+    required this.debugConfigStorage,
+    required this.debugRepository,
   });
 }
 
@@ -195,4 +205,10 @@ abstract interface class IAppScope {
   IImportApiRepository get importApiRepository;
 
   IHealthApiRepository get healthApiRepository;
+
+  /// Отладочные настройки сборки (прокси).
+  IDebugConfigStorage get debugConfigStorage;
+
+  /// Репозиторий дебаг-экрана.
+  IDebugRepository get debugRepository;
 }
