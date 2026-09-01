@@ -21,14 +21,14 @@ class CardRepository extends BaseRepository implements ICardRepository {
       });
 
   @override
-  RequestOperation<CardEntity?> getCardById(int id) => makeCall(() async {
+  RequestOperation<CardEntity?> getCardById(String id) => makeCall(() async {
         final dto = await _cardsDatabase.getCardById(id);
         if (dto == null) return null;
         return CardConverter.fromDto(dto);
       });
 
   @override
-  RequestOperation<List<CardEntity>> getCardsByTestId(int testId) =>
+  RequestOperation<List<CardEntity>> getCardsByTestId(String testId) =>
       makeCall(() async {
         final dtos = await _cardsDatabase.getCardsByTestId(testId);
         return dtos.map(CardConverter.fromDto).toList();
@@ -36,25 +36,23 @@ class CardRepository extends BaseRepository implements ICardRepository {
 
   @override
   RequestOperation<void> createCard(CardEntity card) => makeCall(() async {
-        await _cardsDatabase.insertCard(CardConverter.toCompanion(card));
+        await _cardsDatabase.insertCard(
+          CardConverter.toNewCompanionFromAnswers(
+            id: card.id.isEmpty ? null : card.id,
+            testId: card.testId,
+            front: card.front,
+            answers: card.answers,
+          ),
+        );
       });
 
   @override
   RequestOperation<void> updateCard(CardEntity card) => makeCall(() async {
-        final dto = await _cardsDatabase.getCardById(int.parse(card.id));
-        if (dto != null) {
-          await _cardsDatabase.updateCard(
-            dto.copyWith(
-              question: card.front,
-              answer: card.formattedBack,
-              updatedAt: DateTime.now(),
-            ),
-          );
-        }
+        await _cardsDatabase.updateCard(CardConverter.toUpdateCompanion(card));
       });
 
   @override
-  RequestOperation<void> deleteCard(int id) => makeCall(() async {
-        await _cardsDatabase.deleteCardById(id);
+  RequestOperation<void> deleteCard(String id) => makeCall(() async {
+        await _cardsDatabase.softDeleteCardById(id);
       });
 }

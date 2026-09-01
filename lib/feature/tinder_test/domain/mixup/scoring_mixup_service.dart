@@ -22,7 +22,7 @@ class ScoringMixupService implements IQuestionMixupService {
 
   @override
   Future<List<CardEntity>> getMixupCards({
-    required int testId,
+    required String testId,
     required List<CardEntity> mainCards,
     required int mixupMin,
     required int mixupMax,
@@ -39,8 +39,7 @@ class ScoringMixupService implements IQuestionMixupService {
     final now = DateTime.now();
 
     final scored = result.cards.map((card) {
-      final key =
-          QuestionKeyNormalizer.normalize(card.front, card.formattedBack);
+      final key = QuestionKeyNormalizer.normalize(card.front, card.answers);
       final stat = result.statsMap[key];
       final components = ScoringCalculator.components(
         stat: stat,

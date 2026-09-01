@@ -41,7 +41,7 @@ class MixupCandidateLoader {
         _questionStatsDatabase = questionStatsDatabase;
 
   Future<MixupCandidates> loadCandidates({
-    required int testId,
+    required String testId,
     required List<CardEntity> mainCards,
   }) async {
     final activeDates = (await _questionStatsDatabase.getActiveDates()).toSet();
@@ -51,7 +51,7 @@ class MixupCandidateLoader {
       return const MixupCandidates.empty();
     }
 
-    final otherTestIds = <int>{};
+    final otherTestIds = <String>{};
     for (final groupId in groupIds) {
       final testIds = await _groupsDatabase.getTestIdsByGroupId(groupId);
       otherTestIds.addAll(testIds);
@@ -62,7 +62,7 @@ class MixupCandidateLoader {
     }
 
     final mainKeys = mainCards
-        .map((c) => QuestionKeyNormalizer.normalize(c.front, c.formattedBack))
+        .map((c) => QuestionKeyNormalizer.normalize(c.front, c.answers))
         .toSet();
 
     final candidates = <CardEntity>[];
@@ -70,8 +70,7 @@ class MixupCandidateLoader {
       final result = await _cardRepository.getCardsByTestId(id);
       if (result case ResultOk(:final data)) {
         for (final card in data) {
-          final key =
-              QuestionKeyNormalizer.normalize(card.front, card.formattedBack);
+          final key = QuestionKeyNormalizer.normalize(card.front, card.answers);
           if (!mainKeys.contains(key)) {
             candidates.add(card);
           }
@@ -88,7 +87,7 @@ class MixupCandidateLoader {
     }
 
     final candidateKeys = candidates
-        .map((c) => QuestionKeyNormalizer.normalize(c.front, c.formattedBack))
+        .map((c) => QuestionKeyNormalizer.normalize(c.front, c.answers))
         .toList();
 
     final statsResult =

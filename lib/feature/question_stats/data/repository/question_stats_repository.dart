@@ -6,16 +6,21 @@ import 'package:quizzerg/feature/question_stats/data/database/question_stats_dat
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
 import 'package:quizzerg/feature/question_stats/domain/util/question_key_normalizer.dart';
+import 'package:quizzerg/feature/sync/data/database/sync_database.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/card_result.dart';
+import 'package:quizzerg/persistence/database/app_database.dart';
 
 class QuestionStatsRepository extends BaseRepository
     implements IQuestionStatsRepository {
   final QuestionStatsDatabase _questionStatsDatabase;
+  final SyncDatabase _syncDatabase;
 
   const QuestionStatsRepository({
     required QuestionStatsDatabase questionStatsDatabase,
+    required SyncDatabase syncDatabase,
     required super.errorLogger,
-  }) : _questionStatsDatabase = questionStatsDatabase;
+  })  : _questionStatsDatabase = questionStatsDatabase,
+        _syncDatabase = syncDatabase;
 
   @override
   RequestOperation<void> saveSessionResults({
@@ -38,7 +43,7 @@ class QuestionStatsRepository extends BaseRepository
 
           upsertData.add((
             questionKey:
-                QuestionKeyNormalizer.normalize(card.front, card.formattedBack),
+                QuestionKeyNormalizer.normalize(card.front, card.answers),
             frontText: card.front,
             backText: card.formattedBack,
             isCorrect: result.isCorrect,
@@ -46,7 +51,30 @@ class QuestionStatsRepository extends BaseRepository
         }
 
         await _questionStatsDatabase.upsertStats(upsertData);
+        await _enqueueAnswers(results, cardMap.keys.toSet());
       });
+
+  /// Кладёт ответы в outbox для `POST /stats/answers/batch`.
+  ///
+  /// Ответы — события: из состояния строк статистики их не вывести,
+  /// поэтому нужен собственный журнал.
+  Future<void> _enqueueAnswers(
+    List<CardResult> results,
+    Set<String> knownCardIds,
+  ) async {
+    final events = results
+        .where((result) => knownCardIds.contains(result.cardId))
+        .map(
+          (result) => AnswerEventsOutboxCompanion.insert(
+            cardId: result.cardId,
+            isCorrect: result.isCorrect,
+            answeredAt: result.answeredAt.toUtc(),
+          ),
+        )
+        .toList();
+
+    await _syncDatabase.enqueueAnswers(events);
+  }
 
   @override
   RequestOperation<List<QuestionStatsEntity>> getAllStats() =>

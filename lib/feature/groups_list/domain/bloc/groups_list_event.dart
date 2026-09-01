@@ -13,6 +13,6 @@ sealed class GroupsListEvent with _$GroupsListEvent {
 
   /// Удалить группу.
   const factory GroupsListEvent.groupDeleted({
-    required int groupId,
+    required String groupId,
   }) = _GroupsListEvent$GroupDeleted;
 }

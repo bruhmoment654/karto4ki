@@ -13,7 +13,7 @@ part of 'app_router.dart';
 /// [GroupDetailFlow]
 class GroupDetailRoute extends PageRouteInfo<GroupDetailRouteArgs> {
   GroupDetailRoute({
-    required int groupId,
+    required String groupId,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -34,7 +34,7 @@ class GroupDetailRoute extends PageRouteInfo<GroupDetailRouteArgs> {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<GroupDetailRouteArgs>(
           orElse: () =>
-              GroupDetailRouteArgs(groupId: pathParams.getInt('groupId')));
+              GroupDetailRouteArgs(groupId: pathParams.getString('groupId')));
       return WrappedRoute(
           child: GroupDetailFlow(
         groupId: args.groupId,
@@ -50,7 +50,7 @@ class GroupDetailRouteArgs {
     this.key,
   });
 
-  final int groupId;
+  final String groupId;
 
   final Key? key;
 
@@ -216,7 +216,7 @@ class SettingsRoute extends PageRouteInfo<void> {
 /// [TestDetailFlow]
 class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
   TestDetailRoute({
-    required int testId,
+    required String testId,
     bool mixup = false,
     int mixupMin = 1,
     int mixupMax = 5,
@@ -243,7 +243,7 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<TestDetailRouteArgs>(
           orElse: () =>
-              TestDetailRouteArgs(testId: pathParams.getInt('testId')));
+              TestDetailRouteArgs(testId: pathParams.getString('testId')));
       return WrappedRoute(
           child: TestDetailFlow(
         testId: args.testId,
@@ -265,7 +265,7 @@ class TestDetailRouteArgs {
     this.key,
   });
 
-  final int testId;
+  final String testId;
 
   final bool mixup;
 
@@ -285,7 +285,7 @@ class TestDetailRouteArgs {
 /// [TestMergeFlow]
 class TestMergeRoute extends PageRouteInfo<TestMergeRouteArgs> {
   TestMergeRoute({
-    required int initialTestId,
+    required String initialTestId,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -318,7 +318,7 @@ class TestMergeRouteArgs {
     this.key,
   });
 
-  final int initialTestId;
+  final String initialTestId;
 
   final Key? key;
 
@@ -351,7 +351,7 @@ class TestsListRoute extends PageRouteInfo<void> {
 /// [TinderTestFlow]
 class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
   TinderTestRoute({
-    required int testId,
+    required String testId,
     bool swapSides = false,
     int answerIndex = 0,
     bool mixup = false,
@@ -384,7 +384,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<TinderTestRouteArgs>(
           orElse: () =>
-              TinderTestRouteArgs(testId: pathParams.getInt('testId')));
+              TinderTestRouteArgs(testId: pathParams.getString('testId')));
       return WrappedRoute(
           child: TinderTestFlow(
         testId: args.testId,
@@ -412,7 +412,7 @@ class TinderTestRouteArgs {
     this.key,
   });
 
-  final int testId;
+  final String testId;
 
   final bool swapSides;
 

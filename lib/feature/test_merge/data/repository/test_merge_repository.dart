@@ -1,5 +1,7 @@
 import 'package:quizzerg/core/feature/core/entity/request_operation.dart';
 import 'package:quizzerg/core/feature/data/repository/base_repository.dart';
+import 'package:quizzerg/core/utils/answers_codec.dart';
+import 'package:quizzerg/core/utils/uuid_generator.dart';
 import 'package:quizzerg/feature/test_detail/data/converters/card_converter.dart';
 import 'package:quizzerg/feature/test_detail/data/database/cards_database.dart';
 import 'package:quizzerg/feature/test_merge/domain/repository/i_test_merge_repository.dart';
@@ -28,17 +30,20 @@ class TestMergeRepository extends BaseRepository
       });
 
   @override
-  RequestOperation<int> mergeTests({
+  RequestOperation<String> mergeTests({
     required String title,
-    required List<int> testIds,
+    required List<String> testIds,
     String? description,
   }) =>
       makeCall(() async {
-        final newTestCompanion = TestConverter.toNewCompanion(
-          title: title,
-          description: description,
+        final newTestId = UuidGenerator.v7();
+        await _testsDatabase.insertTest(
+          TestConverter.toNewCompanion(
+            id: newTestId,
+            title: title,
+            description: description,
+          ),
         );
-        final newTestId = await _testsDatabase.insertTest(newTestCompanion);
 
         final companions = <CardsCompanion>[];
 
@@ -46,10 +51,10 @@ class TestMergeRepository extends BaseRepository
           final cards = await _cardsDatabase.getCardsByTestId(testId);
           for (final card in cards) {
             companions.add(
-              CardConverter.toNewCompanion(
+              CardConverter.toNewCompanionFromAnswers(
                 testId: newTestId,
-                front: card.question,
-                back: card.answer,
+                front: card.front,
+                answers: AnswersCodec.decode(card.answers),
               ),
             );
           }

@@ -6,7 +6,8 @@ abstract final class AnswerParser {
   static final _newlinePattern = RegExp('\r\n|[\r  ]');
 
   /// Нормализует все виды переносов строк к `\n`.
-  static String normalizeNewlines(String s) => s.replaceAll(_newlinePattern, '\n');
+  static String normalizeNewlines(String s) =>
+      s.replaceAll(_newlinePattern, '\n');
 
   /// Парсит строку ответов.
   /// Поддерживаемые форматы:

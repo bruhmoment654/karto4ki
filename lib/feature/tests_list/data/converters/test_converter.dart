@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 
+import 'package:quizzerg/core/utils/uuid_generator.dart';
 import 'package:quizzerg/feature/tests_list/data/converters/test_type_converter.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_type.dart';
@@ -13,7 +14,7 @@ abstract final class TestConverter {
     int questionCount = 0,
   }) {
     return TestEntity(
-      id: dto.id.toString(),
+      id: dto.id,
       title: dto.title,
       description: dto.description,
       type: TestTypeConverter.fromDto(dto.type),
@@ -23,32 +24,28 @@ abstract final class TestConverter {
     );
   }
 
-  /// Converts [TestEntity] to [TestsCompanion] for insert/update.
-  static TestsCompanion toCompanion(
-    TestEntity entity, {
-    bool updateTimestamp = true,
-  }) {
-    final now = DateTime.now();
+  /// Компаньон для обновления существующего теста.
+  ///
+  /// Поля `updated_at` и `sync_state` проставляет DAO.
+  static TestsCompanion toUpdateCompanion(TestEntity entity) {
     return TestsCompanion(
-      id: entity.id.isNotEmpty
-          ? Value(int.parse(entity.id))
-          : const Value.absent(),
+      id: Value(entity.id),
       title: Value(entity.title),
       description: Value(entity.description),
       type: Value(TestTypeConverter.toDto(entity.type)),
-      createdAt: Value(entity.createdAt),
-      updatedAt: updateTimestamp ? Value(now) : Value(entity.updatedAt),
     );
   }
 
-  /// Creates a new [TestsCompanion] for inserting a new test.
+  /// Компаньон для вставки нового теста.
   static TestsCompanion toNewCompanion({
     required String title,
     String? description,
+    String? id,
     TestType type = TestType.tinder,
   }) {
-    final now = DateTime.now();
+    final now = DateTime.now().toUtc();
     return TestsCompanion.insert(
+      id: id ?? UuidGenerator.v7(),
       title: title,
       description: Value(description),
       type: TestTypeConverter.toDto(type),

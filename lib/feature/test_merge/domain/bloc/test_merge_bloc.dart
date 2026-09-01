@@ -36,7 +36,7 @@ final class TestMergeBloc extends Bloc<TestMergeEvent, TestMergeState> {
     final result = await _repository.getTests();
     switch (result) {
       case ResultOk(:final data):
-        final initialId = event.initialTestId.toString();
+        final initialId = event.initialTestId;
         emit(
           TestMergeState.loaded(
             tests: data,
@@ -79,7 +79,7 @@ final class TestMergeBloc extends Bloc<TestMergeEvent, TestMergeState> {
 
     emit(const TestMergeState.merging());
 
-    final testIds = currentState.selectedTestIds.map(int.parse).toList();
+    final testIds = currentState.selectedTestIds.toList();
     final result = await _repository.mergeTests(
       title: event.title,
       testIds: testIds,

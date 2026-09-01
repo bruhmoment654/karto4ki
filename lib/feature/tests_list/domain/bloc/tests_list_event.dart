@@ -14,6 +14,6 @@ sealed class TestsListEvent with _$TestsListEvent {
 
   /// Delete test event.
   const factory TestsListEvent.testDeleted({
-    required int testId,
+    required String testId,
   }) = _TestsListEvent$TestDeleted;
 }

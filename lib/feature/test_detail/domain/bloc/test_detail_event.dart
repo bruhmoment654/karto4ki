@@ -5,7 +5,7 @@ part of 'test_detail_bloc.dart';
 sealed class TestDetailEvent with _$TestDetailEvent {
   /// Load test detail event.
   const factory TestDetailEvent.started({
-    required int testId,
+    required String testId,
   }) = _TestDetailEvent$Started;
 
   /// Add new card to test event.
@@ -16,7 +16,7 @@ sealed class TestDetailEvent with _$TestDetailEvent {
 
   /// Delete card event.
   const factory TestDetailEvent.cardDeleted({
-    required int cardId,
+    required String cardId,
   }) = _TestDetailEvent$CardDeleted;
 
   /// Update card event.

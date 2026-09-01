@@ -20,7 +20,7 @@ sealed class TestMergeState with _$TestMergeState {
 
   /// Merge succeeded.
   const factory TestMergeState.success({
-    required int newTestId,
+    required String newTestId,
   }) = TestMergeState$Success;
 
   /// Error.

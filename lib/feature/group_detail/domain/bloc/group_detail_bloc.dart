@@ -19,7 +19,7 @@ part 'group_detail_state.dart';
 /// BLoC для экрана деталки группы.
 final class GroupDetailBloc extends Bloc<GroupDetailEvent, GroupDetailState> {
   final IGroupDetailRepository _repository;
-  int? _currentGroupId;
+  String? _currentGroupId;
   StreamSubscription<void>? _changesSubscription;
 
   GroupDetailBloc({required IGroupDetailRepository repository})

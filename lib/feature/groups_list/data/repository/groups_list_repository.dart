@@ -4,16 +4,20 @@ import 'package:quizzerg/feature/groups_list/data/converters/test_group_converte
 import 'package:quizzerg/feature/groups_list/data/database/groups_database.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
 import 'package:quizzerg/feature/groups_list/domain/repository/i_groups_list_repository.dart';
+import 'package:quizzerg/feature/tests_list/data/database/tests_database.dart';
 
 /// Реализация репозитория списка групп.
 class GroupsListRepository extends BaseRepository
     implements IGroupsListRepository {
   final GroupsDatabase _groupsDatabase;
+  final TestsDatabase _testsDatabase;
 
   const GroupsListRepository({
     required GroupsDatabase groupsDatabase,
+    required TestsDatabase testsDatabase,
     required super.errorLogger,
-  }) : _groupsDatabase = groupsDatabase;
+  })  : _groupsDatabase = groupsDatabase,
+        _testsDatabase = testsDatabase;
 
   @override
   Stream<void> get groupChanges => _groupsDatabase.watchGroupChanges();
@@ -38,20 +42,23 @@ class GroupsListRepository extends BaseRepository
       });
 
   @override
-  RequestOperation<void> deleteGroup(int groupId) => makeCall(() async {
-        await _groupsDatabase.deleteGroupById(groupId);
+  RequestOperation<void> deleteGroup(String groupId) => makeCall(() async {
+        await _groupsDatabase.softDeleteGroupById(groupId);
       });
 
   @override
   RequestOperation<void> updateTestGroups({
-    required int testId,
-    required List<int> groupIds,
+    required String testId,
+    required List<String> groupIds,
   }) =>
       makeCall(() async {
         await _groupsDatabase.updateTestGroups(testId, groupIds);
+        // Набор групп едет на сервер внутри payload теста — правка связей
+        // делает неотправленным сам тест.
+        await _testsDatabase.touchTest(testId);
       });
 
   @override
-  RequestOperation<List<int>> getGroupIdsForTest(int testId) =>
+  RequestOperation<List<String>> getGroupIdsForTest(String testId) =>
       makeCall(() => _groupsDatabase.getGroupIdsByTestId(testId));
 }

@@ -1,9 +1,12 @@
 import 'test_groups.drift';
 import 'package:quizzerg/feature/tests_list/data/database/tests.drift';
 
+-- Связи тест ↔ группа. Собственного sync-состояния нет:
+-- набор групп теста едет на сервер внутри payload теста (groupIds).
+
 CREATE TABLE test_group_entries (
-  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
-  group_id INTEGER NOT NULL REFERENCES test_groups(id) ON DELETE CASCADE,
-  test_id INTEGER NOT NULL REFERENCES tests(id) ON DELETE CASCADE,
+  id TEXT NOT NULL PRIMARY KEY,
+  group_id TEXT NOT NULL REFERENCES test_groups(id) ON DELETE CASCADE,
+  test_id TEXT NOT NULL REFERENCES tests(id) ON DELETE CASCADE,
   UNIQUE(group_id, test_id)
 ) AS TestGroupEntryDatabaseDto;

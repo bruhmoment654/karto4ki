@@ -127,7 +127,8 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
               // для бесшовного стыка с нативным сплешом.
               final baseColor = Color.lerp(kSplashColor, primary, shrink)!;
               final cardColors = <Color>[
-                Color.lerp(_kSplashGradientTop, _lighten(primary, 0.12), shrink)!,
+                Color.lerp(
+                    _kSplashGradientTop, _lighten(primary, 0.12), shrink)!,
                 baseColor,
               ];
 
@@ -140,8 +141,7 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
                   size.height + (size.width * 4 / 3 - size.height) * shrink;
               final dir = widget.swipeRight ? 1.0 : -1.0;
               final dx = dir * swipe * size.width * 1.5; // за край экрана
-              final angle =
-                  (-4.0 * wind + 20.0 * swipe) * math.pi / 180 * dir;
+              final angle = (-4.0 * wind + 20.0 * swipe) * math.pi / 180 * dir;
 
               return Positioned.fill(
                 child: Transform.translate(

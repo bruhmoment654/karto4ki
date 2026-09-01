@@ -15,7 +15,7 @@ import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_screen.dar
 /// This Flow provides [TinderTestBloc] for the entire tinder test screen subtree.
 @RoutePage()
 class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
-  final int testId;
+  final String testId;
   final bool swapSides;
   final int answerIndex;
   final bool mixup;

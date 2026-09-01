@@ -52,7 +52,8 @@ void main() {
     group('агрегаты', () {
       final summary = ProfileStatsCalculator.calculate(
         stats: [
-          _stat(streak: 5, totalCorrect: 10, totalShown: 10), // mastered+flawless
+          _stat(
+              streak: 5, totalCorrect: 10, totalShown: 10), // mastered+flawless
           _stat(streak: 3, totalCorrect: 4, totalIncorrect: 1, totalShown: 5),
           _stat(totalCorrect: 1, totalIncorrect: 1, totalShown: 2),
           _stat(streak: -2, totalIncorrect: 3, totalShown: 3),

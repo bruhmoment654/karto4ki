@@ -13,7 +13,7 @@ ActiveTestSessionDto _$ActiveTestSessionDtoFromJson(
       json,
       ($checkedConvert) {
         final val = ActiveTestSessionDto(
-          testId: $checkedConvert('testId', (v) => (v as num).toInt()),
+          testId: $checkedConvert('testId', (v) => v as String),
           testTitle: $checkedConvert('testTitle', (v) => v as String),
           currentIndex:
               $checkedConvert('currentIndex', (v) => (v as num).toInt()),

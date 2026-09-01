@@ -11,10 +11,10 @@ abstract interface class ICardRepository {
   /// Get card by ID.
   ///
   /// Returns `null` if card not found.
-  RequestOperation<CardEntity?> getCardById(int id);
+  RequestOperation<CardEntity?> getCardById(String id);
 
   /// Get cards by test ID.
-  RequestOperation<List<CardEntity>> getCardsByTestId(int testId);
+  RequestOperation<List<CardEntity>> getCardsByTestId(String testId);
 
   /// Create new card.
   RequestOperation<void> createCard(CardEntity card);
@@ -23,5 +23,5 @@ abstract interface class ICardRepository {
   RequestOperation<void> updateCard(CardEntity card);
 
   /// Delete card by ID.
-  RequestOperation<void> deleteCard(int id);
+  RequestOperation<void> deleteCard(String id);
 }

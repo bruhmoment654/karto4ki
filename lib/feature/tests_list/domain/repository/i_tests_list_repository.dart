@@ -7,7 +7,7 @@ abstract interface class ITestsListRepository {
   RequestOperation<List<TestEntity>> getTests();
 
   /// Get test by id. Returns `null` if not found.
-  RequestOperation<TestEntity?> getTestById(int testId);
+  RequestOperation<TestEntity?> getTestById(String testId);
 
   /// Add new test.
   RequestOperation<void> addTest({
@@ -16,5 +16,5 @@ abstract interface class ITestsListRepository {
   });
 
   /// Delete test by id.
-  RequestOperation<void> deleteTest(int testId);
+  RequestOperation<void> deleteTest(String testId);
 }

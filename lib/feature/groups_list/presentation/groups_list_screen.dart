@@ -36,7 +36,7 @@ class _GroupsListScreenState extends State<GroupsListScreen>
 
   @override
   void onGroupTapped(TestGroupEntity group) {
-    context.router.push(GroupDetailRoute(groupId: int.parse(group.id)));
+    context.router.push(GroupDetailRoute(groupId: group.id));
   }
 
   @override
@@ -100,7 +100,7 @@ class _GroupsListScreenState extends State<GroupsListScreen>
             onPressed: () {
               context.read<GroupsListBloc>().add(
                     GroupsListEvent.groupDeleted(
-                      groupId: int.parse(group.id),
+                      groupId: group.id,
                     ),
                   );
               Navigator.of(dialogContext).pop(true);

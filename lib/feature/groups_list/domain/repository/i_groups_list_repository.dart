@@ -13,14 +13,14 @@ abstract interface class IGroupsListRepository {
   RequestOperation<void> addGroup({required String title});
 
   /// Удалить группу по id.
-  RequestOperation<void> deleteGroup(int groupId);
+  RequestOperation<void> deleteGroup(String groupId);
 
   /// Обновить привязки теста к группам.
   RequestOperation<void> updateTestGroups({
-    required int testId,
-    required List<int> groupIds,
+    required String testId,
+    required List<String> groupIds,
   });
 
   /// Получить id групп, в которых состоит тест.
-  RequestOperation<List<int>> getGroupIdsForTest(int testId);
+  RequestOperation<List<String>> getGroupIdsForTest(String testId);
 }

@@ -39,13 +39,13 @@ class _TestsListScreenState extends State<TestsListScreen>
 
   @override
   void onTestTapped(TestEntity test) {
-    context.router.push(TestDetailRoute(testId: int.parse(test.id)));
+    context.router.push(TestDetailRoute(testId: test.id));
   }
 
   @override
   void onTestDeletePressed(TestEntity test) {
     context.read<TestsListBloc>().add(
-          TestsListEvent.testDeleted(testId: int.parse(test.id)),
+          TestsListEvent.testDeleted(testId: test.id),
         );
   }
 
@@ -63,7 +63,7 @@ class _TestsListScreenState extends State<TestsListScreen>
           onTap: () async {
             Navigator.of(dialogContext).pop();
             final result = await context.router.push(
-              TestMergeRoute(initialTestId: int.parse(test.id)),
+              TestMergeRoute(initialTestId: test.id),
             );
             if (result == true && mounted) {
               context.read<TestsListBloc>().add(const TestsListEvent.started());

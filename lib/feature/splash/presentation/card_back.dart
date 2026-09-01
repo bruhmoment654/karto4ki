@@ -103,9 +103,11 @@ class _CardBackPainter extends CustomPainter {
     for (var m = -height - overhang; m <= width + overhang; m += step) {
       diag(Offset(m - overhang, -overhang),
           Offset(m + (height + overhang), height + overhang), m + height, 0.55);
-      diag(Offset(m - overhang + 4, -overhang),
+      diag(
+          Offset(m - overhang + 4, -overhang),
           Offset(m + (height + overhang) + 4, height + overhang),
-          m + height, 0.26);
+          m + height,
+          0.26);
     }
 
     canvas.restore();

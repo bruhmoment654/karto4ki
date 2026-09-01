@@ -1,10 +1,19 @@
 -- Tests table definition
 
 CREATE TABLE tests (
-  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  id TEXT NOT NULL PRIMARY KEY,
   title TEXT NOT NULL,
   description TEXT,
   type TEXT NOT NULL,
   created_at DATETIME NOT NULL,
-  updated_at DATETIME NOT NULL
+  updated_at DATETIME NOT NULL,
+  base_payload TEXT,
+  -- server_updated_at — TEXT (ISO-8601 UTC с миллисекундами), а не DATETIME:
+  -- drift хранит DATETIME как unix-секунды, а LWW на сервере сравнивает
+  -- время с точностью до миллисекунд.
+  server_updated_at TEXT,
+  sync_state TEXT NOT NULL DEFAULT 'pending',
+  deleted_at DATETIME
 ) AS TestDatabaseDto;
+
+CREATE INDEX IF NOT EXISTS idx_tests_sync_state ON tests(sync_state);

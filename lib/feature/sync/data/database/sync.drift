@@ -1,0 +1,22 @@
+-- Служебные таблицы синхронизации.
+
+-- Key-value хранилище метаданных sync: курсор, время последнего pull.
+CREATE TABLE sync_meta (
+  meta_key TEXT NOT NULL PRIMARY KEY,
+  meta_value TEXT NOT NULL
+) AS SyncMetaDatabaseDto;
+
+-- Журнал ответов на карточки.
+-- Ответы — события, из состояния строк их не вывести, нужен собственный outbox.
+-- UNIQUE(card_id, answered_at) повторяет ключ дедупликации на сервере.
+CREATE TABLE answer_events_outbox (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  card_id TEXT NOT NULL,
+  is_correct BOOLEAN NOT NULL,
+  answered_at DATETIME NOT NULL,
+  sent_at DATETIME,
+  UNIQUE(card_id, answered_at)
+) AS AnswerEventOutboxDatabaseDto;
+
+CREATE INDEX IF NOT EXISTS idx_answer_events_outbox_sent_at
+  ON answer_events_outbox(sent_at);

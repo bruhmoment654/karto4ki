@@ -8,7 +8,7 @@ import 'package:quizzerg/feature/test_merge/presentation/test_merge_screen.dart'
 
 @RoutePage()
 class TestMergeFlow extends StatelessWidget implements AutoRouteWrapper {
-  final int initialTestId;
+  final String initialTestId;
 
   const TestMergeFlow({
     required this.initialTestId,

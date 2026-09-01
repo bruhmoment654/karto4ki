@@ -8,9 +8,9 @@ abstract interface class ITestMergeRepository {
 
   /// Merge tests: create a new test and copy questions.
   /// Returns the new test ID.
-  RequestOperation<int> mergeTests({
+  RequestOperation<String> mergeTests({
     required String title,
-    required List<int> testIds,
+    required List<String> testIds,
     String? description,
   });
 }

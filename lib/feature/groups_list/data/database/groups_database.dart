@@ -1,4 +1,6 @@
 import 'package:drift/drift.dart';
+import 'package:quizzerg/core/utils/uuid_generator.dart';
+import 'package:quizzerg/feature/sync/domain/entity/sync_state.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
 import 'package:rxdart/rxdart.dart';
 
@@ -15,44 +17,104 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
   GroupsDatabase(super.attachedDatabase);
 
   /// Получить все группы.
-  Future<List<TestGroupDatabaseDto>> getAllGroups() => select(testGroups).get();
+  Future<List<TestGroupDatabaseDto>> getAllGroups() => _alive().get();
 
   /// Получить группу по id.
-  Future<TestGroupDatabaseDto?> getGroupById(int id) =>
-      (select(testGroups)..where((g) => g.id.equals(id))).getSingleOrNull();
+  Future<TestGroupDatabaseDto?> getGroupById(String id) =>
+      (_alive()..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
 
   /// Вставить новую группу.
-  Future<int> insertGroup(TestGroupsCompanion group) =>
+  Future<void> insertGroup(TestGroupsCompanion group) =>
       into(testGroups).insert(group);
 
-  /// Обновить группу.
-  Future<bool> updateGroup(TestGroupDatabaseDto group) =>
-      update(testGroups).replace(group);
+  /// Обновить группу и пометить строку неотправленной.
+  Future<void> updateGroup(TestGroupsCompanion group) async {
+    final id = group.id.value;
+    await (update(testGroups)..where((tbl) => tbl.id.equals(id))).write(
+      group.copyWith(
+        updatedAt: Value(DateTime.now().toUtc()),
+        syncState: Value(SyncState.pending.dbValue),
+      ),
+    );
+  }
 
-  /// Удалить группу по id.
-  Future<int> deleteGroupById(int id) =>
-      (delete(testGroups)..where((g) => g.id.equals(id))).go();
+  /// Пометить группу удалённой (tombstone). Связи с тестами снимаются сразу:
+  /// на сервере удаление группы тоже чистит связи, сами тесты остаются.
+  Future<void> softDeleteGroupById(String id) async {
+    final now = DateTime.now().toUtc();
+    await transaction(() async {
+      await (update(testGroups)..where((tbl) => tbl.id.equals(id))).write(
+        TestGroupsCompanion(
+          deletedAt: Value(now),
+          updatedAt: Value(now),
+          syncState: Value(SyncState.pending.dbValue),
+        ),
+      );
+      await (delete(testGroupEntries)
+            ..where((entry) => entry.groupId.equals(id)))
+          .go();
+    });
+  }
+
+  /// Физически удалить строку. Только для подтверждённых сервером tombstone.
+  Future<int> purgeGroupById(String id) =>
+      (delete(testGroups)..where((tbl) => tbl.id.equals(id))).go();
+
+  /// Строка по id без фильтра по tombstone.
+  Future<TestGroupDatabaseDto?> getGroupByIdRaw(String id) =>
+      (select(testGroups)..where((tbl) => tbl.id.equals(id))).getSingleOrNull();
+
+  /// Группы с неотправленными изменениями.
+  Future<List<TestGroupDatabaseDto>> getPendingGroups({required int limit}) =>
+      (select(testGroups)
+            ..where((tbl) => tbl.syncState.equals(SyncState.pending.dbValue))
+            ..orderBy([(tbl) => OrderingTerm.asc(tbl.updatedAt)])
+            ..limit(limit))
+          .get();
+
+  /// Записать строку целиком (upsert из серверного снимка).
+  Future<void> upsertGroup(TestGroupsCompanion group) =>
+      into(testGroups).insertOnConflictUpdate(group);
+
+  /// Обновить служебные поля синхронизации.
+  ///
+  /// [notNewerThan] защищает от гонки «правка во время push»: если строку
+  /// успели изменить после отправки, помечать её синхронизированной нельзя.
+  Future<void> writeSyncFields(
+    String id,
+    TestGroupsCompanion fields, {
+    DateTime? notNewerThan,
+  }) =>
+      (update(testGroups)
+            ..where(
+              (tbl) => notNewerThan == null
+                  ? tbl.id.equals(id)
+                  : tbl.id.equals(id) &
+                      tbl.updatedAt.isSmallerOrEqualValue(notNewerThan),
+            ))
+          .write(fields);
 
   /// Получить id тестов в группе.
-  Future<List<int>> getTestIdsByGroupId(int groupId) async {
+  Future<List<String>> getTestIdsByGroupId(String groupId) async {
     final entries = await (select(testGroupEntries)
-          ..where((e) => e.groupId.equals(groupId)))
+          ..where((entry) => entry.groupId.equals(groupId)))
         .get();
-    return entries.map((e) => e.testId).toList();
+    return entries.map((entry) => entry.testId).toList();
   }
 
   /// Получить id групп, в которых состоит тест.
-  Future<List<int>> getGroupIdsByTestId(int testId) async {
+  Future<List<String>> getGroupIdsByTestId(String testId) async {
     final entries = await (select(testGroupEntries)
-          ..where((e) => e.testId.equals(testId)))
+          ..where((entry) => entry.testId.equals(testId)))
         .get();
-    return entries.map((e) => e.groupId).toList();
+    return entries.map((entry) => entry.groupId).toList();
   }
 
   /// Добавить тест в группу (игнорировать если уже есть).
-  Future<void> addTestToGroup(int groupId, int testId) =>
+  Future<void> addTestToGroup(String groupId, String testId) =>
       into(testGroupEntries).insert(
         TestGroupEntriesCompanion.insert(
+          id: UuidGenerator.v7(),
           groupId: groupId,
           testId: testId,
         ),
@@ -60,40 +122,52 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
       );
 
   /// Убрать тест из группы.
-  Future<int> removeTestFromGroup(int groupId, int testId) =>
+  Future<int> removeTestFromGroup(String groupId, String testId) =>
       (delete(testGroupEntries)
             ..where(
-              (e) => e.groupId.equals(groupId) & e.testId.equals(testId),
+              (entry) =>
+                  entry.groupId.equals(groupId) & entry.testId.equals(testId),
             ))
           .go();
 
-  /// Количество тестов в группе.
-  Future<int> getTestCountByGroupId(int groupId) async {
+  /// Количество тестов в группе (tombstone не считаем).
+  Future<int> getTestCountByGroupId(String groupId) async {
     final count = countAll();
-    final query = selectOnly(testGroupEntries)
+    final query = selectOnly(testGroupEntries).join([
+      innerJoin(
+        attachedDatabase.tests,
+        attachedDatabase.tests.id.equalsExp(testGroupEntries.testId),
+      ),
+    ])
       ..addColumns([count])
-      ..where(testGroupEntries.groupId.equals(groupId));
+      ..where(
+        testGroupEntries.groupId.equals(groupId) &
+            attachedDatabase.tests.deletedAt.isNull(),
+      );
     final result = await query.getSingle();
     return result.read(count) ?? 0;
   }
 
   /// Обновить привязки теста к группам (в транзакции).
-  Future<void> updateTestGroups(int testId, List<int> groupIds) =>
+  Future<void> updateTestGroups(String testId, List<String> groupIds) =>
       transaction(() async {
-        await (delete(testGroupEntries)..where((e) => e.testId.equals(testId)))
+        await (delete(testGroupEntries)
+              ..where((entry) => entry.testId.equals(testId)))
             .go();
         for (final groupId in groupIds) {
           await into(testGroupEntries).insert(
             TestGroupEntriesCompanion.insert(
+              id: UuidGenerator.v7(),
               groupId: groupId,
               testId: testId,
             ),
+            mode: InsertMode.insertOrIgnore,
           );
         }
       });
 
   /// Количество групп, в которых состоит тест.
-  Future<int> getGroupCountByTestId(int testId) async {
+  Future<int> getGroupCountByTestId(String testId) async {
     final count = countAll();
     final query = selectOnly(testGroupEntries)
       ..addColumns([count])
@@ -107,4 +181,7 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
         select(testGroups).watch().map((_) {}),
         select(testGroupEntries).watch().map((_) {}),
       ]);
+
+  SimpleSelectStatement<TestGroups, TestGroupDatabaseDto> _alive() =>
+      select(testGroups)..where((tbl) => tbl.deletedAt.isNull());
 }

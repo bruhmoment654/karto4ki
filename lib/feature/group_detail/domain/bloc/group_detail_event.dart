@@ -5,7 +5,7 @@ part of 'group_detail_bloc.dart';
 sealed class GroupDetailEvent with _$GroupDetailEvent {
   /// Загрузить данные группы.
   const factory GroupDetailEvent.started({
-    required int groupId,
+    required String groupId,
   }) = _GroupDetailEvent$Started;
 
   /// Добавить тест в группу.
@@ -16,7 +16,7 @@ sealed class GroupDetailEvent with _$GroupDetailEvent {
 
   /// Убрать тест из группы.
   const factory GroupDetailEvent.testRemoved({
-    required int testId,
+    required String testId,
   }) = _GroupDetailEvent$TestRemoved;
 
   /// Обновить название группы.
@@ -26,7 +26,7 @@ sealed class GroupDetailEvent with _$GroupDetailEvent {
 
   /// Обновить привязки теста к группам.
   const factory GroupDetailEvent.testGroupsUpdated({
-    required int testId,
-    required List<int> groupIds,
+    required String testId,
+    required List<String> groupIds,
   }) = _GroupDetailEvent$TestGroupsUpdated;
 }

@@ -11,7 +11,7 @@ import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dar
 /// This Flow provides [TestDetailBloc] for the entire test detail screen subtree.
 @RoutePage()
 class TestDetailFlow extends StatelessWidget implements AutoRouteWrapper {
-  final int testId;
+  final String testId;
   final bool mixup;
   final int mixupMin;
   final int mixupMax;

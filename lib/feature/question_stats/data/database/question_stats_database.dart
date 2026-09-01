@@ -74,6 +74,49 @@ class QuestionStatsDatabase extends DatabaseAccessor<AppDatabase>
     }
   }
 
+  /// Записать серверный снимок статистики.
+  ///
+  /// Статистика pull-only: сервер агрегирует ответы всех устройств,
+  /// его снимок авторитетнее локальных счётчиков.
+  Future<void> applyServerSnapshot({
+    required String questionKey,
+    required String frontText,
+    required String backText,
+    required int streak,
+    required int totalCorrect,
+    required int totalIncorrect,
+    required int totalShown,
+    required DateTime createdAt,
+    required DateTime updatedAt,
+    DateTime? lastAnsweredAt,
+    DateTime? lastShownAt,
+  }) async {
+    final existing = await getByQuestionKey(questionKey);
+    final companion = QuestionStatsCompanion(
+      questionKey: Value(questionKey),
+      frontText: Value(frontText),
+      backText: Value(backText),
+      streak: Value(streak),
+      totalCorrect: Value(totalCorrect),
+      totalIncorrect: Value(totalIncorrect),
+      totalShown: Value(totalShown),
+      lastAnsweredAt: Value(lastAnsweredAt),
+      lastShownAt: Value(lastShownAt),
+      createdAt: Value(createdAt),
+      updatedAt: Value(updatedAt),
+    );
+
+    if (existing == null) {
+      await into(questionStats).insert(companion);
+
+      return;
+    }
+
+    await (update(questionStats)
+          ..where((t) => t.questionKey.equals(questionKey)))
+        .write(companion);
+  }
+
   Future<List<QuestionStatsDatabaseDto>> getAllStats() =>
       (select(questionStats)..orderBy([(t) => OrderingTerm.desc(t.updatedAt)]))
           .get();

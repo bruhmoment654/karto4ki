@@ -18,29 +18,30 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$GroupDetailEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int groupId) started,
+    required TResult Function(String groupId) started,
     required TResult Function(String title, String? description) testAdded,
-    required TResult Function(int testId) testRemoved,
+    required TResult Function(String testId) testRemoved,
     required TResult Function(String title) titleUpdated,
-    required TResult Function(int testId, List<int> groupIds) testGroupsUpdated,
+    required TResult Function(String testId, List<String> groupIds)
+        testGroupsUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int groupId)? started,
+    TResult? Function(String groupId)? started,
     TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(int testId)? testRemoved,
+    TResult? Function(String testId)? testRemoved,
     TResult? Function(String title)? titleUpdated,
-    TResult? Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    TResult? Function(String testId, List<String> groupIds)? testGroupsUpdated,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int groupId)? started,
+    TResult Function(String groupId)? started,
     TResult Function(String title, String? description)? testAdded,
-    TResult Function(int testId)? testRemoved,
+    TResult Function(String testId)? testRemoved,
     TResult Function(String title)? titleUpdated,
-    TResult Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    TResult Function(String testId, List<String> groupIds)? testGroupsUpdated,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -103,7 +104,7 @@ abstract class _$$GroupDetailEvent$StartedImplCopyWith<$Res> {
           $Res Function(_$GroupDetailEvent$StartedImpl) then) =
       __$$GroupDetailEvent$StartedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int groupId});
+  $Res call({String groupId});
 }
 
 /// @nodoc
@@ -124,7 +125,7 @@ class __$$GroupDetailEvent$StartedImplCopyWithImpl<$Res>
       groupId: null == groupId
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -135,7 +136,7 @@ class _$GroupDetailEvent$StartedImpl implements _GroupDetailEvent$Started {
   const _$GroupDetailEvent$StartedImpl({required this.groupId});
 
   @override
-  final int groupId;
+  final String groupId;
 
   @override
   String toString() {
@@ -163,11 +164,12 @@ class _$GroupDetailEvent$StartedImpl implements _GroupDetailEvent$Started {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int groupId) started,
+    required TResult Function(String groupId) started,
     required TResult Function(String title, String? description) testAdded,
-    required TResult Function(int testId) testRemoved,
+    required TResult Function(String testId) testRemoved,
     required TResult Function(String title) titleUpdated,
-    required TResult Function(int testId, List<int> groupIds) testGroupsUpdated,
+    required TResult Function(String testId, List<String> groupIds)
+        testGroupsUpdated,
   }) {
     return started(groupId);
   }
@@ -175,11 +177,11 @@ class _$GroupDetailEvent$StartedImpl implements _GroupDetailEvent$Started {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int groupId)? started,
+    TResult? Function(String groupId)? started,
     TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(int testId)? testRemoved,
+    TResult? Function(String testId)? testRemoved,
     TResult? Function(String title)? titleUpdated,
-    TResult? Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    TResult? Function(String testId, List<String> groupIds)? testGroupsUpdated,
   }) {
     return started?.call(groupId);
   }
@@ -187,11 +189,11 @@ class _$GroupDetailEvent$StartedImpl implements _GroupDetailEvent$Started {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int groupId)? started,
+    TResult Function(String groupId)? started,
     TResult Function(String title, String? description)? testAdded,
-    TResult Function(int testId)? testRemoved,
+    TResult Function(String testId)? testRemoved,
     TResult Function(String title)? titleUpdated,
-    TResult Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    TResult Function(String testId, List<String> groupIds)? testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -246,10 +248,10 @@ class _$GroupDetailEvent$StartedImpl implements _GroupDetailEvent$Started {
 }
 
 abstract class _GroupDetailEvent$Started implements GroupDetailEvent {
-  const factory _GroupDetailEvent$Started({required final int groupId}) =
+  const factory _GroupDetailEvent$Started({required final String groupId}) =
       _$GroupDetailEvent$StartedImpl;
 
-  int get groupId;
+  String get groupId;
   @JsonKey(ignore: true)
   _$$GroupDetailEvent$StartedImplCopyWith<_$GroupDetailEvent$StartedImpl>
       get copyWith => throw _privateConstructorUsedError;
@@ -333,11 +335,12 @@ class _$GroupDetailEvent$TestAddedImpl implements _GroupDetailEvent$TestAdded {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int groupId) started,
+    required TResult Function(String groupId) started,
     required TResult Function(String title, String? description) testAdded,
-    required TResult Function(int testId) testRemoved,
+    required TResult Function(String testId) testRemoved,
     required TResult Function(String title) titleUpdated,
-    required TResult Function(int testId, List<int> groupIds) testGroupsUpdated,
+    required TResult Function(String testId, List<String> groupIds)
+        testGroupsUpdated,
   }) {
     return testAdded(title, description);
   }
@@ -345,11 +348,11 @@ class _$GroupDetailEvent$TestAddedImpl implements _GroupDetailEvent$TestAdded {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int groupId)? started,
+    TResult? Function(String groupId)? started,
     TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(int testId)? testRemoved,
+    TResult? Function(String testId)? testRemoved,
     TResult? Function(String title)? titleUpdated,
-    TResult? Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    TResult? Function(String testId, List<String> groupIds)? testGroupsUpdated,
   }) {
     return testAdded?.call(title, description);
   }
@@ -357,11 +360,11 @@ class _$GroupDetailEvent$TestAddedImpl implements _GroupDetailEvent$TestAdded {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int groupId)? started,
+    TResult Function(String groupId)? started,
     TResult Function(String title, String? description)? testAdded,
-    TResult Function(int testId)? testRemoved,
+    TResult Function(String testId)? testRemoved,
     TResult Function(String title)? titleUpdated,
-    TResult Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    TResult Function(String testId, List<String> groupIds)? testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (testAdded != null) {
@@ -434,7 +437,7 @@ abstract class _$$GroupDetailEvent$TestRemovedImplCopyWith<$Res> {
           $Res Function(_$GroupDetailEvent$TestRemovedImpl) then) =
       __$$GroupDetailEvent$TestRemovedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int testId});
+  $Res call({String testId});
 }
 
 /// @nodoc
@@ -456,7 +459,7 @@ class __$$GroupDetailEvent$TestRemovedImplCopyWithImpl<$Res>
       testId: null == testId
           ? _value.testId
           : testId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -468,7 +471,7 @@ class _$GroupDetailEvent$TestRemovedImpl
   const _$GroupDetailEvent$TestRemovedImpl({required this.testId});
 
   @override
-  final int testId;
+  final String testId;
 
   @override
   String toString() {
@@ -497,11 +500,12 @@ class _$GroupDetailEvent$TestRemovedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int groupId) started,
+    required TResult Function(String groupId) started,
     required TResult Function(String title, String? description) testAdded,
-    required TResult Function(int testId) testRemoved,
+    required TResult Function(String testId) testRemoved,
     required TResult Function(String title) titleUpdated,
-    required TResult Function(int testId, List<int> groupIds) testGroupsUpdated,
+    required TResult Function(String testId, List<String> groupIds)
+        testGroupsUpdated,
   }) {
     return testRemoved(testId);
   }
@@ -509,11 +513,11 @@ class _$GroupDetailEvent$TestRemovedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int groupId)? started,
+    TResult? Function(String groupId)? started,
     TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(int testId)? testRemoved,
+    TResult? Function(String testId)? testRemoved,
     TResult? Function(String title)? titleUpdated,
-    TResult? Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    TResult? Function(String testId, List<String> groupIds)? testGroupsUpdated,
   }) {
     return testRemoved?.call(testId);
   }
@@ -521,11 +525,11 @@ class _$GroupDetailEvent$TestRemovedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int groupId)? started,
+    TResult Function(String groupId)? started,
     TResult Function(String title, String? description)? testAdded,
-    TResult Function(int testId)? testRemoved,
+    TResult Function(String testId)? testRemoved,
     TResult Function(String title)? titleUpdated,
-    TResult Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    TResult Function(String testId, List<String> groupIds)? testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (testRemoved != null) {
@@ -580,10 +584,10 @@ class _$GroupDetailEvent$TestRemovedImpl
 }
 
 abstract class _GroupDetailEvent$TestRemoved implements GroupDetailEvent {
-  const factory _GroupDetailEvent$TestRemoved({required final int testId}) =
+  const factory _GroupDetailEvent$TestRemoved({required final String testId}) =
       _$GroupDetailEvent$TestRemovedImpl;
 
-  int get testId;
+  String get testId;
   @JsonKey(ignore: true)
   _$$GroupDetailEvent$TestRemovedImplCopyWith<
           _$GroupDetailEvent$TestRemovedImpl>
@@ -660,11 +664,12 @@ class _$GroupDetailEvent$TitleUpdatedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int groupId) started,
+    required TResult Function(String groupId) started,
     required TResult Function(String title, String? description) testAdded,
-    required TResult Function(int testId) testRemoved,
+    required TResult Function(String testId) testRemoved,
     required TResult Function(String title) titleUpdated,
-    required TResult Function(int testId, List<int> groupIds) testGroupsUpdated,
+    required TResult Function(String testId, List<String> groupIds)
+        testGroupsUpdated,
   }) {
     return titleUpdated(title);
   }
@@ -672,11 +677,11 @@ class _$GroupDetailEvent$TitleUpdatedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int groupId)? started,
+    TResult? Function(String groupId)? started,
     TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(int testId)? testRemoved,
+    TResult? Function(String testId)? testRemoved,
     TResult? Function(String title)? titleUpdated,
-    TResult? Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    TResult? Function(String testId, List<String> groupIds)? testGroupsUpdated,
   }) {
     return titleUpdated?.call(title);
   }
@@ -684,11 +689,11 @@ class _$GroupDetailEvent$TitleUpdatedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int groupId)? started,
+    TResult Function(String groupId)? started,
     TResult Function(String title, String? description)? testAdded,
-    TResult Function(int testId)? testRemoved,
+    TResult Function(String testId)? testRemoved,
     TResult Function(String title)? titleUpdated,
-    TResult Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    TResult Function(String testId, List<String> groupIds)? testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (titleUpdated != null) {
@@ -760,7 +765,7 @@ abstract class _$$GroupDetailEvent$TestGroupsUpdatedImplCopyWith<$Res> {
           $Res Function(_$GroupDetailEvent$TestGroupsUpdatedImpl) then) =
       __$$GroupDetailEvent$TestGroupsUpdatedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int testId, List<int> groupIds});
+  $Res call({String testId, List<String> groupIds});
 }
 
 /// @nodoc
@@ -783,11 +788,11 @@ class __$$GroupDetailEvent$TestGroupsUpdatedImplCopyWithImpl<$Res>
       testId: null == testId
           ? _value.testId
           : testId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
       groupIds: null == groupIds
           ? _value._groupIds
           : groupIds // ignore: cast_nullable_to_non_nullable
-              as List<int>,
+              as List<String>,
     ));
   }
 }
@@ -797,14 +802,14 @@ class __$$GroupDetailEvent$TestGroupsUpdatedImplCopyWithImpl<$Res>
 class _$GroupDetailEvent$TestGroupsUpdatedImpl
     implements _GroupDetailEvent$TestGroupsUpdated {
   const _$GroupDetailEvent$TestGroupsUpdatedImpl(
-      {required this.testId, required final List<int> groupIds})
+      {required this.testId, required final List<String> groupIds})
       : _groupIds = groupIds;
 
   @override
-  final int testId;
-  final List<int> _groupIds;
+  final String testId;
+  final List<String> _groupIds;
   @override
-  List<int> get groupIds {
+  List<String> get groupIds {
     if (_groupIds is EqualUnmodifiableListView) return _groupIds;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_groupIds);
@@ -839,11 +844,12 @@ class _$GroupDetailEvent$TestGroupsUpdatedImpl
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function(int groupId) started,
+    required TResult Function(String groupId) started,
     required TResult Function(String title, String? description) testAdded,
-    required TResult Function(int testId) testRemoved,
+    required TResult Function(String testId) testRemoved,
     required TResult Function(String title) titleUpdated,
-    required TResult Function(int testId, List<int> groupIds) testGroupsUpdated,
+    required TResult Function(String testId, List<String> groupIds)
+        testGroupsUpdated,
   }) {
     return testGroupsUpdated(testId, groupIds);
   }
@@ -851,11 +857,11 @@ class _$GroupDetailEvent$TestGroupsUpdatedImpl
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(int groupId)? started,
+    TResult? Function(String groupId)? started,
     TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(int testId)? testRemoved,
+    TResult? Function(String testId)? testRemoved,
     TResult? Function(String title)? titleUpdated,
-    TResult? Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    TResult? Function(String testId, List<String> groupIds)? testGroupsUpdated,
   }) {
     return testGroupsUpdated?.call(testId, groupIds);
   }
@@ -863,11 +869,11 @@ class _$GroupDetailEvent$TestGroupsUpdatedImpl
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function(int groupId)? started,
+    TResult Function(String groupId)? started,
     TResult Function(String title, String? description)? testAdded,
-    TResult Function(int testId)? testRemoved,
+    TResult Function(String testId)? testRemoved,
     TResult Function(String title)? titleUpdated,
-    TResult Function(int testId, List<int> groupIds)? testGroupsUpdated,
+    TResult Function(String testId, List<String> groupIds)? testGroupsUpdated,
     required TResult orElse(),
   }) {
     if (testGroupsUpdated != null) {
@@ -923,11 +929,12 @@ class _$GroupDetailEvent$TestGroupsUpdatedImpl
 
 abstract class _GroupDetailEvent$TestGroupsUpdated implements GroupDetailEvent {
   const factory _GroupDetailEvent$TestGroupsUpdated(
-          {required final int testId, required final List<int> groupIds}) =
+          {required final String testId,
+          required final List<String> groupIds}) =
       _$GroupDetailEvent$TestGroupsUpdatedImpl;
 
-  int get testId;
-  List<int> get groupIds;
+  String get testId;
+  List<String> get groupIds;
   @JsonKey(ignore: true)
   _$$GroupDetailEvent$TestGroupsUpdatedImplCopyWith<
           _$GroupDetailEvent$TestGroupsUpdatedImpl>

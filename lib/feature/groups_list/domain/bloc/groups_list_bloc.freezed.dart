@@ -20,21 +20,21 @@ mixin _$GroupsListEvent {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String title) groupAdded,
-    required TResult Function(int groupId) groupDeleted,
+    required TResult Function(String groupId) groupDeleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String title)? groupAdded,
-    TResult? Function(int groupId)? groupDeleted,
+    TResult? Function(String groupId)? groupDeleted,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String title)? groupAdded,
-    TResult Function(int groupId)? groupDeleted,
+    TResult Function(String groupId)? groupDeleted,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -123,7 +123,7 @@ class _$GroupsListEvent$StartedImpl implements _GroupsListEvent$Started {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String title) groupAdded,
-    required TResult Function(int groupId) groupDeleted,
+    required TResult Function(String groupId) groupDeleted,
   }) {
     return started();
   }
@@ -133,7 +133,7 @@ class _$GroupsListEvent$StartedImpl implements _GroupsListEvent$Started {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String title)? groupAdded,
-    TResult? Function(int groupId)? groupDeleted,
+    TResult? Function(String groupId)? groupDeleted,
   }) {
     return started?.call();
   }
@@ -143,7 +143,7 @@ class _$GroupsListEvent$StartedImpl implements _GroupsListEvent$Started {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String title)? groupAdded,
-    TResult Function(int groupId)? groupDeleted,
+    TResult Function(String groupId)? groupDeleted,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -261,7 +261,7 @@ class _$GroupsListEvent$GroupAddedImpl implements _GroupsListEvent$GroupAdded {
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String title) groupAdded,
-    required TResult Function(int groupId) groupDeleted,
+    required TResult Function(String groupId) groupDeleted,
   }) {
     return groupAdded(title);
   }
@@ -271,7 +271,7 @@ class _$GroupsListEvent$GroupAddedImpl implements _GroupsListEvent$GroupAdded {
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String title)? groupAdded,
-    TResult? Function(int groupId)? groupDeleted,
+    TResult? Function(String groupId)? groupDeleted,
   }) {
     return groupAdded?.call(title);
   }
@@ -281,7 +281,7 @@ class _$GroupsListEvent$GroupAddedImpl implements _GroupsListEvent$GroupAdded {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String title)? groupAdded,
-    TResult Function(int groupId)? groupDeleted,
+    TResult Function(String groupId)? groupDeleted,
     required TResult orElse(),
   }) {
     if (groupAdded != null) {
@@ -342,7 +342,7 @@ abstract class _$$GroupsListEvent$GroupDeletedImplCopyWith<$Res> {
           $Res Function(_$GroupsListEvent$GroupDeletedImpl) then) =
       __$$GroupsListEvent$GroupDeletedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({int groupId});
+  $Res call({String groupId});
 }
 
 /// @nodoc
@@ -364,7 +364,7 @@ class __$$GroupsListEvent$GroupDeletedImplCopyWithImpl<$Res>
       groupId: null == groupId
           ? _value.groupId
           : groupId // ignore: cast_nullable_to_non_nullable
-              as int,
+              as String,
     ));
   }
 }
@@ -376,7 +376,7 @@ class _$GroupsListEvent$GroupDeletedImpl
   const _$GroupsListEvent$GroupDeletedImpl({required this.groupId});
 
   @override
-  final int groupId;
+  final String groupId;
 
   @override
   String toString() {
@@ -407,7 +407,7 @@ class _$GroupsListEvent$GroupDeletedImpl
   TResult when<TResult extends Object?>({
     required TResult Function() started,
     required TResult Function(String title) groupAdded,
-    required TResult Function(int groupId) groupDeleted,
+    required TResult Function(String groupId) groupDeleted,
   }) {
     return groupDeleted(groupId);
   }
@@ -417,7 +417,7 @@ class _$GroupsListEvent$GroupDeletedImpl
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function(String title)? groupAdded,
-    TResult? Function(int groupId)? groupDeleted,
+    TResult? Function(String groupId)? groupDeleted,
   }) {
     return groupDeleted?.call(groupId);
   }
@@ -427,7 +427,7 @@ class _$GroupsListEvent$GroupDeletedImpl
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function(String title)? groupAdded,
-    TResult Function(int groupId)? groupDeleted,
+    TResult Function(String groupId)? groupDeleted,
     required TResult orElse(),
   }) {
     if (groupDeleted != null) {
@@ -472,10 +472,10 @@ class _$GroupsListEvent$GroupDeletedImpl
 }
 
 abstract class _GroupsListEvent$GroupDeleted implements GroupsListEvent {
-  const factory _GroupsListEvent$GroupDeleted({required final int groupId}) =
+  const factory _GroupsListEvent$GroupDeleted({required final String groupId}) =
       _$GroupsListEvent$GroupDeletedImpl;
 
-  int get groupId;
+  String get groupId;
   @JsonKey(ignore: true)
   _$$GroupsListEvent$GroupDeletedImplCopyWith<
           _$GroupsListEvent$GroupDeletedImpl>

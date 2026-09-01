@@ -4,10 +4,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
 import 'package:quizzerg/app/navigation/app_router.dart';
+import 'package:quizzerg/core/feature/core/failure.dart';
 import 'package:quizzerg/feature/groups_list/domain/bloc/groups_list_bloc.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
 import 'package:quizzerg/feature/groups_list/presentation/groups_list_screen.dart';
 import 'package:quizzerg/feature/groups_list/presentation/widget/active_session_card.dart';
+import 'package:quizzerg/feature/groups_list/presentation/widget/groups_list_skeleton.dart';
 import 'package:quizzerg/feature/test_execution/domain/bloc/active_session_bloc.dart';
 import 'package:quizzerg/feature/test_execution/domain/entity/active_test_session.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
@@ -15,9 +17,13 @@ import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
+import 'package:quizzerg/uikit/motion/app_motion.dart';
 import 'package:quizzerg/uikit/motion/staggered_appear.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
+import 'package:quizzerg/uikit/spacing/height.dart';
+import 'package:quizzerg/uikit/spacing/sliver_height.dart';
+import 'package:quizzerg/uikit/spacing/width.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// UI-слой экрана списка групп.
@@ -39,23 +45,79 @@ class GroupsListView extends StatelessWidget {
         onPressed: viewModel.onAddGroupPressed,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      body: switch (state) {
-        GroupsListState$Loading() => const Center(
-            child: CircularProgressIndicator(),
-          ),
-        GroupsListState$Error(:final failure) => Center(
-            child: Text(
-              context.l10n.groupsListErrorMessage(
-                failure.message ?? context.l10n.groupsListUnknownError,
-              ),
-              textAlign: TextAlign.center,
+      // Скелетон → список крестфейдом: если сплеш успел уйти, а данные ещё
+      // не пришли, пользователь видит каркас экрана, а не пустоту.
+      body: AnimatedSwitcher(
+        duration: AppMotion.reduced(context) ? Duration.zero : AppMotion.fast,
+        child: switch (state) {
+          GroupsListState$Loading() => const _GroupsSkeletonBody(
+              key: ValueKey('groups_loading'),
             ),
-          ),
-        GroupsListState$Loaded(:final groups) => _GroupsBody(
-            groups: groups,
-            viewModel: viewModel,
-          ),
-      },
+          GroupsListState$Error(:final failure) => _GroupsErrorBody(
+              key: const ValueKey('groups_error'),
+              failure: failure,
+            ),
+          GroupsListState$Loaded(:final groups) => _GroupsBody(
+              key: const ValueKey('groups_loaded'),
+              groups: groups,
+              viewModel: viewModel,
+            ),
+        },
+      ),
+    );
+  }
+}
+
+/// Шапка экрана — одинакова во всех состояниях, поэтому не «прыгает»
+/// при переходе от скелетона к списку.
+class _GroupsHeaderSliver extends StatelessWidget {
+  const _GroupsHeaderSliver();
+
+  @override
+  Widget build(BuildContext context) {
+    return const SliverToBoxAdapter(
+      child: AppPageHeader(
+        title: 'Мои группы',
+        subtitle: 'Группы тестов для обучения по карточкам',
+      ),
+    );
+  }
+}
+
+/// Состояние загрузки: шапка + карточки-заглушки.
+class _GroupsSkeletonBody extends StatelessWidget {
+  const _GroupsSkeletonBody({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const CustomScrollView(
+      physics: NeverScrollableScrollPhysics(),
+      slivers: [
+        _GroupsHeaderSliver(),
+        SliverPadding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          sliver: SliverToBoxAdapter(child: GroupsListSkeleton()),
+        ),
+        SliverHeight(32),
+      ],
+    );
+  }
+}
+
+class _GroupsErrorBody extends StatelessWidget {
+  final Failure failure;
+
+  const _GroupsErrorBody({required this.failure, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+      child: Text(
+        context.l10n.groupsListErrorMessage(
+          failure.message ?? context.l10n.groupsListUnknownError,
+        ),
+        textAlign: TextAlign.center,
+      ),
     );
   }
 }
@@ -67,6 +129,7 @@ class _GroupsBody extends StatelessWidget {
   const _GroupsBody({
     required this.groups,
     required this.viewModel,
+    super.key,
   });
 
   @override
@@ -74,12 +137,7 @@ class _GroupsBody extends StatelessWidget {
     return AnimationLimiter(
       child: CustomScrollView(
         slivers: [
-          const SliverToBoxAdapter(
-            child: AppPageHeader(
-              title: 'Мои группы',
-              subtitle: 'Группы тестов для обучения по карточкам',
-            ),
-          ),
+          const _GroupsHeaderSliver(),
           const _ActiveSessionSliver(),
           if (groups.isEmpty)
             SliverFillRemaining(
@@ -98,7 +156,7 @@ class _GroupsBody extends StatelessWidget {
                                   .onSurfaceVariant,
                             ),
                       ),
-                      const SizedBox(height: 12),
+                      const Height(12),
                       Icon(
                         Icons.keyboard_arrow_down_rounded,
                         color: Theme.of(context).colorScheme.onSurfaceVariant,
@@ -113,7 +171,7 @@ class _GroupsBody extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 16),
               sliver: SliverList.separated(
                 itemCount: groups.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 16),
+                separatorBuilder: (_, __) => const Height(16),
                 itemBuilder: (context, index) {
                   final group = groups[index];
                   final tile = _GroupListTile(
@@ -127,7 +185,7 @@ class _GroupsBody extends StatelessWidget {
                 },
               ),
             ),
-          const SliverPadding(padding: EdgeInsets.only(bottom: 32)),
+          const SliverHeight(32),
         ],
       ),
     );
@@ -170,7 +228,7 @@ class _ActiveSessionSliverState extends State<_ActiveSessionSliver> {
                       session: session,
                       onResume: () => context.router.push(
                         TinderTestRoute(
-                          testId: int.parse(session.session.testId),
+                          testId: session.session.testId,
                           swapSides: session.params.swapSides,
                           answerIndex: session.params.answerIndex,
                           mixup: session.params.mixup,
@@ -254,7 +312,7 @@ class _GroupListTile extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 18),
+              const Height(18),
               Text(
                 group.title,
                 style: textTheme.headlineSmall?.copyWith(
@@ -264,7 +322,7 @@ class _GroupListTile extends StatelessWidget {
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
-              const SizedBox(height: 14),
+              const Height(14),
               Container(
                 padding: const EdgeInsets.fromLTRB(11, 5, 14, 5),
                 decoration: BoxDecoration(
@@ -275,7 +333,7 @@ class _GroupListTile extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Icon(Icons.menu_book, size: 16, color: foreground),
-                    const SizedBox(width: 7),
+                    const Width(7),
                     Text(
                       context.l10n.groupsListTestCount(group.testCount),
                       style: textTheme.labelLarge?.copyWith(

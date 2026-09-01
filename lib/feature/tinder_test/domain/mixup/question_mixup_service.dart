@@ -14,7 +14,7 @@ class QuestionMixupService implements IQuestionMixupService {
 
   @override
   Future<List<CardEntity>> getMixupCards({
-    required int testId,
+    required String testId,
     required List<CardEntity> mainCards,
     required int mixupMin,
     required int mixupMax,
@@ -34,8 +34,8 @@ class QuestionMixupService implements IQuestionMixupService {
 
     if (hasNegativeStreak) {
       candidates.sort((a, b) {
-        final keyA = QuestionKeyNormalizer.normalize(a.front, a.formattedBack);
-        final keyB = QuestionKeyNormalizer.normalize(b.front, b.formattedBack);
+        final keyA = QuestionKeyNormalizer.normalize(a.front, a.answers);
+        final keyB = QuestionKeyNormalizer.normalize(b.front, b.answers);
         final statA = result.statsMap[keyA];
         final statB = result.statsMap[keyB];
 
@@ -50,8 +50,8 @@ class QuestionMixupService implements IQuestionMixupService {
       });
     } else {
       candidates.sort((a, b) {
-        final keyA = QuestionKeyNormalizer.normalize(a.front, a.formattedBack);
-        final keyB = QuestionKeyNormalizer.normalize(b.front, b.formattedBack);
+        final keyA = QuestionKeyNormalizer.normalize(a.front, a.answers);
+        final keyB = QuestionKeyNormalizer.normalize(b.front, b.answers);
         final statA = result.statsMap[keyA];
         final statB = result.statsMap[keyB];
 
