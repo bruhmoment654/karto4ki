@@ -6,8 +6,12 @@ plugins {
 
 }
 
+// Конфигурации подписи из keystore/*.properties.
+// Применяется до android {} — блок ниже ссылается на signingConfigs по имени.
+apply(from = "../keystore/signingConfigs.gradle")
+
 android {
-    namespace = "com.example.quizzerg"
+    namespace = "dev.urbaev.c4rds"
     compileSdk = flutter.compileSdkVersion
     ndkVersion = "28.2.13676358"
 
@@ -16,15 +20,12 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
 
-    
-
     kotlin {
         jvmToolchain(17)
     }
 
     defaultConfig {
-        // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
-        applicationId = "com.example.quizzerg"
+        applicationId = "dev.urbaev.c4rds"
         // You can update the following values to match your application needs.
         // For more information, see: https://flutter.dev/to/review-gradle-config.
         minSdk = flutter.minSdkVersion
@@ -35,9 +36,37 @@ android {
 
     buildTypes {
         release {
-            // TODO: Add your own signing config for the release build.
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig = signingConfigs.getByName("debug")
+            ndk {
+                debugSymbolLevel = "FULL"
+            }
+        }
+    }
+
+    flavorDimensions += "release-type"
+
+    productFlavors {
+        create("dev") {
+            dimension = "release-type"
+            applicationIdSuffix = ".dev"
+            // dev-keystore может отсутствовать (CI, чужая машина) — тогда debug-подпись.
+            signingConfig =
+                signingConfigs.findByName("dev") ?: signingConfigs.getByName("debug")
+        }
+
+        create("prod") {
+            dimension = "release-type"
+            signingConfig = signingConfigs.getByName("prod")
+        }
+    }
+
+    splits {
+        abi {
+            isEnable = !gradle.startParameter.taskNames.any {
+                it.lowercase().contains("prod")
+            }
+            reset()
+            include("x86", "x86_64", "armeabi-v7a", "arm64-v8a")
+            isUniversalApk = true
         }
     }
 }
@@ -45,4 +74,15 @@ android {
 flutter {
     source = "../.."
 
+}
+
+dependencies {
+    // Последняя стабильная. Версии credentials и credentials-play-services-auth
+    // обязаны совпадать.
+    implementation("androidx.credentials:credentials:1.6.0")
+    implementation("androidx.credentials:credentials-play-services-auth:1.6.0")
+    implementation("com.google.android.libraries.identity.googleid:googleid:1.2.0")
+    // lifecycleScope в MainActivity. Приезжает и транзитивно с эмбеддингом
+    // Flutter, но полагаться на это нельзя — используем, значит объявляем.
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.7.0")
 }

@@ -63,7 +63,7 @@ import 'app_localizations_ru.dart';
 /// property.
 abstract class AppLocalizations {
   AppLocalizations(String locale)
-      : localeName = intl.Intl.canonicalizedLocale(locale.toString());
+    : localeName = intl.Intl.canonicalizedLocale(locale.toString());
 
   final String localeName;
 
@@ -86,16 +86,16 @@ abstract class AppLocalizations {
   /// of delegates is preferred or required.
   static const List<LocalizationsDelegate<dynamic>> localizationsDelegates =
       <LocalizationsDelegate<dynamic>>[
-    delegate,
-    GlobalMaterialLocalizations.delegate,
-    GlobalCupertinoLocalizations.delegate,
-    GlobalWidgetsLocalizations.delegate,
-  ];
+        delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+      ];
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
     Locale('en'),
-    Locale('ru')
+    Locale('ru'),
   ];
 
   /// No description provided for @appName.
@@ -1321,6 +1321,84 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{count, plural, =0{No questions} one{{count} question} other{{count} questions}}'**
   String groupDetailQuestionCount(int count);
+
+  /// No description provided for @authTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get authTitle;
+
+  /// No description provided for @authSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync groups, tests and progress across devices. All cards keep working without signing in.'**
+  String get authSubtitle;
+
+  /// No description provided for @authGoogleButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in with Google'**
+  String get authGoogleButton;
+
+  /// No description provided for @authContinueAsGuest.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue without signing in'**
+  String get authContinueAsGuest;
+
+  /// No description provided for @authLegalNote.
+  ///
+  /// In en, this message translates to:
+  /// **'By continuing you accept the terms of use and the privacy policy.'**
+  String get authLegalNote;
+
+  /// No description provided for @authErrorGeneric.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign-in failed. Please try again'**
+  String get authErrorGeneric;
+
+  /// No description provided for @authWelcomeSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Your local tests were added to the account'**
+  String get authWelcomeSnack;
+
+  /// No description provided for @profileSignInTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get profileSignInTitle;
+
+  /// No description provided for @profileSignInSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'To sync your progress'**
+  String get profileSignInSubtitle;
+
+  /// No description provided for @profileSignOutRow.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get profileSignOutRow;
+
+  /// No description provided for @profileSignOutDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out?'**
+  String get profileSignOutDialogTitle;
+
+  /// No description provided for @profileSignOutDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Local cards stay on the device, syncing will stop.'**
+  String get profileSignOutDialogMessage;
+
+  /// No description provided for @profileSignOutDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign out'**
+  String get profileSignOutDialogConfirm;
 }
 
 class _AppLocalizationsDelegate
@@ -1350,8 +1428,9 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
   }
 
   throw FlutterError(
-      'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
-      'an issue with the localizations generation tool. Please file an issue '
-      'on GitHub with a reproducible sample app and the gen-l10n configuration '
-      'that was used.');
+    'AppLocalizations.delegate failed to load unsupported locale "$locale". This is likely '
+    'an issue with the localizations generation tool. Please file an issue '
+    'on GitHub with a reproducible sample app and the gen-l10n configuration '
+    'that was used.',
+  );
 }

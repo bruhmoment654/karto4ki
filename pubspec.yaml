@@ -66,6 +66,9 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
+
+  # Кодогенератор связки Dart ↔ натив. В рантайме приложению не нужен.
+  pigeon: 27.3.0
   zoloto:
     git:
       url: https://surfstudio.gitlab.yandexcloud.net/internal/flutter/zoloto

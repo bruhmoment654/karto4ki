@@ -907,5 +907,22 @@
         "type": "int"
       }
     }
-  }
+  },
+  "@segmentAuth": {
+    "---------": "---------",
+    "description": "Фича Авторизация"
+  },
+  "authTitle": "Войдите в аккаунт",
+  "authSubtitle": "Синхронизация групп, тестов и прогресса между устройствами. Все карточки продолжат работать и без входа.",
+  "authGoogleButton": "Войти через Google",
+  "authContinueAsGuest": "Продолжить без входа",
+  "authLegalNote": "Продолжая, вы принимаете условия использования и политику конфиденциальности.",
+  "authErrorGeneric": "Не удалось войти. Попробуйте ещё раз",
+  "authWelcomeSnack": "Ваши локальные тесты добавлены в аккаунт",
+  "profileSignInTitle": "Войдите в аккаунт",
+  "profileSignInSubtitle": "Чтобы синхронизировать прогресс",
+  "profileSignOutRow": "Выйти",
+  "profileSignOutDialogTitle": "Выйти из аккаунта?",
+  "profileSignOutDialogMessage": "Локальные карточки останутся на устройстве, синхронизация остановится.",
+  "profileSignOutDialogConfirm": "Выйти"
 }

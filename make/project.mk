@@ -33,3 +33,9 @@ analyze-dcm: ## Analyze code with DCM. Usage: make analyze-dcm [DCM_CI_KEY=key] 
 
 run-tests: ## Run tests
 	fvm flutter test
+
+gen-all: gen-pigeon ## Generate code from all modules
+	fvm dart run build_runner build --delete-conflicting-outputs
+
+gen-pigeon: ## Generate platform channel code from pigeons/
+	fvm dart run pigeon --input pigeons/google_auth.dart

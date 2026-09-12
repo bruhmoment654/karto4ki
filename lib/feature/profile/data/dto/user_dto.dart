@@ -12,6 +12,12 @@ class UserDto {
   final String email;
   final String? displayName;
 
+  /// Аватар из OAuth-профиля (`picture` у Google).
+  ///
+  /// Навсегда nullable: фото у аккаунта может не быть, а выданные Google
+  /// ссылки периодически протухают в 404 — инициалы остаются фолбэком.
+  final String? avatarUrl;
+
   /// Тариф: `free` | `pro`.
   final String plan;
 
@@ -28,6 +34,7 @@ class UserDto {
     required this.createdAt,
     required this.updatedAt,
     this.displayName,
+    this.avatarUrl,
   });
 
   factory UserDto.fromJson(Map<String, dynamic> json) =>

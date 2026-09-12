@@ -727,4 +727,46 @@ class AppLocalizationsRu extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get authTitle => 'Войдите в аккаунт';
+
+  @override
+  String get authSubtitle =>
+      'Синхронизация групп, тестов и прогресса между устройствами. Все карточки продолжат работать и без входа.';
+
+  @override
+  String get authGoogleButton => 'Войти через Google';
+
+  @override
+  String get authContinueAsGuest => 'Продолжить без входа';
+
+  @override
+  String get authLegalNote =>
+      'Продолжая, вы принимаете условия использования и политику конфиденциальности.';
+
+  @override
+  String get authErrorGeneric => 'Не удалось войти. Попробуйте ещё раз';
+
+  @override
+  String get authWelcomeSnack => 'Ваши локальные тесты добавлены в аккаунт';
+
+  @override
+  String get profileSignInTitle => 'Войдите в аккаунт';
+
+  @override
+  String get profileSignInSubtitle => 'Чтобы синхронизировать прогресс';
+
+  @override
+  String get profileSignOutRow => 'Выйти';
+
+  @override
+  String get profileSignOutDialogTitle => 'Выйти из аккаунта?';
+
+  @override
+  String get profileSignOutDialogMessage =>
+      'Локальные карточки останутся на устройстве, синхронизация остановится.';
+
+  @override
+  String get profileSignOutDialogConfirm => 'Выйти';
 }

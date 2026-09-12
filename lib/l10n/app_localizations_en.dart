@@ -715,4 +715,46 @@ class AppLocalizationsEn extends AppLocalizations {
     );
     return '$_temp0';
   }
+
+  @override
+  String get authTitle => 'Sign in';
+
+  @override
+  String get authSubtitle =>
+      'Sync groups, tests and progress across devices. All cards keep working without signing in.';
+
+  @override
+  String get authGoogleButton => 'Sign in with Google';
+
+  @override
+  String get authContinueAsGuest => 'Continue without signing in';
+
+  @override
+  String get authLegalNote =>
+      'By continuing you accept the terms of use and the privacy policy.';
+
+  @override
+  String get authErrorGeneric => 'Sign-in failed. Please try again';
+
+  @override
+  String get authWelcomeSnack => 'Your local tests were added to the account';
+
+  @override
+  String get profileSignInTitle => 'Sign in';
+
+  @override
+  String get profileSignInSubtitle => 'To sync your progress';
+
+  @override
+  String get profileSignOutRow => 'Sign out';
+
+  @override
+  String get profileSignOutDialogTitle => 'Sign out?';
+
+  @override
+  String get profileSignOutDialogMessage =>
+      'Local cards stay on the device, syncing will stop.';
+
+  @override
+  String get profileSignOutDialogConfirm => 'Sign out';
 }

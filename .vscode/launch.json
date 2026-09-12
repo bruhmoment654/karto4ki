@@ -8,7 +8,33 @@
             "name": "dev",
             "request": "launch",
             "type": "dart",
-            "program": "lib/main.dart"
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "dev"
+            ],
+        },
+        {
+            "name": "dev-release",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "dev",
+            ],
+            "flutterMode": "release",
+        },
+        {
+            "name": "prod",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "prod",
+            ],
+            "flutterMode": "release",
         },
     ]
 }

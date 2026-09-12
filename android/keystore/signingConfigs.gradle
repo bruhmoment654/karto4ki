@@ -1,0 +1,26 @@
+// Information about the signature of the application
+// https://developer.android.com/studio/publish/app-signing#secure-shared-keystore
+
+// Load keystore configurations first
+apply from: '../keystore/keystoreConfig.gradle'
+
+android {
+    signingConfigs {
+        if (devKeystoreConfig != null) {
+            dev {
+                keyAlias devKeystoreConfig.keyAlias
+                keyPassword devKeystoreConfig.keyPassword
+                storeFile file(devKeystoreConfig.storeFile)
+                storePassword devKeystoreConfig.storePassword
+            }
+        }
+
+        prod {
+            keyAlias prodKeystoreConfig.keyAlias
+            keyPassword prodKeystoreConfig.keyPassword
+            storeFile file(prodKeystoreConfig.storeFile)
+            storePassword prodKeystoreConfig.storePassword
+        }
+    
+    }
+}

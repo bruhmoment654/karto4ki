@@ -57,3 +57,7 @@ design_handoff_material_you/
 
 # Golden test failure artifacts
 test/**/failures/
+
+# Android keystore secrets
+android/keystore/*.properties
+android/keystore/*.jks

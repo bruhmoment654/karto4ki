@@ -469,5 +469,18 @@
         "type": "int"
       }
     }
-  }
+  },
+  "authTitle": "Sign in",
+  "authSubtitle": "Sync groups, tests and progress across devices. All cards keep working without signing in.",
+  "authGoogleButton": "Sign in with Google",
+  "authContinueAsGuest": "Continue without signing in",
+  "authLegalNote": "By continuing you accept the terms of use and the privacy policy.",
+  "authErrorGeneric": "Sign-in failed. Please try again",
+  "authWelcomeSnack": "Your local tests were added to the account",
+  "profileSignInTitle": "Sign in",
+  "profileSignInSubtitle": "To sync your progress",
+  "profileSignOutRow": "Sign out",
+  "profileSignOutDialogTitle": "Sign out?",
+  "profileSignOutDialogMessage": "Local cards stay on the device, syncing will stop.",
+  "profileSignOutDialogConfirm": "Sign out"
 }
