@@ -1,7 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
+import 'package:quizzerg/feature/auth/domain/bloc/auth_bloc.dart';
+import 'package:quizzerg/feature/profile/domain/bloc/profile_bloc.dart';
 import 'package:quizzerg/feature/profile/domain/entity/profile_summary_entity.dart';
 import 'package:quizzerg/feature/profile/presentation/profile_screen.dart';
+import 'package:quizzerg/feature/profile/presentation/widget/profile_account_card.dart';
+import 'package:quizzerg/feature/profile/presentation/widget/profile_sign_in_card.dart';
+import 'package:quizzerg/feature/sync/presentation/sync_status_card.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
@@ -13,6 +19,7 @@ import 'package:quizzerg/uikit/progress/fill_ring.dart';
 import 'package:quizzerg/uikit/progress/streak_week_strip.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
+import 'package:quizzerg/uikit/spacing/width.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 class ProfileView extends StatelessWidget {
@@ -33,122 +40,109 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (viewModel.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
-
-    final error = viewModel.error;
-    if (error != null) {
-      return _ErrorContent(onRetry: viewModel.onRetryTap);
-    }
-
-    final summary = viewModel.summary;
-    if (summary == null) {
-      return _ErrorContent(onRetry: viewModel.onRetryTap);
-    }
-
-    return Column(
-      children: [
-        AppPageHeader(title: context.l10n.profileDashboardTitle),
-        Expanded(
-          child: AnimationLimiter(
-            child: ListView(
-              padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
-              children: AnimationConfiguration.toStaggeredList(
-                duration: const Duration(milliseconds: 375),
-                childAnimationBuilder: (child) => StaggeredAppear(
-                  position: 0,
-                  child: child,
-                ),
-                children: [
-                  _IdentityCard(
-                    summary: summary,
-                    onTap: viewModel.onIdentityTap,
-                  ),
-                  const Height(14),
-                  _StatsSummaryCard(
-                    summary: summary,
-                    onTap: viewModel.onStatsTap,
-                  ),
-                  const Height(14),
-                  _StreakCard(summary: summary),
-                  const Height(14),
-                  _ExtraMetricsCard(summary: summary),
-                  const Height(14),
-                  _SettingsRow(onTap: viewModel.onSettingsTap),
-                ],
-              ),
-            ),
+    return StateStreamableBuilder<ProfileState>(
+      bloc: viewModel.profileState,
+      builder: (context, state) => switch (state) {
+        ProfileState$Loading() =>
+          const Center(child: CircularProgressIndicator()),
+        ProfileState$Error() => _ErrorContent(onRetry: viewModel.onRetryTap),
+        ProfileState$Loaded(:final summary) => _LoadedContent(
+            viewModel: viewModel,
+            summary: summary,
           ),
-        ),
-      ],
+      },
     );
   }
 }
 
-class _IdentityCard extends StatelessWidget {
+class _LoadedContent extends StatelessWidget {
+  final IProfileViewModel viewModel;
   final ProfileSummaryEntity summary;
-  final VoidCallback onTap;
 
-  const _IdentityCard({required this.summary, required this.onTap});
+  const _LoadedContent({required this.viewModel, required this.summary});
 
   @override
   Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-    final name = context.l10n.profileIdentityName;
-
-    return ScalePressable(
-      onTap: onTap,
-      child: ContentCard(
-        type: ContentCardType.large,
-        child: Row(
-          children: [
-            Container(
-              width: 60,
-              height: 60,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: cs.primary,
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                name.isEmpty ? '?' : name.characters.first.toUpperCase(),
-                style: textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w700,
-                  color: cs.onPrimary,
+    return StateStreamableBuilder<AuthState>(
+      bloc: viewModel.authState,
+      builder: (context, authState) => Column(
+        children: [
+          AppPageHeader(title: context.l10n.profileDashboardTitle),
+          Expanded(
+            child: AnimationLimiter(
+              child: ListView(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 24),
+                children: AnimationConfiguration.toStaggeredList(
+                  duration: const Duration(milliseconds: 375),
+                  childAnimationBuilder: (child) => StaggeredAppear(
+                    position: 0,
+                    child: child,
+                  ),
+                  children: [
+                    _IdentityBlock(
+                      viewModel: viewModel,
+                      authState: authState,
+                    ),
+                    const Height(14),
+                    // Блок синхронизации есть только при сессии: гостю
+                    // показывать нечего.
+                    if (authState.hasSession) ...[
+                      SyncStatusCard(
+                        syncState: viewModel.syncState,
+                        onSignInTap: viewModel.onSignInTap,
+                        onSyncTap: viewModel.onSyncTap,
+                      ),
+                      const Height(14),
+                    ],
+                    _StatsSummaryCard(
+                      summary: summary,
+                      onTap: viewModel.onStatsTap,
+                    ),
+                    const Height(14),
+                    _StreakCard(summary: summary),
+                    const Height(14),
+                    _ExtraMetricsCard(summary: summary),
+                    const Height(14),
+                    _SettingsCard(
+                      onSettingsTap: viewModel.onSettingsTap,
+                      onSignOutTap: authState.hasSession
+                          ? viewModel.onSignOutTap
+                          : null,
+                    ),
+                  ],
                 ),
               ),
             ),
-            const SizedBox(width: 16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    name,
-                    style: textTheme.titleLarge?.copyWith(
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const Height(2),
-                  Text(
-                    context.l10n.profileIdentitySubtitle(
-                      summary.groupsCount,
-                      summary.testsCount,
-                    ),
-                    style: textTheme.bodyMedium?.copyWith(
-                      color: cs.onSurfaceVariant,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Icon(Icons.chevron_right, color: cs.onSurfaceVariant),
-          ],
-        ),
+          ),
+        ],
       ),
     );
+  }
+}
+
+/// Первый блок профиля: зависит только от состояния авторизации.
+class _IdentityBlock extends StatelessWidget {
+  /// Высота карточки аккаунта: аватар 60 + отступы 18 сверху и снизу.
+  /// Держим её и в `unknown`, чтобы список не прыгал, пока читается
+  /// защищённое хранилище.
+  static const _cardHeight = 96.0;
+
+  final IProfileViewModel viewModel;
+  final AuthState authState;
+
+  const _IdentityBlock({required this.viewModel, required this.authState});
+
+  @override
+  Widget build(BuildContext context) {
+    return switch (authState) {
+      AuthState$Unknown() => const SizedBox(height: _cardHeight),
+      AuthState$Unauthorized() || AuthState$Authorizing() => ProfileSignInCard(
+          onTap: viewModel.onSignInTap,
+        ),
+      AuthState$Authorized(:final user) ||
+      AuthState$Expired(:final user) =>
+        ProfileAccountCard(user: user),
+    };
   }
 }
 
@@ -397,31 +391,78 @@ class _MetricRow extends StatelessWidget {
   }
 }
 
-class _SettingsRow extends StatelessWidget {
-  final VoidCallback onTap;
+/// Список настроек. Строка «Выйти» появляется только при сессии.
+class _SettingsCard extends StatelessWidget {
+  final VoidCallback onSettingsTap;
+  final VoidCallback? onSignOutTap;
 
-  const _SettingsRow({required this.onTap});
+  const _SettingsCard({required this.onSettingsTap, this.onSignOutTap});
+
+  @override
+  Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
+    final signOut = onSignOutTap;
+
+    return ContentCard(
+      type: ContentCardType.smallWide,
+      padding: EdgeInsets.zero,
+      child: Column(
+        children: [
+          _SettingsTile(
+            icon: Icons.settings_outlined,
+            label: context.l10n.settingsTitle,
+            onTap: onSettingsTap,
+          ),
+          if (signOut != null) ...[
+            Divider(height: 1, color: cs.outlineVariant, indent: 16, endIndent: 16),
+            _SettingsTile(
+              icon: Icons.logout,
+              label: context.l10n.profileSignOutRow,
+              color: cs.error,
+              onTap: signOut,
+            ),
+          ],
+        ],
+      ),
+    );
+  }
+}
+
+class _SettingsTile extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  final Color? color;
+
+  const _SettingsTile({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+    this.color,
+  });
 
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final foreground = color ?? cs.onSurfaceVariant;
 
-    return ScalePressable(
+    return InkWell(
       onTap: onTap,
-      child: ContentCard(
-        type: ContentCardType.smallWide,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 15),
         child: Row(
           children: [
-            Icon(Icons.settings_outlined, color: cs.onSurfaceVariant),
-            const SizedBox(width: 16),
+            Icon(icon, size: 22, color: foreground),
+            const Width(16),
             Expanded(
               child: Text(
-                context.l10n.settingsTitle,
-                style: textTheme.titleMedium,
+                label,
+                style: textTheme.titleMedium?.copyWith(color: color),
               ),
             ),
-            Icon(Icons.chevron_right, color: cs.onSurfaceVariant),
+            if (color == null)
+              Icon(Icons.chevron_right, size: 20, color: cs.onSurfaceVariant),
           ],
         ),
       ),

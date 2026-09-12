@@ -91,6 +91,16 @@ class TestsDatabase extends DatabaseAccessor<AppDatabase>
             ..limit(limit))
           .get();
 
+  /// Сколько строк ждёт отправки.
+  Future<int> countPendingTests() {
+    final count = tests.id.count();
+    final query = selectOnly(tests)
+      ..addColumns([count])
+      ..where(tests.syncState.equals(SyncState.pending.dbValue));
+
+    return query.map((row) => row.read(count) ?? 0).getSingle();
+  }
+
   /// Записать строку целиком (upsert из серверного снимка).
   Future<void> upsertTest(TestsCompanion test) =>
       into(tests).insertOnConflictUpdate(test);

@@ -1,3 +1,4 @@
+// dart format width=80
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
 // **************************************************************************
@@ -10,13 +11,26 @@
 part of 'app_router.dart';
 
 /// generated route for
+/// [AuthFlow]
+class AuthRoute extends PageRouteInfo<void> {
+  const AuthRoute({List<PageRouteInfo>? children})
+    : super(AuthRoute.name, initialChildren: children);
+
+  static const String name = 'AuthRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return WrappedRoute(child: const AuthFlow());
+    },
+  );
+}
+
+/// generated route for
 /// [DeveloperDebugFlow]
 class DeveloperDebugRoute extends PageRouteInfo<void> {
   const DeveloperDebugRoute({List<PageRouteInfo>? children})
-      : super(
-          DeveloperDebugRoute.name,
-          initialChildren: children,
-        );
+    : super(DeveloperDebugRoute.name, initialChildren: children);
 
   static const String name = 'DeveloperDebugRoute';
 
@@ -36,14 +50,11 @@ class GroupDetailRoute extends PageRouteInfo<GroupDetailRouteArgs> {
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
-          GroupDetailRoute.name,
-          args: GroupDetailRouteArgs(
-            groupId: groupId,
-            key: key,
-          ),
-          rawPathParams: {'groupId': groupId},
-          initialChildren: children,
-        );
+         GroupDetailRoute.name,
+         args: GroupDetailRouteArgs(groupId: groupId, key: key),
+         rawPathParams: {'groupId': groupId},
+         initialChildren: children,
+       );
 
   static const String name = 'GroupDetailRoute';
 
@@ -52,22 +63,18 @@ class GroupDetailRoute extends PageRouteInfo<GroupDetailRouteArgs> {
     builder: (data) {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<GroupDetailRouteArgs>(
-          orElse: () =>
-              GroupDetailRouteArgs(groupId: pathParams.getString('groupId')));
+        orElse: () =>
+            GroupDetailRouteArgs(groupId: pathParams.getString('groupId')),
+      );
       return WrappedRoute(
-          child: GroupDetailFlow(
-        groupId: args.groupId,
-        key: args.key,
-      ));
+        child: GroupDetailFlow(groupId: args.groupId, key: args.key),
+      );
     },
   );
 }
 
 class GroupDetailRouteArgs {
-  const GroupDetailRouteArgs({
-    required this.groupId,
-    this.key,
-  });
+  const GroupDetailRouteArgs({required this.groupId, this.key});
 
   final String groupId;
 
@@ -77,16 +84,23 @@ class GroupDetailRouteArgs {
   String toString() {
     return 'GroupDetailRouteArgs{groupId: $groupId, key: $key}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! GroupDetailRouteArgs) return false;
+    return groupId == other.groupId && key == other.key;
+  }
+
+  @override
+  int get hashCode => groupId.hashCode ^ key.hashCode;
 }
 
 /// generated route for
 /// [GroupsListFlow]
 class GroupsListRoute extends PageRouteInfo<void> {
   const GroupsListRoute({List<PageRouteInfo>? children})
-      : super(
-          GroupsListRoute.name,
-          initialChildren: children,
-        );
+    : super(GroupsListRoute.name, initialChildren: children);
 
   static const String name = 'GroupsListRoute';
 
@@ -102,10 +116,7 @@ class GroupsListRoute extends PageRouteInfo<void> {
 /// [HomeFlow]
 class HomeRoute extends PageRouteInfo<void> {
   const HomeRoute({List<PageRouteInfo>? children})
-      : super(
-          HomeRoute.name,
-          initialChildren: children,
-        );
+    : super(HomeRoute.name, initialChildren: children);
 
   static const String name = 'HomeRoute';
 
@@ -121,10 +132,7 @@ class HomeRoute extends PageRouteInfo<void> {
 /// [MainFlow]
 class MainRoute extends PageRouteInfo<void> {
   const MainRoute({List<PageRouteInfo>? children})
-      : super(
-          MainRoute.name,
-          initialChildren: children,
-        );
+    : super(MainRoute.name, initialChildren: children);
 
   static const String name = 'MainRoute';
 
@@ -140,10 +148,7 @@ class MainRoute extends PageRouteInfo<void> {
 /// [MainTabFlow]
 class MainTabRoute extends PageRouteInfo<void> {
   const MainTabRoute({List<PageRouteInfo>? children})
-      : super(
-          MainTabRoute.name,
-          initialChildren: children,
-        );
+    : super(MainTabRoute.name, initialChildren: children);
 
   static const String name = 'MainTabRoute';
 
@@ -159,10 +164,7 @@ class MainTabRoute extends PageRouteInfo<void> {
 /// [ProfileFlow]
 class ProfileRoute extends PageRouteInfo<void> {
   const ProfileRoute({List<PageRouteInfo>? children})
-      : super(
-          ProfileRoute.name,
-          initialChildren: children,
-        );
+    : super(ProfileRoute.name, initialChildren: children);
 
   static const String name = 'ProfileRoute';
 
@@ -178,10 +180,7 @@ class ProfileRoute extends PageRouteInfo<void> {
 /// [ProfileMainFlow]
 class ProfileMainRoute extends PageRouteInfo<void> {
   const ProfileMainRoute({List<PageRouteInfo>? children})
-      : super(
-          ProfileMainRoute.name,
-          initialChildren: children,
-        );
+    : super(ProfileMainRoute.name, initialChildren: children);
 
   static const String name = 'ProfileMainRoute';
 
@@ -197,10 +196,7 @@ class ProfileMainRoute extends PageRouteInfo<void> {
 /// [QuestionStatsFlow]
 class QuestionStatsRoute extends PageRouteInfo<void> {
   const QuestionStatsRoute({List<PageRouteInfo>? children})
-      : super(
-          QuestionStatsRoute.name,
-          initialChildren: children,
-        );
+    : super(QuestionStatsRoute.name, initialChildren: children);
 
   static const String name = 'QuestionStatsRoute';
 
@@ -216,10 +212,7 @@ class QuestionStatsRoute extends PageRouteInfo<void> {
 /// [SettingsFlow]
 class SettingsRoute extends PageRouteInfo<void> {
   const SettingsRoute({List<PageRouteInfo>? children})
-      : super(
-          SettingsRoute.name,
-          initialChildren: children,
-        );
+    : super(SettingsRoute.name, initialChildren: children);
 
   static const String name = 'SettingsRoute';
 
@@ -242,17 +235,17 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
-          TestDetailRoute.name,
-          args: TestDetailRouteArgs(
-            testId: testId,
-            mixup: mixup,
-            mixupMin: mixupMin,
-            mixupMax: mixupMax,
-            key: key,
-          ),
-          rawPathParams: {'testId': testId},
-          initialChildren: children,
-        );
+         TestDetailRoute.name,
+         args: TestDetailRouteArgs(
+           testId: testId,
+           mixup: mixup,
+           mixupMin: mixupMin,
+           mixupMax: mixupMax,
+           key: key,
+         ),
+         rawPathParams: {'testId': testId},
+         initialChildren: children,
+       );
 
   static const String name = 'TestDetailRoute';
 
@@ -261,16 +254,18 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
     builder: (data) {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<TestDetailRouteArgs>(
-          orElse: () =>
-              TestDetailRouteArgs(testId: pathParams.getString('testId')));
+        orElse: () =>
+            TestDetailRouteArgs(testId: pathParams.getString('testId')),
+      );
       return WrappedRoute(
-          child: TestDetailFlow(
-        testId: args.testId,
-        mixup: args.mixup,
-        mixupMin: args.mixupMin,
-        mixupMax: args.mixupMax,
-        key: args.key,
-      ));
+        child: TestDetailFlow(
+          testId: args.testId,
+          mixup: args.mixup,
+          mixupMin: args.mixupMin,
+          mixupMax: args.mixupMax,
+          key: args.key,
+        ),
+      );
     },
   );
 }
@@ -298,6 +293,25 @@ class TestDetailRouteArgs {
   String toString() {
     return 'TestDetailRouteArgs{testId: $testId, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, key: $key}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! TestDetailRouteArgs) return false;
+    return testId == other.testId &&
+        mixup == other.mixup &&
+        mixupMin == other.mixupMin &&
+        mixupMax == other.mixupMax &&
+        key == other.key;
+  }
+
+  @override
+  int get hashCode =>
+      testId.hashCode ^
+      mixup.hashCode ^
+      mixupMin.hashCode ^
+      mixupMax.hashCode ^
+      key.hashCode;
 }
 
 /// generated route for
@@ -308,13 +322,10 @@ class TestMergeRoute extends PageRouteInfo<TestMergeRouteArgs> {
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
-          TestMergeRoute.name,
-          args: TestMergeRouteArgs(
-            initialTestId: initialTestId,
-            key: key,
-          ),
-          initialChildren: children,
-        );
+         TestMergeRoute.name,
+         args: TestMergeRouteArgs(initialTestId: initialTestId, key: key),
+         initialChildren: children,
+       );
 
   static const String name = 'TestMergeRoute';
 
@@ -323,19 +334,14 @@ class TestMergeRoute extends PageRouteInfo<TestMergeRouteArgs> {
     builder: (data) {
       final args = data.argsAs<TestMergeRouteArgs>();
       return WrappedRoute(
-          child: TestMergeFlow(
-        initialTestId: args.initialTestId,
-        key: args.key,
-      ));
+        child: TestMergeFlow(initialTestId: args.initialTestId, key: args.key),
+      );
     },
   );
 }
 
 class TestMergeRouteArgs {
-  const TestMergeRouteArgs({
-    required this.initialTestId,
-    this.key,
-  });
+  const TestMergeRouteArgs({required this.initialTestId, this.key});
 
   final String initialTestId;
 
@@ -345,16 +351,23 @@ class TestMergeRouteArgs {
   String toString() {
     return 'TestMergeRouteArgs{initialTestId: $initialTestId, key: $key}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! TestMergeRouteArgs) return false;
+    return initialTestId == other.initialTestId && key == other.key;
+  }
+
+  @override
+  int get hashCode => initialTestId.hashCode ^ key.hashCode;
 }
 
 /// generated route for
 /// [TestsListFlow]
 class TestsListRoute extends PageRouteInfo<void> {
   const TestsListRoute({List<PageRouteInfo>? children})
-      : super(
-          TestsListRoute.name,
-          initialChildren: children,
-        );
+    : super(TestsListRoute.name, initialChildren: children);
 
   static const String name = 'TestsListRoute';
 
@@ -380,20 +393,20 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
-          TinderTestRoute.name,
-          args: TinderTestRouteArgs(
-            testId: testId,
-            swapSides: swapSides,
-            answerIndex: answerIndex,
-            mixup: mixup,
-            mixupMin: mixupMin,
-            mixupMax: mixupMax,
-            resume: resume,
-            key: key,
-          ),
-          rawPathParams: {'testId': testId},
-          initialChildren: children,
-        );
+         TinderTestRoute.name,
+         args: TinderTestRouteArgs(
+           testId: testId,
+           swapSides: swapSides,
+           answerIndex: answerIndex,
+           mixup: mixup,
+           mixupMin: mixupMin,
+           mixupMax: mixupMax,
+           resume: resume,
+           key: key,
+         ),
+         rawPathParams: {'testId': testId},
+         initialChildren: children,
+       );
 
   static const String name = 'TinderTestRoute';
 
@@ -402,19 +415,21 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
     builder: (data) {
       final pathParams = data.inheritedPathParams;
       final args = data.argsAs<TinderTestRouteArgs>(
-          orElse: () =>
-              TinderTestRouteArgs(testId: pathParams.getString('testId')));
+        orElse: () =>
+            TinderTestRouteArgs(testId: pathParams.getString('testId')),
+      );
       return WrappedRoute(
-          child: TinderTestFlow(
-        testId: args.testId,
-        swapSides: args.swapSides,
-        answerIndex: args.answerIndex,
-        mixup: args.mixup,
-        mixupMin: args.mixupMin,
-        mixupMax: args.mixupMax,
-        resume: args.resume,
-        key: args.key,
-      ));
+        child: TinderTestFlow(
+          testId: args.testId,
+          swapSides: args.swapSides,
+          answerIndex: args.answerIndex,
+          mixup: args.mixup,
+          mixupMin: args.mixupMin,
+          mixupMax: args.mixupMax,
+          resume: args.resume,
+          key: args.key,
+        ),
+      );
     },
   );
 }
@@ -451,4 +466,29 @@ class TinderTestRouteArgs {
   String toString() {
     return 'TinderTestRouteArgs{testId: $testId, swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, resume: $resume, key: $key}';
   }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (other is! TinderTestRouteArgs) return false;
+    return testId == other.testId &&
+        swapSides == other.swapSides &&
+        answerIndex == other.answerIndex &&
+        mixup == other.mixup &&
+        mixupMin == other.mixupMin &&
+        mixupMax == other.mixupMax &&
+        resume == other.resume &&
+        key == other.key;
+  }
+
+  @override
+  int get hashCode =>
+      testId.hashCode ^
+      swapSides.hashCode ^
+      answerIndex.hashCode ^
+      mixup.hashCode ^
+      mixupMin.hashCode ^
+      mixupMax.hashCode ^
+      resume.hashCode ^
+      key.hashCode;
 }

@@ -21,6 +21,7 @@ class TestMergeFlow extends StatelessWidget implements AutoRouteWrapper {
     return BlocProvider(
       create: (context) => TestMergeBloc(
         repository: scope.testMergeRepository,
+        syncSignal: scope.syncSignalRepository,
       )..add(TestMergeEvent.started(initialTestId: initialTestId)),
       child: this,
     );

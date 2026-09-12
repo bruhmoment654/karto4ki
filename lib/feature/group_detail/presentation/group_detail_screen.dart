@@ -2,7 +2,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/feature/group_detail/domain/bloc/group_detail_bloc.dart';
 import 'package:quizzerg/feature/group_detail/presentation/group_detail_view.dart';
@@ -51,15 +50,15 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   }
 
   @override
+  StateStreamable<GroupDetailState> get groupDetailState =>
+      context.read<GroupDetailBloc>();
+
+  @override
+  StateStreamable<MixupState> get mixupState => context.read<MixupBloc>();
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GroupDetailBloc, GroupDetailState>(
-      builder: (context, state) {
-        return GroupDetailView(
-          viewModel: this,
-          state: state,
-        );
-      },
-    );
+    return GroupDetailView(viewModel: this);
   }
 
   @override
@@ -206,14 +205,8 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
 
   @override
   Future<bool?> confirmTestRemove(TestEntity test) async {
-    final scope = context.read<IAppScope>();
-    final countResult = await scope.groupDetailRepository.getGroupCountForTest(
-      test.id,
-    );
-
-    if (!mounted) return false;
-
-    final isLastGroup = countResult.dataOrNull == 1;
+    final isLastGroup =
+        context.read<GroupDetailBloc>().state.isLastGroupForTest(test.id);
 
     return AppDialog.confirm(
       context: context,
@@ -274,23 +267,16 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
 
     final currentGroupId = state.group.id;
     final testId = test.id;
+    final allGroups = state.allGroups;
+    final selectedIds = Set<String>.from(state.groupIdsByTest[testId] ?? []);
 
-    final repo = context.read<IAppScope>().groupDetailRepository;
-    final groupsResult = await repo.getAllGroups();
-    final groupIdsResult = await repo.getGroupIdsForTest(testId);
-
-    if (!mounted) return;
-
-    final allGroups = groupsResult.dataOrNull;
-    final currentGroupIds = groupIdsResult.dataOrNull;
-    if (allGroups == null || currentGroupIds == null) return;
-
-    final selectedIds = Set<String>.from(currentGroupIds);
+    final selected = ValueNotifier<Set<String>>(selectedIds);
 
     await showDialog<void>(
       context: context,
-      builder: (dialogContext) => StatefulBuilder(
-        builder: (context, setDialogState) => AppDialog(
+      builder: (dialogContext) => ValueListenableBuilder<Set<String>>(
+        valueListenable: selected,
+        builder: (context, checkedIds, child) => AppDialog(
           title: Text(this.context.l10n.groupDetailAddToGroupTitle),
           content: allGroups.length <= 1
               ? Text(this.context.l10n.groupDetailAddToGroupEmpty)
@@ -299,18 +285,14 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
                   children: [
                     for (final group in allGroups)
                       CheckboxListTile(
-                        value: selectedIds.contains(group.id),
+                        value: checkedIds.contains(group.id),
                         onChanged: group.id == currentGroupId
                             ? null
-                            : (value) {
-                                setDialogState(() {
-                                  if (value ?? false) {
-                                    selectedIds.add(group.id);
-                                  } else {
-                                    selectedIds.remove(group.id);
-                                  }
-                                });
-                              },
+                            : (value) => selected.value = _toggled(
+                                  checkedIds,
+                                  group.id,
+                                  isSelected: value ?? false,
+                                ),
                         title: Text(group.title),
                       ),
                   ],
@@ -326,7 +308,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
                   Navigator.of(dialogContext).pop();
                   bloc.add(GroupDetailEvent.testGroupsUpdated(
                     testId: testId,
-                    groupIds: selectedIds.toList(),
+                    groupIds: checkedIds.toList(),
                   ));
                 },
                 child: Text(this.context.l10n.groupDetailAddToGroupSave),
@@ -335,6 +317,22 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         ),
       ),
     );
+
+    selected.dispose();
+  }
+
+  Set<String> _toggled(
+    Set<String> ids,
+    String id, {
+    required bool isSelected,
+  }) {
+    final updated = Set<String>.of(ids);
+    if (isSelected) {
+      updated.add(id);
+    } else {
+      updated.remove(id);
+    }
+    return updated;
   }
 
   void _showEditTitleDialog(String currentTitle) {
@@ -374,6 +372,12 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
 
 /// ViewModel интерфейс для экрана деталки группы.
 abstract interface class IGroupDetailViewModel {
+  /// Состояние деталки группы: группа, тесты и привязки.
+  StateStreamable<GroupDetailState> get groupDetailState;
+
+  /// Настройки подмешивания вопросов.
+  StateStreamable<MixupState> get mixupState;
+
   void onBackPressed();
 
   void onAddTestPressed();

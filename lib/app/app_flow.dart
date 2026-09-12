@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:quizzerg/app/app.dart';
 import 'package:quizzerg/app/di/app_scope.dart';
@@ -20,7 +21,16 @@ class AppFlow extends StatelessWidget {
       handler: shaderHandler,
       child: Provider<IAppScope>(
         create: (context) => appScope,
-        child: const App(),
+        // Блоки глобальные и живут ровно один раз — их читают и главная,
+        // и профиль, и экран входа, и тема приложения.
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider.value(value: appScope.authBloc),
+            BlocProvider.value(value: appScope.syncBloc),
+            BlocProvider.value(value: appScope.settingsBloc),
+          ],
+          child: const App(),
+        ),
       ),
     );
   }

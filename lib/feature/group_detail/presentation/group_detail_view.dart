@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
 import 'package:quizzerg/feature/group_detail/domain/bloc/group_detail_bloc.dart';
 import 'package:quizzerg/feature/group_detail/presentation/group_detail_screen.dart';
 import 'package:quizzerg/feature/mixup/domain/bloc/mixup_bloc.dart';
@@ -25,44 +25,42 @@ import 'package:quizzerg/uikit/switch/app_switch.dart';
 /// UI-слой экрана деталки группы.
 class GroupDetailView extends StatelessWidget {
   final IGroupDetailViewModel viewModel;
-  final GroupDetailState state;
 
-  const GroupDetailView({
-    required this.viewModel,
-    required this.state,
-    super.key,
-  });
+  const GroupDetailView({required this.viewModel, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      useSafeArea: false,
-      floatingActionButton: state is GroupDetailState$Loaded
-          ? AppFloatingActionButton(
-              label: context.l10n.groupDetailNewTestButton,
-              onPressed: viewModel.onAddTestPressed,
-            )
-          : null,
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      body: switch (state) {
-        GroupDetailState$Loading() => const Center(
-            child: CircularProgressIndicator(),
-          ),
-        GroupDetailState$Error(:final failure) => Center(
-            child: Text(
-              context.l10n.groupDetailErrorMessage(
-                failure.message ?? context.l10n.groupDetailUnknownError,
-              ),
-              textAlign: TextAlign.center,
+    return StateStreamableBuilder<GroupDetailState>(
+      bloc: viewModel.groupDetailState,
+      builder: (context, state) => AppScaffold(
+        useSafeArea: false,
+        floatingActionButton: state is GroupDetailState$Loaded
+            ? AppFloatingActionButton(
+                label: context.l10n.groupDetailNewTestButton,
+                onPressed: viewModel.onAddTestPressed,
+              )
+            : null,
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        body: switch (state) {
+          GroupDetailState$Loading() => const Center(
+              child: CircularProgressIndicator(),
             ),
-          ),
-        GroupDetailState$Loaded(:final group, :final tests) => _LoadedBody(
-            groupTitle: group.title,
-            tests: tests,
-            viewModel: viewModel,
-            onBackPressed: viewModel.onBackPressed,
-          ),
-      },
+          GroupDetailState$Error(:final failure) => Center(
+              child: Text(
+                context.l10n.groupDetailErrorMessage(
+                  failure.message ?? context.l10n.groupDetailUnknownError,
+                ),
+                textAlign: TextAlign.center,
+              ),
+            ),
+          GroupDetailState$Loaded(:final group, :final tests) => _LoadedBody(
+              groupTitle: group.title,
+              tests: tests,
+              viewModel: viewModel,
+              onBackPressed: viewModel.onBackPressed,
+            ),
+        },
+      ),
     );
   }
 }
@@ -178,7 +176,8 @@ class _MixupSettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<MixupBloc, MixupState>(
+    return StateStreamableBuilder<MixupState>(
+      bloc: viewModel.mixupState,
       builder: (context, mixupState) {
         final showStreak = mixupState.enabled &&
             mixupState.algorithm == MixupAlgorithm.scoring;

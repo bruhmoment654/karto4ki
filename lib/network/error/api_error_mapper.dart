@@ -94,6 +94,12 @@ abstract final class ApiErrorMapper {
           requestId: requestId,
           message: message,
         ),
+      ApiErrorCode.authInvalidNonce => AuthInvalidNonce(
+          code: code,
+          statusCode: status,
+          requestId: requestId,
+          message: message,
+        ),
       ApiErrorCode.authForbidden => AuthForbidden(
           code: code,
           statusCode: status,

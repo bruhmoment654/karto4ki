@@ -2,6 +2,10 @@
 abstract final class ApiErrorCode {
   static const authMissingToken = 'auth.missing_token';
   static const authInvalidToken = 'auth.invalid_token';
+
+  /// 401 на `/auth/google`: nonce отсутствует, протух или уже использован.
+  /// Лечится одним повтором цепочки входа с новым nonce.
+  static const authInvalidNonce = 'auth.invalid_nonce';
   static const authExpiredToken = 'auth.expired_token';
   static const authForbidden = 'auth.forbidden';
   static const validationInvalidField = 'validation.invalid_field';

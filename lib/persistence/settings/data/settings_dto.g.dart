@@ -6,43 +6,51 @@ part of 'settings_dto.dart';
 // JsonSerializableGenerator
 // **************************************************************************
 
-SettingsDto _$SettingsDtoFromJson(Map<String, dynamic> json) => $checkedCreate(
-      'SettingsDto',
-      json,
-      ($checkedConvert) {
-        final val = SettingsDto(
-          animationDurationMs: $checkedConvert(
-              'animationDurationMs', (v) => (v as num?)?.toInt() ?? 300),
-          shaderAnimationEnabled: $checkedConvert(
-              'shaderAnimationEnabled', (v) => v as bool? ?? true),
-          accentColorHue: $checkedConvert(
-              'accentColorHue', (v) => (v as num?)?.toDouble() ?? 149.0),
-          mixupEnabled:
-              $checkedConvert('mixupEnabled', (v) => v as bool? ?? false),
-          mixupMin:
-              $checkedConvert('mixupMin', (v) => (v as num?)?.toInt() ?? 1),
-          mixupMax:
-              $checkedConvert('mixupMax', (v) => (v as num?)?.toInt() ?? 5),
-          themeMode: $checkedConvert(
-              'themeMode',
-              (v) =>
-                  $enumDecodeNullable(_$AppThemeModeEnumMap, v) ??
-                  AppThemeMode.system),
-          mixupAlgorithm: $checkedConvert(
-              'mixupAlgorithm',
-              (v) =>
-                  $enumDecodeNullable(_$MixupAlgorithmEnumMap, v) ??
-                  MixupAlgorithm.classic),
-          cardFontSize: $checkedConvert(
-              'cardFontSize', (v) => (v as num?)?.toDouble() ?? 96.0),
-          streakNegativeBonus: $checkedConvert(
-              'streakNegativeBonus', (v) => (v as num?)?.toDouble() ?? 0.35),
-          streakPositivePenalty: $checkedConvert(
-              'streakPositivePenalty', (v) => (v as num?)?.toDouble() ?? 0.35),
-        );
-        return val;
-      },
-    );
+SettingsDto _$SettingsDtoFromJson(
+  Map<String, dynamic> json,
+) => $checkedCreate('SettingsDto', json, ($checkedConvert) {
+  final val = SettingsDto(
+    animationDurationMs: $checkedConvert(
+      'animationDurationMs',
+      (v) => (v as num?)?.toInt() ?? 300,
+    ),
+    shaderAnimationEnabled: $checkedConvert(
+      'shaderAnimationEnabled',
+      (v) => v as bool? ?? true,
+    ),
+    accentColorHue: $checkedConvert(
+      'accentColorHue',
+      (v) => (v as num?)?.toDouble() ?? 149.0,
+    ),
+    mixupEnabled: $checkedConvert('mixupEnabled', (v) => v as bool? ?? false),
+    mixupMin: $checkedConvert('mixupMin', (v) => (v as num?)?.toInt() ?? 1),
+    mixupMax: $checkedConvert('mixupMax', (v) => (v as num?)?.toInt() ?? 5),
+    themeMode: $checkedConvert(
+      'themeMode',
+      (v) =>
+          $enumDecodeNullable(_$AppThemeModeEnumMap, v) ?? AppThemeMode.system,
+    ),
+    mixupAlgorithm: $checkedConvert(
+      'mixupAlgorithm',
+      (v) =>
+          $enumDecodeNullable(_$MixupAlgorithmEnumMap, v) ??
+          MixupAlgorithm.classic,
+    ),
+    cardFontSize: $checkedConvert(
+      'cardFontSize',
+      (v) => (v as num?)?.toDouble() ?? 96.0,
+    ),
+    streakNegativeBonus: $checkedConvert(
+      'streakNegativeBonus',
+      (v) => (v as num?)?.toDouble() ?? 0.35,
+    ),
+    streakPositivePenalty: $checkedConvert(
+      'streakPositivePenalty',
+      (v) => (v as num?)?.toDouble() ?? 0.35,
+    ),
+  );
+  return val;
+});
 
 Map<String, dynamic> _$SettingsDtoToJson(SettingsDto instance) =>
     <String, dynamic>{

@@ -32,14 +32,32 @@ class TestSettingsDialog extends StatefulWidget {
 }
 
 class _TestSettingsDialogState extends State<TestSettingsDialog> {
-  late bool _swapSides;
-  late int _answerIndex;
+  late final ValueNotifier<TestSettingsResult> _settings = ValueNotifier(
+    TestSettingsResult(
+      swapSides: widget.swapSides,
+      answerIndex: widget.answerIndex,
+    ),
+  );
 
   @override
-  void initState() {
-    super.initState();
-    _swapSides = widget.swapSides;
-    _answerIndex = widget.answerIndex;
+  void dispose() {
+    _settings.dispose();
+    super.dispose();
+  }
+
+  void _onSwapSidesChanged({required bool value}) {
+    _settings.value = TestSettingsResult(
+      swapSides: value,
+      // Прямой порядок вариант ответа не выбирает — сбрасываем на первый.
+      answerIndex: value ? _settings.value.answerIndex : 0,
+    );
+  }
+
+  void _onAnswerIndexChanged(int index) {
+    _settings.value = TestSettingsResult(
+      swapSides: _settings.value.swapSides,
+      answerIndex: index,
+    );
   }
 
   @override
@@ -47,79 +65,74 @@ class _TestSettingsDialogState extends State<TestSettingsDialog> {
     final textTheme = Theme.of(context).textTheme;
     final colorScheme = Theme.of(context).colorScheme;
 
-    return AppDialog(
-      title: Text(
-        context.l10n.testSettingsTitle,
-        style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
-      ),
-      content: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      context.l10n.testSettingsSwapSides,
-                      style: textTheme.titleMedium,
-                    ),
-                    const Height(2),
-                    Text(
-                      context.l10n.testSettingsSwapSidesSubtitle,
-                      style: textTheme.bodySmall?.copyWith(
-                        color: colorScheme.onSurfaceVariant,
+    return ValueListenableBuilder<TestSettingsResult>(
+      valueListenable: _settings,
+      builder: (context, settings, child) => AppDialog(
+        title: Text(
+          context.l10n.testSettingsTitle,
+          style: textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
+        ),
+        content: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        context.l10n.testSettingsSwapSides,
+                        style: textTheme.titleMedium,
                       ),
-                    ),
-                  ],
+                      const Height(2),
+                      Text(
+                        context.l10n.testSettingsSwapSidesSubtitle,
+                        style: textTheme.bodySmall?.copyWith(
+                          color: colorScheme.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              const SizedBox(width: 14),
-              AppSwitch(
-                value: _swapSides,
-                onChanged: (value) => setState(() {
-                  _swapSides = value;
-                  if (!value) _answerIndex = 0;
-                }),
-              ),
-            ],
+                const SizedBox(width: 14),
+                AppSwitch(
+                  value: settings.swapSides,
+                  onChanged: (value) => _onSwapSidesChanged(value: value),
+                ),
+              ],
+            ),
+            AnimatedCrossFade(
+              firstChild: widget.maxAnswerVariants > 1
+                  ? Padding(
+                      padding: const EdgeInsets.only(top: 12),
+                      child: _AnswerIndexSelector(
+                        answerIndex: settings.answerIndex,
+                        maxVariants: widget.maxAnswerVariants,
+                        onChanged: _onAnswerIndexChanged,
+                      ),
+                    )
+                  : const SizedBox(width: double.infinity),
+              secondChild: const SizedBox(width: double.infinity),
+              crossFadeState: settings.swapSides
+                  ? CrossFadeState.showFirst
+                  : CrossFadeState.showSecond,
+              sizeCurve: Curves.fastEaseInToSlowEaseOut,
+              duration: const Duration(milliseconds: 200),
+            ),
+          ],
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(),
+            child: Text(context.l10n.commonCancel),
           ),
-          AnimatedCrossFade(
-            firstChild: widget.maxAnswerVariants > 1
-                ? Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: _AnswerIndexSelector(
-                      answerIndex: _answerIndex,
-                      maxVariants: widget.maxAnswerVariants,
-                      onChanged: (idx) => setState(() => _answerIndex = idx),
-                    ),
-                  )
-                : const SizedBox(width: double.infinity),
-            secondChild: const SizedBox(width: double.infinity),
-            crossFadeState: _swapSides
-                ? CrossFadeState.showFirst
-                : CrossFadeState.showSecond,
-            sizeCurve: Curves.fastEaseInToSlowEaseOut,
-            duration: const Duration(milliseconds: 200),
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(settings),
+            child: Text(context.l10n.testSettingsApply),
           ),
         ],
       ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(context.l10n.commonCancel),
-        ),
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(
-            TestSettingsResult(
-              swapSides: _swapSides,
-              answerIndex: _answerIndex,
-            ),
-          ),
-          child: Text(context.l10n.testSettingsApply),
-        ),
-      ],
     );
   }
 }

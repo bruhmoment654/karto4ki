@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/settings/domain/bloc/settings_bloc.dart';
 import 'package:quizzerg/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
 import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_view.dart';
 
@@ -19,12 +20,16 @@ class TinderTestScreen extends StatefulWidget {
 class _TinderTestScreenState extends State<TinderTestScreen>
     implements ITinderTestViewModel {
   @override
+  StateStreamable<TinderTestState> get tinderState =>
+      context.read<TinderTestBloc>();
+
+  @override
+  StateStreamable<SettingsState> get settingsState =>
+      context.read<SettingsBloc>();
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TinderTestBloc, TinderTestState>(
-      builder: (context, state) {
-        return TinderTestView(viewModel: this, state: state);
-      },
-    );
+    return TinderTestView(viewModel: this);
   }
 
   @override
@@ -65,6 +70,12 @@ class _TinderTestScreenState extends State<TinderTestScreen>
 ///
 /// Defines interaction contract between [TinderTestScreen] and [TinderTestView].
 abstract interface class ITinderTestViewModel {
+  /// Состояние прохождения теста.
+  StateStreamable<TinderTestState> get tinderState;
+
+  /// Настройки приложения: длительность анимации и размер шрифта карточки.
+  StateStreamable<SettingsState> get settingsState;
+
   /// Called when card is swiped left (incorrect).
   void onSwipeLeft(CardEntity card);
 

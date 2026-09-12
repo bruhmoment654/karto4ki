@@ -13,5 +13,12 @@ CREATE TABLE question_stats (
   last_answered_at DATETIME,
   last_shown_at DATETIME,
   created_at DATETIME NOT NULL,
-  updated_at DATETIME NOT NULL
+  updated_at DATETIME NOT NULL,
+  -- Счётчики уезжают на сервер: он агрегирует ответы всех устройств, но
+  -- историю, накопленную до появления журнала ответов, кроме клиента
+  -- отдать некому. Без своего sync_state такие строки не найти.
+  sync_state TEXT NOT NULL DEFAULT 'pending'
 ) AS QuestionStatsDatabaseDto;
+
+CREATE INDEX IF NOT EXISTS idx_question_stats_sync_state
+  ON question_stats(sync_state);

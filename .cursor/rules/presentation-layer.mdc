@@ -1,0 +1,185 @@
+---
+description: Границы presentation-слоя. Запрет data-слоя в UI, запрет setState, обновление UI только через StateStreamableBuilder.
+globs: lib/**/presentation/**/*.dart,lib/uikit/**/*.dart
+alwaysApply: true
+---
+
+# Presentation Layer Boundaries
+
+Правило жёсткое. Нарушение — блокирующее замечание на ревью, а не «на будущее».
+
+## 1. Data-слой в UI запрещён
+
+Screen, View и Widget **никогда** не обращаются к репозиториям, сервисам,
+хранилищам, DAO и базе данных. Единственный владелец этих зависимостей — Bloc.
+
+Запрещено в `*_screen.dart`, `*_view.dart`, любом виджете и диалоге:
+
+- `context.read<IAppScope>()` и любое чтение `IAppScope`;
+- любые типы `I*Repository`, `I*Service`, `I*Storage`, `*Dao`, `AppDatabase`
+  в полях, параметрах конструктора и локальных переменных;
+- `await repository.*()` / `await service.*()` прямо из обработчика UI.
+
+❌ Incorrect:
+```dart
+class _ProfileScreenState extends State<ProfileScreen>
+    implements IProfileViewModel {
+  Future<void> _loadSummary() async {
+    /// Репозиторий в UI-логике — неправильно ❌
+    final scope = context.read<IAppScope>();
+    final statsResult = await scope.questionStatsRepository.getAllStats();
+    setState(() => _summary = _calculate(statsResult));
+  }
+}
+```
+
+✅ Correct:
+```dart
+class _ProfileScreenState extends State<ProfileScreen>
+    implements IProfileViewModel {
+  /// View получает только поток состояний — правильно ✅
+  @override
+  StateStreamable<ProfileState> get profileState => context.read<ProfileBloc>();
+
+  @override
+  void onRetryTap() {
+    /// Обращение к данным — событие в Bloc — правильно ✅
+    context.read<ProfileBloc>().add(const ProfileEvent.started());
+  }
+}
+```
+
+### Единственное исключение — Flow
+
+`*_flow.dart` читает `IAppScope` **только** чтобы собрать Bloc'и и отдать их
+через `BlocProvider`. Никакой другой работы с зависимостями во Flow нет.
+
+✅ Correct:
+```dart
+@override
+Widget wrappedRoute(BuildContext context) {
+  final scope = context.read<IAppScope>();
+  return BlocProvider(
+    create: (_) => ProfileBloc(
+      questionStatsRepository: scope.questionStatsRepository,
+      groupsListRepository: scope.groupsListRepository,
+    )..add(const ProfileEvent.started()),
+    child: this,
+  );
+}
+```
+
+## 2. Перерисовка — не через setState
+
+`setState` для отрисовки данных запрещён. UI = f(state).
+
+| Что показываем | Чем перерисовываем |
+| --- | --- |
+| Доменные данные, загрузка, ошибка | [`StateStreamableBuilder`](mdc:lib/core/bloc/state_streamable_builder.dart) |
+| Локальное эфемерное состояние View (скролл, раскрытый блок, превью слайдера) | `ValueListenableBuilder` + `ValueNotifier` во ViewModel |
+| Анимации | `AnimationController` / `AnimatedBuilder` |
+
+`State`-класс экрана остаётся `StatefulWidget` только ради жизненного цикла:
+создание и `dispose` контроллеров, подписки. Хранить в нём данные фичи нельзя.
+
+**Единственное исключение** — атомарный компонент UIKit, который перерисовывает
+собственное состояние взаимодействия и ничего не знает о фиче: нажат/не нажат
+(`ScalePressable`), в фокусе/нет (`Karto4kiTextField`), раскрыт/свёрнут
+(`AppDropdown`). Это состояние не выходит за пределы виджета и не является
+данными. Всё остальное в `lib/uikit/` — тоже под правилом.
+
+❌ Incorrect:
+```dart
+class _QuestionStatsScreenState extends State<QuestionStatsScreen> {
+  List<QuestionStatsEntity>? _stats;
+
+  Future<void> _load() async {
+    final result = await repository.getAllStats();
+    /// Перерисовка данных фичи через setState — неправильно ❌
+    setState(() => _stats = result.dataOrNull);
+  }
+}
+```
+
+✅ Correct:
+```dart
+class QuestionStatsView extends StatelessWidget {
+  final IQuestionStatsViewModel viewModel;
+
+  const QuestionStatsView({required this.viewModel, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    /// Обновление UI по состоянию Bloc — правильно ✅
+    return StateStreamableBuilder<QuestionStatsState>(
+      bloc: viewModel.statsState,
+      builder: (context, state) => switch (state) {
+        QuestionStatsState$Loading() => const _Loading(),
+        QuestionStatsState$Error(:final failure) => _Error(failure: failure),
+        QuestionStatsState$Loaded(:final stats) => _Stats(stats: stats),
+      },
+    );
+  }
+}
+```
+
+## 3. Bloc не протекает во View
+
+Во View и Widget нет `BlocProvider.of`, `context.read<SomeBloc>()`,
+`BlocBuilder`, `BlocSelector`, `BlocConsumer`. Доступ к состоянию —
+только через `StateStreamable<S>`, полученный из интерфейса ViewModel.
+
+❌ Incorrect:
+```dart
+/// BlocBuilder с конкретным типом Bloc во View — неправильно ❌
+BlocBuilder<GroupDetailBloc, GroupDetailState>(builder: ...)
+```
+
+✅ Correct:
+```dart
+/// StateStreamableBuilder по потоку из ViewModel — правильно ✅
+StateStreamableBuilder<GroupDetailState>(
+  bloc: viewModel.groupDetailState,
+  builder: ...,
+)
+```
+
+Исключение — app-скоупы вроде
+[`AppThemeScope`](mdc:lib/uikit/theme/app_theme_scope.dart): они раздают
+глобальное состояние всему дереву и ViewModel над собой не имеют.
+
+`BlocListener` для одноразовых side-effect'ов (снек, диалог, навигация)
+допустим только на уровне Screen — там же, где живёт ViewModel.
+Диалог, который тоже подписан на состояние, получает `StateStreamable`
+параметром конструктора от ViewModel, а не читает Bloc из `context`.
+Одноразовое значение оборачивается в
+[`SideEffectValue`](mdc:lib/core/bloc/side_effect_value.dart), чтобы повторное
+сообщение с тем же текстом всё равно показалось.
+
+## 4. Локальное состояние — ValueListenable, а не ValueNotifier наружу
+
+Интерфейс ViewModel отдаёт `ValueListenable<T>` (read-only). `ValueNotifier`
+остаётся приватной деталью реализации Screen и обязательно диспоузится.
+
+✅ Correct:
+```dart
+abstract interface class IQuestionStatsViewModel {
+  ValueListenable<bool> get showScrollToTop;
+  void onScrollToTopTap();
+}
+```
+
+## 5. Чек-лист ревью экрана
+
+- [ ] в `*_screen.dart` и `*_view.dart` нет импортов `app/di/app_scope.dart`;
+- [ ] нет типов `I*Repository` / `I*Service` / `I*Storage` / `AppDatabase`;
+- [ ] `setState` не используется (кроме собственного состояния нажатия/фокуса
+      у атомарного компонента UIKit);
+- [ ] данные приходят из `StateStreamableBuilder`;
+- [ ] `ValueNotifier` из ViewModel наружу отдан как `ValueListenable`
+      и задиспоужен;
+- [ ] действия пользователя уходят в Bloc событиями, а не вызовами репозитория.
+
+Связанные правила: [screen-structure.mdc](mdc:.cursor/rules/screen-structure.mdc),
+[bloc-pattern.mdc](mdc:.cursor/rules/bloc-pattern.mdc),
+[feature-structure.mdc](mdc:.cursor/rules/feature-structure.mdc).

@@ -20,6 +20,7 @@ class GroupsListFlow extends StatelessWidget implements AutoRouteWrapper {
         BlocProvider(
           create: (_) => GroupsListBloc(
             repository: scope.groupsListRepository,
+            syncSignal: scope.syncSignalRepository,
           )..add(const GroupsListEvent.started()),
         ),
         BlocProvider(

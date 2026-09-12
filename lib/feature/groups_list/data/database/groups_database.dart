@@ -72,6 +72,16 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
             ..limit(limit))
           .get();
 
+  /// Сколько строк ждёт отправки.
+  Future<int> countPendingGroups() {
+    final count = testGroups.id.count();
+    final query = selectOnly(testGroups)
+      ..addColumns([count])
+      ..where(testGroups.syncState.equals(SyncState.pending.dbValue));
+
+    return query.map((row) => row.read(count) ?? 0).getSingle();
+  }
+
   /// Записать строку целиком (upsert из серверного снимка).
   Future<void> upsertGroup(TestGroupsCompanion group) =>
       into(testGroups).insertOnConflictUpdate(group);

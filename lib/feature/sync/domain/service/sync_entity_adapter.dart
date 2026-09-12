@@ -35,6 +35,12 @@ abstract interface class SyncEntityAdapter {
   /// иначе upsert. Отдельная очередь операций не нужна.
   Future<List<SyncDirtyChange>> collectDirty({required int limit});
 
+  /// Сколько локальных правок ждёт отправки.
+  ///
+  /// Нужен счётчику «не синхронизировано». Адаптеры pull-only сущностей
+  /// отдают 0: их строки не уедут никогда, и счётчик врал бы всегда.
+  Future<int> countDirty();
+
   /// Есть ли по этому id неотправленная локальная правка.
   ///
   /// Движок не применяет входящий payload на pending-строку: после push

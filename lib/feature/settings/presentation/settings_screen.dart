@@ -1,12 +1,10 @@
-import 'dart:async';
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:package_info_plus/package_info_plus.dart';
-import 'package:provider/provider.dart';
-import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizzerg/feature/question_stats/domain/service/i_stats_export_service.dart';
+import 'package:quizzerg/feature/settings/domain/bloc/settings_bloc.dart';
 import 'package:quizzerg/feature/settings/presentation/settings_view.dart';
 import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/snackbars/snack_controller.dart';
 
 class SettingsScreen extends StatefulWidget {
   const SettingsScreen({super.key});
@@ -17,144 +15,95 @@ class SettingsScreen extends StatefulWidget {
 
 class _SettingsScreenState extends State<SettingsScreen>
     implements ISettingsViewModel {
-  late final _settingsStorage = context.read<IAppScope>().settingsStorage;
-  late SettingsDto _settings = _settingsStorage.get();
-
-  String _appVersion = '';
-  double? _pendingHue;
-  Timer? _colorDebounceTimer;
-
-  void _saveSettings(SettingsDto settings) {
-    setState(() {
-      _settings = settings;
-    });
-    _settingsStorage.save(_settings);
-  }
-
   @override
-  void initState() {
-    super.initState();
-    PackageInfo.fromPlatform().then((info) {
-      setState(() {
-        _appVersion = '${info.version} (${info.buildNumber})';
-      });
-    });
-  }
-
-  @override
-  String get appVersion => _appVersion;
-
-  @override
-  int get animationDurationMs => _settings.animationDurationMs;
-
-  @override
-  double get accentColorHue => _pendingHue ?? _settings.accentColorHue;
-
-  @override
-  Color get previewAccentColor => AppTheme.seedColorFromHue(accentColorHue);
-
-  @override
-  AppThemeMode get themeMode => _settings.themeMode;
-
-  @override
-  double get cardFontSize => _settings.cardFontSize;
+  StateStreamable<SettingsState> get settingsState =>
+      context.read<SettingsBloc>();
 
   @override
   void onCardFontSizeChanged(double value) {
-    _saveSettings(SettingsDto(
-      animationDurationMs: _settings.animationDurationMs,
-      shaderAnimationEnabled: _settings.shaderAnimationEnabled,
-      accentColorHue: _settings.accentColorHue,
-      mixupEnabled: _settings.mixupEnabled,
-      mixupMin: _settings.mixupMin,
-      mixupMax: _settings.mixupMax,
-      themeMode: _settings.themeMode,
-      mixupAlgorithm: _settings.mixupAlgorithm,
-      cardFontSize: value,
-    ));
+    context.read<SettingsBloc>().add(
+      SettingsEvent.cardFontSizeChanged(value: value),
+    );
   }
 
   @override
   void onThemeModeChanged(AppThemeMode mode) {
-    _saveSettings(SettingsDto(
-      animationDurationMs: _settings.animationDurationMs,
-      shaderAnimationEnabled: _settings.shaderAnimationEnabled,
-      accentColorHue: _settings.accentColorHue,
-      mixupEnabled: _settings.mixupEnabled,
-      mixupMin: _settings.mixupMin,
-      mixupMax: _settings.mixupMax,
-      themeMode: mode,
-      mixupAlgorithm: _settings.mixupAlgorithm,
-      cardFontSize: _settings.cardFontSize,
-    ));
+    context.read<SettingsBloc>().add(
+      SettingsEvent.themeModeChanged(mode: mode),
+    );
   }
 
   @override
   void onAnimationDurationChanged(double value) {
-    _saveSettings(SettingsDto(
-      animationDurationMs: value.round(),
-      shaderAnimationEnabled: _settings.shaderAnimationEnabled,
-      accentColorHue: _settings.accentColorHue,
-      mixupEnabled: _settings.mixupEnabled,
-      mixupMin: _settings.mixupMin,
-      mixupMax: _settings.mixupMax,
-      themeMode: _settings.themeMode,
-      mixupAlgorithm: _settings.mixupAlgorithm,
-      cardFontSize: _settings.cardFontSize,
-    ));
+    context.read<SettingsBloc>().add(
+      SettingsEvent.animationDurationChanged(value: value),
+    );
   }
 
   @override
   void onAccentColorHueChanged(double value) {
-    setState(() {
-      _pendingHue = value;
-    });
+    context.read<SettingsBloc>().add(
+      SettingsEvent.accentColorHueChanged(value: value),
+    );
+  }
 
-    _colorDebounceTimer?.cancel();
-    _colorDebounceTimer = Timer(const Duration(milliseconds: 500), () {
-      _pendingHue = null;
-      _saveSettings(SettingsDto(
-        animationDurationMs: _settings.animationDurationMs,
-        shaderAnimationEnabled: _settings.shaderAnimationEnabled,
-        accentColorHue: value,
-        mixupEnabled: _settings.mixupEnabled,
-        mixupMin: _settings.mixupMin,
-        mixupMax: _settings.mixupMax,
-        themeMode: _settings.themeMode,
-        mixupAlgorithm: _settings.mixupAlgorithm,
-        cardFontSize: _settings.cardFontSize,
-      ));
-    });
+  @override
+  void onStatsExportPressed() {
+    context.read<SettingsBloc>().add(
+      const SettingsEvent.statsExportRequested(),
+    );
   }
 
   @override
   void onBackPressed() {
-    context.router.maybePop();
+    Navigator.of(context).pop();
   }
 
-  @override
-  void dispose() {
-    _colorDebounceTimer?.cancel();
-    super.dispose();
+  void _onExportResult(BuildContext context, SettingsState state) {
+    final result = state.exportResult?.value;
+    if (result == null) return;
+
+    final message = switch (result) {
+      StatsExportSuccess(
+        :final questionCount,
+        :final cardCount,
+        :final statsFilePath,
+        :final cardsFilePath,
+      ) =>
+        'Экспорт: $questionCount вопросов, $cardCount карточек\n'
+            '$statsFilePath\n$cardsFilePath',
+      StatsExportCancelled() => 'Экспорт отменён',
+      StatsExportEmpty() => 'Нет данных для экспорта',
+      StatsExportFailure(:final message) => 'Ошибка экспорта: $message',
+    };
+
+    SnackController.show(
+      context,
+      message,
+      duration: SnackController.longDuration,
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return SettingsView(viewModel: this);
+    return BlocListener<SettingsBloc, SettingsState>(
+      listenWhen: (previous, current) =>
+          previous.exportResult != current.exportResult,
+      listener: _onExportResult,
+      child: SettingsView(viewModel: this),
+    );
   }
 }
 
+/// Контракт взаимодействия [SettingsScreen] и [SettingsView].
 abstract interface class ISettingsViewModel {
-  String get appVersion;
-  int get animationDurationMs;
-  double get accentColorHue;
-  Color get previewAccentColor;
-  AppThemeMode get themeMode;
-  double get cardFontSize;
+  /// Настройки приложения, версия и статус экспорта.
+  StateStreamable<SettingsState> get settingsState;
 
   void onAnimationDurationChanged(double value);
   void onAccentColorHueChanged(double value);
   void onThemeModeChanged(AppThemeMode mode);
   void onCardFontSizeChanged(double value);
+  void onStatsExportPressed();
   void onBackPressed();
 }

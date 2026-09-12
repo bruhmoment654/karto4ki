@@ -101,12 +101,6 @@ class GroupDetailRepository extends BaseRepository
       });
 
   @override
-  RequestOperation<int> getGroupCountForTest(String testId) =>
-      makeCall(() async {
-        return _groupsDatabase.getGroupCountByTestId(testId);
-      });
-
-  @override
   RequestOperation<List<TestGroupEntity>> getAllGroups() => makeCall(() async {
         final dtos = await _groupsDatabase.getAllGroups();
         final groups = <TestGroupEntity>[];
@@ -118,8 +112,16 @@ class GroupDetailRepository extends BaseRepository
       });
 
   @override
-  RequestOperation<List<String>> getGroupIdsForTest(String testId) =>
-      makeCall(() => _groupsDatabase.getGroupIdsByTestId(testId));
+  RequestOperation<Map<String, List<String>>> getGroupIdsForTests(
+    List<String> testIds,
+  ) =>
+      makeCall(() async {
+        final bindings = <String, List<String>>{};
+        for (final testId in testIds) {
+          bindings[testId] = await _groupsDatabase.getGroupIdsByTestId(testId);
+        }
+        return bindings;
+      });
 
   @override
   RequestOperation<void> updateTestGroups({

@@ -3,7 +3,7 @@ import 'package:quizzerg/network/api/api_environment.dart';
 /// Настройки транспортного слоя.
 class ApiConfig {
   /// Окружение бэкенда.
-  final ApiEnvironment environment;
+  final AppUrl environment;
 
   /// Таймаут установления соединения.
   final Duration connectTimeout;

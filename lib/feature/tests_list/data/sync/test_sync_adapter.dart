@@ -45,6 +45,9 @@ class TestSyncAdapter implements SyncEntityAdapter {
   }
 
   @override
+  Future<int> countDirty() => _testsDatabase.countPendingTests();
+
+  @override
   Future<bool> isPending(String id) async {
     final row = await _testsDatabase.getTestByIdRaw(id);
 

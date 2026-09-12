@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
+import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
 import 'package:quizzerg/feature/tests_list/domain/bloc/tests_list_bloc.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/feature/tests_list/presentation/tests_list_screen.dart';
@@ -17,13 +18,23 @@ import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 /// list of tests, add button, delete functionality.
 class TestsListView extends StatelessWidget {
   final ITestsListViewModel viewModel;
+
+  const TestsListView({required this.viewModel, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StateStreamableBuilder<TestsListState>(
+      bloc: viewModel.testsListState,
+      builder: (context, state) => _Body(viewModel: viewModel, state: state),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final ITestsListViewModel viewModel;
   final TestsListState state;
 
-  const TestsListView({
-    required this.viewModel,
-    required this.state,
-    super.key,
-  });
+  const _Body({required this.viewModel, required this.state});
 
   @override
   Widget build(BuildContext context) {

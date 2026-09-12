@@ -1,9 +1,9 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/settings/domain/bloc/settings_bloc.dart';
 import 'package:quizzerg/feature/tinder_test/domain/bloc/tinder_test_bloc.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
 import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_screen.dart';
@@ -24,13 +24,23 @@ import 'package:quizzerg/uikit/theme/app_theme.dart';
 /// swipeable cards, progress indicator, results screen.
 class TinderTestView extends StatelessWidget {
   final ITinderTestViewModel viewModel;
+
+  const TinderTestView({required this.viewModel, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StateStreamableBuilder<TinderTestState>(
+      bloc: viewModel.tinderState,
+      builder: (context, state) => _Body(viewModel: viewModel, state: state),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final ITinderTestViewModel viewModel;
   final TinderTestState state;
 
-  const TinderTestView({
-    required this.viewModel,
-    required this.state,
-    super.key,
-  });
+  const _Body({required this.viewModel, required this.state});
 
   @override
   Widget build(BuildContext context) {
@@ -225,14 +235,59 @@ class _TestContentState extends State<_TestContent> {
 
   @override
   Widget build(BuildContext context) {
-    final settings = context.read<IAppScope>().settingsStorage.get();
-    final flipDuration = Duration(milliseconds: settings.animationDurationMs);
-    final cardFontSize = settings.cardFontSize;
+    return StateStreamableBuilder<SettingsState>(
+      bloc: widget.viewModel.settingsState,
+      buildWhen: (previous, current) =>
+          previous.settings.animationDurationMs !=
+              current.settings.animationDurationMs ||
+          previous.settings.cardFontSize != current.settings.cardFontSize,
+      builder: (context, settingsState) => _TestContentBody(
+        session: widget.session,
+        currentCard: widget.currentCard,
+        isUndo: widget.isUndo,
+        viewModel: widget.viewModel,
+        showAnswer: _showAnswer,
+        enableFlipAnimation: _enableFlipAnimation,
+        progress: _progress,
+        flipDuration: Duration(
+          milliseconds: settingsState.settings.animationDurationMs,
+        ),
+        cardFontSize: settingsState.settings.cardFontSize,
+      ),
+    );
+  }
+}
 
+/// Разметка прохождения теста: прогресс, карточка и кнопка отмены.
+class _TestContentBody extends StatelessWidget {
+  final TestSession session;
+  final CardEntity currentCard;
+  final bool isUndo;
+  final ITinderTestViewModel viewModel;
+  final ValueNotifier<bool> showAnswer;
+  final ValueListenable<bool> enableFlipAnimation;
+  final ValueListenable<double> progress;
+  final Duration flipDuration;
+  final double cardFontSize;
+
+  const _TestContentBody({
+    required this.session,
+    required this.currentCard,
+    required this.isUndo,
+    required this.viewModel,
+    required this.showAnswer,
+    required this.enableFlipAnimation,
+    required this.progress,
+    required this.flipDuration,
+    required this.cardFontSize,
+  });
+
+  @override
+  Widget build(BuildContext context) {
     return Column(
       children: [
         const Height(8),
-        _ProgressIndicator(session: widget.session, progress: _progress),
+        _ProgressIndicator(session: session, progress: progress),
         _SwipeHints(),
         const Height(12),
         Expanded(
@@ -240,29 +295,25 @@ class _TestContentState extends State<_TestContent> {
             padding: const EdgeInsets.all(16),
             child: Stack(
               children: [
-                if (widget.session.currentIndex <
-                    widget.session.cards.length - 1)
+                if (session.currentIndex < session.cards.length - 1)
                   const Positioned.fill(child: _PeekCard()),
                 AnimatedBuilder(
                   animation: Listenable.merge([
-                    _showAnswer,
-                    _enableFlipAnimation,
+                    showAnswer,
+                    enableFlipAnimation,
                   ]),
                   builder: (context, child) {
-                    final currentShowAnswer = _showAnswer.value;
-                    final enableFlipAnimation = _enableFlipAnimation.value;
+                    final currentShowAnswer = showAnswer.value;
                     return SwipeableCardWrapper(
-                      card: widget.currentCard,
+                      card: currentCard,
                       showAnswer: currentShowAnswer,
-                      enableFlipAnimation: enableFlipAnimation,
-                      enterFromLeft: widget.isUndo,
+                      enableFlipAnimation: enableFlipAnimation.value,
+                      enterFromLeft: isUndo,
                       flipDuration: flipDuration,
                       fontSize: cardFontSize,
-                      onTap: () => _showAnswer.value = !currentShowAnswer,
-                      onSwipeLeft: () =>
-                          widget.viewModel.onSwipeLeft(widget.currentCard),
-                      onSwipeRight: () =>
-                          widget.viewModel.onSwipeRight(widget.currentCard),
+                      onTap: () => showAnswer.value = !currentShowAnswer,
+                      onSwipeLeft: () => viewModel.onSwipeLeft(currentCard),
+                      onSwipeRight: () => viewModel.onSwipeRight(currentCard),
                     );
                   },
                 ),
@@ -271,8 +322,8 @@ class _TestContentState extends State<_TestContent> {
           ),
         ),
         _UndoButton(
-          canUndo: widget.session.canUndo,
-          onPressed: widget.viewModel.onDiscardPressed,
+          canUndo: session.canUndo,
+          onPressed: viewModel.onDiscardPressed,
         ),
         const Height(16),
       ],

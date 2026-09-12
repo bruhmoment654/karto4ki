@@ -16,6 +16,9 @@ class TestsListRepository extends BaseRepository
   }) : _testsDatabase = testsDatabase;
 
   @override
+  Stream<void> get testChanges => _testsDatabase.watchAllTests().map((_) {});
+
+  @override
   RequestOperation<List<TestEntity>> getTests() => makeCall(() async {
         final dtos = await _testsDatabase.getAllTests();
         return dtos.map(TestConverter.fromDto).toList();

@@ -19,6 +19,7 @@ class TestsListFlow extends StatelessWidget implements AutoRouteWrapper {
     return BlocProvider(
       create: (context) => TestsListBloc(
         repository: scope.testsListRepository,
+        syncSignal: scope.syncSignalRepository,
       )..add(const TestsListEvent.started()),
       child: this,
     );

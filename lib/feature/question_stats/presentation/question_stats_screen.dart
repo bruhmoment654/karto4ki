@@ -1,12 +1,7 @@
-import 'dart:async';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:quizzerg/app/di/app_scope.dart';
-import 'package:quizzerg/core/feature/core/entity/result.dart';
-import 'package:quizzerg/core/utils/answer_parser.dart';
-import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_entity.dart';
-import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_sort.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizzerg/feature/question_stats/domain/bloc/question_stats_bloc.dart';
 import 'package:quizzerg/feature/question_stats/presentation/question_stats_view.dart';
 import 'package:quizzerg/feature/question_stats/presentation/widgets/sort_dialog.dart';
 
@@ -19,80 +14,23 @@ class QuestionStatsScreen extends StatefulWidget {
 
 class _QuestionStatsScreenState extends State<QuestionStatsScreen>
     implements IQuestionStatsViewModel {
-  List<QuestionStatsEntity>? _rawStats;
-  bool _isLoading = true;
-  Object? _error;
+  /// Порог, после которого показываем кнопку «наверх».
+  static const _scrollToTopOffset = 200.0;
 
-  QuestionStatsSort _sort = QuestionStatsSort.byDate;
-  SortOrder _sortOrder = SortOrder.descending;
   final ScrollController _scrollController = ScrollController();
-  bool _showScrollToTop = false;
-
   final TextEditingController _searchController = TextEditingController();
-  String _searchQuery = '';
-  Timer? _searchDebounce;
-
-  @override
-  List<QuestionStatsEntity>? get stats {
-    final raw = _rawStats;
-    if (raw == null) return null;
-    return _sortedStats(_filteredStats(raw));
-  }
-
-  @override
-  TextEditingController get searchController => _searchController;
-
-  @override
-  String get searchQuery => _searchQuery;
-
-  @override
-  bool get hasAnyStats => _rawStats?.isNotEmpty ?? false;
-
-  /// Универсальный поиск: совпадение ищется в написании/вопросе и КАЖДОМ
-  /// варианте перевода (ответы разбираются [AnswerParser]).
-  List<QuestionStatsEntity> _filteredStats(List<QuestionStatsEntity> stats) {
-    final query = _searchQuery.trim().toLowerCase();
-    if (query.isEmpty) return stats;
-    return stats.where((stat) => _matches(stat, query)).toList();
-  }
-
-  bool _matches(QuestionStatsEntity stat, String query) {
-    final haystack = <String>[
-      stat.frontText,
-      ...AnswerParser.parse(stat.backText),
-    ];
-    return haystack.any((it) => it.toLowerCase().contains(query));
-  }
-
-  @override
-  bool get isLoading => _isLoading;
-
-  @override
-  Object? get error => _error;
-
-  @override
-  QuestionStatsSort get currentSort => _sort;
-
-  @override
-  SortOrder get sortOrder => _sortOrder;
-
-  @override
-  bool get showScrollToTop => _showScrollToTop;
-
-  @override
-  ScrollController get scrollController => _scrollController;
+  final ValueNotifier<bool> _showScrollToTop = ValueNotifier(false);
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    _loadStats();
   }
 
   @override
   void dispose() {
-    _searchDebounce?.cancel();
     _searchController.dispose();
+    _showScrollToTop.dispose();
     _scrollController
       ..removeListener(_onScroll)
       ..dispose();
@@ -100,95 +38,62 @@ class _QuestionStatsScreenState extends State<QuestionStatsScreen>
   }
 
   @override
+  StateStreamable<QuestionStatsState> get statsState =>
+      context.read<QuestionStatsBloc>();
+
+  @override
+  TextEditingController get searchController => _searchController;
+
+  @override
+  ScrollController get scrollController => _scrollController;
+
+  @override
+  ValueListenable<bool> get showScrollToTop => _showScrollToTop;
+
+  void _onScroll() {
+    _showScrollToTop.value = _scrollController.offset > _scrollToTopOffset;
+  }
+
+  @override
   void onSearchChanged(String value) {
-    _searchDebounce?.cancel();
-    _searchDebounce = Timer(const Duration(milliseconds: 200), () {
-      if (!mounted) return;
-      setState(() => _searchQuery = value);
-    });
+    context.read<QuestionStatsBloc>().add(
+          QuestionStatsEvent.searchChanged(query: value),
+        );
   }
 
   @override
   void onSearchCleared() {
-    _searchDebounce?.cancel();
     _searchController.clear();
-    setState(() => _searchQuery = '');
-  }
-
-  void _onScroll() {
-    final shouldShow = _scrollController.offset > 200;
-    if (shouldShow != _showScrollToTop) {
-      setState(() => _showScrollToTop = shouldShow);
-    }
-  }
-
-  List<QuestionStatsEntity> _sortedStats(List<QuestionStatsEntity> stats) {
-    final sorted = List<QuestionStatsEntity>.of(stats)
-      ..sort((a, b) {
-        final cmp = switch (_sort) {
-          QuestionStatsSort.byDate => a.updatedAt.compareTo(b.updatedAt),
-          QuestionStatsSort.byStreak => a.streak.compareTo(b.streak),
-          QuestionStatsSort.byAccuracy => _accuracy(a).compareTo(_accuracy(b)),
-        };
-        return _sortOrder == SortOrder.ascending ? cmp : -cmp;
-      });
-    return sorted;
-  }
-
-  double _accuracy(QuestionStatsEntity stat) {
-    final total = stat.totalCorrect + stat.totalIncorrect;
-    if (total == 0) return 0;
-    return stat.totalCorrect / total;
-  }
-
-  Future<void> _loadStats() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
-
-    final result =
-        await context.read<IAppScope>().questionStatsRepository.getAllStats();
-
-    if (!mounted) return;
-
-    setState(() {
-      _isLoading = false;
-      switch (result) {
-        case ResultOk(:final data):
-          _rawStats = data;
-        case ResultFailed(:final error):
-          _error = error;
-      }
-    });
+    context.read<QuestionStatsBloc>().add(
+          const QuestionStatsEvent.searchCleared(),
+        );
   }
 
   @override
   void onRetryTap() {
-    _loadStats();
+    context.read<QuestionStatsBloc>().add(const QuestionStatsEvent.started());
   }
 
   @override
   Future<void> onSortTap() async {
+    final bloc = context.read<QuestionStatsBloc>();
+    final state = bloc.state;
+    if (state is! QuestionStatsState$Loaded) return;
+
     final selected = await showSortDialog(
       context: context,
-      currentSort: _sort,
+      currentSort: state.sort,
     );
-    if (selected != null && selected != _sort && mounted) {
-      setState(() {
-        _sort = selected;
-        _sortOrder = SortOrder.ascending;
-      });
-    }
+    if (selected == null) return;
+
+    bloc.add(QuestionStatsEvent.sortChanged(sort: selected));
   }
 
   @override
   void onSortOrderTap() {
-    setState(() {
-      _sortOrder = _sortOrder == SortOrder.ascending
-          ? SortOrder.descending
-          : SortOrder.ascending;
-    });
+    context.read<QuestionStatsBloc>().add(
+          const QuestionStatsEvent.sortOrderToggled(),
+        );
   }
 
   @override
@@ -206,19 +111,19 @@ class _QuestionStatsScreenState extends State<QuestionStatsScreen>
   }
 }
 
+/// Контракт взаимодействия [QuestionStatsScreen] и [QuestionStatsView].
 abstract interface class IQuestionStatsViewModel {
-  List<QuestionStatsEntity>? get stats;
-  bool get isLoading;
-  Object? get error;
-  QuestionStatsSort get currentSort;
-  SortOrder get sortOrder;
-  bool get showScrollToTop;
+  /// Статистика: загрузка, список, ошибка, параметры поиска и сортировки.
+  StateStreamable<QuestionStatsState> get statsState;
+
   ScrollController get scrollController;
   TextEditingController get searchController;
-  String get searchQuery;
-  bool get hasAnyStats;
+
+  /// Показывать ли кнопку «наверх» — локальное состояние скролла.
+  ValueListenable<bool> get showScrollToTop;
+
   void onRetryTap();
-  void onSortTap();
+  Future<void> onSortTap();
   void onSortOrderTap();
   void onScrollToTopTap();
   void onSearchChanged(String value);

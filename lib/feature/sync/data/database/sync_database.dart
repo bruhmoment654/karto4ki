@@ -59,6 +59,19 @@ class SyncDatabase extends DatabaseAccessor<AppDatabase>
             ..limit(limit))
           .get();
 
+  /// Сколько ответов на карточки ещё не уехало.
+  ///
+  /// Эти в счётчик «не отправлено» входят: они уезжают через
+  /// `/stats/answers/batch`, в отличие от pull-only статистики.
+  Future<int> countUnsentAnswers() {
+    final count = answerEventsOutbox.id.count();
+    final query = selectOnly(answerEventsOutbox)
+      ..addColumns([count])
+      ..where(answerEventsOutbox.sentAt.isNull());
+
+    return query.map((row) => row.read(count) ?? 0).getSingle();
+  }
+
   /// Отметить ответы отправленными.
   Future<void> markAnswersSent(List<int> ids) async {
     if (ids.isEmpty) return;

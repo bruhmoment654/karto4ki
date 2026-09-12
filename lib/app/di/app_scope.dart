@@ -1,4 +1,9 @@
 import 'package:quizzerg/core/services/csv_import_service.dart';
+import 'package:quizzerg/feature/auth/data/service/i_google_sign_in_service.dart';
+import 'package:quizzerg/feature/auth/data/storage/i_auth_token_storage.dart';
+import 'package:quizzerg/feature/auth/domain/bloc/auth_bloc.dart';
+import 'package:quizzerg/feature/auth/domain/repository/i_auth_api_repository.dart';
+import 'package:quizzerg/feature/auth/domain/repository/i_auth_status_repository.dart';
 import 'package:quizzerg/feature/developer/domain/repository/i_debug_repository.dart';
 import 'package:quizzerg/feature/group_detail/domain/repository/i_group_detail_repository.dart';
 import 'package:quizzerg/feature/groups_list/domain/repository/i_groups_api_repository.dart';
@@ -10,8 +15,11 @@ import 'package:quizzerg/feature/profile/domain/repository/i_profile_api_reposit
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_stats_api_repository.dart';
 import 'package:quizzerg/feature/question_stats/domain/service/i_stats_export_service.dart';
+import 'package:quizzerg/feature/settings/domain/bloc/settings_bloc.dart';
 import 'package:quizzerg/feature/sync/domain/bloc/sync_bloc.dart';
 import 'package:quizzerg/feature/sync/domain/repository/i_sync_api_repository.dart';
+import 'package:quizzerg/feature/sync/domain/repository/i_sync_signal_repository.dart';
+import 'package:quizzerg/feature/sync/domain/service/server_clock.dart';
 import 'package:quizzerg/feature/sync/domain/service/sync_engine.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_cards_api_repository.dart';
@@ -66,6 +74,9 @@ final class AppScope implements IAppScope {
   final MixupBloc mixupBloc;
 
   @override
+  final SettingsBloc settingsBloc;
+
+  @override
   final IStatsExportService statsExportService;
 
   @override
@@ -78,6 +89,21 @@ final class AppScope implements IAppScope {
   final IAuthTokenProvider authTokenProvider;
 
   @override
+  final AuthBloc authBloc;
+
+  @override
+  final IAuthApiRepository authApiRepository;
+
+  @override
+  final IAuthTokenStorage authTokenStorage;
+
+  @override
+  final IAuthStatusRepository authStatusRepository;
+
+  @override
+  final IGoogleSignInService googleSignInService;
+
+  @override
   final ISyncApiRepository syncApiRepository;
 
   @override
@@ -85,6 +111,12 @@ final class AppScope implements IAppScope {
 
   @override
   final SyncBloc syncBloc;
+
+  @override
+  final ISyncSignalRepository syncSignalRepository;
+
+  @override
+  final ServerClock serverClock;
 
   @override
   final IGroupsApiRepository groupsApiRepository;
@@ -129,13 +161,21 @@ final class AppScope implements IAppScope {
     required this.groupsListRepository,
     required this.groupDetailRepository,
     required this.mixupBloc,
+    required this.settingsBloc,
     required this.statsExportService,
     required this.activeSessionRepository,
     required this.apiConfig,
     required this.authTokenProvider,
+    required this.authBloc,
+    required this.authApiRepository,
+    required this.authTokenStorage,
+    required this.authStatusRepository,
+    required this.googleSignInService,
     required this.syncApiRepository,
     required this.syncEngine,
     required this.syncBloc,
+    required this.syncSignalRepository,
+    required this.serverClock,
     required this.groupsApiRepository,
     required this.testsApiRepository,
     required this.cardsApiRepository,
@@ -174,6 +214,9 @@ abstract interface class IAppScope {
 
   MixupBloc get mixupBloc;
 
+  /// Настройки приложения: тема, анимации, размер шрифта, экспорт статистики.
+  SettingsBloc get settingsBloc;
+
   IStatsExportService get statsExportService;
 
   IActiveSessionRepository get activeSessionRepository;
@@ -184,11 +227,32 @@ abstract interface class IAppScope {
   /// Источник токена. Реализуется фичей авторизации.
   IAuthTokenProvider get authTokenProvider;
 
+  /// Единственный владелец сессии.
+  AuthBloc get authBloc;
+
+  IAuthApiRepository get authApiRepository;
+
+  IAuthTokenStorage get authTokenStorage;
+
+  /// Владелец сессии: статус и токены. На его поток подписаны `AuthBloc`
+  /// и `SyncBloc`.
+  IAuthStatusRepository get authStatusRepository;
+
+  /// Получение Google ID-token. Реализация — на стороне владельца проекта.
+  IGoogleSignInService get googleSignInService;
+
   ISyncApiRepository get syncApiRepository;
 
   SyncEngine get syncEngine;
 
   SyncBloc get syncBloc;
+
+  /// Сигнал «локальные данные изменились». Мутирующие блоки пишут в него,
+  /// `SyncBloc` слушает — блоки друг о друге не знают.
+  ISyncSignalRepository get syncSignalRepository;
+
+  /// Часы сервера — по ним считается «синхронизировано N назад».
+  ServerClock get serverClock;
 
   IGroupsApiRepository get groupsApiRepository;
 

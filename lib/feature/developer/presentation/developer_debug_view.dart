@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
+import 'package:quizzerg/feature/developer/domain/bloc/debug_bloc.dart';
 import 'package:quizzerg/feature/developer/presentation/developer_debug_screen.dart';
 import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
@@ -21,13 +23,16 @@ class DeveloperDebugView extends StatelessWidget {
         title: const Text('Дебаг'),
         onBackPressed: viewModel.onBackPressed,
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        children: [
-          _EnvironmentCard(baseUrl: viewModel.baseUrl),
-          const Height(16),
-          _ProxyCard(viewModel: viewModel),
-        ],
+      body: StateStreamableBuilder<DebugState>(
+        bloc: viewModel.debugState,
+        builder: (context, state) => ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          children: [
+            _EnvironmentCard(baseUrl: state.baseUrl),
+            const Height(16),
+            _ProxyCard(viewModel: viewModel, savedProxyUrl: state.proxyUrl),
+          ],
+        ),
       ),
     );
   }
@@ -53,13 +58,13 @@ class _EnvironmentCard extends StatelessWidget {
 
 class _ProxyCard extends StatelessWidget {
   final IDeveloperDebugViewModel viewModel;
+  final String? savedProxyUrl;
 
-  const _ProxyCard({required this.viewModel});
+  const _ProxyCard({required this.viewModel, required this.savedProxyUrl});
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final savedProxyUrl = viewModel.savedProxyUrl;
 
     return _DebugCard(
       icon: Icons.swap_horiz,

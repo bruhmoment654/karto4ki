@@ -6,6 +6,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
+import 'package:quizzerg/feature/sync/domain/repository/i_sync_signal_repository.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository.dart';
 import 'package:quizzerg/feature/test_execution/domain/entity/active_session_launch_params.dart';
 import 'package:quizzerg/feature/test_execution/domain/entity/active_test_session.dart';
@@ -36,6 +37,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   int _mixupMin = 1;
   int _mixupMax = 5;
   String _testTitle = '';
+  final ISyncSignalRepository _syncSignal;
 
   TinderTestBloc({
     required ICardRepository cardRepository,
@@ -43,8 +45,10 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     required IActiveSessionRepository activeSessionRepository,
     required ITestsListRepository testsListRepository,
     required MixupAlgorithm algorithm,
+    required ISyncSignalRepository syncSignal,
     IQuestionMixupService? mixupService,
   })  : _cardRepository = cardRepository,
+        _syncSignal = syncSignal,
         _questionStatsRepository = questionStatsRepository,
         _mixupService = mixupService,
         _activeSessionRepository = activeSessionRepository,
@@ -254,6 +258,8 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
       results: session.results,
       cards: session.cards,
     );
+    // Ответы легли в outbox — их надо отправить.
+    _syncSignal.notifyLocalMutation();
   }
 
   Future<void> _onRestarted(

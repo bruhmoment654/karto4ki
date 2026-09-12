@@ -7,20 +7,21 @@ part of 'sync_changes_dto.dart';
 // **************************************************************************
 
 SyncChangesDto _$SyncChangesDtoFromJson(Map<String, dynamic> json) =>
-    $checkedCreate(
-      'SyncChangesDto',
-      json,
-      ($checkedConvert) {
-        final val = SyncChangesDto(
-          changes: $checkedConvert(
-              'changes',
-              (v) => (v as List<dynamic>)
-                  .map(
-                      (e) => ChangeEventDto.fromJson(e as Map<String, dynamic>))
-                  .toList()),
-          hasMore: $checkedConvert('hasMore', (v) => v as bool),
-          nextCursor: $checkedConvert('nextCursor', (v) => v as String?),
-        );
-        return val;
-      },
-    );
+    $checkedCreate('SyncChangesDto', json, ($checkedConvert) {
+      final val = SyncChangesDto(
+        changes: $checkedConvert(
+          'changes',
+          (v) => (v as List<dynamic>)
+              .map((e) => ChangeEventDto.fromJson(e as Map<String, dynamic>))
+              .toList(),
+        ),
+        hasMore: $checkedConvert('hasMore', (v) => v as bool),
+        nextCursor: $checkedConvert('nextCursor', (v) => v as String?),
+        serverTime: $checkedConvert(
+          'serverTime',
+          (v) => const NullableUtcDateTimeConverter().fromJson(v as String?),
+        ),
+        remaining: $checkedConvert('remaining', (v) => (v as num?)?.toInt()),
+      );
+      return val;
+    });

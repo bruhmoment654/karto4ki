@@ -138,6 +138,20 @@ void main() {
       }
     });
 
+    test('статистика тоже ждёт отправки: сервер её иначе не узнает', () async {
+      // Счётчики, накопленные до журнала ответов, событий за собой не имеют —
+      // на сервер их отдаст только push агрегата.
+      final stats = await database.questionStatsDatabase.getAllStats();
+      expect(stats, isNotEmpty);
+      for (final row in stats) {
+        expect(SyncState.fromDb(row.syncState), SyncState.pending);
+      }
+      expect(
+        await database.questionStatsDatabase.countPendingStats(),
+        stats.length,
+      );
+    });
+
     test('карточки сохраняют привязку к тесту', () async {
       final tests = await database.testsDatabase.getAllTests();
       final cell = tests.firstWhere((it) => it.title == 'Клетка');

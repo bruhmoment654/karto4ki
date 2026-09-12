@@ -757,4 +757,184 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get profileSignOutDialogConfirm => 'Sign out';
+
+  @override
+  String get syncTitleSynced => 'Synced';
+
+  @override
+  String get syncTitleSyncing => 'Syncing…';
+
+  @override
+  String get syncTitleNotSynced => 'Not synced';
+
+  @override
+  String get syncTitleOffline => 'Offline';
+
+  @override
+  String get syncTitleExpired => 'Session expired';
+
+  @override
+  String get syncTitleFailed => 'Sync failed';
+
+  @override
+  String syncSubtitleSyncedRelative(String time) {
+    return 'Last time — $time';
+  }
+
+  @override
+  String get syncSubtitleNever => 'Not synced yet';
+
+  @override
+  String syncSubtitleSyncingCounted(int done, int total) {
+    final intl.NumberFormat doneNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String doneString = doneNumberFormat.format(done);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return 'Loaded $doneString of $totalString changes';
+  }
+
+  @override
+  String get syncSubtitleSyncingPlain =>
+      'Sending changes and fetching new ones';
+
+  @override
+  String syncSubtitlePending(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count changes waiting to be sent',
+      one: '$count change waiting to be sent',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get syncSubtitleOffline =>
+      'Changes will be sent once you are back online';
+
+  @override
+  String get syncSubtitleExpired => 'Sign in again to resume syncing';
+
+  @override
+  String get syncSubtitleFailed =>
+      'Changes are stored on the device, try again';
+
+  @override
+  String get syncDialogBodySynced =>
+      'All cards, groups and progress are stored on the server.';
+
+  @override
+  String get syncDialogBodySyncing =>
+      'Sending your changes and fetching fresh cards from the server.';
+
+  @override
+  String syncDialogBodyNotSynced(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count changes are only on this device: your other devices will not see them.',
+      one:
+          '$count change is only on this device: your other devices will not see it.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get syncDialogBodyOffline =>
+      'No connection. The app works offline, changes are stored on the device and will be sent automatically.';
+
+  @override
+  String get syncDialogBodyExpired =>
+      'The session has expired, so syncing stopped. Cards and progress are stored on the device.';
+
+  @override
+  String get syncDialogBodyFailed =>
+      'Sync failed. Cards and progress are stored on the device.';
+
+  @override
+  String get syncDialogLastSyncLabel => 'Last sync';
+
+  @override
+  String syncDialogLastSyncApprox(String time) {
+    return 'About $time';
+  }
+
+  @override
+  String get syncDialogClose => 'Close';
+
+  @override
+  String get syncActionSync => 'Sync';
+
+  @override
+  String get syncActionRetry => 'Retry';
+
+  @override
+  String get syncActionSignIn => 'Sign in';
+
+  @override
+  String get syncTimeJustNow => 'just now';
+
+  @override
+  String syncTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count minutes ago',
+      one: '$count minute ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String syncTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count hours ago',
+      one: '$count hour ago',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String syncTimeToday(String time) {
+    return 'today at $time';
+  }
+
+  @override
+  String syncTimeYesterday(String time) {
+    return 'yesterday at $time';
+  }
+
+  @override
+  String syncTimeAtDate(String date, String time) {
+    return '$date at $time';
+  }
+
+  @override
+  String get syncReauthTitle => 'Sign in again';
+
+  @override
+  String get syncReauthBody =>
+      'The session has expired. Cards and progress are stored on the device — everything will be uploaded after you sign in.';
+
+  @override
+  String get syncReauthLater => 'Later';
+
+  @override
+  String get syncReauthSignIn => 'Sign in';
+
+  @override
+  String get groupsListTitle => 'My groups';
+
+  @override
+  String get groupsListSubtitle => 'Test groups for flashcard learning';
+
+  @override
+  String get syncSubtitleSyncedNoTime => 'All changes are on the server';
 }

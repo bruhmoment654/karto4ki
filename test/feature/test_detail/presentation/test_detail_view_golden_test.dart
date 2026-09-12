@@ -1,10 +1,12 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:provider/provider.dart';
 import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/core/feature/core/failure.dart';
 import 'package:quizzerg/core/shader/shader_handler.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/test_detail/domain/bloc/csv_import_bloc.dart';
 import 'package:quizzerg/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dart';
 import 'package:quizzerg/feature/test_detail/presentation/test_detail_view.dart';
@@ -14,9 +16,30 @@ import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
 import 'package:quizzerg/persistence/settings/i_settings_storage.dart';
 import 'package:zoloto/zoloto.dart';
 
+import '../../../util/fake_state_streamable.dart';
+
 // --- Mocks ---
 
 class _MockViewModel implements ITestDetailViewModel {
+  _MockViewModel(TestDetailState state)
+      : testDetailState = FakeStateStreamable(state);
+
+  @override
+  final StateStreamable<TestDetailState> testDetailState;
+
+  @override
+  final StateStreamable<CsvImportState> csvImportState =
+      const FakeStateStreamable(CsvImportState());
+
+  @override
+  void onCsvFilesPickPressed() {}
+
+  @override
+  void onCsvFileRemovePressed(int index) {}
+
+  @override
+  void onCsvDelimiterChanged(String delimiter) {}
+
   @override
   void onBackPressed() {}
 
@@ -76,7 +99,6 @@ class _TestFailure extends Failure {
 
 // --- Test Data ---
 
-final _viewModel = _MockViewModel();
 final _appScope = _MockAppScope();
 
 final _testEntity = TestEntity(
@@ -132,10 +154,7 @@ Widget _buildView({
     value: _appScope,
     child: ShaderScope(
       handler: ShaderHandler.forTesting(),
-      child: TestDetailView(
-        viewModel: _viewModel,
-        state: state,
-      ),
+      child: TestDetailView(viewModel: _MockViewModel(state)),
     ),
   );
 }

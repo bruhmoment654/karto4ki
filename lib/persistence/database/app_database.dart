@@ -37,7 +37,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 9;
+  int get schemaVersion => 10;
 
   @override
   MigrationStrategy get migration {
@@ -46,6 +46,12 @@ class AppDatabase extends _$AppDatabase {
         await m.createAll();
       },
       onUpgrade: (m, from, to) async {
+        // Колонка `question_stats.sync_state` относится к схеме 10, но
+        // добавляется первой: миграция 8 → 9 вызывает `createAll`, а он
+        // создаёт индексы актуальной схемы — включая индекс по этой колонке.
+        if (from < 10) {
+          await _addQuestionStatsSyncState();
+        }
         if (from < 2) {
           await m.createTable(questionStats);
           await customStatement(
@@ -92,6 +98,32 @@ class AppDatabase extends _$AppDatabase {
           await UuidMigrationV9(db: this, migrator: m).run();
         }
       },
+    );
+  }
+
+  /// Схема 9 → 10: статистика стала pushable, ей понадобился `sync_state`.
+  ///
+  /// Существующие строки получают `pending`: история, накопленная до журнала
+  /// ответов, живёт только на устройстве, и первый push отдаёт её серверу.
+  /// Шаг идемпотентен — на пути с ранних схем таблицу создаёт `createTable`
+  /// уже с колонкой, и второй раз добавлять её нельзя.
+  Future<void> _addQuestionStatsSyncState() async {
+    final hasTable = await customSelect(
+      "SELECT 1 FROM sqlite_master WHERE type = 'table' "
+      "AND name = 'question_stats'",
+    ).getSingleOrNull();
+    // Таблицы ещё нет — её создаст миграция 1 → 2 сразу с колонкой.
+    if (hasTable == null) return;
+
+    final hasColumn = await customSelect(
+      "SELECT 1 FROM pragma_table_info('question_stats') "
+      "WHERE name = 'sync_state'",
+    ).getSingleOrNull();
+    if (hasColumn != null) return;
+
+    await customStatement(
+      'ALTER TABLE question_stats '
+      "ADD COLUMN sync_state TEXT NOT NULL DEFAULT 'pending'",
     );
   }
 

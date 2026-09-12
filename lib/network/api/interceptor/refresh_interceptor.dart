@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 
 import 'package:quizzerg/network/api/auth_token_provider.dart';
 import 'package:quizzerg/network/api/public_paths.dart';
+import 'package:quizzerg/network/error/api_exception.dart';
 
 /// Обновляет токен на 401 и повторяет запрос.
 ///
@@ -74,6 +75,10 @@ class RefreshInterceptor extends Interceptor {
       if (!refreshed) await _tokenProvider.onSessionExpired();
 
       return refreshed;
+    } on NetworkUnavailable {
+      // Сети нет — сессия ни при чём. Чистить токены нельзя: пользователь
+      // разлогинится из-за одного потерянного пакета.
+      return false;
     } on Object {
       await _tokenProvider.onSessionExpired();
 

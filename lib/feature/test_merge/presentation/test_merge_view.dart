@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
 import 'package:quizzerg/feature/test_merge/domain/bloc/test_merge_bloc.dart';
 import 'package:quizzerg/feature/test_merge/presentation/test_merge_screen.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
@@ -9,13 +10,23 @@ import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 
 class TestMergeView extends StatelessWidget {
   final ITestMergeViewModel viewModel;
+
+  const TestMergeView({required this.viewModel, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StateStreamableBuilder<TestMergeState>(
+      bloc: viewModel.testMergeState,
+      builder: (context, state) => _Body(viewModel: viewModel, state: state),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final ITestMergeViewModel viewModel;
   final TestMergeState state;
 
-  const TestMergeView({
-    required this.viewModel,
-    required this.state,
-    super.key,
-  });
+  const _Body({required this.viewModel, required this.state});
 
   @override
   Widget build(BuildContext context) {

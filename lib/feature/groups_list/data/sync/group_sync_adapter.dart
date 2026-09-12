@@ -33,6 +33,9 @@ class GroupSyncAdapter implements SyncEntityAdapter {
   }
 
   @override
+  Future<int> countDirty() => _groupsDatabase.countPendingGroups();
+
+  @override
   Future<bool> isPending(String id) async {
     final row = await _groupsDatabase.getGroupByIdRaw(id);
 

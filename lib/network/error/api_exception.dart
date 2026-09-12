@@ -48,6 +48,20 @@ final class AuthInvalidToken extends ApiException {
   });
 }
 
+/// 401 на `/auth/google`: nonce отсутствует, протух или уже использован.
+///
+/// Отличается от [AuthInvalidToken] тем, что лечится повтором: новый nonce,
+/// новый Google id-token, ещё один `/auth/google`. Ровно один раз — лимит
+/// `/auth/*` считается по IP, и автоцикл съест его на всех за общим NAT.
+final class AuthInvalidNonce extends ApiException {
+  const AuthInvalidNonce({
+    super.code,
+    super.statusCode,
+    super.requestId,
+    super.message,
+  });
+}
+
 /// 403, не хватает прав (в мобильном приложении штатно не встречается).
 final class AuthForbidden extends ApiException {
   const AuthForbidden({

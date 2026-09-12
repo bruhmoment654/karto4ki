@@ -2,7 +2,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_algorithm.dart';
-import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
 import 'package:quizzerg/persistence/settings/i_settings_storage.dart';
 
 part 'mixup_event.dart';
@@ -75,20 +74,13 @@ final class MixupBloc extends Bloc<MixupEvent, MixupState> {
     double? streakNegativeBonus,
     double? streakPositivePenalty,
   }) {
-    final current = _settingsStorage.get();
-    _settingsStorage.save(SettingsDto(
-      animationDurationMs: current.animationDurationMs,
-      shaderAnimationEnabled: current.shaderAnimationEnabled,
-      accentColorHue: current.accentColorHue,
-      mixupEnabled: enabled ?? current.mixupEnabled,
-      mixupMin: mixupMin ?? current.mixupMin,
-      mixupMax: mixupMax ?? current.mixupMax,
-      themeMode: current.themeMode,
-      mixupAlgorithm: algorithm ?? current.mixupAlgorithm,
-      cardFontSize: current.cardFontSize,
-      streakNegativeBonus: streakNegativeBonus ?? current.streakNegativeBonus,
-      streakPositivePenalty:
-          streakPositivePenalty ?? current.streakPositivePenalty,
-    ));
+    _settingsStorage.save(_settingsStorage.get().copyWith(
+          mixupEnabled: enabled,
+          mixupMin: mixupMin,
+          mixupMax: mixupMax,
+          mixupAlgorithm: algorithm,
+          streakNegativeBonus: streakNegativeBonus,
+          streakPositivePenalty: streakPositivePenalty,
+        ));
   }
 }

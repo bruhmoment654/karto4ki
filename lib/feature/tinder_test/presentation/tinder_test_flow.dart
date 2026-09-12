@@ -64,6 +64,7 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
         activeSessionRepository: scope.activeSessionRepository,
         testsListRepository: scope.testsListRepository,
         algorithm: algorithm,
+        syncSignal: scope.syncSignalRepository,
         mixupService: mixupService,
       )..add(TinderTestEvent.started(
           testId: testId,

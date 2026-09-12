@@ -1,15 +1,16 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 
-import 'package:quizzerg/app/navigation/app_router.dart';
+import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
 import 'package:quizzerg/core/feature/core/failure.dart';
 import 'package:quizzerg/feature/groups_list/domain/bloc/groups_list_bloc.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
 import 'package:quizzerg/feature/groups_list/presentation/groups_list_screen.dart';
 import 'package:quizzerg/feature/groups_list/presentation/widget/active_session_card.dart';
 import 'package:quizzerg/feature/groups_list/presentation/widget/groups_list_skeleton.dart';
+import 'package:quizzerg/feature/sync/domain/bloc/sync_bloc.dart';
+import 'package:quizzerg/feature/sync/presentation/sync_reauth_banner.dart';
+import 'package:quizzerg/feature/sync/presentation/widget/sync_status_badge.dart';
 import 'package:quizzerg/feature/test_execution/domain/bloc/active_session_bloc.dart';
 import 'package:quizzerg/feature/test_execution/domain/entity/active_test_session.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
@@ -29,13 +30,8 @@ import 'package:quizzerg/uikit/theme/app_theme.dart';
 /// UI-слой экрана списка групп.
 class GroupsListView extends StatelessWidget {
   final IGroupsListViewModel viewModel;
-  final GroupsListState state;
 
-  const GroupsListView({
-    required this.viewModel,
-    required this.state,
-    super.key,
-  });
+  const GroupsListView({required this.viewModel, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -47,22 +43,26 @@ class GroupsListView extends StatelessWidget {
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
       // Скелетон → список крестфейдом: если сплеш успел уйти, а данные ещё
       // не пришли, пользователь видит каркас экрана, а не пустоту.
-      body: AnimatedSwitcher(
-        duration: AppMotion.reduced(context) ? Duration.zero : AppMotion.fast,
-        child: switch (state) {
-          GroupsListState$Loading() => const _GroupsSkeletonBody(
-              key: ValueKey('groups_loading'),
-            ),
-          GroupsListState$Error(:final failure) => _GroupsErrorBody(
-              key: const ValueKey('groups_error'),
-              failure: failure,
-            ),
-          GroupsListState$Loaded(:final groups) => _GroupsBody(
-              key: const ValueKey('groups_loaded'),
-              groups: groups,
-              viewModel: viewModel,
-            ),
-        },
+      body: StateStreamableBuilder<GroupsListState>(
+        bloc: viewModel.groupsListState,
+        builder: (context, state) => AnimatedSwitcher(
+          duration: AppMotion.reduced(context) ? Duration.zero : AppMotion.fast,
+          child: switch (state) {
+            GroupsListState$Loading() => _GroupsSkeletonBody(
+                key: const ValueKey('groups_loading'),
+                viewModel: viewModel,
+              ),
+            GroupsListState$Error(:final failure) => _GroupsErrorBody(
+                key: const ValueKey('groups_error'),
+                failure: failure,
+              ),
+            GroupsListState$Loaded(:final groups) => _GroupsBody(
+                key: const ValueKey('groups_loaded'),
+                groups: groups,
+                viewModel: viewModel,
+              ),
+          },
+        ),
       ),
     );
   }
@@ -71,14 +71,64 @@ class GroupsListView extends StatelessWidget {
 /// Шапка экрана — одинакова во всех состояниях, поэтому не «прыгает»
 /// при переходе от скелетона к списку.
 class _GroupsHeaderSliver extends StatelessWidget {
-  const _GroupsHeaderSliver();
+  final IGroupsListViewModel viewModel;
+
+  const _GroupsHeaderSliver({required this.viewModel});
 
   @override
   Widget build(BuildContext context) {
-    return const SliverToBoxAdapter(
+    return SliverToBoxAdapter(
       child: AppPageHeader(
-        title: 'Мои группы',
-        subtitle: 'Группы тестов для обучения по карточкам',
+        title: context.l10n.groupsListTitle,
+        subtitle: context.l10n.groupsListSubtitle,
+        // У гостя индикатор возвращает пустоту, и шапка выглядит как раньше.
+        action: SyncStatusBadge(
+          syncState: viewModel.syncState,
+          onTap: viewModel.onSyncBadgeTap,
+        ),
+      ),
+    );
+  }
+}
+
+/// Полоса прогресса первичной загрузки под шапкой.
+class _SyncProgressSliver extends StatelessWidget {
+  final IGroupsListViewModel viewModel;
+
+  const _SyncProgressSliver({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return StateStreamableBuilder<SyncState>(
+      bloc: viewModel.syncState,
+      builder: (context, state) {
+        if (!state.status.isSyncing) return const SliverHeight(0);
+
+        return SliverToBoxAdapter(
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+            child: LinearProgressIndicator(
+              value: state.status.progress?.value,
+            ),
+          ),
+        );
+      },
+    );
+  }
+}
+
+/// Баннер «нужно войти заново» под шапкой.
+class _ReauthBannerSliver extends StatelessWidget {
+  final IGroupsListViewModel viewModel;
+
+  const _ReauthBannerSliver({required this.viewModel});
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverToBoxAdapter(
+      child: SyncReauthBanner(
+        syncState: viewModel.syncState,
+        onSignInTap: viewModel.onSignInTap,
       ),
     );
   }
@@ -86,19 +136,22 @@ class _GroupsHeaderSliver extends StatelessWidget {
 
 /// Состояние загрузки: шапка + карточки-заглушки.
 class _GroupsSkeletonBody extends StatelessWidget {
-  const _GroupsSkeletonBody({super.key});
+  final IGroupsListViewModel viewModel;
+
+  const _GroupsSkeletonBody({required this.viewModel, super.key});
 
   @override
   Widget build(BuildContext context) {
-    return const CustomScrollView(
-      physics: NeverScrollableScrollPhysics(),
+    return CustomScrollView(
+      physics: const NeverScrollableScrollPhysics(),
       slivers: [
-        _GroupsHeaderSliver(),
-        SliverPadding(
+        _GroupsHeaderSliver(viewModel: viewModel),
+        _SyncProgressSliver(viewModel: viewModel),
+        const SliverPadding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           sliver: SliverToBoxAdapter(child: GroupsListSkeleton()),
         ),
-        SliverHeight(32),
+        const SliverHeight(32),
       ],
     );
   }
@@ -137,8 +190,10 @@ class _GroupsBody extends StatelessWidget {
     return AnimationLimiter(
       child: CustomScrollView(
         slivers: [
-          const _GroupsHeaderSliver(),
-          const _ActiveSessionSliver(),
+          _GroupsHeaderSliver(viewModel: viewModel),
+          _SyncProgressSliver(viewModel: viewModel),
+          _ReauthBannerSliver(viewModel: viewModel),
+          _ActiveSessionSliver(viewModel: viewModel),
           if (groups.isEmpty)
             SliverFillRemaining(
               child: Center(
@@ -193,19 +248,24 @@ class _GroupsBody extends StatelessWidget {
 }
 
 class _ActiveSessionSliver extends StatefulWidget {
-  const _ActiveSessionSliver();
+  final IGroupsListViewModel viewModel;
+
+  const _ActiveSessionSliver({required this.viewModel});
 
   @override
   State<_ActiveSessionSliver> createState() => _ActiveSessionSliverState();
 }
 
 class _ActiveSessionSliverState extends State<_ActiveSessionSliver> {
+  /// Последняя показанная сессия: пока карточка уезжает, ей всё ещё нужны
+  /// данные, которых в состоянии уже нет.
   ActiveTestSession? _lastSession;
 
   @override
   Widget build(BuildContext context) {
     return SliverToBoxAdapter(
-      child: BlocBuilder<ActiveSessionBloc, ActiveSessionState>(
+      child: StateStreamableBuilder<ActiveSessionState>(
+        bloc: widget.viewModel.activeSessionState,
         builder: (context, state) {
           if (state is ActiveSessionState$Available) {
             _lastSession = state.session;
@@ -226,20 +286,9 @@ class _ActiveSessionSliverState extends State<_ActiveSessionSliver> {
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                     child: ActiveSessionCard(
                       session: session,
-                      onResume: () => context.router.push(
-                        TinderTestRoute(
-                          testId: session.session.testId,
-                          swapSides: session.params.swapSides,
-                          answerIndex: session.params.answerIndex,
-                          mixup: session.params.mixup,
-                          mixupMin: session.params.mixupMin,
-                          mixupMax: session.params.mixupMax,
-                          resume: true,
-                        ),
-                      ),
-                      onDismiss: () => context
-                          .read<ActiveSessionBloc>()
-                          .add(const ActiveSessionEvent.cleared()),
+                      onResume: () =>
+                          widget.viewModel.onSessionResumeTap(session),
+                      onDismiss: widget.viewModel.onSessionDismissTap,
                     ),
                   ),
             secondChild: const SizedBox.shrink(),

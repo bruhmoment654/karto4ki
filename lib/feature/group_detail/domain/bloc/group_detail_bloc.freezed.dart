@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,1433 +9,893 @@ part of 'group_detail_bloc.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$GroupDetailEvent {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String groupId) started,
-    required TResult Function(String title, String? description) testAdded,
-    required TResult Function(String testId) testRemoved,
-    required TResult Function(String title) titleUpdated,
-    required TResult Function(String testId, List<String> groupIds)
-        testGroupsUpdated,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String groupId)? started,
-    TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(String testId)? testRemoved,
-    TResult? Function(String title)? titleUpdated,
-    TResult? Function(String testId, List<String> groupIds)? testGroupsUpdated,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String groupId)? started,
-    TResult Function(String title, String? description)? testAdded,
-    TResult Function(String testId)? testRemoved,
-    TResult Function(String title)? titleUpdated,
-    TResult Function(String testId, List<String> groupIds)? testGroupsUpdated,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_GroupDetailEvent$Started value) started,
-    required TResult Function(_GroupDetailEvent$TestAdded value) testAdded,
-    required TResult Function(_GroupDetailEvent$TestRemoved value) testRemoved,
-    required TResult Function(_GroupDetailEvent$TitleUpdated value)
-        titleUpdated,
-    required TResult Function(_GroupDetailEvent$TestGroupsUpdated value)
-        testGroupsUpdated,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GroupDetailEvent$Started value)? started,
-    TResult? Function(_GroupDetailEvent$TestAdded value)? testAdded,
-    TResult? Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
-    TResult? Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
-    TResult? Function(_GroupDetailEvent$TestGroupsUpdated value)?
-        testGroupsUpdated,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GroupDetailEvent$Started value)? started,
-    TResult Function(_GroupDetailEvent$TestAdded value)? testAdded,
-    TResult Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
-    TResult Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
-    TResult Function(_GroupDetailEvent$TestGroupsUpdated value)?
-        testGroupsUpdated,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GroupDetailEvent);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'GroupDetailEvent()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $GroupDetailEventCopyWith<$Res> {
-  factory $GroupDetailEventCopyWith(
-          GroupDetailEvent value, $Res Function(GroupDetailEvent) then) =
-      _$GroupDetailEventCopyWithImpl<$Res, GroupDetailEvent>;
+class $GroupDetailEventCopyWith<$Res>  {
+$GroupDetailEventCopyWith(GroupDetailEvent _, $Res Function(GroupDetailEvent) __);
 }
 
-/// @nodoc
-class _$GroupDetailEventCopyWithImpl<$Res, $Val extends GroupDetailEvent>
-    implements $GroupDetailEventCopyWith<$Res> {
-  _$GroupDetailEventCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [GroupDetailEvent].
+extension GroupDetailEventPatterns on GroupDetailEvent {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GroupDetailEvent$Started value)?  started,TResult Function( _GroupDetailEvent$TestAdded value)?  testAdded,TResult Function( _GroupDetailEvent$TestRemoved value)?  testRemoved,TResult Function( _GroupDetailEvent$TitleUpdated value)?  titleUpdated,TResult Function( _GroupDetailEvent$TestGroupsUpdated value)?  testGroupsUpdated,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _GroupDetailEvent$Started() when started != null:
+return started(_that);case _GroupDetailEvent$TestAdded() when testAdded != null:
+return testAdded(_that);case _GroupDetailEvent$TestRemoved() when testRemoved != null:
+return testRemoved(_that);case _GroupDetailEvent$TitleUpdated() when titleUpdated != null:
+return titleUpdated(_that);case _GroupDetailEvent$TestGroupsUpdated() when testGroupsUpdated != null:
+return testGroupsUpdated(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GroupDetailEvent$Started value)  started,required TResult Function( _GroupDetailEvent$TestAdded value)  testAdded,required TResult Function( _GroupDetailEvent$TestRemoved value)  testRemoved,required TResult Function( _GroupDetailEvent$TitleUpdated value)  titleUpdated,required TResult Function( _GroupDetailEvent$TestGroupsUpdated value)  testGroupsUpdated,}){
+final _that = this;
+switch (_that) {
+case _GroupDetailEvent$Started():
+return started(_that);case _GroupDetailEvent$TestAdded():
+return testAdded(_that);case _GroupDetailEvent$TestRemoved():
+return testRemoved(_that);case _GroupDetailEvent$TitleUpdated():
+return titleUpdated(_that);case _GroupDetailEvent$TestGroupsUpdated():
+return testGroupsUpdated(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GroupDetailEvent$Started value)?  started,TResult? Function( _GroupDetailEvent$TestAdded value)?  testAdded,TResult? Function( _GroupDetailEvent$TestRemoved value)?  testRemoved,TResult? Function( _GroupDetailEvent$TitleUpdated value)?  titleUpdated,TResult? Function( _GroupDetailEvent$TestGroupsUpdated value)?  testGroupsUpdated,}){
+final _that = this;
+switch (_that) {
+case _GroupDetailEvent$Started() when started != null:
+return started(_that);case _GroupDetailEvent$TestAdded() when testAdded != null:
+return testAdded(_that);case _GroupDetailEvent$TestRemoved() when testRemoved != null:
+return testRemoved(_that);case _GroupDetailEvent$TitleUpdated() when titleUpdated != null:
+return titleUpdated(_that);case _GroupDetailEvent$TestGroupsUpdated() when testGroupsUpdated != null:
+return testGroupsUpdated(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String groupId)?  started,TResult Function( String title,  String? description)?  testAdded,TResult Function( String testId)?  testRemoved,TResult Function( String title)?  titleUpdated,TResult Function( String testId,  List<String> groupIds)?  testGroupsUpdated,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _GroupDetailEvent$Started() when started != null:
+return started(_that.groupId);case _GroupDetailEvent$TestAdded() when testAdded != null:
+return testAdded(_that.title,_that.description);case _GroupDetailEvent$TestRemoved() when testRemoved != null:
+return testRemoved(_that.testId);case _GroupDetailEvent$TitleUpdated() when titleUpdated != null:
+return titleUpdated(_that.title);case _GroupDetailEvent$TestGroupsUpdated() when testGroupsUpdated != null:
+return testGroupsUpdated(_that.testId,_that.groupIds);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String groupId)  started,required TResult Function( String title,  String? description)  testAdded,required TResult Function( String testId)  testRemoved,required TResult Function( String title)  titleUpdated,required TResult Function( String testId,  List<String> groupIds)  testGroupsUpdated,}) {final _that = this;
+switch (_that) {
+case _GroupDetailEvent$Started():
+return started(_that.groupId);case _GroupDetailEvent$TestAdded():
+return testAdded(_that.title,_that.description);case _GroupDetailEvent$TestRemoved():
+return testRemoved(_that.testId);case _GroupDetailEvent$TitleUpdated():
+return titleUpdated(_that.title);case _GroupDetailEvent$TestGroupsUpdated():
+return testGroupsUpdated(_that.testId,_that.groupIds);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String groupId)?  started,TResult? Function( String title,  String? description)?  testAdded,TResult? Function( String testId)?  testRemoved,TResult? Function( String title)?  titleUpdated,TResult? Function( String testId,  List<String> groupIds)?  testGroupsUpdated,}) {final _that = this;
+switch (_that) {
+case _GroupDetailEvent$Started() when started != null:
+return started(_that.groupId);case _GroupDetailEvent$TestAdded() when testAdded != null:
+return testAdded(_that.title,_that.description);case _GroupDetailEvent$TestRemoved() when testRemoved != null:
+return testRemoved(_that.testId);case _GroupDetailEvent$TitleUpdated() when titleUpdated != null:
+return titleUpdated(_that.title);case _GroupDetailEvent$TestGroupsUpdated() when testGroupsUpdated != null:
+return testGroupsUpdated(_that.testId,_that.groupIds);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$GroupDetailEvent$StartedImplCopyWith<$Res> {
-  factory _$$GroupDetailEvent$StartedImplCopyWith(
-          _$GroupDetailEvent$StartedImpl value,
-          $Res Function(_$GroupDetailEvent$StartedImpl) then) =
-      __$$GroupDetailEvent$StartedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String groupId});
-}
-
-/// @nodoc
-class __$$GroupDetailEvent$StartedImplCopyWithImpl<$Res>
-    extends _$GroupDetailEventCopyWithImpl<$Res, _$GroupDetailEvent$StartedImpl>
-    implements _$$GroupDetailEvent$StartedImplCopyWith<$Res> {
-  __$$GroupDetailEvent$StartedImplCopyWithImpl(
-      _$GroupDetailEvent$StartedImpl _value,
-      $Res Function(_$GroupDetailEvent$StartedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? groupId = null,
-  }) {
-    return _then(_$GroupDetailEvent$StartedImpl(
-      groupId: null == groupId
-          ? _value.groupId
-          : groupId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$GroupDetailEvent$StartedImpl implements _GroupDetailEvent$Started {
-  const _$GroupDetailEvent$StartedImpl({required this.groupId});
-
-  @override
-  final String groupId;
-
-  @override
-  String toString() {
-    return 'GroupDetailEvent.started(groupId: $groupId)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$GroupDetailEvent$StartedImpl &&
-            (identical(other.groupId, groupId) || other.groupId == groupId));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, groupId);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$GroupDetailEvent$StartedImplCopyWith<_$GroupDetailEvent$StartedImpl>
-      get copyWith => __$$GroupDetailEvent$StartedImplCopyWithImpl<
-          _$GroupDetailEvent$StartedImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String groupId) started,
-    required TResult Function(String title, String? description) testAdded,
-    required TResult Function(String testId) testRemoved,
-    required TResult Function(String title) titleUpdated,
-    required TResult Function(String testId, List<String> groupIds)
-        testGroupsUpdated,
-  }) {
-    return started(groupId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String groupId)? started,
-    TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(String testId)? testRemoved,
-    TResult? Function(String title)? titleUpdated,
-    TResult? Function(String testId, List<String> groupIds)? testGroupsUpdated,
-  }) {
-    return started?.call(groupId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String groupId)? started,
-    TResult Function(String title, String? description)? testAdded,
-    TResult Function(String testId)? testRemoved,
-    TResult Function(String title)? titleUpdated,
-    TResult Function(String testId, List<String> groupIds)? testGroupsUpdated,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started(groupId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_GroupDetailEvent$Started value) started,
-    required TResult Function(_GroupDetailEvent$TestAdded value) testAdded,
-    required TResult Function(_GroupDetailEvent$TestRemoved value) testRemoved,
-    required TResult Function(_GroupDetailEvent$TitleUpdated value)
-        titleUpdated,
-    required TResult Function(_GroupDetailEvent$TestGroupsUpdated value)
-        testGroupsUpdated,
-  }) {
-    return started(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GroupDetailEvent$Started value)? started,
-    TResult? Function(_GroupDetailEvent$TestAdded value)? testAdded,
-    TResult? Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
-    TResult? Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
-    TResult? Function(_GroupDetailEvent$TestGroupsUpdated value)?
-        testGroupsUpdated,
-  }) {
-    return started?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GroupDetailEvent$Started value)? started,
-    TResult Function(_GroupDetailEvent$TestAdded value)? testAdded,
-    TResult Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
-    TResult Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
-    TResult Function(_GroupDetailEvent$TestGroupsUpdated value)?
-        testGroupsUpdated,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _GroupDetailEvent$Started implements GroupDetailEvent {
-  const factory _GroupDetailEvent$Started({required final String groupId}) =
-      _$GroupDetailEvent$StartedImpl;
-
-  String get groupId;
-  @JsonKey(ignore: true)
-  _$$GroupDetailEvent$StartedImplCopyWith<_$GroupDetailEvent$StartedImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$GroupDetailEvent$TestAddedImplCopyWith<$Res> {
-  factory _$$GroupDetailEvent$TestAddedImplCopyWith(
-          _$GroupDetailEvent$TestAddedImpl value,
-          $Res Function(_$GroupDetailEvent$TestAddedImpl) then) =
-      __$$GroupDetailEvent$TestAddedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String title, String? description});
-}
-
-/// @nodoc
-class __$$GroupDetailEvent$TestAddedImplCopyWithImpl<$Res>
-    extends _$GroupDetailEventCopyWithImpl<$Res,
-        _$GroupDetailEvent$TestAddedImpl>
-    implements _$$GroupDetailEvent$TestAddedImplCopyWith<$Res> {
-  __$$GroupDetailEvent$TestAddedImplCopyWithImpl(
-      _$GroupDetailEvent$TestAddedImpl _value,
-      $Res Function(_$GroupDetailEvent$TestAddedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? title = null,
-    Object? description = freezed,
-  }) {
-    return _then(_$GroupDetailEvent$TestAddedImpl(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$GroupDetailEvent$TestAddedImpl implements _GroupDetailEvent$TestAdded {
-  const _$GroupDetailEvent$TestAddedImpl(
-      {required this.title, this.description});
 
-  @override
-  final String title;
-  @override
-  final String? description;
+class _GroupDetailEvent$Started implements GroupDetailEvent {
+  const _GroupDetailEvent$Started({required this.groupId});
+  
 
-  @override
-  String toString() {
-    return 'GroupDetailEvent.testAdded(title: $title, description: $description)';
-  }
+ final  String groupId;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$GroupDetailEvent$TestAddedImpl &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.description, description) ||
-                other.description == description));
-  }
+/// Create a copy of GroupDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GroupDetailEvent$StartedCopyWith<_GroupDetailEvent$Started> get copyWith => __$GroupDetailEvent$StartedCopyWithImpl<_GroupDetailEvent$Started>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, title, description);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$GroupDetailEvent$TestAddedImplCopyWith<_$GroupDetailEvent$TestAddedImpl>
-      get copyWith => __$$GroupDetailEvent$TestAddedImplCopyWithImpl<
-          _$GroupDetailEvent$TestAddedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String groupId) started,
-    required TResult Function(String title, String? description) testAdded,
-    required TResult Function(String testId) testRemoved,
-    required TResult Function(String title) titleUpdated,
-    required TResult Function(String testId, List<String> groupIds)
-        testGroupsUpdated,
-  }) {
-    return testAdded(title, description);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String groupId)? started,
-    TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(String testId)? testRemoved,
-    TResult? Function(String title)? titleUpdated,
-    TResult? Function(String testId, List<String> groupIds)? testGroupsUpdated,
-  }) {
-    return testAdded?.call(title, description);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String groupId)? started,
-    TResult Function(String title, String? description)? testAdded,
-    TResult Function(String testId)? testRemoved,
-    TResult Function(String title)? titleUpdated,
-    TResult Function(String testId, List<String> groupIds)? testGroupsUpdated,
-    required TResult orElse(),
-  }) {
-    if (testAdded != null) {
-      return testAdded(title, description);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_GroupDetailEvent$Started value) started,
-    required TResult Function(_GroupDetailEvent$TestAdded value) testAdded,
-    required TResult Function(_GroupDetailEvent$TestRemoved value) testRemoved,
-    required TResult Function(_GroupDetailEvent$TitleUpdated value)
-        titleUpdated,
-    required TResult Function(_GroupDetailEvent$TestGroupsUpdated value)
-        testGroupsUpdated,
-  }) {
-    return testAdded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GroupDetailEvent$Started value)? started,
-    TResult? Function(_GroupDetailEvent$TestAdded value)? testAdded,
-    TResult? Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
-    TResult? Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
-    TResult? Function(_GroupDetailEvent$TestGroupsUpdated value)?
-        testGroupsUpdated,
-  }) {
-    return testAdded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GroupDetailEvent$Started value)? started,
-    TResult Function(_GroupDetailEvent$TestAdded value)? testAdded,
-    TResult Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
-    TResult Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
-    TResult Function(_GroupDetailEvent$TestGroupsUpdated value)?
-        testGroupsUpdated,
-    required TResult orElse(),
-  }) {
-    if (testAdded != null) {
-      return testAdded(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GroupDetailEvent$Started&&(identical(other.groupId, groupId) || other.groupId == groupId));
 }
 
-abstract class _GroupDetailEvent$TestAdded implements GroupDetailEvent {
-  const factory _GroupDetailEvent$TestAdded(
-      {required final String title,
-      final String? description}) = _$GroupDetailEvent$TestAddedImpl;
 
-  String get title;
-  String? get description;
-  @JsonKey(ignore: true)
-  _$$GroupDetailEvent$TestAddedImplCopyWith<_$GroupDetailEvent$TestAddedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,groupId);
+
+@override
+String toString() {
+  return 'GroupDetailEvent.started(groupId: $groupId)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$GroupDetailEvent$TestRemovedImplCopyWith<$Res> {
-  factory _$$GroupDetailEvent$TestRemovedImplCopyWith(
-          _$GroupDetailEvent$TestRemovedImpl value,
-          $Res Function(_$GroupDetailEvent$TestRemovedImpl) then) =
-      __$$GroupDetailEvent$TestRemovedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String testId});
+abstract mixin class _$GroupDetailEvent$StartedCopyWith<$Res> implements $GroupDetailEventCopyWith<$Res> {
+  factory _$GroupDetailEvent$StartedCopyWith(_GroupDetailEvent$Started value, $Res Function(_GroupDetailEvent$Started) _then) = __$GroupDetailEvent$StartedCopyWithImpl;
+@useResult
+$Res call({
+ String groupId
+});
+
+
+
+
+}
+/// @nodoc
+class __$GroupDetailEvent$StartedCopyWithImpl<$Res>
+    implements _$GroupDetailEvent$StartedCopyWith<$Res> {
+  __$GroupDetailEvent$StartedCopyWithImpl(this._self, this._then);
+
+  final _GroupDetailEvent$Started _self;
+  final $Res Function(_GroupDetailEvent$Started) _then;
+
+/// Create a copy of GroupDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? groupId = null,}) {
+  return _then(_GroupDetailEvent$Started(
+groupId: null == groupId ? _self.groupId : groupId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-class __$$GroupDetailEvent$TestRemovedImplCopyWithImpl<$Res>
-    extends _$GroupDetailEventCopyWithImpl<$Res,
-        _$GroupDetailEvent$TestRemovedImpl>
-    implements _$$GroupDetailEvent$TestRemovedImplCopyWith<$Res> {
-  __$$GroupDetailEvent$TestRemovedImplCopyWithImpl(
-      _$GroupDetailEvent$TestRemovedImpl _value,
-      $Res Function(_$GroupDetailEvent$TestRemovedImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? testId = null,
-  }) {
-    return _then(_$GroupDetailEvent$TestRemovedImpl(
-      testId: null == testId
-          ? _value.testId
-          : testId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$GroupDetailEvent$TestRemovedImpl
-    implements _GroupDetailEvent$TestRemoved {
-  const _$GroupDetailEvent$TestRemovedImpl({required this.testId});
 
-  @override
-  final String testId;
+class _GroupDetailEvent$TestAdded implements GroupDetailEvent {
+  const _GroupDetailEvent$TestAdded({required this.title, this.description});
+  
 
-  @override
-  String toString() {
-    return 'GroupDetailEvent.testRemoved(testId: $testId)';
-  }
+ final  String title;
+ final  String? description;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$GroupDetailEvent$TestRemovedImpl &&
-            (identical(other.testId, testId) || other.testId == testId));
-  }
+/// Create a copy of GroupDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GroupDetailEvent$TestAddedCopyWith<_GroupDetailEvent$TestAdded> get copyWith => __$GroupDetailEvent$TestAddedCopyWithImpl<_GroupDetailEvent$TestAdded>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, testId);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$GroupDetailEvent$TestRemovedImplCopyWith<
-          _$GroupDetailEvent$TestRemovedImpl>
-      get copyWith => __$$GroupDetailEvent$TestRemovedImplCopyWithImpl<
-          _$GroupDetailEvent$TestRemovedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String groupId) started,
-    required TResult Function(String title, String? description) testAdded,
-    required TResult Function(String testId) testRemoved,
-    required TResult Function(String title) titleUpdated,
-    required TResult Function(String testId, List<String> groupIds)
-        testGroupsUpdated,
-  }) {
-    return testRemoved(testId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String groupId)? started,
-    TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(String testId)? testRemoved,
-    TResult? Function(String title)? titleUpdated,
-    TResult? Function(String testId, List<String> groupIds)? testGroupsUpdated,
-  }) {
-    return testRemoved?.call(testId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String groupId)? started,
-    TResult Function(String title, String? description)? testAdded,
-    TResult Function(String testId)? testRemoved,
-    TResult Function(String title)? titleUpdated,
-    TResult Function(String testId, List<String> groupIds)? testGroupsUpdated,
-    required TResult orElse(),
-  }) {
-    if (testRemoved != null) {
-      return testRemoved(testId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_GroupDetailEvent$Started value) started,
-    required TResult Function(_GroupDetailEvent$TestAdded value) testAdded,
-    required TResult Function(_GroupDetailEvent$TestRemoved value) testRemoved,
-    required TResult Function(_GroupDetailEvent$TitleUpdated value)
-        titleUpdated,
-    required TResult Function(_GroupDetailEvent$TestGroupsUpdated value)
-        testGroupsUpdated,
-  }) {
-    return testRemoved(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GroupDetailEvent$Started value)? started,
-    TResult? Function(_GroupDetailEvent$TestAdded value)? testAdded,
-    TResult? Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
-    TResult? Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
-    TResult? Function(_GroupDetailEvent$TestGroupsUpdated value)?
-        testGroupsUpdated,
-  }) {
-    return testRemoved?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GroupDetailEvent$Started value)? started,
-    TResult Function(_GroupDetailEvent$TestAdded value)? testAdded,
-    TResult Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
-    TResult Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
-    TResult Function(_GroupDetailEvent$TestGroupsUpdated value)?
-        testGroupsUpdated,
-    required TResult orElse(),
-  }) {
-    if (testRemoved != null) {
-      return testRemoved(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GroupDetailEvent$TestAdded&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description));
 }
 
-abstract class _GroupDetailEvent$TestRemoved implements GroupDetailEvent {
-  const factory _GroupDetailEvent$TestRemoved({required final String testId}) =
-      _$GroupDetailEvent$TestRemovedImpl;
 
-  String get testId;
-  @JsonKey(ignore: true)
-  _$$GroupDetailEvent$TestRemovedImplCopyWith<
-          _$GroupDetailEvent$TestRemovedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,title,description);
+
+@override
+String toString() {
+  return 'GroupDetailEvent.testAdded(title: $title, description: $description)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$GroupDetailEvent$TitleUpdatedImplCopyWith<$Res> {
-  factory _$$GroupDetailEvent$TitleUpdatedImplCopyWith(
-          _$GroupDetailEvent$TitleUpdatedImpl value,
-          $Res Function(_$GroupDetailEvent$TitleUpdatedImpl) then) =
-      __$$GroupDetailEvent$TitleUpdatedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String title});
+abstract mixin class _$GroupDetailEvent$TestAddedCopyWith<$Res> implements $GroupDetailEventCopyWith<$Res> {
+  factory _$GroupDetailEvent$TestAddedCopyWith(_GroupDetailEvent$TestAdded value, $Res Function(_GroupDetailEvent$TestAdded) _then) = __$GroupDetailEvent$TestAddedCopyWithImpl;
+@useResult
+$Res call({
+ String title, String? description
+});
+
+
+
+
+}
+/// @nodoc
+class __$GroupDetailEvent$TestAddedCopyWithImpl<$Res>
+    implements _$GroupDetailEvent$TestAddedCopyWith<$Res> {
+  __$GroupDetailEvent$TestAddedCopyWithImpl(this._self, this._then);
+
+  final _GroupDetailEvent$TestAdded _self;
+  final $Res Function(_GroupDetailEvent$TestAdded) _then;
+
+/// Create a copy of GroupDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = freezed,}) {
+  return _then(_GroupDetailEvent$TestAdded(
+title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
 }
 
-/// @nodoc
-class __$$GroupDetailEvent$TitleUpdatedImplCopyWithImpl<$Res>
-    extends _$GroupDetailEventCopyWithImpl<$Res,
-        _$GroupDetailEvent$TitleUpdatedImpl>
-    implements _$$GroupDetailEvent$TitleUpdatedImplCopyWith<$Res> {
-  __$$GroupDetailEvent$TitleUpdatedImplCopyWithImpl(
-      _$GroupDetailEvent$TitleUpdatedImpl _value,
-      $Res Function(_$GroupDetailEvent$TitleUpdatedImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? title = null,
-  }) {
-    return _then(_$GroupDetailEvent$TitleUpdatedImpl(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$GroupDetailEvent$TitleUpdatedImpl
-    implements _GroupDetailEvent$TitleUpdated {
-  const _$GroupDetailEvent$TitleUpdatedImpl({required this.title});
 
-  @override
-  final String title;
+class _GroupDetailEvent$TestRemoved implements GroupDetailEvent {
+  const _GroupDetailEvent$TestRemoved({required this.testId});
+  
 
-  @override
-  String toString() {
-    return 'GroupDetailEvent.titleUpdated(title: $title)';
-  }
+ final  String testId;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$GroupDetailEvent$TitleUpdatedImpl &&
-            (identical(other.title, title) || other.title == title));
-  }
+/// Create a copy of GroupDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GroupDetailEvent$TestRemovedCopyWith<_GroupDetailEvent$TestRemoved> get copyWith => __$GroupDetailEvent$TestRemovedCopyWithImpl<_GroupDetailEvent$TestRemoved>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, title);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$GroupDetailEvent$TitleUpdatedImplCopyWith<
-          _$GroupDetailEvent$TitleUpdatedImpl>
-      get copyWith => __$$GroupDetailEvent$TitleUpdatedImplCopyWithImpl<
-          _$GroupDetailEvent$TitleUpdatedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String groupId) started,
-    required TResult Function(String title, String? description) testAdded,
-    required TResult Function(String testId) testRemoved,
-    required TResult Function(String title) titleUpdated,
-    required TResult Function(String testId, List<String> groupIds)
-        testGroupsUpdated,
-  }) {
-    return titleUpdated(title);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String groupId)? started,
-    TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(String testId)? testRemoved,
-    TResult? Function(String title)? titleUpdated,
-    TResult? Function(String testId, List<String> groupIds)? testGroupsUpdated,
-  }) {
-    return titleUpdated?.call(title);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String groupId)? started,
-    TResult Function(String title, String? description)? testAdded,
-    TResult Function(String testId)? testRemoved,
-    TResult Function(String title)? titleUpdated,
-    TResult Function(String testId, List<String> groupIds)? testGroupsUpdated,
-    required TResult orElse(),
-  }) {
-    if (titleUpdated != null) {
-      return titleUpdated(title);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_GroupDetailEvent$Started value) started,
-    required TResult Function(_GroupDetailEvent$TestAdded value) testAdded,
-    required TResult Function(_GroupDetailEvent$TestRemoved value) testRemoved,
-    required TResult Function(_GroupDetailEvent$TitleUpdated value)
-        titleUpdated,
-    required TResult Function(_GroupDetailEvent$TestGroupsUpdated value)
-        testGroupsUpdated,
-  }) {
-    return titleUpdated(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GroupDetailEvent$Started value)? started,
-    TResult? Function(_GroupDetailEvent$TestAdded value)? testAdded,
-    TResult? Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
-    TResult? Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
-    TResult? Function(_GroupDetailEvent$TestGroupsUpdated value)?
-        testGroupsUpdated,
-  }) {
-    return titleUpdated?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GroupDetailEvent$Started value)? started,
-    TResult Function(_GroupDetailEvent$TestAdded value)? testAdded,
-    TResult Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
-    TResult Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
-    TResult Function(_GroupDetailEvent$TestGroupsUpdated value)?
-        testGroupsUpdated,
-    required TResult orElse(),
-  }) {
-    if (titleUpdated != null) {
-      return titleUpdated(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GroupDetailEvent$TestRemoved&&(identical(other.testId, testId) || other.testId == testId));
 }
 
-abstract class _GroupDetailEvent$TitleUpdated implements GroupDetailEvent {
-  const factory _GroupDetailEvent$TitleUpdated({required final String title}) =
-      _$GroupDetailEvent$TitleUpdatedImpl;
 
-  String get title;
-  @JsonKey(ignore: true)
-  _$$GroupDetailEvent$TitleUpdatedImplCopyWith<
-          _$GroupDetailEvent$TitleUpdatedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,testId);
+
+@override
+String toString() {
+  return 'GroupDetailEvent.testRemoved(testId: $testId)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$GroupDetailEvent$TestGroupsUpdatedImplCopyWith<$Res> {
-  factory _$$GroupDetailEvent$TestGroupsUpdatedImplCopyWith(
-          _$GroupDetailEvent$TestGroupsUpdatedImpl value,
-          $Res Function(_$GroupDetailEvent$TestGroupsUpdatedImpl) then) =
-      __$$GroupDetailEvent$TestGroupsUpdatedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String testId, List<String> groupIds});
+abstract mixin class _$GroupDetailEvent$TestRemovedCopyWith<$Res> implements $GroupDetailEventCopyWith<$Res> {
+  factory _$GroupDetailEvent$TestRemovedCopyWith(_GroupDetailEvent$TestRemoved value, $Res Function(_GroupDetailEvent$TestRemoved) _then) = __$GroupDetailEvent$TestRemovedCopyWithImpl;
+@useResult
+$Res call({
+ String testId
+});
+
+
+
+
+}
+/// @nodoc
+class __$GroupDetailEvent$TestRemovedCopyWithImpl<$Res>
+    implements _$GroupDetailEvent$TestRemovedCopyWith<$Res> {
+  __$GroupDetailEvent$TestRemovedCopyWithImpl(this._self, this._then);
+
+  final _GroupDetailEvent$TestRemoved _self;
+  final $Res Function(_GroupDetailEvent$TestRemoved) _then;
+
+/// Create a copy of GroupDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? testId = null,}) {
+  return _then(_GroupDetailEvent$TestRemoved(
+testId: null == testId ? _self.testId : testId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-class __$$GroupDetailEvent$TestGroupsUpdatedImplCopyWithImpl<$Res>
-    extends _$GroupDetailEventCopyWithImpl<$Res,
-        _$GroupDetailEvent$TestGroupsUpdatedImpl>
-    implements _$$GroupDetailEvent$TestGroupsUpdatedImplCopyWith<$Res> {
-  __$$GroupDetailEvent$TestGroupsUpdatedImplCopyWithImpl(
-      _$GroupDetailEvent$TestGroupsUpdatedImpl _value,
-      $Res Function(_$GroupDetailEvent$TestGroupsUpdatedImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? testId = null,
-    Object? groupIds = null,
-  }) {
-    return _then(_$GroupDetailEvent$TestGroupsUpdatedImpl(
-      testId: null == testId
-          ? _value.testId
-          : testId // ignore: cast_nullable_to_non_nullable
-              as String,
-      groupIds: null == groupIds
-          ? _value._groupIds
-          : groupIds // ignore: cast_nullable_to_non_nullable
-              as List<String>,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$GroupDetailEvent$TestGroupsUpdatedImpl
-    implements _GroupDetailEvent$TestGroupsUpdated {
-  const _$GroupDetailEvent$TestGroupsUpdatedImpl(
-      {required this.testId, required final List<String> groupIds})
-      : _groupIds = groupIds;
 
-  @override
-  final String testId;
-  final List<String> _groupIds;
-  @override
-  List<String> get groupIds {
-    if (_groupIds is EqualUnmodifiableListView) return _groupIds;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_groupIds);
-  }
+class _GroupDetailEvent$TitleUpdated implements GroupDetailEvent {
+  const _GroupDetailEvent$TitleUpdated({required this.title});
+  
 
-  @override
-  String toString() {
-    return 'GroupDetailEvent.testGroupsUpdated(testId: $testId, groupIds: $groupIds)';
-  }
+ final  String title;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$GroupDetailEvent$TestGroupsUpdatedImpl &&
-            (identical(other.testId, testId) || other.testId == testId) &&
-            const DeepCollectionEquality().equals(other._groupIds, _groupIds));
-  }
+/// Create a copy of GroupDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GroupDetailEvent$TitleUpdatedCopyWith<_GroupDetailEvent$TitleUpdated> get copyWith => __$GroupDetailEvent$TitleUpdatedCopyWithImpl<_GroupDetailEvent$TitleUpdated>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, testId, const DeepCollectionEquality().hash(_groupIds));
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$GroupDetailEvent$TestGroupsUpdatedImplCopyWith<
-          _$GroupDetailEvent$TestGroupsUpdatedImpl>
-      get copyWith => __$$GroupDetailEvent$TestGroupsUpdatedImplCopyWithImpl<
-          _$GroupDetailEvent$TestGroupsUpdatedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String groupId) started,
-    required TResult Function(String title, String? description) testAdded,
-    required TResult Function(String testId) testRemoved,
-    required TResult Function(String title) titleUpdated,
-    required TResult Function(String testId, List<String> groupIds)
-        testGroupsUpdated,
-  }) {
-    return testGroupsUpdated(testId, groupIds);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String groupId)? started,
-    TResult? Function(String title, String? description)? testAdded,
-    TResult? Function(String testId)? testRemoved,
-    TResult? Function(String title)? titleUpdated,
-    TResult? Function(String testId, List<String> groupIds)? testGroupsUpdated,
-  }) {
-    return testGroupsUpdated?.call(testId, groupIds);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String groupId)? started,
-    TResult Function(String title, String? description)? testAdded,
-    TResult Function(String testId)? testRemoved,
-    TResult Function(String title)? titleUpdated,
-    TResult Function(String testId, List<String> groupIds)? testGroupsUpdated,
-    required TResult orElse(),
-  }) {
-    if (testGroupsUpdated != null) {
-      return testGroupsUpdated(testId, groupIds);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_GroupDetailEvent$Started value) started,
-    required TResult Function(_GroupDetailEvent$TestAdded value) testAdded,
-    required TResult Function(_GroupDetailEvent$TestRemoved value) testRemoved,
-    required TResult Function(_GroupDetailEvent$TitleUpdated value)
-        titleUpdated,
-    required TResult Function(_GroupDetailEvent$TestGroupsUpdated value)
-        testGroupsUpdated,
-  }) {
-    return testGroupsUpdated(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GroupDetailEvent$Started value)? started,
-    TResult? Function(_GroupDetailEvent$TestAdded value)? testAdded,
-    TResult? Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
-    TResult? Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
-    TResult? Function(_GroupDetailEvent$TestGroupsUpdated value)?
-        testGroupsUpdated,
-  }) {
-    return testGroupsUpdated?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GroupDetailEvent$Started value)? started,
-    TResult Function(_GroupDetailEvent$TestAdded value)? testAdded,
-    TResult Function(_GroupDetailEvent$TestRemoved value)? testRemoved,
-    TResult Function(_GroupDetailEvent$TitleUpdated value)? titleUpdated,
-    TResult Function(_GroupDetailEvent$TestGroupsUpdated value)?
-        testGroupsUpdated,
-    required TResult orElse(),
-  }) {
-    if (testGroupsUpdated != null) {
-      return testGroupsUpdated(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GroupDetailEvent$TitleUpdated&&(identical(other.title, title) || other.title == title));
 }
 
-abstract class _GroupDetailEvent$TestGroupsUpdated implements GroupDetailEvent {
-  const factory _GroupDetailEvent$TestGroupsUpdated(
-          {required final String testId,
-          required final List<String> groupIds}) =
-      _$GroupDetailEvent$TestGroupsUpdatedImpl;
 
-  String get testId;
-  List<String> get groupIds;
-  @JsonKey(ignore: true)
-  _$$GroupDetailEvent$TestGroupsUpdatedImplCopyWith<
-          _$GroupDetailEvent$TestGroupsUpdatedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,title);
+
+@override
+String toString() {
+  return 'GroupDetailEvent.titleUpdated(title: $title)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$GroupDetailEvent$TitleUpdatedCopyWith<$Res> implements $GroupDetailEventCopyWith<$Res> {
+  factory _$GroupDetailEvent$TitleUpdatedCopyWith(_GroupDetailEvent$TitleUpdated value, $Res Function(_GroupDetailEvent$TitleUpdated) _then) = __$GroupDetailEvent$TitleUpdatedCopyWithImpl;
+@useResult
+$Res call({
+ String title
+});
+
+
+
+
+}
+/// @nodoc
+class __$GroupDetailEvent$TitleUpdatedCopyWithImpl<$Res>
+    implements _$GroupDetailEvent$TitleUpdatedCopyWith<$Res> {
+  __$GroupDetailEvent$TitleUpdatedCopyWithImpl(this._self, this._then);
+
+  final _GroupDetailEvent$TitleUpdated _self;
+  final $Res Function(_GroupDetailEvent$TitleUpdated) _then;
+
+/// Create a copy of GroupDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? title = null,}) {
+  return _then(_GroupDetailEvent$TitleUpdated(
+title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _GroupDetailEvent$TestGroupsUpdated implements GroupDetailEvent {
+  const _GroupDetailEvent$TestGroupsUpdated({required this.testId, required final  List<String> groupIds}): _groupIds = groupIds;
+  
+
+ final  String testId;
+ final  List<String> _groupIds;
+ List<String> get groupIds {
+  if (_groupIds is EqualUnmodifiableListView) return _groupIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_groupIds);
+}
+
+
+/// Create a copy of GroupDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GroupDetailEvent$TestGroupsUpdatedCopyWith<_GroupDetailEvent$TestGroupsUpdated> get copyWith => __$GroupDetailEvent$TestGroupsUpdatedCopyWithImpl<_GroupDetailEvent$TestGroupsUpdated>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GroupDetailEvent$TestGroupsUpdated&&(identical(other.testId, testId) || other.testId == testId)&&const DeepCollectionEquality().equals(other._groupIds, _groupIds));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,testId,const DeepCollectionEquality().hash(_groupIds));
+
+@override
+String toString() {
+  return 'GroupDetailEvent.testGroupsUpdated(testId: $testId, groupIds: $groupIds)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$GroupDetailEvent$TestGroupsUpdatedCopyWith<$Res> implements $GroupDetailEventCopyWith<$Res> {
+  factory _$GroupDetailEvent$TestGroupsUpdatedCopyWith(_GroupDetailEvent$TestGroupsUpdated value, $Res Function(_GroupDetailEvent$TestGroupsUpdated) _then) = __$GroupDetailEvent$TestGroupsUpdatedCopyWithImpl;
+@useResult
+$Res call({
+ String testId, List<String> groupIds
+});
+
+
+
+
+}
+/// @nodoc
+class __$GroupDetailEvent$TestGroupsUpdatedCopyWithImpl<$Res>
+    implements _$GroupDetailEvent$TestGroupsUpdatedCopyWith<$Res> {
+  __$GroupDetailEvent$TestGroupsUpdatedCopyWithImpl(this._self, this._then);
+
+  final _GroupDetailEvent$TestGroupsUpdated _self;
+  final $Res Function(_GroupDetailEvent$TestGroupsUpdated) _then;
+
+/// Create a copy of GroupDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? testId = null,Object? groupIds = null,}) {
+  return _then(_GroupDetailEvent$TestGroupsUpdated(
+testId: null == testId ? _self.testId : testId // ignore: cast_nullable_to_non_nullable
+as String,groupIds: null == groupIds ? _self._groupIds : groupIds // ignore: cast_nullable_to_non_nullable
+as List<String>,
+  ));
+}
+
+
 }
 
 /// @nodoc
 mixin _$GroupDetailState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(TestGroupEntity group, List<TestEntity> tests)
-        loaded,
-    required TResult Function(Failure failure) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(TestGroupEntity group, List<TestEntity> tests)? loaded,
-    TResult? Function(Failure failure)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(TestGroupEntity group, List<TestEntity> tests)? loaded,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(GroupDetailState$Loading value) loading,
-    required TResult Function(GroupDetailState$Loaded value) loaded,
-    required TResult Function(GroupDetailState$Error value) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(GroupDetailState$Loading value)? loading,
-    TResult? Function(GroupDetailState$Loaded value)? loaded,
-    TResult? Function(GroupDetailState$Error value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(GroupDetailState$Loading value)? loading,
-    TResult Function(GroupDetailState$Loaded value)? loaded,
-    TResult Function(GroupDetailState$Error value)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GroupDetailState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'GroupDetailState()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $GroupDetailStateCopyWith<$Res> {
-  factory $GroupDetailStateCopyWith(
-          GroupDetailState value, $Res Function(GroupDetailState) then) =
-      _$GroupDetailStateCopyWithImpl<$Res, GroupDetailState>;
+class $GroupDetailStateCopyWith<$Res>  {
+$GroupDetailStateCopyWith(GroupDetailState _, $Res Function(GroupDetailState) __);
 }
 
-/// @nodoc
-class _$GroupDetailStateCopyWithImpl<$Res, $Val extends GroupDetailState>
-    implements $GroupDetailStateCopyWith<$Res> {
-  _$GroupDetailStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [GroupDetailState].
+extension GroupDetailStatePatterns on GroupDetailState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( GroupDetailState$Loading value)?  loading,TResult Function( GroupDetailState$Loaded value)?  loaded,TResult Function( GroupDetailState$Error value)?  error,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case GroupDetailState$Loading() when loading != null:
+return loading(_that);case GroupDetailState$Loaded() when loaded != null:
+return loaded(_that);case GroupDetailState$Error() when error != null:
+return error(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( GroupDetailState$Loading value)  loading,required TResult Function( GroupDetailState$Loaded value)  loaded,required TResult Function( GroupDetailState$Error value)  error,}){
+final _that = this;
+switch (_that) {
+case GroupDetailState$Loading():
+return loading(_that);case GroupDetailState$Loaded():
+return loaded(_that);case GroupDetailState$Error():
+return error(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( GroupDetailState$Loading value)?  loading,TResult? Function( GroupDetailState$Loaded value)?  loaded,TResult? Function( GroupDetailState$Error value)?  error,}){
+final _that = this;
+switch (_that) {
+case GroupDetailState$Loading() when loading != null:
+return loading(_that);case GroupDetailState$Loaded() when loaded != null:
+return loaded(_that);case GroupDetailState$Error() when error != null:
+return error(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( TestGroupEntity group,  List<TestEntity> tests,  List<TestGroupEntity> allGroups,  Map<String, List<String>> groupIdsByTest)?  loaded,TResult Function( Failure failure)?  error,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case GroupDetailState$Loading() when loading != null:
+return loading();case GroupDetailState$Loaded() when loaded != null:
+return loaded(_that.group,_that.tests,_that.allGroups,_that.groupIdsByTest);case GroupDetailState$Error() when error != null:
+return error(_that.failure);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( TestGroupEntity group,  List<TestEntity> tests,  List<TestGroupEntity> allGroups,  Map<String, List<String>> groupIdsByTest)  loaded,required TResult Function( Failure failure)  error,}) {final _that = this;
+switch (_that) {
+case GroupDetailState$Loading():
+return loading();case GroupDetailState$Loaded():
+return loaded(_that.group,_that.tests,_that.allGroups,_that.groupIdsByTest);case GroupDetailState$Error():
+return error(_that.failure);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( TestGroupEntity group,  List<TestEntity> tests,  List<TestGroupEntity> allGroups,  Map<String, List<String>> groupIdsByTest)?  loaded,TResult? Function( Failure failure)?  error,}) {final _that = this;
+switch (_that) {
+case GroupDetailState$Loading() when loading != null:
+return loading();case GroupDetailState$Loaded() when loaded != null:
+return loaded(_that.group,_that.tests,_that.allGroups,_that.groupIdsByTest);case GroupDetailState$Error() when error != null:
+return error(_that.failure);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$GroupDetailState$LoadingImplCopyWith<$Res> {
-  factory _$$GroupDetailState$LoadingImplCopyWith(
-          _$GroupDetailState$LoadingImpl value,
-          $Res Function(_$GroupDetailState$LoadingImpl) then) =
-      __$$GroupDetailState$LoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$GroupDetailState$LoadingImplCopyWithImpl<$Res>
-    extends _$GroupDetailStateCopyWithImpl<$Res, _$GroupDetailState$LoadingImpl>
-    implements _$$GroupDetailState$LoadingImplCopyWith<$Res> {
-  __$$GroupDetailState$LoadingImplCopyWithImpl(
-      _$GroupDetailState$LoadingImpl _value,
-      $Res Function(_$GroupDetailState$LoadingImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$GroupDetailState$LoadingImpl extends GroupDetailState$Loading {
-  const _$GroupDetailState$LoadingImpl() : super._();
-
-  @override
-  String toString() {
-    return 'GroupDetailState.loading()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$GroupDetailState$LoadingImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(TestGroupEntity group, List<TestEntity> tests)
-        loaded,
-    required TResult Function(Failure failure) error,
-  }) {
-    return loading();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(TestGroupEntity group, List<TestEntity> tests)? loaded,
-    TResult? Function(Failure failure)? error,
-  }) {
-    return loading?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(TestGroupEntity group, List<TestEntity> tests)? loaded,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(GroupDetailState$Loading value) loading,
-    required TResult Function(GroupDetailState$Loaded value) loaded,
-    required TResult Function(GroupDetailState$Error value) error,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(GroupDetailState$Loading value)? loading,
-    TResult? Function(GroupDetailState$Loaded value)? loaded,
-    TResult? Function(GroupDetailState$Error value)? error,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(GroupDetailState$Loading value)? loading,
-    TResult Function(GroupDetailState$Loaded value)? loaded,
-    TResult Function(GroupDetailState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class GroupDetailState$Loading extends GroupDetailState {
-  const factory GroupDetailState$Loading() = _$GroupDetailState$LoadingImpl;
-  const GroupDetailState$Loading._() : super._();
-}
-
-/// @nodoc
-abstract class _$$GroupDetailState$LoadedImplCopyWith<$Res> {
-  factory _$$GroupDetailState$LoadedImplCopyWith(
-          _$GroupDetailState$LoadedImpl value,
-          $Res Function(_$GroupDetailState$LoadedImpl) then) =
-      __$$GroupDetailState$LoadedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({TestGroupEntity group, List<TestEntity> tests});
-
-  $TestGroupEntityCopyWith<$Res> get group;
-}
-
-/// @nodoc
-class __$$GroupDetailState$LoadedImplCopyWithImpl<$Res>
-    extends _$GroupDetailStateCopyWithImpl<$Res, _$GroupDetailState$LoadedImpl>
-    implements _$$GroupDetailState$LoadedImplCopyWith<$Res> {
-  __$$GroupDetailState$LoadedImplCopyWithImpl(
-      _$GroupDetailState$LoadedImpl _value,
-      $Res Function(_$GroupDetailState$LoadedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? group = null,
-    Object? tests = null,
-  }) {
-    return _then(_$GroupDetailState$LoadedImpl(
-      group: null == group
-          ? _value.group
-          : group // ignore: cast_nullable_to_non_nullable
-              as TestGroupEntity,
-      tests: null == tests
-          ? _value._tests
-          : tests // ignore: cast_nullable_to_non_nullable
-              as List<TestEntity>,
-    ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $TestGroupEntityCopyWith<$Res> get group {
-    return $TestGroupEntityCopyWith<$Res>(_value.group, (value) {
-      return _then(_value.copyWith(group: value));
-    });
-  }
 }
 
 /// @nodoc
 
-class _$GroupDetailState$LoadedImpl extends GroupDetailState$Loaded {
-  const _$GroupDetailState$LoadedImpl(
-      {required this.group, required final List<TestEntity> tests})
-      : _tests = tests,
-        super._();
 
-  @override
-  final TestGroupEntity group;
-  final List<TestEntity> _tests;
-  @override
-  List<TestEntity> get tests {
-    if (_tests is EqualUnmodifiableListView) return _tests;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tests);
-  }
+class GroupDetailState$Loading extends GroupDetailState {
+  const GroupDetailState$Loading(): super._();
+  
 
-  @override
-  String toString() {
-    return 'GroupDetailState.loaded(group: $group, tests: $tests)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$GroupDetailState$LoadedImpl &&
-            (identical(other.group, group) || other.group == group) &&
-            const DeepCollectionEquality().equals(other._tests, _tests));
-  }
 
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, group, const DeepCollectionEquality().hash(_tests));
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$GroupDetailState$LoadedImplCopyWith<_$GroupDetailState$LoadedImpl>
-      get copyWith => __$$GroupDetailState$LoadedImplCopyWithImpl<
-          _$GroupDetailState$LoadedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(TestGroupEntity group, List<TestEntity> tests)
-        loaded,
-    required TResult Function(Failure failure) error,
-  }) {
-    return loaded(group, tests);
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(TestGroupEntity group, List<TestEntity> tests)? loaded,
-    TResult? Function(Failure failure)? error,
-  }) {
-    return loaded?.call(group, tests);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(TestGroupEntity group, List<TestEntity> tests)? loaded,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(group, tests);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(GroupDetailState$Loading value) loading,
-    required TResult Function(GroupDetailState$Loaded value) loaded,
-    required TResult Function(GroupDetailState$Error value) error,
-  }) {
-    return loaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(GroupDetailState$Loading value)? loading,
-    TResult? Function(GroupDetailState$Loaded value)? loaded,
-    TResult? Function(GroupDetailState$Error value)? error,
-  }) {
-    return loaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(GroupDetailState$Loading value)? loading,
-    TResult Function(GroupDetailState$Loaded value)? loaded,
-    TResult Function(GroupDetailState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GroupDetailState$Loading);
 }
 
-abstract class GroupDetailState$Loaded extends GroupDetailState {
-  const factory GroupDetailState$Loaded(
-      {required final TestGroupEntity group,
-      required final List<TestEntity> tests}) = _$GroupDetailState$LoadedImpl;
-  const GroupDetailState$Loaded._() : super._();
 
-  TestGroupEntity get group;
-  List<TestEntity> get tests;
-  @JsonKey(ignore: true)
-  _$$GroupDetailState$LoadedImplCopyWith<_$GroupDetailState$LoadedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'GroupDetailState.loading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class GroupDetailState$Loaded extends GroupDetailState {
+  const GroupDetailState$Loaded({required this.group, required final  List<TestEntity> tests, required final  List<TestGroupEntity> allGroups, required final  Map<String, List<String>> groupIdsByTest}): _tests = tests,_allGroups = allGroups,_groupIdsByTest = groupIdsByTest,super._();
+  
+
+ final  TestGroupEntity group;
+ final  List<TestEntity> _tests;
+ List<TestEntity> get tests {
+  if (_tests is EqualUnmodifiableListView) return _tests;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tests);
+}
+
+/// Все группы приложения — нужны диалогу «добавить в группу».
+ final  List<TestGroupEntity> _allGroups;
+/// Все группы приложения — нужны диалогу «добавить в группу».
+ List<TestGroupEntity> get allGroups {
+  if (_allGroups is EqualUnmodifiableListView) return _allGroups;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_allGroups);
+}
+
+/// Привязки «тест -> id групп». Держим в состоянии, чтобы UI не ходил
+/// в репозиторий за ними при открытии диалогов.
+ final  Map<String, List<String>> _groupIdsByTest;
+/// Привязки «тест -> id групп». Держим в состоянии, чтобы UI не ходил
+/// в репозиторий за ними при открытии диалогов.
+ Map<String, List<String>> get groupIdsByTest {
+  if (_groupIdsByTest is EqualUnmodifiableMapView) return _groupIdsByTest;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableMapView(_groupIdsByTest);
+}
+
+
+/// Create a copy of GroupDetailState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GroupDetailState$LoadedCopyWith<GroupDetailState$Loaded> get copyWith => _$GroupDetailState$LoadedCopyWithImpl<GroupDetailState$Loaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GroupDetailState$Loaded&&(identical(other.group, group) || other.group == group)&&const DeepCollectionEquality().equals(other._tests, _tests)&&const DeepCollectionEquality().equals(other._allGroups, _allGroups)&&const DeepCollectionEquality().equals(other._groupIdsByTest, _groupIdsByTest));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,group,const DeepCollectionEquality().hash(_tests),const DeepCollectionEquality().hash(_allGroups),const DeepCollectionEquality().hash(_groupIdsByTest));
+
+@override
+String toString() {
+  return 'GroupDetailState.loaded(group: $group, tests: $tests, allGroups: $allGroups, groupIdsByTest: $groupIdsByTest)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$GroupDetailState$ErrorImplCopyWith<$Res> {
-  factory _$$GroupDetailState$ErrorImplCopyWith(
-          _$GroupDetailState$ErrorImpl value,
-          $Res Function(_$GroupDetailState$ErrorImpl) then) =
-      __$$GroupDetailState$ErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Failure failure});
+abstract mixin class $GroupDetailState$LoadedCopyWith<$Res> implements $GroupDetailStateCopyWith<$Res> {
+  factory $GroupDetailState$LoadedCopyWith(GroupDetailState$Loaded value, $Res Function(GroupDetailState$Loaded) _then) = _$GroupDetailState$LoadedCopyWithImpl;
+@useResult
+$Res call({
+ TestGroupEntity group, List<TestEntity> tests, List<TestGroupEntity> allGroups, Map<String, List<String>> groupIdsByTest
+});
+
+
+$TestGroupEntityCopyWith<$Res> get group;
+
+}
+/// @nodoc
+class _$GroupDetailState$LoadedCopyWithImpl<$Res>
+    implements $GroupDetailState$LoadedCopyWith<$Res> {
+  _$GroupDetailState$LoadedCopyWithImpl(this._self, this._then);
+
+  final GroupDetailState$Loaded _self;
+  final $Res Function(GroupDetailState$Loaded) _then;
+
+/// Create a copy of GroupDetailState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? group = null,Object? tests = null,Object? allGroups = null,Object? groupIdsByTest = null,}) {
+  return _then(GroupDetailState$Loaded(
+group: null == group ? _self.group : group // ignore: cast_nullable_to_non_nullable
+as TestGroupEntity,tests: null == tests ? _self._tests : tests // ignore: cast_nullable_to_non_nullable
+as List<TestEntity>,allGroups: null == allGroups ? _self._allGroups : allGroups // ignore: cast_nullable_to_non_nullable
+as List<TestGroupEntity>,groupIdsByTest: null == groupIdsByTest ? _self._groupIdsByTest : groupIdsByTest // ignore: cast_nullable_to_non_nullable
+as Map<String, List<String>>,
+  ));
 }
 
-/// @nodoc
-class __$$GroupDetailState$ErrorImplCopyWithImpl<$Res>
-    extends _$GroupDetailStateCopyWithImpl<$Res, _$GroupDetailState$ErrorImpl>
-    implements _$$GroupDetailState$ErrorImplCopyWith<$Res> {
-  __$$GroupDetailState$ErrorImplCopyWithImpl(
-      _$GroupDetailState$ErrorImpl _value,
-      $Res Function(_$GroupDetailState$ErrorImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? failure = null,
-  }) {
-    return _then(_$GroupDetailState$ErrorImpl(
-      failure: null == failure
-          ? _value.failure
-          : failure // ignore: cast_nullable_to_non_nullable
-              as Failure,
-    ));
-  }
+/// Create a copy of GroupDetailState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TestGroupEntityCopyWith<$Res> get group {
+  
+  return $TestGroupEntityCopyWith<$Res>(_self.group, (value) {
+    return _then(_self.copyWith(group: value));
+  });
+}
 }
 
 /// @nodoc
 
-class _$GroupDetailState$ErrorImpl extends GroupDetailState$Error {
-  const _$GroupDetailState$ErrorImpl({required this.failure}) : super._();
 
-  @override
-  final Failure failure;
+class GroupDetailState$Error extends GroupDetailState {
+  const GroupDetailState$Error({required this.failure}): super._();
+  
 
-  @override
-  String toString() {
-    return 'GroupDetailState.error(failure: $failure)';
-  }
+ final  Failure failure;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$GroupDetailState$ErrorImpl &&
-            (identical(other.failure, failure) || other.failure == failure));
-  }
+/// Create a copy of GroupDetailState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$GroupDetailState$ErrorCopyWith<GroupDetailState$Error> get copyWith => _$GroupDetailState$ErrorCopyWithImpl<GroupDetailState$Error>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$GroupDetailState$ErrorImplCopyWith<_$GroupDetailState$ErrorImpl>
-      get copyWith => __$$GroupDetailState$ErrorImplCopyWithImpl<
-          _$GroupDetailState$ErrorImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(TestGroupEntity group, List<TestEntity> tests)
-        loaded,
-    required TResult Function(Failure failure) error,
-  }) {
-    return error(failure);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(TestGroupEntity group, List<TestEntity> tests)? loaded,
-    TResult? Function(Failure failure)? error,
-  }) {
-    return error?.call(failure);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(TestGroupEntity group, List<TestEntity> tests)? loaded,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(failure);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(GroupDetailState$Loading value) loading,
-    required TResult Function(GroupDetailState$Loaded value) loaded,
-    required TResult Function(GroupDetailState$Error value) error,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(GroupDetailState$Loading value)? loading,
-    TResult? Function(GroupDetailState$Loaded value)? loaded,
-    TResult? Function(GroupDetailState$Error value)? error,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(GroupDetailState$Loading value)? loading,
-    TResult Function(GroupDetailState$Loaded value)? loaded,
-    TResult Function(GroupDetailState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is GroupDetailState$Error&&(identical(other.failure, failure) || other.failure == failure));
 }
 
-abstract class GroupDetailState$Error extends GroupDetailState {
-  const factory GroupDetailState$Error({required final Failure failure}) =
-      _$GroupDetailState$ErrorImpl;
-  const GroupDetailState$Error._() : super._();
 
-  Failure get failure;
-  @JsonKey(ignore: true)
-  _$$GroupDetailState$ErrorImplCopyWith<_$GroupDetailState$ErrorImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,failure);
+
+@override
+String toString() {
+  return 'GroupDetailState.error(failure: $failure)';
 }
+
+
+}
+
+/// @nodoc
+abstract mixin class $GroupDetailState$ErrorCopyWith<$Res> implements $GroupDetailStateCopyWith<$Res> {
+  factory $GroupDetailState$ErrorCopyWith(GroupDetailState$Error value, $Res Function(GroupDetailState$Error) _then) = _$GroupDetailState$ErrorCopyWithImpl;
+@useResult
+$Res call({
+ Failure failure
+});
+
+
+
+
+}
+/// @nodoc
+class _$GroupDetailState$ErrorCopyWithImpl<$Res>
+    implements $GroupDetailState$ErrorCopyWith<$Res> {
+  _$GroupDetailState$ErrorCopyWithImpl(this._self, this._then);
+
+  final GroupDetailState$Error _self;
+  final $Res Function(GroupDetailState$Error) _then;
+
+/// Create a copy of GroupDetailState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? failure = null,}) {
+  return _then(GroupDetailState$Error(
+failure: null == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
+as Failure,
+  ));
+}
+
+
+}
+
+// dart format on

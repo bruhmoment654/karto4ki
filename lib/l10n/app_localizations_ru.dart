@@ -769,4 +769,194 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get profileSignOutDialogConfirm => 'Выйти';
+
+  @override
+  String get syncTitleSynced => 'Синхронизировано';
+
+  @override
+  String get syncTitleSyncing => 'Синхронизация…';
+
+  @override
+  String get syncTitleNotSynced => 'Не синхронизировано';
+
+  @override
+  String get syncTitleOffline => 'Офлайн';
+
+  @override
+  String get syncTitleExpired => 'Сессия истекла';
+
+  @override
+  String get syncTitleFailed => 'Не удалось синхронизировать';
+
+  @override
+  String syncSubtitleSyncedRelative(String time) {
+    return 'Последний раз — $time';
+  }
+
+  @override
+  String get syncSubtitleNever => 'Ещё не синхронизировано';
+
+  @override
+  String syncSubtitleSyncingCounted(int done, int total) {
+    final intl.NumberFormat doneNumberFormat = intl.NumberFormat.decimalPattern(
+      localeName,
+    );
+    final String doneString = doneNumberFormat.format(done);
+    final intl.NumberFormat totalNumberFormat =
+        intl.NumberFormat.decimalPattern(localeName);
+    final String totalString = totalNumberFormat.format(total);
+
+    return 'Загружено $doneString из $totalString изменений';
+  }
+
+  @override
+  String get syncSubtitleSyncingPlain =>
+      'Отправляем изменения и забираем свежие';
+
+  @override
+  String syncSubtitlePending(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count изменения ждут отправки',
+      many: '$count изменений ждут отправки',
+      few: '$count изменения ждут отправки',
+      one: '$count изменение ждёт отправки',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get syncSubtitleOffline => 'Отправим изменения, когда появится сеть';
+
+  @override
+  String get syncSubtitleExpired =>
+      'Войдите заново, чтобы синхронизация продолжилась';
+
+  @override
+  String get syncSubtitleFailed =>
+      'Изменения сохранены на устройстве, попробуйте повторить';
+
+  @override
+  String get syncDialogBodySynced =>
+      'Все карточки, группы и прогресс сохранены на сервере.';
+
+  @override
+  String get syncDialogBodySyncing =>
+      'Отправляем изменения и забираем свежие карточки с сервера.';
+
+  @override
+  String syncDialogBodyNotSynced(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other:
+          '$count изменения пока только на устройстве: их не увидят другие ваши устройства.',
+      many:
+          '$count изменений пока только на устройстве: их не увидят другие ваши устройства.',
+      few:
+          '$count изменения пока только на устройстве: их не увидят другие ваши устройства.',
+      one:
+          '$count изменение пока только на устройстве: его не увидят другие ваши устройства.',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String get syncDialogBodyOffline =>
+      'Нет подключения. Приложение работает офлайн, изменения сохраняются на устройстве и уедут автоматически.';
+
+  @override
+  String get syncDialogBodyExpired =>
+      'Срок сессии истёк, поэтому синхронизация остановлена. Карточки и прогресс сохранены на устройстве.';
+
+  @override
+  String get syncDialogBodyFailed =>
+      'Синхронизация не удалась. Карточки и прогресс сохранены на устройстве.';
+
+  @override
+  String get syncDialogLastSyncLabel => 'Последняя синхронизация';
+
+  @override
+  String syncDialogLastSyncApprox(String time) {
+    return 'Примерно $time';
+  }
+
+  @override
+  String get syncDialogClose => 'Закрыть';
+
+  @override
+  String get syncActionSync => 'Синхронизировать';
+
+  @override
+  String get syncActionRetry => 'Повторить';
+
+  @override
+  String get syncActionSignIn => 'Войти';
+
+  @override
+  String get syncTimeJustNow => 'только что';
+
+  @override
+  String syncTimeMinutesAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count минуты назад',
+      many: '$count минут назад',
+      few: '$count минуты назад',
+      one: '$count минуту назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String syncTimeHoursAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: '$count часа назад',
+      many: '$count часов назад',
+      few: '$count часа назад',
+      one: '$count час назад',
+    );
+    return '$_temp0';
+  }
+
+  @override
+  String syncTimeToday(String time) {
+    return 'сегодня в $time';
+  }
+
+  @override
+  String syncTimeYesterday(String time) {
+    return 'вчера в $time';
+  }
+
+  @override
+  String syncTimeAtDate(String date, String time) {
+    return '$date в $time';
+  }
+
+  @override
+  String get syncReauthTitle => 'Нужно войти заново';
+
+  @override
+  String get syncReauthBody =>
+      'Срок сессии истёк. Карточки и прогресс сохранены на устройстве — после входа всё уедет на сервер.';
+
+  @override
+  String get syncReauthLater => 'Позже';
+
+  @override
+  String get syncReauthSignIn => 'Войти';
+
+  @override
+  String get groupsListTitle => 'Мои группы';
+
+  @override
+  String get groupsListSubtitle => 'Группы тестов для обучения по карточкам';
+
+  @override
+  String get syncSubtitleSyncedNoTime => 'Все изменения на сервере';
 }

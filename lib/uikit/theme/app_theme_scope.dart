@@ -1,11 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizzerg/feature/settings/domain/bloc/settings_bloc.dart';
 import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
-import 'package:quizzerg/persistence/settings/i_settings_storage.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
 
-class AppThemeScope extends StatefulWidget {
+/// Раздаёт тему приложения вниз по дереву.
+///
+/// Источник — [SettingsBloc]: у настроек один владелец, и тема пересобирается
+/// тем же состоянием, что и экран настроек.
+///
+/// Это app-скоуп, а не View или компонент дизайн-системы, поэтому здесь
+/// [BlocBuilder] по глобальному блоку — единственное место в `uikit`,
+/// где это допустимо (см. `.cursor/rules/presentation-layer.mdc`).
+class AppThemeScope extends StatelessWidget {
   final Widget child;
 
   const AppThemeScope({
@@ -21,51 +28,26 @@ class AppThemeScope extends StatefulWidget {
   }
 
   @override
-  State<AppThemeScope> createState() => _AppThemeScopeState();
-}
-
-class _AppThemeScopeState extends State<AppThemeScope> {
-  late final ISettingsStorage _settingsStorage;
-  late SettingsDto _settings;
-
-  @override
-  void initState() {
-    super.initState();
-    _settingsStorage = context.read<IAppScope>().settingsStorage;
-    _settings = _settingsStorage.get();
-    _settingsStorage.listenable.addListener(_onSettingsChanged);
+  Widget build(BuildContext context) {
+    return BlocBuilder<SettingsBloc, SettingsState>(
+      buildWhen: (previous, current) =>
+          previous.accentColorHue != current.accentColorHue ||
+          previous.settings.themeMode != current.settings.themeMode,
+      builder: (context, state) => _AppThemeScopeInherited(
+        data: AppThemeScopeData(
+          seedColor: AppTheme.seedColorFromHue(state.accentColorHue),
+          themeMode: _themeMode(state.settings.themeMode),
+        ),
+        child: child,
+      ),
+    );
   }
 
-  @override
-  void dispose() {
-    _settingsStorage.listenable.removeListener(_onSettingsChanged);
-    super.dispose();
-  }
-
-  void _onSettingsChanged() {
-    setState(() {
-      _settings = _settingsStorage.listenable.value;
-    });
-  }
-
-  Color get _seedColor => AppTheme.seedColorFromHue(_settings.accentColorHue);
-
-  ThemeMode get _themeMode => switch (_settings.themeMode) {
+  ThemeMode _themeMode(AppThemeMode mode) => switch (mode) {
         AppThemeMode.light => ThemeMode.light,
         AppThemeMode.dark => ThemeMode.dark,
         AppThemeMode.system => ThemeMode.system,
       };
-
-  @override
-  Widget build(BuildContext context) {
-    return _AppThemeScopeInherited(
-      data: AppThemeScopeData(
-        seedColor: _seedColor,
-        themeMode: _themeMode,
-      ),
-      child: widget.child,
-    );
-  }
 }
 
 class AppThemeScopeData {

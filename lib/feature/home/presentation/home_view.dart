@@ -5,8 +5,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
+import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
 import 'package:quizzerg/feature/home/presentation/home_screen.dart';
+import 'package:quizzerg/feature/sync/domain/bloc/sync_bloc.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/motion/app_motion.dart';
 
@@ -56,13 +59,41 @@ class HomeView extends StatelessWidget {
               label: context.l10n.questionStatsTitle,
             ),
             NavigationDestination(
-              icon: const _DebugEntryPoint(child: Icon(Icons.person_outline)),
-              selectedIcon: const _DebugEntryPoint(child: Icon(Icons.person)),
+              icon: _ProfileTabIcon(
+                syncState: viewModel.syncState,
+                child: const _DebugEntryPoint(
+                  child: Icon(Icons.person_outline),
+                ),
+              ),
+              selectedIcon: _ProfileTabIcon(
+                syncState: viewModel.syncState,
+                child: const _DebugEntryPoint(child: Icon(Icons.person)),
+              ),
               label: context.l10n.navigationProfile,
             ),
           ],
         );
       },
+    );
+  }
+}
+
+/// Бейдж на табе профиля, когда сессия истекла: перелогин — единственное
+/// действие, которое пользователь должен заметить сам.
+class _ProfileTabIcon extends StatelessWidget {
+  final StateStreamable<SyncState> syncState;
+  final Widget child;
+
+  const _ProfileTabIcon({required this.syncState, required this.child});
+
+  @override
+  Widget build(BuildContext context) {
+    return StateStreamableBuilder<SyncState>(
+      bloc: syncState,
+      builder: (context, state) => Badge(
+        isLabelVisible: state.status.isExpired,
+        child: child,
+      ),
     );
   }
 }
@@ -77,7 +108,7 @@ class _DebugEntryPoint extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (!kDebugMode) return child;
+    // if (!kDebugMode) return child;
 
     return GestureDetector(
       // Обычный тап должен по-прежнему доходить до NavigationBar.

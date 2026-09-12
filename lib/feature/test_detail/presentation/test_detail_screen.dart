@@ -2,11 +2,11 @@ import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import 'package:quizzerg/app/di/app_scope.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/core/services/csv_import_service.dart';
 import 'package:quizzerg/core/utils/answer_parser.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/test_detail/domain/bloc/csv_import_bloc.dart';
 import 'package:quizzerg/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:quizzerg/feature/test_detail/presentation/csv_import_dialog.dart';
 import 'package:quizzerg/feature/test_detail/presentation/test_detail_view.dart';
@@ -15,6 +15,7 @@ import 'package:quizzerg/feature/tests_list/domain/entity/test_type.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
+import 'package:quizzerg/uikit/snackbars/snack_controller.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 
 /// Test detail screen.
@@ -38,18 +39,25 @@ class TestDetailScreen extends StatefulWidget {
 
 class _TestDetailScreenState extends State<TestDetailScreen>
     implements ITestDetailViewModel {
+  /// Как показывать карточку в прохождении. Ни на что на этом экране не
+  /// влияет — уходит параметром в маршрут теста.
   bool _swapSides = false;
   int _answerIndex = 0;
 
   @override
+  StateStreamable<TestDetailState> get testDetailState =>
+      context.read<TestDetailBloc>();
+
+  @override
+  StateStreamable<CsvImportState> get csvImportState =>
+      context.read<CsvImportBloc>();
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TestDetailBloc, TestDetailState>(
-      builder: (context, state) {
-        return TestDetailView(
-          viewModel: this,
-          state: state,
-        );
-      },
+    return BlocListener<CsvImportBloc, CsvImportState>(
+      listenWhen: (previous, current) => previous.result != current.result,
+      listener: _onCsvImportResult,
+      child: TestDetailView(viewModel: this),
     );
   }
 
@@ -82,8 +90,8 @@ class _TestDetailScreenState extends State<TestDetailScreen>
   @override
   void onCardDeletePressed(CardEntity card) {
     context.read<TestDetailBloc>().add(
-          TestDetailEvent.cardDeleted(cardId: card.id),
-        );
+      TestDetailEvent.cardDeleted(cardId: card.id),
+    );
   }
 
   @override
@@ -103,9 +111,9 @@ class _TestDetailScreenState extends State<TestDetailScreen>
       builder: (dialogContext) => AppDialog(
         title: Text(
           dialogContext.l10n.testDetailNewCardTitle,
-          style: Theme.of(dialogContext).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+          style: Theme.of(
+            dialogContext,
+          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -137,11 +145,8 @@ class _TestDetailScreenState extends State<TestDetailScreen>
               final back = backController.text.trim();
               if (front.isNotEmpty && back.isNotEmpty) {
                 context.read<TestDetailBloc>().add(
-                      TestDetailEvent.cardAdded(
-                        front: front,
-                        back: back,
-                      ),
-                    );
+                  TestDetailEvent.cardAdded(front: front, back: back),
+                );
                 Navigator.of(dialogContext).pop();
               }
             },
@@ -161,9 +166,9 @@ class _TestDetailScreenState extends State<TestDetailScreen>
       builder: (dialogContext) => AppDialog(
         title: Text(
           dialogContext.l10n.testDetailEditCardTitle,
-          style: Theme.of(dialogContext).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+          style: Theme.of(
+            dialogContext,
+          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -201,8 +206,8 @@ class _TestDetailScreenState extends State<TestDetailScreen>
                   updatedAt: DateTime.now(),
                 );
                 context.read<TestDetailBloc>().add(
-                      TestDetailEvent.cardUpdated(card: updatedCard),
-                    );
+                  TestDetailEvent.cardUpdated(card: updatedCard),
+                );
                 Navigator.of(dialogContext).pop();
               }
             },
@@ -215,17 +220,18 @@ class _TestDetailScreenState extends State<TestDetailScreen>
 
   void _showEditTestDialog(String currentTitle, String? currentDescription) {
     final titleController = TextEditingController(text: currentTitle);
-    final descriptionController =
-        TextEditingController(text: currentDescription ?? '');
+    final descriptionController = TextEditingController(
+      text: currentDescription ?? '',
+    );
 
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AppDialog(
         title: Text(
           dialogContext.l10n.testDetailEditTestTitle,
-          style: Theme.of(dialogContext).textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w600,
-              ),
+          style: Theme.of(
+            dialogContext,
+          ).textTheme.headlineSmall?.copyWith(fontWeight: FontWeight.w600),
         ),
         content: Column(
           mainAxisSize: MainAxisSize.min,
@@ -253,13 +259,13 @@ class _TestDetailScreenState extends State<TestDetailScreen>
               final title = titleController.text.trim();
               if (title.isNotEmpty) {
                 context.read<TestDetailBloc>().add(
-                      TestDetailEvent.testUpdated(
-                        title: title,
-                        description: descriptionController.text.trim().isEmpty
-                            ? null
-                            : descriptionController.text.trim(),
-                      ),
-                    );
+                  TestDetailEvent.testUpdated(
+                    title: title,
+                    description: descriptionController.text.trim().isEmpty
+                        ? null
+                        : descriptionController.text.trim(),
+                  ),
+                );
                 Navigator.of(dialogContext).pop();
               }
             },
@@ -311,10 +317,9 @@ class _TestDetailScreenState extends State<TestDetailScreen>
       ),
     ).then((result) {
       if (result == null) return;
-      setState(() {
-        _swapSides = result.swapSides;
-        _answerIndex = result.answerIndex;
-      });
+      // Экран этих значений не показывает, перерисовка не нужна.
+      _swapSides = result.swapSides;
+      _answerIndex = result.answerIndex;
     });
   }
 
@@ -324,62 +329,71 @@ class _TestDetailScreenState extends State<TestDetailScreen>
   }
 
   Future<void> _showCsvImportDialog() async {
-    final scope = context.read<IAppScope>();
-    final dialogResult = await showDialog<CsvImportDialogResult>(
+    final bloc = context.read<CsvImportBloc>()
+      ..add(const CsvImportEvent.reset());
+
+    final isConfirmed = await showDialog<bool>(
       context: context,
-      builder: (_) => CsvImportDialog(
-        csvImportService: scope.csvImportService,
-      ),
+      builder: (_) => CsvImportDialog(viewModel: this),
     );
 
-    if (dialogResult == null || !mounted) return;
+    if (isConfirmed ?? false) {
+      bloc.add(const CsvImportEvent.importRequested());
+    }
+  }
 
-    final result = await scope.csvImportService.parseFiles(
-      dialogResult.files,
-      dialogResult.delimiter,
+  @override
+  void onCsvFilesPickPressed() {
+    context.read<CsvImportBloc>().add(
+      const CsvImportEvent.filesPickRequested(),
     );
+  }
 
-    if (!mounted) return;
+  @override
+  void onCsvFileRemovePressed(int index) {
+    context.read<CsvImportBloc>().add(CsvImportEvent.fileRemoved(index: index));
+  }
 
-    final fileCount = dialogResult.files.length;
+  @override
+  void onCsvDelimiterChanged(String delimiter) {
+    context.read<CsvImportBloc>().add(
+      CsvImportEvent.delimiterChanged(delimiter: delimiter),
+    );
+  }
+
+  /// Разбор закончился: добавляем карточки в тест и показываем итог.
+  void _onCsvImportResult(BuildContext context, CsvImportState state) {
+    final result = state.result?.value;
+    if (result == null) return;
 
     switch (result) {
       case CsvImportSuccess(:final cards):
         context.read<TestDetailBloc>().add(
-              TestDetailEvent.cardsImported(cards: cards),
-            );
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              context.l10n.csvImportSuccess(cards.length, fileCount),
-            ),
-          ),
+          TestDetailEvent.cardsImported(cards: cards),
+        );
+        SnackController.show(
+          context,
+          context.l10n.csvImportSuccess(cards.length, state.fileCount),
         );
       case CsvImportPartialSuccess(:final cards, :final failedFiles):
         context.read<TestDetailBloc>().add(
-              TestDetailEvent.cardsImported(cards: cards),
-            );
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(
-              context.l10n.csvImportPartialSuccess(
-                cards.length,
-                failedFiles.join(', '),
-              ),
-            ),
+          TestDetailEvent.cardsImported(cards: cards),
+        );
+        SnackController.show(
+          context,
+          context.l10n.csvImportPartialSuccess(
+            cards.length,
+            failedFiles.join(', '),
           ),
         );
       case CsvImportCancelled():
         break;
       case CsvImportError(:final type):
-        final message = switch (type) {
+        SnackController.showError(context, switch (type) {
           CsvImportErrorType.empty => context.l10n.csvImportErrorEmpty,
           CsvImportErrorType.invalidFormat => context.l10n.csvImportErrorFormat,
           CsvImportErrorType.readError => context.l10n.csvImportErrorRead,
-        };
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(message)),
-        );
+        });
     }
   }
 }
@@ -388,6 +402,12 @@ class _TestDetailScreenState extends State<TestDetailScreen>
 ///
 /// Определяет контракт между [TestDetailScreen] и [TestDetailView].
 abstract interface class ITestDetailViewModel {
+  /// Тест и его карточки.
+  StateStreamable<TestDetailState> get testDetailState;
+
+  /// Черновик импорта из CSV: выбранные файлы и разделитель.
+  StateStreamable<CsvImportState> get csvImportState;
+
   void onBackPressed();
 
   void onAddCardPressed();
@@ -405,4 +425,13 @@ abstract interface class ITestDetailViewModel {
   void onImportCsvPressed();
 
   void onTestSettingsPressed();
+
+  /// Открыть системный выбор CSV-файлов.
+  void onCsvFilesPickPressed();
+
+  /// Убрать файл из списка выбранных.
+  void onCsvFileRemovePressed(int index);
+
+  /// Изменить разделитель колонок.
+  void onCsvDelimiterChanged(String delimiter);
 }

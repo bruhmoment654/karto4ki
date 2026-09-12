@@ -6,6 +6,10 @@ import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/feature/groups_list/domain/bloc/groups_list_bloc.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
 import 'package:quizzerg/feature/groups_list/presentation/groups_list_view.dart';
+import 'package:quizzerg/feature/sync/domain/bloc/sync_bloc.dart';
+import 'package:quizzerg/feature/sync/presentation/sync_status_dialog.dart';
+import 'package:quizzerg/feature/test_execution/domain/bloc/active_session_bloc.dart';
+import 'package:quizzerg/feature/test_execution/domain/entity/active_test_session.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
@@ -21,12 +25,56 @@ class GroupsListScreen extends StatefulWidget {
 class _GroupsListScreenState extends State<GroupsListScreen>
     implements IGroupsListViewModel {
   @override
+  StateStreamable<GroupsListState> get groupsListState =>
+      context.read<GroupsListBloc>();
+
+  @override
+  StateStreamable<SyncState> get syncState => context.read<SyncBloc>();
+
+  @override
+  StateStreamable<ActiveSessionState> get activeSessionState =>
+      context.read<ActiveSessionBloc>();
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<GroupsListBloc, GroupsListState>(
-      builder: (context, state) {
-        return GroupsListView(viewModel: this, state: state);
-      },
+    return GroupsListView(viewModel: this);
+  }
+
+  @override
+  void onSyncBadgeTap() {
+    showSyncStatusDialog(
+      context: context,
+      syncState: context.read<SyncBloc>(),
+      onSignInTap: onSignInTap,
+      onSyncTap: () => context.read<SyncBloc>().add(
+            const SyncEvent.requested(),
+          ),
     );
+  }
+
+  @override
+  void onSignInTap() {
+    context.router.root.push(const AuthRoute());
+  }
+
+  @override
+  void onSessionResumeTap(ActiveTestSession session) {
+    context.router.push(
+      TinderTestRoute(
+        testId: session.session.testId,
+        swapSides: session.params.swapSides,
+        answerIndex: session.params.answerIndex,
+        mixup: session.params.mixup,
+        mixupMin: session.params.mixupMin,
+        mixupMax: session.params.mixupMax,
+        resume: true,
+      ),
+    );
+  }
+
+  @override
+  void onSessionDismissTap() {
+    context.read<ActiveSessionBloc>().add(const ActiveSessionEvent.cleared());
   }
 
   @override
@@ -115,6 +163,27 @@ class _GroupsListScreenState extends State<GroupsListScreen>
 
 /// ViewModel интерфейс для экрана списка групп.
 abstract interface class IGroupsListViewModel {
+  /// Список групп: загрузка, данные, ошибка.
+  StateStreamable<GroupsListState> get groupsListState;
+
+  /// Состояние синхронизации: индикатор в шапке, прогресс и баннер входа.
+  StateStreamable<SyncState> get syncState;
+
+  /// Незавершённая сессия прохождения теста.
+  StateStreamable<ActiveSessionState> get activeSessionState;
+
+  /// Тап по индикатору синхронизации в шапке.
+  void onSyncBadgeTap();
+
+  /// Тап по «Войти» в баннере протухшей сессии.
+  void onSignInTap();
+
+  /// Продолжить незавершённую сессию.
+  void onSessionResumeTap(ActiveTestSession session);
+
+  /// Убрать карточку незавершённой сессии.
+  void onSessionDismissTap();
+
   void onAddGroupPressed();
 
   void onGroupTapped(TestGroupEntity group);

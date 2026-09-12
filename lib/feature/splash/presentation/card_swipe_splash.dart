@@ -62,31 +62,33 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
   );
 
   /// Оверлей полностью ушёл за край — перестаём его рисовать.
-  bool _gone = false;
+  final ValueNotifier<bool> _isGone = ValueNotifier(false);
 
   @override
   void initState() {
     super.initState();
     _controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        setState(() => _gone = true);
-        widget.onFinished?.call();
-      }
+      if (status == AnimationStatus.completed) _finish();
     });
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       // Reduced-motion: сразу убираем оверлей без анимации.
       if (MediaQuery.of(context).disableAnimations) {
-        setState(() => _gone = true);
-        widget.onFinished?.call();
+        _finish();
       } else {
         _controller.forward();
       }
     });
   }
 
+  void _finish() {
+    _isGone.value = true;
+    widget.onFinished?.call();
+  }
+
   @override
   void dispose() {
+    _isGone.dispose();
     _controller.dispose();
     super.dispose();
   }
@@ -105,8 +107,12 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
     return Stack(
       children: [
         widget.child,
-        if (!_gone)
-          AnimatedBuilder(
+        ValueListenableBuilder<bool>(
+          valueListenable: _isGone,
+          builder: (context, isGone, child) => isGone
+              ? const SizedBox.shrink()
+              : child ?? const SizedBox.shrink(),
+          child: AnimatedBuilder(
             animation: _controller,
             builder: (context, _) {
               final value = _controller.value;
@@ -169,6 +175,7 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
               );
             },
           ),
+        ),
       ],
     );
   }

@@ -31,6 +31,9 @@ class CardSyncAdapter implements SyncEntityAdapter {
   }
 
   @override
+  Future<int> countDirty() => _cardsDatabase.countPendingCards();
+
+  @override
   Future<bool> isPending(String id) async {
     final row = await _cardsDatabase.getCardByIdRaw(id);
 

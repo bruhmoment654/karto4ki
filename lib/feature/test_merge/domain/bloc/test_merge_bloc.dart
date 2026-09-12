@@ -4,6 +4,7 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/core/feature/core/failure.dart';
 import 'package:quizzerg/core/feature/core/failures/unknown_failure.dart';
+import 'package:quizzerg/feature/sync/domain/repository/i_sync_signal_repository.dart';
 import 'package:quizzerg/feature/test_merge/domain/repository/i_test_merge_repository.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 
@@ -14,9 +15,13 @@ part 'test_merge_bloc.freezed.dart';
 /// BLoC для экрана объединения тестов.
 final class TestMergeBloc extends Bloc<TestMergeEvent, TestMergeState> {
   final ITestMergeRepository _repository;
+  final ISyncSignalRepository _syncSignal;
 
-  TestMergeBloc({required ITestMergeRepository repository})
-      : _repository = repository,
+  TestMergeBloc({
+    required ITestMergeRepository repository,
+    required ISyncSignalRepository syncSignal,
+  })  : _repository = repository,
+        _syncSignal = syncSignal,
         super(const TestMergeState.loading()) {
     on<TestMergeEvent>(
       (event, emit) => switch (event) {
@@ -86,6 +91,7 @@ final class TestMergeBloc extends Bloc<TestMergeEvent, TestMergeState> {
     );
     switch (result) {
       case ResultOk(:final data):
+        _syncSignal.notifyLocalMutation();
         emit(TestMergeState.success(newTestId: data));
       case ResultFailed(:final error, :final stackTrace):
         emit(TestMergeState.error(

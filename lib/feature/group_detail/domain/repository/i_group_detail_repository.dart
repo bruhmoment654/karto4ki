@@ -32,14 +32,16 @@ abstract interface class IGroupDetailRepository {
     required String title,
   });
 
-  /// Количество групп, в которых состоит тест.
-  RequestOperation<int> getGroupCountForTest(String testId);
-
   /// Получить все группы.
   RequestOperation<List<TestGroupEntity>> getAllGroups();
 
-  /// Получить id групп, в которых состоит тест.
-  RequestOperation<List<String>> getGroupIdsForTest(String testId);
+  /// Получить id групп для каждого из тестов [testIds].
+  ///
+  /// Одним вызовом, чтобы деталка группы держала привязки прямо в состоянии
+  /// и не ходила в репозиторий из UI при открытии диалогов.
+  RequestOperation<Map<String, List<String>>> getGroupIdsForTests(
+    List<String> testIds,
+  );
 
   /// Обновить привязки теста к группам.
   RequestOperation<void> updateTestGroups({

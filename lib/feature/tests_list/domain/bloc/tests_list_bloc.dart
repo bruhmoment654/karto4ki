@@ -5,6 +5,7 @@ import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/core/feature/core/exension/string_title_x.dart';
 import 'package:quizzerg/core/feature/core/failure.dart';
 import 'package:quizzerg/core/feature/core/failures/unknown_failure.dart';
+import 'package:quizzerg/feature/sync/domain/repository/i_sync_signal_repository.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/feature/tests_list/domain/repository/i_tests_list_repository.dart';
 
@@ -17,9 +18,13 @@ part 'tests_list_bloc.freezed.dart';
 /// Manages loading, adding and deleting tests.
 final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
   final ITestsListRepository _repository;
+  final ISyncSignalRepository _syncSignal;
 
-  TestsListBloc({required ITestsListRepository repository})
-      : _repository = repository,
+  TestsListBloc({
+    required ITestsListRepository repository,
+    required ISyncSignalRepository syncSignal,
+  })  : _repository = repository,
+        _syncSignal = syncSignal,
         super(const TestsListState.loading()) {
     on<TestsListEvent>(
       (event, emit) => switch (event) {
@@ -57,6 +62,7 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
     );
     switch (addResult) {
       case ResultOk():
+        _syncSignal.notifyLocalMutation();
         final testsResult = await _repository.getTests();
         switch (testsResult) {
           case ResultOk(:final data):
@@ -80,6 +86,7 @@ final class TestsListBloc extends Bloc<TestsListEvent, TestsListState> {
     final deleteResult = await _repository.deleteTest(event.testId);
     switch (deleteResult) {
       case ResultOk():
+        _syncSignal.notifyLocalMutation();
         final testsResult = await _repository.getTests();
         switch (testsResult) {
           case ResultOk(:final data):

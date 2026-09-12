@@ -1,32 +1,38 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:quizzerg/core/services/csv_import_service.dart';
+import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
+import 'package:quizzerg/feature/test_detail/domain/bloc/csv_import_bloc.dart';
+import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 
-/// CSV import dialog result.
-typedef CsvImportDialogResult = ({List<String> files, String delimiter});
-
-/// File and delimiter picker dialog for CSV import.
+/// Диалог выбора файлов и разделителя для импорта CSV.
+///
+/// Черновик живёт в [CsvImportBloc] — диалог только показывает состояние
+/// и шлёт события. Возвращает `true`, если пользователь подтвердил импорт.
 class CsvImportDialog extends StatefulWidget {
-  final ICsvImportService csvImportService;
+  final ITestDetailViewModel viewModel;
 
-  const CsvImportDialog({
-    required this.csvImportService,
-    super.key,
-  });
+  const CsvImportDialog({required this.viewModel, super.key});
 
   @override
   State<CsvImportDialog> createState() => _CsvImportDialogState();
 }
 
 class _CsvImportDialogState extends State<CsvImportDialog> {
-  final _delimiterController = TextEditingController(text: ';');
-  final _selectedFiles = <String>[];
+  late final TextEditingController _delimiterController;
+
+  @override
+  void initState() {
+    super.initState();
+    _delimiterController = TextEditingController(
+      text: widget.viewModel.csvImportState.state.delimiter,
+    );
+  }
 
   @override
   void dispose() {
@@ -34,99 +40,78 @@ class _CsvImportDialogState extends State<CsvImportDialog> {
     super.dispose();
   }
 
-  @override
-  Widget build(BuildContext context) {
-    final l10n = context.l10n;
-    final canImport =
-        _selectedFiles.isNotEmpty && _delimiterController.text.isNotEmpty;
-
-    return AppDialog(
-      title: _DialogTitle(text: l10n.csvImportDialogTitle),
-      content: SizedBox(
-        width: double.maxFinite,
-        child: SingleChildScrollView(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                l10n.csvImportDialogDescription,
-                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                      color: Theme.of(context).colorScheme.onSurfaceVariant,
-                    ),
-              ),
-              const Height(14),
-              _ExampleBlock(text: l10n.csvImportDialogExample),
-              const Height(16),
-              Karto4kiTextField(
-                controller: _delimiterController,
-                labelText: l10n.csvImportDelimiterLabel,
-                hintText: l10n.csvImportDelimiterHint,
-                inputFormatters: [LengthLimitingTextInputFormatter(2)],
-                onChanged: (_) => setState(() {}),
-              ),
-              if (_selectedFiles.isNotEmpty) ...[
-                const Height(12),
-                ListView.builder(
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _selectedFiles.length,
-                  itemBuilder: (context, index) {
-                    final path = _selectedFiles[index];
-                    return _FileListItem(
-                      fileName: _baseName(path),
-                      onRemove: () => setState(
-                        () => _selectedFiles.removeAt(index),
-                      ),
-                    );
-                  },
-                ),
-              ],
-              const Height(16),
-              _FileDropZone(
-                hasFiles: _selectedFiles.isNotEmpty,
-                onAddFiles: _onAddFiles,
-              ),
-            ],
-          ),
-        ),
-      ),
-      actions: [
-        TextButton(
-          onPressed: () => Navigator.of(context).pop(),
-          child: Text(l10n.csvImportDialogCancel),
-        ),
-        TextButton(
-          onPressed: canImport
-              ? () => Navigator.of(context).pop(
-                    (
-                      files: List<String>.of(_selectedFiles),
-                      delimiter: _delimiterController.text,
-                    ),
-                  )
-              : null,
-          child: Text(l10n.csvImportDialogContinue),
-        ),
-      ],
-    );
-  }
-
-  Future<void> _onAddFiles() async {
-    final paths = await widget.csvImportService.pickFiles();
-    if (paths == null || paths.isEmpty) return;
-
-    setState(() {
-      for (final path in paths) {
-        if (!_selectedFiles.contains(path)) {
-          _selectedFiles.add(path);
-        }
-      }
-    });
-  }
-
   String _baseName(String path) {
     final separator = path.contains(r'\') ? r'\' : '/';
     return path.split(separator).last;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final l10n = context.l10n;
+
+    return StateStreamableBuilder<CsvImportState>(
+      bloc: widget.viewModel.csvImportState,
+      builder: (context, state) => AppDialog(
+        title: _DialogTitle(text: l10n.csvImportDialogTitle),
+        content: SizedBox(
+          width: double.maxFinite,
+          child: SingleChildScrollView(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  l10n.csvImportDialogDescription,
+                  style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                        color: Theme.of(context).colorScheme.onSurfaceVariant,
+                      ),
+                ),
+                const Height(14),
+                _ExampleBlock(text: l10n.csvImportDialogExample),
+                const Height(16),
+                Karto4kiTextField(
+                  controller: _delimiterController,
+                  labelText: l10n.csvImportDelimiterLabel,
+                  hintText: l10n.csvImportDelimiterHint,
+                  inputFormatters: [LengthLimitingTextInputFormatter(2)],
+                  onChanged: widget.viewModel.onCsvDelimiterChanged,
+                ),
+                if (state.files.isNotEmpty) ...[
+                  const Height(12),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount: state.files.length,
+                    itemBuilder: (context, index) => _FileListItem(
+                      fileName: _baseName(state.files[index]),
+                      onRemove: () =>
+                          widget.viewModel.onCsvFileRemovePressed(index),
+                    ),
+                  ),
+                ],
+                const Height(16),
+                _FileDropZone(
+                  hasFiles: state.files.isNotEmpty,
+                  onAddFiles: widget.viewModel.onCsvFilesPickPressed,
+                ),
+              ],
+            ),
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(context).pop(false),
+            child: Text(l10n.csvImportDialogCancel),
+          ),
+          TextButton(
+            onPressed: state.canImport
+                ? () => Navigator.of(context).pop(true)
+                : null,
+            child: Text(l10n.csvImportDialogContinue),
+          ),
+        ],
+      ),
+    );
   }
 }
 

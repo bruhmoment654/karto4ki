@@ -2,6 +2,7 @@ import 'package:json_annotation/json_annotation.dart';
 
 import 'package:quizzerg/feature/sync/data/dto/change_event_dto.dart';
 import 'package:quizzerg/feature/sync/domain/entity/sync_entity_type.dart';
+import 'package:quizzerg/network/dto/utc_date_time_converter.dart';
 
 part 'sync_push_dto.g.dart';
 
@@ -68,10 +69,15 @@ class SyncPushResultDto {
   final List<SyncConflictDto> conflicts;
   final List<AppliedChangeDto> appliedItems;
 
+  /// Часы сервера на момент генерации ответа. nullable до выкатки поля.
+  @NullableUtcDateTimeConverter()
+  final DateTime? serverTime;
+
   const SyncPushResultDto({
     required this.applied,
     this.conflicts = const [],
     this.appliedItems = const [],
+    this.serverTime,
   });
 
   factory SyncPushResultDto.fromJson(Map<String, dynamic> json) =>

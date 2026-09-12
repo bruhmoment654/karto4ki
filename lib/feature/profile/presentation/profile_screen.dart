@@ -1,12 +1,13 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
-import 'package:quizzerg/core/feature/core/entity/result.dart';
-import 'package:quizzerg/feature/profile/domain/entity/profile_summary_entity.dart';
-import 'package:quizzerg/feature/profile/domain/profile_stats_calculator.dart';
+import 'package:quizzerg/feature/auth/domain/bloc/auth_bloc.dart';
+import 'package:quizzerg/feature/profile/domain/bloc/profile_bloc.dart';
 import 'package:quizzerg/feature/profile/presentation/profile_view.dart';
+import 'package:quizzerg/feature/sync/domain/bloc/sync_bloc.dart';
+import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -17,81 +18,40 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen>
     implements IProfileViewModel {
-  ProfileSummaryEntity? _summary;
-  bool _isLoading = true;
-  Object? _error;
+  @override
+  StateStreamable<ProfileState> get profileState => context.read<ProfileBloc>();
 
   @override
-  ProfileSummaryEntity? get summary => _summary;
+  StateStreamable<AuthState> get authState => context.read<AuthBloc>();
 
   @override
-  bool get isLoading => _isLoading;
+  StateStreamable<SyncState> get syncState => context.read<SyncBloc>();
 
   @override
-  Object? get error => _error;
-
-  @override
-  void initState() {
-    super.initState();
-    _loadSummary();
-  }
-
-  Future<void> _loadSummary() async {
-    setState(() {
-      _isLoading = true;
-      _error = null;
-    });
-
-    final scope = context.read<IAppScope>();
-    final statsResult = await scope.questionStatsRepository.getAllStats();
-    final datesResult = await scope.questionStatsRepository.getActiveDates();
-    final groupsResult = await scope.groupsListRepository.getGroups();
-    final testsResult = await scope.testsListRepository.getTests();
-
-    if (!mounted) return;
-
-    switch ((statsResult, datesResult, groupsResult, testsResult)) {
-      case (
-          ResultOk(data: final stats),
-          ResultOk(data: final dates),
-          ResultOk(data: final groups),
-          ResultOk(data: final tests),
-        ):
-        setState(() {
-          _isLoading = false;
-          _summary = ProfileStatsCalculator.calculate(
-            stats: stats,
-            activeDates: dates,
-            today: DateTime.now(),
-            groupsCount: groups.length,
-            testsCount: tests.length,
-          );
-        });
-      case _:
-        setState(() {
-          _isLoading = false;
-          _error = _firstError([
-                statsResult,
-                datesResult,
-                groupsResult,
-                testsResult,
-              ]) ??
-              Exception('Unknown error');
-        });
-    }
-  }
-
-  Object? _firstError(List<Result<Object?, Object>> results) {
-    for (final result in results) {
-      if (result case ResultFailed(:final error)) return error;
-    }
-    return null;
+  void onSyncTap() {
+    context.read<SyncBloc>().add(const SyncEvent.requested());
   }
 
   @override
-  void onIdentityTap() {
-    // Вкладки Home: 0 — главная, 1 — статистика, 2 — профиль.
-    context.tabsRouter.setActiveIndex(0);
+  void onSignInTap() {
+    context.router.push(const AuthRoute());
+  }
+
+  /// Выход подтверждаем явно: пользователю важно знать, что локальные
+  /// карточки останутся, а синхронизация остановится.
+  @override
+  Future<void> onSignOutTap() async {
+    final l10n = context.l10n;
+    final bloc = context.read<AuthBloc>();
+    final isConfirmed = await AppDialog.confirm(
+      context: context,
+      title: l10n.profileSignOutDialogTitle,
+      message: l10n.profileSignOutDialogMessage,
+      cancelLabel: l10n.commonCancel,
+      confirmLabel: l10n.profileSignOutDialogConfirm,
+    );
+
+    if (isConfirmed ?? false) bloc.add(const AuthEvent.signOutRequested());
   }
 
   @override
@@ -106,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen>
 
   @override
   void onRetryTap() {
-    _loadSummary();
+    context.read<ProfileBloc>().add(const ProfileEvent.started());
   }
 
   @override
@@ -115,12 +75,24 @@ class _ProfileScreenState extends State<ProfileScreen>
   }
 }
 
+/// Контракт взаимодействия [ProfileScreen] и [ProfileView].
 abstract interface class IProfileViewModel {
-  ProfileSummaryEntity? get summary;
-  bool get isLoading;
-  Object? get error;
-  void onIdentityTap();
+  /// Сводка профиля: загрузка, данные, ошибка.
+  StateStreamable<ProfileState> get profileState;
+
+  /// Состояние авторизации: от него зависит первый блок, карточка
+  /// синхронизации и строка «Выйти».
+  StateStreamable<AuthState> get authState;
+
+  /// Состояние синхронизации для карточки в профиле.
+  StateStreamable<SyncState> get syncState;
+
+  /// Запустить синхронизацию вручную.
+  void onSyncTap();
+
   void onStatsTap();
   void onSettingsTap();
   void onRetryTap();
+  void onSignInTap();
+  Future<void> onSignOutTap();
 }

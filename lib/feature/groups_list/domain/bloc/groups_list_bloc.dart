@@ -8,6 +8,7 @@ import 'package:quizzerg/core/feature/core/failure.dart';
 import 'package:quizzerg/core/feature/core/failures/unknown_failure.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
 import 'package:quizzerg/feature/groups_list/domain/repository/i_groups_list_repository.dart';
+import 'package:quizzerg/feature/sync/domain/repository/i_sync_signal_repository.dart';
 import 'package:rxdart/rxdart.dart';
 
 part 'groups_list_bloc.freezed.dart';
@@ -17,10 +18,14 @@ part 'groups_list_state.dart';
 /// BLoC для экрана списка групп.
 final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
   final IGroupsListRepository _repository;
+  final ISyncSignalRepository _syncSignal;
   StreamSubscription<void>? _changesSubscription;
 
-  GroupsListBloc({required IGroupsListRepository repository})
-      : _repository = repository,
+  GroupsListBloc({
+    required IGroupsListRepository repository,
+    required ISyncSignalRepository syncSignal,
+  })  : _repository = repository,
+        _syncSignal = syncSignal,
         super(const GroupsListState.loading()) {
     on<GroupsListEvent>(
       (event, emit) => switch (event) {
@@ -64,6 +69,7 @@ final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
     );
     switch (addResult) {
       case ResultOk():
+        _syncSignal.notifyLocalMutation();
         final groupsResult = await _repository.getGroups();
         switch (groupsResult) {
           case ResultOk(:final data):
@@ -87,6 +93,7 @@ final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
     final deleteResult = await _repository.deleteGroup(event.groupId);
     switch (deleteResult) {
       case ResultOk():
+        _syncSignal.notifyLocalMutation();
         final groupsResult = await _repository.getGroups();
         switch (groupsResult) {
           case ResultOk(:final data):

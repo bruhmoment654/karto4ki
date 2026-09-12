@@ -6,6 +6,7 @@ import 'package:quizzerg/core/feature/core/failure.dart';
 import 'package:quizzerg/core/feature/core/failures/not_found_failure.dart';
 import 'package:quizzerg/core/feature/core/failures/unknown_failure.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/sync/domain/repository/i_sync_signal_repository.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_test_detail_repository.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 
@@ -18,10 +19,14 @@ part 'test_detail_bloc.freezed.dart';
 /// Manages loading test with cards, adding, updating and deleting cards.
 final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
   final ITestDetailRepository _repository;
+  final ISyncSignalRepository _syncSignal;
   String? _currentTestId;
 
-  TestDetailBloc({required ITestDetailRepository repository})
-      : _repository = repository,
+  TestDetailBloc({
+    required ITestDetailRepository repository,
+    required ISyncSignalRepository syncSignal,
+  })  : _repository = repository,
+        _syncSignal = syncSignal,
         super(const TestDetailState.loading()) {
     on<TestDetailEvent>(
       (event, emit) => switch (event) {
@@ -85,6 +90,7 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     );
     switch (result) {
       case ResultOk():
+        _syncSignal.notifyLocalMutation();
         await _reloadData(emit);
       case ResultFailed(:final error, :final stackTrace):
         emit(TestDetailState.error(
@@ -100,6 +106,7 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     final result = await _repository.deleteCard(event.cardId);
     switch (result) {
       case ResultOk():
+        _syncSignal.notifyLocalMutation();
         await _reloadData(emit);
       case ResultFailed(:final error, :final stackTrace):
         emit(TestDetailState.error(
@@ -115,6 +122,7 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     final result = await _repository.updateCard(event.card);
     switch (result) {
       case ResultOk():
+        _syncSignal.notifyLocalMutation();
         await _reloadData(emit);
       case ResultFailed(:final error, :final stackTrace):
         emit(TestDetailState.error(
@@ -142,6 +150,7 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     final result = await _repository.updateTest(updatedTest);
     switch (result) {
       case ResultOk():
+        _syncSignal.notifyLocalMutation();
         await _reloadData(emit);
       case ResultFailed(:final error, :final stackTrace):
         emit(TestDetailState.error(
@@ -163,6 +172,7 @@ final class TestDetailBloc extends Bloc<TestDetailEvent, TestDetailState> {
     );
     switch (result) {
       case ResultOk():
+        _syncSignal.notifyLocalMutation();
         await _reloadData(emit);
       case ResultFailed(:final error, :final stackTrace):
         emit(TestDetailState.error(

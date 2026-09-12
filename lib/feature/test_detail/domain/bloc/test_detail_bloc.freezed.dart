@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,1617 +9,952 @@ part of 'test_detail_bloc.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$TestDetailEvent {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId) started,
-    required TResult Function(String front, String back) cardAdded,
-    required TResult Function(String cardId) cardDeleted,
-    required TResult Function(CardEntity card) cardUpdated,
-    required TResult Function(String title, String? description) testUpdated,
-    required TResult Function(List<({String back, String front})> cards)
-        cardsImported,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId)? started,
-    TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(String cardId)? cardDeleted,
-    TResult? Function(CardEntity card)? cardUpdated,
-    TResult? Function(String title, String? description)? testUpdated,
-    TResult? Function(List<({String back, String front})> cards)? cardsImported,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId)? started,
-    TResult Function(String front, String back)? cardAdded,
-    TResult Function(String cardId)? cardDeleted,
-    TResult Function(CardEntity card)? cardUpdated,
-    TResult Function(String title, String? description)? testUpdated,
-    TResult Function(List<({String back, String front})> cards)? cardsImported,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TestDetailEvent$Started value) started,
-    required TResult Function(_TestDetailEvent$CardAdded value) cardAdded,
-    required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
-    required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
-    required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
-    required TResult Function(_TestDetailEvent$CardsImported value)
-        cardsImported,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TestDetailEvent$Started value)? started,
-    TResult? Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TestDetailEvent$Started value)? started,
-    TResult Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestDetailEvent);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TestDetailEvent()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $TestDetailEventCopyWith<$Res> {
-  factory $TestDetailEventCopyWith(
-          TestDetailEvent value, $Res Function(TestDetailEvent) then) =
-      _$TestDetailEventCopyWithImpl<$Res, TestDetailEvent>;
+class $TestDetailEventCopyWith<$Res>  {
+$TestDetailEventCopyWith(TestDetailEvent _, $Res Function(TestDetailEvent) __);
 }
 
-/// @nodoc
-class _$TestDetailEventCopyWithImpl<$Res, $Val extends TestDetailEvent>
-    implements $TestDetailEventCopyWith<$Res> {
-  _$TestDetailEventCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [TestDetailEvent].
+extension TestDetailEventPatterns on TestDetailEvent {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _TestDetailEvent$Started value)?  started,TResult Function( _TestDetailEvent$CardAdded value)?  cardAdded,TResult Function( _TestDetailEvent$CardDeleted value)?  cardDeleted,TResult Function( _TestDetailEvent$CardUpdated value)?  cardUpdated,TResult Function( _TestDetailEvent$TestUpdated value)?  testUpdated,TResult Function( _TestDetailEvent$CardsImported value)?  cardsImported,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _TestDetailEvent$Started() when started != null:
+return started(_that);case _TestDetailEvent$CardAdded() when cardAdded != null:
+return cardAdded(_that);case _TestDetailEvent$CardDeleted() when cardDeleted != null:
+return cardDeleted(_that);case _TestDetailEvent$CardUpdated() when cardUpdated != null:
+return cardUpdated(_that);case _TestDetailEvent$TestUpdated() when testUpdated != null:
+return testUpdated(_that);case _TestDetailEvent$CardsImported() when cardsImported != null:
+return cardsImported(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _TestDetailEvent$Started value)  started,required TResult Function( _TestDetailEvent$CardAdded value)  cardAdded,required TResult Function( _TestDetailEvent$CardDeleted value)  cardDeleted,required TResult Function( _TestDetailEvent$CardUpdated value)  cardUpdated,required TResult Function( _TestDetailEvent$TestUpdated value)  testUpdated,required TResult Function( _TestDetailEvent$CardsImported value)  cardsImported,}){
+final _that = this;
+switch (_that) {
+case _TestDetailEvent$Started():
+return started(_that);case _TestDetailEvent$CardAdded():
+return cardAdded(_that);case _TestDetailEvent$CardDeleted():
+return cardDeleted(_that);case _TestDetailEvent$CardUpdated():
+return cardUpdated(_that);case _TestDetailEvent$TestUpdated():
+return testUpdated(_that);case _TestDetailEvent$CardsImported():
+return cardsImported(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _TestDetailEvent$Started value)?  started,TResult? Function( _TestDetailEvent$CardAdded value)?  cardAdded,TResult? Function( _TestDetailEvent$CardDeleted value)?  cardDeleted,TResult? Function( _TestDetailEvent$CardUpdated value)?  cardUpdated,TResult? Function( _TestDetailEvent$TestUpdated value)?  testUpdated,TResult? Function( _TestDetailEvent$CardsImported value)?  cardsImported,}){
+final _that = this;
+switch (_that) {
+case _TestDetailEvent$Started() when started != null:
+return started(_that);case _TestDetailEvent$CardAdded() when cardAdded != null:
+return cardAdded(_that);case _TestDetailEvent$CardDeleted() when cardDeleted != null:
+return cardDeleted(_that);case _TestDetailEvent$CardUpdated() when cardUpdated != null:
+return cardUpdated(_that);case _TestDetailEvent$TestUpdated() when testUpdated != null:
+return testUpdated(_that);case _TestDetailEvent$CardsImported() when cardsImported != null:
+return cardsImported(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String testId)?  started,TResult Function( String front,  String back)?  cardAdded,TResult Function( String cardId)?  cardDeleted,TResult Function( CardEntity card)?  cardUpdated,TResult Function( String title,  String? description)?  testUpdated,TResult Function( List<({String front, String back})> cards)?  cardsImported,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _TestDetailEvent$Started() when started != null:
+return started(_that.testId);case _TestDetailEvent$CardAdded() when cardAdded != null:
+return cardAdded(_that.front,_that.back);case _TestDetailEvent$CardDeleted() when cardDeleted != null:
+return cardDeleted(_that.cardId);case _TestDetailEvent$CardUpdated() when cardUpdated != null:
+return cardUpdated(_that.card);case _TestDetailEvent$TestUpdated() when testUpdated != null:
+return testUpdated(_that.title,_that.description);case _TestDetailEvent$CardsImported() when cardsImported != null:
+return cardsImported(_that.cards);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String testId)  started,required TResult Function( String front,  String back)  cardAdded,required TResult Function( String cardId)  cardDeleted,required TResult Function( CardEntity card)  cardUpdated,required TResult Function( String title,  String? description)  testUpdated,required TResult Function( List<({String front, String back})> cards)  cardsImported,}) {final _that = this;
+switch (_that) {
+case _TestDetailEvent$Started():
+return started(_that.testId);case _TestDetailEvent$CardAdded():
+return cardAdded(_that.front,_that.back);case _TestDetailEvent$CardDeleted():
+return cardDeleted(_that.cardId);case _TestDetailEvent$CardUpdated():
+return cardUpdated(_that.card);case _TestDetailEvent$TestUpdated():
+return testUpdated(_that.title,_that.description);case _TestDetailEvent$CardsImported():
+return cardsImported(_that.cards);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String testId)?  started,TResult? Function( String front,  String back)?  cardAdded,TResult? Function( String cardId)?  cardDeleted,TResult? Function( CardEntity card)?  cardUpdated,TResult? Function( String title,  String? description)?  testUpdated,TResult? Function( List<({String front, String back})> cards)?  cardsImported,}) {final _that = this;
+switch (_that) {
+case _TestDetailEvent$Started() when started != null:
+return started(_that.testId);case _TestDetailEvent$CardAdded() when cardAdded != null:
+return cardAdded(_that.front,_that.back);case _TestDetailEvent$CardDeleted() when cardDeleted != null:
+return cardDeleted(_that.cardId);case _TestDetailEvent$CardUpdated() when cardUpdated != null:
+return cardUpdated(_that.card);case _TestDetailEvent$TestUpdated() when testUpdated != null:
+return testUpdated(_that.title,_that.description);case _TestDetailEvent$CardsImported() when cardsImported != null:
+return cardsImported(_that.cards);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$TestDetailEvent$StartedImplCopyWith<$Res> {
-  factory _$$TestDetailEvent$StartedImplCopyWith(
-          _$TestDetailEvent$StartedImpl value,
-          $Res Function(_$TestDetailEvent$StartedImpl) then) =
-      __$$TestDetailEvent$StartedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String testId});
-}
-
-/// @nodoc
-class __$$TestDetailEvent$StartedImplCopyWithImpl<$Res>
-    extends _$TestDetailEventCopyWithImpl<$Res, _$TestDetailEvent$StartedImpl>
-    implements _$$TestDetailEvent$StartedImplCopyWith<$Res> {
-  __$$TestDetailEvent$StartedImplCopyWithImpl(
-      _$TestDetailEvent$StartedImpl _value,
-      $Res Function(_$TestDetailEvent$StartedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? testId = null,
-  }) {
-    return _then(_$TestDetailEvent$StartedImpl(
-      testId: null == testId
-          ? _value.testId
-          : testId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$TestDetailEvent$StartedImpl implements _TestDetailEvent$Started {
-  const _$TestDetailEvent$StartedImpl({required this.testId});
-
-  @override
-  final String testId;
-
-  @override
-  String toString() {
-    return 'TestDetailEvent.started(testId: $testId)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestDetailEvent$StartedImpl &&
-            (identical(other.testId, testId) || other.testId == testId));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, testId);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestDetailEvent$StartedImplCopyWith<_$TestDetailEvent$StartedImpl>
-      get copyWith => __$$TestDetailEvent$StartedImplCopyWithImpl<
-          _$TestDetailEvent$StartedImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId) started,
-    required TResult Function(String front, String back) cardAdded,
-    required TResult Function(String cardId) cardDeleted,
-    required TResult Function(CardEntity card) cardUpdated,
-    required TResult Function(String title, String? description) testUpdated,
-    required TResult Function(List<({String back, String front})> cards)
-        cardsImported,
-  }) {
-    return started(testId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId)? started,
-    TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(String cardId)? cardDeleted,
-    TResult? Function(CardEntity card)? cardUpdated,
-    TResult? Function(String title, String? description)? testUpdated,
-    TResult? Function(List<({String back, String front})> cards)? cardsImported,
-  }) {
-    return started?.call(testId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId)? started,
-    TResult Function(String front, String back)? cardAdded,
-    TResult Function(String cardId)? cardDeleted,
-    TResult Function(CardEntity card)? cardUpdated,
-    TResult Function(String title, String? description)? testUpdated,
-    TResult Function(List<({String back, String front})> cards)? cardsImported,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started(testId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TestDetailEvent$Started value) started,
-    required TResult Function(_TestDetailEvent$CardAdded value) cardAdded,
-    required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
-    required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
-    required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
-    required TResult Function(_TestDetailEvent$CardsImported value)
-        cardsImported,
-  }) {
-    return started(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TestDetailEvent$Started value)? started,
-    TResult? Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
-  }) {
-    return started?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TestDetailEvent$Started value)? started,
-    TResult Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _TestDetailEvent$Started implements TestDetailEvent {
-  const factory _TestDetailEvent$Started({required final String testId}) =
-      _$TestDetailEvent$StartedImpl;
-
-  String get testId;
-  @JsonKey(ignore: true)
-  _$$TestDetailEvent$StartedImplCopyWith<_$TestDetailEvent$StartedImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$TestDetailEvent$CardAddedImplCopyWith<$Res> {
-  factory _$$TestDetailEvent$CardAddedImplCopyWith(
-          _$TestDetailEvent$CardAddedImpl value,
-          $Res Function(_$TestDetailEvent$CardAddedImpl) then) =
-      __$$TestDetailEvent$CardAddedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String front, String back});
-}
-
-/// @nodoc
-class __$$TestDetailEvent$CardAddedImplCopyWithImpl<$Res>
-    extends _$TestDetailEventCopyWithImpl<$Res, _$TestDetailEvent$CardAddedImpl>
-    implements _$$TestDetailEvent$CardAddedImplCopyWith<$Res> {
-  __$$TestDetailEvent$CardAddedImplCopyWithImpl(
-      _$TestDetailEvent$CardAddedImpl _value,
-      $Res Function(_$TestDetailEvent$CardAddedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? front = null,
-    Object? back = null,
-  }) {
-    return _then(_$TestDetailEvent$CardAddedImpl(
-      front: null == front
-          ? _value.front
-          : front // ignore: cast_nullable_to_non_nullable
-              as String,
-      back: null == back
-          ? _value.back
-          : back // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$TestDetailEvent$CardAddedImpl implements _TestDetailEvent$CardAdded {
-  const _$TestDetailEvent$CardAddedImpl(
-      {required this.front, required this.back});
 
-  @override
-  final String front;
-  @override
-  final String back;
+class _TestDetailEvent$Started implements TestDetailEvent {
+  const _TestDetailEvent$Started({required this.testId});
+  
 
-  @override
-  String toString() {
-    return 'TestDetailEvent.cardAdded(front: $front, back: $back)';
-  }
+ final  String testId;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestDetailEvent$CardAddedImpl &&
-            (identical(other.front, front) || other.front == front) &&
-            (identical(other.back, back) || other.back == back));
-  }
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TestDetailEvent$StartedCopyWith<_TestDetailEvent$Started> get copyWith => __$TestDetailEvent$StartedCopyWithImpl<_TestDetailEvent$Started>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, front, back);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestDetailEvent$CardAddedImplCopyWith<_$TestDetailEvent$CardAddedImpl>
-      get copyWith => __$$TestDetailEvent$CardAddedImplCopyWithImpl<
-          _$TestDetailEvent$CardAddedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId) started,
-    required TResult Function(String front, String back) cardAdded,
-    required TResult Function(String cardId) cardDeleted,
-    required TResult Function(CardEntity card) cardUpdated,
-    required TResult Function(String title, String? description) testUpdated,
-    required TResult Function(List<({String back, String front})> cards)
-        cardsImported,
-  }) {
-    return cardAdded(front, back);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId)? started,
-    TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(String cardId)? cardDeleted,
-    TResult? Function(CardEntity card)? cardUpdated,
-    TResult? Function(String title, String? description)? testUpdated,
-    TResult? Function(List<({String back, String front})> cards)? cardsImported,
-  }) {
-    return cardAdded?.call(front, back);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId)? started,
-    TResult Function(String front, String back)? cardAdded,
-    TResult Function(String cardId)? cardDeleted,
-    TResult Function(CardEntity card)? cardUpdated,
-    TResult Function(String title, String? description)? testUpdated,
-    TResult Function(List<({String back, String front})> cards)? cardsImported,
-    required TResult orElse(),
-  }) {
-    if (cardAdded != null) {
-      return cardAdded(front, back);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TestDetailEvent$Started value) started,
-    required TResult Function(_TestDetailEvent$CardAdded value) cardAdded,
-    required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
-    required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
-    required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
-    required TResult Function(_TestDetailEvent$CardsImported value)
-        cardsImported,
-  }) {
-    return cardAdded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TestDetailEvent$Started value)? started,
-    TResult? Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
-  }) {
-    return cardAdded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TestDetailEvent$Started value)? started,
-    TResult Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
-    required TResult orElse(),
-  }) {
-    if (cardAdded != null) {
-      return cardAdded(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TestDetailEvent$Started&&(identical(other.testId, testId) || other.testId == testId));
 }
 
-abstract class _TestDetailEvent$CardAdded implements TestDetailEvent {
-  const factory _TestDetailEvent$CardAdded(
-      {required final String front,
-      required final String back}) = _$TestDetailEvent$CardAddedImpl;
 
-  String get front;
-  String get back;
-  @JsonKey(ignore: true)
-  _$$TestDetailEvent$CardAddedImplCopyWith<_$TestDetailEvent$CardAddedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,testId);
+
+@override
+String toString() {
+  return 'TestDetailEvent.started(testId: $testId)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TestDetailEvent$CardDeletedImplCopyWith<$Res> {
-  factory _$$TestDetailEvent$CardDeletedImplCopyWith(
-          _$TestDetailEvent$CardDeletedImpl value,
-          $Res Function(_$TestDetailEvent$CardDeletedImpl) then) =
-      __$$TestDetailEvent$CardDeletedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String cardId});
+abstract mixin class _$TestDetailEvent$StartedCopyWith<$Res> implements $TestDetailEventCopyWith<$Res> {
+  factory _$TestDetailEvent$StartedCopyWith(_TestDetailEvent$Started value, $Res Function(_TestDetailEvent$Started) _then) = __$TestDetailEvent$StartedCopyWithImpl;
+@useResult
+$Res call({
+ String testId
+});
+
+
+
+
+}
+/// @nodoc
+class __$TestDetailEvent$StartedCopyWithImpl<$Res>
+    implements _$TestDetailEvent$StartedCopyWith<$Res> {
+  __$TestDetailEvent$StartedCopyWithImpl(this._self, this._then);
+
+  final _TestDetailEvent$Started _self;
+  final $Res Function(_TestDetailEvent$Started) _then;
+
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? testId = null,}) {
+  return _then(_TestDetailEvent$Started(
+testId: null == testId ? _self.testId : testId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-class __$$TestDetailEvent$CardDeletedImplCopyWithImpl<$Res>
-    extends _$TestDetailEventCopyWithImpl<$Res,
-        _$TestDetailEvent$CardDeletedImpl>
-    implements _$$TestDetailEvent$CardDeletedImplCopyWith<$Res> {
-  __$$TestDetailEvent$CardDeletedImplCopyWithImpl(
-      _$TestDetailEvent$CardDeletedImpl _value,
-      $Res Function(_$TestDetailEvent$CardDeletedImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? cardId = null,
-  }) {
-    return _then(_$TestDetailEvent$CardDeletedImpl(
-      cardId: null == cardId
-          ? _value.cardId
-          : cardId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$TestDetailEvent$CardDeletedImpl
-    implements _TestDetailEvent$CardDeleted {
-  const _$TestDetailEvent$CardDeletedImpl({required this.cardId});
 
-  @override
-  final String cardId;
+class _TestDetailEvent$CardAdded implements TestDetailEvent {
+  const _TestDetailEvent$CardAdded({required this.front, required this.back});
+  
 
-  @override
-  String toString() {
-    return 'TestDetailEvent.cardDeleted(cardId: $cardId)';
-  }
+ final  String front;
+ final  String back;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestDetailEvent$CardDeletedImpl &&
-            (identical(other.cardId, cardId) || other.cardId == cardId));
-  }
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TestDetailEvent$CardAddedCopyWith<_TestDetailEvent$CardAdded> get copyWith => __$TestDetailEvent$CardAddedCopyWithImpl<_TestDetailEvent$CardAdded>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, cardId);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestDetailEvent$CardDeletedImplCopyWith<_$TestDetailEvent$CardDeletedImpl>
-      get copyWith => __$$TestDetailEvent$CardDeletedImplCopyWithImpl<
-          _$TestDetailEvent$CardDeletedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId) started,
-    required TResult Function(String front, String back) cardAdded,
-    required TResult Function(String cardId) cardDeleted,
-    required TResult Function(CardEntity card) cardUpdated,
-    required TResult Function(String title, String? description) testUpdated,
-    required TResult Function(List<({String back, String front})> cards)
-        cardsImported,
-  }) {
-    return cardDeleted(cardId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId)? started,
-    TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(String cardId)? cardDeleted,
-    TResult? Function(CardEntity card)? cardUpdated,
-    TResult? Function(String title, String? description)? testUpdated,
-    TResult? Function(List<({String back, String front})> cards)? cardsImported,
-  }) {
-    return cardDeleted?.call(cardId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId)? started,
-    TResult Function(String front, String back)? cardAdded,
-    TResult Function(String cardId)? cardDeleted,
-    TResult Function(CardEntity card)? cardUpdated,
-    TResult Function(String title, String? description)? testUpdated,
-    TResult Function(List<({String back, String front})> cards)? cardsImported,
-    required TResult orElse(),
-  }) {
-    if (cardDeleted != null) {
-      return cardDeleted(cardId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TestDetailEvent$Started value) started,
-    required TResult Function(_TestDetailEvent$CardAdded value) cardAdded,
-    required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
-    required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
-    required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
-    required TResult Function(_TestDetailEvent$CardsImported value)
-        cardsImported,
-  }) {
-    return cardDeleted(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TestDetailEvent$Started value)? started,
-    TResult? Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
-  }) {
-    return cardDeleted?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TestDetailEvent$Started value)? started,
-    TResult Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
-    required TResult orElse(),
-  }) {
-    if (cardDeleted != null) {
-      return cardDeleted(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TestDetailEvent$CardAdded&&(identical(other.front, front) || other.front == front)&&(identical(other.back, back) || other.back == back));
 }
 
-abstract class _TestDetailEvent$CardDeleted implements TestDetailEvent {
-  const factory _TestDetailEvent$CardDeleted({required final String cardId}) =
-      _$TestDetailEvent$CardDeletedImpl;
 
-  String get cardId;
-  @JsonKey(ignore: true)
-  _$$TestDetailEvent$CardDeletedImplCopyWith<_$TestDetailEvent$CardDeletedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,front,back);
+
+@override
+String toString() {
+  return 'TestDetailEvent.cardAdded(front: $front, back: $back)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TestDetailEvent$CardUpdatedImplCopyWith<$Res> {
-  factory _$$TestDetailEvent$CardUpdatedImplCopyWith(
-          _$TestDetailEvent$CardUpdatedImpl value,
-          $Res Function(_$TestDetailEvent$CardUpdatedImpl) then) =
-      __$$TestDetailEvent$CardUpdatedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({CardEntity card});
+abstract mixin class _$TestDetailEvent$CardAddedCopyWith<$Res> implements $TestDetailEventCopyWith<$Res> {
+  factory _$TestDetailEvent$CardAddedCopyWith(_TestDetailEvent$CardAdded value, $Res Function(_TestDetailEvent$CardAdded) _then) = __$TestDetailEvent$CardAddedCopyWithImpl;
+@useResult
+$Res call({
+ String front, String back
+});
 
-  $CardEntityCopyWith<$Res> get card;
+
+
+
+}
+/// @nodoc
+class __$TestDetailEvent$CardAddedCopyWithImpl<$Res>
+    implements _$TestDetailEvent$CardAddedCopyWith<$Res> {
+  __$TestDetailEvent$CardAddedCopyWithImpl(this._self, this._then);
+
+  final _TestDetailEvent$CardAdded _self;
+  final $Res Function(_TestDetailEvent$CardAdded) _then;
+
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? front = null,Object? back = null,}) {
+  return _then(_TestDetailEvent$CardAdded(
+front: null == front ? _self.front : front // ignore: cast_nullable_to_non_nullable
+as String,back: null == back ? _self.back : back // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-class __$$TestDetailEvent$CardUpdatedImplCopyWithImpl<$Res>
-    extends _$TestDetailEventCopyWithImpl<$Res,
-        _$TestDetailEvent$CardUpdatedImpl>
-    implements _$$TestDetailEvent$CardUpdatedImplCopyWith<$Res> {
-  __$$TestDetailEvent$CardUpdatedImplCopyWithImpl(
-      _$TestDetailEvent$CardUpdatedImpl _value,
-      $Res Function(_$TestDetailEvent$CardUpdatedImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? card = null,
-  }) {
-    return _then(_$TestDetailEvent$CardUpdatedImpl(
-      card: null == card
-          ? _value.card
-          : card // ignore: cast_nullable_to_non_nullable
-              as CardEntity,
-    ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $CardEntityCopyWith<$Res> get card {
-    return $CardEntityCopyWith<$Res>(_value.card, (value) {
-      return _then(_value.copyWith(card: value));
-    });
-  }
 }
 
 /// @nodoc
 
-class _$TestDetailEvent$CardUpdatedImpl
-    implements _TestDetailEvent$CardUpdated {
-  const _$TestDetailEvent$CardUpdatedImpl({required this.card});
 
-  @override
-  final CardEntity card;
+class _TestDetailEvent$CardDeleted implements TestDetailEvent {
+  const _TestDetailEvent$CardDeleted({required this.cardId});
+  
 
-  @override
-  String toString() {
-    return 'TestDetailEvent.cardUpdated(card: $card)';
-  }
+ final  String cardId;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestDetailEvent$CardUpdatedImpl &&
-            (identical(other.card, card) || other.card == card));
-  }
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TestDetailEvent$CardDeletedCopyWith<_TestDetailEvent$CardDeleted> get copyWith => __$TestDetailEvent$CardDeletedCopyWithImpl<_TestDetailEvent$CardDeleted>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, card);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestDetailEvent$CardUpdatedImplCopyWith<_$TestDetailEvent$CardUpdatedImpl>
-      get copyWith => __$$TestDetailEvent$CardUpdatedImplCopyWithImpl<
-          _$TestDetailEvent$CardUpdatedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId) started,
-    required TResult Function(String front, String back) cardAdded,
-    required TResult Function(String cardId) cardDeleted,
-    required TResult Function(CardEntity card) cardUpdated,
-    required TResult Function(String title, String? description) testUpdated,
-    required TResult Function(List<({String back, String front})> cards)
-        cardsImported,
-  }) {
-    return cardUpdated(card);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId)? started,
-    TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(String cardId)? cardDeleted,
-    TResult? Function(CardEntity card)? cardUpdated,
-    TResult? Function(String title, String? description)? testUpdated,
-    TResult? Function(List<({String back, String front})> cards)? cardsImported,
-  }) {
-    return cardUpdated?.call(card);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId)? started,
-    TResult Function(String front, String back)? cardAdded,
-    TResult Function(String cardId)? cardDeleted,
-    TResult Function(CardEntity card)? cardUpdated,
-    TResult Function(String title, String? description)? testUpdated,
-    TResult Function(List<({String back, String front})> cards)? cardsImported,
-    required TResult orElse(),
-  }) {
-    if (cardUpdated != null) {
-      return cardUpdated(card);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TestDetailEvent$Started value) started,
-    required TResult Function(_TestDetailEvent$CardAdded value) cardAdded,
-    required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
-    required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
-    required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
-    required TResult Function(_TestDetailEvent$CardsImported value)
-        cardsImported,
-  }) {
-    return cardUpdated(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TestDetailEvent$Started value)? started,
-    TResult? Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
-  }) {
-    return cardUpdated?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TestDetailEvent$Started value)? started,
-    TResult Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
-    required TResult orElse(),
-  }) {
-    if (cardUpdated != null) {
-      return cardUpdated(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TestDetailEvent$CardDeleted&&(identical(other.cardId, cardId) || other.cardId == cardId));
 }
 
-abstract class _TestDetailEvent$CardUpdated implements TestDetailEvent {
-  const factory _TestDetailEvent$CardUpdated({required final CardEntity card}) =
-      _$TestDetailEvent$CardUpdatedImpl;
 
-  CardEntity get card;
-  @JsonKey(ignore: true)
-  _$$TestDetailEvent$CardUpdatedImplCopyWith<_$TestDetailEvent$CardUpdatedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,cardId);
+
+@override
+String toString() {
+  return 'TestDetailEvent.cardDeleted(cardId: $cardId)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TestDetailEvent$TestUpdatedImplCopyWith<$Res> {
-  factory _$$TestDetailEvent$TestUpdatedImplCopyWith(
-          _$TestDetailEvent$TestUpdatedImpl value,
-          $Res Function(_$TestDetailEvent$TestUpdatedImpl) then) =
-      __$$TestDetailEvent$TestUpdatedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String title, String? description});
+abstract mixin class _$TestDetailEvent$CardDeletedCopyWith<$Res> implements $TestDetailEventCopyWith<$Res> {
+  factory _$TestDetailEvent$CardDeletedCopyWith(_TestDetailEvent$CardDeleted value, $Res Function(_TestDetailEvent$CardDeleted) _then) = __$TestDetailEvent$CardDeletedCopyWithImpl;
+@useResult
+$Res call({
+ String cardId
+});
+
+
+
+
+}
+/// @nodoc
+class __$TestDetailEvent$CardDeletedCopyWithImpl<$Res>
+    implements _$TestDetailEvent$CardDeletedCopyWith<$Res> {
+  __$TestDetailEvent$CardDeletedCopyWithImpl(this._self, this._then);
+
+  final _TestDetailEvent$CardDeleted _self;
+  final $Res Function(_TestDetailEvent$CardDeleted) _then;
+
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? cardId = null,}) {
+  return _then(_TestDetailEvent$CardDeleted(
+cardId: null == cardId ? _self.cardId : cardId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-class __$$TestDetailEvent$TestUpdatedImplCopyWithImpl<$Res>
-    extends _$TestDetailEventCopyWithImpl<$Res,
-        _$TestDetailEvent$TestUpdatedImpl>
-    implements _$$TestDetailEvent$TestUpdatedImplCopyWith<$Res> {
-  __$$TestDetailEvent$TestUpdatedImplCopyWithImpl(
-      _$TestDetailEvent$TestUpdatedImpl _value,
-      $Res Function(_$TestDetailEvent$TestUpdatedImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? title = null,
-    Object? description = freezed,
-  }) {
-    return _then(_$TestDetailEvent$TestUpdatedImpl(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: freezed == description
-          ? _value.description
-          : description // ignore: cast_nullable_to_non_nullable
-              as String?,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$TestDetailEvent$TestUpdatedImpl
-    implements _TestDetailEvent$TestUpdated {
-  const _$TestDetailEvent$TestUpdatedImpl(
-      {required this.title, this.description});
 
-  @override
-  final String title;
-  @override
-  final String? description;
+class _TestDetailEvent$CardUpdated implements TestDetailEvent {
+  const _TestDetailEvent$CardUpdated({required this.card});
+  
 
-  @override
-  String toString() {
-    return 'TestDetailEvent.testUpdated(title: $title, description: $description)';
-  }
+ final  CardEntity card;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestDetailEvent$TestUpdatedImpl &&
-            (identical(other.title, title) || other.title == title) &&
-            (identical(other.description, description) ||
-                other.description == description));
-  }
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TestDetailEvent$CardUpdatedCopyWith<_TestDetailEvent$CardUpdated> get copyWith => __$TestDetailEvent$CardUpdatedCopyWithImpl<_TestDetailEvent$CardUpdated>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, title, description);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestDetailEvent$TestUpdatedImplCopyWith<_$TestDetailEvent$TestUpdatedImpl>
-      get copyWith => __$$TestDetailEvent$TestUpdatedImplCopyWithImpl<
-          _$TestDetailEvent$TestUpdatedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId) started,
-    required TResult Function(String front, String back) cardAdded,
-    required TResult Function(String cardId) cardDeleted,
-    required TResult Function(CardEntity card) cardUpdated,
-    required TResult Function(String title, String? description) testUpdated,
-    required TResult Function(List<({String back, String front})> cards)
-        cardsImported,
-  }) {
-    return testUpdated(title, description);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId)? started,
-    TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(String cardId)? cardDeleted,
-    TResult? Function(CardEntity card)? cardUpdated,
-    TResult? Function(String title, String? description)? testUpdated,
-    TResult? Function(List<({String back, String front})> cards)? cardsImported,
-  }) {
-    return testUpdated?.call(title, description);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId)? started,
-    TResult Function(String front, String back)? cardAdded,
-    TResult Function(String cardId)? cardDeleted,
-    TResult Function(CardEntity card)? cardUpdated,
-    TResult Function(String title, String? description)? testUpdated,
-    TResult Function(List<({String back, String front})> cards)? cardsImported,
-    required TResult orElse(),
-  }) {
-    if (testUpdated != null) {
-      return testUpdated(title, description);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TestDetailEvent$Started value) started,
-    required TResult Function(_TestDetailEvent$CardAdded value) cardAdded,
-    required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
-    required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
-    required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
-    required TResult Function(_TestDetailEvent$CardsImported value)
-        cardsImported,
-  }) {
-    return testUpdated(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TestDetailEvent$Started value)? started,
-    TResult? Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
-  }) {
-    return testUpdated?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TestDetailEvent$Started value)? started,
-    TResult Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
-    required TResult orElse(),
-  }) {
-    if (testUpdated != null) {
-      return testUpdated(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TestDetailEvent$CardUpdated&&(identical(other.card, card) || other.card == card));
 }
 
-abstract class _TestDetailEvent$TestUpdated implements TestDetailEvent {
-  const factory _TestDetailEvent$TestUpdated(
-      {required final String title,
-      final String? description}) = _$TestDetailEvent$TestUpdatedImpl;
 
-  String get title;
-  String? get description;
-  @JsonKey(ignore: true)
-  _$$TestDetailEvent$TestUpdatedImplCopyWith<_$TestDetailEvent$TestUpdatedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,card);
+
+@override
+String toString() {
+  return 'TestDetailEvent.cardUpdated(card: $card)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TestDetailEvent$CardsImportedImplCopyWith<$Res> {
-  factory _$$TestDetailEvent$CardsImportedImplCopyWith(
-          _$TestDetailEvent$CardsImportedImpl value,
-          $Res Function(_$TestDetailEvent$CardsImportedImpl) then) =
-      __$$TestDetailEvent$CardsImportedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({List<({String back, String front})> cards});
+abstract mixin class _$TestDetailEvent$CardUpdatedCopyWith<$Res> implements $TestDetailEventCopyWith<$Res> {
+  factory _$TestDetailEvent$CardUpdatedCopyWith(_TestDetailEvent$CardUpdated value, $Res Function(_TestDetailEvent$CardUpdated) _then) = __$TestDetailEvent$CardUpdatedCopyWithImpl;
+@useResult
+$Res call({
+ CardEntity card
+});
+
+
+$CardEntityCopyWith<$Res> get card;
+
+}
+/// @nodoc
+class __$TestDetailEvent$CardUpdatedCopyWithImpl<$Res>
+    implements _$TestDetailEvent$CardUpdatedCopyWith<$Res> {
+  __$TestDetailEvent$CardUpdatedCopyWithImpl(this._self, this._then);
+
+  final _TestDetailEvent$CardUpdated _self;
+  final $Res Function(_TestDetailEvent$CardUpdated) _then;
+
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? card = null,}) {
+  return _then(_TestDetailEvent$CardUpdated(
+card: null == card ? _self.card : card // ignore: cast_nullable_to_non_nullable
+as CardEntity,
+  ));
 }
 
-/// @nodoc
-class __$$TestDetailEvent$CardsImportedImplCopyWithImpl<$Res>
-    extends _$TestDetailEventCopyWithImpl<$Res,
-        _$TestDetailEvent$CardsImportedImpl>
-    implements _$$TestDetailEvent$CardsImportedImplCopyWith<$Res> {
-  __$$TestDetailEvent$CardsImportedImplCopyWithImpl(
-      _$TestDetailEvent$CardsImportedImpl _value,
-      $Res Function(_$TestDetailEvent$CardsImportedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? cards = null,
-  }) {
-    return _then(_$TestDetailEvent$CardsImportedImpl(
-      cards: null == cards
-          ? _value._cards
-          : cards // ignore: cast_nullable_to_non_nullable
-              as List<({String back, String front})>,
-    ));
-  }
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CardEntityCopyWith<$Res> get card {
+  
+  return $CardEntityCopyWith<$Res>(_self.card, (value) {
+    return _then(_self.copyWith(card: value));
+  });
+}
 }
 
 /// @nodoc
 
-class _$TestDetailEvent$CardsImportedImpl
-    implements _TestDetailEvent$CardsImported {
-  const _$TestDetailEvent$CardsImportedImpl(
-      {required final List<({String back, String front})> cards})
-      : _cards = cards;
 
-  final List<({String back, String front})> _cards;
-  @override
-  List<({String back, String front})> get cards {
-    if (_cards is EqualUnmodifiableListView) return _cards;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_cards);
-  }
+class _TestDetailEvent$TestUpdated implements TestDetailEvent {
+  const _TestDetailEvent$TestUpdated({required this.title, this.description});
+  
 
-  @override
-  String toString() {
-    return 'TestDetailEvent.cardsImported(cards: $cards)';
-  }
+ final  String title;
+ final  String? description;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestDetailEvent$CardsImportedImpl &&
-            const DeepCollectionEquality().equals(other._cards, _cards));
-  }
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TestDetailEvent$TestUpdatedCopyWith<_TestDetailEvent$TestUpdated> get copyWith => __$TestDetailEvent$TestUpdatedCopyWithImpl<_TestDetailEvent$TestUpdated>(this, _$identity);
 
-  @override
-  int get hashCode =>
-      Object.hash(runtimeType, const DeepCollectionEquality().hash(_cards));
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestDetailEvent$CardsImportedImplCopyWith<
-          _$TestDetailEvent$CardsImportedImpl>
-      get copyWith => __$$TestDetailEvent$CardsImportedImplCopyWithImpl<
-          _$TestDetailEvent$CardsImportedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId) started,
-    required TResult Function(String front, String back) cardAdded,
-    required TResult Function(String cardId) cardDeleted,
-    required TResult Function(CardEntity card) cardUpdated,
-    required TResult Function(String title, String? description) testUpdated,
-    required TResult Function(List<({String back, String front})> cards)
-        cardsImported,
-  }) {
-    return cardsImported(cards);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId)? started,
-    TResult? Function(String front, String back)? cardAdded,
-    TResult? Function(String cardId)? cardDeleted,
-    TResult? Function(CardEntity card)? cardUpdated,
-    TResult? Function(String title, String? description)? testUpdated,
-    TResult? Function(List<({String back, String front})> cards)? cardsImported,
-  }) {
-    return cardsImported?.call(cards);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId)? started,
-    TResult Function(String front, String back)? cardAdded,
-    TResult Function(String cardId)? cardDeleted,
-    TResult Function(CardEntity card)? cardUpdated,
-    TResult Function(String title, String? description)? testUpdated,
-    TResult Function(List<({String back, String front})> cards)? cardsImported,
-    required TResult orElse(),
-  }) {
-    if (cardsImported != null) {
-      return cardsImported(cards);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TestDetailEvent$Started value) started,
-    required TResult Function(_TestDetailEvent$CardAdded value) cardAdded,
-    required TResult Function(_TestDetailEvent$CardDeleted value) cardDeleted,
-    required TResult Function(_TestDetailEvent$CardUpdated value) cardUpdated,
-    required TResult Function(_TestDetailEvent$TestUpdated value) testUpdated,
-    required TResult Function(_TestDetailEvent$CardsImported value)
-        cardsImported,
-  }) {
-    return cardsImported(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TestDetailEvent$Started value)? started,
-    TResult? Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult? Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult? Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult? Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult? Function(_TestDetailEvent$CardsImported value)? cardsImported,
-  }) {
-    return cardsImported?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TestDetailEvent$Started value)? started,
-    TResult Function(_TestDetailEvent$CardAdded value)? cardAdded,
-    TResult Function(_TestDetailEvent$CardDeleted value)? cardDeleted,
-    TResult Function(_TestDetailEvent$CardUpdated value)? cardUpdated,
-    TResult Function(_TestDetailEvent$TestUpdated value)? testUpdated,
-    TResult Function(_TestDetailEvent$CardsImported value)? cardsImported,
-    required TResult orElse(),
-  }) {
-    if (cardsImported != null) {
-      return cardsImported(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TestDetailEvent$TestUpdated&&(identical(other.title, title) || other.title == title)&&(identical(other.description, description) || other.description == description));
 }
 
-abstract class _TestDetailEvent$CardsImported implements TestDetailEvent {
-  const factory _TestDetailEvent$CardsImported(
-          {required final List<({String back, String front})> cards}) =
-      _$TestDetailEvent$CardsImportedImpl;
 
-  List<({String back, String front})> get cards;
-  @JsonKey(ignore: true)
-  _$$TestDetailEvent$CardsImportedImplCopyWith<
-          _$TestDetailEvent$CardsImportedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,title,description);
+
+@override
+String toString() {
+  return 'TestDetailEvent.testUpdated(title: $title, description: $description)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$TestDetailEvent$TestUpdatedCopyWith<$Res> implements $TestDetailEventCopyWith<$Res> {
+  factory _$TestDetailEvent$TestUpdatedCopyWith(_TestDetailEvent$TestUpdated value, $Res Function(_TestDetailEvent$TestUpdated) _then) = __$TestDetailEvent$TestUpdatedCopyWithImpl;
+@useResult
+$Res call({
+ String title, String? description
+});
+
+
+
+
+}
+/// @nodoc
+class __$TestDetailEvent$TestUpdatedCopyWithImpl<$Res>
+    implements _$TestDetailEvent$TestUpdatedCopyWith<$Res> {
+  __$TestDetailEvent$TestUpdatedCopyWithImpl(this._self, this._then);
+
+  final _TestDetailEvent$TestUpdated _self;
+  final $Res Function(_TestDetailEvent$TestUpdated) _then;
+
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? title = null,Object? description = freezed,}) {
+  return _then(_TestDetailEvent$TestUpdated(
+title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,description: freezed == description ? _self.description : description // ignore: cast_nullable_to_non_nullable
+as String?,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _TestDetailEvent$CardsImported implements TestDetailEvent {
+  const _TestDetailEvent$CardsImported({required final  List<({String front, String back})> cards}): _cards = cards;
+  
+
+ final  List<({String front, String back})> _cards;
+ List<({String front, String back})> get cards {
+  if (_cards is EqualUnmodifiableListView) return _cards;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_cards);
+}
+
+
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TestDetailEvent$CardsImportedCopyWith<_TestDetailEvent$CardsImported> get copyWith => __$TestDetailEvent$CardsImportedCopyWithImpl<_TestDetailEvent$CardsImported>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TestDetailEvent$CardsImported&&const DeepCollectionEquality().equals(other._cards, _cards));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_cards));
+
+@override
+String toString() {
+  return 'TestDetailEvent.cardsImported(cards: $cards)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$TestDetailEvent$CardsImportedCopyWith<$Res> implements $TestDetailEventCopyWith<$Res> {
+  factory _$TestDetailEvent$CardsImportedCopyWith(_TestDetailEvent$CardsImported value, $Res Function(_TestDetailEvent$CardsImported) _then) = __$TestDetailEvent$CardsImportedCopyWithImpl;
+@useResult
+$Res call({
+ List<({String front, String back})> cards
+});
+
+
+
+
+}
+/// @nodoc
+class __$TestDetailEvent$CardsImportedCopyWithImpl<$Res>
+    implements _$TestDetailEvent$CardsImportedCopyWith<$Res> {
+  __$TestDetailEvent$CardsImportedCopyWithImpl(this._self, this._then);
+
+  final _TestDetailEvent$CardsImported _self;
+  final $Res Function(_TestDetailEvent$CardsImported) _then;
+
+/// Create a copy of TestDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? cards = null,}) {
+  return _then(_TestDetailEvent$CardsImported(
+cards: null == cards ? _self._cards : cards // ignore: cast_nullable_to_non_nullable
+as List<({String front, String back})>,
+  ));
+}
+
+
 }
 
 /// @nodoc
 mixin _$TestDetailState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(TestEntity test, List<CardEntity> cards) loaded,
-    required TResult Function(Failure failure) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(TestEntity test, List<CardEntity> cards)? loaded,
-    TResult? Function(Failure failure)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(TestEntity test, List<CardEntity> cards)? loaded,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TestDetailState$Loading value) loading,
-    required TResult Function(TestDetailState$Loaded value) loaded,
-    required TResult Function(TestDetailState$Error value) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TestDetailState$Loading value)? loading,
-    TResult? Function(TestDetailState$Loaded value)? loaded,
-    TResult? Function(TestDetailState$Error value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TestDetailState$Loading value)? loading,
-    TResult Function(TestDetailState$Loaded value)? loaded,
-    TResult Function(TestDetailState$Error value)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestDetailState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TestDetailState()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $TestDetailStateCopyWith<$Res> {
-  factory $TestDetailStateCopyWith(
-          TestDetailState value, $Res Function(TestDetailState) then) =
-      _$TestDetailStateCopyWithImpl<$Res, TestDetailState>;
+class $TestDetailStateCopyWith<$Res>  {
+$TestDetailStateCopyWith(TestDetailState _, $Res Function(TestDetailState) __);
 }
 
-/// @nodoc
-class _$TestDetailStateCopyWithImpl<$Res, $Val extends TestDetailState>
-    implements $TestDetailStateCopyWith<$Res> {
-  _$TestDetailStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [TestDetailState].
+extension TestDetailStatePatterns on TestDetailState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TestDetailState$Loading value)?  loading,TResult Function( TestDetailState$Loaded value)?  loaded,TResult Function( TestDetailState$Error value)?  error,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case TestDetailState$Loading() when loading != null:
+return loading(_that);case TestDetailState$Loaded() when loaded != null:
+return loaded(_that);case TestDetailState$Error() when error != null:
+return error(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TestDetailState$Loading value)  loading,required TResult Function( TestDetailState$Loaded value)  loaded,required TResult Function( TestDetailState$Error value)  error,}){
+final _that = this;
+switch (_that) {
+case TestDetailState$Loading():
+return loading(_that);case TestDetailState$Loaded():
+return loaded(_that);case TestDetailState$Error():
+return error(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TestDetailState$Loading value)?  loading,TResult? Function( TestDetailState$Loaded value)?  loaded,TResult? Function( TestDetailState$Error value)?  error,}){
+final _that = this;
+switch (_that) {
+case TestDetailState$Loading() when loading != null:
+return loading(_that);case TestDetailState$Loaded() when loaded != null:
+return loaded(_that);case TestDetailState$Error() when error != null:
+return error(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( TestEntity test,  List<CardEntity> cards)?  loaded,TResult Function( Failure failure)?  error,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case TestDetailState$Loading() when loading != null:
+return loading();case TestDetailState$Loaded() when loaded != null:
+return loaded(_that.test,_that.cards);case TestDetailState$Error() when error != null:
+return error(_that.failure);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( TestEntity test,  List<CardEntity> cards)  loaded,required TResult Function( Failure failure)  error,}) {final _that = this;
+switch (_that) {
+case TestDetailState$Loading():
+return loading();case TestDetailState$Loaded():
+return loaded(_that.test,_that.cards);case TestDetailState$Error():
+return error(_that.failure);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( TestEntity test,  List<CardEntity> cards)?  loaded,TResult? Function( Failure failure)?  error,}) {final _that = this;
+switch (_that) {
+case TestDetailState$Loading() when loading != null:
+return loading();case TestDetailState$Loaded() when loaded != null:
+return loaded(_that.test,_that.cards);case TestDetailState$Error() when error != null:
+return error(_that.failure);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$TestDetailState$LoadingImplCopyWith<$Res> {
-  factory _$$TestDetailState$LoadingImplCopyWith(
-          _$TestDetailState$LoadingImpl value,
-          $Res Function(_$TestDetailState$LoadingImpl) then) =
-      __$$TestDetailState$LoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$TestDetailState$LoadingImplCopyWithImpl<$Res>
-    extends _$TestDetailStateCopyWithImpl<$Res, _$TestDetailState$LoadingImpl>
-    implements _$$TestDetailState$LoadingImplCopyWith<$Res> {
-  __$$TestDetailState$LoadingImplCopyWithImpl(
-      _$TestDetailState$LoadingImpl _value,
-      $Res Function(_$TestDetailState$LoadingImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$TestDetailState$LoadingImpl extends TestDetailState$Loading {
-  const _$TestDetailState$LoadingImpl() : super._();
-
-  @override
-  String toString() {
-    return 'TestDetailState.loading()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestDetailState$LoadingImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(TestEntity test, List<CardEntity> cards) loaded,
-    required TResult Function(Failure failure) error,
-  }) {
-    return loading();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(TestEntity test, List<CardEntity> cards)? loaded,
-    TResult? Function(Failure failure)? error,
-  }) {
-    return loading?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(TestEntity test, List<CardEntity> cards)? loaded,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TestDetailState$Loading value) loading,
-    required TResult Function(TestDetailState$Loaded value) loaded,
-    required TResult Function(TestDetailState$Error value) error,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TestDetailState$Loading value)? loading,
-    TResult? Function(TestDetailState$Loaded value)? loaded,
-    TResult? Function(TestDetailState$Error value)? error,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TestDetailState$Loading value)? loading,
-    TResult Function(TestDetailState$Loaded value)? loaded,
-    TResult Function(TestDetailState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class TestDetailState$Loading extends TestDetailState {
-  const factory TestDetailState$Loading() = _$TestDetailState$LoadingImpl;
-  const TestDetailState$Loading._() : super._();
-}
-
-/// @nodoc
-abstract class _$$TestDetailState$LoadedImplCopyWith<$Res> {
-  factory _$$TestDetailState$LoadedImplCopyWith(
-          _$TestDetailState$LoadedImpl value,
-          $Res Function(_$TestDetailState$LoadedImpl) then) =
-      __$$TestDetailState$LoadedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({TestEntity test, List<CardEntity> cards});
-
-  $TestEntityCopyWith<$Res> get test;
-}
-
-/// @nodoc
-class __$$TestDetailState$LoadedImplCopyWithImpl<$Res>
-    extends _$TestDetailStateCopyWithImpl<$Res, _$TestDetailState$LoadedImpl>
-    implements _$$TestDetailState$LoadedImplCopyWith<$Res> {
-  __$$TestDetailState$LoadedImplCopyWithImpl(
-      _$TestDetailState$LoadedImpl _value,
-      $Res Function(_$TestDetailState$LoadedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? test = null,
-    Object? cards = null,
-  }) {
-    return _then(_$TestDetailState$LoadedImpl(
-      test: null == test
-          ? _value.test
-          : test // ignore: cast_nullable_to_non_nullable
-              as TestEntity,
-      cards: null == cards
-          ? _value._cards
-          : cards // ignore: cast_nullable_to_non_nullable
-              as List<CardEntity>,
-    ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $TestEntityCopyWith<$Res> get test {
-    return $TestEntityCopyWith<$Res>(_value.test, (value) {
-      return _then(_value.copyWith(test: value));
-    });
-  }
 }
 
 /// @nodoc
 
-class _$TestDetailState$LoadedImpl extends TestDetailState$Loaded {
-  const _$TestDetailState$LoadedImpl(
-      {required this.test, required final List<CardEntity> cards})
-      : _cards = cards,
-        super._();
 
-  @override
-  final TestEntity test;
-  final List<CardEntity> _cards;
-  @override
-  List<CardEntity> get cards {
-    if (_cards is EqualUnmodifiableListView) return _cards;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_cards);
-  }
+class TestDetailState$Loading extends TestDetailState {
+  const TestDetailState$Loading(): super._();
+  
 
-  @override
-  String toString() {
-    return 'TestDetailState.loaded(test: $test, cards: $cards)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestDetailState$LoadedImpl &&
-            (identical(other.test, test) || other.test == test) &&
-            const DeepCollectionEquality().equals(other._cards, _cards));
-  }
 
-  @override
-  int get hashCode => Object.hash(
-      runtimeType, test, const DeepCollectionEquality().hash(_cards));
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestDetailState$LoadedImplCopyWith<_$TestDetailState$LoadedImpl>
-      get copyWith => __$$TestDetailState$LoadedImplCopyWithImpl<
-          _$TestDetailState$LoadedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(TestEntity test, List<CardEntity> cards) loaded,
-    required TResult Function(Failure failure) error,
-  }) {
-    return loaded(test, cards);
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(TestEntity test, List<CardEntity> cards)? loaded,
-    TResult? Function(Failure failure)? error,
-  }) {
-    return loaded?.call(test, cards);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(TestEntity test, List<CardEntity> cards)? loaded,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(test, cards);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TestDetailState$Loading value) loading,
-    required TResult Function(TestDetailState$Loaded value) loaded,
-    required TResult Function(TestDetailState$Error value) error,
-  }) {
-    return loaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TestDetailState$Loading value)? loading,
-    TResult? Function(TestDetailState$Loaded value)? loaded,
-    TResult? Function(TestDetailState$Error value)? error,
-  }) {
-    return loaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TestDetailState$Loading value)? loading,
-    TResult Function(TestDetailState$Loaded value)? loaded,
-    TResult Function(TestDetailState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestDetailState$Loading);
 }
 
-abstract class TestDetailState$Loaded extends TestDetailState {
-  const factory TestDetailState$Loaded(
-      {required final TestEntity test,
-      required final List<CardEntity> cards}) = _$TestDetailState$LoadedImpl;
-  const TestDetailState$Loaded._() : super._();
 
-  TestEntity get test;
-  List<CardEntity> get cards;
-  @JsonKey(ignore: true)
-  _$$TestDetailState$LoadedImplCopyWith<_$TestDetailState$LoadedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TestDetailState.loading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class TestDetailState$Loaded extends TestDetailState {
+  const TestDetailState$Loaded({required this.test, required final  List<CardEntity> cards}): _cards = cards,super._();
+  
+
+ final  TestEntity test;
+ final  List<CardEntity> _cards;
+ List<CardEntity> get cards {
+  if (_cards is EqualUnmodifiableListView) return _cards;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_cards);
+}
+
+
+/// Create a copy of TestDetailState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TestDetailState$LoadedCopyWith<TestDetailState$Loaded> get copyWith => _$TestDetailState$LoadedCopyWithImpl<TestDetailState$Loaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestDetailState$Loaded&&(identical(other.test, test) || other.test == test)&&const DeepCollectionEquality().equals(other._cards, _cards));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,test,const DeepCollectionEquality().hash(_cards));
+
+@override
+String toString() {
+  return 'TestDetailState.loaded(test: $test, cards: $cards)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TestDetailState$ErrorImplCopyWith<$Res> {
-  factory _$$TestDetailState$ErrorImplCopyWith(
-          _$TestDetailState$ErrorImpl value,
-          $Res Function(_$TestDetailState$ErrorImpl) then) =
-      __$$TestDetailState$ErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Failure failure});
+abstract mixin class $TestDetailState$LoadedCopyWith<$Res> implements $TestDetailStateCopyWith<$Res> {
+  factory $TestDetailState$LoadedCopyWith(TestDetailState$Loaded value, $Res Function(TestDetailState$Loaded) _then) = _$TestDetailState$LoadedCopyWithImpl;
+@useResult
+$Res call({
+ TestEntity test, List<CardEntity> cards
+});
+
+
+$TestEntityCopyWith<$Res> get test;
+
+}
+/// @nodoc
+class _$TestDetailState$LoadedCopyWithImpl<$Res>
+    implements $TestDetailState$LoadedCopyWith<$Res> {
+  _$TestDetailState$LoadedCopyWithImpl(this._self, this._then);
+
+  final TestDetailState$Loaded _self;
+  final $Res Function(TestDetailState$Loaded) _then;
+
+/// Create a copy of TestDetailState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? test = null,Object? cards = null,}) {
+  return _then(TestDetailState$Loaded(
+test: null == test ? _self.test : test // ignore: cast_nullable_to_non_nullable
+as TestEntity,cards: null == cards ? _self._cards : cards // ignore: cast_nullable_to_non_nullable
+as List<CardEntity>,
+  ));
 }
 
-/// @nodoc
-class __$$TestDetailState$ErrorImplCopyWithImpl<$Res>
-    extends _$TestDetailStateCopyWithImpl<$Res, _$TestDetailState$ErrorImpl>
-    implements _$$TestDetailState$ErrorImplCopyWith<$Res> {
-  __$$TestDetailState$ErrorImplCopyWithImpl(_$TestDetailState$ErrorImpl _value,
-      $Res Function(_$TestDetailState$ErrorImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? failure = null,
-  }) {
-    return _then(_$TestDetailState$ErrorImpl(
-      failure: null == failure
-          ? _value.failure
-          : failure // ignore: cast_nullable_to_non_nullable
-              as Failure,
-    ));
-  }
+/// Create a copy of TestDetailState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TestEntityCopyWith<$Res> get test {
+  
+  return $TestEntityCopyWith<$Res>(_self.test, (value) {
+    return _then(_self.copyWith(test: value));
+  });
+}
 }
 
 /// @nodoc
 
-class _$TestDetailState$ErrorImpl extends TestDetailState$Error {
-  const _$TestDetailState$ErrorImpl({required this.failure}) : super._();
 
-  @override
-  final Failure failure;
+class TestDetailState$Error extends TestDetailState {
+  const TestDetailState$Error({required this.failure}): super._();
+  
 
-  @override
-  String toString() {
-    return 'TestDetailState.error(failure: $failure)';
-  }
+ final  Failure failure;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestDetailState$ErrorImpl &&
-            (identical(other.failure, failure) || other.failure == failure));
-  }
+/// Create a copy of TestDetailState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TestDetailState$ErrorCopyWith<TestDetailState$Error> get copyWith => _$TestDetailState$ErrorCopyWithImpl<TestDetailState$Error>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, failure);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestDetailState$ErrorImplCopyWith<_$TestDetailState$ErrorImpl>
-      get copyWith => __$$TestDetailState$ErrorImplCopyWithImpl<
-          _$TestDetailState$ErrorImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(TestEntity test, List<CardEntity> cards) loaded,
-    required TResult Function(Failure failure) error,
-  }) {
-    return error(failure);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(TestEntity test, List<CardEntity> cards)? loaded,
-    TResult? Function(Failure failure)? error,
-  }) {
-    return error?.call(failure);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(TestEntity test, List<CardEntity> cards)? loaded,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(failure);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TestDetailState$Loading value) loading,
-    required TResult Function(TestDetailState$Loaded value) loaded,
-    required TResult Function(TestDetailState$Error value) error,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TestDetailState$Loading value)? loading,
-    TResult? Function(TestDetailState$Loaded value)? loaded,
-    TResult? Function(TestDetailState$Error value)? error,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TestDetailState$Loading value)? loading,
-    TResult Function(TestDetailState$Loaded value)? loaded,
-    TResult Function(TestDetailState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestDetailState$Error&&(identical(other.failure, failure) || other.failure == failure));
 }
 
-abstract class TestDetailState$Error extends TestDetailState {
-  const factory TestDetailState$Error({required final Failure failure}) =
-      _$TestDetailState$ErrorImpl;
-  const TestDetailState$Error._() : super._();
 
-  Failure get failure;
-  @JsonKey(ignore: true)
-  _$$TestDetailState$ErrorImplCopyWith<_$TestDetailState$ErrorImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,failure);
+
+@override
+String toString() {
+  return 'TestDetailState.error(failure: $failure)';
 }
+
+
+}
+
+/// @nodoc
+abstract mixin class $TestDetailState$ErrorCopyWith<$Res> implements $TestDetailStateCopyWith<$Res> {
+  factory $TestDetailState$ErrorCopyWith(TestDetailState$Error value, $Res Function(TestDetailState$Error) _then) = _$TestDetailState$ErrorCopyWithImpl;
+@useResult
+$Res call({
+ Failure failure
+});
+
+
+
+
+}
+/// @nodoc
+class _$TestDetailState$ErrorCopyWithImpl<$Res>
+    implements $TestDetailState$ErrorCopyWith<$Res> {
+  _$TestDetailState$ErrorCopyWithImpl(this._self, this._then);
+
+  final TestDetailState$Error _self;
+  final $Res Function(TestDetailState$Error) _then;
+
+/// Create a copy of TestDetailState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? failure = null,}) {
+  return _then(TestDetailState$Error(
+failure: null == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
+as Failure,
+  ));
+}
+
+
+}
+
+// dart format on

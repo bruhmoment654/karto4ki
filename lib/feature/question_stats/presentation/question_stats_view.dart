@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
+import 'package:quizzerg/core/feature/core/failure.dart';
 import 'package:quizzerg/core/utils/answer_parser.dart';
+import 'package:quizzerg/feature/question_stats/domain/bloc/question_stats_bloc.dart';
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_entity.dart';
 import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_sort.dart';
 import 'package:quizzerg/feature/question_stats/presentation/question_stats_screen.dart';
@@ -35,29 +38,45 @@ class _Body extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (viewModel.isLoading) {
-      return const Center(child: CircularProgressIndicator());
-    }
+    return StateStreamableBuilder<QuestionStatsState>(
+      bloc: viewModel.statsState,
+      builder: (context, state) => switch (state) {
+        QuestionStatsState$Loading() =>
+          const Center(child: CircularProgressIndicator()),
+        QuestionStatsState$Error(:final failure) => _ErrorContent(
+            failure: failure,
+            onRetry: viewModel.onRetryTap,
+          ),
+        QuestionStatsState$Loaded(hasAnyStats: false) => _EmptyContent(),
+        QuestionStatsState$Loaded() => _LoadedContent(
+            viewModel: viewModel,
+            state: state,
+          ),
+      },
+    );
+  }
+}
 
-    if (viewModel.error != null) {
-      return _ErrorContent(
-        error: viewModel.error!,
-        onRetry: viewModel.onRetryTap,
-      );
-    }
+class _LoadedContent extends StatelessWidget {
+  final IQuestionStatsViewModel viewModel;
+  final QuestionStatsState$Loaded state;
 
-    if (!viewModel.hasAnyStats) {
-      return _EmptyContent();
-    }
+  const _LoadedContent({required this.viewModel, required this.state});
 
-    final stats = viewModel.stats ?? const [];
-    final query = viewModel.searchQuery.trim();
+  @override
+  Widget build(BuildContext context) {
+    final stats = state.stats;
+    final query = state.searchQuery.trim();
 
     return Column(
       children: [
         AppPageHeader(title: context.l10n.questionStatsTitle),
-        _SearchBar(viewModel: viewModel),
-        _InfoPanel(viewModel: viewModel, foundCount: stats.length),
+        _SearchBar(viewModel: viewModel, searchQuery: state.searchQuery),
+        _InfoPanel(
+          viewModel: viewModel,
+          state: state,
+          foundCount: stats.length,
+        ),
         Expanded(
           child: stats.isEmpty
               ? _SearchEmptyContent()
@@ -94,8 +113,9 @@ class _Body extends StatelessWidget {
 
 class _SearchBar extends StatelessWidget {
   final IQuestionStatsViewModel viewModel;
+  final String searchQuery;
 
-  const _SearchBar({required this.viewModel});
+  const _SearchBar({required this.viewModel, required this.searchQuery});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +126,7 @@ class _SearchBar extends StatelessWidget {
         hintText: context.l10n.questionStatsSearchHint,
         textInputAction: TextInputAction.search,
         prefixIcon: const Icon(Icons.search),
-        suffixIcon: viewModel.searchQuery.isNotEmpty
+        suffixIcon: searchQuery.isNotEmpty
             ? IconButton(
                 icon: const Icon(Icons.close),
                 onPressed: viewModel.onSearchCleared,
@@ -120,9 +140,14 @@ class _SearchBar extends StatelessWidget {
 
 class _InfoPanel extends StatelessWidget {
   final IQuestionStatsViewModel viewModel;
+  final QuestionStatsState$Loaded state;
   final int foundCount;
 
-  const _InfoPanel({required this.viewModel, required this.foundCount});
+  const _InfoPanel({
+    required this.viewModel,
+    required this.state,
+    required this.foundCount,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -130,7 +155,7 @@ class _InfoPanel extends StatelessWidget {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
 
-    if (viewModel.searchQuery.trim().isNotEmpty) {
+    if (state.searchQuery.trim().isNotEmpty) {
       return Padding(
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
         child: Align(
@@ -145,12 +170,12 @@ class _InfoPanel extends StatelessWidget {
       );
     }
 
-    final sortLabel = switch (viewModel.currentSort) {
+    final sortLabel = switch (state.sort) {
       QuestionStatsSort.byDate => l10n.questionStatsSortByDate,
       QuestionStatsSort.byStreak => l10n.questionStatsSortByStreak,
       QuestionStatsSort.byAccuracy => l10n.questionStatsSortByAccuracy,
     };
-    final isAsc = viewModel.sortOrder == SortOrder.ascending;
+    final isAsc = state.order == SortOrder.ascending;
 
     return Padding(
       padding: const EdgeInsets.fromLTRB(16, 4, 16, 12),
@@ -231,26 +256,30 @@ class _ScrollToTopFab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AnimatedScale(
-      scale: viewModel.showScrollToTop ? 1.0 : 0.0,
-      duration: const Duration(milliseconds: 200),
-      child: AnimatedOpacity(
-        opacity: viewModel.showScrollToTop ? 1.0 : 0.0,
+    return ValueListenableBuilder<bool>(
+      valueListenable: viewModel.showScrollToTop,
+      builder: (context, isVisible, child) => AnimatedScale(
+        scale: isVisible ? 1.0 : 0.0,
         duration: const Duration(milliseconds: 200),
-        child: FloatingActionButton.small(
-          onPressed: viewModel.onScrollToTopTap,
-          child: const Icon(Icons.keyboard_arrow_up),
+        child: AnimatedOpacity(
+          opacity: isVisible ? 1.0 : 0.0,
+          duration: const Duration(milliseconds: 200),
+          child: child,
         ),
+      ),
+      child: FloatingActionButton.small(
+        onPressed: viewModel.onScrollToTopTap,
+        child: const Icon(Icons.keyboard_arrow_up),
       ),
     );
   }
 }
 
 class _ErrorContent extends StatelessWidget {
-  final Object error;
+  final Failure failure;
   final VoidCallback onRetry;
 
-  const _ErrorContent({required this.error, required this.onRetry});
+  const _ErrorContent({required this.failure, required this.onRetry});
 
   @override
   Widget build(BuildContext context) {
@@ -263,7 +292,9 @@ class _ErrorContent extends StatelessWidget {
           mainAxisSize: MainAxisSize.min,
           children: [
             Text(
-              '$error',
+              context.l10n.testsListErrorMessage(
+                failure.message ?? context.l10n.testsListUnknownError,
+              ),
               style: theme.textTheme.bodyLarge,
               textAlign: TextAlign.center,
             ),

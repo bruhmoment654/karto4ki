@@ -12,8 +12,18 @@ import 'package:quizzerg/network/util/backoff.dart';
 class RetryInterceptor extends Interceptor {
   static const _attemptKey = 'retry_attempt';
 
-  /// Пути, повтор которых может задвоить данные.
+  /// Пути, повтор которых может задвоить данные или отозвать сессию.
+  ///
+  /// `/auth/*` здесь обязателен, а не желателен: `_isRetryable` повторяет
+  /// любой POST при сетевой ошибке без ответа — то есть ровно тогда, когда
+  /// запрос дошёл до сервера, а ответ потерялся. Повторный `/auth/refresh`
+  /// с тем же токеном сервер считает reuse-detection, зовёт
+  /// `suspendTokens(userId)` и отзывает всю цепочку — разлогин на всех
+  /// устройствах.
   static const nonIdempotentPaths = [
+    '/auth/refresh',
+    '/auth/google',
+    '/auth/logout',
     '/sync/push',
     '/stats/answer',
     '/stats/answers/batch',

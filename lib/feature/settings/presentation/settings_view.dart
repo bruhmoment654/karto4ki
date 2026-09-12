@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:quizzerg/app/di/app_scope.dart';
-import 'package:quizzerg/feature/question_stats/domain/service/i_stats_export_service.dart';
+import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
+import 'package:quizzerg/feature/settings/domain/bloc/settings_bloc.dart';
 import 'package:quizzerg/feature/settings/presentation/settings_screen.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
@@ -14,6 +13,7 @@ import 'package:quizzerg/uikit/skeleton_gif/skeleton_gif.dart';
 import 'package:quizzerg/uikit/slider/app_slider.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
+import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 class SettingsView extends StatelessWidget {
   final ISettingsViewModel viewModel;
@@ -27,36 +27,54 @@ class SettingsView extends StatelessWidget {
         title: Text(context.l10n.settingsTitle),
         onBackPressed: viewModel.onBackPressed,
       ),
-      body: ListView(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-        children: [
-          _SettingsCard(
-            icon: Icons.palette,
-            title: 'Внешний вид',
-            children: [
-              _ThemeModeSection(viewModel: viewModel),
-              const Height(22),
-              _AccentColorSection(viewModel: viewModel),
-              const Height(22),
-              _AnimationSpeedSection(viewModel: viewModel),
-            ],
-          ),
-          const Height(16),
-          _SettingsCard(
-            icon: Icons.dashboard_customize_outlined,
-            title: 'Карточки',
-            fadeInDelay: const Duration(milliseconds: 80),
-            children: [
-              _CardFontSizeSection(viewModel: viewModel),
-            ],
-          ),
-          const Height(32),
-          const _StatsExportSection(),
-          const Height(32),
-          const SkeletonGif(),
-          const SizedBox(height: 16),
-          _VersionLabel(version: viewModel.appVersion),
-        ],
+      body: StateStreamableBuilder<SettingsState>(
+        bloc: viewModel.settingsState,
+        builder: (context, state) => ListView(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+          children: [
+            _SettingsCard(
+              icon: Icons.palette,
+              title: 'Внешний вид',
+              children: [
+                _ThemeModeSection(
+                  viewModel: viewModel,
+                  themeMode: state.settings.themeMode,
+                ),
+                const Height(22),
+                _AccentColorSection(
+                  viewModel: viewModel,
+                  accentColorHue: state.accentColorHue,
+                ),
+                const Height(22),
+                _AnimationSpeedSection(
+                  viewModel: viewModel,
+                  animationDurationMs: state.settings.animationDurationMs,
+                ),
+              ],
+            ),
+            const Height(16),
+            _SettingsCard(
+              icon: Icons.dashboard_customize_outlined,
+              title: 'Карточки',
+              fadeInDelay: const Duration(milliseconds: 80),
+              children: [
+                _CardFontSizeSection(
+                  viewModel: viewModel,
+                  cardFontSize: state.settings.cardFontSize,
+                ),
+              ],
+            ),
+            const Height(32),
+            _StatsExportSection(
+              isExporting: state.isExporting,
+              onPressed: viewModel.onStatsExportPressed,
+            ),
+            const Height(32),
+            const SkeletonGif(),
+            const SizedBox(height: 16),
+            _VersionLabel(version: state.appVersion),
+          ],
+        ),
       ),
     );
   }
@@ -122,39 +140,14 @@ class _SettingsSectionLabel extends StatelessWidget {
   }
 }
 
-class _StatsExportSection extends StatefulWidget {
-  const _StatsExportSection();
+class _StatsExportSection extends StatelessWidget {
+  final bool isExporting;
+  final VoidCallback onPressed;
 
-  @override
-  State<_StatsExportSection> createState() => _StatsExportSectionState();
-}
-
-class _StatsExportSectionState extends State<_StatsExportSection> {
-  bool _isExporting = false;
-
-  Future<void> _onPressed() async {
-    if (_isExporting) return;
-    setState(() => _isExporting = true);
-
-    final service = context.read<IAppScope>().statsExportService;
-    final messenger = ScaffoldMessenger.of(context);
-    final result = await service.export();
-
-    if (!mounted) return;
-    setState(() => _isExporting = false);
-
-    final message = switch (result) {
-      StatsExportSuccess() =>
-        'Экспорт: ${result.questionCount} вопросов, ${result.cardCount} карточек\n'
-            '${result.statsFilePath}\n${result.cardsFilePath}',
-      StatsExportCancelled() => 'Экспорт отменён',
-      StatsExportEmpty() => 'Нет данных для экспорта',
-      StatsExportFailure() => 'Ошибка экспорта: ${result.message}',
-    };
-    messenger.showSnackBar(
-      SnackBar(content: Text(message), duration: const Duration(seconds: 6)),
-    );
-  }
+  const _StatsExportSection({
+    required this.isExporting,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -179,8 +172,8 @@ class _StatsExportSectionState extends State<_StatsExportSection> {
         ),
         const Height(12),
         FilledButton.tonalIcon(
-          onPressed: _isExporting ? null : _onPressed,
-          icon: _isExporting
+          onPressed: isExporting ? null : onPressed,
+          icon: isExporting
               ? const SizedBox(
                   width: 16,
                   height: 16,
@@ -196,8 +189,12 @@ class _StatsExportSectionState extends State<_StatsExportSection> {
 
 class _AccentColorSection extends StatelessWidget {
   final ISettingsViewModel viewModel;
+  final double accentColorHue;
 
-  const _AccentColorSection({required this.viewModel});
+  const _AccentColorSection({
+    required this.viewModel,
+    required this.accentColorHue,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -207,8 +204,8 @@ class _AccentColorSection extends StatelessWidget {
         _SettingsSectionLabel(context.l10n.profileAccentColorTitle),
         const Height(8),
         _HueSlider(
-          hue: viewModel.accentColorHue,
-          previewColor: viewModel.previewAccentColor,
+          hue: accentColorHue,
+          previewColor: AppTheme.seedColorFromHue(accentColorHue),
           onChanged: viewModel.onAccentColorHueChanged,
         ),
       ],
@@ -321,8 +318,9 @@ class _VersionLabel extends StatelessWidget {
 
 class _ThemeModeSection extends StatelessWidget {
   final ISettingsViewModel viewModel;
+  final AppThemeMode themeMode;
 
-  const _ThemeModeSection({required this.viewModel});
+  const _ThemeModeSection({required this.viewModel, required this.themeMode});
 
   @override
   Widget build(BuildContext context) {
@@ -332,7 +330,7 @@ class _ThemeModeSection extends StatelessWidget {
         const _SettingsSectionLabel('Тема'),
         const Height(8),
         _ThemeModeSwitch(
-          value: viewModel.themeMode,
+          value: themeMode,
           onChanged: viewModel.onThemeModeChanged,
         ),
       ],
@@ -425,10 +423,14 @@ class _ThemeModeSegment extends StatelessWidget {
   }
 }
 
-class _CardFontSizeSection extends StatefulWidget {
+class _CardFontSizeSection extends StatelessWidget {
   final ISettingsViewModel viewModel;
+  final double cardFontSize;
 
-  const _CardFontSizeSection({required this.viewModel});
+  const _CardFontSizeSection({
+    required this.viewModel,
+    required this.cardFontSize,
+  });
 
   /// Минимальный размер шрифта на карточке (px).
   static const double minFontSize = 24;
@@ -437,58 +439,34 @@ class _CardFontSizeSection extends StatefulWidget {
   static const double maxFontSize = 200;
 
   @override
-  State<_CardFontSizeSection> createState() => _CardFontSizeSectionState();
-}
-
-class _CardFontSizeSectionState extends State<_CardFontSizeSection> {
-  late final ValueNotifier<double> _fontSize =
-      ValueNotifier(widget.viewModel.cardFontSize);
-
-  void _onChanged(double value) {
-    _fontSize.value = value;
-    widget.viewModel.onCardFontSizeChanged(value);
-  }
-
-  @override
-  void dispose() {
-    _fontSize.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return ValueListenableBuilder<double>(
-      valueListenable: _fontSize,
-      builder: (context, fontSize, child) {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _SettingsSectionLabel(context.l10n.profileCardFontSizeTitle),
-                Text(
-                  context.l10n.profileCardFontSizeLabel(fontSize.round()),
-                  style: theme.textTheme.titleMedium?.copyWith(
-                    color: theme.colorScheme.primary,
-                  ),
-                ),
-              ],
+            _SettingsSectionLabel(context.l10n.profileCardFontSizeTitle),
+            Text(
+              context.l10n.profileCardFontSizeLabel(cardFontSize.round()),
+              style: theme.textTheme.titleMedium?.copyWith(
+                color: theme.colorScheme.primary,
+              ),
             ),
-            const Height(8),
-            AppSlider(
-              value: fontSize,
-              min: _CardFontSizeSection.minFontSize,
-              max: _CardFontSizeSection.maxFontSize,
-              onChanged: _onChanged,
-            ),
-            const Height(12),
-            _CardFontSizePreview(fontSize: fontSize),
           ],
-        );
-      },
+        ),
+        const Height(8),
+        AppSlider(
+          value: cardFontSize,
+          min: minFontSize,
+          max: maxFontSize,
+          onChanged: viewModel.onCardFontSizeChanged,
+        ),
+        const Height(12),
+        _CardFontSizePreview(fontSize: cardFontSize),
+      ],
     );
   }
 }
@@ -532,8 +510,12 @@ class _CardFontSizePreview extends StatelessWidget {
 
 class _AnimationSpeedSection extends StatelessWidget {
   final ISettingsViewModel viewModel;
+  final int animationDurationMs;
 
-  const _AnimationSpeedSection({required this.viewModel});
+  const _AnimationSpeedSection({
+    required this.viewModel,
+    required this.animationDurationMs,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -547,9 +529,7 @@ class _AnimationSpeedSection extends StatelessWidget {
           children: [
             _SettingsSectionLabel(context.l10n.profileAnimationSpeedTitle),
             Text(
-              context.l10n.profileAnimationDurationLabel(
-                viewModel.animationDurationMs,
-              ),
+              context.l10n.profileAnimationDurationLabel(animationDurationMs),
               style: theme.textTheme.titleMedium?.copyWith(
                 color: theme.colorScheme.primary,
               ),
@@ -558,7 +538,7 @@ class _AnimationSpeedSection extends StatelessWidget {
         ),
         const Height(8),
         AppSlider(
-          value: viewModel.animationDurationMs.toDouble(),
+          value: animationDurationMs.toDouble(),
           max: 1000,
           divisions: 10,
           onChanged: viewModel.onAnimationDurationChanged,

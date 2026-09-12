@@ -110,6 +110,16 @@ class CardsDatabase extends DatabaseAccessor<AppDatabase>
             ..limit(limit))
           .get();
 
+  /// Сколько строк ждёт отправки.
+  Future<int> countPendingCards() {
+    final count = cards.id.count();
+    final query = selectOnly(cards)
+      ..addColumns([count])
+      ..where(cards.syncState.equals(SyncState.pending.dbValue));
+
+    return query.map((row) => row.read(count) ?? 0).getSingle();
+  }
+
   /// Записать строку целиком (upsert из серверного снимка).
   Future<void> upsertCard(CardsCompanion card) =>
       into(cards).insertOnConflictUpdate(card);

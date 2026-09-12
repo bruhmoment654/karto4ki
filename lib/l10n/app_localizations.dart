@@ -1399,6 +1399,240 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Sign out'**
   String get profileSignOutDialogConfirm;
+
+  /// No description provided for @syncTitleSynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Synced'**
+  String get syncTitleSynced;
+
+  /// No description provided for @syncTitleSyncing.
+  ///
+  /// In en, this message translates to:
+  /// **'Syncing…'**
+  String get syncTitleSyncing;
+
+  /// No description provided for @syncTitleNotSynced.
+  ///
+  /// In en, this message translates to:
+  /// **'Not synced'**
+  String get syncTitleNotSynced;
+
+  /// No description provided for @syncTitleOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Offline'**
+  String get syncTitleOffline;
+
+  /// No description provided for @syncTitleExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Session expired'**
+  String get syncTitleExpired;
+
+  /// No description provided for @syncTitleFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync failed'**
+  String get syncTitleFailed;
+
+  /// No description provided for @syncSubtitleSyncedRelative.
+  ///
+  /// In en, this message translates to:
+  /// **'Last time — {time}'**
+  String syncSubtitleSyncedRelative(String time);
+
+  /// No description provided for @syncSubtitleNever.
+  ///
+  /// In en, this message translates to:
+  /// **'Not synced yet'**
+  String get syncSubtitleNever;
+
+  /// No description provided for @syncSubtitleSyncingCounted.
+  ///
+  /// In en, this message translates to:
+  /// **'Loaded {done} of {total} changes'**
+  String syncSubtitleSyncingCounted(int done, int total);
+
+  /// No description provided for @syncSubtitleSyncingPlain.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending changes and fetching new ones'**
+  String get syncSubtitleSyncingPlain;
+
+  /// No description provided for @syncSubtitlePending.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} change waiting to be sent} other{{count} changes waiting to be sent}}'**
+  String syncSubtitlePending(int count);
+
+  /// No description provided for @syncSubtitleOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes will be sent once you are back online'**
+  String get syncSubtitleOffline;
+
+  /// No description provided for @syncSubtitleExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again to resume syncing'**
+  String get syncSubtitleExpired;
+
+  /// No description provided for @syncSubtitleFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Changes are stored on the device, try again'**
+  String get syncSubtitleFailed;
+
+  /// No description provided for @syncDialogBodySynced.
+  ///
+  /// In en, this message translates to:
+  /// **'All cards, groups and progress are stored on the server.'**
+  String get syncDialogBodySynced;
+
+  /// No description provided for @syncDialogBodySyncing.
+  ///
+  /// In en, this message translates to:
+  /// **'Sending your changes and fetching fresh cards from the server.'**
+  String get syncDialogBodySyncing;
+
+  /// No description provided for @syncDialogBodyNotSynced.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} change is only on this device: your other devices will not see it.} other{{count} changes are only on this device: your other devices will not see them.}}'**
+  String syncDialogBodyNotSynced(int count);
+
+  /// No description provided for @syncDialogBodyOffline.
+  ///
+  /// In en, this message translates to:
+  /// **'No connection. The app works offline, changes are stored on the device and will be sent automatically.'**
+  String get syncDialogBodyOffline;
+
+  /// No description provided for @syncDialogBodyExpired.
+  ///
+  /// In en, this message translates to:
+  /// **'The session has expired, so syncing stopped. Cards and progress are stored on the device.'**
+  String get syncDialogBodyExpired;
+
+  /// No description provided for @syncDialogBodyFailed.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync failed. Cards and progress are stored on the device.'**
+  String get syncDialogBodyFailed;
+
+  /// No description provided for @syncDialogLastSyncLabel.
+  ///
+  /// In en, this message translates to:
+  /// **'Last sync'**
+  String get syncDialogLastSyncLabel;
+
+  /// No description provided for @syncDialogLastSyncApprox.
+  ///
+  /// In en, this message translates to:
+  /// **'About {time}'**
+  String syncDialogLastSyncApprox(String time);
+
+  /// No description provided for @syncDialogClose.
+  ///
+  /// In en, this message translates to:
+  /// **'Close'**
+  String get syncDialogClose;
+
+  /// No description provided for @syncActionSync.
+  ///
+  /// In en, this message translates to:
+  /// **'Sync'**
+  String get syncActionSync;
+
+  /// No description provided for @syncActionRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Retry'**
+  String get syncActionRetry;
+
+  /// No description provided for @syncActionSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get syncActionSignIn;
+
+  /// No description provided for @syncTimeJustNow.
+  ///
+  /// In en, this message translates to:
+  /// **'just now'**
+  String get syncTimeJustNow;
+
+  /// No description provided for @syncTimeMinutesAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} minute ago} other{{count} minutes ago}}'**
+  String syncTimeMinutesAgo(int count);
+
+  /// No description provided for @syncTimeHoursAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count, plural, one{{count} hour ago} other{{count} hours ago}}'**
+  String syncTimeHoursAgo(int count);
+
+  /// No description provided for @syncTimeToday.
+  ///
+  /// In en, this message translates to:
+  /// **'today at {time}'**
+  String syncTimeToday(String time);
+
+  /// No description provided for @syncTimeYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'yesterday at {time}'**
+  String syncTimeYesterday(String time);
+
+  /// No description provided for @syncTimeAtDate.
+  ///
+  /// In en, this message translates to:
+  /// **'{date} at {time}'**
+  String syncTimeAtDate(String date, String time);
+
+  /// No description provided for @syncReauthTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in again'**
+  String get syncReauthTitle;
+
+  /// No description provided for @syncReauthBody.
+  ///
+  /// In en, this message translates to:
+  /// **'The session has expired. Cards and progress are stored on the device — everything will be uploaded after you sign in.'**
+  String get syncReauthBody;
+
+  /// No description provided for @syncReauthLater.
+  ///
+  /// In en, this message translates to:
+  /// **'Later'**
+  String get syncReauthLater;
+
+  /// No description provided for @syncReauthSignIn.
+  ///
+  /// In en, this message translates to:
+  /// **'Sign in'**
+  String get syncReauthSignIn;
+
+  /// No description provided for @groupsListTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'My groups'**
+  String get groupsListTitle;
+
+  /// No description provided for @groupsListSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Test groups for flashcard learning'**
+  String get groupsListSubtitle;
+
+  /// No description provided for @syncSubtitleSyncedNoTime.
+  ///
+  /// In en, this message translates to:
+  /// **'All changes are on the server'**
+  String get syncSubtitleSyncedNoTime;
 }
 
 class _AppLocalizationsDelegate

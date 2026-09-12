@@ -924,5 +924,134 @@
   "profileSignOutRow": "Выйти",
   "profileSignOutDialogTitle": "Выйти из аккаунта?",
   "profileSignOutDialogMessage": "Локальные карточки останутся на устройстве, синхронизация остановится.",
-  "profileSignOutDialogConfirm": "Выйти"
+  "profileSignOutDialogConfirm": "Выйти",
+  "@segmentSync": {
+    "---------": "---------",
+    "description": "Фича Синхронизация"
+  },
+  "syncTitleSynced": "Синхронизировано",
+  "syncTitleSyncing": "Синхронизация…",
+  "syncTitleNotSynced": "Не синхронизировано",
+  "syncTitleOffline": "Офлайн",
+  "syncTitleExpired": "Сессия истекла",
+  "syncTitleFailed": "Не удалось синхронизировать",
+  "syncSubtitleSyncedRelative": "Последний раз — {time}",
+  "@syncSubtitleSyncedRelative": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "2 минуты назад"
+      }
+    }
+  },
+  "syncSubtitleNever": "Ещё не синхронизировано",
+  "syncSubtitleSyncingCounted": "Загружено {done} из {total} изменений",
+  "@syncSubtitleSyncingCounted": {
+    "placeholders": {
+      "done": {
+        "type": "int",
+        "format": "decimalPattern",
+        "example": "1500"
+      },
+      "total": {
+        "type": "int",
+        "format": "decimalPattern",
+        "example": "10000"
+      }
+    }
+  },
+  "syncSubtitleSyncingPlain": "Отправляем изменения и забираем свежие",
+  "syncSubtitlePending": "{count, plural, one{{count} изменение ждёт отправки} few{{count} изменения ждут отправки} many{{count} изменений ждут отправки} other{{count} изменения ждут отправки}}",
+  "@syncSubtitlePending": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncSubtitleOffline": "Отправим изменения, когда появится сеть",
+  "syncSubtitleExpired": "Войдите заново, чтобы синхронизация продолжилась",
+  "syncSubtitleFailed": "Изменения сохранены на устройстве, попробуйте повторить",
+  "syncDialogBodySynced": "Все карточки, группы и прогресс сохранены на сервере.",
+  "syncDialogBodySyncing": "Отправляем изменения и забираем свежие карточки с сервера.",
+  "syncDialogBodyNotSynced": "{count, plural, one{{count} изменение пока только на устройстве: его не увидят другие ваши устройства.} few{{count} изменения пока только на устройстве: их не увидят другие ваши устройства.} many{{count} изменений пока только на устройстве: их не увидят другие ваши устройства.} other{{count} изменения пока только на устройстве: их не увидят другие ваши устройства.}}",
+  "@syncDialogBodyNotSynced": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncDialogBodyOffline": "Нет подключения. Приложение работает офлайн, изменения сохраняются на устройстве и уедут автоматически.",
+  "syncDialogBodyExpired": "Срок сессии истёк, поэтому синхронизация остановлена. Карточки и прогресс сохранены на устройстве.",
+  "syncDialogBodyFailed": "Синхронизация не удалась. Карточки и прогресс сохранены на устройстве.",
+  "syncDialogLastSyncLabel": "Последняя синхронизация",
+  "syncDialogLastSyncApprox": "Примерно {time}",
+  "@syncDialogLastSyncApprox": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "сегодня в 13:22"
+      }
+    }
+  },
+  "syncDialogClose": "Закрыть",
+  "syncActionSync": "Синхронизировать",
+  "syncActionRetry": "Повторить",
+  "syncActionSignIn": "Войти",
+  "syncTimeJustNow": "только что",
+  "syncTimeMinutesAgo": "{count, plural, one{{count} минуту назад} few{{count} минуты назад} many{{count} минут назад} other{{count} минуты назад}}",
+  "@syncTimeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncTimeHoursAgo": "{count, plural, one{{count} час назад} few{{count} часа назад} many{{count} часов назад} other{{count} часа назад}}",
+  "@syncTimeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncTimeToday": "сегодня в {time}",
+  "@syncTimeToday": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "13:22"
+      }
+    }
+  },
+  "syncTimeYesterday": "вчера в {time}",
+  "@syncTimeYesterday": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "13:22"
+      }
+    }
+  },
+  "syncTimeAtDate": "{date} в {time}",
+  "@syncTimeAtDate": {
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "2 сентября"
+      },
+      "time": {
+        "type": "String",
+        "example": "13:22"
+      }
+    }
+  },
+  "syncReauthTitle": "Нужно войти заново",
+  "syncReauthBody": "Срок сессии истёк. Карточки и прогресс сохранены на устройстве — после входа всё уедет на сервер.",
+  "syncReauthLater": "Позже",
+  "syncReauthSignIn": "Войти",
+  "groupsListTitle": "Мои группы",
+  "groupsListSubtitle": "Группы тестов для обучения по карточкам",
+  "syncSubtitleSyncedNoTime": "Все изменения на сервере"
 }

@@ -482,5 +482,130 @@
   "profileSignOutRow": "Sign out",
   "profileSignOutDialogTitle": "Sign out?",
   "profileSignOutDialogMessage": "Local cards stay on the device, syncing will stop.",
-  "profileSignOutDialogConfirm": "Sign out"
+  "profileSignOutDialogConfirm": "Sign out",
+  "syncTitleSynced": "Synced",
+  "syncTitleSyncing": "Syncing…",
+  "syncTitleNotSynced": "Not synced",
+  "syncTitleOffline": "Offline",
+  "syncTitleExpired": "Session expired",
+  "syncTitleFailed": "Sync failed",
+  "syncSubtitleSyncedRelative": "Last time — {time}",
+  "@syncSubtitleSyncedRelative": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "2 minutes ago"
+      }
+    }
+  },
+  "syncSubtitleNever": "Not synced yet",
+  "syncSubtitleSyncingCounted": "Loaded {done} of {total} changes",
+  "@syncSubtitleSyncingCounted": {
+    "placeholders": {
+      "done": {
+        "type": "int",
+        "format": "decimalPattern",
+        "example": "1500"
+      },
+      "total": {
+        "type": "int",
+        "format": "decimalPattern",
+        "example": "10000"
+      }
+    }
+  },
+  "syncSubtitleSyncingPlain": "Sending changes and fetching new ones",
+  "syncSubtitlePending": "{count, plural, one{{count} change waiting to be sent} other{{count} changes waiting to be sent}}",
+  "@syncSubtitlePending": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncSubtitleOffline": "Changes will be sent once you are back online",
+  "syncSubtitleExpired": "Sign in again to resume syncing",
+  "syncSubtitleFailed": "Changes are stored on the device, try again",
+  "syncDialogBodySynced": "All cards, groups and progress are stored on the server.",
+  "syncDialogBodySyncing": "Sending your changes and fetching fresh cards from the server.",
+  "syncDialogBodyNotSynced": "{count, plural, one{{count} change is only on this device: your other devices will not see it.} other{{count} changes are only on this device: your other devices will not see them.}}",
+  "@syncDialogBodyNotSynced": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncDialogBodyOffline": "No connection. The app works offline, changes are stored on the device and will be sent automatically.",
+  "syncDialogBodyExpired": "The session has expired, so syncing stopped. Cards and progress are stored on the device.",
+  "syncDialogBodyFailed": "Sync failed. Cards and progress are stored on the device.",
+  "syncDialogLastSyncLabel": "Last sync",
+  "syncDialogLastSyncApprox": "About {time}",
+  "@syncDialogLastSyncApprox": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "today at 13:22"
+      }
+    }
+  },
+  "syncDialogClose": "Close",
+  "syncActionSync": "Sync",
+  "syncActionRetry": "Retry",
+  "syncActionSignIn": "Sign in",
+  "syncTimeJustNow": "just now",
+  "syncTimeMinutesAgo": "{count, plural, one{{count} minute ago} other{{count} minutes ago}}",
+  "@syncTimeMinutesAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncTimeHoursAgo": "{count, plural, one{{count} hour ago} other{{count} hours ago}}",
+  "@syncTimeHoursAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "syncTimeToday": "today at {time}",
+  "@syncTimeToday": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "13:22"
+      }
+    }
+  },
+  "syncTimeYesterday": "yesterday at {time}",
+  "@syncTimeYesterday": {
+    "placeholders": {
+      "time": {
+        "type": "String",
+        "example": "13:22"
+      }
+    }
+  },
+  "syncTimeAtDate": "{date} at {time}",
+  "@syncTimeAtDate": {
+    "placeholders": {
+      "date": {
+        "type": "String",
+        "example": "September 2"
+      },
+      "time": {
+        "type": "String",
+        "example": "13:22"
+      }
+    }
+  },
+  "syncReauthTitle": "Sign in again",
+  "syncReauthBody": "The session has expired. Cards and progress are stored on the device — everything will be uploaded after you sign in.",
+  "syncReauthLater": "Later",
+  "syncReauthSignIn": "Sign in",
+  "groupsListTitle": "My groups",
+  "groupsListSubtitle": "Test groups for flashcard learning",
+  "syncSubtitleSyncedNoTime": "All changes are on the server"
 }

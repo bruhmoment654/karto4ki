@@ -31,7 +31,7 @@ void main() {
     storage = _FakeDebugConfigStorage();
     repository = DebugRepository(
       debugConfigStorage: storage,
-      apiConfig: const ApiConfig(environment: ApiEnvironment.prod),
+      apiConfig: const ApiConfig(environment: AppUrl.prod),
       dio: Dio(),
       errorLogger: _SilentErrorLogger(),
     );
@@ -69,7 +69,7 @@ void main() {
     });
 
     test('отдаёт base url окружения', () {
-      expect(repository.baseUrl, ApiEnvironment.prod.baseUrl);
+      expect(repository.baseUrl, AppUrl.prod.baseUrl);
     });
   });
 }

@@ -8,6 +8,7 @@ import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
+import 'package:quizzerg/uikit/snackbars/snack_controller.dart';
 
 class TestMergeScreen extends StatefulWidget {
   const TestMergeScreen({super.key});
@@ -19,29 +20,27 @@ class TestMergeScreen extends StatefulWidget {
 class _TestMergeScreenState extends State<TestMergeScreen>
     implements ITestMergeViewModel {
   @override
+  StateStreamable<TestMergeState> get testMergeState =>
+      context.read<TestMergeBloc>();
+
+  @override
   Widget build(BuildContext context) {
-    return BlocConsumer<TestMergeBloc, TestMergeState>(
+    return BlocListener<TestMergeBloc, TestMergeState>(
       listener: (context, state) {
         if (state is TestMergeState$Success) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(context.l10n.testMergeSuccessMessage),
-            ),
-          );
+          SnackController.show(context, context.l10n.testMergeSuccessMessage);
           context.router.maybePop(true);
         }
       },
-      builder: (context, state) {
-        return TestMergeView(viewModel: this, state: state);
-      },
+      child: TestMergeView(viewModel: this),
     );
   }
 
   @override
   void onTestToggled(TestEntity test) {
     context.read<TestMergeBloc>().add(
-          TestMergeEvent.testToggled(testId: test.id),
-        );
+      TestMergeEvent.testToggled(testId: test.id),
+    );
   }
 
   @override
@@ -76,8 +75,8 @@ class _TestMergeScreenState extends State<TestMergeScreen>
               final title = titleController.text.trim();
               if (title.isNotEmpty) {
                 context.read<TestMergeBloc>().add(
-                      TestMergeEvent.mergeConfirmed(title: title),
-                    );
+                  TestMergeEvent.mergeConfirmed(title: title),
+                );
                 Navigator.of(dialogContext).pop();
               }
             },
@@ -91,6 +90,9 @@ class _TestMergeScreenState extends State<TestMergeScreen>
 
 /// ViewModel интерфейс для экрана объединения тестов.
 abstract interface class ITestMergeViewModel {
+  /// Состояние объединения тестов.
+  StateStreamable<TestMergeState> get testMergeState;
+
   void onTestToggled(TestEntity test);
 
   void onMergePressed();

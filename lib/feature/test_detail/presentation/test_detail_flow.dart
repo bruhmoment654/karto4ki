@@ -3,12 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import 'package:quizzerg/app/di/app_scope.dart';
+import 'package:quizzerg/feature/test_detail/domain/bloc/csv_import_bloc.dart';
 import 'package:quizzerg/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dart';
 
 /// Entry point for test detail screen.
 ///
-/// This Flow provides [TestDetailBloc] for the entire test detail screen subtree.
+/// This Flow provides [TestDetailBloc] and [CsvImportBloc] for the entire
+/// test detail screen subtree.
 @RoutePage()
 class TestDetailFlow extends StatelessWidget implements AutoRouteWrapper {
   final String testId;
@@ -27,10 +29,20 @@ class TestDetailFlow extends StatelessWidget implements AutoRouteWrapper {
   @override
   Widget wrappedRoute(BuildContext context) {
     final scope = context.read<IAppScope>();
-    return BlocProvider(
-      create: (context) => TestDetailBloc(
-        repository: scope.testDetailRepository,
-      )..add(TestDetailEvent.started(testId: testId)),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (_) => TestDetailBloc(
+            repository: scope.testDetailRepository,
+            syncSignal: scope.syncSignalRepository,
+          )..add(TestDetailEvent.started(testId: testId)),
+        ),
+        BlocProvider(
+          create: (_) => CsvImportBloc(
+            csvImportService: scope.csvImportService,
+          ),
+        ),
+      ],
       child: this,
     );
   }

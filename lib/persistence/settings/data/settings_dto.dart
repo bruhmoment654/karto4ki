@@ -67,5 +67,39 @@ class SettingsDto {
   factory SettingsDto.fromJson(Map<String, dynamic> json) =>
       _$SettingsDtoFromJson(json);
 
+  /// Копия с изменёнными полями.
+  ///
+  /// Настройки правят сразу несколько BLoC'ов, поэтому каждый обновляет
+  /// только свои поля поверх актуального снимка из хранилища.
+  SettingsDto copyWith({
+    int? animationDurationMs,
+    bool? shaderAnimationEnabled,
+    double? accentColorHue,
+    bool? mixupEnabled,
+    int? mixupMin,
+    int? mixupMax,
+    AppThemeMode? themeMode,
+    MixupAlgorithm? mixupAlgorithm,
+    double? cardFontSize,
+    double? streakNegativeBonus,
+    double? streakPositivePenalty,
+  }) {
+    return SettingsDto(
+      animationDurationMs: animationDurationMs ?? this.animationDurationMs,
+      shaderAnimationEnabled:
+          shaderAnimationEnabled ?? this.shaderAnimationEnabled,
+      accentColorHue: accentColorHue ?? this.accentColorHue,
+      mixupEnabled: mixupEnabled ?? this.mixupEnabled,
+      mixupMin: mixupMin ?? this.mixupMin,
+      mixupMax: mixupMax ?? this.mixupMax,
+      themeMode: themeMode ?? this.themeMode,
+      mixupAlgorithm: mixupAlgorithm ?? this.mixupAlgorithm,
+      cardFontSize: cardFontSize ?? this.cardFontSize,
+      streakNegativeBonus: streakNegativeBonus ?? this.streakNegativeBonus,
+      streakPositivePenalty:
+          streakPositivePenalty ?? this.streakPositivePenalty,
+    );
+  }
+
   Map<String, dynamic> toJson() => _$SettingsDtoToJson(this);
 }

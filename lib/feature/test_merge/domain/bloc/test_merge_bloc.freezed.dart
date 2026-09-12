@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,1387 +9,826 @@ part of 'test_merge_bloc.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$TestMergeEvent {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String initialTestId) started,
-    required TResult Function(String testId) testToggled,
-    required TResult Function(String title) mergeConfirmed,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String initialTestId)? started,
-    TResult? Function(String testId)? testToggled,
-    TResult? Function(String title)? mergeConfirmed,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String initialTestId)? started,
-    TResult Function(String testId)? testToggled,
-    TResult Function(String title)? mergeConfirmed,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TestMergeEvent$Started value) started,
-    required TResult Function(_TestMergeEvent$TestToggled value) testToggled,
-    required TResult Function(_TestMergeEvent$MergeConfirmed value)
-        mergeConfirmed,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TestMergeEvent$Started value)? started,
-    TResult? Function(_TestMergeEvent$TestToggled value)? testToggled,
-    TResult? Function(_TestMergeEvent$MergeConfirmed value)? mergeConfirmed,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TestMergeEvent$Started value)? started,
-    TResult Function(_TestMergeEvent$TestToggled value)? testToggled,
-    TResult Function(_TestMergeEvent$MergeConfirmed value)? mergeConfirmed,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestMergeEvent);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TestMergeEvent()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $TestMergeEventCopyWith<$Res> {
-  factory $TestMergeEventCopyWith(
-          TestMergeEvent value, $Res Function(TestMergeEvent) then) =
-      _$TestMergeEventCopyWithImpl<$Res, TestMergeEvent>;
+class $TestMergeEventCopyWith<$Res>  {
+$TestMergeEventCopyWith(TestMergeEvent _, $Res Function(TestMergeEvent) __);
 }
 
-/// @nodoc
-class _$TestMergeEventCopyWithImpl<$Res, $Val extends TestMergeEvent>
-    implements $TestMergeEventCopyWith<$Res> {
-  _$TestMergeEventCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [TestMergeEvent].
+extension TestMergeEventPatterns on TestMergeEvent {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _TestMergeEvent$Started value)?  started,TResult Function( _TestMergeEvent$TestToggled value)?  testToggled,TResult Function( _TestMergeEvent$MergeConfirmed value)?  mergeConfirmed,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _TestMergeEvent$Started() when started != null:
+return started(_that);case _TestMergeEvent$TestToggled() when testToggled != null:
+return testToggled(_that);case _TestMergeEvent$MergeConfirmed() when mergeConfirmed != null:
+return mergeConfirmed(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _TestMergeEvent$Started value)  started,required TResult Function( _TestMergeEvent$TestToggled value)  testToggled,required TResult Function( _TestMergeEvent$MergeConfirmed value)  mergeConfirmed,}){
+final _that = this;
+switch (_that) {
+case _TestMergeEvent$Started():
+return started(_that);case _TestMergeEvent$TestToggled():
+return testToggled(_that);case _TestMergeEvent$MergeConfirmed():
+return mergeConfirmed(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _TestMergeEvent$Started value)?  started,TResult? Function( _TestMergeEvent$TestToggled value)?  testToggled,TResult? Function( _TestMergeEvent$MergeConfirmed value)?  mergeConfirmed,}){
+final _that = this;
+switch (_that) {
+case _TestMergeEvent$Started() when started != null:
+return started(_that);case _TestMergeEvent$TestToggled() when testToggled != null:
+return testToggled(_that);case _TestMergeEvent$MergeConfirmed() when mergeConfirmed != null:
+return mergeConfirmed(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String initialTestId)?  started,TResult Function( String testId)?  testToggled,TResult Function( String title)?  mergeConfirmed,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _TestMergeEvent$Started() when started != null:
+return started(_that.initialTestId);case _TestMergeEvent$TestToggled() when testToggled != null:
+return testToggled(_that.testId);case _TestMergeEvent$MergeConfirmed() when mergeConfirmed != null:
+return mergeConfirmed(_that.title);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String initialTestId)  started,required TResult Function( String testId)  testToggled,required TResult Function( String title)  mergeConfirmed,}) {final _that = this;
+switch (_that) {
+case _TestMergeEvent$Started():
+return started(_that.initialTestId);case _TestMergeEvent$TestToggled():
+return testToggled(_that.testId);case _TestMergeEvent$MergeConfirmed():
+return mergeConfirmed(_that.title);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String initialTestId)?  started,TResult? Function( String testId)?  testToggled,TResult? Function( String title)?  mergeConfirmed,}) {final _that = this;
+switch (_that) {
+case _TestMergeEvent$Started() when started != null:
+return started(_that.initialTestId);case _TestMergeEvent$TestToggled() when testToggled != null:
+return testToggled(_that.testId);case _TestMergeEvent$MergeConfirmed() when mergeConfirmed != null:
+return mergeConfirmed(_that.title);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$TestMergeEvent$StartedImplCopyWith<$Res> {
-  factory _$$TestMergeEvent$StartedImplCopyWith(
-          _$TestMergeEvent$StartedImpl value,
-          $Res Function(_$TestMergeEvent$StartedImpl) then) =
-      __$$TestMergeEvent$StartedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String initialTestId});
-}
-
-/// @nodoc
-class __$$TestMergeEvent$StartedImplCopyWithImpl<$Res>
-    extends _$TestMergeEventCopyWithImpl<$Res, _$TestMergeEvent$StartedImpl>
-    implements _$$TestMergeEvent$StartedImplCopyWith<$Res> {
-  __$$TestMergeEvent$StartedImplCopyWithImpl(
-      _$TestMergeEvent$StartedImpl _value,
-      $Res Function(_$TestMergeEvent$StartedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? initialTestId = null,
-  }) {
-    return _then(_$TestMergeEvent$StartedImpl(
-      initialTestId: null == initialTestId
-          ? _value.initialTestId
-          : initialTestId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$TestMergeEvent$StartedImpl implements _TestMergeEvent$Started {
-  const _$TestMergeEvent$StartedImpl({required this.initialTestId});
-
-  @override
-  final String initialTestId;
-
-  @override
-  String toString() {
-    return 'TestMergeEvent.started(initialTestId: $initialTestId)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestMergeEvent$StartedImpl &&
-            (identical(other.initialTestId, initialTestId) ||
-                other.initialTestId == initialTestId));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, initialTestId);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestMergeEvent$StartedImplCopyWith<_$TestMergeEvent$StartedImpl>
-      get copyWith => __$$TestMergeEvent$StartedImplCopyWithImpl<
-          _$TestMergeEvent$StartedImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String initialTestId) started,
-    required TResult Function(String testId) testToggled,
-    required TResult Function(String title) mergeConfirmed,
-  }) {
-    return started(initialTestId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String initialTestId)? started,
-    TResult? Function(String testId)? testToggled,
-    TResult? Function(String title)? mergeConfirmed,
-  }) {
-    return started?.call(initialTestId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String initialTestId)? started,
-    TResult Function(String testId)? testToggled,
-    TResult Function(String title)? mergeConfirmed,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started(initialTestId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TestMergeEvent$Started value) started,
-    required TResult Function(_TestMergeEvent$TestToggled value) testToggled,
-    required TResult Function(_TestMergeEvent$MergeConfirmed value)
-        mergeConfirmed,
-  }) {
-    return started(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TestMergeEvent$Started value)? started,
-    TResult? Function(_TestMergeEvent$TestToggled value)? testToggled,
-    TResult? Function(_TestMergeEvent$MergeConfirmed value)? mergeConfirmed,
-  }) {
-    return started?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TestMergeEvent$Started value)? started,
-    TResult Function(_TestMergeEvent$TestToggled value)? testToggled,
-    TResult Function(_TestMergeEvent$MergeConfirmed value)? mergeConfirmed,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _TestMergeEvent$Started implements TestMergeEvent {
-  const factory _TestMergeEvent$Started({required final String initialTestId}) =
-      _$TestMergeEvent$StartedImpl;
-
-  String get initialTestId;
-  @JsonKey(ignore: true)
-  _$$TestMergeEvent$StartedImplCopyWith<_$TestMergeEvent$StartedImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$TestMergeEvent$TestToggledImplCopyWith<$Res> {
-  factory _$$TestMergeEvent$TestToggledImplCopyWith(
-          _$TestMergeEvent$TestToggledImpl value,
-          $Res Function(_$TestMergeEvent$TestToggledImpl) then) =
-      __$$TestMergeEvent$TestToggledImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String testId});
-}
-
-/// @nodoc
-class __$$TestMergeEvent$TestToggledImplCopyWithImpl<$Res>
-    extends _$TestMergeEventCopyWithImpl<$Res, _$TestMergeEvent$TestToggledImpl>
-    implements _$$TestMergeEvent$TestToggledImplCopyWith<$Res> {
-  __$$TestMergeEvent$TestToggledImplCopyWithImpl(
-      _$TestMergeEvent$TestToggledImpl _value,
-      $Res Function(_$TestMergeEvent$TestToggledImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? testId = null,
-  }) {
-    return _then(_$TestMergeEvent$TestToggledImpl(
-      testId: null == testId
-          ? _value.testId
-          : testId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$TestMergeEvent$TestToggledImpl implements _TestMergeEvent$TestToggled {
-  const _$TestMergeEvent$TestToggledImpl({required this.testId});
 
-  @override
-  final String testId;
+class _TestMergeEvent$Started implements TestMergeEvent {
+  const _TestMergeEvent$Started({required this.initialTestId});
+  
 
-  @override
-  String toString() {
-    return 'TestMergeEvent.testToggled(testId: $testId)';
-  }
+ final  String initialTestId;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestMergeEvent$TestToggledImpl &&
-            (identical(other.testId, testId) || other.testId == testId));
-  }
+/// Create a copy of TestMergeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TestMergeEvent$StartedCopyWith<_TestMergeEvent$Started> get copyWith => __$TestMergeEvent$StartedCopyWithImpl<_TestMergeEvent$Started>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, testId);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestMergeEvent$TestToggledImplCopyWith<_$TestMergeEvent$TestToggledImpl>
-      get copyWith => __$$TestMergeEvent$TestToggledImplCopyWithImpl<
-          _$TestMergeEvent$TestToggledImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String initialTestId) started,
-    required TResult Function(String testId) testToggled,
-    required TResult Function(String title) mergeConfirmed,
-  }) {
-    return testToggled(testId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String initialTestId)? started,
-    TResult? Function(String testId)? testToggled,
-    TResult? Function(String title)? mergeConfirmed,
-  }) {
-    return testToggled?.call(testId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String initialTestId)? started,
-    TResult Function(String testId)? testToggled,
-    TResult Function(String title)? mergeConfirmed,
-    required TResult orElse(),
-  }) {
-    if (testToggled != null) {
-      return testToggled(testId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TestMergeEvent$Started value) started,
-    required TResult Function(_TestMergeEvent$TestToggled value) testToggled,
-    required TResult Function(_TestMergeEvent$MergeConfirmed value)
-        mergeConfirmed,
-  }) {
-    return testToggled(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TestMergeEvent$Started value)? started,
-    TResult? Function(_TestMergeEvent$TestToggled value)? testToggled,
-    TResult? Function(_TestMergeEvent$MergeConfirmed value)? mergeConfirmed,
-  }) {
-    return testToggled?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TestMergeEvent$Started value)? started,
-    TResult Function(_TestMergeEvent$TestToggled value)? testToggled,
-    TResult Function(_TestMergeEvent$MergeConfirmed value)? mergeConfirmed,
-    required TResult orElse(),
-  }) {
-    if (testToggled != null) {
-      return testToggled(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TestMergeEvent$Started&&(identical(other.initialTestId, initialTestId) || other.initialTestId == initialTestId));
 }
 
-abstract class _TestMergeEvent$TestToggled implements TestMergeEvent {
-  const factory _TestMergeEvent$TestToggled({required final String testId}) =
-      _$TestMergeEvent$TestToggledImpl;
 
-  String get testId;
-  @JsonKey(ignore: true)
-  _$$TestMergeEvent$TestToggledImplCopyWith<_$TestMergeEvent$TestToggledImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,initialTestId);
+
+@override
+String toString() {
+  return 'TestMergeEvent.started(initialTestId: $initialTestId)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TestMergeEvent$MergeConfirmedImplCopyWith<$Res> {
-  factory _$$TestMergeEvent$MergeConfirmedImplCopyWith(
-          _$TestMergeEvent$MergeConfirmedImpl value,
-          $Res Function(_$TestMergeEvent$MergeConfirmedImpl) then) =
-      __$$TestMergeEvent$MergeConfirmedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String title});
+abstract mixin class _$TestMergeEvent$StartedCopyWith<$Res> implements $TestMergeEventCopyWith<$Res> {
+  factory _$TestMergeEvent$StartedCopyWith(_TestMergeEvent$Started value, $Res Function(_TestMergeEvent$Started) _then) = __$TestMergeEvent$StartedCopyWithImpl;
+@useResult
+$Res call({
+ String initialTestId
+});
+
+
+
+
+}
+/// @nodoc
+class __$TestMergeEvent$StartedCopyWithImpl<$Res>
+    implements _$TestMergeEvent$StartedCopyWith<$Res> {
+  __$TestMergeEvent$StartedCopyWithImpl(this._self, this._then);
+
+  final _TestMergeEvent$Started _self;
+  final $Res Function(_TestMergeEvent$Started) _then;
+
+/// Create a copy of TestMergeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? initialTestId = null,}) {
+  return _then(_TestMergeEvent$Started(
+initialTestId: null == initialTestId ? _self.initialTestId : initialTestId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-class __$$TestMergeEvent$MergeConfirmedImplCopyWithImpl<$Res>
-    extends _$TestMergeEventCopyWithImpl<$Res,
-        _$TestMergeEvent$MergeConfirmedImpl>
-    implements _$$TestMergeEvent$MergeConfirmedImplCopyWith<$Res> {
-  __$$TestMergeEvent$MergeConfirmedImplCopyWithImpl(
-      _$TestMergeEvent$MergeConfirmedImpl _value,
-      $Res Function(_$TestMergeEvent$MergeConfirmedImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? title = null,
-  }) {
-    return _then(_$TestMergeEvent$MergeConfirmedImpl(
-      title: null == title
-          ? _value.title
-          : title // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$TestMergeEvent$MergeConfirmedImpl
-    implements _TestMergeEvent$MergeConfirmed {
-  const _$TestMergeEvent$MergeConfirmedImpl({required this.title});
 
-  @override
-  final String title;
+class _TestMergeEvent$TestToggled implements TestMergeEvent {
+  const _TestMergeEvent$TestToggled({required this.testId});
+  
 
-  @override
-  String toString() {
-    return 'TestMergeEvent.mergeConfirmed(title: $title)';
-  }
+ final  String testId;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestMergeEvent$MergeConfirmedImpl &&
-            (identical(other.title, title) || other.title == title));
-  }
+/// Create a copy of TestMergeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TestMergeEvent$TestToggledCopyWith<_TestMergeEvent$TestToggled> get copyWith => __$TestMergeEvent$TestToggledCopyWithImpl<_TestMergeEvent$TestToggled>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, title);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestMergeEvent$MergeConfirmedImplCopyWith<
-          _$TestMergeEvent$MergeConfirmedImpl>
-      get copyWith => __$$TestMergeEvent$MergeConfirmedImplCopyWithImpl<
-          _$TestMergeEvent$MergeConfirmedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String initialTestId) started,
-    required TResult Function(String testId) testToggled,
-    required TResult Function(String title) mergeConfirmed,
-  }) {
-    return mergeConfirmed(title);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String initialTestId)? started,
-    TResult? Function(String testId)? testToggled,
-    TResult? Function(String title)? mergeConfirmed,
-  }) {
-    return mergeConfirmed?.call(title);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String initialTestId)? started,
-    TResult Function(String testId)? testToggled,
-    TResult Function(String title)? mergeConfirmed,
-    required TResult orElse(),
-  }) {
-    if (mergeConfirmed != null) {
-      return mergeConfirmed(title);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TestMergeEvent$Started value) started,
-    required TResult Function(_TestMergeEvent$TestToggled value) testToggled,
-    required TResult Function(_TestMergeEvent$MergeConfirmed value)
-        mergeConfirmed,
-  }) {
-    return mergeConfirmed(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TestMergeEvent$Started value)? started,
-    TResult? Function(_TestMergeEvent$TestToggled value)? testToggled,
-    TResult? Function(_TestMergeEvent$MergeConfirmed value)? mergeConfirmed,
-  }) {
-    return mergeConfirmed?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TestMergeEvent$Started value)? started,
-    TResult Function(_TestMergeEvent$TestToggled value)? testToggled,
-    TResult Function(_TestMergeEvent$MergeConfirmed value)? mergeConfirmed,
-    required TResult orElse(),
-  }) {
-    if (mergeConfirmed != null) {
-      return mergeConfirmed(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TestMergeEvent$TestToggled&&(identical(other.testId, testId) || other.testId == testId));
 }
 
-abstract class _TestMergeEvent$MergeConfirmed implements TestMergeEvent {
-  const factory _TestMergeEvent$MergeConfirmed({required final String title}) =
-      _$TestMergeEvent$MergeConfirmedImpl;
 
-  String get title;
-  @JsonKey(ignore: true)
-  _$$TestMergeEvent$MergeConfirmedImplCopyWith<
-          _$TestMergeEvent$MergeConfirmedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,testId);
+
+@override
+String toString() {
+  return 'TestMergeEvent.testToggled(testId: $testId)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$TestMergeEvent$TestToggledCopyWith<$Res> implements $TestMergeEventCopyWith<$Res> {
+  factory _$TestMergeEvent$TestToggledCopyWith(_TestMergeEvent$TestToggled value, $Res Function(_TestMergeEvent$TestToggled) _then) = __$TestMergeEvent$TestToggledCopyWithImpl;
+@useResult
+$Res call({
+ String testId
+});
+
+
+
+
+}
+/// @nodoc
+class __$TestMergeEvent$TestToggledCopyWithImpl<$Res>
+    implements _$TestMergeEvent$TestToggledCopyWith<$Res> {
+  __$TestMergeEvent$TestToggledCopyWithImpl(this._self, this._then);
+
+  final _TestMergeEvent$TestToggled _self;
+  final $Res Function(_TestMergeEvent$TestToggled) _then;
+
+/// Create a copy of TestMergeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? testId = null,}) {
+  return _then(_TestMergeEvent$TestToggled(
+testId: null == testId ? _self.testId : testId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _TestMergeEvent$MergeConfirmed implements TestMergeEvent {
+  const _TestMergeEvent$MergeConfirmed({required this.title});
+  
+
+ final  String title;
+
+/// Create a copy of TestMergeEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TestMergeEvent$MergeConfirmedCopyWith<_TestMergeEvent$MergeConfirmed> get copyWith => __$TestMergeEvent$MergeConfirmedCopyWithImpl<_TestMergeEvent$MergeConfirmed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TestMergeEvent$MergeConfirmed&&(identical(other.title, title) || other.title == title));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,title);
+
+@override
+String toString() {
+  return 'TestMergeEvent.mergeConfirmed(title: $title)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$TestMergeEvent$MergeConfirmedCopyWith<$Res> implements $TestMergeEventCopyWith<$Res> {
+  factory _$TestMergeEvent$MergeConfirmedCopyWith(_TestMergeEvent$MergeConfirmed value, $Res Function(_TestMergeEvent$MergeConfirmed) _then) = __$TestMergeEvent$MergeConfirmedCopyWithImpl;
+@useResult
+$Res call({
+ String title
+});
+
+
+
+
+}
+/// @nodoc
+class __$TestMergeEvent$MergeConfirmedCopyWithImpl<$Res>
+    implements _$TestMergeEvent$MergeConfirmedCopyWith<$Res> {
+  __$TestMergeEvent$MergeConfirmedCopyWithImpl(this._self, this._then);
+
+  final _TestMergeEvent$MergeConfirmed _self;
+  final $Res Function(_TestMergeEvent$MergeConfirmed) _then;
+
+/// Create a copy of TestMergeEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? title = null,}) {
+  return _then(_TestMergeEvent$MergeConfirmed(
+title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
 }
 
 /// @nodoc
 mixin _$TestMergeState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(List<TestEntity> tests,
-            Set<String> selectedTestIds, String initialTestId)
-        loaded,
-    required TResult Function() merging,
-    required TResult Function(String newTestId) success,
-    required TResult Function(Failure failure) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(List<TestEntity> tests, Set<String> selectedTestIds,
-            String initialTestId)?
-        loaded,
-    TResult? Function()? merging,
-    TResult? Function(String newTestId)? success,
-    TResult? Function(Failure failure)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(List<TestEntity> tests, Set<String> selectedTestIds,
-            String initialTestId)?
-        loaded,
-    TResult Function()? merging,
-    TResult Function(String newTestId)? success,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TestMergeState$Loading value) loading,
-    required TResult Function(TestMergeState$Loaded value) loaded,
-    required TResult Function(TestMergeState$Merging value) merging,
-    required TResult Function(TestMergeState$Success value) success,
-    required TResult Function(TestMergeState$Error value) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TestMergeState$Loading value)? loading,
-    TResult? Function(TestMergeState$Loaded value)? loaded,
-    TResult? Function(TestMergeState$Merging value)? merging,
-    TResult? Function(TestMergeState$Success value)? success,
-    TResult? Function(TestMergeState$Error value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TestMergeState$Loading value)? loading,
-    TResult Function(TestMergeState$Loaded value)? loaded,
-    TResult Function(TestMergeState$Merging value)? merging,
-    TResult Function(TestMergeState$Success value)? success,
-    TResult Function(TestMergeState$Error value)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestMergeState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TestMergeState()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $TestMergeStateCopyWith<$Res> {
-  factory $TestMergeStateCopyWith(
-          TestMergeState value, $Res Function(TestMergeState) then) =
-      _$TestMergeStateCopyWithImpl<$Res, TestMergeState>;
+class $TestMergeStateCopyWith<$Res>  {
+$TestMergeStateCopyWith(TestMergeState _, $Res Function(TestMergeState) __);
 }
 
-/// @nodoc
-class _$TestMergeStateCopyWithImpl<$Res, $Val extends TestMergeState>
-    implements $TestMergeStateCopyWith<$Res> {
-  _$TestMergeStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [TestMergeState].
+extension TestMergeStatePatterns on TestMergeState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TestMergeState$Loading value)?  loading,TResult Function( TestMergeState$Loaded value)?  loaded,TResult Function( TestMergeState$Merging value)?  merging,TResult Function( TestMergeState$Success value)?  success,TResult Function( TestMergeState$Error value)?  error,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case TestMergeState$Loading() when loading != null:
+return loading(_that);case TestMergeState$Loaded() when loaded != null:
+return loaded(_that);case TestMergeState$Merging() when merging != null:
+return merging(_that);case TestMergeState$Success() when success != null:
+return success(_that);case TestMergeState$Error() when error != null:
+return error(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TestMergeState$Loading value)  loading,required TResult Function( TestMergeState$Loaded value)  loaded,required TResult Function( TestMergeState$Merging value)  merging,required TResult Function( TestMergeState$Success value)  success,required TResult Function( TestMergeState$Error value)  error,}){
+final _that = this;
+switch (_that) {
+case TestMergeState$Loading():
+return loading(_that);case TestMergeState$Loaded():
+return loaded(_that);case TestMergeState$Merging():
+return merging(_that);case TestMergeState$Success():
+return success(_that);case TestMergeState$Error():
+return error(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TestMergeState$Loading value)?  loading,TResult? Function( TestMergeState$Loaded value)?  loaded,TResult? Function( TestMergeState$Merging value)?  merging,TResult? Function( TestMergeState$Success value)?  success,TResult? Function( TestMergeState$Error value)?  error,}){
+final _that = this;
+switch (_that) {
+case TestMergeState$Loading() when loading != null:
+return loading(_that);case TestMergeState$Loaded() when loaded != null:
+return loaded(_that);case TestMergeState$Merging() when merging != null:
+return merging(_that);case TestMergeState$Success() when success != null:
+return success(_that);case TestMergeState$Error() when error != null:
+return error(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  loading,TResult Function( List<TestEntity> tests,  Set<String> selectedTestIds,  String initialTestId)?  loaded,TResult Function()?  merging,TResult Function( String newTestId)?  success,TResult Function( Failure failure)?  error,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case TestMergeState$Loading() when loading != null:
+return loading();case TestMergeState$Loaded() when loaded != null:
+return loaded(_that.tests,_that.selectedTestIds,_that.initialTestId);case TestMergeState$Merging() when merging != null:
+return merging();case TestMergeState$Success() when success != null:
+return success(_that.newTestId);case TestMergeState$Error() when error != null:
+return error(_that.failure);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  loading,required TResult Function( List<TestEntity> tests,  Set<String> selectedTestIds,  String initialTestId)  loaded,required TResult Function()  merging,required TResult Function( String newTestId)  success,required TResult Function( Failure failure)  error,}) {final _that = this;
+switch (_that) {
+case TestMergeState$Loading():
+return loading();case TestMergeState$Loaded():
+return loaded(_that.tests,_that.selectedTestIds,_that.initialTestId);case TestMergeState$Merging():
+return merging();case TestMergeState$Success():
+return success(_that.newTestId);case TestMergeState$Error():
+return error(_that.failure);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  loading,TResult? Function( List<TestEntity> tests,  Set<String> selectedTestIds,  String initialTestId)?  loaded,TResult? Function()?  merging,TResult? Function( String newTestId)?  success,TResult? Function( Failure failure)?  error,}) {final _that = this;
+switch (_that) {
+case TestMergeState$Loading() when loading != null:
+return loading();case TestMergeState$Loaded() when loaded != null:
+return loaded(_that.tests,_that.selectedTestIds,_that.initialTestId);case TestMergeState$Merging() when merging != null:
+return merging();case TestMergeState$Success() when success != null:
+return success(_that.newTestId);case TestMergeState$Error() when error != null:
+return error(_that.failure);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$TestMergeState$LoadingImplCopyWith<$Res> {
-  factory _$$TestMergeState$LoadingImplCopyWith(
-          _$TestMergeState$LoadingImpl value,
-          $Res Function(_$TestMergeState$LoadingImpl) then) =
-      __$$TestMergeState$LoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$TestMergeState$LoadingImplCopyWithImpl<$Res>
-    extends _$TestMergeStateCopyWithImpl<$Res, _$TestMergeState$LoadingImpl>
-    implements _$$TestMergeState$LoadingImplCopyWith<$Res> {
-  __$$TestMergeState$LoadingImplCopyWithImpl(
-      _$TestMergeState$LoadingImpl _value,
-      $Res Function(_$TestMergeState$LoadingImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$TestMergeState$LoadingImpl extends TestMergeState$Loading {
-  const _$TestMergeState$LoadingImpl() : super._();
-
-  @override
-  String toString() {
-    return 'TestMergeState.loading()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestMergeState$LoadingImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(List<TestEntity> tests,
-            Set<String> selectedTestIds, String initialTestId)
-        loaded,
-    required TResult Function() merging,
-    required TResult Function(String newTestId) success,
-    required TResult Function(Failure failure) error,
-  }) {
-    return loading();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(List<TestEntity> tests, Set<String> selectedTestIds,
-            String initialTestId)?
-        loaded,
-    TResult? Function()? merging,
-    TResult? Function(String newTestId)? success,
-    TResult? Function(Failure failure)? error,
-  }) {
-    return loading?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(List<TestEntity> tests, Set<String> selectedTestIds,
-            String initialTestId)?
-        loaded,
-    TResult Function()? merging,
-    TResult Function(String newTestId)? success,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TestMergeState$Loading value) loading,
-    required TResult Function(TestMergeState$Loaded value) loaded,
-    required TResult Function(TestMergeState$Merging value) merging,
-    required TResult Function(TestMergeState$Success value) success,
-    required TResult Function(TestMergeState$Error value) error,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TestMergeState$Loading value)? loading,
-    TResult? Function(TestMergeState$Loaded value)? loaded,
-    TResult? Function(TestMergeState$Merging value)? merging,
-    TResult? Function(TestMergeState$Success value)? success,
-    TResult? Function(TestMergeState$Error value)? error,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TestMergeState$Loading value)? loading,
-    TResult Function(TestMergeState$Loaded value)? loaded,
-    TResult Function(TestMergeState$Merging value)? merging,
-    TResult Function(TestMergeState$Success value)? success,
-    TResult Function(TestMergeState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class TestMergeState$Loading extends TestMergeState {
-  const factory TestMergeState$Loading() = _$TestMergeState$LoadingImpl;
-  const TestMergeState$Loading._() : super._();
-}
-
-/// @nodoc
-abstract class _$$TestMergeState$LoadedImplCopyWith<$Res> {
-  factory _$$TestMergeState$LoadedImplCopyWith(
-          _$TestMergeState$LoadedImpl value,
-          $Res Function(_$TestMergeState$LoadedImpl) then) =
-      __$$TestMergeState$LoadedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call(
-      {List<TestEntity> tests,
-      Set<String> selectedTestIds,
-      String initialTestId});
-}
-
-/// @nodoc
-class __$$TestMergeState$LoadedImplCopyWithImpl<$Res>
-    extends _$TestMergeStateCopyWithImpl<$Res, _$TestMergeState$LoadedImpl>
-    implements _$$TestMergeState$LoadedImplCopyWith<$Res> {
-  __$$TestMergeState$LoadedImplCopyWithImpl(_$TestMergeState$LoadedImpl _value,
-      $Res Function(_$TestMergeState$LoadedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? tests = null,
-    Object? selectedTestIds = null,
-    Object? initialTestId = null,
-  }) {
-    return _then(_$TestMergeState$LoadedImpl(
-      tests: null == tests
-          ? _value._tests
-          : tests // ignore: cast_nullable_to_non_nullable
-              as List<TestEntity>,
-      selectedTestIds: null == selectedTestIds
-          ? _value._selectedTestIds
-          : selectedTestIds // ignore: cast_nullable_to_non_nullable
-              as Set<String>,
-      initialTestId: null == initialTestId
-          ? _value.initialTestId
-          : initialTestId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$TestMergeState$LoadedImpl extends TestMergeState$Loaded {
-  const _$TestMergeState$LoadedImpl(
-      {required final List<TestEntity> tests,
-      required final Set<String> selectedTestIds,
-      required this.initialTestId})
-      : _tests = tests,
-        _selectedTestIds = selectedTestIds,
-        super._();
 
-  final List<TestEntity> _tests;
-  @override
-  List<TestEntity> get tests {
-    if (_tests is EqualUnmodifiableListView) return _tests;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_tests);
-  }
+class TestMergeState$Loading extends TestMergeState {
+  const TestMergeState$Loading(): super._();
+  
 
-  final Set<String> _selectedTestIds;
-  @override
-  Set<String> get selectedTestIds {
-    if (_selectedTestIds is EqualUnmodifiableSetView) return _selectedTestIds;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableSetView(_selectedTestIds);
-  }
 
-  @override
-  final String initialTestId;
 
-  @override
-  String toString() {
-    return 'TestMergeState.loaded(tests: $tests, selectedTestIds: $selectedTestIds, initialTestId: $initialTestId)';
-  }
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestMergeState$LoadedImpl &&
-            const DeepCollectionEquality().equals(other._tests, _tests) &&
-            const DeepCollectionEquality()
-                .equals(other._selectedTestIds, _selectedTestIds) &&
-            (identical(other.initialTestId, initialTestId) ||
-                other.initialTestId == initialTestId));
-  }
 
-  @override
-  int get hashCode => Object.hash(
-      runtimeType,
-      const DeepCollectionEquality().hash(_tests),
-      const DeepCollectionEquality().hash(_selectedTestIds),
-      initialTestId);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestMergeState$LoadedImplCopyWith<_$TestMergeState$LoadedImpl>
-      get copyWith => __$$TestMergeState$LoadedImplCopyWithImpl<
-          _$TestMergeState$LoadedImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(List<TestEntity> tests,
-            Set<String> selectedTestIds, String initialTestId)
-        loaded,
-    required TResult Function() merging,
-    required TResult Function(String newTestId) success,
-    required TResult Function(Failure failure) error,
-  }) {
-    return loaded(tests, selectedTestIds, initialTestId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(List<TestEntity> tests, Set<String> selectedTestIds,
-            String initialTestId)?
-        loaded,
-    TResult? Function()? merging,
-    TResult? Function(String newTestId)? success,
-    TResult? Function(Failure failure)? error,
-  }) {
-    return loaded?.call(tests, selectedTestIds, initialTestId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(List<TestEntity> tests, Set<String> selectedTestIds,
-            String initialTestId)?
-        loaded,
-    TResult Function()? merging,
-    TResult Function(String newTestId)? success,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(tests, selectedTestIds, initialTestId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TestMergeState$Loading value) loading,
-    required TResult Function(TestMergeState$Loaded value) loaded,
-    required TResult Function(TestMergeState$Merging value) merging,
-    required TResult Function(TestMergeState$Success value) success,
-    required TResult Function(TestMergeState$Error value) error,
-  }) {
-    return loaded(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TestMergeState$Loading value)? loading,
-    TResult? Function(TestMergeState$Loaded value)? loaded,
-    TResult? Function(TestMergeState$Merging value)? merging,
-    TResult? Function(TestMergeState$Success value)? success,
-    TResult? Function(TestMergeState$Error value)? error,
-  }) {
-    return loaded?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TestMergeState$Loading value)? loading,
-    TResult Function(TestMergeState$Loaded value)? loaded,
-    TResult Function(TestMergeState$Merging value)? merging,
-    TResult Function(TestMergeState$Success value)? success,
-    TResult Function(TestMergeState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (loaded != null) {
-      return loaded(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestMergeState$Loading);
 }
 
-abstract class TestMergeState$Loaded extends TestMergeState {
-  const factory TestMergeState$Loaded(
-      {required final List<TestEntity> tests,
-      required final Set<String> selectedTestIds,
-      required final String initialTestId}) = _$TestMergeState$LoadedImpl;
-  const TestMergeState$Loaded._() : super._();
 
-  List<TestEntity> get tests;
-  Set<String> get selectedTestIds;
-  String get initialTestId;
-  @JsonKey(ignore: true)
-  _$$TestMergeState$LoadedImplCopyWith<_$TestMergeState$LoadedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TestMergeState.loading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class TestMergeState$Loaded extends TestMergeState {
+  const TestMergeState$Loaded({required final  List<TestEntity> tests, required final  Set<String> selectedTestIds, required this.initialTestId}): _tests = tests,_selectedTestIds = selectedTestIds,super._();
+  
+
+ final  List<TestEntity> _tests;
+ List<TestEntity> get tests {
+  if (_tests is EqualUnmodifiableListView) return _tests;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableListView(_tests);
+}
+
+ final  Set<String> _selectedTestIds;
+ Set<String> get selectedTestIds {
+  if (_selectedTestIds is EqualUnmodifiableSetView) return _selectedTestIds;
+  // ignore: implicit_dynamic_type
+  return EqualUnmodifiableSetView(_selectedTestIds);
+}
+
+ final  String initialTestId;
+
+/// Create a copy of TestMergeState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TestMergeState$LoadedCopyWith<TestMergeState$Loaded> get copyWith => _$TestMergeState$LoadedCopyWithImpl<TestMergeState$Loaded>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestMergeState$Loaded&&const DeepCollectionEquality().equals(other._tests, _tests)&&const DeepCollectionEquality().equals(other._selectedTestIds, _selectedTestIds)&&(identical(other.initialTestId, initialTestId) || other.initialTestId == initialTestId));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,const DeepCollectionEquality().hash(_tests),const DeepCollectionEquality().hash(_selectedTestIds),initialTestId);
+
+@override
+String toString() {
+  return 'TestMergeState.loaded(tests: $tests, selectedTestIds: $selectedTestIds, initialTestId: $initialTestId)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TestMergeState$MergingImplCopyWith<$Res> {
-  factory _$$TestMergeState$MergingImplCopyWith(
-          _$TestMergeState$MergingImpl value,
-          $Res Function(_$TestMergeState$MergingImpl) then) =
-      __$$TestMergeState$MergingImplCopyWithImpl<$Res>;
+abstract mixin class $TestMergeState$LoadedCopyWith<$Res> implements $TestMergeStateCopyWith<$Res> {
+  factory $TestMergeState$LoadedCopyWith(TestMergeState$Loaded value, $Res Function(TestMergeState$Loaded) _then) = _$TestMergeState$LoadedCopyWithImpl;
+@useResult
+$Res call({
+ List<TestEntity> tests, Set<String> selectedTestIds, String initialTestId
+});
+
+
+
+
+}
+/// @nodoc
+class _$TestMergeState$LoadedCopyWithImpl<$Res>
+    implements $TestMergeState$LoadedCopyWith<$Res> {
+  _$TestMergeState$LoadedCopyWithImpl(this._self, this._then);
+
+  final TestMergeState$Loaded _self;
+  final $Res Function(TestMergeState$Loaded) _then;
+
+/// Create a copy of TestMergeState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? tests = null,Object? selectedTestIds = null,Object? initialTestId = null,}) {
+  return _then(TestMergeState$Loaded(
+tests: null == tests ? _self._tests : tests // ignore: cast_nullable_to_non_nullable
+as List<TestEntity>,selectedTestIds: null == selectedTestIds ? _self._selectedTestIds : selectedTestIds // ignore: cast_nullable_to_non_nullable
+as Set<String>,initialTestId: null == initialTestId ? _self.initialTestId : initialTestId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-class __$$TestMergeState$MergingImplCopyWithImpl<$Res>
-    extends _$TestMergeStateCopyWithImpl<$Res, _$TestMergeState$MergingImpl>
-    implements _$$TestMergeState$MergingImplCopyWith<$Res> {
-  __$$TestMergeState$MergingImplCopyWithImpl(
-      _$TestMergeState$MergingImpl _value,
-      $Res Function(_$TestMergeState$MergingImpl) _then)
-      : super(_value, _then);
+
 }
 
 /// @nodoc
 
-class _$TestMergeState$MergingImpl extends TestMergeState$Merging {
-  const _$TestMergeState$MergingImpl() : super._();
 
-  @override
-  String toString() {
-    return 'TestMergeState.merging()';
-  }
+class TestMergeState$Merging extends TestMergeState {
+  const TestMergeState$Merging(): super._();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestMergeState$MergingImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(List<TestEntity> tests,
-            Set<String> selectedTestIds, String initialTestId)
-        loaded,
-    required TResult Function() merging,
-    required TResult Function(String newTestId) success,
-    required TResult Function(Failure failure) error,
-  }) {
-    return merging();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(List<TestEntity> tests, Set<String> selectedTestIds,
-            String initialTestId)?
-        loaded,
-    TResult? Function()? merging,
-    TResult? Function(String newTestId)? success,
-    TResult? Function(Failure failure)? error,
-  }) {
-    return merging?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(List<TestEntity> tests, Set<String> selectedTestIds,
-            String initialTestId)?
-        loaded,
-    TResult Function()? merging,
-    TResult Function(String newTestId)? success,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) {
-    if (merging != null) {
-      return merging();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TestMergeState$Loading value) loading,
-    required TResult Function(TestMergeState$Loaded value) loaded,
-    required TResult Function(TestMergeState$Merging value) merging,
-    required TResult Function(TestMergeState$Success value) success,
-    required TResult Function(TestMergeState$Error value) error,
-  }) {
-    return merging(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TestMergeState$Loading value)? loading,
-    TResult? Function(TestMergeState$Loaded value)? loaded,
-    TResult? Function(TestMergeState$Merging value)? merging,
-    TResult? Function(TestMergeState$Success value)? success,
-    TResult? Function(TestMergeState$Error value)? error,
-  }) {
-    return merging?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TestMergeState$Loading value)? loading,
-    TResult Function(TestMergeState$Loaded value)? loaded,
-    TResult Function(TestMergeState$Merging value)? merging,
-    TResult Function(TestMergeState$Success value)? success,
-    TResult Function(TestMergeState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (merging != null) {
-      return merging(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestMergeState$Merging);
 }
 
-abstract class TestMergeState$Merging extends TestMergeState {
-  const factory TestMergeState$Merging() = _$TestMergeState$MergingImpl;
-  const TestMergeState$Merging._() : super._();
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TestMergeState.merging()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class TestMergeState$Success extends TestMergeState {
+  const TestMergeState$Success({required this.newTestId}): super._();
+  
+
+ final  String newTestId;
+
+/// Create a copy of TestMergeState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TestMergeState$SuccessCopyWith<TestMergeState$Success> get copyWith => _$TestMergeState$SuccessCopyWithImpl<TestMergeState$Success>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestMergeState$Success&&(identical(other.newTestId, newTestId) || other.newTestId == newTestId));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,newTestId);
+
+@override
+String toString() {
+  return 'TestMergeState.success(newTestId: $newTestId)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TestMergeState$SuccessImplCopyWith<$Res> {
-  factory _$$TestMergeState$SuccessImplCopyWith(
-          _$TestMergeState$SuccessImpl value,
-          $Res Function(_$TestMergeState$SuccessImpl) then) =
-      __$$TestMergeState$SuccessImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String newTestId});
+abstract mixin class $TestMergeState$SuccessCopyWith<$Res> implements $TestMergeStateCopyWith<$Res> {
+  factory $TestMergeState$SuccessCopyWith(TestMergeState$Success value, $Res Function(TestMergeState$Success) _then) = _$TestMergeState$SuccessCopyWithImpl;
+@useResult
+$Res call({
+ String newTestId
+});
+
+
+
+
+}
+/// @nodoc
+class _$TestMergeState$SuccessCopyWithImpl<$Res>
+    implements $TestMergeState$SuccessCopyWith<$Res> {
+  _$TestMergeState$SuccessCopyWithImpl(this._self, this._then);
+
+  final TestMergeState$Success _self;
+  final $Res Function(TestMergeState$Success) _then;
+
+/// Create a copy of TestMergeState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? newTestId = null,}) {
+  return _then(TestMergeState$Success(
+newTestId: null == newTestId ? _self.newTestId : newTestId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-class __$$TestMergeState$SuccessImplCopyWithImpl<$Res>
-    extends _$TestMergeStateCopyWithImpl<$Res, _$TestMergeState$SuccessImpl>
-    implements _$$TestMergeState$SuccessImplCopyWith<$Res> {
-  __$$TestMergeState$SuccessImplCopyWithImpl(
-      _$TestMergeState$SuccessImpl _value,
-      $Res Function(_$TestMergeState$SuccessImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? newTestId = null,
-  }) {
-    return _then(_$TestMergeState$SuccessImpl(
-      newTestId: null == newTestId
-          ? _value.newTestId
-          : newTestId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$TestMergeState$SuccessImpl extends TestMergeState$Success {
-  const _$TestMergeState$SuccessImpl({required this.newTestId}) : super._();
 
-  @override
-  final String newTestId;
+class TestMergeState$Error extends TestMergeState {
+  const TestMergeState$Error({required this.failure}): super._();
+  
 
-  @override
-  String toString() {
-    return 'TestMergeState.success(newTestId: $newTestId)';
-  }
+ final  Failure failure;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestMergeState$SuccessImpl &&
-            (identical(other.newTestId, newTestId) ||
-                other.newTestId == newTestId));
-  }
+/// Create a copy of TestMergeState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TestMergeState$ErrorCopyWith<TestMergeState$Error> get copyWith => _$TestMergeState$ErrorCopyWithImpl<TestMergeState$Error>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, newTestId);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestMergeState$SuccessImplCopyWith<_$TestMergeState$SuccessImpl>
-      get copyWith => __$$TestMergeState$SuccessImplCopyWithImpl<
-          _$TestMergeState$SuccessImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(List<TestEntity> tests,
-            Set<String> selectedTestIds, String initialTestId)
-        loaded,
-    required TResult Function() merging,
-    required TResult Function(String newTestId) success,
-    required TResult Function(Failure failure) error,
-  }) {
-    return success(newTestId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(List<TestEntity> tests, Set<String> selectedTestIds,
-            String initialTestId)?
-        loaded,
-    TResult? Function()? merging,
-    TResult? Function(String newTestId)? success,
-    TResult? Function(Failure failure)? error,
-  }) {
-    return success?.call(newTestId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(List<TestEntity> tests, Set<String> selectedTestIds,
-            String initialTestId)?
-        loaded,
-    TResult Function()? merging,
-    TResult Function(String newTestId)? success,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success(newTestId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TestMergeState$Loading value) loading,
-    required TResult Function(TestMergeState$Loaded value) loaded,
-    required TResult Function(TestMergeState$Merging value) merging,
-    required TResult Function(TestMergeState$Success value) success,
-    required TResult Function(TestMergeState$Error value) error,
-  }) {
-    return success(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TestMergeState$Loading value)? loading,
-    TResult? Function(TestMergeState$Loaded value)? loaded,
-    TResult? Function(TestMergeState$Merging value)? merging,
-    TResult? Function(TestMergeState$Success value)? success,
-    TResult? Function(TestMergeState$Error value)? error,
-  }) {
-    return success?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TestMergeState$Loading value)? loading,
-    TResult Function(TestMergeState$Loaded value)? loaded,
-    TResult Function(TestMergeState$Merging value)? merging,
-    TResult Function(TestMergeState$Success value)? success,
-    TResult Function(TestMergeState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (success != null) {
-      return success(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestMergeState$Error&&(identical(other.failure, failure) || other.failure == failure));
 }
 
-abstract class TestMergeState$Success extends TestMergeState {
-  const factory TestMergeState$Success({required final String newTestId}) =
-      _$TestMergeState$SuccessImpl;
-  const TestMergeState$Success._() : super._();
 
-  String get newTestId;
-  @JsonKey(ignore: true)
-  _$$TestMergeState$SuccessImplCopyWith<_$TestMergeState$SuccessImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,failure);
+
+@override
+String toString() {
+  return 'TestMergeState.error(failure: $failure)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TestMergeState$ErrorImplCopyWith<$Res> {
-  factory _$$TestMergeState$ErrorImplCopyWith(_$TestMergeState$ErrorImpl value,
-          $Res Function(_$TestMergeState$ErrorImpl) then) =
-      __$$TestMergeState$ErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({Failure failure});
-}
+abstract mixin class $TestMergeState$ErrorCopyWith<$Res> implements $TestMergeStateCopyWith<$Res> {
+  factory $TestMergeState$ErrorCopyWith(TestMergeState$Error value, $Res Function(TestMergeState$Error) _then) = _$TestMergeState$ErrorCopyWithImpl;
+@useResult
+$Res call({
+ Failure failure
+});
 
+
+
+
+}
 /// @nodoc
-class __$$TestMergeState$ErrorImplCopyWithImpl<$Res>
-    extends _$TestMergeStateCopyWithImpl<$Res, _$TestMergeState$ErrorImpl>
-    implements _$$TestMergeState$ErrorImplCopyWith<$Res> {
-  __$$TestMergeState$ErrorImplCopyWithImpl(_$TestMergeState$ErrorImpl _value,
-      $Res Function(_$TestMergeState$ErrorImpl) _then)
-      : super(_value, _then);
+class _$TestMergeState$ErrorCopyWithImpl<$Res>
+    implements $TestMergeState$ErrorCopyWith<$Res> {
+  _$TestMergeState$ErrorCopyWithImpl(this._self, this._then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? failure = null,
-  }) {
-    return _then(_$TestMergeState$ErrorImpl(
-      failure: null == failure
-          ? _value.failure
-          : failure // ignore: cast_nullable_to_non_nullable
-              as Failure,
-    ));
-  }
+  final TestMergeState$Error _self;
+  final $Res Function(TestMergeState$Error) _then;
+
+/// Create a copy of TestMergeState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? failure = null,}) {
+  return _then(TestMergeState$Error(
+failure: null == failure ? _self.failure : failure // ignore: cast_nullable_to_non_nullable
+as Failure,
+  ));
 }
 
-/// @nodoc
 
-class _$TestMergeState$ErrorImpl extends TestMergeState$Error {
-  const _$TestMergeState$ErrorImpl({required this.failure}) : super._();
-
-  @override
-  final Failure failure;
-
-  @override
-  String toString() {
-    return 'TestMergeState.error(failure: $failure)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TestMergeState$ErrorImpl &&
-            (identical(other.failure, failure) || other.failure == failure));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, failure);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TestMergeState$ErrorImplCopyWith<_$TestMergeState$ErrorImpl>
-      get copyWith =>
-          __$$TestMergeState$ErrorImplCopyWithImpl<_$TestMergeState$ErrorImpl>(
-              this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() loading,
-    required TResult Function(List<TestEntity> tests,
-            Set<String> selectedTestIds, String initialTestId)
-        loaded,
-    required TResult Function() merging,
-    required TResult Function(String newTestId) success,
-    required TResult Function(Failure failure) error,
-  }) {
-    return error(failure);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function(List<TestEntity> tests, Set<String> selectedTestIds,
-            String initialTestId)?
-        loaded,
-    TResult? Function()? merging,
-    TResult? Function(String newTestId)? success,
-    TResult? Function(Failure failure)? error,
-  }) {
-    return error?.call(failure);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? loading,
-    TResult Function(List<TestEntity> tests, Set<String> selectedTestIds,
-            String initialTestId)?
-        loaded,
-    TResult Function()? merging,
-    TResult Function(String newTestId)? success,
-    TResult Function(Failure failure)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(failure);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TestMergeState$Loading value) loading,
-    required TResult Function(TestMergeState$Loaded value) loaded,
-    required TResult Function(TestMergeState$Merging value) merging,
-    required TResult Function(TestMergeState$Success value) success,
-    required TResult Function(TestMergeState$Error value) error,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TestMergeState$Loading value)? loading,
-    TResult? Function(TestMergeState$Loaded value)? loaded,
-    TResult? Function(TestMergeState$Merging value)? merging,
-    TResult? Function(TestMergeState$Success value)? success,
-    TResult? Function(TestMergeState$Error value)? error,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TestMergeState$Loading value)? loading,
-    TResult Function(TestMergeState$Loaded value)? loaded,
-    TResult Function(TestMergeState$Merging value)? merging,
-    TResult Function(TestMergeState$Success value)? success,
-    TResult Function(TestMergeState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
 }
 
-abstract class TestMergeState$Error extends TestMergeState {
-  const factory TestMergeState$Error({required final Failure failure}) =
-      _$TestMergeState$ErrorImpl;
-  const TestMergeState$Error._() : super._();
-
-  Failure get failure;
-  @JsonKey(ignore: true)
-  _$$TestMergeState$ErrorImplCopyWith<_$TestMergeState$ErrorImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

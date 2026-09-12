@@ -12,6 +12,13 @@ sealed class GroupDetailState with _$GroupDetailState {
   const factory GroupDetailState.loaded({
     required TestGroupEntity group,
     required List<TestEntity> tests,
+
+    /// Все группы приложения — нужны диалогу «добавить в группу».
+    required List<TestGroupEntity> allGroups,
+
+    /// Привязки «тест -> id групп». Держим в состоянии, чтобы UI не ходил
+    /// в репозиторий за ними при открытии диалогов.
+    required Map<String, List<String>> groupIdsByTest,
   }) = GroupDetailState$Loaded;
 
   /// Ошибка.
@@ -29,5 +36,12 @@ sealed class GroupDetailState with _$GroupDetailState {
   List<TestEntity> get testsOrEmpty => switch (this) {
         GroupDetailState$Loaded(:final tests) => tests,
         _ => [],
+      };
+
+  /// Состоит ли тест только в текущей группе.
+  bool isLastGroupForTest(String testId) => switch (this) {
+        GroupDetailState$Loaded(:final groupIdsByTest) =>
+          (groupIdsByTest[testId] ?? const []).length <= 1,
+        _ => false,
       };
 }

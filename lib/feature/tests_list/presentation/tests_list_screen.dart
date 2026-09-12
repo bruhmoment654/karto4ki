@@ -24,12 +24,12 @@ class TestsListScreen extends StatefulWidget {
 class _TestsListScreenState extends State<TestsListScreen>
     implements ITestsListViewModel {
   @override
+  StateStreamable<TestsListState> get testsListState =>
+      context.read<TestsListBloc>();
+
+  @override
   Widget build(BuildContext context) {
-    return BlocBuilder<TestsListBloc, TestsListState>(
-      builder: (context, state) {
-        return TestsListView(viewModel: this, state: state);
-      },
-    );
+    return TestsListView(viewModel: this);
   }
 
   @override
@@ -139,6 +139,9 @@ class _TestsListScreenState extends State<TestsListScreen>
 ///
 /// Defines interaction contract between [TestsListScreen] and [TestsListView].
 abstract interface class ITestsListViewModel {
+  /// Список тестов: загрузка, данные, ошибка.
+  StateStreamable<TestsListState> get testsListState;
+
   /// Called when add test button is pressed.
   void onAddTestPressed();
 

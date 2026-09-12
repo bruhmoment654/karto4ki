@@ -23,6 +23,9 @@ class QuestionStatsRepository extends BaseRepository
         _syncDatabase = syncDatabase;
 
   @override
+  Stream<void> get statsChanges => _questionStatsDatabase.watchStatsChanges();
+
+  @override
   RequestOperation<void> saveSessionResults({
     required List<CardResult> results,
     required List<CardEntity> cards,

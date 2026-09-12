@@ -1,6 +1,7 @@
 import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:quizzerg/feature/auth/presentation/auth_flow.dart';
 import 'package:quizzerg/feature/developer/presentation/developer_debug_flow.dart';
 import 'package:quizzerg/feature/group_detail/presentation/group_detail_flow.dart';
 import 'package:quizzerg/feature/groups_list/presentation/groups_list_flow.dart';
@@ -45,44 +46,47 @@ extension TransitionsBuildersX on TransitionsBuilders {
 @AutoRouterConfig(replaceInRouteName: 'Component|Flow,Route')
 class AppRouter extends RootStackRouter {
   @override
-  RouteType get defaultRouteType => const RouteType.custom(
-        transitionsBuilder: TransitionsBuildersX.sharedAxisHorizontal,
-        durationInMilliseconds: 300,
-        reverseDurationInMilliseconds: 250,
-      );
+  RouteType get defaultRouteType => RouteType.custom(
+    transitionsBuilder: TransitionsBuildersX.sharedAxisHorizontal,
+    duration: const Duration(milliseconds: 300),
+    reverseDuration: const Duration(milliseconds: 250),
+  );
 
   @override
   List<AutoRoute> get routes => [
+    AutoRoute(
+      page: HomeRoute.page,
+      initial: true,
+      children: [
         AutoRoute(
-          page: HomeRoute.page,
+          page: MainTabRoute.page,
           initial: true,
           children: [
-            AutoRoute(
-              page: MainTabRoute.page,
-              initial: true,
-              children: [
-                AutoRoute(page: GroupsListRoute.page, initial: true),
-                AutoRoute(page: GroupDetailRoute.page),
-                AutoRoute(page: MainRoute.page),
-                AutoRoute(page: TinderTestRoute.page),
-                AutoRoute(page: TestDetailRoute.page),
-                AutoRoute(page: TestMergeRoute.page),
-              ],
-            ),
-            AutoRoute(page: QuestionStatsRoute.page),
-            AutoRoute(
-              page: ProfileRoute.page,
-              children: [
-                AutoRoute(page: ProfileMainRoute.page, initial: true),
-                AutoRoute(page: SettingsRoute.page),
-              ],
-            ),
+            AutoRoute(page: GroupsListRoute.page, initial: true),
+            AutoRoute(page: GroupDetailRoute.page),
+            AutoRoute(page: MainRoute.page),
+            AutoRoute(page: TinderTestRoute.page),
+            AutoRoute(page: TestDetailRoute.page),
+            AutoRoute(page: TestMergeRoute.page),
           ],
         ),
-        // Дебаг-экран поверх навигации: вход — лонг-тап по табу профиля
-        // в dev-сборке.
-        AutoRoute(page: DeveloperDebugRoute.page),
-      ];
+        AutoRoute(page: QuestionStatsRoute.page),
+        AutoRoute(
+          page: ProfileRoute.page,
+          children: [
+            AutoRoute(page: ProfileMainRoute.page, initial: true),
+            AutoRoute(page: SettingsRoute.page),
+            AutoRoute(page: AuthRoute.page),
+          ],
+        ),
+      ],
+    ),
+    // Экран входа — корневой, поверх табов: открывается и из профиля,
+    // и из диалога синхронизации.
+    // Дебаг-экран поверх навигации: вход — лонг-тап по табу профиля
+    // в dev-сборке.
+    AutoRoute(page: DeveloperDebugRoute.page),
+  ];
 
   AppRouter({super.navigatorKey});
 }

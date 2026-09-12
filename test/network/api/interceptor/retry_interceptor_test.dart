@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:typed_data';
 
 import 'package:dio/dio.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -7,6 +8,43 @@ import 'package:quizzerg/network/api/interceptor/retry_interceptor.dart';
 import 'scripted_adapter.dart';
 
 Dio _dio(ScriptedAdapter adapter, {int maxRetries = 3}) {
+  final dio = Dio(BaseOptions(baseUrl: 'https://example.test/v1'))
+    ..httpClientAdapter = adapter;
+  dio.interceptors.add(
+    RetryInterceptor(
+      dio: dio,
+      maxRetries: maxRetries,
+      baseDelay: const Duration(milliseconds: 1),
+      random: Random(7),
+    ),
+  );
+
+  return dio;
+}
+
+/// Адаптер, который всегда падает без ответа — «сеть пропала».
+class _OfflineAdapter implements HttpClientAdapter {
+  int calls = 0;
+
+  @override
+  Future<ResponseBody> fetch(
+    RequestOptions options,
+    Stream<Uint8List>? requestStream,
+    Future<void>? cancelFuture,
+  ) {
+    calls++;
+
+    throw DioException.connectionError(
+      requestOptions: options,
+      reason: 'offline',
+    );
+  }
+
+  @override
+  void close({bool force = false}) {}
+}
+
+Dio _dioWith(HttpClientAdapter adapter, {int maxRetries = 3}) {
   final dio = Dio(BaseOptions(baseUrl: 'https://example.test/v1'))
     ..httpClientAdapter = adapter;
   dio.interceptors.add(
@@ -81,6 +119,28 @@ void main() {
         throwsA(isA<DioException>()),
       );
       expect(adapter.requests.length, 1);
+    });
+
+    test('POST /auth/refresh не повторяется на сетевой ошибке', () async {
+      // Цена бага — разлогин на всех устройствах: сервер считает второй
+      // приход того же refresh компрометацией и отзывает всю цепочку.
+      final adapter = _OfflineAdapter();
+
+      await expectLater(
+        _dioWith(adapter).post<Object?>('/auth/refresh', data: {'refresh': 'r'}),
+        throwsA(isA<DioException>()),
+      );
+      expect(adapter.calls, 1);
+    });
+
+    test('идемпотентный GET на сетевой ошибке повторяется', () async {
+      final adapter = _OfflineAdapter();
+
+      await expectLater(
+        _dioWith(adapter).get<Object?>('/tests'),
+        throwsA(isA<DioException>()),
+      );
+      expect(adapter.calls, 4);
     });
 
     test('идемпотентный POST повторяется', () async {

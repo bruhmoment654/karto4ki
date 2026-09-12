@@ -1,12 +1,9 @@
-import 'dart:async';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:quizzerg/app/di/app_scope.dart';
-import 'package:quizzerg/core/feature/core/entity/result.dart';
-import 'package:quizzerg/feature/developer/domain/repository/i_debug_repository.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizzerg/feature/developer/domain/bloc/debug_bloc.dart';
 import 'package:quizzerg/feature/developer/presentation/developer_debug_view.dart';
+import 'package:quizzerg/uikit/snackbars/snack_controller.dart';
 
 /// Презентационная логика дебаг-экрана.
 class DeveloperDebugScreen extends StatefulWidget {
@@ -18,17 +15,14 @@ class DeveloperDebugScreen extends StatefulWidget {
 
 class _DeveloperDebugScreenState extends State<DeveloperDebugScreen>
     implements IDeveloperDebugViewModel {
-  late final IDebugRepository _repository;
   late final TextEditingController _proxyController;
-
-  String? _savedProxyUrl;
 
   @override
   void initState() {
     super.initState();
-    _repository = context.read<IAppScope>().debugRepository;
-    _savedProxyUrl = _repository.getProxyUrl();
-    _proxyController = TextEditingController(text: _savedProxyUrl);
+    _proxyController = TextEditingController(
+      text: context.read<DebugBloc>().state.proxyUrl,
+    );
   }
 
   @override
@@ -41,20 +35,19 @@ class _DeveloperDebugScreenState extends State<DeveloperDebugScreen>
   TextEditingController get proxyController => _proxyController;
 
   @override
-  String get baseUrl => _repository.baseUrl;
-
-  @override
-  String? get savedProxyUrl => _savedProxyUrl;
+  StateStreamable<DebugState> get debugState => context.read<DebugBloc>();
 
   @override
   void onApplyProxyPressed() {
-    unawaited(_saveProxy(_proxyController.text, 'Прокси сохранён'));
+    context.read<DebugBloc>().add(
+      DebugEvent.proxyApplied(proxyUrl: _proxyController.text),
+    );
   }
 
   @override
   void onClearProxyPressed() {
     _proxyController.clear();
-    unawaited(_saveProxy(null, 'Прокси выключен'));
+    context.read<DebugBloc>().add(const DebugEvent.proxyCleared());
   }
 
   @override
@@ -62,30 +55,26 @@ class _DeveloperDebugScreenState extends State<DeveloperDebugScreen>
     context.router.maybePop();
   }
 
-  Future<void> _saveProxy(String? value, String successMessage) async {
-    final result = await _repository.saveProxyUrl(value);
-    if (!mounted) return;
+  void _onOutcome(BuildContext context, DebugState state) {
+    final outcome = state.outcome?.value;
+    if (outcome == null) return;
 
-    switch (result) {
-      case ResultOk():
-        setState(() {
-          _savedProxyUrl = _repository.getProxyUrl();
-        });
-        _showMessage(successMessage);
-      case ResultFailed(:final error):
-        _showMessage('Не сохранилось: $error');
-    }
-  }
+    final message = switch (outcome) {
+      DebugProxyOutcome.applied => 'Прокси сохранён',
+      DebugProxyOutcome.cleared => 'Прокси выключен',
+      DebugProxyOutcome.failed => 'Не сохранилось: ${state.errorMessage}',
+    };
 
-  void _showMessage(String message) {
-    ScaffoldMessenger.of(context)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(SnackBar(content: Text(message)));
+    SnackController.show(context, message);
   }
 
   @override
   Widget build(BuildContext context) {
-    return DeveloperDebugView(viewModel: this);
+    return BlocListener<DebugBloc, DebugState>(
+      listenWhen: (previous, current) => previous.outcome != current.outcome,
+      listener: _onOutcome,
+      child: DeveloperDebugView(viewModel: this),
+    );
   }
 }
 
@@ -94,11 +83,8 @@ abstract interface class IDeveloperDebugViewModel {
   /// Контроллер поля ввода адреса прокси.
   TextEditingController get proxyController;
 
-  /// Base URL текущего окружения.
-  String get baseUrl;
-
-  /// Сохранённый адрес прокси или `null`, если прокси выключен.
-  String? get savedProxyUrl;
+  /// Состояние дебаг-экрана: окружение и сохранённый прокси.
+  StateStreamable<DebugState> get debugState;
 
   /// Сохранить введённый адрес и применить его.
   void onApplyProxyPressed();

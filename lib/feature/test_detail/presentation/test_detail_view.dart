@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
+import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
 import 'package:quizzerg/feature/test_detail/domain/bloc/test_detail_bloc.dart';
 import 'package:quizzerg/feature/test_detail/presentation/test_detail_screen.dart';
@@ -19,13 +20,23 @@ import 'package:quizzerg/uikit/spacing/height.dart';
 /// test info, list of cards, add/edit/delete functionality.
 class TestDetailView extends StatelessWidget {
   final ITestDetailViewModel viewModel;
+
+  const TestDetailView({required this.viewModel, super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return StateStreamableBuilder<TestDetailState>(
+      bloc: viewModel.testDetailState,
+      builder: (context, state) => _Body(viewModel: viewModel, state: state),
+    );
+  }
+}
+
+class _Body extends StatelessWidget {
+  final ITestDetailViewModel viewModel;
   final TestDetailState state;
 
-  const TestDetailView({
-    required this.viewModel,
-    required this.state,
-    super.key,
-  });
+  const _Body({required this.viewModel, required this.state});
 
   @override
   Widget build(BuildContext context) {

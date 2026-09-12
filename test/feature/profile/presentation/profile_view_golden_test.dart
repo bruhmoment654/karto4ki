@@ -1,27 +1,43 @@
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizzerg/core/feature/core/failure.dart';
+import 'package:quizzerg/feature/auth/domain/bloc/auth_bloc.dart';
+import 'package:quizzerg/feature/profile/domain/bloc/profile_bloc.dart';
 import 'package:quizzerg/feature/profile/domain/entity/profile_summary_entity.dart';
 import 'package:quizzerg/feature/profile/presentation/profile_screen.dart';
 import 'package:quizzerg/feature/profile/presentation/profile_view.dart';
+import 'package:quizzerg/feature/sync/domain/bloc/sync_bloc.dart';
 import 'package:zoloto/zoloto.dart';
+
+import '../../../util/fake_state_streamable.dart';
 
 // --- Mocks ---
 
 class _MockViewModel implements IProfileViewModel {
   _MockViewModel({
-    required this.summary,
-    this.error,
-  });
+    required ProfileState profileState,
+    required AuthState authState,
+  })  : profileState = FakeStateStreamable(profileState),
+        authState = FakeStateStreamable(authState);
 
   @override
-  final ProfileSummaryEntity? summary;
+  final StateStreamable<ProfileState> profileState;
 
   @override
-  bool get isLoading => false;
+  final StateStreamable<AuthState> authState;
 
   @override
-  final Object? error;
+  final StateStreamable<SyncState> syncState = const FakeStateStreamable(
+    SyncState(status: SyncStatus.disabled()),
+  );
 
   @override
-  void onIdentityTap() {}
+  void onSyncTap() {}
+
+  @override
+  void onSignInTap() {}
+
+  @override
+  Future<void> onSignOutTap() async {}
 
   @override
   void onStatsTap() {}
@@ -31,6 +47,10 @@ class _MockViewModel implements IProfileViewModel {
 
   @override
   void onRetryTap() {}
+}
+
+class _TestFailure extends Failure {
+  const _TestFailure({super.message});
 }
 
 // --- Test Data ---
@@ -80,7 +100,10 @@ void main() {
   Zoloto.zolotoTest(
     'profile_with_data',
     widgetBuilder: (context, tester, testCase) => ProfileView(
-      viewModel: _MockViewModel(summary: _summary),
+      viewModel: _MockViewModel(
+        profileState: const ProfileState.loaded(summary: _summary),
+        authState: const AuthState.unauthorized(),
+      ),
     ),
   );
 
@@ -88,7 +111,10 @@ void main() {
   Zoloto.zolotoTest(
     'profile_empty',
     widgetBuilder: (context, tester, testCase) => ProfileView(
-      viewModel: _MockViewModel(summary: _emptySummary),
+      viewModel: _MockViewModel(
+        profileState: const ProfileState.loaded(summary: _emptySummary),
+        authState: const AuthState.unauthorized(),
+      ),
     ),
   );
 
@@ -96,7 +122,12 @@ void main() {
   Zoloto.zolotoTest(
     'profile_error',
     widgetBuilder: (context, tester, testCase) => ProfileView(
-      viewModel: _MockViewModel(summary: null, error: 'boom'),
+      viewModel: _MockViewModel(
+        profileState: const ProfileState.error(
+          failure: _TestFailure(message: 'boom'),
+        ),
+        authState: const AuthState.unauthorized(),
+      ),
     ),
   );
 }

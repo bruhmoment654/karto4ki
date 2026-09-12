@@ -24,6 +24,7 @@ class GroupDetailFlow extends StatelessWidget implements AutoRouteWrapper {
         BlocProvider(
           create: (context) => GroupDetailBloc(
             repository: scope.groupDetailRepository,
+            syncSignal: scope.syncSignalRepository,
           )..add(GroupDetailEvent.started(groupId: groupId)),
         ),
         BlocProvider.value(value: scope.mixupBloc),

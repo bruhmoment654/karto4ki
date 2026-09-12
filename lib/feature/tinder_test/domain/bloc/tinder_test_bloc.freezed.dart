@@ -1,5 +1,5 @@
-// coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
+// coverage:ignore-file
 // ignore_for_file: type=lint
 // ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
 
@@ -9,2134 +9,1005 @@ part of 'tinder_test_bloc.dart';
 // FreezedGenerator
 // **************************************************************************
 
+// dart format off
 T _$identity<T>(T value) => value;
-
-final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models');
-
 /// @nodoc
 mixin _$TinderTestEvent {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)
-        started,
-    required TResult Function(String cardId) swipedLeft,
-    required TResult Function(String cardId) swipedRight,
-    required TResult Function() completed,
-    required TResult Function() discard,
-    required TResult Function() restarted,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult? Function(String cardId)? swipedLeft,
-    TResult? Function(String cardId)? swipedRight,
-    TResult? Function()? completed,
-    TResult? Function()? discard,
-    TResult? Function()? restarted,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId, bool swapSides, int answerIndex, bool mixup,
-            int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult Function(String cardId)? swipedLeft,
-    TResult Function(String cardId)? swipedRight,
-    TResult Function()? completed,
-    TResult Function()? discard,
-    TResult Function()? restarted,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TinderTestEvent$Started value) started,
-    required TResult Function(_TinderTestEvent$SwipedLeft value) swipedLeft,
-    required TResult Function(_TinderTestEvent$SwipedRight value) swipedRight,
-    required TResult Function(_TinderTestEvent$Completed value) completed,
-    required TResult Function(_TinderTestEvent$Discard value) discard,
-    required TResult Function(_TinderTestEvent$Restarted value) restarted,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TinderTestEvent$Started value)? started,
-    TResult? Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult? Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult? Function(_TinderTestEvent$Completed value)? completed,
-    TResult? Function(_TinderTestEvent$Discard value)? discard,
-    TResult? Function(_TinderTestEvent$Restarted value)? restarted,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TinderTestEvent$Started value)? started,
-    TResult Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult Function(_TinderTestEvent$Completed value)? completed,
-    TResult Function(_TinderTestEvent$Discard value)? discard,
-    TResult Function(_TinderTestEvent$Restarted value)? restarted,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TinderTestEvent);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TinderTestEvent()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $TinderTestEventCopyWith<$Res> {
-  factory $TinderTestEventCopyWith(
-          TinderTestEvent value, $Res Function(TinderTestEvent) then) =
-      _$TinderTestEventCopyWithImpl<$Res, TinderTestEvent>;
+class $TinderTestEventCopyWith<$Res>  {
+$TinderTestEventCopyWith(TinderTestEvent _, $Res Function(TinderTestEvent) __);
 }
 
-/// @nodoc
-class _$TinderTestEventCopyWithImpl<$Res, $Val extends TinderTestEvent>
-    implements $TinderTestEventCopyWith<$Res> {
-  _$TinderTestEventCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [TinderTestEvent].
+extension TinderTestEventPatterns on TinderTestEvent {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _TinderTestEvent$Started value)?  started,TResult Function( _TinderTestEvent$SwipedLeft value)?  swipedLeft,TResult Function( _TinderTestEvent$SwipedRight value)?  swipedRight,TResult Function( _TinderTestEvent$Completed value)?  completed,TResult Function( _TinderTestEvent$Discard value)?  discard,TResult Function( _TinderTestEvent$Restarted value)?  restarted,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case _TinderTestEvent$Started() when started != null:
+return started(_that);case _TinderTestEvent$SwipedLeft() when swipedLeft != null:
+return swipedLeft(_that);case _TinderTestEvent$SwipedRight() when swipedRight != null:
+return swipedRight(_that);case _TinderTestEvent$Completed() when completed != null:
+return completed(_that);case _TinderTestEvent$Discard() when discard != null:
+return discard(_that);case _TinderTestEvent$Restarted() when restarted != null:
+return restarted(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _TinderTestEvent$Started value)  started,required TResult Function( _TinderTestEvent$SwipedLeft value)  swipedLeft,required TResult Function( _TinderTestEvent$SwipedRight value)  swipedRight,required TResult Function( _TinderTestEvent$Completed value)  completed,required TResult Function( _TinderTestEvent$Discard value)  discard,required TResult Function( _TinderTestEvent$Restarted value)  restarted,}){
+final _that = this;
+switch (_that) {
+case _TinderTestEvent$Started():
+return started(_that);case _TinderTestEvent$SwipedLeft():
+return swipedLeft(_that);case _TinderTestEvent$SwipedRight():
+return swipedRight(_that);case _TinderTestEvent$Completed():
+return completed(_that);case _TinderTestEvent$Discard():
+return discard(_that);case _TinderTestEvent$Restarted():
+return restarted(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _TinderTestEvent$Started value)?  started,TResult? Function( _TinderTestEvent$SwipedLeft value)?  swipedLeft,TResult? Function( _TinderTestEvent$SwipedRight value)?  swipedRight,TResult? Function( _TinderTestEvent$Completed value)?  completed,TResult? Function( _TinderTestEvent$Discard value)?  discard,TResult? Function( _TinderTestEvent$Restarted value)?  restarted,}){
+final _that = this;
+switch (_that) {
+case _TinderTestEvent$Started() when started != null:
+return started(_that);case _TinderTestEvent$SwipedLeft() when swipedLeft != null:
+return swipedLeft(_that);case _TinderTestEvent$SwipedRight() when swipedRight != null:
+return swipedRight(_that);case _TinderTestEvent$Completed() when completed != null:
+return completed(_that);case _TinderTestEvent$Discard() when discard != null:
+return discard(_that);case _TinderTestEvent$Restarted() when restarted != null:
+return restarted(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String testId,  bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  bool resume)?  started,TResult Function( String cardId)?  swipedLeft,TResult Function( String cardId)?  swipedRight,TResult Function()?  completed,TResult Function()?  discard,TResult Function()?  restarted,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case _TinderTestEvent$Started() when started != null:
+return started(_that.testId,_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.resume);case _TinderTestEvent$SwipedLeft() when swipedLeft != null:
+return swipedLeft(_that.cardId);case _TinderTestEvent$SwipedRight() when swipedRight != null:
+return swipedRight(_that.cardId);case _TinderTestEvent$Completed() when completed != null:
+return completed();case _TinderTestEvent$Discard() when discard != null:
+return discard();case _TinderTestEvent$Restarted() when restarted != null:
+return restarted();case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String testId,  bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  bool resume)  started,required TResult Function( String cardId)  swipedLeft,required TResult Function( String cardId)  swipedRight,required TResult Function()  completed,required TResult Function()  discard,required TResult Function()  restarted,}) {final _that = this;
+switch (_that) {
+case _TinderTestEvent$Started():
+return started(_that.testId,_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.resume);case _TinderTestEvent$SwipedLeft():
+return swipedLeft(_that.cardId);case _TinderTestEvent$SwipedRight():
+return swipedRight(_that.cardId);case _TinderTestEvent$Completed():
+return completed();case _TinderTestEvent$Discard():
+return discard();case _TinderTestEvent$Restarted():
+return restarted();}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String testId,  bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  bool resume)?  started,TResult? Function( String cardId)?  swipedLeft,TResult? Function( String cardId)?  swipedRight,TResult? Function()?  completed,TResult? Function()?  discard,TResult? Function()?  restarted,}) {final _that = this;
+switch (_that) {
+case _TinderTestEvent$Started() when started != null:
+return started(_that.testId,_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.resume);case _TinderTestEvent$SwipedLeft() when swipedLeft != null:
+return swipedLeft(_that.cardId);case _TinderTestEvent$SwipedRight() when swipedRight != null:
+return swipedRight(_that.cardId);case _TinderTestEvent$Completed() when completed != null:
+return completed();case _TinderTestEvent$Discard() when discard != null:
+return discard();case _TinderTestEvent$Restarted() when restarted != null:
+return restarted();case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$TinderTestEvent$StartedImplCopyWith<$Res> {
-  factory _$$TinderTestEvent$StartedImplCopyWith(
-          _$TinderTestEvent$StartedImpl value,
-          $Res Function(_$TinderTestEvent$StartedImpl) then) =
-      __$$TinderTestEvent$StartedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call(
-      {String testId,
-      bool swapSides,
-      int answerIndex,
-      bool mixup,
-      int mixupMin,
-      int mixupMax,
-      bool resume});
-}
-
-/// @nodoc
-class __$$TinderTestEvent$StartedImplCopyWithImpl<$Res>
-    extends _$TinderTestEventCopyWithImpl<$Res, _$TinderTestEvent$StartedImpl>
-    implements _$$TinderTestEvent$StartedImplCopyWith<$Res> {
-  __$$TinderTestEvent$StartedImplCopyWithImpl(
-      _$TinderTestEvent$StartedImpl _value,
-      $Res Function(_$TinderTestEvent$StartedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? testId = null,
-    Object? swapSides = null,
-    Object? answerIndex = null,
-    Object? mixup = null,
-    Object? mixupMin = null,
-    Object? mixupMax = null,
-    Object? resume = null,
-  }) {
-    return _then(_$TinderTestEvent$StartedImpl(
-      testId: null == testId
-          ? _value.testId
-          : testId // ignore: cast_nullable_to_non_nullable
-              as String,
-      swapSides: null == swapSides
-          ? _value.swapSides
-          : swapSides // ignore: cast_nullable_to_non_nullable
-              as bool,
-      answerIndex: null == answerIndex
-          ? _value.answerIndex
-          : answerIndex // ignore: cast_nullable_to_non_nullable
-              as int,
-      mixup: null == mixup
-          ? _value.mixup
-          : mixup // ignore: cast_nullable_to_non_nullable
-              as bool,
-      mixupMin: null == mixupMin
-          ? _value.mixupMin
-          : mixupMin // ignore: cast_nullable_to_non_nullable
-              as int,
-      mixupMax: null == mixupMax
-          ? _value.mixupMax
-          : mixupMax // ignore: cast_nullable_to_non_nullable
-              as int,
-      resume: null == resume
-          ? _value.resume
-          : resume // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
-}
-
-/// @nodoc
-
-class _$TinderTestEvent$StartedImpl implements _TinderTestEvent$Started {
-  const _$TinderTestEvent$StartedImpl(
-      {required this.testId,
-      this.swapSides = false,
-      this.answerIndex = 0,
-      this.mixup = false,
-      this.mixupMin = 1,
-      this.mixupMax = 5,
-      this.resume = false});
-
-  @override
-  final String testId;
-  @override
-  @JsonKey()
-  final bool swapSides;
-  @override
-  @JsonKey()
-  final int answerIndex;
-  @override
-  @JsonKey()
-  final bool mixup;
-  @override
-  @JsonKey()
-  final int mixupMin;
-  @override
-  @JsonKey()
-  final int mixupMax;
-  @override
-  @JsonKey()
-  final bool resume;
-
-  @override
-  String toString() {
-    return 'TinderTestEvent.started(testId: $testId, swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, resume: $resume)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TinderTestEvent$StartedImpl &&
-            (identical(other.testId, testId) || other.testId == testId) &&
-            (identical(other.swapSides, swapSides) ||
-                other.swapSides == swapSides) &&
-            (identical(other.answerIndex, answerIndex) ||
-                other.answerIndex == answerIndex) &&
-            (identical(other.mixup, mixup) || other.mixup == mixup) &&
-            (identical(other.mixupMin, mixupMin) ||
-                other.mixupMin == mixupMin) &&
-            (identical(other.mixupMax, mixupMax) ||
-                other.mixupMax == mixupMax) &&
-            (identical(other.resume, resume) || other.resume == resume));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, testId, swapSides, answerIndex,
-      mixup, mixupMin, mixupMax, resume);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TinderTestEvent$StartedImplCopyWith<_$TinderTestEvent$StartedImpl>
-      get copyWith => __$$TinderTestEvent$StartedImplCopyWithImpl<
-          _$TinderTestEvent$StartedImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)
-        started,
-    required TResult Function(String cardId) swipedLeft,
-    required TResult Function(String cardId) swipedRight,
-    required TResult Function() completed,
-    required TResult Function() discard,
-    required TResult Function() restarted,
-  }) {
-    return started(
-        testId, swapSides, answerIndex, mixup, mixupMin, mixupMax, resume);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult? Function(String cardId)? swipedLeft,
-    TResult? Function(String cardId)? swipedRight,
-    TResult? Function()? completed,
-    TResult? Function()? discard,
-    TResult? Function()? restarted,
-  }) {
-    return started?.call(
-        testId, swapSides, answerIndex, mixup, mixupMin, mixupMax, resume);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId, bool swapSides, int answerIndex, bool mixup,
-            int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult Function(String cardId)? swipedLeft,
-    TResult Function(String cardId)? swipedRight,
-    TResult Function()? completed,
-    TResult Function()? discard,
-    TResult Function()? restarted,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started(
-          testId, swapSides, answerIndex, mixup, mixupMin, mixupMax, resume);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TinderTestEvent$Started value) started,
-    required TResult Function(_TinderTestEvent$SwipedLeft value) swipedLeft,
-    required TResult Function(_TinderTestEvent$SwipedRight value) swipedRight,
-    required TResult Function(_TinderTestEvent$Completed value) completed,
-    required TResult Function(_TinderTestEvent$Discard value) discard,
-    required TResult Function(_TinderTestEvent$Restarted value) restarted,
-  }) {
-    return started(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TinderTestEvent$Started value)? started,
-    TResult? Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult? Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult? Function(_TinderTestEvent$Completed value)? completed,
-    TResult? Function(_TinderTestEvent$Discard value)? discard,
-    TResult? Function(_TinderTestEvent$Restarted value)? restarted,
-  }) {
-    return started?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TinderTestEvent$Started value)? started,
-    TResult Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult Function(_TinderTestEvent$Completed value)? completed,
-    TResult Function(_TinderTestEvent$Discard value)? discard,
-    TResult Function(_TinderTestEvent$Restarted value)? restarted,
-    required TResult orElse(),
-  }) {
-    if (started != null) {
-      return started(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _TinderTestEvent$Started implements TinderTestEvent {
-  const factory _TinderTestEvent$Started(
-      {required final String testId,
-      final bool swapSides,
-      final int answerIndex,
-      final bool mixup,
-      final int mixupMin,
-      final int mixupMax,
-      final bool resume}) = _$TinderTestEvent$StartedImpl;
-
-  String get testId;
-  bool get swapSides;
-  int get answerIndex;
-  bool get mixup;
-  int get mixupMin;
-  int get mixupMax;
-  bool get resume;
-  @JsonKey(ignore: true)
-  _$$TinderTestEvent$StartedImplCopyWith<_$TinderTestEvent$StartedImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$TinderTestEvent$SwipedLeftImplCopyWith<$Res> {
-  factory _$$TinderTestEvent$SwipedLeftImplCopyWith(
-          _$TinderTestEvent$SwipedLeftImpl value,
-          $Res Function(_$TinderTestEvent$SwipedLeftImpl) then) =
-      __$$TinderTestEvent$SwipedLeftImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String cardId});
-}
-
-/// @nodoc
-class __$$TinderTestEvent$SwipedLeftImplCopyWithImpl<$Res>
-    extends _$TinderTestEventCopyWithImpl<$Res,
-        _$TinderTestEvent$SwipedLeftImpl>
-    implements _$$TinderTestEvent$SwipedLeftImplCopyWith<$Res> {
-  __$$TinderTestEvent$SwipedLeftImplCopyWithImpl(
-      _$TinderTestEvent$SwipedLeftImpl _value,
-      $Res Function(_$TinderTestEvent$SwipedLeftImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? cardId = null,
-  }) {
-    return _then(_$TinderTestEvent$SwipedLeftImpl(
-      cardId: null == cardId
-          ? _value.cardId
-          : cardId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$TinderTestEvent$SwipedLeftImpl implements _TinderTestEvent$SwipedLeft {
-  const _$TinderTestEvent$SwipedLeftImpl({required this.cardId});
 
-  @override
-  final String cardId;
+class _TinderTestEvent$Started implements TinderTestEvent {
+  const _TinderTestEvent$Started({required this.testId, this.swapSides = false, this.answerIndex = 0, this.mixup = false, this.mixupMin = 1, this.mixupMax = 5, this.resume = false});
+  
 
-  @override
-  String toString() {
-    return 'TinderTestEvent.swipedLeft(cardId: $cardId)';
-  }
+ final  String testId;
+@JsonKey() final  bool swapSides;
+@JsonKey() final  int answerIndex;
+@JsonKey() final  bool mixup;
+@JsonKey() final  int mixupMin;
+@JsonKey() final  int mixupMax;
+@JsonKey() final  bool resume;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TinderTestEvent$SwipedLeftImpl &&
-            (identical(other.cardId, cardId) || other.cardId == cardId));
-  }
+/// Create a copy of TinderTestEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TinderTestEvent$StartedCopyWith<_TinderTestEvent$Started> get copyWith => __$TinderTestEvent$StartedCopyWithImpl<_TinderTestEvent$Started>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, cardId);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TinderTestEvent$SwipedLeftImplCopyWith<_$TinderTestEvent$SwipedLeftImpl>
-      get copyWith => __$$TinderTestEvent$SwipedLeftImplCopyWithImpl<
-          _$TinderTestEvent$SwipedLeftImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)
-        started,
-    required TResult Function(String cardId) swipedLeft,
-    required TResult Function(String cardId) swipedRight,
-    required TResult Function() completed,
-    required TResult Function() discard,
-    required TResult Function() restarted,
-  }) {
-    return swipedLeft(cardId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult? Function(String cardId)? swipedLeft,
-    TResult? Function(String cardId)? swipedRight,
-    TResult? Function()? completed,
-    TResult? Function()? discard,
-    TResult? Function()? restarted,
-  }) {
-    return swipedLeft?.call(cardId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId, bool swapSides, int answerIndex, bool mixup,
-            int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult Function(String cardId)? swipedLeft,
-    TResult Function(String cardId)? swipedRight,
-    TResult Function()? completed,
-    TResult Function()? discard,
-    TResult Function()? restarted,
-    required TResult orElse(),
-  }) {
-    if (swipedLeft != null) {
-      return swipedLeft(cardId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TinderTestEvent$Started value) started,
-    required TResult Function(_TinderTestEvent$SwipedLeft value) swipedLeft,
-    required TResult Function(_TinderTestEvent$SwipedRight value) swipedRight,
-    required TResult Function(_TinderTestEvent$Completed value) completed,
-    required TResult Function(_TinderTestEvent$Discard value) discard,
-    required TResult Function(_TinderTestEvent$Restarted value) restarted,
-  }) {
-    return swipedLeft(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TinderTestEvent$Started value)? started,
-    TResult? Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult? Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult? Function(_TinderTestEvent$Completed value)? completed,
-    TResult? Function(_TinderTestEvent$Discard value)? discard,
-    TResult? Function(_TinderTestEvent$Restarted value)? restarted,
-  }) {
-    return swipedLeft?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TinderTestEvent$Started value)? started,
-    TResult Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult Function(_TinderTestEvent$Completed value)? completed,
-    TResult Function(_TinderTestEvent$Discard value)? discard,
-    TResult Function(_TinderTestEvent$Restarted value)? restarted,
-    required TResult orElse(),
-  }) {
-    if (swipedLeft != null) {
-      return swipedLeft(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TinderTestEvent$Started&&(identical(other.testId, testId) || other.testId == testId)&&(identical(other.swapSides, swapSides) || other.swapSides == swapSides)&&(identical(other.answerIndex, answerIndex) || other.answerIndex == answerIndex)&&(identical(other.mixup, mixup) || other.mixup == mixup)&&(identical(other.mixupMin, mixupMin) || other.mixupMin == mixupMin)&&(identical(other.mixupMax, mixupMax) || other.mixupMax == mixupMax)&&(identical(other.resume, resume) || other.resume == resume));
 }
 
-abstract class _TinderTestEvent$SwipedLeft implements TinderTestEvent {
-  const factory _TinderTestEvent$SwipedLeft({required final String cardId}) =
-      _$TinderTestEvent$SwipedLeftImpl;
 
-  String get cardId;
-  @JsonKey(ignore: true)
-  _$$TinderTestEvent$SwipedLeftImplCopyWith<_$TinderTestEvent$SwipedLeftImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,testId,swapSides,answerIndex,mixup,mixupMin,mixupMax,resume);
+
+@override
+String toString() {
+  return 'TinderTestEvent.started(testId: $testId, swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, resume: $resume)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TinderTestEvent$SwipedRightImplCopyWith<$Res> {
-  factory _$$TinderTestEvent$SwipedRightImplCopyWith(
-          _$TinderTestEvent$SwipedRightImpl value,
-          $Res Function(_$TinderTestEvent$SwipedRightImpl) then) =
-      __$$TinderTestEvent$SwipedRightImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String cardId});
+abstract mixin class _$TinderTestEvent$StartedCopyWith<$Res> implements $TinderTestEventCopyWith<$Res> {
+  factory _$TinderTestEvent$StartedCopyWith(_TinderTestEvent$Started value, $Res Function(_TinderTestEvent$Started) _then) = __$TinderTestEvent$StartedCopyWithImpl;
+@useResult
+$Res call({
+ String testId, bool swapSides, int answerIndex, bool mixup, int mixupMin, int mixupMax, bool resume
+});
+
+
+
+
+}
+/// @nodoc
+class __$TinderTestEvent$StartedCopyWithImpl<$Res>
+    implements _$TinderTestEvent$StartedCopyWith<$Res> {
+  __$TinderTestEvent$StartedCopyWithImpl(this._self, this._then);
+
+  final _TinderTestEvent$Started _self;
+  final $Res Function(_TinderTestEvent$Started) _then;
+
+/// Create a copy of TinderTestEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? testId = null,Object? swapSides = null,Object? answerIndex = null,Object? mixup = null,Object? mixupMin = null,Object? mixupMax = null,Object? resume = null,}) {
+  return _then(_TinderTestEvent$Started(
+testId: null == testId ? _self.testId : testId // ignore: cast_nullable_to_non_nullable
+as String,swapSides: null == swapSides ? _self.swapSides : swapSides // ignore: cast_nullable_to_non_nullable
+as bool,answerIndex: null == answerIndex ? _self.answerIndex : answerIndex // ignore: cast_nullable_to_non_nullable
+as int,mixup: null == mixup ? _self.mixup : mixup // ignore: cast_nullable_to_non_nullable
+as bool,mixupMin: null == mixupMin ? _self.mixupMin : mixupMin // ignore: cast_nullable_to_non_nullable
+as int,mixupMax: null == mixupMax ? _self.mixupMax : mixupMax // ignore: cast_nullable_to_non_nullable
+as int,resume: null == resume ? _self.resume : resume // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
 }
 
-/// @nodoc
-class __$$TinderTestEvent$SwipedRightImplCopyWithImpl<$Res>
-    extends _$TinderTestEventCopyWithImpl<$Res,
-        _$TinderTestEvent$SwipedRightImpl>
-    implements _$$TinderTestEvent$SwipedRightImplCopyWith<$Res> {
-  __$$TinderTestEvent$SwipedRightImplCopyWithImpl(
-      _$TinderTestEvent$SwipedRightImpl _value,
-      $Res Function(_$TinderTestEvent$SwipedRightImpl) _then)
-      : super(_value, _then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? cardId = null,
-  }) {
-    return _then(_$TinderTestEvent$SwipedRightImpl(
-      cardId: null == cardId
-          ? _value.cardId
-          : cardId // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
 }
 
 /// @nodoc
 
-class _$TinderTestEvent$SwipedRightImpl
-    implements _TinderTestEvent$SwipedRight {
-  const _$TinderTestEvent$SwipedRightImpl({required this.cardId});
 
-  @override
-  final String cardId;
+class _TinderTestEvent$SwipedLeft implements TinderTestEvent {
+  const _TinderTestEvent$SwipedLeft({required this.cardId});
+  
 
-  @override
-  String toString() {
-    return 'TinderTestEvent.swipedRight(cardId: $cardId)';
-  }
+ final  String cardId;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TinderTestEvent$SwipedRightImpl &&
-            (identical(other.cardId, cardId) || other.cardId == cardId));
-  }
+/// Create a copy of TinderTestEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TinderTestEvent$SwipedLeftCopyWith<_TinderTestEvent$SwipedLeft> get copyWith => __$TinderTestEvent$SwipedLeftCopyWithImpl<_TinderTestEvent$SwipedLeft>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, cardId);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TinderTestEvent$SwipedRightImplCopyWith<_$TinderTestEvent$SwipedRightImpl>
-      get copyWith => __$$TinderTestEvent$SwipedRightImplCopyWithImpl<
-          _$TinderTestEvent$SwipedRightImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)
-        started,
-    required TResult Function(String cardId) swipedLeft,
-    required TResult Function(String cardId) swipedRight,
-    required TResult Function() completed,
-    required TResult Function() discard,
-    required TResult Function() restarted,
-  }) {
-    return swipedRight(cardId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult? Function(String cardId)? swipedLeft,
-    TResult? Function(String cardId)? swipedRight,
-    TResult? Function()? completed,
-    TResult? Function()? discard,
-    TResult? Function()? restarted,
-  }) {
-    return swipedRight?.call(cardId);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId, bool swapSides, int answerIndex, bool mixup,
-            int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult Function(String cardId)? swipedLeft,
-    TResult Function(String cardId)? swipedRight,
-    TResult Function()? completed,
-    TResult Function()? discard,
-    TResult Function()? restarted,
-    required TResult orElse(),
-  }) {
-    if (swipedRight != null) {
-      return swipedRight(cardId);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TinderTestEvent$Started value) started,
-    required TResult Function(_TinderTestEvent$SwipedLeft value) swipedLeft,
-    required TResult Function(_TinderTestEvent$SwipedRight value) swipedRight,
-    required TResult Function(_TinderTestEvent$Completed value) completed,
-    required TResult Function(_TinderTestEvent$Discard value) discard,
-    required TResult Function(_TinderTestEvent$Restarted value) restarted,
-  }) {
-    return swipedRight(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TinderTestEvent$Started value)? started,
-    TResult? Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult? Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult? Function(_TinderTestEvent$Completed value)? completed,
-    TResult? Function(_TinderTestEvent$Discard value)? discard,
-    TResult? Function(_TinderTestEvent$Restarted value)? restarted,
-  }) {
-    return swipedRight?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TinderTestEvent$Started value)? started,
-    TResult Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult Function(_TinderTestEvent$Completed value)? completed,
-    TResult Function(_TinderTestEvent$Discard value)? discard,
-    TResult Function(_TinderTestEvent$Restarted value)? restarted,
-    required TResult orElse(),
-  }) {
-    if (swipedRight != null) {
-      return swipedRight(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TinderTestEvent$SwipedLeft&&(identical(other.cardId, cardId) || other.cardId == cardId));
 }
 
-abstract class _TinderTestEvent$SwipedRight implements TinderTestEvent {
-  const factory _TinderTestEvent$SwipedRight({required final String cardId}) =
-      _$TinderTestEvent$SwipedRightImpl;
 
-  String get cardId;
-  @JsonKey(ignore: true)
-  _$$TinderTestEvent$SwipedRightImplCopyWith<_$TinderTestEvent$SwipedRightImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,cardId);
+
+@override
+String toString() {
+  return 'TinderTestEvent.swipedLeft(cardId: $cardId)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TinderTestEvent$CompletedImplCopyWith<$Res> {
-  factory _$$TinderTestEvent$CompletedImplCopyWith(
-          _$TinderTestEvent$CompletedImpl value,
-          $Res Function(_$TinderTestEvent$CompletedImpl) then) =
-      __$$TinderTestEvent$CompletedImplCopyWithImpl<$Res>;
+abstract mixin class _$TinderTestEvent$SwipedLeftCopyWith<$Res> implements $TinderTestEventCopyWith<$Res> {
+  factory _$TinderTestEvent$SwipedLeftCopyWith(_TinderTestEvent$SwipedLeft value, $Res Function(_TinderTestEvent$SwipedLeft) _then) = __$TinderTestEvent$SwipedLeftCopyWithImpl;
+@useResult
+$Res call({
+ String cardId
+});
+
+
+
+
+}
+/// @nodoc
+class __$TinderTestEvent$SwipedLeftCopyWithImpl<$Res>
+    implements _$TinderTestEvent$SwipedLeftCopyWith<$Res> {
+  __$TinderTestEvent$SwipedLeftCopyWithImpl(this._self, this._then);
+
+  final _TinderTestEvent$SwipedLeft _self;
+  final $Res Function(_TinderTestEvent$SwipedLeft) _then;
+
+/// Create a copy of TinderTestEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? cardId = null,}) {
+  return _then(_TinderTestEvent$SwipedLeft(
+cardId: null == cardId ? _self.cardId : cardId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-class __$$TinderTestEvent$CompletedImplCopyWithImpl<$Res>
-    extends _$TinderTestEventCopyWithImpl<$Res, _$TinderTestEvent$CompletedImpl>
-    implements _$$TinderTestEvent$CompletedImplCopyWith<$Res> {
-  __$$TinderTestEvent$CompletedImplCopyWithImpl(
-      _$TinderTestEvent$CompletedImpl _value,
-      $Res Function(_$TinderTestEvent$CompletedImpl) _then)
-      : super(_value, _then);
+
 }
 
 /// @nodoc
 
-class _$TinderTestEvent$CompletedImpl implements _TinderTestEvent$Completed {
-  const _$TinderTestEvent$CompletedImpl();
 
-  @override
-  String toString() {
-    return 'TinderTestEvent.completed()';
-  }
+class _TinderTestEvent$SwipedRight implements TinderTestEvent {
+  const _TinderTestEvent$SwipedRight({required this.cardId});
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TinderTestEvent$CompletedImpl);
-  }
+ final  String cardId;
 
-  @override
-  int get hashCode => runtimeType.hashCode;
+/// Create a copy of TinderTestEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$TinderTestEvent$SwipedRightCopyWith<_TinderTestEvent$SwipedRight> get copyWith => __$TinderTestEvent$SwipedRightCopyWithImpl<_TinderTestEvent$SwipedRight>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)
-        started,
-    required TResult Function(String cardId) swipedLeft,
-    required TResult Function(String cardId) swipedRight,
-    required TResult Function() completed,
-    required TResult Function() discard,
-    required TResult Function() restarted,
-  }) {
-    return completed();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult? Function(String cardId)? swipedLeft,
-    TResult? Function(String cardId)? swipedRight,
-    TResult? Function()? completed,
-    TResult? Function()? discard,
-    TResult? Function()? restarted,
-  }) {
-    return completed?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId, bool swapSides, int answerIndex, bool mixup,
-            int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult Function(String cardId)? swipedLeft,
-    TResult Function(String cardId)? swipedRight,
-    TResult Function()? completed,
-    TResult Function()? discard,
-    TResult Function()? restarted,
-    required TResult orElse(),
-  }) {
-    if (completed != null) {
-      return completed();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TinderTestEvent$Started value) started,
-    required TResult Function(_TinderTestEvent$SwipedLeft value) swipedLeft,
-    required TResult Function(_TinderTestEvent$SwipedRight value) swipedRight,
-    required TResult Function(_TinderTestEvent$Completed value) completed,
-    required TResult Function(_TinderTestEvent$Discard value) discard,
-    required TResult Function(_TinderTestEvent$Restarted value) restarted,
-  }) {
-    return completed(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TinderTestEvent$Started value)? started,
-    TResult? Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult? Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult? Function(_TinderTestEvent$Completed value)? completed,
-    TResult? Function(_TinderTestEvent$Discard value)? discard,
-    TResult? Function(_TinderTestEvent$Restarted value)? restarted,
-  }) {
-    return completed?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TinderTestEvent$Started value)? started,
-    TResult Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult Function(_TinderTestEvent$Completed value)? completed,
-    TResult Function(_TinderTestEvent$Discard value)? discard,
-    TResult Function(_TinderTestEvent$Restarted value)? restarted,
-    required TResult orElse(),
-  }) {
-    if (completed != null) {
-      return completed(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TinderTestEvent$SwipedRight&&(identical(other.cardId, cardId) || other.cardId == cardId));
 }
 
-abstract class _TinderTestEvent$Completed implements TinderTestEvent {
-  const factory _TinderTestEvent$Completed() = _$TinderTestEvent$CompletedImpl;
+
+@override
+int get hashCode => Object.hash(runtimeType,cardId);
+
+@override
+String toString() {
+  return 'TinderTestEvent.swipedRight(cardId: $cardId)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TinderTestEvent$DiscardImplCopyWith<$Res> {
-  factory _$$TinderTestEvent$DiscardImplCopyWith(
-          _$TinderTestEvent$DiscardImpl value,
-          $Res Function(_$TinderTestEvent$DiscardImpl) then) =
-      __$$TinderTestEvent$DiscardImplCopyWithImpl<$Res>;
+abstract mixin class _$TinderTestEvent$SwipedRightCopyWith<$Res> implements $TinderTestEventCopyWith<$Res> {
+  factory _$TinderTestEvent$SwipedRightCopyWith(_TinderTestEvent$SwipedRight value, $Res Function(_TinderTestEvent$SwipedRight) _then) = __$TinderTestEvent$SwipedRightCopyWithImpl;
+@useResult
+$Res call({
+ String cardId
+});
+
+
+
+
+}
+/// @nodoc
+class __$TinderTestEvent$SwipedRightCopyWithImpl<$Res>
+    implements _$TinderTestEvent$SwipedRightCopyWith<$Res> {
+  __$TinderTestEvent$SwipedRightCopyWithImpl(this._self, this._then);
+
+  final _TinderTestEvent$SwipedRight _self;
+  final $Res Function(_TinderTestEvent$SwipedRight) _then;
+
+/// Create a copy of TinderTestEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? cardId = null,}) {
+  return _then(_TinderTestEvent$SwipedRight(
+cardId: null == cardId ? _self.cardId : cardId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
-class __$$TinderTestEvent$DiscardImplCopyWithImpl<$Res>
-    extends _$TinderTestEventCopyWithImpl<$Res, _$TinderTestEvent$DiscardImpl>
-    implements _$$TinderTestEvent$DiscardImplCopyWith<$Res> {
-  __$$TinderTestEvent$DiscardImplCopyWithImpl(
-      _$TinderTestEvent$DiscardImpl _value,
-      $Res Function(_$TinderTestEvent$DiscardImpl) _then)
-      : super(_value, _then);
+
 }
 
 /// @nodoc
 
-class _$TinderTestEvent$DiscardImpl implements _TinderTestEvent$Discard {
-  const _$TinderTestEvent$DiscardImpl();
 
-  @override
-  String toString() {
-    return 'TinderTestEvent.discard()';
-  }
+class _TinderTestEvent$Completed implements TinderTestEvent {
+  const _TinderTestEvent$Completed();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TinderTestEvent$DiscardImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)
-        started,
-    required TResult Function(String cardId) swipedLeft,
-    required TResult Function(String cardId) swipedRight,
-    required TResult Function() completed,
-    required TResult Function() discard,
-    required TResult Function() restarted,
-  }) {
-    return discard();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult? Function(String cardId)? swipedLeft,
-    TResult? Function(String cardId)? swipedRight,
-    TResult? Function()? completed,
-    TResult? Function()? discard,
-    TResult? Function()? restarted,
-  }) {
-    return discard?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId, bool swapSides, int answerIndex, bool mixup,
-            int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult Function(String cardId)? swipedLeft,
-    TResult Function(String cardId)? swipedRight,
-    TResult Function()? completed,
-    TResult Function()? discard,
-    TResult Function()? restarted,
-    required TResult orElse(),
-  }) {
-    if (discard != null) {
-      return discard();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TinderTestEvent$Started value) started,
-    required TResult Function(_TinderTestEvent$SwipedLeft value) swipedLeft,
-    required TResult Function(_TinderTestEvent$SwipedRight value) swipedRight,
-    required TResult Function(_TinderTestEvent$Completed value) completed,
-    required TResult Function(_TinderTestEvent$Discard value) discard,
-    required TResult Function(_TinderTestEvent$Restarted value) restarted,
-  }) {
-    return discard(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TinderTestEvent$Started value)? started,
-    TResult? Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult? Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult? Function(_TinderTestEvent$Completed value)? completed,
-    TResult? Function(_TinderTestEvent$Discard value)? discard,
-    TResult? Function(_TinderTestEvent$Restarted value)? restarted,
-  }) {
-    return discard?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TinderTestEvent$Started value)? started,
-    TResult Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult Function(_TinderTestEvent$Completed value)? completed,
-    TResult Function(_TinderTestEvent$Discard value)? discard,
-    TResult Function(_TinderTestEvent$Restarted value)? restarted,
-    required TResult orElse(),
-  }) {
-    if (discard != null) {
-      return discard(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TinderTestEvent$Completed);
 }
 
-abstract class _TinderTestEvent$Discard implements TinderTestEvent {
-  const factory _TinderTestEvent$Discard() = _$TinderTestEvent$DiscardImpl;
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TinderTestEvent.completed()';
 }
 
-/// @nodoc
-abstract class _$$TinderTestEvent$RestartedImplCopyWith<$Res> {
-  factory _$$TinderTestEvent$RestartedImplCopyWith(
-          _$TinderTestEvent$RestartedImpl value,
-          $Res Function(_$TinderTestEvent$RestartedImpl) then) =
-      __$$TinderTestEvent$RestartedImplCopyWithImpl<$Res>;
+
 }
 
-/// @nodoc
-class __$$TinderTestEvent$RestartedImplCopyWithImpl<$Res>
-    extends _$TinderTestEventCopyWithImpl<$Res, _$TinderTestEvent$RestartedImpl>
-    implements _$$TinderTestEvent$RestartedImplCopyWith<$Res> {
-  __$$TinderTestEvent$RestartedImplCopyWithImpl(
-      _$TinderTestEvent$RestartedImpl _value,
-      $Res Function(_$TinderTestEvent$RestartedImpl) _then)
-      : super(_value, _then);
-}
+
+
 
 /// @nodoc
 
-class _$TinderTestEvent$RestartedImpl implements _TinderTestEvent$Restarted {
-  const _$TinderTestEvent$RestartedImpl();
 
-  @override
-  String toString() {
-    return 'TinderTestEvent.restarted()';
-  }
+class _TinderTestEvent$Discard implements TinderTestEvent {
+  const _TinderTestEvent$Discard();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TinderTestEvent$RestartedImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)
-        started,
-    required TResult Function(String cardId) swipedLeft,
-    required TResult Function(String cardId) swipedRight,
-    required TResult Function() completed,
-    required TResult Function() discard,
-    required TResult Function() restarted,
-  }) {
-    return restarted();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String testId, bool swapSides, int answerIndex,
-            bool mixup, int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult? Function(String cardId)? swipedLeft,
-    TResult? Function(String cardId)? swipedRight,
-    TResult? Function()? completed,
-    TResult? Function()? discard,
-    TResult? Function()? restarted,
-  }) {
-    return restarted?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String testId, bool swapSides, int answerIndex, bool mixup,
-            int mixupMin, int mixupMax, bool resume)?
-        started,
-    TResult Function(String cardId)? swipedLeft,
-    TResult Function(String cardId)? swipedRight,
-    TResult Function()? completed,
-    TResult Function()? discard,
-    TResult Function()? restarted,
-    required TResult orElse(),
-  }) {
-    if (restarted != null) {
-      return restarted();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_TinderTestEvent$Started value) started,
-    required TResult Function(_TinderTestEvent$SwipedLeft value) swipedLeft,
-    required TResult Function(_TinderTestEvent$SwipedRight value) swipedRight,
-    required TResult Function(_TinderTestEvent$Completed value) completed,
-    required TResult Function(_TinderTestEvent$Discard value) discard,
-    required TResult Function(_TinderTestEvent$Restarted value) restarted,
-  }) {
-    return restarted(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_TinderTestEvent$Started value)? started,
-    TResult? Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult? Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult? Function(_TinderTestEvent$Completed value)? completed,
-    TResult? Function(_TinderTestEvent$Discard value)? discard,
-    TResult? Function(_TinderTestEvent$Restarted value)? restarted,
-  }) {
-    return restarted?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_TinderTestEvent$Started value)? started,
-    TResult Function(_TinderTestEvent$SwipedLeft value)? swipedLeft,
-    TResult Function(_TinderTestEvent$SwipedRight value)? swipedRight,
-    TResult Function(_TinderTestEvent$Completed value)? completed,
-    TResult Function(_TinderTestEvent$Discard value)? discard,
-    TResult Function(_TinderTestEvent$Restarted value)? restarted,
-    required TResult orElse(),
-  }) {
-    if (restarted != null) {
-      return restarted(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TinderTestEvent$Discard);
 }
 
-abstract class _TinderTestEvent$Restarted implements TinderTestEvent {
-  const factory _TinderTestEvent$Restarted() = _$TinderTestEvent$RestartedImpl;
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TinderTestEvent.discard()';
 }
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class _TinderTestEvent$Restarted implements TinderTestEvent {
+  const _TinderTestEvent$Restarted();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TinderTestEvent$Restarted);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TinderTestEvent.restarted()';
+}
+
+
+}
+
+
+
 
 /// @nodoc
 mixin _$TinderTestState {
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() empty,
-    required TResult Function(
-            TestSession session, CardEntity currentCard, bool isUndo)
-        inProgress,
-    required TResult Function(TestSession session) completed,
-    required TResult Function(String message) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult? Function(TestSession session)? completed,
-    TResult? Function(String message)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult Function(TestSession session)? completed,
-    TResult Function(String message)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TinderTestState$Initial value) initial,
-    required TResult Function(TinderTestState$Loading value) loading,
-    required TResult Function(TinderTestState$Empty value) empty,
-    required TResult Function(TinderTestState$InProgress value) inProgress,
-    required TResult Function(TinderTestState$Completed value) completed,
-    required TResult Function(TinderTestState$Error value) error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TinderTestState$Initial value)? initial,
-    TResult? Function(TinderTestState$Loading value)? loading,
-    TResult? Function(TinderTestState$Empty value)? empty,
-    TResult? Function(TinderTestState$InProgress value)? inProgress,
-    TResult? Function(TinderTestState$Completed value)? completed,
-    TResult? Function(TinderTestState$Error value)? error,
-  }) =>
-      throw _privateConstructorUsedError;
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TinderTestState$Initial value)? initial,
-    TResult Function(TinderTestState$Loading value)? loading,
-    TResult Function(TinderTestState$Empty value)? empty,
-    TResult Function(TinderTestState$InProgress value)? inProgress,
-    TResult Function(TinderTestState$Completed value)? completed,
-    TResult Function(TinderTestState$Error value)? error,
-    required TResult orElse(),
-  }) =>
-      throw _privateConstructorUsedError;
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TinderTestState);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TinderTestState()';
+}
+
+
 }
 
 /// @nodoc
-abstract class $TinderTestStateCopyWith<$Res> {
-  factory $TinderTestStateCopyWith(
-          TinderTestState value, $Res Function(TinderTestState) then) =
-      _$TinderTestStateCopyWithImpl<$Res, TinderTestState>;
+class $TinderTestStateCopyWith<$Res>  {
+$TinderTestStateCopyWith(TinderTestState _, $Res Function(TinderTestState) __);
 }
 
-/// @nodoc
-class _$TinderTestStateCopyWithImpl<$Res, $Val extends TinderTestState>
-    implements $TinderTestStateCopyWith<$Res> {
-  _$TinderTestStateCopyWithImpl(this._value, this._then);
 
-  // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+/// Adds pattern-matching-related methods to [TinderTestState].
+extension TinderTestStatePatterns on TinderTestState {
+/// A variant of `map` that fallback to returning `orElse`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( TinderTestState$Initial value)?  initial,TResult Function( TinderTestState$Loading value)?  loading,TResult Function( TinderTestState$Empty value)?  empty,TResult Function( TinderTestState$InProgress value)?  inProgress,TResult Function( TinderTestState$Completed value)?  completed,TResult Function( TinderTestState$Error value)?  error,required TResult orElse(),}){
+final _that = this;
+switch (_that) {
+case TinderTestState$Initial() when initial != null:
+return initial(_that);case TinderTestState$Loading() when loading != null:
+return loading(_that);case TinderTestState$Empty() when empty != null:
+return empty(_that);case TinderTestState$InProgress() when inProgress != null:
+return inProgress(_that);case TinderTestState$Completed() when completed != null:
+return completed(_that);case TinderTestState$Error() when error != null:
+return error(_that);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// Callbacks receives the raw object, upcasted.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case final Subclass2 value:
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( TinderTestState$Initial value)  initial,required TResult Function( TinderTestState$Loading value)  loading,required TResult Function( TinderTestState$Empty value)  empty,required TResult Function( TinderTestState$InProgress value)  inProgress,required TResult Function( TinderTestState$Completed value)  completed,required TResult Function( TinderTestState$Error value)  error,}){
+final _that = this;
+switch (_that) {
+case TinderTestState$Initial():
+return initial(_that);case TinderTestState$Loading():
+return loading(_that);case TinderTestState$Empty():
+return empty(_that);case TinderTestState$InProgress():
+return inProgress(_that);case TinderTestState$Completed():
+return completed(_that);case TinderTestState$Error():
+return error(_that);}
+}
+/// A variant of `map` that fallback to returning `null`.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case final Subclass value:
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( TinderTestState$Initial value)?  initial,TResult? Function( TinderTestState$Loading value)?  loading,TResult? Function( TinderTestState$Empty value)?  empty,TResult? Function( TinderTestState$InProgress value)?  inProgress,TResult? Function( TinderTestState$Completed value)?  completed,TResult? Function( TinderTestState$Error value)?  error,}){
+final _that = this;
+switch (_that) {
+case TinderTestState$Initial() when initial != null:
+return initial(_that);case TinderTestState$Loading() when loading != null:
+return loading(_that);case TinderTestState$Empty() when empty != null:
+return empty(_that);case TinderTestState$InProgress() when inProgress != null:
+return inProgress(_that);case TinderTestState$Completed() when completed != null:
+return completed(_that);case TinderTestState$Error() when error != null:
+return error(_that);case _:
+  return null;
+
+}
+}
+/// A variant of `when` that fallback to an `orElse` callback.
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return orElse();
+/// }
+/// ```
+
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  empty,TResult Function( TestSession session,  CardEntity currentCard,  bool isUndo)?  inProgress,TResult Function( TestSession session)?  completed,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+switch (_that) {
+case TinderTestState$Initial() when initial != null:
+return initial();case TinderTestState$Loading() when loading != null:
+return loading();case TinderTestState$Empty() when empty != null:
+return empty();case TinderTestState$InProgress() when inProgress != null:
+return inProgress(_that.session,_that.currentCard,_that.isUndo);case TinderTestState$Completed() when completed != null:
+return completed(_that.session);case TinderTestState$Error() when error != null:
+return error(_that.message);case _:
+  return orElse();
+
+}
+}
+/// A `switch`-like method, using callbacks.
+///
+/// As opposed to `map`, this offers destructuring.
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case Subclass2(:final field2):
+///     return ...;
+/// }
+/// ```
+
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  empty,required TResult Function( TestSession session,  CardEntity currentCard,  bool isUndo)  inProgress,required TResult Function( TestSession session)  completed,required TResult Function( String message)  error,}) {final _that = this;
+switch (_that) {
+case TinderTestState$Initial():
+return initial();case TinderTestState$Loading():
+return loading();case TinderTestState$Empty():
+return empty();case TinderTestState$InProgress():
+return inProgress(_that.session,_that.currentCard,_that.isUndo);case TinderTestState$Completed():
+return completed(_that.session);case TinderTestState$Error():
+return error(_that.message);}
+}
+/// A variant of `when` that fallback to returning `null`
+///
+/// It is equivalent to doing:
+/// ```dart
+/// switch (sealedClass) {
+///   case Subclass(:final field):
+///     return ...;
+///   case _:
+///     return null;
+/// }
+/// ```
+
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  empty,TResult? Function( TestSession session,  CardEntity currentCard,  bool isUndo)?  inProgress,TResult? Function( TestSession session)?  completed,TResult? Function( String message)?  error,}) {final _that = this;
+switch (_that) {
+case TinderTestState$Initial() when initial != null:
+return initial();case TinderTestState$Loading() when loading != null:
+return loading();case TinderTestState$Empty() when empty != null:
+return empty();case TinderTestState$InProgress() when inProgress != null:
+return inProgress(_that.session,_that.currentCard,_that.isUndo);case TinderTestState$Completed() when completed != null:
+return completed(_that.session);case TinderTestState$Error() when error != null:
+return error(_that.message);case _:
+  return null;
+
+}
 }
 
-/// @nodoc
-abstract class _$$TinderTestState$InitialImplCopyWith<$Res> {
-  factory _$$TinderTestState$InitialImplCopyWith(
-          _$TinderTestState$InitialImpl value,
-          $Res Function(_$TinderTestState$InitialImpl) then) =
-      __$$TinderTestState$InitialImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$TinderTestState$InitialImplCopyWithImpl<$Res>
-    extends _$TinderTestStateCopyWithImpl<$Res, _$TinderTestState$InitialImpl>
-    implements _$$TinderTestState$InitialImplCopyWith<$Res> {
-  __$$TinderTestState$InitialImplCopyWithImpl(
-      _$TinderTestState$InitialImpl _value,
-      $Res Function(_$TinderTestState$InitialImpl) _then)
-      : super(_value, _then);
-}
-
-/// @nodoc
-
-class _$TinderTestState$InitialImpl extends TinderTestState$Initial {
-  const _$TinderTestState$InitialImpl() : super._();
-
-  @override
-  String toString() {
-    return 'TinderTestState.initial()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TinderTestState$InitialImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() empty,
-    required TResult Function(
-            TestSession session, CardEntity currentCard, bool isUndo)
-        inProgress,
-    required TResult Function(TestSession session) completed,
-    required TResult Function(String message) error,
-  }) {
-    return initial();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult? Function(TestSession session)? completed,
-    TResult? Function(String message)? error,
-  }) {
-    return initial?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult Function(TestSession session)? completed,
-    TResult Function(String message)? error,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TinderTestState$Initial value) initial,
-    required TResult Function(TinderTestState$Loading value) loading,
-    required TResult Function(TinderTestState$Empty value) empty,
-    required TResult Function(TinderTestState$InProgress value) inProgress,
-    required TResult Function(TinderTestState$Completed value) completed,
-    required TResult Function(TinderTestState$Error value) error,
-  }) {
-    return initial(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TinderTestState$Initial value)? initial,
-    TResult? Function(TinderTestState$Loading value)? loading,
-    TResult? Function(TinderTestState$Empty value)? empty,
-    TResult? Function(TinderTestState$InProgress value)? inProgress,
-    TResult? Function(TinderTestState$Completed value)? completed,
-    TResult? Function(TinderTestState$Error value)? error,
-  }) {
-    return initial?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TinderTestState$Initial value)? initial,
-    TResult Function(TinderTestState$Loading value)? loading,
-    TResult Function(TinderTestState$Empty value)? empty,
-    TResult Function(TinderTestState$InProgress value)? inProgress,
-    TResult Function(TinderTestState$Completed value)? completed,
-    TResult Function(TinderTestState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (initial != null) {
-      return initial(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class TinderTestState$Initial extends TinderTestState {
-  const factory TinderTestState$Initial() = _$TinderTestState$InitialImpl;
-  const TinderTestState$Initial._() : super._();
-}
-
-/// @nodoc
-abstract class _$$TinderTestState$LoadingImplCopyWith<$Res> {
-  factory _$$TinderTestState$LoadingImplCopyWith(
-          _$TinderTestState$LoadingImpl value,
-          $Res Function(_$TinderTestState$LoadingImpl) then) =
-      __$$TinderTestState$LoadingImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$TinderTestState$LoadingImplCopyWithImpl<$Res>
-    extends _$TinderTestStateCopyWithImpl<$Res, _$TinderTestState$LoadingImpl>
-    implements _$$TinderTestState$LoadingImplCopyWith<$Res> {
-  __$$TinderTestState$LoadingImplCopyWithImpl(
-      _$TinderTestState$LoadingImpl _value,
-      $Res Function(_$TinderTestState$LoadingImpl) _then)
-      : super(_value, _then);
 }
 
 /// @nodoc
 
-class _$TinderTestState$LoadingImpl extends TinderTestState$Loading {
-  const _$TinderTestState$LoadingImpl() : super._();
 
-  @override
-  String toString() {
-    return 'TinderTestState.loading()';
-  }
+class TinderTestState$Initial extends TinderTestState {
+  const TinderTestState$Initial(): super._();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TinderTestState$LoadingImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() empty,
-    required TResult Function(
-            TestSession session, CardEntity currentCard, bool isUndo)
-        inProgress,
-    required TResult Function(TestSession session) completed,
-    required TResult Function(String message) error,
-  }) {
-    return loading();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult? Function(TestSession session)? completed,
-    TResult? Function(String message)? error,
-  }) {
-    return loading?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult Function(TestSession session)? completed,
-    TResult Function(String message)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TinderTestState$Initial value) initial,
-    required TResult Function(TinderTestState$Loading value) loading,
-    required TResult Function(TinderTestState$Empty value) empty,
-    required TResult Function(TinderTestState$InProgress value) inProgress,
-    required TResult Function(TinderTestState$Completed value) completed,
-    required TResult Function(TinderTestState$Error value) error,
-  }) {
-    return loading(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TinderTestState$Initial value)? initial,
-    TResult? Function(TinderTestState$Loading value)? loading,
-    TResult? Function(TinderTestState$Empty value)? empty,
-    TResult? Function(TinderTestState$InProgress value)? inProgress,
-    TResult? Function(TinderTestState$Completed value)? completed,
-    TResult? Function(TinderTestState$Error value)? error,
-  }) {
-    return loading?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TinderTestState$Initial value)? initial,
-    TResult Function(TinderTestState$Loading value)? loading,
-    TResult Function(TinderTestState$Empty value)? empty,
-    TResult Function(TinderTestState$InProgress value)? inProgress,
-    TResult Function(TinderTestState$Completed value)? completed,
-    TResult Function(TinderTestState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (loading != null) {
-      return loading(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TinderTestState$Initial);
 }
 
-abstract class TinderTestState$Loading extends TinderTestState {
-  const factory TinderTestState$Loading() = _$TinderTestState$LoadingImpl;
-  const TinderTestState$Loading._() : super._();
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TinderTestState.initial()';
 }
 
-/// @nodoc
-abstract class _$$TinderTestState$EmptyImplCopyWith<$Res> {
-  factory _$$TinderTestState$EmptyImplCopyWith(
-          _$TinderTestState$EmptyImpl value,
-          $Res Function(_$TinderTestState$EmptyImpl) then) =
-      __$$TinderTestState$EmptyImplCopyWithImpl<$Res>;
+
 }
 
-/// @nodoc
-class __$$TinderTestState$EmptyImplCopyWithImpl<$Res>
-    extends _$TinderTestStateCopyWithImpl<$Res, _$TinderTestState$EmptyImpl>
-    implements _$$TinderTestState$EmptyImplCopyWith<$Res> {
-  __$$TinderTestState$EmptyImplCopyWithImpl(_$TinderTestState$EmptyImpl _value,
-      $Res Function(_$TinderTestState$EmptyImpl) _then)
-      : super(_value, _then);
-}
+
+
 
 /// @nodoc
 
-class _$TinderTestState$EmptyImpl extends TinderTestState$Empty {
-  const _$TinderTestState$EmptyImpl() : super._();
 
-  @override
-  String toString() {
-    return 'TinderTestState.empty()';
-  }
+class TinderTestState$Loading extends TinderTestState {
+  const TinderTestState$Loading(): super._();
+  
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TinderTestState$EmptyImpl);
-  }
 
-  @override
-  int get hashCode => runtimeType.hashCode;
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() empty,
-    required TResult Function(
-            TestSession session, CardEntity currentCard, bool isUndo)
-        inProgress,
-    required TResult Function(TestSession session) completed,
-    required TResult Function(String message) error,
-  }) {
-    return empty();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult? Function(TestSession session)? completed,
-    TResult? Function(String message)? error,
-  }) {
-    return empty?.call();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult Function(TestSession session)? completed,
-    TResult Function(String message)? error,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty();
-    }
-    return orElse();
-  }
 
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TinderTestState$Initial value) initial,
-    required TResult Function(TinderTestState$Loading value) loading,
-    required TResult Function(TinderTestState$Empty value) empty,
-    required TResult Function(TinderTestState$InProgress value) inProgress,
-    required TResult Function(TinderTestState$Completed value) completed,
-    required TResult Function(TinderTestState$Error value) error,
-  }) {
-    return empty(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TinderTestState$Initial value)? initial,
-    TResult? Function(TinderTestState$Loading value)? loading,
-    TResult? Function(TinderTestState$Empty value)? empty,
-    TResult? Function(TinderTestState$InProgress value)? inProgress,
-    TResult? Function(TinderTestState$Completed value)? completed,
-    TResult? Function(TinderTestState$Error value)? error,
-  }) {
-    return empty?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TinderTestState$Initial value)? initial,
-    TResult Function(TinderTestState$Loading value)? loading,
-    TResult Function(TinderTestState$Empty value)? empty,
-    TResult Function(TinderTestState$InProgress value)? inProgress,
-    TResult Function(TinderTestState$Completed value)? completed,
-    TResult Function(TinderTestState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (empty != null) {
-      return empty(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TinderTestState$Loading);
 }
 
-abstract class TinderTestState$Empty extends TinderTestState {
-  const factory TinderTestState$Empty() = _$TinderTestState$EmptyImpl;
-  const TinderTestState$Empty._() : super._();
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TinderTestState.loading()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class TinderTestState$Empty extends TinderTestState {
+  const TinderTestState$Empty(): super._();
+  
+
+
+
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TinderTestState$Empty);
+}
+
+
+@override
+int get hashCode => runtimeType.hashCode;
+
+@override
+String toString() {
+  return 'TinderTestState.empty()';
+}
+
+
+}
+
+
+
+
+/// @nodoc
+
+
+class TinderTestState$InProgress extends TinderTestState {
+  const TinderTestState$InProgress({required this.session, required this.currentCard, this.isUndo = false}): super._();
+  
+
+ final  TestSession session;
+ final  CardEntity currentCard;
+@JsonKey() final  bool isUndo;
+
+/// Create a copy of TinderTestState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TinderTestState$InProgressCopyWith<TinderTestState$InProgress> get copyWith => _$TinderTestState$InProgressCopyWithImpl<TinderTestState$InProgress>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TinderTestState$InProgress&&(identical(other.session, session) || other.session == session)&&(identical(other.currentCard, currentCard) || other.currentCard == currentCard)&&(identical(other.isUndo, isUndo) || other.isUndo == isUndo));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,session,currentCard,isUndo);
+
+@override
+String toString() {
+  return 'TinderTestState.inProgress(session: $session, currentCard: $currentCard, isUndo: $isUndo)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TinderTestState$InProgressImplCopyWith<$Res> {
-  factory _$$TinderTestState$InProgressImplCopyWith(
-          _$TinderTestState$InProgressImpl value,
-          $Res Function(_$TinderTestState$InProgressImpl) then) =
-      __$$TinderTestState$InProgressImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({TestSession session, CardEntity currentCard, bool isUndo});
+abstract mixin class $TinderTestState$InProgressCopyWith<$Res> implements $TinderTestStateCopyWith<$Res> {
+  factory $TinderTestState$InProgressCopyWith(TinderTestState$InProgress value, $Res Function(TinderTestState$InProgress) _then) = _$TinderTestState$InProgressCopyWithImpl;
+@useResult
+$Res call({
+ TestSession session, CardEntity currentCard, bool isUndo
+});
 
-  $TestSessionCopyWith<$Res> get session;
-  $CardEntityCopyWith<$Res> get currentCard;
+
+$TestSessionCopyWith<$Res> get session;$CardEntityCopyWith<$Res> get currentCard;
+
+}
+/// @nodoc
+class _$TinderTestState$InProgressCopyWithImpl<$Res>
+    implements $TinderTestState$InProgressCopyWith<$Res> {
+  _$TinderTestState$InProgressCopyWithImpl(this._self, this._then);
+
+  final TinderTestState$InProgress _self;
+  final $Res Function(TinderTestState$InProgress) _then;
+
+/// Create a copy of TinderTestState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? session = null,Object? currentCard = null,Object? isUndo = null,}) {
+  return _then(TinderTestState$InProgress(
+session: null == session ? _self.session : session // ignore: cast_nullable_to_non_nullable
+as TestSession,currentCard: null == currentCard ? _self.currentCard : currentCard // ignore: cast_nullable_to_non_nullable
+as CardEntity,isUndo: null == isUndo ? _self.isUndo : isUndo // ignore: cast_nullable_to_non_nullable
+as bool,
+  ));
 }
 
-/// @nodoc
-class __$$TinderTestState$InProgressImplCopyWithImpl<$Res>
-    extends _$TinderTestStateCopyWithImpl<$Res,
-        _$TinderTestState$InProgressImpl>
-    implements _$$TinderTestState$InProgressImplCopyWith<$Res> {
-  __$$TinderTestState$InProgressImplCopyWithImpl(
-      _$TinderTestState$InProgressImpl _value,
-      $Res Function(_$TinderTestState$InProgressImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? session = null,
-    Object? currentCard = null,
-    Object? isUndo = null,
-  }) {
-    return _then(_$TinderTestState$InProgressImpl(
-      session: null == session
-          ? _value.session
-          : session // ignore: cast_nullable_to_non_nullable
-              as TestSession,
-      currentCard: null == currentCard
-          ? _value.currentCard
-          : currentCard // ignore: cast_nullable_to_non_nullable
-              as CardEntity,
-      isUndo: null == isUndo
-          ? _value.isUndo
-          : isUndo // ignore: cast_nullable_to_non_nullable
-              as bool,
-    ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $TestSessionCopyWith<$Res> get session {
-    return $TestSessionCopyWith<$Res>(_value.session, (value) {
-      return _then(_value.copyWith(session: value));
-    });
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $CardEntityCopyWith<$Res> get currentCard {
-    return $CardEntityCopyWith<$Res>(_value.currentCard, (value) {
-      return _then(_value.copyWith(currentCard: value));
-    });
-  }
+/// Create a copy of TinderTestState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TestSessionCopyWith<$Res> get session {
+  
+  return $TestSessionCopyWith<$Res>(_self.session, (value) {
+    return _then(_self.copyWith(session: value));
+  });
+}/// Create a copy of TinderTestState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CardEntityCopyWith<$Res> get currentCard {
+  
+  return $CardEntityCopyWith<$Res>(_self.currentCard, (value) {
+    return _then(_self.copyWith(currentCard: value));
+  });
+}
 }
 
 /// @nodoc
 
-class _$TinderTestState$InProgressImpl extends TinderTestState$InProgress {
-  const _$TinderTestState$InProgressImpl(
-      {required this.session, required this.currentCard, this.isUndo = false})
-      : super._();
 
-  @override
-  final TestSession session;
-  @override
-  final CardEntity currentCard;
-  @override
-  @JsonKey()
-  final bool isUndo;
+class TinderTestState$Completed extends TinderTestState {
+  const TinderTestState$Completed({required this.session}): super._();
+  
 
-  @override
-  String toString() {
-    return 'TinderTestState.inProgress(session: $session, currentCard: $currentCard, isUndo: $isUndo)';
-  }
+ final  TestSession session;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TinderTestState$InProgressImpl &&
-            (identical(other.session, session) || other.session == session) &&
-            (identical(other.currentCard, currentCard) ||
-                other.currentCard == currentCard) &&
-            (identical(other.isUndo, isUndo) || other.isUndo == isUndo));
-  }
+/// Create a copy of TinderTestState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TinderTestState$CompletedCopyWith<TinderTestState$Completed> get copyWith => _$TinderTestState$CompletedCopyWithImpl<TinderTestState$Completed>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, session, currentCard, isUndo);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TinderTestState$InProgressImplCopyWith<_$TinderTestState$InProgressImpl>
-      get copyWith => __$$TinderTestState$InProgressImplCopyWithImpl<
-          _$TinderTestState$InProgressImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() empty,
-    required TResult Function(
-            TestSession session, CardEntity currentCard, bool isUndo)
-        inProgress,
-    required TResult Function(TestSession session) completed,
-    required TResult Function(String message) error,
-  }) {
-    return inProgress(session, currentCard, isUndo);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult? Function(TestSession session)? completed,
-    TResult? Function(String message)? error,
-  }) {
-    return inProgress?.call(session, currentCard, isUndo);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult Function(TestSession session)? completed,
-    TResult Function(String message)? error,
-    required TResult orElse(),
-  }) {
-    if (inProgress != null) {
-      return inProgress(session, currentCard, isUndo);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TinderTestState$Initial value) initial,
-    required TResult Function(TinderTestState$Loading value) loading,
-    required TResult Function(TinderTestState$Empty value) empty,
-    required TResult Function(TinderTestState$InProgress value) inProgress,
-    required TResult Function(TinderTestState$Completed value) completed,
-    required TResult Function(TinderTestState$Error value) error,
-  }) {
-    return inProgress(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TinderTestState$Initial value)? initial,
-    TResult? Function(TinderTestState$Loading value)? loading,
-    TResult? Function(TinderTestState$Empty value)? empty,
-    TResult? Function(TinderTestState$InProgress value)? inProgress,
-    TResult? Function(TinderTestState$Completed value)? completed,
-    TResult? Function(TinderTestState$Error value)? error,
-  }) {
-    return inProgress?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TinderTestState$Initial value)? initial,
-    TResult Function(TinderTestState$Loading value)? loading,
-    TResult Function(TinderTestState$Empty value)? empty,
-    TResult Function(TinderTestState$InProgress value)? inProgress,
-    TResult Function(TinderTestState$Completed value)? completed,
-    TResult Function(TinderTestState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (inProgress != null) {
-      return inProgress(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TinderTestState$Completed&&(identical(other.session, session) || other.session == session));
 }
 
-abstract class TinderTestState$InProgress extends TinderTestState {
-  const factory TinderTestState$InProgress(
-      {required final TestSession session,
-      required final CardEntity currentCard,
-      final bool isUndo}) = _$TinderTestState$InProgressImpl;
-  const TinderTestState$InProgress._() : super._();
 
-  TestSession get session;
-  CardEntity get currentCard;
-  bool get isUndo;
-  @JsonKey(ignore: true)
-  _$$TinderTestState$InProgressImplCopyWith<_$TinderTestState$InProgressImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,session);
+
+@override
+String toString() {
+  return 'TinderTestState.completed(session: $session)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TinderTestState$CompletedImplCopyWith<$Res> {
-  factory _$$TinderTestState$CompletedImplCopyWith(
-          _$TinderTestState$CompletedImpl value,
-          $Res Function(_$TinderTestState$CompletedImpl) then) =
-      __$$TinderTestState$CompletedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({TestSession session});
+abstract mixin class $TinderTestState$CompletedCopyWith<$Res> implements $TinderTestStateCopyWith<$Res> {
+  factory $TinderTestState$CompletedCopyWith(TinderTestState$Completed value, $Res Function(TinderTestState$Completed) _then) = _$TinderTestState$CompletedCopyWithImpl;
+@useResult
+$Res call({
+ TestSession session
+});
 
-  $TestSessionCopyWith<$Res> get session;
+
+$TestSessionCopyWith<$Res> get session;
+
+}
+/// @nodoc
+class _$TinderTestState$CompletedCopyWithImpl<$Res>
+    implements $TinderTestState$CompletedCopyWith<$Res> {
+  _$TinderTestState$CompletedCopyWithImpl(this._self, this._then);
+
+  final TinderTestState$Completed _self;
+  final $Res Function(TinderTestState$Completed) _then;
+
+/// Create a copy of TinderTestState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? session = null,}) {
+  return _then(TinderTestState$Completed(
+session: null == session ? _self.session : session // ignore: cast_nullable_to_non_nullable
+as TestSession,
+  ));
 }
 
-/// @nodoc
-class __$$TinderTestState$CompletedImplCopyWithImpl<$Res>
-    extends _$TinderTestStateCopyWithImpl<$Res, _$TinderTestState$CompletedImpl>
-    implements _$$TinderTestState$CompletedImplCopyWith<$Res> {
-  __$$TinderTestState$CompletedImplCopyWithImpl(
-      _$TinderTestState$CompletedImpl _value,
-      $Res Function(_$TinderTestState$CompletedImpl) _then)
-      : super(_value, _then);
-
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? session = null,
-  }) {
-    return _then(_$TinderTestState$CompletedImpl(
-      session: null == session
-          ? _value.session
-          : session // ignore: cast_nullable_to_non_nullable
-              as TestSession,
-    ));
-  }
-
-  @override
-  @pragma('vm:prefer-inline')
-  $TestSessionCopyWith<$Res> get session {
-    return $TestSessionCopyWith<$Res>(_value.session, (value) {
-      return _then(_value.copyWith(session: value));
-    });
-  }
+/// Create a copy of TinderTestState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$TestSessionCopyWith<$Res> get session {
+  
+  return $TestSessionCopyWith<$Res>(_self.session, (value) {
+    return _then(_self.copyWith(session: value));
+  });
+}
 }
 
 /// @nodoc
 
-class _$TinderTestState$CompletedImpl extends TinderTestState$Completed {
-  const _$TinderTestState$CompletedImpl({required this.session}) : super._();
 
-  @override
-  final TestSession session;
+class TinderTestState$Error extends TinderTestState {
+  const TinderTestState$Error({required this.message}): super._();
+  
 
-  @override
-  String toString() {
-    return 'TinderTestState.completed(session: $session)';
-  }
+ final  String message;
 
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TinderTestState$CompletedImpl &&
-            (identical(other.session, session) || other.session == session));
-  }
+/// Create a copy of TinderTestState
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+$TinderTestState$ErrorCopyWith<TinderTestState$Error> get copyWith => _$TinderTestState$ErrorCopyWithImpl<TinderTestState$Error>(this, _$identity);
 
-  @override
-  int get hashCode => Object.hash(runtimeType, session);
 
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TinderTestState$CompletedImplCopyWith<_$TinderTestState$CompletedImpl>
-      get copyWith => __$$TinderTestState$CompletedImplCopyWithImpl<
-          _$TinderTestState$CompletedImpl>(this, _$identity);
 
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() empty,
-    required TResult Function(
-            TestSession session, CardEntity currentCard, bool isUndo)
-        inProgress,
-    required TResult Function(TestSession session) completed,
-    required TResult Function(String message) error,
-  }) {
-    return completed(session);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult? Function(TestSession session)? completed,
-    TResult? Function(String message)? error,
-  }) {
-    return completed?.call(session);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult Function(TestSession session)? completed,
-    TResult Function(String message)? error,
-    required TResult orElse(),
-  }) {
-    if (completed != null) {
-      return completed(session);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TinderTestState$Initial value) initial,
-    required TResult Function(TinderTestState$Loading value) loading,
-    required TResult Function(TinderTestState$Empty value) empty,
-    required TResult Function(TinderTestState$InProgress value) inProgress,
-    required TResult Function(TinderTestState$Completed value) completed,
-    required TResult Function(TinderTestState$Error value) error,
-  }) {
-    return completed(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TinderTestState$Initial value)? initial,
-    TResult? Function(TinderTestState$Loading value)? loading,
-    TResult? Function(TinderTestState$Empty value)? empty,
-    TResult? Function(TinderTestState$InProgress value)? inProgress,
-    TResult? Function(TinderTestState$Completed value)? completed,
-    TResult? Function(TinderTestState$Error value)? error,
-  }) {
-    return completed?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TinderTestState$Initial value)? initial,
-    TResult Function(TinderTestState$Loading value)? loading,
-    TResult Function(TinderTestState$Empty value)? empty,
-    TResult Function(TinderTestState$InProgress value)? inProgress,
-    TResult Function(TinderTestState$Completed value)? completed,
-    TResult Function(TinderTestState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (completed != null) {
-      return completed(this);
-    }
-    return orElse();
-  }
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TinderTestState$Error&&(identical(other.message, message) || other.message == message));
 }
 
-abstract class TinderTestState$Completed extends TinderTestState {
-  const factory TinderTestState$Completed(
-      {required final TestSession session}) = _$TinderTestState$CompletedImpl;
-  const TinderTestState$Completed._() : super._();
 
-  TestSession get session;
-  @JsonKey(ignore: true)
-  _$$TinderTestState$CompletedImplCopyWith<_$TinderTestState$CompletedImpl>
-      get copyWith => throw _privateConstructorUsedError;
+@override
+int get hashCode => Object.hash(runtimeType,message);
+
+@override
+String toString() {
+  return 'TinderTestState.error(message: $message)';
+}
+
+
 }
 
 /// @nodoc
-abstract class _$$TinderTestState$ErrorImplCopyWith<$Res> {
-  factory _$$TinderTestState$ErrorImplCopyWith(
-          _$TinderTestState$ErrorImpl value,
-          $Res Function(_$TinderTestState$ErrorImpl) then) =
-      __$$TinderTestState$ErrorImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({String message});
-}
+abstract mixin class $TinderTestState$ErrorCopyWith<$Res> implements $TinderTestStateCopyWith<$Res> {
+  factory $TinderTestState$ErrorCopyWith(TinderTestState$Error value, $Res Function(TinderTestState$Error) _then) = _$TinderTestState$ErrorCopyWithImpl;
+@useResult
+$Res call({
+ String message
+});
 
+
+
+
+}
 /// @nodoc
-class __$$TinderTestState$ErrorImplCopyWithImpl<$Res>
-    extends _$TinderTestStateCopyWithImpl<$Res, _$TinderTestState$ErrorImpl>
-    implements _$$TinderTestState$ErrorImplCopyWith<$Res> {
-  __$$TinderTestState$ErrorImplCopyWithImpl(_$TinderTestState$ErrorImpl _value,
-      $Res Function(_$TinderTestState$ErrorImpl) _then)
-      : super(_value, _then);
+class _$TinderTestState$ErrorCopyWithImpl<$Res>
+    implements $TinderTestState$ErrorCopyWith<$Res> {
+  _$TinderTestState$ErrorCopyWithImpl(this._self, this._then);
 
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({
-    Object? message = null,
-  }) {
-    return _then(_$TinderTestState$ErrorImpl(
-      message: null == message
-          ? _value.message
-          : message // ignore: cast_nullable_to_non_nullable
-              as String,
-    ));
-  }
+  final TinderTestState$Error _self;
+  final $Res Function(TinderTestState$Error) _then;
+
+/// Create a copy of TinderTestState
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? message = null,}) {
+  return _then(TinderTestState$Error(
+message: null == message ? _self.message : message // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
 }
 
-/// @nodoc
 
-class _$TinderTestState$ErrorImpl extends TinderTestState$Error {
-  const _$TinderTestState$ErrorImpl({required this.message}) : super._();
-
-  @override
-  final String message;
-
-  @override
-  String toString() {
-    return 'TinderTestState.error(message: $message)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$TinderTestState$ErrorImpl &&
-            (identical(other.message, message) || other.message == message));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, message);
-
-  @JsonKey(ignore: true)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$TinderTestState$ErrorImplCopyWith<_$TinderTestState$ErrorImpl>
-      get copyWith => __$$TinderTestState$ErrorImplCopyWithImpl<
-          _$TinderTestState$ErrorImpl>(this, _$identity);
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function() initial,
-    required TResult Function() loading,
-    required TResult Function() empty,
-    required TResult Function(
-            TestSession session, CardEntity currentCard, bool isUndo)
-        inProgress,
-    required TResult Function(TestSession session) completed,
-    required TResult Function(String message) error,
-  }) {
-    return error(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? initial,
-    TResult? Function()? loading,
-    TResult? Function()? empty,
-    TResult? Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult? Function(TestSession session)? completed,
-    TResult? Function(String message)? error,
-  }) {
-    return error?.call(message);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? initial,
-    TResult Function()? loading,
-    TResult Function()? empty,
-    TResult Function(TestSession session, CardEntity currentCard, bool isUndo)?
-        inProgress,
-    TResult Function(TestSession session)? completed,
-    TResult Function(String message)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(message);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(TinderTestState$Initial value) initial,
-    required TResult Function(TinderTestState$Loading value) loading,
-    required TResult Function(TinderTestState$Empty value) empty,
-    required TResult Function(TinderTestState$InProgress value) inProgress,
-    required TResult Function(TinderTestState$Completed value) completed,
-    required TResult Function(TinderTestState$Error value) error,
-  }) {
-    return error(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(TinderTestState$Initial value)? initial,
-    TResult? Function(TinderTestState$Loading value)? loading,
-    TResult? Function(TinderTestState$Empty value)? empty,
-    TResult? Function(TinderTestState$InProgress value)? inProgress,
-    TResult? Function(TinderTestState$Completed value)? completed,
-    TResult? Function(TinderTestState$Error value)? error,
-  }) {
-    return error?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(TinderTestState$Initial value)? initial,
-    TResult Function(TinderTestState$Loading value)? loading,
-    TResult Function(TinderTestState$Empty value)? empty,
-    TResult Function(TinderTestState$InProgress value)? inProgress,
-    TResult Function(TinderTestState$Completed value)? completed,
-    TResult Function(TinderTestState$Error value)? error,
-    required TResult orElse(),
-  }) {
-    if (error != null) {
-      return error(this);
-    }
-    return orElse();
-  }
 }
 
-abstract class TinderTestState$Error extends TinderTestState {
-  const factory TinderTestState$Error({required final String message}) =
-      _$TinderTestState$ErrorImpl;
-  const TinderTestState$Error._() : super._();
-
-  String get message;
-  @JsonKey(ignore: true)
-  _$$TinderTestState$ErrorImplCopyWith<_$TinderTestState$ErrorImpl>
-      get copyWith => throw _privateConstructorUsedError;
-}
+// dart format on

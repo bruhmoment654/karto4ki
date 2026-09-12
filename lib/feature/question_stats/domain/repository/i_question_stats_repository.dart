@@ -4,6 +4,9 @@ import 'package:quizzerg/feature/question_stats/domain/entity/question_stats_ent
 import 'package:quizzerg/feature/tinder_test/domain/entity/card_result.dart';
 
 abstract interface class IQuestionStatsRepository {
+  /// Эмитит при любом изменении статистики — в том числе из pull-синхронизации.
+  Stream<void> get statsChanges;
+
   RequestOperation<void> saveSessionResults({
     required List<CardResult> results,
     required List<CardEntity> cards,
