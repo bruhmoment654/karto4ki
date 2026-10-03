@@ -42,9 +42,16 @@ class HomeView extends StatelessWidget {
         return NavigationBar(
           selectedIndex: tabsRouter.activeIndex,
           onDestinationSelected: (index) {
+            final previousIndex = tabsRouter.activeIndex;
             tabsRouter.setActiveIndex(index);
             // Любое нажатие на таб возвращает его вложенный стек к корню.
             tabsRouter.stackRouterOfIndex(index)?.popUntilRoot();
+            // Покинутый таб тоже сбрасываем: predictive back рассылается всем
+            // навигаторам, и скрытый верхний экран неактивного таба закрылся
+            // бы вместе с видимым. При возврате стек и так сбрасывается.
+            if (previousIndex != index) {
+              tabsRouter.stackRouterOfIndex(previousIndex)?.popUntilRoot();
+            }
           },
           destinations: [
             NavigationDestination(

@@ -20,8 +20,9 @@ enum SyncStatusAction {
 
 /// Иконка, цвет и подписи одного состояния синхронизации.
 class SyncStatusVisual {
-  /// Глиф. `null`, когда вместо него крутится спиннер.
-  final IconData? icon;
+  /// Глиф. При [isSpinner] — статичная замена спиннера для мест, где
+  /// загрузку показывает что-то другое (в карточке — лоадер в кнопке).
+  final IconData icon;
 
   /// Рисовать спиннер вместо глифа: симметричный, корректно вращается
   /// вокруг центра (асимметричные иконки при вращении выглядят криво).
@@ -41,10 +42,10 @@ class SyncStatusVisual {
   final bool needsAttention;
 
   const SyncStatusVisual({
+    required this.icon,
     required this.color,
     required this.title,
     required this.subtitle,
-    this.icon,
     this.isSpinner = false,
     this.isNeutral = false,
     this.action,
@@ -79,6 +80,7 @@ SyncStatusVisual syncStatusVisual({
         action: SyncStatusAction.sync,
       ),
     SyncStatus$Syncing(:final progress) => SyncStatusVisual(
+        icon: Icons.cloud_sync,
         isSpinner: true,
         color: colorScheme.primary,
         title: l10n.syncTitleSyncing,

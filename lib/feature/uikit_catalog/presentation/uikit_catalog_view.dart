@@ -15,8 +15,8 @@ import 'package:quizzerg/feature/uikit_catalog/presentation/sections/m3e/m3e_nav
 import 'package:quizzerg/feature/uikit_catalog/presentation/sections/m3e/m3e_selection_section.dart';
 import 'package:quizzerg/feature/uikit_catalog/presentation/widgets/catalog_section.dart';
 import 'package:quizzerg/feature/uikit_catalog/presentation/widgets/catalog_sliver_group.dart';
-import 'package:quizzerg/feature/uikit_catalog/presentation/widgets/m3e_sandbox.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
+import 'package:quizzerg/uikit/m3e/m3e_scope.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/spacing/sliver_height.dart';
 
@@ -107,26 +107,26 @@ const _m3eSections = [
   CatalogSection(
     icon: Icons.touch_app_outlined,
     title: 'Действия',
-    child: M3ESandbox(child: M3EActionsSection()),
+    child: M3EScope(child: M3EActionsSection()),
   ),
   CatalogSection(
     icon: Icons.check_box_outlined,
     title: 'Выбор',
-    child: M3ESandbox(child: M3ESelectionSection()),
+    child: M3EScope(child: M3ESelectionSection()),
   ),
   CatalogSection(
     icon: Icons.view_agenda_outlined,
     title: 'Контейнеры',
-    child: M3ESandbox(child: M3EContainmentSection()),
+    child: M3EScope(child: M3EContainmentSection()),
   ),
   CatalogSection(
     icon: Icons.explore_outlined,
     title: 'Навигация',
-    child: M3ESandbox(child: M3ENavigationSection()),
+    child: M3EScope(child: M3ENavigationSection()),
   ),
   CatalogSection(
     icon: Icons.notifications_none,
     title: 'Индикаторы и ввод',
-    child: M3ESandbox(child: M3EFeedbackSection()),
+    child: M3EScope(child: M3EFeedbackSection()),
   ),
 ];

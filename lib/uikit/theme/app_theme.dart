@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
+import 'package:quizzerg/uikit/motion/reduced_motion_page_transitions_builder.dart';
 import 'package:quizzerg/uikit/slider/bar_slider_shapes.dart';
 
 /// Тема Material You (M3 Expressive) для karto4ki / quizzerg.
@@ -55,6 +57,21 @@ class AppTheme {
       colorScheme: cs,
       scaffoldBackgroundColor: cs.surface,
       fontFamily: 'Nexa',
+      pageTransitionsTheme: const PageTransitionsTheme(
+        builders: {
+          TargetPlatform.android: ReducedMotionPageTransitionsBuilder(
+            PredictiveBackPageTransitionsBuilder(),
+          ),
+          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
+          TargetPlatform.windows: ReducedMotionPageTransitionsBuilder(
+            ZoomPageTransitionsBuilder(),
+          ),
+          TargetPlatform.linux: ReducedMotionPageTransitionsBuilder(
+            ZoomPageTransitionsBuilder(),
+          ),
+        },
+      ),
       appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: false,

@@ -6,10 +6,10 @@ import 'package:quizzerg/feature/uikit_catalog/presentation/sections/m3e/m3e_con
 import 'package:quizzerg/feature/uikit_catalog/presentation/sections/m3e/m3e_feedback_section.dart';
 import 'package:quizzerg/feature/uikit_catalog/presentation/sections/m3e/m3e_navigation_section.dart';
 import 'package:quizzerg/feature/uikit_catalog/presentation/sections/m3e/m3e_selection_section.dart';
-import 'package:quizzerg/feature/uikit_catalog/presentation/widgets/m3e_sandbox.dart';
+import 'package:quizzerg/uikit/m3e/m3e_scope.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
 
-/// Секции каталога material_3_expressive рендерятся внутри песочницы
+/// Секции каталога material_3_expressive рендерятся внутри `M3EScope`
 /// без исключений и переполнений на экране телефона в обеих темах.
 void main() {
   const sections = <String, Widget>{
@@ -32,7 +32,7 @@ void main() {
     home: Scaffold(
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
-        child: M3ESandbox(child: section),
+        child: M3EScope(child: section),
       ),
     ),
   );

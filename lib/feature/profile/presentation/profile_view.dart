@@ -7,6 +7,7 @@ import 'package:quizzerg/feature/profile/domain/entity/profile_summary_entity.da
 import 'package:quizzerg/feature/profile/presentation/profile_screen.dart';
 import 'package:quizzerg/feature/profile/presentation/widget/profile_account_card.dart';
 import 'package:quizzerg/feature/profile/presentation/widget/profile_sign_in_card.dart';
+import 'package:quizzerg/feature/profile/presentation/widget/profile_stats_card.dart';
 import 'package:quizzerg/feature/sync/presentation/sync_status_card.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
@@ -14,13 +15,11 @@ import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/content_card/content_card_type.dart';
 import 'package:quizzerg/uikit/motion/count_up_text.dart';
 import 'package:quizzerg/uikit/motion/staggered_appear.dart';
-import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
-import 'package:quizzerg/uikit/progress/fill_ring.dart';
-import 'package:quizzerg/uikit/progress/streak_week_strip.dart';
+import 'package:quizzerg/uikit/progress/streak_week_progress.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
+import 'package:quizzerg/uikit/shape/shape_plate.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 class ProfileView extends StatelessWidget {
   final IProfileViewModel viewModel;
@@ -95,7 +94,7 @@ class _LoadedContent extends StatelessWidget {
                       ),
                       const Height(14),
                     ],
-                    _StatsSummaryCard(
+                    ProfileStatsCard(
                       summary: summary,
                       onTap: viewModel.onStatsTap,
                     ),
@@ -147,80 +146,6 @@ class _IdentityBlock extends StatelessWidget {
   }
 }
 
-class _StatsSummaryCard extends StatelessWidget {
-  final ProfileSummaryEntity summary;
-  final VoidCallback onTap;
-
-  const _StatsSummaryCard({required this.summary, required this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final textTheme = Theme.of(context).textTheme;
-
-    return ScalePressable(
-      onTap: onTap,
-      child: ContentCard(
-        type: ContentCardType.large,
-        child: Column(
-          children: [
-            Row(
-              children: [
-                Icon(Icons.insights, size: 22, color: cs.primary),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    context.l10n.profileStatsCardTitle,
-                    style: textTheme.titleMedium,
-                  ),
-                ),
-                Text(
-                  context.l10n.profileStatsCardMore,
-                  style: textTheme.labelLarge?.copyWith(color: cs.primary),
-                ),
-                Icon(Icons.chevron_right, size: 20, color: cs.primary),
-              ],
-            ),
-            const Height(18),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Expanded(
-                  child: FillRing(
-                    percent: summary.accuracyPercent,
-                    color: cs.success,
-                    label: context.l10n.profileRingAccuracy,
-                    sub: '${summary.correctTotal}/${summary.answersTotal}',
-                    animationDelay: const Duration(milliseconds: 120),
-                  ),
-                ),
-                Expanded(
-                  child: FillRing(
-                    percent: summary.masteredPercent,
-                    color: cs.primary,
-                    label: context.l10n.profileRingMastered,
-                    sub: '${summary.masteredCount}/${summary.totalCards}',
-                    animationDelay: const Duration(milliseconds: 240),
-                  ),
-                ),
-                Expanded(
-                  child: FillRing(
-                    percent: summary.flawlessPercent,
-                    color: cs.warning,
-                    label: context.l10n.profileRingFlawless,
-                    sub: '${summary.flawlessCount}/${summary.totalCards}',
-                    animationDelay: const Duration(milliseconds: 360),
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
 class _StreakCard extends StatelessWidget {
   final ProfileSummaryEntity summary;
 
@@ -233,25 +158,23 @@ class _StreakCard extends StatelessWidget {
 
     return ContentCard(
       type: ContentCardType.large,
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           Row(
             children: [
-              Container(
-                width: 48,
-                height: 48,
-                decoration: BoxDecoration(
-                  color: cs.tertiaryContainer,
-                  borderRadius: BorderRadius.circular(14),
-                ),
-                alignment: Alignment.center,
+              ShapePlate(
+                kind: ShapePlateKind.cookie7Sided,
+                size: 48,
+                color: cs.tertiaryContainer,
+                isRotating: true,
                 child: Icon(
                   Icons.local_fire_department,
-                  size: 26,
+                  size: 22,
                   color: cs.onTertiaryContainer,
                 ),
               ),
-              const SizedBox(width: 14),
+              const Width(14),
               Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -264,11 +187,12 @@ class _StreakCard extends StatelessWidget {
                         children: [
                           CountUpText(
                             value: summary.currentStreak,
+                            delay: const Duration(milliseconds: 120),
                             style: textTheme.titleLarge?.copyWith(
                               fontWeight: FontWeight.w700,
                             ),
                           ),
-                          const SizedBox(width: 4),
+                          const Width(4),
                           Flexible(
                             child: Text(context.l10n.profileStreakDaysSuffix),
                           ),
@@ -287,8 +211,8 @@ class _StreakCard extends StatelessWidget {
               ),
             ],
           ),
-          const Height(12),
-          StreakWeekStrip(
+          const Height(14),
+          StreakWeekProgress(
             activity: summary.weekActivity,
             dayLabels: _weekdayLabels(context),
           ),

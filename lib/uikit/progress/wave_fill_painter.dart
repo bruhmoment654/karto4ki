@@ -5,9 +5,8 @@ import 'package:flutter/material.dart';
 /// Рисует трек на всю ширину и залитый отрезок [start]..[end] с волнистыми
 /// (синусоидными) краями.
 ///
-/// Общая отрисовка для `WaveFillBar` и `WaveProgressBar`: у первого отрезок
-/// всегда начинается от левого края, у второго в неопределённом режиме бежит
-/// по треку.
+/// Используется `WaveFillBar`: отрезок начинается от левого края. [start]
+/// позволяет сдвинуть начало отрезка.
 class WaveFillPainter extends CustomPainter {
   WaveFillPainter({
     required this.end,

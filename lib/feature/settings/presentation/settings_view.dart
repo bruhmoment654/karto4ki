@@ -7,13 +7,14 @@ import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
 import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
+import 'package:quizzerg/uikit/expandable/expandable_section.dart';
 import 'package:quizzerg/uikit/question_card/question_card.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/skeleton_gif/skeleton_gif.dart';
 import 'package:quizzerg/uikit/slider/app_slider.dart';
+import 'package:quizzerg/uikit/slider/hue_slider.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 class SettingsView extends StatelessWidget {
   final ISettingsViewModel viewModel;
@@ -202,96 +203,13 @@ class _AccentColorSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         _SettingsSectionLabel(context.l10n.profileAccentColorTitle),
-        const Height(8),
-        _HueSlider(
+        const Height(12),
+        HueSlider(
           hue: accentColorHue,
-          previewColor: AppTheme.seedColorFromHue(accentColorHue),
           onChanged: viewModel.onAccentColorHueChanged,
+          semanticLabel: context.l10n.profileAccentColorTitle,
         ),
       ],
-    );
-  }
-}
-
-class _HueSlider extends StatelessWidget {
-  final double hue;
-  final Color previewColor;
-  final ValueChanged<double> onChanged;
-
-  const _HueSlider({
-    required this.hue,
-    required this.previewColor,
-    required this.onChanged,
-  });
-
-  static const _thumbPadding = 20.0;
-  static const _previewSize = 28.0;
-
-  @override
-  Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final trackWidth = constraints.maxWidth - 2 * _thumbPadding;
-        final thumbX = _thumbPadding + (hue / 360) * trackWidth;
-
-        return Column(
-          children: [
-            SizedBox(
-              height: _previewSize + 4,
-              child: Stack(
-                clipBehavior: Clip.none,
-                children: [
-                  Positioned(
-                    left: thumbX - _previewSize / 2,
-                    child: _ColorPreview(color: previewColor),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 4),
-            Container(
-              height: 12,
-              margin: const EdgeInsets.symmetric(horizontal: _thumbPadding),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(6),
-                gradient: LinearGradient(
-                  colors: List.generate(
-                    7,
-                    (i) => HSLColor.fromAHSL(1, i * 60.0, 1, 0.57).toColor(),
-                  ),
-                ),
-              ),
-            ),
-            AppSlider(
-              value: hue,
-              max: 360,
-              onChanged: onChanged,
-            ),
-          ],
-        );
-      },
-    );
-  }
-}
-
-class _ColorPreview extends StatelessWidget {
-  final Color color;
-
-  const _ColorPreview({required this.color});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: _HueSlider._previewSize,
-      height: _HueSlider._previewSize,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-        border: Border.all(
-          color: Colors.white24,
-          width: 1.5,
-        ),
-      ),
     );
   }
 }
@@ -442,31 +360,35 @@ class _CardFontSizeSection extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            _SettingsSectionLabel(context.l10n.profileCardFontSizeTitle),
-            Text(
-              context.l10n.profileCardFontSizeLabel(cardFontSize.round()),
-              style: theme.textTheme.titleMedium?.copyWith(
-                color: theme.colorScheme.primary,
-              ),
+    return ExpandableSection(
+      header: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Flexible(
+            child: _SettingsSectionLabel(context.l10n.profileCardFontSizeTitle),
+          ),
+          const Width(8),
+          Text(
+            context.l10n.profileCardFontSizeLabel(cardFontSize.round()),
+            style: theme.textTheme.titleMedium?.copyWith(
+              color: theme.colorScheme.primary,
             ),
-          ],
-        ),
-        const Height(8),
-        AppSlider(
-          value: cardFontSize,
-          min: minFontSize,
-          max: maxFontSize,
-          onChanged: viewModel.onCardFontSizeChanged,
-        ),
-        const Height(12),
-        _CardFontSizePreview(fontSize: cardFontSize),
-      ],
+          ),
+        ],
+      ),
+      child: Column(
+        children: [
+          const Height(8),
+          AppSlider(
+            value: cardFontSize,
+            min: minFontSize,
+            max: maxFontSize,
+            onChanged: viewModel.onCardFontSizeChanged,
+          ),
+          const Height(12),
+          _CardFontSizePreview(fontSize: cardFontSize),
+        ],
+      ),
     );
   }
 }

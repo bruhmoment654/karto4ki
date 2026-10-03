@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 import 'package:quizzerg/feature/sync/presentation/sync_status_visual.dart';
+import 'package:quizzerg/uikit/motion/app_animated_switcher.dart';
+import 'package:quizzerg/uikit/motion/app_motion.dart';
+import 'package:quizzerg/uikit/progress/app_loading_indicator.dart';
 
 /// Иконка статуса на тональной подложке.
 ///
@@ -17,10 +20,15 @@ class SyncStatusGlyph extends StatelessWidget {
           ? colorScheme.surfaceContainerHigh
           : visual.color.withValues(alpha: 0.16);
 
+  /// `false` — вместо спиннера статичная иконка состояния: загрузку на этом
+  /// экране показывает что-то другое.
+  final bool isSpinnerAllowed;
+
   const SyncStatusGlyph({
     required this.visual,
     this.size = 48,
     this.borderRadius,
+    this.isSpinnerAllowed = true,
     super.key,
   });
 
@@ -28,8 +36,15 @@ class SyncStatusGlyph extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final glyphSize = size * 0.54;
+    // Морфящийся полигон визуально легче глифа — по дизайну он чуть крупнее.
+    final spinnerSize = size * 0.58;
 
-    return Container(
+    // При смене статуса тон подложки перетекает, глиф сменяется свитчером.
+    return AnimatedContainer(
+      duration: AppMotion.reduced(context)
+          ? Duration.zero
+          : AppAnimatedSwitcher.duration,
+      curve: AppMotion.emphasized,
       width: size,
       height: size,
       decoration: BoxDecoration(
@@ -37,16 +52,20 @@ class SyncStatusGlyph extends StatelessWidget {
         borderRadius: borderRadius ?? BorderRadius.circular(16),
       ),
       alignment: Alignment.center,
-      child: visual.isSpinner
-          ? SizedBox(
-              width: glyphSize,
-              height: glyphSize,
-              child: CircularProgressIndicator(
-                strokeWidth: 2.5,
+      child: AppAnimatedSwitcher(
+        child: visual.isSpinner && isSpinnerAllowed
+            ? AppLoadingIndicator(
+                key: const ValueKey('sync_spinner'),
+                size: spinnerSize,
+                color: visual.color,
+              )
+            : Icon(
+                visual.icon,
+                key: ValueKey((visual.icon, visual.color)),
+                size: glyphSize,
                 color: visual.color,
               ),
-            )
-          : Icon(visual.icon, size: glyphSize, color: visual.color),
+      ),
     );
   }
 }

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:quizzerg/feature/uikit_catalog/presentation/widgets/catalog_item.dart';
 import 'package:quizzerg/feature/uikit_catalog/presentation/widgets/catalog_replay.dart';
+import 'package:quizzerg/uikit/progress/animated_circular_progress.dart';
 import 'package:quizzerg/uikit/progress/animated_linear_progress.dart';
-import 'package:quizzerg/uikit/progress/fill_ring.dart';
+import 'package:quizzerg/uikit/progress/app_linear_progress.dart';
+import 'package:quizzerg/uikit/progress/app_loading_indicator.dart';
+import 'package:quizzerg/uikit/progress/app_wavy_circular_progress.dart';
 import 'package:quizzerg/uikit/progress/liquid_score_ring.dart';
-import 'package:quizzerg/uikit/progress/streak_week_strip.dart';
+import 'package:quizzerg/uikit/progress/streak_week_progress.dart';
 import 'package:quizzerg/uikit/progress/wave_fill_bar.dart';
-import 'package:quizzerg/uikit/progress/wave_progress_bar.dart';
+import 'package:quizzerg/uikit/shape/shape_plate.dart';
 import 'package:quizzerg/uikit/slider/app_slider.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
@@ -30,9 +33,22 @@ class ProgressSection extends StatelessWidget {
           child: _LinearProgressDemo(),
         ),
         const CatalogItem(
-          title: 'WaveProgressBar',
-          description: 'Определённый и неопределённый режим',
-          child: _WaveProgressDemo(),
+          title: 'AppLinearProgress',
+          description: 'M3E linear: плоская и «змейка», оба режима',
+          child: _AppLinearProgressDemo(),
+        ),
+        CatalogItem(
+          title: 'AppLoadingIndicator',
+          description: 'M3E: неопределённая загрузка, размер 24..240',
+          child: Row(
+            children: [
+              const AppLoadingIndicator(size: 24),
+              const Width(16),
+              const AppLoadingIndicator(size: 40),
+              const Width(16),
+              AppLoadingIndicator(size: 48, color: colorScheme.tertiary),
+            ],
+          ),
         ),
         CatalogItem(
           title: 'WaveFillBar',
@@ -46,39 +62,70 @@ class ProgressSection extends StatelessWidget {
           ),
         ),
         CatalogItem(
-          title: 'FillRing',
+          title: 'AnimatedCircularProgress',
+          description: 'M3E circular: заполнение от 0 с задержкой',
           child: CatalogReplay(
             child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Expanded(
-                  child: FillRing(
-                    percent: 84,
-                    color: colorScheme.success,
-                    label: 'Точность',
-                    sub: '210/250',
-                  ),
+                AnimatedCircularProgress(
+                  value: 0.84,
+                  color: colorScheme.success,
+                  trackColor: colorScheme.surfaceContainerHigh,
+                  child: const Text('84%'),
                 ),
-                Expanded(
-                  child: FillRing(
-                    percent: 56,
-                    color: colorScheme.primary,
-                    label: 'Выучено',
-                    sub: '28/50',
-                    animationDelay: const Duration(milliseconds: 120),
-                  ),
-                ),
-                Expanded(
-                  child: FillRing(
-                    percent: 23,
-                    color: colorScheme.warning,
-                    label: 'Без ошибок',
-                    sub: '6/26',
-                    animationDelay: const Duration(milliseconds: 240),
-                  ),
+                const Width(16),
+                AnimatedCircularProgress(
+                  value: 0.23,
+                  color: colorScheme.warning,
+                  trackColor: colorScheme.surfaceContainerHigh,
+                  size: 88,
+                  strokeWidth: 8,
+                  delay: const Duration(milliseconds: 200),
                 ),
               ],
             ),
+          ),
+        ),
+        CatalogItem(
+          title: 'AppWavyCircularProgress',
+          description: 'M3E circular wavy: неопределённый и 60%',
+          child: Row(
+            children: [
+              AppWavyCircularProgress(
+                size: 40,
+                color: colorScheme.primary,
+                trackColor: colorScheme.secondaryContainer,
+              ),
+              const Width(16),
+              AppWavyCircularProgress(
+                value: 0.6,
+                size: 40,
+                color: colorScheme.primary,
+                trackColor: colorScheme.secondaryContainer,
+              ),
+            ],
+          ),
+        ),
+        CatalogItem(
+          title: 'ShapePlate',
+          description: 'Плашки-фигуры Material Shapes, фон медленно вращается',
+          child: Row(
+            children: [
+              for (final kind in ShapePlateKind.values) ...[
+                ShapePlate(
+                  kind: kind,
+                  size: 48,
+                  color: colorScheme.tertiaryContainer,
+                  isRotating: true,
+                  child: Icon(
+                    Icons.local_fire_department,
+                    size: 22,
+                    color: colorScheme.onTertiaryContainer,
+                  ),
+                ),
+                const Width(12),
+              ],
+            ],
           ),
         ),
         const CatalogItem(
@@ -97,8 +144,8 @@ class ProgressSection extends StatelessWidget {
           ),
         ),
         CatalogItem(
-          title: 'StreakWeekStrip',
-          child: StreakWeekStrip(
+          title: 'StreakWeekProgress',
+          child: StreakWeekProgress(
             activity: const [true, true, false, true, true, true, false],
             dayLabels: const ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'],
           ),
@@ -149,14 +196,14 @@ class _LinearProgressDemoState extends State<_LinearProgressDemo> {
   }
 }
 
-class _WaveProgressDemo extends StatefulWidget {
-  const _WaveProgressDemo();
+class _AppLinearProgressDemo extends StatefulWidget {
+  const _AppLinearProgressDemo();
 
   @override
-  State<_WaveProgressDemo> createState() => _WaveProgressDemoState();
+  State<_AppLinearProgressDemo> createState() => _AppLinearProgressDemoState();
 }
 
-class _WaveProgressDemoState extends State<_WaveProgressDemo> {
+class _AppLinearProgressDemoState extends State<_AppLinearProgressDemo> {
   double _value = 0.45;
   bool _isIndeterminate = false;
 
@@ -166,10 +213,17 @@ class _WaveProgressDemoState extends State<_WaveProgressDemo> {
 
     return Column(
       children: [
-        WaveProgressBar(
+        AppLinearProgress(
           value: _isIndeterminate ? null : _value,
           color: colorScheme.primary,
-          backgroundColor: colorScheme.surfaceContainerHighest,
+          trackColor: colorScheme.surfaceContainerHighest,
+        ),
+        const Height(16),
+        AppLinearProgress(
+          value: _isIndeterminate ? null : _value,
+          color: colorScheme.primary,
+          trackColor: colorScheme.surfaceContainerHighest,
+          isWavy: true,
         ),
         const Height(8),
         AppSlider(

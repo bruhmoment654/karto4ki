@@ -8,8 +8,10 @@ import 'package:quizzerg/feature/sync/presentation/widget/sync_status_glyph.dart
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/content_card/content_card_type.dart';
+import 'package:quizzerg/uikit/motion/app_animated_size.dart';
+import 'package:quizzerg/uikit/motion/app_animated_switcher.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
-import 'package:quizzerg/uikit/progress/wave_progress_bar.dart';
+import 'package:quizzerg/uikit/progress/app_wavy_circular_progress.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
 
@@ -41,16 +43,21 @@ class SyncStatusCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return StateStreamableBuilder<SyncState>(
       bloc: syncState,
-      builder: (context, state) {
-        if (!state.status.isVisible) return const SizedBox.shrink();
-
-        return SyncStatusCardView(
-          state: state,
-          onSignInTap: onSignInTap,
-          onSyncTap: onSyncTap,
-          onCardTap: onCardTap,
-        );
-      },
+      // Карточка появляется и скрывается плавно (например, после входа).
+      builder: (context, state) => AppAnimatedSize(
+        child: AppAnimatedSwitcher(
+          alignment: Alignment.topCenter,
+          child: state.status.isVisible
+              ? SyncStatusCardView(
+                  key: const ValueKey('sync_status_card'),
+                  state: state,
+                  onSignInTap: onSignInTap,
+                  onSyncTap: onSyncTap,
+                  onCardTap: onCardTap,
+                )
+              : const SizedBox(width: double.infinity),
+        ),
+      ),
     );
   }
 }
@@ -90,6 +97,8 @@ class SyncStatusCardView extends StatelessWidget {
       lastSyncedSource: state.lastSyncedSource,
     );
     final progress = state.status.progress;
+    final isSyncing = state.status.isSyncing;
+    final action = visual.action;
 
     return Semantics(
       label: visual.title,
@@ -99,56 +108,68 @@ class SyncStatusCardView extends StatelessWidget {
         child: ContentCard(
           padding: const EdgeInsets.all(16),
           type: ContentCardType.large,
-          child: Column(
-            children: [
-              Row(
+          // Смена состояния: подписи и содержимое кнопки сменяются
+          // свитчерами, а высота карточки доезжает за ними. Кнопка есть во
+          // всех состояниях, поэтому ширина подписей не прыгает.
+          child: AppAnimatedSize(
+            // Строка прижата к верху, даже если карточке дали фиксированную
+            // высоту.
+            child: Align(
+              alignment: AlignmentDirectional.topStart,
+              child: Row(
                 children: [
-                  SyncStatusGlyph(visual: visual),
+                  // Загрузку показывает лоадер в кнопке — второй спиннер в
+                  // глифе был бы лишним.
+                  SyncStatusGlyph(visual: visual, isSpinnerAllowed: false),
                   const Width(14),
                   Expanded(
                     child: Column(
+                      mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          visual.title,
-                          style: theme.textTheme.titleMedium?.copyWith(
-                            fontWeight: FontWeight.w600,
-                            color: visual.isNeutral
-                                ? theme.colorScheme.onSurface
-                                : visual.color,
+                        AppAnimatedSwitcher(
+                          alignment: AlignmentDirectional.centerStart,
+                          child: Text(
+                            visual.title,
+                            key: ValueKey(visual.title),
+                            style: theme.textTheme.titleMedium?.copyWith(
+                              fontWeight: FontWeight.w600,
+                              color: visual.isNeutral
+                                  ? theme.colorScheme.onSurface
+                                  : visual.color,
+                            ),
                           ),
                         ),
                         const Height(2),
-                        Text(
-                          visual.subtitle,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: theme.colorScheme.onSurfaceVariant,
+                        AppAnimatedSwitcher(
+                          alignment: AlignmentDirectional.centerStart,
+                          transition: AppSwitcherTransition.slideUp,
+                          child: Text(
+                            visual.subtitle,
+                            key: ValueKey(visual.subtitle),
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
                           ),
                         ),
                       ],
                     ),
                   ),
-                  if (visual.action != null) ...[
+                  if (isSyncing || action != null) ...[
                     const Width(12),
                     _ActionButton(
-                      action: visual.action!,
-                      onPressed: visual.action == SyncStatusAction.signIn
+                      action: action,
+                      isLoading: isSyncing,
+                      progress: progress?.value,
+                      loaderColor: visual.color,
+                      onPressed: action == SyncStatusAction.signIn
                           ? onSignInTap
                           : onSyncTap,
-                      isSignIn: visual.action == SyncStatusAction.signIn,
                     ),
                   ],
                 ],
               ),
-              if (state.status.isSyncing) ...[
-                const Height(12),
-                WaveProgressBar(
-                  value: progress?.value,
-                  color: visual.color,
-                  backgroundColor: theme.colorScheme.surfaceContainerHighest,
-                ),
-              ],
-            ],
+            ),
           ),
         ),
       ),
@@ -156,30 +177,64 @@ class SyncStatusCardView extends StatelessWidget {
   }
 }
 
+/// Круглая кнопка действия. Во время синхронизации вместо иконки крутится
+/// лоадер-«змейка», кнопка неактивна.
 class _ActionButton extends StatelessWidget {
-  final SyncStatusAction action;
+  static const _size = 44.0;
+
+  /// Лоадер чуть меньше кнопки, чтобы волна не упиралась в края.
+  static const _loaderSize = 26.0;
+
+  /// `null` — действия нет (идёт синхронизация).
+  final SyncStatusAction? action;
+  final bool isLoading;
+
+  /// Прогресс синхронизации 0..1 либо `null`, если он неизвестен.
+  final double? progress;
+  final Color loaderColor;
   final VoidCallback onPressed;
-  final bool isSignIn;
 
   const _ActionButton({
     required this.action,
+    required this.isLoading,
+    required this.loaderColor,
     required this.onPressed,
-    required this.isSignIn,
+    this.progress,
   });
 
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final action = this.action;
+    final isSignIn = !isLoading && action == SyncStatusAction.signIn;
+    final background = isSignIn
+        ? colorScheme.primary
+        : colorScheme.surfaceContainerHighest;
+    final foreground = isSignIn ? colorScheme.onPrimary : colorScheme.onSurface;
+    final isIdle = !isLoading && action != null;
 
     return IconButton(
-      onPressed: onPressed,
-      tooltip: action.label(context.l10n),
-      icon: Icon(action.icon, size: 22),
+      onPressed: isIdle ? onPressed : null,
+      tooltip: isIdle ? action.label(context.l10n) : null,
+      icon: AppAnimatedSwitcher(
+        child: isIdle
+            ? Icon(action.icon, key: ValueKey(action), size: 22)
+            : AppWavyCircularProgress(
+                key: const ValueKey('sync_loader'),
+                value: progress,
+                size: _loaderSize,
+                color: loaderColor,
+                trackColor: colorScheme.secondaryContainer,
+                semanticsLabel: context.l10n.syncTitleSyncing,
+              ),
+      ),
       style: IconButton.styleFrom(
-        fixedSize: const Size.square(44),
-        backgroundColor:
-            isSignIn ? colorScheme.primary : colorScheme.surfaceContainerHighest,
-        foregroundColor: isSignIn ? colorScheme.onPrimary : colorScheme.onSurface,
+        fixedSize: const Size.square(_size),
+        backgroundColor: background,
+        foregroundColor: foreground,
+        // Во время синхронизации кнопка неактивна, но не должна сереть.
+        disabledBackgroundColor: background,
+        disabledForegroundColor: foreground,
       ),
     );
   }

@@ -1,4 +1,3 @@
-import 'package:animations/animations.dart';
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:quizzerg/feature/auth/presentation/auth_flow.dart';
@@ -17,29 +16,8 @@ import 'package:quizzerg/feature/test_merge/presentation/test_merge_flow.dart';
 import 'package:quizzerg/feature/tests_list/presentation/tests_list_flow.dart';
 import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_flow.dart';
 import 'package:quizzerg/feature/uikit_catalog/presentation/uikit_catalog_flow.dart';
-import 'package:quizzerg/uikit/motion/app_motion.dart';
 
 part 'app_router.gr.dart';
-
-extension TransitionsBuildersX on TransitionsBuilders {
-  /// M3 shared axis по горизонтали — основной переход между экранами.
-  static Widget sharedAxisHorizontal(
-    BuildContext context,
-    Animation<double> animation,
-    Animation<double> secondaryAnimation,
-    Widget child,
-  ) {
-    if (AppMotion.reduced(context)) return child;
-
-    return SharedAxisTransition(
-      animation: animation,
-      secondaryAnimation: secondaryAnimation,
-      transitionType: SharedAxisTransitionType.horizontal,
-      fillColor: Colors.transparent,
-      child: child,
-    );
-  }
-}
 
 /// {@template router.class}
 /// Main point of the application navigation.
@@ -47,11 +25,10 @@ extension TransitionsBuildersX on TransitionsBuilders {
 @AutoRouterConfig(replaceInRouteName: 'Component|Flow,Route')
 class AppRouter extends RootStackRouter {
   @override
-  RouteType get defaultRouteType => RouteType.custom(
-    transitionsBuilder: TransitionsBuildersX.sharedAxisHorizontal,
-    duration: const Duration(milliseconds: 300),
-    reverseDuration: const Duration(milliseconds: 250),
-  );
+  /// Переход берётся из `ThemeData.pageTransitionsTheme`: на Android —
+  /// predictive back, на iOS — Cupertino со свайпом назад. Custom-роуты
+  /// не создают детектор жеста, поэтому их здесь нет.
+  RouteType get defaultRouteType => const RouteType.material();
 
   @override
   List<AutoRoute> get routes => [

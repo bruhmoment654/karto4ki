@@ -10,7 +10,7 @@ import 'package:quizzerg/feature/sync/presentation/widget/sync_status_glyph.dart
 import 'package:quizzerg/l10n/app_localizations.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
-import 'package:quizzerg/uikit/progress/wave_progress_bar.dart';
+import 'package:quizzerg/uikit/progress/app_linear_progress.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
 
@@ -255,12 +255,13 @@ class _LastSyncBox extends StatelessWidget {
           ),
           if (state.status.isSyncing) ...[
             const Height(12),
-            WaveProgressBar(
+            AppLinearProgress(
               value: progress?.value,
               color: visual.color,
               // Блок лежит на surfaceContainer — трек берём на тон выше,
               // иначе полоска сливается с подложкой.
-              backgroundColor: theme.colorScheme.surfaceContainerHighest,
+              trackColor: theme.colorScheme.surfaceContainerHighest,
+              isWavy: true,
             ),
             const Height(8),
             Text(

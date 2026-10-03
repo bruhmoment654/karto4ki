@@ -1,5 +1,6 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
+import 'package:quizzerg/app/navigation/active_tab_ticker_mode.dart';
 
 @RoutePage()
 class ProfileFlow extends StatelessWidget implements AutoRouteWrapper {
@@ -12,6 +13,8 @@ class ProfileFlow extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return const AutoRouter();
+    // Бесконечные анимации профиля (вращение плашек) не тикают, пока таб
+    // скрыт.
+    return const ActiveTabTickerMode(child: AutoRouter());
   }
 }

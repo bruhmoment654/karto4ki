@@ -8,7 +8,6 @@ import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dar
 import 'package:quizzerg/feature/groups_list/presentation/groups_list_screen.dart';
 import 'package:quizzerg/feature/groups_list/presentation/widget/active_session_card.dart';
 import 'package:quizzerg/feature/groups_list/presentation/widget/groups_list_skeleton.dart';
-import 'package:quizzerg/feature/sync/domain/bloc/sync_bloc.dart';
 import 'package:quizzerg/feature/sync/presentation/sync_reauth_banner.dart';
 import 'package:quizzerg/feature/sync/presentation/widget/sync_status_badge.dart';
 import 'package:quizzerg/feature/test_execution/domain/bloc/active_session_bloc.dart';
@@ -18,10 +17,9 @@ import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
-import 'package:quizzerg/uikit/motion/app_motion.dart';
+import 'package:quizzerg/uikit/motion/app_animated_switcher.dart';
 import 'package:quizzerg/uikit/motion/staggered_appear.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
-import 'package:quizzerg/uikit/progress/wave_progress_bar.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/sliver_height.dart';
@@ -46,8 +44,7 @@ class GroupsListView extends StatelessWidget {
       // не пришли, пользователь видит каркас экрана, а не пустоту.
       body: StateStreamableBuilder<GroupsListState>(
         bloc: viewModel.groupsListState,
-        builder: (context, state) => AnimatedSwitcher(
-          duration: AppMotion.reduced(context) ? Duration.zero : AppMotion.fast,
+        builder: (context, state) => AppAnimatedSwitcher(
           child: switch (state) {
             GroupsListState$Loading() => _GroupsSkeletonBody(
                 key: const ValueKey('groups_loading'),
@@ -92,36 +89,6 @@ class _GroupsHeaderSliver extends StatelessWidget {
   }
 }
 
-/// Полоса прогресса первичной загрузки под шапкой.
-class _SyncProgressSliver extends StatelessWidget {
-  final IGroupsListViewModel viewModel;
-
-  const _SyncProgressSliver({required this.viewModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return StateStreamableBuilder<SyncState>(
-      bloc: viewModel.syncState,
-      builder: (context, state) {
-        if (!state.status.isSyncing) return const SliverHeight(0);
-
-        final colorScheme = Theme.of(context).colorScheme;
-
-        return SliverToBoxAdapter(
-          child: Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: WaveProgressBar(
-              value: state.status.progress?.value,
-              color: colorScheme.primary,
-              backgroundColor: colorScheme.surfaceContainerHighest,
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
 /// Баннер «нужно войти заново» под шапкой.
 class _ReauthBannerSliver extends StatelessWidget {
   final IGroupsListViewModel viewModel;
@@ -151,7 +118,6 @@ class _GroupsSkeletonBody extends StatelessWidget {
       physics: const NeverScrollableScrollPhysics(),
       slivers: [
         _GroupsHeaderSliver(viewModel: viewModel),
-        _SyncProgressSliver(viewModel: viewModel),
         const SliverPadding(
           padding: EdgeInsets.symmetric(horizontal: 16),
           sliver: SliverToBoxAdapter(child: GroupsListSkeleton()),
@@ -196,8 +162,7 @@ class _GroupsBody extends StatelessWidget {
       child: CustomScrollView(
         slivers: [
           _GroupsHeaderSliver(viewModel: viewModel),
-          _SyncProgressSliver(viewModel: viewModel),
-          _ReauthBannerSliver(viewModel: viewModel),
+            _ReauthBannerSliver(viewModel: viewModel),
           _ActiveSessionSliver(viewModel: viewModel),
           if (groups.isEmpty)
             SliverFillRemaining(

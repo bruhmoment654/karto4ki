@@ -43,7 +43,8 @@ void main() {
       final visual = visualOf(const SyncStatus.syncing());
 
       expect(visual.isSpinner, isTrue);
-      expect(visual.icon, isNull);
+      // Статичная замена спиннера там, где загрузку показывает лоадер кнопки.
+      expect(visual.icon, Icons.cloud_sync);
       expect(visual.color, colorScheme.primary);
       expect(visual.action, isNull);
     });
