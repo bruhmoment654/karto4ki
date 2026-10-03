@@ -53,12 +53,59 @@
   "tinderTestUndoTooltip": "Undo last answer",
   "tinderTestSwipeUnknownHint": "Don't know",
   "tinderTestSwipeKnownHint": "Know",
-  "tinderTestResultsTitle": "Test completed!",
-  "tinderTestResultsCorrectLabel": "Correct",
-  "tinderTestResultsIncorrectLabel": "Incorrect",
-  "tinderTestResultsPercentageLabel": "Result",
   "tinderTestResultsRestartButton": "Repeat",
   "tinderTestResultsDoneButton": "Done",
+  "tinderTestResultsAppBarTitle": "Result",
+  "tinderTestResultsTitleGreat": "Great result!",
+  "tinderTestResultsTitleGood": "Good job!",
+  "tinderTestResultsTitleRetry": "Room for improvement",
+  "tinderTestResultsDeltaUp": "+{delta}% vs last time",
+  "@tinderTestResultsDeltaUp": {
+    "placeholders": {
+      "delta": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "tinderTestResultsDeltaDown": "−{delta}% vs last time",
+  "@tinderTestResultsDeltaDown": {
+    "placeholders": {
+      "delta": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "tinderTestResultsDeltaSame": "Same as last time",
+  "tinderTestResultsFirstAttempt": "First attempt",
+  "tinderTestResultsRecentAttempts": "Recent attempts",
+  "tinderTestResultsAttemptsCount": "{shown} of {total}",
+  "@tinderTestResultsAttemptsCount": {
+    "placeholders": {
+      "shown": {
+        "type": "int",
+        "example": "5"
+      },
+      "total": {
+        "type": "int",
+        "example": "12"
+      }
+    }
+  },
+  "tinderTestResultsAttemptNow": "now",
+  "tinderTestResultsDynamicsPlaceholderTitle": "Progress will appear later",
+  "tinderTestResultsDynamicsPlaceholderSubtitle": "Take the test again to compare the result with this attempt",
+  "tinderTestResultsByQuestion": "By question",
+  "tinderTestResultsFilterAll": "All",
+  "tinderTestResultsFilterMistakes": "Mistakes",
+  "tinderTestResultsAnswerKnow": "Know",
+  "tinderTestResultsAnswerDontKnow": "Don't know",
+  "tinderTestResultsTrendFirstCorrect": "First correct",
+  "tinderTestResultsTrendFixed": "Fixed",
+  "tinderTestResultsTrendForgot": "Forgotten",
+  "tinderTestResultsTrendRepeatedMistake": "Wrong again",
+  "tinderTestResultsTrendStable": "Stable",
   "@segmentTestsList": {
     "---------": "---------",
     "description": "Tests list"
@@ -361,28 +408,21 @@
   "groupsListNewGroupNameHint": "Group name",
   "groupsListNewGroupCancel": "Cancel",
   "groupsListNewGroupCreate": "Create",
-  "groupsListActiveSessionTitle": "Continue: {title}",
-  "@groupsListActiveSessionTitle": {
-    "placeholders": {
-      "title": {
-        "type": "String",
-        "example": "Biology"
-      }
-    }
-  },
-  "groupsListActiveSessionProgress": "{current} of {total}",
-  "@groupsListActiveSessionProgress": {
+  "groupsListActiveSessionLabel": "Continue test",
+  "groupsListActiveSessionCards": "{current} of {total} {total, plural, one{card} other{cards}}",
+  "@groupsListActiveSessionCards": {
     "placeholders": {
       "current": {
         "type": "int",
-        "example": "3"
+        "example": "24"
       },
       "total": {
         "type": "int",
-        "example": "20"
+        "example": "70"
       }
     }
   },
+  "groupsListActiveSessionResume": "Continue",
   "groupsListActiveSessionDismiss": "Dismiss",
   "@segmentGroupDetail": {
     "---------": "---------",

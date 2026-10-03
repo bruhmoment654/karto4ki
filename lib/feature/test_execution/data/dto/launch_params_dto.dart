@@ -14,6 +14,10 @@ class LaunchParamsDto {
   final int mixupMax;
   final MixupAlgorithm algorithm;
 
+  /// Группа, из которой запущен тест. Нет у сессий, сохранённых до появления
+  /// поля, и у тестов, запущенных не из группы.
+  final String? groupId;
+
   const LaunchParamsDto({
     required this.swapSides,
     required this.answerIndex,
@@ -21,6 +25,7 @@ class LaunchParamsDto {
     required this.mixupMin,
     required this.mixupMax,
     required this.algorithm,
+    this.groupId,
   });
 
   factory LaunchParamsDto.fromJson(Map<String, dynamic> json) =>

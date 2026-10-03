@@ -10,7 +10,10 @@ import 'package:quizzerg/feature/sync/domain/repository/i_sync_signal_repository
 import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository.dart';
 import 'package:quizzerg/feature/test_execution/domain/entity/active_session_launch_params.dart';
 import 'package:quizzerg/feature/test_execution/domain/entity/active_test_session.dart';
+import 'package:quizzerg/feature/test_execution/domain/entity/attempt_summary.dart';
 import 'package:quizzerg/feature/test_execution/domain/repository/i_active_session_repository.dart';
+import 'package:quizzerg/feature/test_execution/domain/repository/i_test_attempt_repository.dart';
+import 'package:quizzerg/feature/test_execution/domain/service/attempt_summary_builder.dart';
 import 'package:quizzerg/feature/tests_list/domain/repository/i_tests_list_repository.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/card_result.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
@@ -29,6 +32,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   final IQuestionStatsRepository _questionStatsRepository;
   final IQuestionMixupService? _mixupService;
   final IActiveSessionRepository _activeSessionRepository;
+  final ITestAttemptRepository _testAttemptRepository;
   final ITestsListRepository _testsListRepository;
   final MixupAlgorithm _algorithm;
   bool _swapSides = false;
@@ -37,12 +41,14 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   int _mixupMin = 1;
   int _mixupMax = 5;
   String _testTitle = '';
+  String? _groupId;
   final ISyncSignalRepository _syncSignal;
 
   TinderTestBloc({
     required ICardRepository cardRepository,
     required IQuestionStatsRepository questionStatsRepository,
     required IActiveSessionRepository activeSessionRepository,
+    required ITestAttemptRepository testAttemptRepository,
     required ITestsListRepository testsListRepository,
     required MixupAlgorithm algorithm,
     required ISyncSignalRepository syncSignal,
@@ -52,6 +58,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
         _questionStatsRepository = questionStatsRepository,
         _mixupService = mixupService,
         _activeSessionRepository = activeSessionRepository,
+        _testAttemptRepository = testAttemptRepository,
         _testsListRepository = testsListRepository,
         _algorithm = algorithm,
         super(const TinderTestState.initial()) {
@@ -78,6 +85,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
       if (restored) return;
     }
 
+    _groupId = event.groupId;
     _swapSides = event.swapSides;
     _answerIndex = event.answerIndex;
     _mixup = event.mixup;
@@ -155,9 +163,13 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     _mixupMin = active.params.mixupMin;
     _mixupMax = active.params.mixupMax;
     _testTitle = active.testTitle;
+    _groupId = active.params.groupId;
 
+    // Приложение закрыли между завершением и очисткой сессии. Статистику
+    // повторно не пишем, а прохождение запишется один раз — запись
+    // идемпотентна.
     if (active.session.isCompleted) {
-      emit(TinderTestState.completed(session: active.session));
+      await _complete(active.session, emit);
       return true;
     }
 
@@ -188,22 +200,20 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
   Future<void> _onSwipedLeft(
     _TinderTestEvent$SwipedLeft event,
     Emitter<TinderTestState> emit,
-  ) async {
-    _handleSwipe(event.cardId, isCorrect: false, emit: emit);
-  }
+  ) =>
+      _handleSwipe(event.cardId, isCorrect: false, emit: emit);
 
   Future<void> _onSwipedRight(
     _TinderTestEvent$SwipedRight event,
     Emitter<TinderTestState> emit,
-  ) async {
-    _handleSwipe(event.cardId, isCorrect: true, emit: emit);
-  }
+  ) =>
+      _handleSwipe(event.cardId, isCorrect: true, emit: emit);
 
-  void _handleSwipe(
+  Future<void> _handleSwipe(
     String cardId, {
     required bool isCorrect,
     required Emitter<TinderTestState> emit,
-  }) {
+  }) async {
     final currentState = state;
     if (currentState is! TinderTestState$InProgress) return;
 
@@ -225,9 +235,8 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
       final completedSession = updatedSession.copyWith(
         completedAt: DateTime.now(),
       );
-      emit(TinderTestState.completed(session: completedSession));
       unawaited(_saveStats(completedSession));
-      unawaited(_clearSession());
+      await _complete(completedSession, emit);
     } else {
       emit(TinderTestState.inProgress(
         session: updatedSession,
@@ -247,9 +256,43 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     final completedSession = currentState.session.copyWith(
       completedAt: DateTime.now(),
     );
-    emit(TinderTestState.completed(session: completedSession));
     unawaited(_saveStats(completedSession));
+    await _complete(completedSession, emit);
+  }
+
+  /// Показывает результат сразу, а сводку по прохождениям — когда запишется.
+  ///
+  /// Сессию стираем только после записи прохождения: если приложение
+  /// закроют раньше, восстановленная сессия запишется заново.
+  Future<void> _complete(
+    TestSession session,
+    Emitter<TinderTestState> emit,
+  ) async {
+    emit(TinderTestState.completed(session: session));
+
+    final summary = await _recordAttempt(session);
     unawaited(_clearSession());
+
+    // Пока писали, могли нажать «Повторить» — тогда сводка уже не нужна.
+    final current = state;
+    if (emit.isDone ||
+        current is! TinderTestState$Completed ||
+        !identical(current.session, session)) {
+      return;
+    }
+    emit(TinderTestState.completed(session: session, summary: summary));
+  }
+
+  Future<AttemptSummary> _recordAttempt(TestSession session) async {
+    final result = await _testAttemptRepository.recordAttempt(
+      session,
+      mixup: _mixup,
+      swapSides: _swapSides,
+    );
+    return switch (result) {
+      ResultOk(:final data) => data,
+      ResultFailed() => AttemptSummaryBuilder.withoutHistory(session),
+    };
   }
 
   Future<void> _saveStats(TestSession session) async {
@@ -285,6 +328,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
       mixup: _mixup,
       mixupMin: _mixupMin,
       mixupMax: _mixupMax,
+      groupId: _groupId,
     ));
   }
 
@@ -315,6 +359,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
         mixupMin: _mixupMin,
         mixupMax: _mixupMax,
         algorithm: _algorithm,
+        groupId: _groupId,
       ),
       testTitle: _testTitle,
       updatedAt: DateTime.now(),

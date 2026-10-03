@@ -6,6 +6,7 @@ import 'package:quizzerg/feature/question_stats/data/database/question_stats_dat
 import 'package:quizzerg/feature/sync/data/database/sync_database.dart';
 import 'package:quizzerg/feature/test_detail/data/database/cards_database.dart';
 import 'package:quizzerg/feature/test_execution/data/database/active_sessions_database.dart';
+import 'package:quizzerg/feature/test_execution/data/database/test_attempts_database.dart';
 import 'package:quizzerg/feature/tests_list/data/database/tests_database.dart';
 import 'package:quizzerg/persistence/database/migration/uuid_migration_v9.dart';
 
@@ -21,6 +22,7 @@ part 'app_database.g.dart';
     'package:quizzerg/feature/groups_list/data/database/test_group_entries.drift',
     'package:quizzerg/feature/test_execution/data/database/active_sessions.drift',
     'package:quizzerg/feature/sync/data/database/sync.drift',
+    'package:quizzerg/feature/test_execution/data/database/test_attempts.drift',
   },
   daos: [
     TestsDatabase,
@@ -29,6 +31,7 @@ part 'app_database.g.dart';
     GroupsDatabase,
     ActiveSessionsDatabase,
     SyncDatabase,
+    TestAttemptsDatabase,
   ],
 )
 class AppDatabase extends _$AppDatabase {
@@ -37,7 +40,7 @@ class AppDatabase extends _$AppDatabase {
   AppDatabase.forTesting(super.e);
 
   @override
-  int get schemaVersion => 10;
+  int get schemaVersion => 11;
 
   @override
   MigrationStrategy get migration {
@@ -97,6 +100,9 @@ class AppDatabase extends _$AppDatabase {
         if (from < 9) {
           await UuidMigrationV9(db: this, migrator: m).run();
         }
+        if (from < 11) {
+          await _createTestAttemptTables(m);
+        }
       },
     );
   }
@@ -125,6 +131,26 @@ class AppDatabase extends _$AppDatabase {
       'ALTER TABLE question_stats '
       "ADD COLUMN sync_state TEXT NOT NULL DEFAULT 'pending'",
     );
+  }
+
+  /// Схема 10 → 11: история прохождений тестов.
+  ///
+  /// Миграция 8 → 9 вызывает `createAll`, который уже создаёт таблицы
+  /// актуальной схемы, поэтому на пути с ранних схем создаём их только
+  /// при отсутствии.
+  Future<void> _createTestAttemptTables(Migrator migrator) async {
+    for (final table in <TableInfo<Table, Object?>>[
+      testAttempts,
+      testAttemptAnswers,
+    ]) {
+      final exists = await customSelect(
+        "SELECT 1 FROM sqlite_master WHERE type = 'table' AND name = ?",
+        variables: [Variable.withString(table.actualTableName)],
+      ).getSingleOrNull();
+      if (exists == null) await migrator.createTable(table);
+    }
+    await migrator.createIndex(idxTestAttemptsTest);
+    await migrator.createIndex(idxTestAttemptAnswersAttempt);
   }
 
   /// Схема 3 → 4: группы тестов появились с int-идентификаторами.

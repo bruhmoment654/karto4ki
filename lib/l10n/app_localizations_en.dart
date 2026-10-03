@@ -86,22 +86,87 @@ class AppLocalizationsEn extends AppLocalizations {
   String get tinderTestSwipeKnownHint => 'Know';
 
   @override
-  String get tinderTestResultsTitle => 'Test completed!';
-
-  @override
-  String get tinderTestResultsCorrectLabel => 'Correct';
-
-  @override
-  String get tinderTestResultsIncorrectLabel => 'Incorrect';
-
-  @override
-  String get tinderTestResultsPercentageLabel => 'Result';
-
-  @override
   String get tinderTestResultsRestartButton => 'Repeat';
 
   @override
   String get tinderTestResultsDoneButton => 'Done';
+
+  @override
+  String get tinderTestResultsAppBarTitle => 'Result';
+
+  @override
+  String get tinderTestResultsTitleGreat => 'Great result!';
+
+  @override
+  String get tinderTestResultsTitleGood => 'Good job!';
+
+  @override
+  String get tinderTestResultsTitleRetry => 'Room for improvement';
+
+  @override
+  String tinderTestResultsDeltaUp(int delta) {
+    return '+$delta% vs last time';
+  }
+
+  @override
+  String tinderTestResultsDeltaDown(int delta) {
+    return '−$delta% vs last time';
+  }
+
+  @override
+  String get tinderTestResultsDeltaSame => 'Same as last time';
+
+  @override
+  String get tinderTestResultsFirstAttempt => 'First attempt';
+
+  @override
+  String get tinderTestResultsRecentAttempts => 'Recent attempts';
+
+  @override
+  String tinderTestResultsAttemptsCount(int shown, int total) {
+    return '$shown of $total';
+  }
+
+  @override
+  String get tinderTestResultsAttemptNow => 'now';
+
+  @override
+  String get tinderTestResultsDynamicsPlaceholderTitle =>
+      'Progress will appear later';
+
+  @override
+  String get tinderTestResultsDynamicsPlaceholderSubtitle =>
+      'Take the test again to compare the result with this attempt';
+
+  @override
+  String get tinderTestResultsByQuestion => 'By question';
+
+  @override
+  String get tinderTestResultsFilterAll => 'All';
+
+  @override
+  String get tinderTestResultsFilterMistakes => 'Mistakes';
+
+  @override
+  String get tinderTestResultsAnswerKnow => 'Know';
+
+  @override
+  String get tinderTestResultsAnswerDontKnow => 'Don\'t know';
+
+  @override
+  String get tinderTestResultsTrendFirstCorrect => 'First correct';
+
+  @override
+  String get tinderTestResultsTrendFixed => 'Fixed';
+
+  @override
+  String get tinderTestResultsTrendForgot => 'Forgotten';
+
+  @override
+  String get tinderTestResultsTrendRepeatedMistake => 'Wrong again';
+
+  @override
+  String get tinderTestResultsTrendStable => 'Stable';
 
   @override
   String get testsListAppBarTitle => 'Tests';
@@ -569,14 +634,21 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupsListNewGroupCreate => 'Create';
 
   @override
-  String groupsListActiveSessionTitle(String title) {
-    return 'Continue: $title';
+  String get groupsListActiveSessionLabel => 'Continue test';
+
+  @override
+  String groupsListActiveSessionCards(int current, int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: 'cards',
+      one: 'card',
+    );
+    return '$current of $total $_temp0';
   }
 
   @override
-  String groupsListActiveSessionProgress(int current, int total) {
-    return '$current of $total';
-  }
+  String get groupsListActiveSessionResume => 'Continue';
 
   @override
   String get groupsListActiveSessionDismiss => 'Dismiss';

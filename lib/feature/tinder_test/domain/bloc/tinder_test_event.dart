@@ -15,6 +15,7 @@ sealed class TinderTestEvent with _$TinderTestEvent {
     @Default(1) int mixupMin,
     @Default(5) int mixupMax,
     @Default(false) bool resume,
+    String? groupId,
   }) = _TinderTestEvent$Started;
 
   /// Swipe left (incorrect answer).

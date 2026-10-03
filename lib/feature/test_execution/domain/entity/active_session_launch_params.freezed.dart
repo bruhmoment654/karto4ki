@@ -14,7 +14,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$ActiveSessionLaunchParams {
 
- bool get swapSides; int get answerIndex; bool get mixup; int get mixupMin; int get mixupMax; MixupAlgorithm get algorithm;
+ bool get swapSides; int get answerIndex; bool get mixup; int get mixupMin; int get mixupMax; MixupAlgorithm get algorithm;/// Группа, из которой запущен тест; `null` — запущен не из группы.
+ String? get groupId;
 /// Create a copy of ActiveSessionLaunchParams
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +26,16 @@ $ActiveSessionLaunchParamsCopyWith<ActiveSessionLaunchParams> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActiveSessionLaunchParams&&(identical(other.swapSides, swapSides) || other.swapSides == swapSides)&&(identical(other.answerIndex, answerIndex) || other.answerIndex == answerIndex)&&(identical(other.mixup, mixup) || other.mixup == mixup)&&(identical(other.mixupMin, mixupMin) || other.mixupMin == mixupMin)&&(identical(other.mixupMax, mixupMax) || other.mixupMax == mixupMax)&&(identical(other.algorithm, algorithm) || other.algorithm == algorithm));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is ActiveSessionLaunchParams&&(identical(other.swapSides, swapSides) || other.swapSides == swapSides)&&(identical(other.answerIndex, answerIndex) || other.answerIndex == answerIndex)&&(identical(other.mixup, mixup) || other.mixup == mixup)&&(identical(other.mixupMin, mixupMin) || other.mixupMin == mixupMin)&&(identical(other.mixupMax, mixupMax) || other.mixupMax == mixupMax)&&(identical(other.algorithm, algorithm) || other.algorithm == algorithm)&&(identical(other.groupId, groupId) || other.groupId == groupId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,swapSides,answerIndex,mixup,mixupMin,mixupMax,algorithm);
+int get hashCode => Object.hash(runtimeType,swapSides,answerIndex,mixup,mixupMin,mixupMax,algorithm,groupId);
 
 @override
 String toString() {
-  return 'ActiveSessionLaunchParams(swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, algorithm: $algorithm)';
+  return 'ActiveSessionLaunchParams(swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, algorithm: $algorithm, groupId: $groupId)';
 }
 
 
@@ -45,7 +46,7 @@ abstract mixin class $ActiveSessionLaunchParamsCopyWith<$Res>  {
   factory $ActiveSessionLaunchParamsCopyWith(ActiveSessionLaunchParams value, $Res Function(ActiveSessionLaunchParams) _then) = _$ActiveSessionLaunchParamsCopyWithImpl;
 @useResult
 $Res call({
- bool swapSides, int answerIndex, bool mixup, int mixupMin, int mixupMax, MixupAlgorithm algorithm
+ bool swapSides, int answerIndex, bool mixup, int mixupMin, int mixupMax, MixupAlgorithm algorithm, String? groupId
 });
 
 
@@ -62,7 +63,7 @@ class _$ActiveSessionLaunchParamsCopyWithImpl<$Res>
 
 /// Create a copy of ActiveSessionLaunchParams
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? swapSides = null,Object? answerIndex = null,Object? mixup = null,Object? mixupMin = null,Object? mixupMax = null,Object? algorithm = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? swapSides = null,Object? answerIndex = null,Object? mixup = null,Object? mixupMin = null,Object? mixupMax = null,Object? algorithm = null,Object? groupId = freezed,}) {
   return _then(_self.copyWith(
 swapSides: null == swapSides ? _self.swapSides : swapSides // ignore: cast_nullable_to_non_nullable
 as bool,answerIndex: null == answerIndex ? _self.answerIndex : answerIndex // ignore: cast_nullable_to_non_nullable
@@ -70,7 +71,8 @@ as int,mixup: null == mixup ? _self.mixup : mixup // ignore: cast_nullable_to_no
 as bool,mixupMin: null == mixupMin ? _self.mixupMin : mixupMin // ignore: cast_nullable_to_non_nullable
 as int,mixupMax: null == mixupMax ? _self.mixupMax : mixupMax // ignore: cast_nullable_to_non_nullable
 as int,algorithm: null == algorithm ? _self.algorithm : algorithm // ignore: cast_nullable_to_non_nullable
-as MixupAlgorithm,
+as MixupAlgorithm,groupId: freezed == groupId ? _self.groupId : groupId // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -152,10 +154,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  MixupAlgorithm algorithm)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  MixupAlgorithm algorithm,  String? groupId)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _ActiveSessionLaunchParams() when $default != null:
-return $default(_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.algorithm);case _:
+return $default(_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.algorithm,_that.groupId);case _:
   return orElse();
 
 }
@@ -173,10 +175,10 @@ return $default(_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  MixupAlgorithm algorithm)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  MixupAlgorithm algorithm,  String? groupId)  $default,) {final _that = this;
 switch (_that) {
 case _ActiveSessionLaunchParams():
-return $default(_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.algorithm);}
+return $default(_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.algorithm,_that.groupId);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -190,10 +192,10 @@ return $default(_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_th
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  MixupAlgorithm algorithm)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  MixupAlgorithm algorithm,  String? groupId)?  $default,) {final _that = this;
 switch (_that) {
 case _ActiveSessionLaunchParams() when $default != null:
-return $default(_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.algorithm);case _:
+return $default(_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.algorithm,_that.groupId);case _:
   return null;
 
 }
@@ -205,7 +207,7 @@ return $default(_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_th
 
 
 class _ActiveSessionLaunchParams implements ActiveSessionLaunchParams {
-  const _ActiveSessionLaunchParams({required this.swapSides, required this.answerIndex, required this.mixup, required this.mixupMin, required this.mixupMax, required this.algorithm});
+  const _ActiveSessionLaunchParams({required this.swapSides, required this.answerIndex, required this.mixup, required this.mixupMin, required this.mixupMax, required this.algorithm, this.groupId});
   
 
 @override final  bool swapSides;
@@ -214,6 +216,8 @@ class _ActiveSessionLaunchParams implements ActiveSessionLaunchParams {
 @override final  int mixupMin;
 @override final  int mixupMax;
 @override final  MixupAlgorithm algorithm;
+/// Группа, из которой запущен тест; `null` — запущен не из группы.
+@override final  String? groupId;
 
 /// Create a copy of ActiveSessionLaunchParams
 /// with the given fields replaced by the non-null parameter values.
@@ -225,16 +229,16 @@ _$ActiveSessionLaunchParamsCopyWith<_ActiveSessionLaunchParams> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ActiveSessionLaunchParams&&(identical(other.swapSides, swapSides) || other.swapSides == swapSides)&&(identical(other.answerIndex, answerIndex) || other.answerIndex == answerIndex)&&(identical(other.mixup, mixup) || other.mixup == mixup)&&(identical(other.mixupMin, mixupMin) || other.mixupMin == mixupMin)&&(identical(other.mixupMax, mixupMax) || other.mixupMax == mixupMax)&&(identical(other.algorithm, algorithm) || other.algorithm == algorithm));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _ActiveSessionLaunchParams&&(identical(other.swapSides, swapSides) || other.swapSides == swapSides)&&(identical(other.answerIndex, answerIndex) || other.answerIndex == answerIndex)&&(identical(other.mixup, mixup) || other.mixup == mixup)&&(identical(other.mixupMin, mixupMin) || other.mixupMin == mixupMin)&&(identical(other.mixupMax, mixupMax) || other.mixupMax == mixupMax)&&(identical(other.algorithm, algorithm) || other.algorithm == algorithm)&&(identical(other.groupId, groupId) || other.groupId == groupId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,swapSides,answerIndex,mixup,mixupMin,mixupMax,algorithm);
+int get hashCode => Object.hash(runtimeType,swapSides,answerIndex,mixup,mixupMin,mixupMax,algorithm,groupId);
 
 @override
 String toString() {
-  return 'ActiveSessionLaunchParams(swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, algorithm: $algorithm)';
+  return 'ActiveSessionLaunchParams(swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, algorithm: $algorithm, groupId: $groupId)';
 }
 
 
@@ -245,7 +249,7 @@ abstract mixin class _$ActiveSessionLaunchParamsCopyWith<$Res> implements $Activ
   factory _$ActiveSessionLaunchParamsCopyWith(_ActiveSessionLaunchParams value, $Res Function(_ActiveSessionLaunchParams) _then) = __$ActiveSessionLaunchParamsCopyWithImpl;
 @override @useResult
 $Res call({
- bool swapSides, int answerIndex, bool mixup, int mixupMin, int mixupMax, MixupAlgorithm algorithm
+ bool swapSides, int answerIndex, bool mixup, int mixupMin, int mixupMax, MixupAlgorithm algorithm, String? groupId
 });
 
 
@@ -262,7 +266,7 @@ class __$ActiveSessionLaunchParamsCopyWithImpl<$Res>
 
 /// Create a copy of ActiveSessionLaunchParams
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? swapSides = null,Object? answerIndex = null,Object? mixup = null,Object? mixupMin = null,Object? mixupMax = null,Object? algorithm = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? swapSides = null,Object? answerIndex = null,Object? mixup = null,Object? mixupMin = null,Object? mixupMax = null,Object? algorithm = null,Object? groupId = freezed,}) {
   return _then(_ActiveSessionLaunchParams(
 swapSides: null == swapSides ? _self.swapSides : swapSides // ignore: cast_nullable_to_non_nullable
 as bool,answerIndex: null == answerIndex ? _self.answerIndex : answerIndex // ignore: cast_nullable_to_non_nullable
@@ -270,7 +274,8 @@ as int,mixup: null == mixup ? _self.mixup : mixup // ignore: cast_nullable_to_no
 as bool,mixupMin: null == mixupMin ? _self.mixupMin : mixupMin // ignore: cast_nullable_to_non_nullable
 as int,mixupMax: null == mixupMax ? _self.mixupMax : mixupMax // ignore: cast_nullable_to_non_nullable
 as int,algorithm: null == algorithm ? _self.algorithm : algorithm // ignore: cast_nullable_to_non_nullable
-as MixupAlgorithm,
+as MixupAlgorithm,groupId: freezed == groupId ? _self.groupId : groupId // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 

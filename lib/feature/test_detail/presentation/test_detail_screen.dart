@@ -25,11 +25,13 @@ class TestDetailScreen extends StatefulWidget {
   final bool mixup;
   final int mixupMin;
   final int mixupMax;
+  final String? groupId;
 
   const TestDetailScreen({
     this.mixup = false,
     this.mixupMin = 1,
     this.mixupMax = 5,
+    this.groupId,
     super.key,
   });
 
@@ -294,6 +296,7 @@ class _TestDetailScreenState extends State<TestDetailScreen>
             mixup: widget.mixup,
             mixupMin: widget.mixupMin,
             mixupMax: widget.mixupMax,
+            groupId: widget.groupId,
           ),
         );
     }

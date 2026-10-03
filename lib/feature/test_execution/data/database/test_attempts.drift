@@ -1,0 +1,29 @@
+-- Завершённые прохождения тестов. Только локально, в синк не входят.
+-- id детерминированный (тест + время старта): завершённая сессия,
+-- восстановленная после убийства приложения, не запишется второй раз.
+
+CREATE TABLE test_attempts (
+  id TEXT NOT NULL PRIMARY KEY,
+  test_id TEXT NOT NULL,
+  started_at DATETIME NOT NULL,
+  completed_at DATETIME NOT NULL,
+  total INTEGER NOT NULL,
+  correct INTEGER NOT NULL,
+  mixup BOOLEAN NOT NULL,
+  swap_sides BOOLEAN NOT NULL
+) AS TestAttemptDatabaseDto;
+
+CREATE INDEX IF NOT EXISTS idx_test_attempts_test
+  ON test_attempts(test_id, completed_at);
+
+-- Ответы внутри прохождения. Вопрос — по question_key, как в статистике:
+-- ключ переживает переимпорт карточек.
+CREATE TABLE test_attempt_answers (
+  id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+  attempt_id TEXT NOT NULL,
+  question_key TEXT NOT NULL,
+  is_correct BOOLEAN NOT NULL
+) AS TestAttemptAnswerDatabaseDto;
+
+CREATE INDEX IF NOT EXISTS idx_test_attempt_answers_attempt
+  ON test_attempt_answers(attempt_id);

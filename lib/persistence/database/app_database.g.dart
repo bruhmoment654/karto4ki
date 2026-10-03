@@ -3,6 +3,833 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
+class TestAttempts extends Table
+    with TableInfo<TestAttempts, TestAttemptDatabaseDto> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  TestAttempts(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<String> id = GeneratedColumn<String>(
+    'id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL PRIMARY KEY',
+  );
+  static const VerificationMeta _testIdMeta = const VerificationMeta('testId');
+  late final GeneratedColumn<String> testId = GeneratedColumn<String>(
+    'test_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _startedAtMeta = const VerificationMeta(
+    'startedAt',
+  );
+  late final GeneratedColumn<DateTime> startedAt = GeneratedColumn<DateTime>(
+    'started_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _completedAtMeta = const VerificationMeta(
+    'completedAt',
+  );
+  late final GeneratedColumn<DateTime> completedAt = GeneratedColumn<DateTime>(
+    'completed_at',
+    aliasedName,
+    false,
+    type: DriftSqlType.dateTime,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _totalMeta = const VerificationMeta('total');
+  late final GeneratedColumn<int> total = GeneratedColumn<int>(
+    'total',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _correctMeta = const VerificationMeta(
+    'correct',
+  );
+  late final GeneratedColumn<int> correct = GeneratedColumn<int>(
+    'correct',
+    aliasedName,
+    false,
+    type: DriftSqlType.int,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _mixupMeta = const VerificationMeta('mixup');
+  late final GeneratedColumn<bool> mixup = GeneratedColumn<bool>(
+    'mixup',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _swapSidesMeta = const VerificationMeta(
+    'swapSides',
+  );
+  late final GeneratedColumn<bool> swapSides = GeneratedColumn<bool>(
+    'swap_sides',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  @override
+  List<GeneratedColumn> get $columns => [
+    id,
+    testId,
+    startedAt,
+    completedAt,
+    total,
+    correct,
+    mixup,
+    swapSides,
+  ];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'test_attempts';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TestAttemptDatabaseDto> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    } else if (isInserting) {
+      context.missing(_idMeta);
+    }
+    if (data.containsKey('test_id')) {
+      context.handle(
+        _testIdMeta,
+        testId.isAcceptableOrUnknown(data['test_id']!, _testIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_testIdMeta);
+    }
+    if (data.containsKey('started_at')) {
+      context.handle(
+        _startedAtMeta,
+        startedAt.isAcceptableOrUnknown(data['started_at']!, _startedAtMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_startedAtMeta);
+    }
+    if (data.containsKey('completed_at')) {
+      context.handle(
+        _completedAtMeta,
+        completedAt.isAcceptableOrUnknown(
+          data['completed_at']!,
+          _completedAtMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_completedAtMeta);
+    }
+    if (data.containsKey('total')) {
+      context.handle(
+        _totalMeta,
+        total.isAcceptableOrUnknown(data['total']!, _totalMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_totalMeta);
+    }
+    if (data.containsKey('correct')) {
+      context.handle(
+        _correctMeta,
+        correct.isAcceptableOrUnknown(data['correct']!, _correctMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_correctMeta);
+    }
+    if (data.containsKey('mixup')) {
+      context.handle(
+        _mixupMeta,
+        mixup.isAcceptableOrUnknown(data['mixup']!, _mixupMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_mixupMeta);
+    }
+    if (data.containsKey('swap_sides')) {
+      context.handle(
+        _swapSidesMeta,
+        swapSides.isAcceptableOrUnknown(data['swap_sides']!, _swapSidesMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_swapSidesMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TestAttemptDatabaseDto map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TestAttemptDatabaseDto(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}id'],
+      )!,
+      testId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}test_id'],
+      )!,
+      startedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}started_at'],
+      )!,
+      completedAt: attachedDatabase.typeMapping.read(
+        DriftSqlType.dateTime,
+        data['${effectivePrefix}completed_at'],
+      )!,
+      total: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}total'],
+      )!,
+      correct: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}correct'],
+      )!,
+      mixup: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}mixup'],
+      )!,
+      swapSides: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}swap_sides'],
+      )!,
+    );
+  }
+
+  @override
+  TestAttempts createAlias(String alias) {
+    return TestAttempts(attachedDatabase, alias);
+  }
+
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class TestAttemptDatabaseDto extends DataClass
+    implements Insertable<TestAttemptDatabaseDto> {
+  final String id;
+  final String testId;
+  final DateTime startedAt;
+  final DateTime completedAt;
+  final int total;
+  final int correct;
+  final bool mixup;
+  final bool swapSides;
+  const TestAttemptDatabaseDto({
+    required this.id,
+    required this.testId,
+    required this.startedAt,
+    required this.completedAt,
+    required this.total,
+    required this.correct,
+    required this.mixup,
+    required this.swapSides,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<String>(id);
+    map['test_id'] = Variable<String>(testId);
+    map['started_at'] = Variable<DateTime>(startedAt);
+    map['completed_at'] = Variable<DateTime>(completedAt);
+    map['total'] = Variable<int>(total);
+    map['correct'] = Variable<int>(correct);
+    map['mixup'] = Variable<bool>(mixup);
+    map['swap_sides'] = Variable<bool>(swapSides);
+    return map;
+  }
+
+  TestAttemptsCompanion toCompanion(bool nullToAbsent) {
+    return TestAttemptsCompanion(
+      id: Value(id),
+      testId: Value(testId),
+      startedAt: Value(startedAt),
+      completedAt: Value(completedAt),
+      total: Value(total),
+      correct: Value(correct),
+      mixup: Value(mixup),
+      swapSides: Value(swapSides),
+    );
+  }
+
+  factory TestAttemptDatabaseDto.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TestAttemptDatabaseDto(
+      id: serializer.fromJson<String>(json['id']),
+      testId: serializer.fromJson<String>(json['test_id']),
+      startedAt: serializer.fromJson<DateTime>(json['started_at']),
+      completedAt: serializer.fromJson<DateTime>(json['completed_at']),
+      total: serializer.fromJson<int>(json['total']),
+      correct: serializer.fromJson<int>(json['correct']),
+      mixup: serializer.fromJson<bool>(json['mixup']),
+      swapSides: serializer.fromJson<bool>(json['swap_sides']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<String>(id),
+      'test_id': serializer.toJson<String>(testId),
+      'started_at': serializer.toJson<DateTime>(startedAt),
+      'completed_at': serializer.toJson<DateTime>(completedAt),
+      'total': serializer.toJson<int>(total),
+      'correct': serializer.toJson<int>(correct),
+      'mixup': serializer.toJson<bool>(mixup),
+      'swap_sides': serializer.toJson<bool>(swapSides),
+    };
+  }
+
+  TestAttemptDatabaseDto copyWith({
+    String? id,
+    String? testId,
+    DateTime? startedAt,
+    DateTime? completedAt,
+    int? total,
+    int? correct,
+    bool? mixup,
+    bool? swapSides,
+  }) => TestAttemptDatabaseDto(
+    id: id ?? this.id,
+    testId: testId ?? this.testId,
+    startedAt: startedAt ?? this.startedAt,
+    completedAt: completedAt ?? this.completedAt,
+    total: total ?? this.total,
+    correct: correct ?? this.correct,
+    mixup: mixup ?? this.mixup,
+    swapSides: swapSides ?? this.swapSides,
+  );
+  TestAttemptDatabaseDto copyWithCompanion(TestAttemptsCompanion data) {
+    return TestAttemptDatabaseDto(
+      id: data.id.present ? data.id.value : this.id,
+      testId: data.testId.present ? data.testId.value : this.testId,
+      startedAt: data.startedAt.present ? data.startedAt.value : this.startedAt,
+      completedAt: data.completedAt.present
+          ? data.completedAt.value
+          : this.completedAt,
+      total: data.total.present ? data.total.value : this.total,
+      correct: data.correct.present ? data.correct.value : this.correct,
+      mixup: data.mixup.present ? data.mixup.value : this.mixup,
+      swapSides: data.swapSides.present ? data.swapSides.value : this.swapSides,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TestAttemptDatabaseDto(')
+          ..write('id: $id, ')
+          ..write('testId: $testId, ')
+          ..write('startedAt: $startedAt, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('total: $total, ')
+          ..write('correct: $correct, ')
+          ..write('mixup: $mixup, ')
+          ..write('swapSides: $swapSides')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    id,
+    testId,
+    startedAt,
+    completedAt,
+    total,
+    correct,
+    mixup,
+    swapSides,
+  );
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TestAttemptDatabaseDto &&
+          other.id == this.id &&
+          other.testId == this.testId &&
+          other.startedAt == this.startedAt &&
+          other.completedAt == this.completedAt &&
+          other.total == this.total &&
+          other.correct == this.correct &&
+          other.mixup == this.mixup &&
+          other.swapSides == this.swapSides);
+}
+
+class TestAttemptsCompanion extends UpdateCompanion<TestAttemptDatabaseDto> {
+  final Value<String> id;
+  final Value<String> testId;
+  final Value<DateTime> startedAt;
+  final Value<DateTime> completedAt;
+  final Value<int> total;
+  final Value<int> correct;
+  final Value<bool> mixup;
+  final Value<bool> swapSides;
+  final Value<int> rowid;
+  const TestAttemptsCompanion({
+    this.id = const Value.absent(),
+    this.testId = const Value.absent(),
+    this.startedAt = const Value.absent(),
+    this.completedAt = const Value.absent(),
+    this.total = const Value.absent(),
+    this.correct = const Value.absent(),
+    this.mixup = const Value.absent(),
+    this.swapSides = const Value.absent(),
+    this.rowid = const Value.absent(),
+  });
+  TestAttemptsCompanion.insert({
+    required String id,
+    required String testId,
+    required DateTime startedAt,
+    required DateTime completedAt,
+    required int total,
+    required int correct,
+    required bool mixup,
+    required bool swapSides,
+    this.rowid = const Value.absent(),
+  }) : id = Value(id),
+       testId = Value(testId),
+       startedAt = Value(startedAt),
+       completedAt = Value(completedAt),
+       total = Value(total),
+       correct = Value(correct),
+       mixup = Value(mixup),
+       swapSides = Value(swapSides);
+  static Insertable<TestAttemptDatabaseDto> custom({
+    Expression<String>? id,
+    Expression<String>? testId,
+    Expression<DateTime>? startedAt,
+    Expression<DateTime>? completedAt,
+    Expression<int>? total,
+    Expression<int>? correct,
+    Expression<bool>? mixup,
+    Expression<bool>? swapSides,
+    Expression<int>? rowid,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (testId != null) 'test_id': testId,
+      if (startedAt != null) 'started_at': startedAt,
+      if (completedAt != null) 'completed_at': completedAt,
+      if (total != null) 'total': total,
+      if (correct != null) 'correct': correct,
+      if (mixup != null) 'mixup': mixup,
+      if (swapSides != null) 'swap_sides': swapSides,
+      if (rowid != null) 'rowid': rowid,
+    });
+  }
+
+  TestAttemptsCompanion copyWith({
+    Value<String>? id,
+    Value<String>? testId,
+    Value<DateTime>? startedAt,
+    Value<DateTime>? completedAt,
+    Value<int>? total,
+    Value<int>? correct,
+    Value<bool>? mixup,
+    Value<bool>? swapSides,
+    Value<int>? rowid,
+  }) {
+    return TestAttemptsCompanion(
+      id: id ?? this.id,
+      testId: testId ?? this.testId,
+      startedAt: startedAt ?? this.startedAt,
+      completedAt: completedAt ?? this.completedAt,
+      total: total ?? this.total,
+      correct: correct ?? this.correct,
+      mixup: mixup ?? this.mixup,
+      swapSides: swapSides ?? this.swapSides,
+      rowid: rowid ?? this.rowid,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<String>(id.value);
+    }
+    if (testId.present) {
+      map['test_id'] = Variable<String>(testId.value);
+    }
+    if (startedAt.present) {
+      map['started_at'] = Variable<DateTime>(startedAt.value);
+    }
+    if (completedAt.present) {
+      map['completed_at'] = Variable<DateTime>(completedAt.value);
+    }
+    if (total.present) {
+      map['total'] = Variable<int>(total.value);
+    }
+    if (correct.present) {
+      map['correct'] = Variable<int>(correct.value);
+    }
+    if (mixup.present) {
+      map['mixup'] = Variable<bool>(mixup.value);
+    }
+    if (swapSides.present) {
+      map['swap_sides'] = Variable<bool>(swapSides.value);
+    }
+    if (rowid.present) {
+      map['rowid'] = Variable<int>(rowid.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TestAttemptsCompanion(')
+          ..write('id: $id, ')
+          ..write('testId: $testId, ')
+          ..write('startedAt: $startedAt, ')
+          ..write('completedAt: $completedAt, ')
+          ..write('total: $total, ')
+          ..write('correct: $correct, ')
+          ..write('mixup: $mixup, ')
+          ..write('swapSides: $swapSides, ')
+          ..write('rowid: $rowid')
+          ..write(')'))
+        .toString();
+  }
+}
+
+class TestAttemptAnswers extends Table
+    with TableInfo<TestAttemptAnswers, TestAttemptAnswerDatabaseDto> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  TestAttemptAnswers(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _idMeta = const VerificationMeta('id');
+  late final GeneratedColumn<int> id = GeneratedColumn<int>(
+    'id',
+    aliasedName,
+    false,
+    hasAutoIncrement: true,
+    type: DriftSqlType.int,
+    requiredDuringInsert: false,
+    $customConstraints: 'NOT NULL PRIMARY KEY AUTOINCREMENT',
+  );
+  static const VerificationMeta _attemptIdMeta = const VerificationMeta(
+    'attemptId',
+  );
+  late final GeneratedColumn<String> attemptId = GeneratedColumn<String>(
+    'attempt_id',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _questionKeyMeta = const VerificationMeta(
+    'questionKey',
+  );
+  late final GeneratedColumn<String> questionKey = GeneratedColumn<String>(
+    'question_key',
+    aliasedName,
+    false,
+    type: DriftSqlType.string,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  static const VerificationMeta _isCorrectMeta = const VerificationMeta(
+    'isCorrect',
+  );
+  late final GeneratedColumn<bool> isCorrect = GeneratedColumn<bool>(
+    'is_correct',
+    aliasedName,
+    false,
+    type: DriftSqlType.bool,
+    requiredDuringInsert: true,
+    $customConstraints: 'NOT NULL',
+  );
+  @override
+  List<GeneratedColumn> get $columns => [id, attemptId, questionKey, isCorrect];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'test_attempt_answers';
+  @override
+  VerificationContext validateIntegrity(
+    Insertable<TestAttemptAnswerDatabaseDto> instance, {
+    bool isInserting = false,
+  }) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('id')) {
+      context.handle(_idMeta, id.isAcceptableOrUnknown(data['id']!, _idMeta));
+    }
+    if (data.containsKey('attempt_id')) {
+      context.handle(
+        _attemptIdMeta,
+        attemptId.isAcceptableOrUnknown(data['attempt_id']!, _attemptIdMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_attemptIdMeta);
+    }
+    if (data.containsKey('question_key')) {
+      context.handle(
+        _questionKeyMeta,
+        questionKey.isAcceptableOrUnknown(
+          data['question_key']!,
+          _questionKeyMeta,
+        ),
+      );
+    } else if (isInserting) {
+      context.missing(_questionKeyMeta);
+    }
+    if (data.containsKey('is_correct')) {
+      context.handle(
+        _isCorrectMeta,
+        isCorrect.isAcceptableOrUnknown(data['is_correct']!, _isCorrectMeta),
+      );
+    } else if (isInserting) {
+      context.missing(_isCorrectMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {id};
+  @override
+  TestAttemptAnswerDatabaseDto map(
+    Map<String, dynamic> data, {
+    String? tablePrefix,
+  }) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return TestAttemptAnswerDatabaseDto(
+      id: attachedDatabase.typeMapping.read(
+        DriftSqlType.int,
+        data['${effectivePrefix}id'],
+      )!,
+      attemptId: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}attempt_id'],
+      )!,
+      questionKey: attachedDatabase.typeMapping.read(
+        DriftSqlType.string,
+        data['${effectivePrefix}question_key'],
+      )!,
+      isCorrect: attachedDatabase.typeMapping.read(
+        DriftSqlType.bool,
+        data['${effectivePrefix}is_correct'],
+      )!,
+    );
+  }
+
+  @override
+  TestAttemptAnswers createAlias(String alias) {
+    return TestAttemptAnswers(attachedDatabase, alias);
+  }
+
+  @override
+  bool get dontWriteConstraints => true;
+}
+
+class TestAttemptAnswerDatabaseDto extends DataClass
+    implements Insertable<TestAttemptAnswerDatabaseDto> {
+  final int id;
+  final String attemptId;
+  final String questionKey;
+  final bool isCorrect;
+  const TestAttemptAnswerDatabaseDto({
+    required this.id,
+    required this.attemptId,
+    required this.questionKey,
+    required this.isCorrect,
+  });
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['id'] = Variable<int>(id);
+    map['attempt_id'] = Variable<String>(attemptId);
+    map['question_key'] = Variable<String>(questionKey);
+    map['is_correct'] = Variable<bool>(isCorrect);
+    return map;
+  }
+
+  TestAttemptAnswersCompanion toCompanion(bool nullToAbsent) {
+    return TestAttemptAnswersCompanion(
+      id: Value(id),
+      attemptId: Value(attemptId),
+      questionKey: Value(questionKey),
+      isCorrect: Value(isCorrect),
+    );
+  }
+
+  factory TestAttemptAnswerDatabaseDto.fromJson(
+    Map<String, dynamic> json, {
+    ValueSerializer? serializer,
+  }) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return TestAttemptAnswerDatabaseDto(
+      id: serializer.fromJson<int>(json['id']),
+      attemptId: serializer.fromJson<String>(json['attempt_id']),
+      questionKey: serializer.fromJson<String>(json['question_key']),
+      isCorrect: serializer.fromJson<bool>(json['is_correct']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'id': serializer.toJson<int>(id),
+      'attempt_id': serializer.toJson<String>(attemptId),
+      'question_key': serializer.toJson<String>(questionKey),
+      'is_correct': serializer.toJson<bool>(isCorrect),
+    };
+  }
+
+  TestAttemptAnswerDatabaseDto copyWith({
+    int? id,
+    String? attemptId,
+    String? questionKey,
+    bool? isCorrect,
+  }) => TestAttemptAnswerDatabaseDto(
+    id: id ?? this.id,
+    attemptId: attemptId ?? this.attemptId,
+    questionKey: questionKey ?? this.questionKey,
+    isCorrect: isCorrect ?? this.isCorrect,
+  );
+  TestAttemptAnswerDatabaseDto copyWithCompanion(
+    TestAttemptAnswersCompanion data,
+  ) {
+    return TestAttemptAnswerDatabaseDto(
+      id: data.id.present ? data.id.value : this.id,
+      attemptId: data.attemptId.present ? data.attemptId.value : this.attemptId,
+      questionKey: data.questionKey.present
+          ? data.questionKey.value
+          : this.questionKey,
+      isCorrect: data.isCorrect.present ? data.isCorrect.value : this.isCorrect,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TestAttemptAnswerDatabaseDto(')
+          ..write('id: $id, ')
+          ..write('attemptId: $attemptId, ')
+          ..write('questionKey: $questionKey, ')
+          ..write('isCorrect: $isCorrect')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(id, attemptId, questionKey, isCorrect);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is TestAttemptAnswerDatabaseDto &&
+          other.id == this.id &&
+          other.attemptId == this.attemptId &&
+          other.questionKey == this.questionKey &&
+          other.isCorrect == this.isCorrect);
+}
+
+class TestAttemptAnswersCompanion
+    extends UpdateCompanion<TestAttemptAnswerDatabaseDto> {
+  final Value<int> id;
+  final Value<String> attemptId;
+  final Value<String> questionKey;
+  final Value<bool> isCorrect;
+  const TestAttemptAnswersCompanion({
+    this.id = const Value.absent(),
+    this.attemptId = const Value.absent(),
+    this.questionKey = const Value.absent(),
+    this.isCorrect = const Value.absent(),
+  });
+  TestAttemptAnswersCompanion.insert({
+    this.id = const Value.absent(),
+    required String attemptId,
+    required String questionKey,
+    required bool isCorrect,
+  }) : attemptId = Value(attemptId),
+       questionKey = Value(questionKey),
+       isCorrect = Value(isCorrect);
+  static Insertable<TestAttemptAnswerDatabaseDto> custom({
+    Expression<int>? id,
+    Expression<String>? attemptId,
+    Expression<String>? questionKey,
+    Expression<bool>? isCorrect,
+  }) {
+    return RawValuesInsertable({
+      if (id != null) 'id': id,
+      if (attemptId != null) 'attempt_id': attemptId,
+      if (questionKey != null) 'question_key': questionKey,
+      if (isCorrect != null) 'is_correct': isCorrect,
+    });
+  }
+
+  TestAttemptAnswersCompanion copyWith({
+    Value<int>? id,
+    Value<String>? attemptId,
+    Value<String>? questionKey,
+    Value<bool>? isCorrect,
+  }) {
+    return TestAttemptAnswersCompanion(
+      id: id ?? this.id,
+      attemptId: attemptId ?? this.attemptId,
+      questionKey: questionKey ?? this.questionKey,
+      isCorrect: isCorrect ?? this.isCorrect,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (id.present) {
+      map['id'] = Variable<int>(id.value);
+    }
+    if (attemptId.present) {
+      map['attempt_id'] = Variable<String>(attemptId.value);
+    }
+    if (questionKey.present) {
+      map['question_key'] = Variable<String>(questionKey.value);
+    }
+    if (isCorrect.present) {
+      map['is_correct'] = Variable<bool>(isCorrect.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('TestAttemptAnswersCompanion(')
+          ..write('id: $id, ')
+          ..write('attemptId: $attemptId, ')
+          ..write('questionKey: $questionKey, ')
+          ..write('isCorrect: $isCorrect')
+          ..write(')'))
+        .toString();
+  }
+}
+
 class SyncMeta extends Table with TableInfo<SyncMeta, SyncMetaDatabaseDto> {
   @override
   final GeneratedDatabase attachedDatabase;
@@ -3666,6 +4493,16 @@ class CardsCompanion extends UpdateCompanion<CardDatabaseDto> {
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
+  late final TestAttempts testAttempts = TestAttempts(this);
+  late final Index idxTestAttemptsTest = Index(
+    'idx_test_attempts_test',
+    'CREATE INDEX IF NOT EXISTS idx_test_attempts_test ON test_attempts (test_id, completed_at)',
+  );
+  late final TestAttemptAnswers testAttemptAnswers = TestAttemptAnswers(this);
+  late final Index idxTestAttemptAnswersAttempt = Index(
+    'idx_test_attempt_answers_attempt',
+    'CREATE INDEX IF NOT EXISTS idx_test_attempt_answers_attempt ON test_attempt_answers (attempt_id)',
+  );
   late final SyncMeta syncMeta = SyncMeta(this);
   late final AnswerEventsOutbox answerEventsOutbox = AnswerEventsOutbox(this);
   late final Index idxAnswerEventsOutboxSentAt = Index(
@@ -3708,11 +4545,18 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final ActiveSessionsDatabase activeSessionsDatabase =
       ActiveSessionsDatabase(this as AppDatabase);
   late final SyncDatabase syncDatabase = SyncDatabase(this as AppDatabase);
+  late final TestAttemptsDatabase testAttemptsDatabase = TestAttemptsDatabase(
+    this as AppDatabase,
+  );
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [
+    testAttempts,
+    idxTestAttemptsTest,
+    testAttemptAnswers,
+    idxTestAttemptAnswersAttempt,
     syncMeta,
     answerEventsOutbox,
     idxAnswerEventsOutboxSentAt,
@@ -3754,6 +4598,450 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   ]);
 }
 
+typedef $TestAttemptsCreateCompanionBuilder =
+    TestAttemptsCompanion Function({
+      required String id,
+      required String testId,
+      required DateTime startedAt,
+      required DateTime completedAt,
+      required int total,
+      required int correct,
+      required bool mixup,
+      required bool swapSides,
+      Value<int> rowid,
+    });
+typedef $TestAttemptsUpdateCompanionBuilder =
+    TestAttemptsCompanion Function({
+      Value<String> id,
+      Value<String> testId,
+      Value<DateTime> startedAt,
+      Value<DateTime> completedAt,
+      Value<int> total,
+      Value<int> correct,
+      Value<bool> mixup,
+      Value<bool> swapSides,
+      Value<int> rowid,
+    });
+
+class $TestAttemptsFilterComposer
+    extends Composer<_$AppDatabase, TestAttempts> {
+  $TestAttemptsFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get testId => $composableBuilder(
+    column: $table.testId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get startedAt => $composableBuilder(
+    column: $table.startedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get total => $composableBuilder(
+    column: $table.total,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<int> get correct => $composableBuilder(
+    column: $table.correct,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get mixup => $composableBuilder(
+    column: $table.mixup,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get swapSides => $composableBuilder(
+    column: $table.swapSides,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $TestAttemptsOrderingComposer
+    extends Composer<_$AppDatabase, TestAttempts> {
+  $TestAttemptsOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<String> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get testId => $composableBuilder(
+    column: $table.testId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get startedAt => $composableBuilder(
+    column: $table.startedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get total => $composableBuilder(
+    column: $table.total,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<int> get correct => $composableBuilder(
+    column: $table.correct,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get mixup => $composableBuilder(
+    column: $table.mixup,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get swapSides => $composableBuilder(
+    column: $table.swapSides,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $TestAttemptsAnnotationComposer
+    extends Composer<_$AppDatabase, TestAttempts> {
+  $TestAttemptsAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<String> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get testId =>
+      $composableBuilder(column: $table.testId, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get startedAt =>
+      $composableBuilder(column: $table.startedAt, builder: (column) => column);
+
+  GeneratedColumn<DateTime> get completedAt => $composableBuilder(
+    column: $table.completedAt,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<int> get total =>
+      $composableBuilder(column: $table.total, builder: (column) => column);
+
+  GeneratedColumn<int> get correct =>
+      $composableBuilder(column: $table.correct, builder: (column) => column);
+
+  GeneratedColumn<bool> get mixup =>
+      $composableBuilder(column: $table.mixup, builder: (column) => column);
+
+  GeneratedColumn<bool> get swapSides =>
+      $composableBuilder(column: $table.swapSides, builder: (column) => column);
+}
+
+class $TestAttemptsTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          TestAttempts,
+          TestAttemptDatabaseDto,
+          $TestAttemptsFilterComposer,
+          $TestAttemptsOrderingComposer,
+          $TestAttemptsAnnotationComposer,
+          $TestAttemptsCreateCompanionBuilder,
+          $TestAttemptsUpdateCompanionBuilder,
+          (
+            TestAttemptDatabaseDto,
+            BaseReferences<_$AppDatabase, TestAttempts, TestAttemptDatabaseDto>,
+          ),
+          TestAttemptDatabaseDto,
+          PrefetchHooks Function()
+        > {
+  $TestAttemptsTableManager(_$AppDatabase db, TestAttempts table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $TestAttemptsFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $TestAttemptsOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $TestAttemptsAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<String> id = const Value.absent(),
+                Value<String> testId = const Value.absent(),
+                Value<DateTime> startedAt = const Value.absent(),
+                Value<DateTime> completedAt = const Value.absent(),
+                Value<int> total = const Value.absent(),
+                Value<int> correct = const Value.absent(),
+                Value<bool> mixup = const Value.absent(),
+                Value<bool> swapSides = const Value.absent(),
+                Value<int> rowid = const Value.absent(),
+              }) => TestAttemptsCompanion(
+                id: id,
+                testId: testId,
+                startedAt: startedAt,
+                completedAt: completedAt,
+                total: total,
+                correct: correct,
+                mixup: mixup,
+                swapSides: swapSides,
+                rowid: rowid,
+              ),
+          createCompanionCallback:
+              ({
+                required String id,
+                required String testId,
+                required DateTime startedAt,
+                required DateTime completedAt,
+                required int total,
+                required int correct,
+                required bool mixup,
+                required bool swapSides,
+                Value<int> rowid = const Value.absent(),
+              }) => TestAttemptsCompanion.insert(
+                id: id,
+                testId: testId,
+                startedAt: startedAt,
+                completedAt: completedAt,
+                total: total,
+                correct: correct,
+                mixup: mixup,
+                swapSides: swapSides,
+                rowid: rowid,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $TestAttemptsProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      TestAttempts,
+      TestAttemptDatabaseDto,
+      $TestAttemptsFilterComposer,
+      $TestAttemptsOrderingComposer,
+      $TestAttemptsAnnotationComposer,
+      $TestAttemptsCreateCompanionBuilder,
+      $TestAttemptsUpdateCompanionBuilder,
+      (
+        TestAttemptDatabaseDto,
+        BaseReferences<_$AppDatabase, TestAttempts, TestAttemptDatabaseDto>,
+      ),
+      TestAttemptDatabaseDto,
+      PrefetchHooks Function()
+    >;
+typedef $TestAttemptAnswersCreateCompanionBuilder =
+    TestAttemptAnswersCompanion Function({
+      Value<int> id,
+      required String attemptId,
+      required String questionKey,
+      required bool isCorrect,
+    });
+typedef $TestAttemptAnswersUpdateCompanionBuilder =
+    TestAttemptAnswersCompanion Function({
+      Value<int> id,
+      Value<String> attemptId,
+      Value<String> questionKey,
+      Value<bool> isCorrect,
+    });
+
+class $TestAttemptAnswersFilterComposer
+    extends Composer<_$AppDatabase, TestAttemptAnswers> {
+  $TestAttemptAnswersFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get attemptId => $composableBuilder(
+    column: $table.attemptId,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<String> get questionKey => $composableBuilder(
+    column: $table.questionKey,
+    builder: (column) => ColumnFilters(column),
+  );
+
+  ColumnFilters<bool> get isCorrect => $composableBuilder(
+    column: $table.isCorrect,
+    builder: (column) => ColumnFilters(column),
+  );
+}
+
+class $TestAttemptAnswersOrderingComposer
+    extends Composer<_$AppDatabase, TestAttemptAnswers> {
+  $TestAttemptAnswersOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get id => $composableBuilder(
+    column: $table.id,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get attemptId => $composableBuilder(
+    column: $table.attemptId,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<String> get questionKey => $composableBuilder(
+    column: $table.questionKey,
+    builder: (column) => ColumnOrderings(column),
+  );
+
+  ColumnOrderings<bool> get isCorrect => $composableBuilder(
+    column: $table.isCorrect,
+    builder: (column) => ColumnOrderings(column),
+  );
+}
+
+class $TestAttemptAnswersAnnotationComposer
+    extends Composer<_$AppDatabase, TestAttemptAnswers> {
+  $TestAttemptAnswersAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get id =>
+      $composableBuilder(column: $table.id, builder: (column) => column);
+
+  GeneratedColumn<String> get attemptId =>
+      $composableBuilder(column: $table.attemptId, builder: (column) => column);
+
+  GeneratedColumn<String> get questionKey => $composableBuilder(
+    column: $table.questionKey,
+    builder: (column) => column,
+  );
+
+  GeneratedColumn<bool> get isCorrect =>
+      $composableBuilder(column: $table.isCorrect, builder: (column) => column);
+}
+
+class $TestAttemptAnswersTableManager
+    extends
+        RootTableManager<
+          _$AppDatabase,
+          TestAttemptAnswers,
+          TestAttemptAnswerDatabaseDto,
+          $TestAttemptAnswersFilterComposer,
+          $TestAttemptAnswersOrderingComposer,
+          $TestAttemptAnswersAnnotationComposer,
+          $TestAttemptAnswersCreateCompanionBuilder,
+          $TestAttemptAnswersUpdateCompanionBuilder,
+          (
+            TestAttemptAnswerDatabaseDto,
+            BaseReferences<
+              _$AppDatabase,
+              TestAttemptAnswers,
+              TestAttemptAnswerDatabaseDto
+            >,
+          ),
+          TestAttemptAnswerDatabaseDto,
+          PrefetchHooks Function()
+        > {
+  $TestAttemptAnswersTableManager(_$AppDatabase db, TestAttemptAnswers table)
+    : super(
+        TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $TestAttemptAnswersFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $TestAttemptAnswersOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $TestAttemptAnswersAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                Value<String> attemptId = const Value.absent(),
+                Value<String> questionKey = const Value.absent(),
+                Value<bool> isCorrect = const Value.absent(),
+              }) => TestAttemptAnswersCompanion(
+                id: id,
+                attemptId: attemptId,
+                questionKey: questionKey,
+                isCorrect: isCorrect,
+              ),
+          createCompanionCallback:
+              ({
+                Value<int> id = const Value.absent(),
+                required String attemptId,
+                required String questionKey,
+                required bool isCorrect,
+              }) => TestAttemptAnswersCompanion.insert(
+                id: id,
+                attemptId: attemptId,
+                questionKey: questionKey,
+                isCorrect: isCorrect,
+              ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ),
+      );
+}
+
+typedef $TestAttemptAnswersProcessedTableManager =
+    ProcessedTableManager<
+      _$AppDatabase,
+      TestAttemptAnswers,
+      TestAttemptAnswerDatabaseDto,
+      $TestAttemptAnswersFilterComposer,
+      $TestAttemptAnswersOrderingComposer,
+      $TestAttemptAnswersAnnotationComposer,
+      $TestAttemptAnswersCreateCompanionBuilder,
+      $TestAttemptAnswersUpdateCompanionBuilder,
+      (
+        TestAttemptAnswerDatabaseDto,
+        BaseReferences<
+          _$AppDatabase,
+          TestAttemptAnswers,
+          TestAttemptAnswerDatabaseDto
+        >,
+      ),
+      TestAttemptAnswerDatabaseDto,
+      PrefetchHooks Function()
+    >;
 typedef $SyncMetaCreateCompanionBuilder =
     SyncMetaCompanion Function({
       required String metaKey,
@@ -6244,6 +7532,10 @@ typedef $CardsProcessedTableManager =
 class $AppDatabaseManager {
   final _$AppDatabase _db;
   $AppDatabaseManager(this._db);
+  $TestAttemptsTableManager get testAttempts =>
+      $TestAttemptsTableManager(_db, _db.testAttempts);
+  $TestAttemptAnswersTableManager get testAttemptAnswers =>
+      $TestAttemptAnswersTableManager(_db, _db.testAttemptAnswers);
   $SyncMetaTableManager get syncMeta =>
       $SyncMetaTableManager(_db, _db.syncMeta);
   $AnswerEventsOutboxTableManager get answerEventsOutbox =>

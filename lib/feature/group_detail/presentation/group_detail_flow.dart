@@ -35,6 +35,6 @@ class GroupDetailFlow extends StatelessWidget implements AutoRouteWrapper {
 
   @override
   Widget build(BuildContext context) {
-    return const GroupDetailScreen();
+    return GroupDetailScreen(groupId: groupId);
   }
 }

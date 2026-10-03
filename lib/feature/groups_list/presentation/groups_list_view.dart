@@ -163,7 +163,7 @@ class _GroupsBody extends StatelessWidget {
         slivers: [
           _GroupsHeaderSliver(viewModel: viewModel),
             _ReauthBannerSliver(viewModel: viewModel),
-          _ActiveSessionSliver(viewModel: viewModel),
+          _ActiveSessionSliver(viewModel: viewModel, groups: groups),
           if (groups.isEmpty)
             SliverFillRemaining(
               child: Center(
@@ -220,7 +220,11 @@ class _GroupsBody extends StatelessWidget {
 class _ActiveSessionSliver extends StatefulWidget {
   final IGroupsListViewModel viewModel;
 
-  const _ActiveSessionSliver({required this.viewModel});
+  /// Список групп — из него берётся название группы сессии: так видно
+  /// переименование, а у удалённой группы строка просто пропадает.
+  final List<TestGroupEntity> groups;
+
+  const _ActiveSessionSliver({required this.viewModel, required this.groups});
 
   @override
   State<_ActiveSessionSliver> createState() => _ActiveSessionSliverState();
@@ -256,6 +260,7 @@ class _ActiveSessionSliverState extends State<_ActiveSessionSliver> {
                     padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
                     child: ActiveSessionCard(
                       session: session,
+                      groupTitle: _groupTitleOf(session),
                       onResume: () =>
                           widget.viewModel.onSessionResumeTap(session),
                       onDismiss: widget.viewModel.onSessionDismissTap,
@@ -266,6 +271,15 @@ class _ActiveSessionSliverState extends State<_ActiveSessionSliver> {
         },
       ),
     );
+  }
+
+  String? _groupTitleOf(ActiveTestSession session) {
+    final groupId = session.params.groupId;
+    if (groupId == null) return null;
+    for (final group in widget.groups) {
+      if (group.id == groupId) return group.title;
+    }
+    return null;
   }
 }
 

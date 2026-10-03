@@ -22,8 +22,11 @@ sealed class TinderTestState with _$TinderTestState {
   }) = TinderTestState$InProgress;
 
   /// Test is completed.
+  ///
+  /// [summary] приходит вторым эмитом, когда прохождение запишется.
   const factory TinderTestState.completed({
     required TestSession session,
+    AttemptSummary? summary,
   }) = TinderTestState$Completed;
 
   /// Error state.

@@ -25,6 +25,7 @@ import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository
 import 'package:quizzerg/feature/test_detail/domain/repository/i_cards_api_repository.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_test_detail_repository.dart';
 import 'package:quizzerg/feature/test_execution/domain/repository/i_active_session_repository.dart';
+import 'package:quizzerg/feature/test_execution/domain/repository/i_test_attempt_repository.dart';
 import 'package:quizzerg/feature/test_merge/domain/repository/i_test_merge_repository.dart';
 import 'package:quizzerg/feature/tests_list/domain/repository/i_tests_api_repository.dart';
 import 'package:quizzerg/feature/tests_list/domain/repository/i_tests_list_repository.dart';
@@ -81,6 +82,9 @@ final class AppScope implements IAppScope {
 
   @override
   final IActiveSessionRepository activeSessionRepository;
+
+  @override
+  final ITestAttemptRepository testAttemptRepository;
 
   @override
   final ApiConfig apiConfig;
@@ -164,6 +168,7 @@ final class AppScope implements IAppScope {
     required this.settingsBloc,
     required this.statsExportService,
     required this.activeSessionRepository,
+    required this.testAttemptRepository,
     required this.apiConfig,
     required this.authTokenProvider,
     required this.authBloc,
@@ -220,6 +225,9 @@ abstract interface class IAppScope {
   IStatsExportService get statsExportService;
 
   IActiveSessionRepository get activeSessionRepository;
+
+  /// История прохождений тестов (только на устройстве).
+  ITestAttemptRepository get testAttemptRepository;
 
   /// Настройки транспортного слоя.
   ApiConfig get apiConfig;

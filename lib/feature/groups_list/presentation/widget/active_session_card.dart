@@ -2,14 +2,21 @@ import 'package:flutter/material.dart';
 
 import 'package:quizzerg/feature/test_execution/domain/entity/active_test_session.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
+import 'package:quizzerg/uikit/progress/app_linear_progress.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/spacing/width.dart';
 
-/// Карточка «Продолжить активную сессию» на главном экране.
+/// Карточка «Продолжить тест» над списком групп.
+///
+/// Продолжить можно и кнопкой, и тапом по карточке.
 class ActiveSessionCard extends StatelessWidget {
   final ActiveTestSession session;
+
+  /// Группа, из которой запущен тест; `null` — строку не показываем.
+  final String? groupTitle;
   final VoidCallback onResume;
   final VoidCallback onDismiss;
 
@@ -17,6 +24,7 @@ class ActiveSessionCard extends StatelessWidget {
     required this.session,
     required this.onResume,
     required this.onDismiss,
+    this.groupTitle,
     super.key,
   });
 
@@ -24,80 +32,96 @@ class ActiveSessionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
-    final accent = colorScheme.primary;
     final total = session.session.cards.length;
     final current = session.session.currentIndex.clamp(0, total);
-    final progress = total == 0 ? 0.0 : current / total;
+    final groupTitle = this.groupTitle;
 
     return ScalePressable(
       onTap: onResume,
       child: ContentCard(
-        borderColor: accent.withValues(alpha: 0.4),
-        borderWidth: 0.5,
-        borderRadius: BorderRadius.circular(16),
-        padding: const EdgeInsets.fromLTRB(20, 16, 12, 16),
-        child: Row(
+        backgroundColor: colorScheme.surfaceContainerHigh,
+        borderRadius: BorderRadius.circular(AppDimens.radius28),
+        padding: const EdgeInsets.fromLTRB(20, 16, 8, 16),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Container(
-              width: 44,
-              height: 44,
-              decoration: BoxDecoration(
-                color: accent.withValues(alpha: 0.15),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Icon(
-                Icons.play_arrow_rounded,
-                color: accent,
-                size: 28,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.only(top: 2),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          context.l10n.groupsListActiveSessionLabel,
+                          style: textTheme.labelLarge?.copyWith(
+                            color: colorScheme.primary,
+                          ),
+                        ),
+                        const Height(2),
+                        Text(
+                          session.testTitle,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                        if (groupTitle != null)
+                          Text(
+                            groupTitle,
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                      ],
+                    ),
+                  ),
+                ),
+                const Width(8),
+                IconButton(
+                  tooltip: context.l10n.groupsListActiveSessionDismiss,
+                  icon: Icon(Icons.close, color: colorScheme.onSurfaceVariant),
+                  onPressed: onDismiss,
+                ),
+              ],
+            ),
+            const Height(14),
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: AppLinearProgress(
+                value: total == 0 ? 0 : current / total,
+                color: colorScheme.primary,
+                trackColor: colorScheme.surfaceContainerHighest,
+                isWavy: true,
               ),
             ),
-            const SizedBox(width: 14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
+            const Height(12),
+            Padding(
+              padding: const EdgeInsets.only(right: 12),
+              child: Row(
                 children: [
-                  Text(
-                    context.l10n.groupsListActiveSessionTitle(
-                      session.testTitle,
-                    ),
-                    style: textTheme.titleMedium?.copyWith(
-                      fontWeight: FontWeight.w600,
-                      color: colorScheme.foreground,
-                    ),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
-                  const Height(6),
-                  Text(
-                    context.l10n.groupsListActiveSessionProgress(
-                      current,
-                      total,
-                    ),
-                    style: textTheme.bodySmall?.copyWith(
-                      color: colorScheme.onSurfaceVariant,
+                  Expanded(
+                    child: Text(
+                      context.l10n.groupsListActiveSessionCards(current, total),
+                      style: textTheme.bodyMedium?.copyWith(
+                        color: colorScheme.onSurfaceVariant,
+                      ),
                     ),
                   ),
-                  const Height(8),
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(4),
-                    child: LinearProgressIndicator(
-                      value: progress,
-                      minHeight: 4,
-                      backgroundColor: accent.withValues(alpha: 0.15),
-                      valueColor: AlwaysStoppedAnimation<Color>(accent),
-                    ),
+                  const Width(12),
+                  FilledButton.icon(
+                    onPressed: onResume,
+                    icon: const Icon(Icons.play_arrow),
+                    label: Text(context.l10n.groupsListActiveSessionResume),
                   ),
                 ],
               ),
-            ),
-            IconButton(
-              tooltip: context.l10n.groupsListActiveSessionDismiss,
-              icon: Icon(
-                Icons.close_rounded,
-                color: colorScheme.onSurfaceVariant,
-              ),
-              onPressed: onDismiss,
             ),
           ],
         ),

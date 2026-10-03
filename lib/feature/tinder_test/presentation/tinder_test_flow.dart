@@ -23,6 +23,9 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
   final int mixupMax;
   final bool resume;
 
+  /// Группа, из которой запущен тест, — для карточки «Продолжить тест».
+  final String? groupId;
+
   const TinderTestFlow({
     @PathParam('testId') required this.testId,
     this.swapSides = false,
@@ -31,6 +34,7 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
     this.mixupMin = 1,
     this.mixupMax = 5,
     this.resume = false,
+    this.groupId,
     super.key,
   });
 
@@ -62,6 +66,7 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
         cardRepository: scope.cardRepository,
         questionStatsRepository: scope.questionStatsRepository,
         activeSessionRepository: scope.activeSessionRepository,
+        testAttemptRepository: scope.testAttemptRepository,
         testsListRepository: scope.testsListRepository,
         algorithm: algorithm,
         syncSignal: scope.syncSignalRepository,
@@ -74,6 +79,7 @@ class TinderTestFlow extends StatelessWidget implements AutoRouteWrapper {
           mixupMin: mixupMin,
           mixupMax: mixupMax,
           resume: resume,
+          groupId: groupId,
         )),
       child: this,
     );

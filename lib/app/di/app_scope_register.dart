@@ -51,7 +51,9 @@ import 'package:quizzerg/feature/test_detail/data/sync/card_sync_adapter.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_card_repository.dart';
 import 'package:quizzerg/feature/test_detail/domain/repository/i_test_detail_repository.dart';
 import 'package:quizzerg/feature/test_execution/data/repository/active_session_drift_repository.dart';
+import 'package:quizzerg/feature/test_execution/data/repository/test_attempt_repository.dart';
 import 'package:quizzerg/feature/test_execution/domain/repository/i_active_session_repository.dart';
+import 'package:quizzerg/feature/test_execution/domain/repository/i_test_attempt_repository.dart';
 import 'package:quizzerg/feature/test_merge/data/repository/test_merge_repository.dart';
 import 'package:quizzerg/feature/test_merge/domain/repository/i_test_merge_repository.dart';
 import 'package:quizzerg/feature/tests_list/data/repository/tests_api_repository.dart';
@@ -119,6 +121,7 @@ class AppScopeRegister {
       groupDetailRepository: local.groupDetailRepository,
       statsExportService: local.statsExportService,
       activeSessionRepository: local.activeSessionRepository,
+      testAttemptRepository: local.testAttemptRepository,
       apiConfig: network.config,
       authTokenProvider: auth.tokenProvider,
       authBloc: auth.bloc,
@@ -318,6 +321,10 @@ class AppScopeRegister {
           database: database.activeSessionsDatabase,
           errorLogger: errorLogger,
         ),
+        testAttemptRepository: TestAttemptRepository(
+          database: database.testAttemptsDatabase,
+          errorLogger: errorLogger,
+        ),
       );
   }
 
@@ -447,6 +454,7 @@ class _LocalDependencies {
   final IGroupDetailRepository groupDetailRepository;
   final IStatsExportService statsExportService;
   final IActiveSessionRepository activeSessionRepository;
+  final ITestAttemptRepository testAttemptRepository;
 
   const _LocalDependencies({
     required this.mainRepository,
@@ -461,5 +469,6 @@ class _LocalDependencies {
     required this.groupDetailRepository,
     required this.statsExportService,
     required this.activeSessionRepository,
+    required this.testAttemptRepository,
   });
 }

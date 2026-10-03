@@ -491,12 +491,59 @@
   "tinderTestUndoTooltip": "Отменить последний ответ",
   "tinderTestSwipeUnknownHint": "Не знаю",
   "tinderTestSwipeKnownHint": "Знаю",
-  "tinderTestResultsTitle": "Тест завершён!",
-  "tinderTestResultsCorrectLabel": "Правильно",
-  "tinderTestResultsIncorrectLabel": "Неправильно",
-  "tinderTestResultsPercentageLabel": "Результат",
   "tinderTestResultsRestartButton": "Повторить",
   "tinderTestResultsDoneButton": "Готово",
+  "tinderTestResultsAppBarTitle": "Результат",
+  "tinderTestResultsTitleGreat": "Отличный результат!",
+  "tinderTestResultsTitleGood": "Хорошая работа!",
+  "tinderTestResultsTitleRetry": "Есть над чем поработать",
+  "tinderTestResultsDeltaUp": "+{delta}% к прошлому разу",
+  "@tinderTestResultsDeltaUp": {
+    "placeholders": {
+      "delta": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "tinderTestResultsDeltaDown": "−{delta}% от прошлого раза",
+  "@tinderTestResultsDeltaDown": {
+    "placeholders": {
+      "delta": {
+        "type": "int",
+        "example": "20"
+      }
+    }
+  },
+  "tinderTestResultsDeltaSame": "Как в прошлый раз",
+  "tinderTestResultsFirstAttempt": "Первое прохождение",
+  "tinderTestResultsRecentAttempts": "Последние прохождения",
+  "tinderTestResultsAttemptsCount": "{shown} из {total}",
+  "@tinderTestResultsAttemptsCount": {
+    "placeholders": {
+      "shown": {
+        "type": "int",
+        "example": "5"
+      },
+      "total": {
+        "type": "int",
+        "example": "12"
+      }
+    }
+  },
+  "tinderTestResultsAttemptNow": "сейчас",
+  "tinderTestResultsDynamicsPlaceholderTitle": "Динамика появится позже",
+  "tinderTestResultsDynamicsPlaceholderSubtitle": "Пройдите тест ещё раз — сравним результат с этим прохождением",
+  "tinderTestResultsByQuestion": "По вопросам",
+  "tinderTestResultsFilterAll": "Все",
+  "tinderTestResultsFilterMistakes": "Ошибки",
+  "tinderTestResultsAnswerKnow": "Знаю",
+  "tinderTestResultsAnswerDontKnow": "Не знаю",
+  "tinderTestResultsTrendFirstCorrect": "Впервые верно",
+  "tinderTestResultsTrendFixed": "Исправлено",
+  "tinderTestResultsTrendForgot": "Забыто",
+  "tinderTestResultsTrendRepeatedMistake": "Снова ошибка",
+  "tinderTestResultsTrendStable": "Стабильно",
   "@segmentTestsList": {
     "---------": "---------",
     "description": "Список тестов"
@@ -799,28 +846,21 @@
   "groupsListNewGroupNameHint": "Название группы",
   "groupsListNewGroupCancel": "Отмена",
   "groupsListNewGroupCreate": "Создать",
-  "groupsListActiveSessionTitle": "Продолжить: {title}",
-  "@groupsListActiveSessionTitle": {
-    "placeholders": {
-      "title": {
-        "type": "String",
-        "example": "Биология"
-      }
-    }
-  },
-  "groupsListActiveSessionProgress": "{current} из {total}",
-  "@groupsListActiveSessionProgress": {
+  "groupsListActiveSessionLabel": "Продолжить тест",
+  "groupsListActiveSessionCards": "{current} из {total} {total, plural, one{карточки} few{карточек} many{карточек} other{карточки}}",
+  "@groupsListActiveSessionCards": {
     "placeholders": {
       "current": {
         "type": "int",
-        "example": "3"
+        "example": "24"
       },
       "total": {
         "type": "int",
-        "example": "20"
+        "example": "70"
       }
     }
   },
+  "groupsListActiveSessionResume": "Продолжить",
   "groupsListActiveSessionDismiss": "Отменить",
   "@segmentGroupDetail": {
     "---------": "---------",

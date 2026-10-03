@@ -131,10 +131,10 @@ return restarted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String testId,  bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  bool resume)?  started,TResult Function( String cardId)?  swipedLeft,TResult Function( String cardId)?  swipedRight,TResult Function()?  completed,TResult Function()?  discard,TResult Function()?  restarted,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String testId,  bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  bool resume,  String? groupId)?  started,TResult Function( String cardId)?  swipedLeft,TResult Function( String cardId)?  swipedRight,TResult Function()?  completed,TResult Function()?  discard,TResult Function()?  restarted,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TinderTestEvent$Started() when started != null:
-return started(_that.testId,_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.resume);case _TinderTestEvent$SwipedLeft() when swipedLeft != null:
+return started(_that.testId,_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.resume,_that.groupId);case _TinderTestEvent$SwipedLeft() when swipedLeft != null:
 return swipedLeft(_that.cardId);case _TinderTestEvent$SwipedRight() when swipedRight != null:
 return swipedRight(_that.cardId);case _TinderTestEvent$Completed() when completed != null:
 return completed();case _TinderTestEvent$Discard() when discard != null:
@@ -157,10 +157,10 @@ return restarted();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String testId,  bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  bool resume)  started,required TResult Function( String cardId)  swipedLeft,required TResult Function( String cardId)  swipedRight,required TResult Function()  completed,required TResult Function()  discard,required TResult Function()  restarted,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String testId,  bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  bool resume,  String? groupId)  started,required TResult Function( String cardId)  swipedLeft,required TResult Function( String cardId)  swipedRight,required TResult Function()  completed,required TResult Function()  discard,required TResult Function()  restarted,}) {final _that = this;
 switch (_that) {
 case _TinderTestEvent$Started():
-return started(_that.testId,_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.resume);case _TinderTestEvent$SwipedLeft():
+return started(_that.testId,_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.resume,_that.groupId);case _TinderTestEvent$SwipedLeft():
 return swipedLeft(_that.cardId);case _TinderTestEvent$SwipedRight():
 return swipedRight(_that.cardId);case _TinderTestEvent$Completed():
 return completed();case _TinderTestEvent$Discard():
@@ -179,10 +179,10 @@ return restarted();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String testId,  bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  bool resume)?  started,TResult? Function( String cardId)?  swipedLeft,TResult? Function( String cardId)?  swipedRight,TResult? Function()?  completed,TResult? Function()?  discard,TResult? Function()?  restarted,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String testId,  bool swapSides,  int answerIndex,  bool mixup,  int mixupMin,  int mixupMax,  bool resume,  String? groupId)?  started,TResult? Function( String cardId)?  swipedLeft,TResult? Function( String cardId)?  swipedRight,TResult? Function()?  completed,TResult? Function()?  discard,TResult? Function()?  restarted,}) {final _that = this;
 switch (_that) {
 case _TinderTestEvent$Started() when started != null:
-return started(_that.testId,_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.resume);case _TinderTestEvent$SwipedLeft() when swipedLeft != null:
+return started(_that.testId,_that.swapSides,_that.answerIndex,_that.mixup,_that.mixupMin,_that.mixupMax,_that.resume,_that.groupId);case _TinderTestEvent$SwipedLeft() when swipedLeft != null:
 return swipedLeft(_that.cardId);case _TinderTestEvent$SwipedRight() when swipedRight != null:
 return swipedRight(_that.cardId);case _TinderTestEvent$Completed() when completed != null:
 return completed();case _TinderTestEvent$Discard() when discard != null:
@@ -199,7 +199,7 @@ return restarted();case _:
 
 
 class _TinderTestEvent$Started implements TinderTestEvent {
-  const _TinderTestEvent$Started({required this.testId, this.swapSides = false, this.answerIndex = 0, this.mixup = false, this.mixupMin = 1, this.mixupMax = 5, this.resume = false});
+  const _TinderTestEvent$Started({required this.testId, this.swapSides = false, this.answerIndex = 0, this.mixup = false, this.mixupMin = 1, this.mixupMax = 5, this.resume = false, this.groupId});
   
 
  final  String testId;
@@ -209,6 +209,7 @@ class _TinderTestEvent$Started implements TinderTestEvent {
 @JsonKey() final  int mixupMin;
 @JsonKey() final  int mixupMax;
 @JsonKey() final  bool resume;
+ final  String? groupId;
 
 /// Create a copy of TinderTestEvent
 /// with the given fields replaced by the non-null parameter values.
@@ -220,16 +221,16 @@ _$TinderTestEvent$StartedCopyWith<_TinderTestEvent$Started> get copyWith => __$T
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TinderTestEvent$Started&&(identical(other.testId, testId) || other.testId == testId)&&(identical(other.swapSides, swapSides) || other.swapSides == swapSides)&&(identical(other.answerIndex, answerIndex) || other.answerIndex == answerIndex)&&(identical(other.mixup, mixup) || other.mixup == mixup)&&(identical(other.mixupMin, mixupMin) || other.mixupMin == mixupMin)&&(identical(other.mixupMax, mixupMax) || other.mixupMax == mixupMax)&&(identical(other.resume, resume) || other.resume == resume));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TinderTestEvent$Started&&(identical(other.testId, testId) || other.testId == testId)&&(identical(other.swapSides, swapSides) || other.swapSides == swapSides)&&(identical(other.answerIndex, answerIndex) || other.answerIndex == answerIndex)&&(identical(other.mixup, mixup) || other.mixup == mixup)&&(identical(other.mixupMin, mixupMin) || other.mixupMin == mixupMin)&&(identical(other.mixupMax, mixupMax) || other.mixupMax == mixupMax)&&(identical(other.resume, resume) || other.resume == resume)&&(identical(other.groupId, groupId) || other.groupId == groupId));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,testId,swapSides,answerIndex,mixup,mixupMin,mixupMax,resume);
+int get hashCode => Object.hash(runtimeType,testId,swapSides,answerIndex,mixup,mixupMin,mixupMax,resume,groupId);
 
 @override
 String toString() {
-  return 'TinderTestEvent.started(testId: $testId, swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, resume: $resume)';
+  return 'TinderTestEvent.started(testId: $testId, swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, resume: $resume, groupId: $groupId)';
 }
 
 
@@ -240,7 +241,7 @@ abstract mixin class _$TinderTestEvent$StartedCopyWith<$Res> implements $TinderT
   factory _$TinderTestEvent$StartedCopyWith(_TinderTestEvent$Started value, $Res Function(_TinderTestEvent$Started) _then) = __$TinderTestEvent$StartedCopyWithImpl;
 @useResult
 $Res call({
- String testId, bool swapSides, int answerIndex, bool mixup, int mixupMin, int mixupMax, bool resume
+ String testId, bool swapSides, int answerIndex, bool mixup, int mixupMin, int mixupMax, bool resume, String? groupId
 });
 
 
@@ -257,7 +258,7 @@ class __$TinderTestEvent$StartedCopyWithImpl<$Res>
 
 /// Create a copy of TinderTestEvent
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? testId = null,Object? swapSides = null,Object? answerIndex = null,Object? mixup = null,Object? mixupMin = null,Object? mixupMax = null,Object? resume = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? testId = null,Object? swapSides = null,Object? answerIndex = null,Object? mixup = null,Object? mixupMin = null,Object? mixupMax = null,Object? resume = null,Object? groupId = freezed,}) {
   return _then(_TinderTestEvent$Started(
 testId: null == testId ? _self.testId : testId // ignore: cast_nullable_to_non_nullable
 as String,swapSides: null == swapSides ? _self.swapSides : swapSides // ignore: cast_nullable_to_non_nullable
@@ -266,7 +267,8 @@ as int,mixup: null == mixup ? _self.mixup : mixup // ignore: cast_nullable_to_no
 as bool,mixupMin: null == mixupMin ? _self.mixupMin : mixupMin // ignore: cast_nullable_to_non_nullable
 as int,mixupMax: null == mixupMax ? _self.mixupMax : mixupMax // ignore: cast_nullable_to_non_nullable
 as int,resume: null == resume ? _self.resume : resume // ignore: cast_nullable_to_non_nullable
-as bool,
+as bool,groupId: freezed == groupId ? _self.groupId : groupId // ignore: cast_nullable_to_non_nullable
+as String?,
   ));
 }
 
@@ -621,14 +623,14 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  empty,TResult Function( TestSession session,  CardEntity currentCard,  bool isUndo)?  inProgress,TResult Function( TestSession session)?  completed,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  empty,TResult Function( TestSession session,  CardEntity currentCard,  bool isUndo)?  inProgress,TResult Function( TestSession session,  AttemptSummary? summary)?  completed,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case TinderTestState$Initial() when initial != null:
 return initial();case TinderTestState$Loading() when loading != null:
 return loading();case TinderTestState$Empty() when empty != null:
 return empty();case TinderTestState$InProgress() when inProgress != null:
 return inProgress(_that.session,_that.currentCard,_that.isUndo);case TinderTestState$Completed() when completed != null:
-return completed(_that.session);case TinderTestState$Error() when error != null:
+return completed(_that.session,_that.summary);case TinderTestState$Error() when error != null:
 return error(_that.message);case _:
   return orElse();
 
@@ -647,14 +649,14 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  empty,required TResult Function( TestSession session,  CardEntity currentCard,  bool isUndo)  inProgress,required TResult Function( TestSession session)  completed,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  empty,required TResult Function( TestSession session,  CardEntity currentCard,  bool isUndo)  inProgress,required TResult Function( TestSession session,  AttemptSummary? summary)  completed,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case TinderTestState$Initial():
 return initial();case TinderTestState$Loading():
 return loading();case TinderTestState$Empty():
 return empty();case TinderTestState$InProgress():
 return inProgress(_that.session,_that.currentCard,_that.isUndo);case TinderTestState$Completed():
-return completed(_that.session);case TinderTestState$Error():
+return completed(_that.session,_that.summary);case TinderTestState$Error():
 return error(_that.message);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -669,14 +671,14 @@ return error(_that.message);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  empty,TResult? Function( TestSession session,  CardEntity currentCard,  bool isUndo)?  inProgress,TResult? Function( TestSession session)?  completed,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  empty,TResult? Function( TestSession session,  CardEntity currentCard,  bool isUndo)?  inProgress,TResult? Function( TestSession session,  AttemptSummary? summary)?  completed,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case TinderTestState$Initial() when initial != null:
 return initial();case TinderTestState$Loading() when loading != null:
 return loading();case TinderTestState$Empty() when empty != null:
 return empty();case TinderTestState$InProgress() when inProgress != null:
 return inProgress(_that.session,_that.currentCard,_that.isUndo);case TinderTestState$Completed() when completed != null:
-return completed(_that.session);case TinderTestState$Error() when error != null:
+return completed(_that.session,_that.summary);case TinderTestState$Error() when error != null:
 return error(_that.message);case _:
   return null;
 
@@ -873,10 +875,11 @@ $CardEntityCopyWith<$Res> get currentCard {
 
 
 class TinderTestState$Completed extends TinderTestState {
-  const TinderTestState$Completed({required this.session}): super._();
+  const TinderTestState$Completed({required this.session, this.summary}): super._();
   
 
  final  TestSession session;
+ final  AttemptSummary? summary;
 
 /// Create a copy of TinderTestState
 /// with the given fields replaced by the non-null parameter values.
@@ -888,16 +891,16 @@ $TinderTestState$CompletedCopyWith<TinderTestState$Completed> get copyWith => _$
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TinderTestState$Completed&&(identical(other.session, session) || other.session == session));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TinderTestState$Completed&&(identical(other.session, session) || other.session == session)&&(identical(other.summary, summary) || other.summary == summary));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,session);
+int get hashCode => Object.hash(runtimeType,session,summary);
 
 @override
 String toString() {
-  return 'TinderTestState.completed(session: $session)';
+  return 'TinderTestState.completed(session: $session, summary: $summary)';
 }
 
 
@@ -908,11 +911,11 @@ abstract mixin class $TinderTestState$CompletedCopyWith<$Res> implements $Tinder
   factory $TinderTestState$CompletedCopyWith(TinderTestState$Completed value, $Res Function(TinderTestState$Completed) _then) = _$TinderTestState$CompletedCopyWithImpl;
 @useResult
 $Res call({
- TestSession session
+ TestSession session, AttemptSummary? summary
 });
 
 
-$TestSessionCopyWith<$Res> get session;
+$TestSessionCopyWith<$Res> get session;$AttemptSummaryCopyWith<$Res>? get summary;
 
 }
 /// @nodoc
@@ -925,10 +928,11 @@ class _$TinderTestState$CompletedCopyWithImpl<$Res>
 
 /// Create a copy of TinderTestState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? session = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? session = null,Object? summary = freezed,}) {
   return _then(TinderTestState$Completed(
 session: null == session ? _self.session : session // ignore: cast_nullable_to_non_nullable
-as TestSession,
+as TestSession,summary: freezed == summary ? _self.summary : summary // ignore: cast_nullable_to_non_nullable
+as AttemptSummary?,
   ));
 }
 
@@ -940,6 +944,18 @@ $TestSessionCopyWith<$Res> get session {
   
   return $TestSessionCopyWith<$Res>(_self.session, (value) {
     return _then(_self.copyWith(session: value));
+  });
+}/// Create a copy of TinderTestState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$AttemptSummaryCopyWith<$Res>? get summary {
+    if (_self.summary == null) {
+    return null;
+  }
+
+  return $AttemptSummaryCopyWith<$Res>(_self.summary!, (value) {
+    return _then(_self.copyWith(summary: value));
   });
 }
 }

@@ -1,147 +1,105 @@
 import 'package:flutter/material.dart';
+import 'package:quizzerg/feature/test_execution/domain/entity/attempt_summary.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
 import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_screen.dart';
+import 'package:quizzerg/feature/tinder_test/presentation/widget/results/attempts_chart_card.dart';
+import 'package:quizzerg/feature/tinder_test/presentation/widget/results/dynamics_placeholder_card.dart';
+import 'package:quizzerg/feature/tinder_test/presentation/widget/results/question_breakdown_sliver.dart';
+import 'package:quizzerg/feature/tinder_test/presentation/widget/results/result_summary_header.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
-import 'package:quizzerg/uikit/app_radii.dart';
-import 'package:quizzerg/uikit/motion/count_up_text.dart';
-import 'package:quizzerg/uikit/progress/liquid_score_ring.dart';
-import 'package:quizzerg/uikit/spacing/height.dart';
+import 'package:quizzerg/uikit/motion/fade_in.dart';
+import 'package:quizzerg/uikit/spacing/sliver_height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
 
-/// Экран результата (вариант B): жидкая заливка-кольцо со спектральным цветом
-/// и count-up чипами «верно/ошибки».
+/// Экран результата (вариант C): сводка с кольцом, динамика прохождений
+/// и разбор по вопросам. Кнопки закреплены снизу.
+///
+/// Пока [summary] пишется, видна только сводка — остальное появляется
+/// следом.
 class ResultsContent extends StatelessWidget {
   final TestSession session;
+  final AttemptSummary? summary;
   final ITinderTestViewModel viewModel;
 
   const ResultsContent({
     required this.session,
+    required this.summary,
     required this.viewModel,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final total = session.cards.length;
-    final correct = session.correctCount;
-    final pct = total > 0 ? correct / total * 100 : 0.0;
+    final summary = this.summary;
 
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 16),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Text(
-              context.l10n.tinderTestResultsTitle,
-              textAlign: TextAlign.center,
-              style: textTheme.headlineMedium?.copyWith(
-                fontWeight: FontWeight.w600,
+    return Column(
+      children: [
+        Expanded(
+          child: CustomScrollView(
+            slivers: [
+              SliverPadding(
+                padding: const EdgeInsets.fromLTRB(24, 8, 16, 0),
+                sliver: SliverToBoxAdapter(
+                  child: ResultSummaryHeader(
+                    correct: session.correctCount,
+                    total: session.cards.length,
+                    summary: summary,
+                  ),
+                ),
               ),
-            ),
-            const Height(28),
-            LiquidScoreRing(
-              pct: pct,
-              correct: correct,
-              total: total,
-              icon: _bandIcon(pct),
-            ),
-            const Height(32),
-            Row(
-              children: [
-                Expanded(
-                  child: _StatChip(
-                    icon: Icons.check_circle,
-                    label: context.l10n.tinderTestResultsCorrectLabel,
-                    value: correct,
-                    color: Theme.of(context).colorScheme.success,
+              if (summary != null) ...[
+                if (summary.hasHistory)
+                  SliverPadding(
+                    padding: const EdgeInsets.fromLTRB(16, 20, 16, 0),
+                    sliver: SliverToBoxAdapter(
+                      child: FadeIn(
+                        child: summary.isFirstAttempt
+                            ? const DynamicsPlaceholderCard()
+                            : AttemptsChartCard(summary: summary),
+                      ),
+                    ),
                   ),
-                ),
-                const Width(12),
-                Expanded(
-                  child: _StatChip(
-                    icon: Icons.cancel,
-                    label: context.l10n.tinderTestResultsIncorrectLabel,
-                    value: session.incorrectCount,
-                    color: Theme.of(context).colorScheme.error,
-                  ),
-                ),
+                QuestionBreakdownSliver(summary: summary),
               ],
-            ),
-            const Height(32),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton.icon(
-                onPressed: viewModel.onBackPressed,
-                icon: const Icon(Icons.done),
-                label: Text(context.l10n.tinderTestResultsDoneButton),
-                style: FilledButton.styleFrom(
-                  minimumSize: const Size(0, 56),
-                ),
-              ),
-            ),
-            const Height(8),
-            TextButton.icon(
-              onPressed: viewModel.onRestartPressed,
-              icon: const Icon(Icons.refresh),
-              label: Text(context.l10n.tinderTestResultsRestartButton),
-            ),
-          ],
+              const SliverHeight(24),
+            ],
+          ),
         ),
-      ),
+        _ResultActions(viewModel: viewModel),
+      ],
     );
-  }
-
-  /// Иконка по диапазону результата.
-  IconData _bandIcon(double pct) {
-    if (pct >= 90) return Icons.emoji_events;
-    if (pct >= 60) return Icons.workspace_premium;
-    return Icons.trending_up;
   }
 }
 
-/// Чип со счётчиком (верно/ошибки): иконка, подпись и count-up число.
-class _StatChip extends StatelessWidget {
-  final IconData icon;
-  final String label;
-  final int value;
-  final Color color;
+/// «Повторить» и «Готово» под списком.
+class _ResultActions extends StatelessWidget {
+  final ITinderTestViewModel viewModel;
 
-  const _StatChip({
-    required this.icon,
-    required this.label,
-    required this.value,
-    required this.color,
-  });
+  const _ResultActions({required this.viewModel});
+
+  static const _buttonSize = Size(0, 52);
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 16),
-      decoration: BoxDecoration(
-        color: color.withValues(alpha: 0.16),
-        borderRadius: BorderRadius.circular(AppDimens.radius16),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+      child: Row(
         children: [
-          Row(
-            children: [
-              Icon(icon, size: 20, color: color),
-              const Width(8),
-              Text(label, style: textTheme.labelLarge),
-            ],
+          Expanded(
+            child: FilledButton.tonalIcon(
+              onPressed: viewModel.onRestartPressed,
+              icon: const Icon(Icons.replay),
+              label: Text(context.l10n.tinderTestResultsRestartButton),
+              style: FilledButton.styleFrom(minimumSize: _buttonSize),
+            ),
           ),
-          const Height(8),
-          CountUpText(
-            value: value,
-            style: textTheme.headlineSmall?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: color,
+          const Width(10),
+          Expanded(
+            child: FilledButton.icon(
+              onPressed: viewModel.onBackPressed,
+              icon: const Icon(Icons.check),
+              label: Text(context.l10n.tinderTestResultsDoneButton),
+              style: FilledButton.styleFrom(minimumSize: _buttonSize),
             ),
           ),
         ],

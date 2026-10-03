@@ -18,11 +18,15 @@ class TestDetailFlow extends StatelessWidget implements AutoRouteWrapper {
   final int mixupMin;
   final int mixupMax;
 
+  /// Группа, из которой открыт тест; передаётся в запуск теста.
+  final String? groupId;
+
   const TestDetailFlow({
     @PathParam('testId') required this.testId,
     this.mixup = false,
     this.mixupMin = 1,
     this.mixupMax = 5,
+    this.groupId,
     super.key,
   });
 
@@ -53,6 +57,7 @@ class TestDetailFlow extends StatelessWidget implements AutoRouteWrapper {
       mixup: mixup,
       mixupMin: mixupMin,
       mixupMax: mixupMax,
+      groupId: groupId,
     );
   }
 }

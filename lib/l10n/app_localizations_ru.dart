@@ -86,22 +86,87 @@ class AppLocalizationsRu extends AppLocalizations {
   String get tinderTestSwipeKnownHint => 'Знаю';
 
   @override
-  String get tinderTestResultsTitle => 'Тест завершён!';
-
-  @override
-  String get tinderTestResultsCorrectLabel => 'Правильно';
-
-  @override
-  String get tinderTestResultsIncorrectLabel => 'Неправильно';
-
-  @override
-  String get tinderTestResultsPercentageLabel => 'Результат';
-
-  @override
   String get tinderTestResultsRestartButton => 'Повторить';
 
   @override
   String get tinderTestResultsDoneButton => 'Готово';
+
+  @override
+  String get tinderTestResultsAppBarTitle => 'Результат';
+
+  @override
+  String get tinderTestResultsTitleGreat => 'Отличный результат!';
+
+  @override
+  String get tinderTestResultsTitleGood => 'Хорошая работа!';
+
+  @override
+  String get tinderTestResultsTitleRetry => 'Есть над чем поработать';
+
+  @override
+  String tinderTestResultsDeltaUp(int delta) {
+    return '+$delta% к прошлому разу';
+  }
+
+  @override
+  String tinderTestResultsDeltaDown(int delta) {
+    return '−$delta% от прошлого раза';
+  }
+
+  @override
+  String get tinderTestResultsDeltaSame => 'Как в прошлый раз';
+
+  @override
+  String get tinderTestResultsFirstAttempt => 'Первое прохождение';
+
+  @override
+  String get tinderTestResultsRecentAttempts => 'Последние прохождения';
+
+  @override
+  String tinderTestResultsAttemptsCount(int shown, int total) {
+    return '$shown из $total';
+  }
+
+  @override
+  String get tinderTestResultsAttemptNow => 'сейчас';
+
+  @override
+  String get tinderTestResultsDynamicsPlaceholderTitle =>
+      'Динамика появится позже';
+
+  @override
+  String get tinderTestResultsDynamicsPlaceholderSubtitle =>
+      'Пройдите тест ещё раз — сравним результат с этим прохождением';
+
+  @override
+  String get tinderTestResultsByQuestion => 'По вопросам';
+
+  @override
+  String get tinderTestResultsFilterAll => 'Все';
+
+  @override
+  String get tinderTestResultsFilterMistakes => 'Ошибки';
+
+  @override
+  String get tinderTestResultsAnswerKnow => 'Знаю';
+
+  @override
+  String get tinderTestResultsAnswerDontKnow => 'Не знаю';
+
+  @override
+  String get tinderTestResultsTrendFirstCorrect => 'Впервые верно';
+
+  @override
+  String get tinderTestResultsTrendFixed => 'Исправлено';
+
+  @override
+  String get tinderTestResultsTrendForgot => 'Забыто';
+
+  @override
+  String get tinderTestResultsTrendRepeatedMistake => 'Снова ошибка';
+
+  @override
+  String get tinderTestResultsTrendStable => 'Стабильно';
 
   @override
   String get testsListAppBarTitle => 'Тесты';
@@ -579,14 +644,23 @@ class AppLocalizationsRu extends AppLocalizations {
   String get groupsListNewGroupCreate => 'Создать';
 
   @override
-  String groupsListActiveSessionTitle(String title) {
-    return 'Продолжить: $title';
+  String get groupsListActiveSessionLabel => 'Продолжить тест';
+
+  @override
+  String groupsListActiveSessionCards(int current, int total) {
+    String _temp0 = intl.Intl.pluralLogic(
+      total,
+      locale: localeName,
+      other: 'карточки',
+      many: 'карточек',
+      few: 'карточек',
+      one: 'карточки',
+    );
+    return '$current из $total $_temp0';
   }
 
   @override
-  String groupsListActiveSessionProgress(int current, int total) {
-    return '$current из $total';
-  }
+  String get groupsListActiveSessionResume => 'Продолжить';
 
   @override
   String get groupsListActiveSessionDismiss => 'Отменить';

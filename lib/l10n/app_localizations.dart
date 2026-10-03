@@ -248,30 +248,6 @@ abstract class AppLocalizations {
   /// **'Know'**
   String get tinderTestSwipeKnownHint;
 
-  /// No description provided for @tinderTestResultsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Test completed!'**
-  String get tinderTestResultsTitle;
-
-  /// No description provided for @tinderTestResultsCorrectLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Correct'**
-  String get tinderTestResultsCorrectLabel;
-
-  /// No description provided for @tinderTestResultsIncorrectLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Incorrect'**
-  String get tinderTestResultsIncorrectLabel;
-
-  /// No description provided for @tinderTestResultsPercentageLabel.
-  ///
-  /// In en, this message translates to:
-  /// **'Result'**
-  String get tinderTestResultsPercentageLabel;
-
   /// No description provided for @tinderTestResultsRestartButton.
   ///
   /// In en, this message translates to:
@@ -283,6 +259,144 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Done'**
   String get tinderTestResultsDoneButton;
+
+  /// No description provided for @tinderTestResultsAppBarTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Result'**
+  String get tinderTestResultsAppBarTitle;
+
+  /// No description provided for @tinderTestResultsTitleGreat.
+  ///
+  /// In en, this message translates to:
+  /// **'Great result!'**
+  String get tinderTestResultsTitleGreat;
+
+  /// No description provided for @tinderTestResultsTitleGood.
+  ///
+  /// In en, this message translates to:
+  /// **'Good job!'**
+  String get tinderTestResultsTitleGood;
+
+  /// No description provided for @tinderTestResultsTitleRetry.
+  ///
+  /// In en, this message translates to:
+  /// **'Room for improvement'**
+  String get tinderTestResultsTitleRetry;
+
+  /// No description provided for @tinderTestResultsDeltaUp.
+  ///
+  /// In en, this message translates to:
+  /// **'+{delta}% vs last time'**
+  String tinderTestResultsDeltaUp(int delta);
+
+  /// No description provided for @tinderTestResultsDeltaDown.
+  ///
+  /// In en, this message translates to:
+  /// **'−{delta}% vs last time'**
+  String tinderTestResultsDeltaDown(int delta);
+
+  /// No description provided for @tinderTestResultsDeltaSame.
+  ///
+  /// In en, this message translates to:
+  /// **'Same as last time'**
+  String get tinderTestResultsDeltaSame;
+
+  /// No description provided for @tinderTestResultsFirstAttempt.
+  ///
+  /// In en, this message translates to:
+  /// **'First attempt'**
+  String get tinderTestResultsFirstAttempt;
+
+  /// No description provided for @tinderTestResultsRecentAttempts.
+  ///
+  /// In en, this message translates to:
+  /// **'Recent attempts'**
+  String get tinderTestResultsRecentAttempts;
+
+  /// No description provided for @tinderTestResultsAttemptsCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{shown} of {total}'**
+  String tinderTestResultsAttemptsCount(int shown, int total);
+
+  /// No description provided for @tinderTestResultsAttemptNow.
+  ///
+  /// In en, this message translates to:
+  /// **'now'**
+  String get tinderTestResultsAttemptNow;
+
+  /// No description provided for @tinderTestResultsDynamicsPlaceholderTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Progress will appear later'**
+  String get tinderTestResultsDynamicsPlaceholderTitle;
+
+  /// No description provided for @tinderTestResultsDynamicsPlaceholderSubtitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Take the test again to compare the result with this attempt'**
+  String get tinderTestResultsDynamicsPlaceholderSubtitle;
+
+  /// No description provided for @tinderTestResultsByQuestion.
+  ///
+  /// In en, this message translates to:
+  /// **'By question'**
+  String get tinderTestResultsByQuestion;
+
+  /// No description provided for @tinderTestResultsFilterAll.
+  ///
+  /// In en, this message translates to:
+  /// **'All'**
+  String get tinderTestResultsFilterAll;
+
+  /// No description provided for @tinderTestResultsFilterMistakes.
+  ///
+  /// In en, this message translates to:
+  /// **'Mistakes'**
+  String get tinderTestResultsFilterMistakes;
+
+  /// No description provided for @tinderTestResultsAnswerKnow.
+  ///
+  /// In en, this message translates to:
+  /// **'Know'**
+  String get tinderTestResultsAnswerKnow;
+
+  /// No description provided for @tinderTestResultsAnswerDontKnow.
+  ///
+  /// In en, this message translates to:
+  /// **'Don\'t know'**
+  String get tinderTestResultsAnswerDontKnow;
+
+  /// No description provided for @tinderTestResultsTrendFirstCorrect.
+  ///
+  /// In en, this message translates to:
+  /// **'First correct'**
+  String get tinderTestResultsTrendFirstCorrect;
+
+  /// No description provided for @tinderTestResultsTrendFixed.
+  ///
+  /// In en, this message translates to:
+  /// **'Fixed'**
+  String get tinderTestResultsTrendFixed;
+
+  /// No description provided for @tinderTestResultsTrendForgot.
+  ///
+  /// In en, this message translates to:
+  /// **'Forgotten'**
+  String get tinderTestResultsTrendForgot;
+
+  /// No description provided for @tinderTestResultsTrendRepeatedMistake.
+  ///
+  /// In en, this message translates to:
+  /// **'Wrong again'**
+  String get tinderTestResultsTrendRepeatedMistake;
+
+  /// No description provided for @tinderTestResultsTrendStable.
+  ///
+  /// In en, this message translates to:
+  /// **'Stable'**
+  String get tinderTestResultsTrendStable;
 
   /// No description provided for @testsListAppBarTitle.
   ///
@@ -1070,17 +1184,23 @@ abstract class AppLocalizations {
   /// **'Create'**
   String get groupsListNewGroupCreate;
 
-  /// No description provided for @groupsListActiveSessionTitle.
+  /// No description provided for @groupsListActiveSessionLabel.
   ///
   /// In en, this message translates to:
-  /// **'Continue: {title}'**
-  String groupsListActiveSessionTitle(String title);
+  /// **'Continue test'**
+  String get groupsListActiveSessionLabel;
 
-  /// No description provided for @groupsListActiveSessionProgress.
+  /// No description provided for @groupsListActiveSessionCards.
   ///
   /// In en, this message translates to:
-  /// **'{current} of {total}'**
-  String groupsListActiveSessionProgress(int current, int total);
+  /// **'{current} of {total} {total, plural, one{card} other{cards}}'**
+  String groupsListActiveSessionCards(int current, int total);
+
+  /// No description provided for @groupsListActiveSessionResume.
+  ///
+  /// In en, this message translates to:
+  /// **'Continue'**
+  String get groupsListActiveSessionResume;
 
   /// No description provided for @groupsListActiveSessionDismiss.
   ///

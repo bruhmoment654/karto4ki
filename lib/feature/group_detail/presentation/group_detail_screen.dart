@@ -14,7 +14,9 @@ import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
 
 /// Экран деталки группы.
 class GroupDetailScreen extends StatefulWidget {
-  const GroupDetailScreen({super.key});
+  final String groupId;
+
+  const GroupDetailScreen({required this.groupId, super.key});
 
   @override
   State<GroupDetailScreen> createState() => _GroupDetailScreenState();
@@ -80,6 +82,7 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
         mixup: mixupState.enabled,
         mixupMin: mixupState.mixupMin,
         mixupMax: mixupState.mixupMax,
+        groupId: widget.groupId,
       ),
     );
   }

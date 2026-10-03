@@ -68,6 +68,7 @@ class _GroupsListScreenState extends State<GroupsListScreen>
         mixupMin: session.params.mixupMin,
         mixupMax: session.params.mixupMax,
         resume: true,
+        groupId: session.params.groupId,
       ),
     );
   }

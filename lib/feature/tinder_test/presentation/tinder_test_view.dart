@@ -72,18 +72,28 @@ class _Body extends StatelessWidget {
           isUndo: isUndo,
           viewModel: viewModel,
         ),
-      TinderTestState$Completed(:final session) => ResultsContent(
+      TinderTestState$Completed(:final session, :final summary) =>
+        ResultsContent(
           key: const ValueKey('completed'),
           session: session,
+          summary: summary,
           viewModel: viewModel,
         ),
     };
 
     return AppScaffold(
-      appBar: DefaultAppBar.withBack(
-        title: Text(context.l10n.tinderTestAppBarTitle),
-        onBackPressed: viewModel.onBackPressed,
-      ),
+      appBar: state is TinderTestState$Completed
+          ? DefaultAppBar(
+              title: Text(context.l10n.tinderTestResultsAppBarTitle),
+              leading: IconButton(
+                icon: const Icon(Icons.close),
+                onPressed: viewModel.onBackPressed,
+              ),
+            )
+          : DefaultAppBar.withBack(
+              title: Text(context.l10n.tinderTestAppBarTitle),
+              onBackPressed: viewModel.onBackPressed,
+            ),
       body: PageTransitionSwitcher(
         duration: AppMotion.reduced(context)
             ? Duration.zero

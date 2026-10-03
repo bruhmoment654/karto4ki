@@ -232,6 +232,7 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
     bool mixup = false,
     int mixupMin = 1,
     int mixupMax = 5,
+    String? groupId,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -241,6 +242,7 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
            mixup: mixup,
            mixupMin: mixupMin,
            mixupMax: mixupMax,
+           groupId: groupId,
            key: key,
          ),
          rawPathParams: {'testId': testId},
@@ -263,6 +265,7 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
           mixup: args.mixup,
           mixupMin: args.mixupMin,
           mixupMax: args.mixupMax,
+          groupId: args.groupId,
           key: args.key,
         ),
       );
@@ -276,6 +279,7 @@ class TestDetailRouteArgs {
     this.mixup = false,
     this.mixupMin = 1,
     this.mixupMax = 5,
+    this.groupId,
     this.key,
   });
 
@@ -287,11 +291,13 @@ class TestDetailRouteArgs {
 
   final int mixupMax;
 
+  final String? groupId;
+
   final Key? key;
 
   @override
   String toString() {
-    return 'TestDetailRouteArgs{testId: $testId, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, key: $key}';
+    return 'TestDetailRouteArgs{testId: $testId, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, groupId: $groupId, key: $key}';
   }
 
   @override
@@ -302,6 +308,7 @@ class TestDetailRouteArgs {
         mixup == other.mixup &&
         mixupMin == other.mixupMin &&
         mixupMax == other.mixupMax &&
+        groupId == other.groupId &&
         key == other.key;
   }
 
@@ -311,6 +318,7 @@ class TestDetailRouteArgs {
       mixup.hashCode ^
       mixupMin.hashCode ^
       mixupMax.hashCode ^
+      groupId.hashCode ^
       key.hashCode;
 }
 
@@ -390,6 +398,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
     int mixupMin = 1,
     int mixupMax = 5,
     bool resume = false,
+    String? groupId,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -402,6 +411,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
            mixupMin: mixupMin,
            mixupMax: mixupMax,
            resume: resume,
+           groupId: groupId,
            key: key,
          ),
          rawPathParams: {'testId': testId},
@@ -427,6 +437,7 @@ class TinderTestRoute extends PageRouteInfo<TinderTestRouteArgs> {
           mixupMin: args.mixupMin,
           mixupMax: args.mixupMax,
           resume: args.resume,
+          groupId: args.groupId,
           key: args.key,
         ),
       );
@@ -443,6 +454,7 @@ class TinderTestRouteArgs {
     this.mixupMin = 1,
     this.mixupMax = 5,
     this.resume = false,
+    this.groupId,
     this.key,
   });
 
@@ -460,11 +472,13 @@ class TinderTestRouteArgs {
 
   final bool resume;
 
+  final String? groupId;
+
   final Key? key;
 
   @override
   String toString() {
-    return 'TinderTestRouteArgs{testId: $testId, swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, resume: $resume, key: $key}';
+    return 'TinderTestRouteArgs{testId: $testId, swapSides: $swapSides, answerIndex: $answerIndex, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, resume: $resume, groupId: $groupId, key: $key}';
   }
 
   @override
@@ -478,6 +492,7 @@ class TinderTestRouteArgs {
         mixupMin == other.mixupMin &&
         mixupMax == other.mixupMax &&
         resume == other.resume &&
+        groupId == other.groupId &&
         key == other.key;
   }
 
@@ -490,6 +505,7 @@ class TinderTestRouteArgs {
       mixupMin.hashCode ^
       mixupMax.hashCode ^
       resume.hashCode ^
+      groupId.hashCode ^
       key.hashCode;
 }
 

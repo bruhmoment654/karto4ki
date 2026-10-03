@@ -13,8 +13,9 @@ Color spectrumColor(double pct) {
 /// Круг результата с «жидкой» заливкой: вода поднимается до [pct], её цвет
 /// плавно проходит спектр (см. [spectrumColor]), поверхность колышется.
 ///
-/// В центре — иконка, процент и подпись «correct из total». Число и цвет
-/// синхронизированы с подъёмом воды.
+/// В центре — иконка (если задана), процент и подпись «correct из total».
+/// Число и цвет синхронизированы с подъёмом воды. Меньше [compactSize] —
+/// компактная типографика.
 ///
 /// reduced-motion ([AppMotion.reduced]): вода сразу на финальном уровне, без
 /// колыхания, цвет финальный.
@@ -23,7 +24,7 @@ class LiquidScoreRing extends StatefulWidget {
     required this.pct,
     required this.correct,
     required this.total,
-    required this.icon,
+    this.icon,
     this.size = 220,
     super.key,
   });
@@ -32,8 +33,11 @@ class LiquidScoreRing extends StatefulWidget {
   final double pct;
   final int correct;
   final int total;
-  final IconData icon;
+  final IconData? icon;
   final double size;
+
+  /// Порог компактного вида: кольцо в строке-сводке, а не героем экрана.
+  static const compactSize = 160.0;
 
   @override
   State<LiquidScoreRing> createState() => _LiquidScoreRingState();
@@ -82,6 +86,8 @@ class _LiquidScoreRingState extends State<LiquidScoreRing>
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
     final textTheme = Theme.of(context).textTheme;
+    final isCompact = widget.size < LiquidScoreRing.compactSize;
+    final icon = widget.icon;
 
     return AnimatedBuilder(
       animation: Listenable.merge([_level, _drift]),
@@ -102,10 +108,13 @@ class _LiquidScoreRingState extends State<LiquidScoreRing>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(widget.icon, size: 34, color: color),
+                  if (icon != null) Icon(icon, size: 34, color: color),
                   Text(
                     '${current.round()}%',
-                    style: textTheme.displayLarge?.copyWith(
+                    style: (isCompact
+                            ? textTheme.displaySmall
+                            : textTheme.displayLarge)
+                        ?.copyWith(
                       fontWeight: FontWeight.w800,
                       height: 1,
                       color: cs.onSurface,
@@ -113,9 +122,10 @@ class _LiquidScoreRingState extends State<LiquidScoreRing>
                   ),
                   Text(
                     '${widget.correct} / ${widget.total}',
-                    style: textTheme.labelLarge?.copyWith(
-                      color: cs.onSurfaceVariant,
-                    ),
+                    style: (isCompact
+                            ? textTheme.labelMedium
+                            : textTheme.labelLarge)
+                        ?.copyWith(color: cs.onSurfaceVariant),
                   ),
                 ],
               ),

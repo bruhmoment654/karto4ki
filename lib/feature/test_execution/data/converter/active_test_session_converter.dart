@@ -85,6 +85,7 @@ abstract final class ActiveTestSessionConverter {
         mixupMin: dto.mixupMin,
         mixupMax: dto.mixupMax,
         algorithm: dto.algorithm,
+        groupId: dto.groupId,
       );
 
   static LaunchParamsDto _paramsToDto(ActiveSessionLaunchParams entity) =>
@@ -95,5 +96,6 @@ abstract final class ActiveTestSessionConverter {
         mixupMin: entity.mixupMin,
         mixupMax: entity.mixupMax,
         algorithm: entity.algorithm,
+        groupId: entity.groupId,
       );
 }

@@ -18,6 +18,7 @@ LaunchParamsDto _$LaunchParamsDtoFromJson(Map<String, dynamic> json) =>
           'algorithm',
           (v) => $enumDecode(_$MixupAlgorithmEnumMap, v),
         ),
+        groupId: $checkedConvert('groupId', (v) => v as String?),
       );
       return val;
     });
@@ -30,6 +31,7 @@ Map<String, dynamic> _$LaunchParamsDtoToJson(LaunchParamsDto instance) =>
       'mixupMin': instance.mixupMin,
       'mixupMax': instance.mixupMax,
       'algorithm': _$MixupAlgorithmEnumMap[instance.algorithm]!,
+      'groupId': instance.groupId,
     };
 
 const _$MixupAlgorithmEnumMap = {

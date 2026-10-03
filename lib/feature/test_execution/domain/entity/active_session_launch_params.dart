@@ -17,5 +17,8 @@ sealed class ActiveSessionLaunchParams with _$ActiveSessionLaunchParams {
     required int mixupMin,
     required int mixupMax,
     required MixupAlgorithm algorithm,
+
+    /// Группа, из которой запущен тест; `null` — запущен не из группы.
+    String? groupId,
   }) = _ActiveSessionLaunchParams;
 }
