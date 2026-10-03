@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:quizzerg/uikit/motion/reduced_motion_page_transitions_builder.dart';
 import 'package:quizzerg/uikit/slider/bar_slider_shapes.dart';
 import 'package:quizzerg/uikit/theme/app_colors.dart';
+import 'package:quizzerg/uikit/theme/hidden_theme_freeze.dart';
 import 'package:quizzerg/uikit/theme/palette/app_palette.dart';
 import 'package:quizzerg/uikit/theme/palette/seed_palette.dart';
 
@@ -21,6 +22,30 @@ import 'package:quizzerg/uikit/theme/palette/seed_palette.dart';
 class AppTheme {
   /// Фиолетовый seed (раньше дефолт был зелёным). Слайдер в настройках его меняет.
   static const defaultSeedColor = Color(0xFF6750A4);
+
+  /// Экраны под текущим маршрутом не пересобираются на смене темы — см.
+  /// [HiddenThemeFreeze].
+  static const _pageTransitionsTheme = PageTransitionsTheme(
+    builders: {
+      TargetPlatform.android: HiddenThemeFreezePageTransitionsBuilder(
+        ReducedMotionPageTransitionsBuilder(
+          PredictiveBackPageTransitionsBuilder(),
+        ),
+      ),
+      TargetPlatform.iOS: HiddenThemeFreezePageTransitionsBuilder(
+        CupertinoPageTransitionsBuilder(),
+      ),
+      TargetPlatform.macOS: HiddenThemeFreezePageTransitionsBuilder(
+        CupertinoPageTransitionsBuilder(),
+      ),
+      TargetPlatform.windows: HiddenThemeFreezePageTransitionsBuilder(
+        ReducedMotionPageTransitionsBuilder(ZoomPageTransitionsBuilder()),
+      ),
+      TargetPlatform.linux: HiddenThemeFreezePageTransitionsBuilder(
+        ReducedMotionPageTransitionsBuilder(ZoomPageTransitionsBuilder()),
+      ),
+    },
+  );
 
   static ThemeData light({
     Color seedColor = defaultSeedColor,
@@ -51,21 +76,7 @@ class AppTheme {
       extensions: [colors],
       scaffoldBackgroundColor: cs.surface,
       fontFamily: 'Nexa',
-      pageTransitionsTheme: const PageTransitionsTheme(
-        builders: {
-          TargetPlatform.android: ReducedMotionPageTransitionsBuilder(
-            PredictiveBackPageTransitionsBuilder(),
-          ),
-          TargetPlatform.iOS: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.macOS: CupertinoPageTransitionsBuilder(),
-          TargetPlatform.windows: ReducedMotionPageTransitionsBuilder(
-            ZoomPageTransitionsBuilder(),
-          ),
-          TargetPlatform.linux: ReducedMotionPageTransitionsBuilder(
-            ZoomPageTransitionsBuilder(),
-          ),
-        },
-      ),
+      pageTransitionsTheme: _pageTransitionsTheme,
       appBarTheme: AppBarTheme(
         elevation: 0,
         centerTitle: false,

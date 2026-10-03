@@ -19,6 +19,7 @@ import 'package:quizzerg/uikit/slider/app_slider.dart';
 import 'package:quizzerg/uikit/slider/hue_slider.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
+import 'package:quizzerg/uikit/theme/animated_theme_scope.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 class SettingsView extends StatelessWidget {
@@ -28,74 +29,78 @@ class SettingsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      appBar: DefaultAppBar.withBack(
-        title: Text(context.l10n.settingsTitle),
-        onBackPressed: viewModel.onBackPressed,
-      ),
-      body: StateStreamableBuilder<SettingsState>(
-        bloc: viewModel.settingsState,
-        builder: (context, state) => ListView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-          children: [
-            SettingsCard(
-              icon: Icons.palette,
-              title: context.l10n.settingsAppearanceTitle,
-              children: [
-                _ThemeModeSection(
-                  viewModel: viewModel,
-                  themeMode: state.settings.themeMode,
-                ),
-                const Height(22),
-                _ColorStyleSection(
-                  viewModel: viewModel,
-                  colorStyle: state.settings.colorStyle,
-                  accentColorHue: state.accentColorHue,
-                ),
-                const Height(22),
-                _AccentColorSection(
-                  viewModel: viewModel,
-                  accentColorHue: state.accentColorHue,
-                  colorStyle: state.settings.colorStyle,
-                ),
-                const Height(22),
-                _AnimationSpeedSection(
-                  viewModel: viewModel,
-                  animationDurationMs: state.settings.animationDurationMs,
-                ),
-              ],
-            ),
-            const Height(16),
-            SettingsCard(
-              icon: Icons.dashboard_customize_outlined,
-              title: 'Карточки',
-              fadeInDelay: const Duration(milliseconds: 80),
-              children: [
-                _CardFontSizeSection(
-                  viewModel: viewModel,
-                  cardFontSize: state.settings.cardFontSize,
-                ),
-              ],
-            ),
-            const Height(16),
-            StateStreamableBuilder<AttemptHistoryState>(
-              bloc: viewModel.attemptHistoryState,
-              builder: (context, historyState) => AttemptHistoryCard(
-                state: historyState,
-                onClearPressed: viewModel.onAttemptHistoryClearPressed,
-                fadeInDelay: const Duration(milliseconds: 160),
+    // Тему меняют здесь: экран плавно перетекает в новые цвета, остальное
+    // приложение переключается за кадр.
+    return AnimatedThemeScope(
+      child: AppScaffold(
+        appBar: DefaultAppBar.withBack(
+          title: Text(context.l10n.settingsTitle),
+          onBackPressed: viewModel.onBackPressed,
+        ),
+        body: StateStreamableBuilder<SettingsState>(
+          bloc: viewModel.settingsState,
+          builder: (context, state) => ListView(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            children: [
+              SettingsCard(
+                icon: Icons.palette,
+                title: context.l10n.settingsAppearanceTitle,
+                children: [
+                  _ThemeModeSection(
+                    viewModel: viewModel,
+                    themeMode: state.settings.themeMode,
+                  ),
+                  const Height(22),
+                  _ColorStyleSection(
+                    viewModel: viewModel,
+                    colorStyle: state.settings.colorStyle,
+                    accentColorHue: state.accentColorHue,
+                  ),
+                  const Height(22),
+                  _AccentColorSection(
+                    viewModel: viewModel,
+                    accentColorHue: state.accentColorHue,
+                    colorStyle: state.settings.colorStyle,
+                  ),
+                  const Height(22),
+                  _AnimationSpeedSection(
+                    viewModel: viewModel,
+                    animationDurationMs: state.settings.animationDurationMs,
+                  ),
+                ],
               ),
-            ),
-            const Height(32),
-            _StatsExportSection(
-              isExporting: state.isExporting,
-              onPressed: viewModel.onStatsExportPressed,
-            ),
-            const Height(32),
-            const SkeletonGif(),
-            const SizedBox(height: 16),
-            _VersionLabel(version: state.appVersion),
-          ],
+              const Height(16),
+              SettingsCard(
+                icon: Icons.dashboard_customize_outlined,
+                title: 'Карточки',
+                fadeInDelay: const Duration(milliseconds: 80),
+                children: [
+                  _CardFontSizeSection(
+                    viewModel: viewModel,
+                    cardFontSize: state.settings.cardFontSize,
+                  ),
+                ],
+              ),
+              const Height(16),
+              StateStreamableBuilder<AttemptHistoryState>(
+                bloc: viewModel.attemptHistoryState,
+                builder: (context, historyState) => AttemptHistoryCard(
+                  state: historyState,
+                  onClearPressed: viewModel.onAttemptHistoryClearPressed,
+                  fadeInDelay: const Duration(milliseconds: 160),
+                ),
+              ),
+              const Height(32),
+              _StatsExportSection(
+                isExporting: state.isExporting,
+                onPressed: viewModel.onStatsExportPressed,
+              ),
+              const Height(32),
+              const SkeletonGif(),
+              const SizedBox(height: 16),
+              _VersionLabel(version: state.appVersion),
+            ],
+          ),
         ),
       ),
     );

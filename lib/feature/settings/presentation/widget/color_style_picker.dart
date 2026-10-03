@@ -35,7 +35,12 @@ class ColorStylePicker extends StatelessWidget {
           Expanded(
             child: _ColorStyleOption(
               style: style,
-              accent: accent,
+              // Схема по seed дорогая, а карточка пересобирается в каждом
+              // кадре анимации смены темы. Здесь — только при смене
+              // настроек.
+              previewScheme: AppThemeScope.paletteOf(
+                style,
+              ).colorScheme(brightness: Brightness.dark, accent: accent),
               isSelected: style == value,
               onTap: () => onChanged(style),
             ),
@@ -50,13 +55,15 @@ class _ColorStyleOption extends StatelessWidget {
   static const _radius = BorderRadius.all(Radius.circular(16));
 
   final AppColorStyle style;
-  final Color accent;
+
+  /// Тёмная палитра стиля с текущим акцентом.
+  final ColorScheme previewScheme;
   final bool isSelected;
   final VoidCallback onTap;
 
   const _ColorStyleOption({
     required this.style,
-    required this.accent,
+    required this.previewScheme,
     required this.isSelected,
     required this.onTap,
   });
@@ -86,11 +93,7 @@ class _ColorStyleOption extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                _ColorStylePreview(
-                  scheme: AppThemeScope.paletteOf(
-                    style,
-                  ).colorScheme(brightness: Brightness.dark, accent: accent),
-                ),
+                _ColorStylePreview(scheme: previewScheme),
                 const Height(8),
                 // На узком экране подпись с галочкой не влезает в треть
                 // карточки — ужимаем, а не переносим посреди слова.

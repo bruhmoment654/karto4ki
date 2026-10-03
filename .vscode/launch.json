@@ -11,8 +11,19 @@
             "program": "lib/main.dart",
             "args": [
                 "--flavor",
-                "dev"
+                "dev" 
             ],
+        },
+            {
+            "name": "dev-profile",
+            "request": "launch",
+            "type": "dart",
+            "program": "lib/main.dart",
+            "args": [
+                "--flavor",
+                "dev",
+            ],
+            "flutterMode": "profile",
         },
         {
             "name": "dev-release",

@@ -47,6 +47,10 @@ class _AppState extends State<App> {
               theme: themeScope.lightTheme,
               darkTheme: themeScope.darkTheme,
               themeMode: themeScope.themeMode,
+              // Тема применяется за кадр: покадровая анимация пересобирала бы
+              // всё приложение. Плавный переход — только там, где его видно
+              // (AnimatedThemeScope).
+              themeAnimationStyle: AnimationStyle.noAnimation,
               locale: _locale,
               localizationsDelegates: _localizationsDelegates,
               supportedLocales: const [_locale],
