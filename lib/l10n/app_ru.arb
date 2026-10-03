@@ -1093,5 +1093,64 @@
   "syncReauthSignIn": "Войти",
   "groupsListTitle": "Мои группы",
   "groupsListSubtitle": "Группы тестов для обучения по карточкам",
-  "syncSubtitleSyncedNoTime": "Все изменения на сервере"
+  "syncSubtitleSyncedNoTime": "Все изменения на сервере",
+  "@segmentSettingsHistory": {
+    "---------": "---------",
+    "description": "Настройки: история прохождений"
+  },
+  "settingsHistoryTitle": "История прохождений",
+  "settingsHistoryDescription": "Прохождения тестов для графиков и динамики на экране результата",
+  "settingsHistoryUsage": "Занимает {size}",
+  "@settingsHistoryUsage": {
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "1,2 МБ"
+      }
+    }
+  },
+  "settingsHistoryUsageEstimate": "Занимает ≈ {size}",
+  "@settingsHistoryUsageEstimate": {
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "1,2 МБ"
+      }
+    }
+  },
+  "settingsHistoryUsageUnknown": "Размер неизвестен",
+  "settingsHistoryEmpty": "Пусто",
+  "settingsHistoryClear": "Очистить",
+  "settingsHistoryClearDialogTitle": "Очистить историю прохождений?",
+  "settingsHistoryClearDialogMessage": "Графики и динамика по вопросам начнутся заново. Статистика, тесты и карточки останутся.",
+  "settingsHistoryClearDialogConfirm": "Очистить",
+  "settingsHistoryClearedSnack": "История очищена",
+  "settingsHistoryClearFailedSnack": "Не удалось очистить историю",
+  "settingsHistorySizeBytes": "{size} Б",
+  "@settingsHistorySizeBytes": {
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "850"
+      }
+    }
+  },
+  "settingsHistorySizeKilobytes": "{size} КБ",
+  "@settingsHistorySizeKilobytes": {
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "850"
+      }
+    }
+  },
+  "settingsHistorySizeMegabytes": "{size} МБ",
+  "@settingsHistorySizeMegabytes": {
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "1,2"
+      }
+    }
+  }
 }

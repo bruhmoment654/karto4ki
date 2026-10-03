@@ -647,5 +647,64 @@
   "syncReauthSignIn": "Sign in",
   "groupsListTitle": "My groups",
   "groupsListSubtitle": "Test groups for flashcard learning",
-  "syncSubtitleSyncedNoTime": "All changes are on the server"
+  "syncSubtitleSyncedNoTime": "All changes are on the server",
+  "@segmentSettingsHistory": {
+    "---------": "---------",
+    "description": "Settings: test history"
+  },
+  "settingsHistoryTitle": "Test history",
+  "settingsHistoryDescription": "Test attempts behind the charts and progress on the results screen",
+  "settingsHistoryUsage": "Takes up {size}",
+  "@settingsHistoryUsage": {
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "1.2 MB"
+      }
+    }
+  },
+  "settingsHistoryUsageEstimate": "Takes up ≈ {size}",
+  "@settingsHistoryUsageEstimate": {
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "1.2 MB"
+      }
+    }
+  },
+  "settingsHistoryUsageUnknown": "Size unknown",
+  "settingsHistoryEmpty": "Empty",
+  "settingsHistoryClear": "Clear",
+  "settingsHistoryClearDialogTitle": "Clear test history?",
+  "settingsHistoryClearDialogMessage": "Charts and per-question progress will start over. Statistics, tests and cards will stay.",
+  "settingsHistoryClearDialogConfirm": "Clear",
+  "settingsHistoryClearedSnack": "History cleared",
+  "settingsHistoryClearFailedSnack": "Couldn't clear history",
+  "settingsHistorySizeBytes": "{size} B",
+  "@settingsHistorySizeBytes": {
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "850"
+      }
+    }
+  },
+  "settingsHistorySizeKilobytes": "{size} KB",
+  "@settingsHistorySizeKilobytes": {
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "850"
+      }
+    }
+  },
+  "settingsHistorySizeMegabytes": "{size} MB",
+  "@settingsHistorySizeMegabytes": {
+    "placeholders": {
+      "size": {
+        "type": "String",
+        "example": "1.2"
+      }
+    }
+  }
 }

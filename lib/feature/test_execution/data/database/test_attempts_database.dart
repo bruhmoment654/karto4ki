@@ -71,6 +71,40 @@ class TestAttemptsDatabase extends DatabaseAccessor<AppDatabase>
     return query.map((row) => row.read(count) ?? 0).getSingle();
   }
 
+  /// Сколько строк в таблицах истории.
+  Future<({int attempts, int answers})> countRows() async {
+    final row = await customSelect(
+      'SELECT (SELECT COUNT(*) FROM test_attempts) AS attempts, '
+      '(SELECT COUNT(*) FROM test_attempt_answers) AS answers',
+    ).getSingle();
+
+    return (
+      attempts: row.read<int>('attempts'),
+      answers: row.read<int>('answers'),
+    );
+  }
+
+  /// Сколько байт занимают страницы таблиц истории и их индексов.
+  ///
+  /// Считает по `dbstat`, поэтому удалённые строки сразу перестают
+  /// учитываться, даже если файл ещё не ужат. Если SQLite собран без
+  /// `dbstat`, запрос бросит `no such table`.
+  Future<int> historySizeBytes() async {
+    final row = await customSelect(
+      'SELECT COALESCE(SUM(pgsize), 0) AS bytes FROM dbstat '
+      'WHERE name IN (SELECT name FROM sqlite_master '
+      "WHERE tbl_name IN ('test_attempts', 'test_attempt_answers'))",
+    ).getSingle();
+
+    return row.read<int>('bytes');
+  }
+
+  /// Удалить всю историю прохождений.
+  Future<void> clearAll() => transaction(() async {
+    await delete(testAttemptAnswers).go();
+    await delete(testAttempts).go();
+  });
+
   /// Ответы на вопросы [questionKeys] во всех прохождениях теста, кроме
   /// [excludeAttemptId], — от старых к новым.
   Future<List<({String questionKey, bool isCorrect})>> getAnswersByKeys({

@@ -1753,6 +1753,96 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'All changes are on the server'**
   String get syncSubtitleSyncedNoTime;
+
+  /// No description provided for @settingsHistoryTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Test history'**
+  String get settingsHistoryTitle;
+
+  /// No description provided for @settingsHistoryDescription.
+  ///
+  /// In en, this message translates to:
+  /// **'Test attempts behind the charts and progress on the results screen'**
+  String get settingsHistoryDescription;
+
+  /// No description provided for @settingsHistoryUsage.
+  ///
+  /// In en, this message translates to:
+  /// **'Takes up {size}'**
+  String settingsHistoryUsage(String size);
+
+  /// No description provided for @settingsHistoryUsageEstimate.
+  ///
+  /// In en, this message translates to:
+  /// **'Takes up ≈ {size}'**
+  String settingsHistoryUsageEstimate(String size);
+
+  /// No description provided for @settingsHistoryUsageUnknown.
+  ///
+  /// In en, this message translates to:
+  /// **'Size unknown'**
+  String get settingsHistoryUsageUnknown;
+
+  /// No description provided for @settingsHistoryEmpty.
+  ///
+  /// In en, this message translates to:
+  /// **'Empty'**
+  String get settingsHistoryEmpty;
+
+  /// No description provided for @settingsHistoryClear.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get settingsHistoryClear;
+
+  /// No description provided for @settingsHistoryClearDialogTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear test history?'**
+  String get settingsHistoryClearDialogTitle;
+
+  /// No description provided for @settingsHistoryClearDialogMessage.
+  ///
+  /// In en, this message translates to:
+  /// **'Charts and per-question progress will start over. Statistics, tests and cards will stay.'**
+  String get settingsHistoryClearDialogMessage;
+
+  /// No description provided for @settingsHistoryClearDialogConfirm.
+  ///
+  /// In en, this message translates to:
+  /// **'Clear'**
+  String get settingsHistoryClearDialogConfirm;
+
+  /// No description provided for @settingsHistoryClearedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'History cleared'**
+  String get settingsHistoryClearedSnack;
+
+  /// No description provided for @settingsHistoryClearFailedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'Couldn\'t clear history'**
+  String get settingsHistoryClearFailedSnack;
+
+  /// No description provided for @settingsHistorySizeBytes.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} B'**
+  String settingsHistorySizeBytes(String size);
+
+  /// No description provided for @settingsHistorySizeKilobytes.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} KB'**
+  String settingsHistorySizeKilobytes(String size);
+
+  /// No description provided for @settingsHistorySizeMegabytes.
+  ///
+  /// In en, this message translates to:
+  /// **'{size} MB'**
+  String settingsHistorySizeMegabytes(String size);
 }
 
 class _AppLocalizationsDelegate

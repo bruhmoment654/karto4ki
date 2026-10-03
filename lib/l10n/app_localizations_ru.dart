@@ -1033,4 +1033,61 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get syncSubtitleSyncedNoTime => 'Все изменения на сервере';
+
+  @override
+  String get settingsHistoryTitle => 'История прохождений';
+
+  @override
+  String get settingsHistoryDescription =>
+      'Прохождения тестов для графиков и динамики на экране результата';
+
+  @override
+  String settingsHistoryUsage(String size) {
+    return 'Занимает $size';
+  }
+
+  @override
+  String settingsHistoryUsageEstimate(String size) {
+    return 'Занимает ≈ $size';
+  }
+
+  @override
+  String get settingsHistoryUsageUnknown => 'Размер неизвестен';
+
+  @override
+  String get settingsHistoryEmpty => 'Пусто';
+
+  @override
+  String get settingsHistoryClear => 'Очистить';
+
+  @override
+  String get settingsHistoryClearDialogTitle => 'Очистить историю прохождений?';
+
+  @override
+  String get settingsHistoryClearDialogMessage =>
+      'Графики и динамика по вопросам начнутся заново. Статистика, тесты и карточки останутся.';
+
+  @override
+  String get settingsHistoryClearDialogConfirm => 'Очистить';
+
+  @override
+  String get settingsHistoryClearedSnack => 'История очищена';
+
+  @override
+  String get settingsHistoryClearFailedSnack => 'Не удалось очистить историю';
+
+  @override
+  String settingsHistorySizeBytes(String size) {
+    return '$size Б';
+  }
+
+  @override
+  String settingsHistorySizeKilobytes(String size) {
+    return '$size КБ';
+  }
+
+  @override
+  String settingsHistorySizeMegabytes(String size) {
+    return '$size МБ';
+  }
 }

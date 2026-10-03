@@ -1009,4 +1009,61 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get syncSubtitleSyncedNoTime => 'All changes are on the server';
+
+  @override
+  String get settingsHistoryTitle => 'Test history';
+
+  @override
+  String get settingsHistoryDescription =>
+      'Test attempts behind the charts and progress on the results screen';
+
+  @override
+  String settingsHistoryUsage(String size) {
+    return 'Takes up $size';
+  }
+
+  @override
+  String settingsHistoryUsageEstimate(String size) {
+    return 'Takes up ≈ $size';
+  }
+
+  @override
+  String get settingsHistoryUsageUnknown => 'Size unknown';
+
+  @override
+  String get settingsHistoryEmpty => 'Empty';
+
+  @override
+  String get settingsHistoryClear => 'Clear';
+
+  @override
+  String get settingsHistoryClearDialogTitle => 'Clear test history?';
+
+  @override
+  String get settingsHistoryClearDialogMessage =>
+      'Charts and per-question progress will start over. Statistics, tests and cards will stay.';
+
+  @override
+  String get settingsHistoryClearDialogConfirm => 'Clear';
+
+  @override
+  String get settingsHistoryClearedSnack => 'History cleared';
+
+  @override
+  String get settingsHistoryClearFailedSnack => 'Couldn\'t clear history';
+
+  @override
+  String settingsHistorySizeBytes(String size) {
+    return '$size B';
+  }
+
+  @override
+  String settingsHistorySizeKilobytes(String size) {
+    return '$size KB';
+  }
+
+  @override
+  String settingsHistorySizeMegabytes(String size) {
+    return '$size MB';
+  }
 }

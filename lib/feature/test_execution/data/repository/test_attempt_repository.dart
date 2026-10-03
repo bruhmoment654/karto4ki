@@ -2,6 +2,7 @@ import 'package:quizzerg/core/feature/core/entity/request_operation.dart';
 import 'package:quizzerg/core/feature/data/repository/base_repository.dart';
 import 'package:quizzerg/feature/test_execution/data/converter/test_attempt_converter.dart';
 import 'package:quizzerg/feature/test_execution/data/database/test_attempts_database.dart';
+import 'package:quizzerg/feature/test_execution/domain/entity/attempt_history_usage.dart';
 import 'package:quizzerg/feature/test_execution/domain/entity/attempt_summary.dart';
 import 'package:quizzerg/feature/test_execution/domain/repository/i_test_attempt_repository.dart';
 import 'package:quizzerg/feature/test_execution/domain/service/attempt_summary_builder.dart';
@@ -10,6 +11,12 @@ import 'package:quizzerg/persistence/database/app_database.dart';
 
 class TestAttemptRepository extends BaseRepository
     implements ITestAttemptRepository {
+  /// Средний размер строки прохождения на диске, байт.
+  static const _estimatedAttemptBytes = 230;
+
+  /// Средний размер строки ответа на диске, байт.
+  static const _estimatedAnswerBytes = 180;
+
   final TestAttemptsDatabase _database;
 
   const TestAttemptRepository({
@@ -83,6 +90,39 @@ class TestAttemptRepository extends BaseRepository
       previousAnswers: previousAnswers,
     );
   });
+
+  @override
+  RequestOperation<AttemptHistoryUsage> getHistoryUsage() =>
+      makeCall(_readUsage);
+
+  @override
+  RequestOperation<AttemptHistoryUsage> clearHistory() => makeCall(() async {
+    await _database.clearAll();
+    await _database.attachedDatabase.vacuum();
+
+    return _readUsage();
+  });
+
+  /// Пустые таблицы всё равно держат по корневой странице — их не считаем,
+  /// иначе после очистки остаётся «12 КБ» и кнопка не гаснет.
+  Future<AttemptHistoryUsage> _readUsage() async {
+    final rows = await _database.countRows();
+    if (rows.attempts == 0 && rows.answers == 0) {
+      return AttemptHistoryUsage.empty;
+    }
+
+    try {
+      return AttemptHistoryUsage(bytes: await _database.historySizeBytes());
+    } on Object catch (_) {
+      // SQLite без `dbstat`: оцениваем по средним размерам строк из замеров.
+      return AttemptHistoryUsage(
+        bytes:
+            rows.attempts * _estimatedAttemptBytes +
+            rows.answers * _estimatedAnswerBytes,
+        isEstimate: true,
+      );
+    }
+  }
 
   /// Тест + время старта: у восстановленной после перезапуска сессии
   /// время старта то же, и прохождение не запишется второй раз.

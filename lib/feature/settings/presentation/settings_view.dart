@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
 import 'package:quizzerg/feature/settings/domain/bloc/settings_bloc.dart';
 import 'package:quizzerg/feature/settings/presentation/settings_screen.dart';
+import 'package:quizzerg/feature/settings/presentation/widget/attempt_history_card.dart';
+import 'package:quizzerg/feature/settings/presentation/widget/settings_card.dart';
+import 'package:quizzerg/feature/test_execution/domain/bloc/attempt_history_bloc.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
 import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
-import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/expandable/expandable_section.dart';
 import 'package:quizzerg/uikit/question_card/question_card.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
@@ -33,7 +35,7 @@ class SettingsView extends StatelessWidget {
         builder: (context, state) => ListView(
           padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
           children: [
-            _SettingsCard(
+            SettingsCard(
               icon: Icons.palette,
               title: 'Внешний вид',
               children: [
@@ -54,7 +56,7 @@ class SettingsView extends StatelessWidget {
               ],
             ),
             const Height(16),
-            _SettingsCard(
+            SettingsCard(
               icon: Icons.dashboard_customize_outlined,
               title: 'Карточки',
               fadeInDelay: const Duration(milliseconds: 80),
@@ -64,6 +66,15 @@ class SettingsView extends StatelessWidget {
                   cardFontSize: state.settings.cardFontSize,
                 ),
               ],
+            ),
+            const Height(16),
+            StateStreamableBuilder<AttemptHistoryState>(
+              bloc: viewModel.attemptHistoryState,
+              builder: (context, historyState) => AttemptHistoryCard(
+                state: historyState,
+                onClearPressed: viewModel.onAttemptHistoryClearPressed,
+                fadeInDelay: const Duration(milliseconds: 160),
+              ),
             ),
             const Height(32),
             _StatsExportSection(
@@ -76,47 +87,6 @@ class SettingsView extends StatelessWidget {
             _VersionLabel(version: state.appVersion),
           ],
         ),
-      ),
-    );
-  }
-}
-
-/// Карточка-блок настроек по дизайну: иконка + заголовок и список секций.
-class _SettingsCard extends StatelessWidget {
-  final IconData icon;
-  final String title;
-  final List<Widget> children;
-  final Duration fadeInDelay;
-
-  const _SettingsCard({
-    required this.icon,
-    required this.title,
-    required this.children,
-    this.fadeInDelay = Duration.zero,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
-    return ContentCard(
-      fadeIn: true,
-      fadeInDelay: fadeInDelay,
-      borderRadius: BorderRadius.circular(AppDimens.radius28),
-      padding: const EdgeInsets.all(20),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Icon(icon, size: 22, color: theme.colorScheme.primary),
-              const Width(10),
-              Text(title, style: theme.textTheme.titleMedium),
-            ],
-          ),
-          const Height(16),
-          ...children,
-        ],
       ),
     );
   }
