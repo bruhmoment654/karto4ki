@@ -492,3 +492,19 @@ class TinderTestRouteArgs {
       resume.hashCode ^
       key.hashCode;
 }
+
+/// generated route for
+/// [UikitCatalogFlow]
+class UikitCatalogRoute extends PageRouteInfo<void> {
+  const UikitCatalogRoute({List<PageRouteInfo>? children})
+    : super(UikitCatalogRoute.name, initialChildren: children);
+
+  static const String name = 'UikitCatalogRoute';
+
+  static PageInfo page = PageInfo(
+    name,
+    builder: (data) {
+      return const UikitCatalogFlow();
+    },
+  );
+}

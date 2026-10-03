@@ -102,6 +102,8 @@ class CsvImportService implements ICsvImportService {
 
         final rows = CsvToListConverter(
           fieldDelimiter: delimiter,
+          // По умолчанию пакет ждёт '\r\n', а контент уже нормализован в '\n'.
+          eol: '\n',
           shouldParseNumbers: false,
           allowInvalid: true,
         ).convert(content);

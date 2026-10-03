@@ -18,6 +18,7 @@ Widget _card(SyncStatus status) => Padding(
         state: _state(status),
         onSignInTap: () {},
         onSyncTap: () {},
+        onCardTap: () {},
         now: _now,
       ),
     );
@@ -36,8 +37,10 @@ Widget _dialog(SyncStatus status) => Center(
     );
 
 void main() {
-  // Карточка профиля во всех состояниях, кроме syncing: спиннер —
-  // бесконечная анимация, pumpAndSettle на ней зависает.
+  // Карточка профиля во всех состояниях, кроме syncing: глиф там —
+  // CircularProgressIndicator, он крутится и в reduced-motion, а
+  // pumpAndSettle на бесконечной анимации зависает. Полоска прогресса
+  // покрыта отдельно: test/uikit/progress/.
   Zoloto.zolotoTest(
     'sync_card_synced',
     widgetBuilder: (context, tester, testCase) =>

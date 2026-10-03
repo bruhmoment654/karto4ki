@@ -16,6 +16,7 @@ import 'package:quizzerg/feature/test_detail/presentation/test_detail_flow.dart'
 import 'package:quizzerg/feature/test_merge/presentation/test_merge_flow.dart';
 import 'package:quizzerg/feature/tests_list/presentation/tests_list_flow.dart';
 import 'package:quizzerg/feature/tinder_test/presentation/tinder_test_flow.dart';
+import 'package:quizzerg/feature/uikit_catalog/presentation/uikit_catalog_flow.dart';
 import 'package:quizzerg/uikit/motion/app_motion.dart';
 
 part 'app_router.gr.dart';
@@ -86,6 +87,8 @@ class AppRouter extends RootStackRouter {
     // Дебаг-экран поверх навигации: вход — лонг-тап по табу профиля
     // в dev-сборке.
     AutoRoute(page: DeveloperDebugRoute.page),
+    // Каталог компонентов UIKit — открывается с дебаг-экрана.
+    AutoRoute(page: UikitCatalogRoute.page),
   ];
 
   AppRouter({super.navigatorKey});

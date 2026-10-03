@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/feature/developer/domain/bloc/debug_bloc.dart';
 import 'package:quizzerg/feature/developer/presentation/developer_debug_view.dart';
 import 'package:quizzerg/uikit/snackbars/snack_controller.dart';
@@ -51,6 +52,11 @@ class _DeveloperDebugScreenState extends State<DeveloperDebugScreen>
   }
 
   @override
+  void onUikitCatalogPressed() {
+    context.router.push(const UikitCatalogRoute());
+  }
+
+  @override
   void onBackPressed() {
     context.router.maybePop();
   }
@@ -91,6 +97,9 @@ abstract interface class IDeveloperDebugViewModel {
 
   /// Выключить прокси.
   void onClearProxyPressed();
+
+  /// Открыть каталог компонентов UIKit.
+  void onUikitCatalogPressed();
 
   /// Назад.
   void onBackPressed();

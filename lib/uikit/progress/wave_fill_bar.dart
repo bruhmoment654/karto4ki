@@ -2,6 +2,7 @@ import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
 import 'package:quizzerg/uikit/motion/app_motion.dart';
+import 'package:quizzerg/uikit/progress/wave_fill_painter.dart';
 
 /// Прогресс-полоска с entrance-анимацией: заполняется 0→[value], по залитой
 /// части дважды пробегает светлый блик, а её незаполненный фронт колышется
@@ -133,8 +134,8 @@ class _WaveFillBarState extends State<WaveFillBar>
                 // Трек + залитая часть с колышущимся фронтом.
                 Positioned.fill(
                   child: CustomPaint(
-                    painter: _FillPainter(
-                      fill: fillFactor,
+                    painter: WaveFillPainter(
+                      end: fillFactor,
                       phase: _drift.value * 2 * math.pi,
                       amplitude: amplitude,
                       color: widget.color,
@@ -160,69 +161,6 @@ class _WaveFillBarState extends State<WaveFillBar>
       ),
     );
   }
-}
-
-/// Рисует трек на всю ширину и залитую часть с волнистым (синусоидным) фронтом.
-class _FillPainter extends CustomPainter {
-  _FillPainter({
-    required this.fill,
-    required this.phase,
-    required this.amplitude,
-    required this.color,
-    required this.background,
-  });
-
-  /// Заполнение 0..1.
-  final double fill;
-
-  /// Фаза колыхания фронта в радианах.
-  final double phase;
-
-  /// Амплитуда волны фронта (0 — фронт плоский).
-  final double amplitude;
-  final Color color;
-  final Color background;
-
-  /// Число периодов синусоиды по высоте полоски (меньше — плавнее).
-  static const _cycles = 0.5;
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    canvas.drawRect(Offset.zero & size, Paint()..color = background);
-    if (fill <= 0) return;
-
-    final paint = Paint()..color = color;
-    final frontX = fill * size.width;
-
-    // Полностью залито или анимация отключена — плоская граница.
-    if (fill >= 1 || amplitude == 0) {
-      canvas.drawRect(
-        Rect.fromLTWH(0, 0, frontX, size.height),
-        paint,
-      );
-      return;
-    }
-
-    final path = Path()
-      ..moveTo(0, 0)
-      ..lineTo(0, size.height);
-    for (var y = size.height; y >= 0; y -= 1) {
-      final x = frontX +
-          amplitude *
-              math.sin(2 * math.pi * _cycles * (y / size.height) + phase);
-      path.lineTo(x, y);
-    }
-    path.close();
-    canvas.drawPath(path, paint);
-  }
-
-  @override
-  bool shouldRepaint(_FillPainter old) =>
-      old.fill != fill ||
-      old.phase != phase ||
-      old.amplitude != amplitude ||
-      old.color != color ||
-      old.background != background;
 }
 
 /// Светлая полоса-блик, пробегающая слева направо по залитой части.

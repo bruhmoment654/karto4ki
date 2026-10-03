@@ -34,6 +34,9 @@ class _MockViewModel implements IProfileViewModel {
   void onSyncTap() {}
 
   @override
+  void onSyncStatusTap() {}
+
+  @override
   void onSignInTap() {}
 
   @override

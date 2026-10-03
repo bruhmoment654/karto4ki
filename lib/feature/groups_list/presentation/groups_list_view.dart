@@ -21,6 +21,7 @@ import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/motion/app_motion.dart';
 import 'package:quizzerg/uikit/motion/staggered_appear.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
+import 'package:quizzerg/uikit/progress/wave_progress_bar.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/sliver_height.dart';
@@ -104,11 +105,15 @@ class _SyncProgressSliver extends StatelessWidget {
       builder: (context, state) {
         if (!state.status.isSyncing) return const SliverHeight(0);
 
+        final colorScheme = Theme.of(context).colorScheme;
+
         return SliverToBoxAdapter(
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: LinearProgressIndicator(
+            child: WaveProgressBar(
               value: state.status.progress?.value,
+              color: colorScheme.primary,
+              backgroundColor: colorScheme.surfaceContainerHighest,
             ),
           ),
         );

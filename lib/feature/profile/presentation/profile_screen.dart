@@ -6,6 +6,7 @@ import 'package:quizzerg/feature/auth/domain/bloc/auth_bloc.dart';
 import 'package:quizzerg/feature/profile/domain/bloc/profile_bloc.dart';
 import 'package:quizzerg/feature/profile/presentation/profile_view.dart';
 import 'package:quizzerg/feature/sync/domain/bloc/sync_bloc.dart';
+import 'package:quizzerg/feature/sync/presentation/sync_status_dialog.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 
@@ -35,6 +36,18 @@ class _ProfileScreenState extends State<ProfileScreen>
   @override
   void onSignInTap() {
     context.router.push(const AuthRoute());
+  }
+
+  /// Тот же диалог, что по индикатору в шапке главной: подробности о
+  /// последней синхронизации и то же действие.
+  @override
+  void onSyncStatusTap() {
+    showSyncStatusDialog(
+      context: context,
+      syncState: context.read<SyncBloc>(),
+      onSignInTap: onSignInTap,
+      onSyncTap: onSyncTap,
+    );
   }
 
   /// Выход подтверждаем явно: пользователю важно знать, что локальные
@@ -89,6 +102,9 @@ abstract interface class IProfileViewModel {
 
   /// Запустить синхронизацию вручную.
   void onSyncTap();
+
+  /// Тап по карточке синхронизации — открыть диалог состояния.
+  void onSyncStatusTap();
 
   void onStatsTap();
   void onSettingsTap();

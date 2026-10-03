@@ -31,6 +31,8 @@ class DeveloperDebugView extends StatelessWidget {
             _EnvironmentCard(baseUrl: state.baseUrl),
             const Height(16),
             _ProxyCard(viewModel: viewModel, savedProxyUrl: state.proxyUrl),
+            const Height(16),
+            _UikitCatalogCard(onOpenPressed: viewModel.onUikitCatalogPressed),
           ],
         ),
       ),
@@ -110,6 +112,39 @@ class _ProxyCard extends StatelessWidget {
           style: theme.textTheme.bodySmall?.copyWith(
             color: theme.colorScheme.onSurfaceVariant,
           ),
+        ),
+      ],
+    );
+  }
+}
+
+class _UikitCatalogCard extends StatelessWidget {
+  final VoidCallback onOpenPressed;
+
+  const _UikitCatalogCard({required this.onOpenPressed});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
+    return _DebugCard(
+      icon: Icons.widgets_outlined,
+      title: 'UIKit',
+      fadeInDelay: const Duration(milliseconds: 160),
+      children: [
+        Text(
+          'Все компоненты lib/uikit и Material 3 Expressive на одном экране.',
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: theme.colorScheme.onSurfaceVariant,
+          ),
+        ),
+        const Height(16),
+        Karto4kiButton(
+          label: 'Открыть каталог',
+          icon: Icons.arrow_forward,
+          isExpanded: true,
+          variant: Karto4kiButtonVariant.secondary,
+          onPressed: onOpenPressed,
         ),
       ],
     );

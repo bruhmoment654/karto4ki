@@ -91,6 +91,7 @@ class _LoadedContent extends StatelessWidget {
                         syncState: viewModel.syncState,
                         onSignInTap: viewModel.onSignInTap,
                         onSyncTap: viewModel.onSyncTap,
+                        onCardTap: viewModel.onSyncStatusTap,
                       ),
                       const Height(14),
                     ],
