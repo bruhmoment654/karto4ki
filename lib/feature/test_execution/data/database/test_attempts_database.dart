@@ -33,6 +33,20 @@ class TestAttemptsDatabase extends DatabaseAccessor<AppDatabase>
     return true;
   });
 
+  /// Удалить ответы всех прохождений теста, кроме [keep] последних.
+  ///
+  /// Сами прохождения остаются: строка маленькая, а по ним считается,
+  /// сколько раз тест пройден. Порядок — как в [getRecentAttempts].
+  Future<int> deleteAnswersBeyond(String testId, {required int keep}) =>
+      customUpdate(
+        'DELETE FROM test_attempt_answers WHERE attempt_id IN ( '
+        'SELECT id FROM test_attempts WHERE test_id = ? '
+        'ORDER BY completed_at DESC, started_at DESC LIMIT -1 OFFSET ?)',
+        variables: [Variable.withString(testId), Variable.withInt(keep)],
+        updates: {testAttemptAnswers},
+        updateKind: UpdateKind.delete,
+      );
+
   /// Последние [limit] прохождений теста, от свежих к старым.
   Future<List<TestAttemptDatabaseDto>> getRecentAttempts(
     String testId, {

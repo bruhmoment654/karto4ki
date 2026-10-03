@@ -139,4 +139,66 @@ void main() {
     ]);
     expect(summary.questions.single.history, [true, false, true, false, true]);
   });
+
+  group('хранение', () {
+    Future<List<String>> answerAttemptIds() async {
+      final rows = await database.select(database.testAttemptAnswers).get();
+      return rows.map((row) => row.attemptId).toSet().toList();
+    }
+
+    test('ответы — только последних пяти прохождений теста', () async {
+      for (var day = 1; day <= 8; day++) {
+        await record(
+          _session(DateTime.utc(2026, 10, day), {'1': true, '2': false}),
+        );
+      }
+      final attempts = await database.select(database.testAttempts).get();
+      final kept = await answerAttemptIds();
+
+      expect(attempts, hasLength(8));
+      expect(kept, hasLength(AttemptSummary.historyLength));
+      expect(
+        kept.every(
+          (id) => attempts
+              .where((a) => a.startedAt.toUtc().day > 3)
+              .any((a) => a.id == id),
+        ),
+        isTrue,
+      );
+    });
+
+    test('чужие тесты не трогает', () async {
+      await record(
+        _session(DateTime.utc(2026, 9), {'1': true}, testId: 'other'),
+      );
+      for (var day = 1; day <= 6; day++) {
+        await record(_session(DateTime.utc(2026, 10, day), {'1': true}));
+      }
+
+      final rows = await database.select(database.testAttempts).get();
+      final other = rows.singleWhere((row) => row.testId == 'other');
+
+      expect(await answerAttemptIds(), contains(other.id));
+    });
+
+    test('«впервые верно» — в пределах хранимых прохождений', () async {
+      // Верно 6 прохождений назад — этот ответ уже удалён.
+      await record(_session(DateTime.utc(2026, 10), {'1': true}));
+      for (var day = 2; day <= 5; day++) {
+        await record(_session(DateTime.utc(2026, 10, day), {'1': false}));
+      }
+      final summary = await record(
+        _session(DateTime.utc(2026, 10, 6), {'1': true}),
+      );
+
+      expect(summary.questions.single.trend, QuestionTrend.firstCorrect);
+      expect(summary.questions.single.history, [
+        false,
+        false,
+        false,
+        false,
+        true,
+      ]);
+    });
+  });
 }

@@ -51,6 +51,13 @@ class TestAttemptRepository extends BaseRepository
       ],
     );
 
+    // Экрану нужны ответы только последних прохождений — остальные не
+    // копим, иначе таблица растёт на ~5 КБ с каждым прохождением.
+    await _database.deleteAnswersBeyond(
+      session.testId,
+      keep: AttemptSummary.historyLength,
+    );
+
     final recent = await _database.getRecentAttempts(
       session.testId,
       limit: AttemptSummary.historyLength,
