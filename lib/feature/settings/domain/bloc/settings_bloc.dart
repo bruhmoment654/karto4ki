@@ -31,6 +31,7 @@ final class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
         super(SettingsState(settings: settingsStorage.get())) {
     on<_SettingsEvent$Started>(_onStarted);
     on<_SettingsEvent$ThemeModeChanged>(_onThemeModeChanged);
+    on<_SettingsEvent$ColorStyleChanged>(_onColorStyleChanged);
     on<_SettingsEvent$AnimationDurationChanged>(_onAnimationDurationChanged);
     on<_SettingsEvent$CardFontSizeChanged>(_onCardFontSizeChanged);
     on<_SettingsEvent$AccentColorHueChanged>(_onAccentColorHueChanged);
@@ -57,6 +58,13 @@ final class SettingsBloc extends Bloc<SettingsEvent, SettingsState> {
     Emitter<SettingsState> emit,
   ) {
     _save(emit, (current) => current.copyWith(themeMode: event.mode));
+  }
+
+  void _onColorStyleChanged(
+    _SettingsEvent$ColorStyleChanged event,
+    Emitter<SettingsState> emit,
+  ) {
+    _save(emit, (current) => current.copyWith(colorStyle: event.style));
   }
 
   void _onAnimationDurationChanged(

@@ -30,6 +30,16 @@ SettingsDto _$SettingsDtoFromJson(
       (v) =>
           $enumDecodeNullable(_$AppThemeModeEnumMap, v) ?? AppThemeMode.system,
     ),
+    colorStyle: $checkedConvert(
+      'colorStyle',
+      (v) =>
+          $enumDecodeNullable(
+            _$AppColorStyleEnumMap,
+            v,
+            unknownValue: AppColorStyle.colorful,
+          ) ??
+          AppColorStyle.colorful,
+    ),
     mixupAlgorithm: $checkedConvert(
       'mixupAlgorithm',
       (v) =>
@@ -61,6 +71,7 @@ Map<String, dynamic> _$SettingsDtoToJson(SettingsDto instance) =>
       'mixupMin': instance.mixupMin,
       'mixupMax': instance.mixupMax,
       'themeMode': _$AppThemeModeEnumMap[instance.themeMode]!,
+      'colorStyle': _$AppColorStyleEnumMap[instance.colorStyle]!,
       'mixupAlgorithm': _$MixupAlgorithmEnumMap[instance.mixupAlgorithm]!,
       'cardFontSize': instance.cardFontSize,
       'streakNegativeBonus': instance.streakNegativeBonus,
@@ -71,6 +82,12 @@ const _$AppThemeModeEnumMap = {
   AppThemeMode.light: 'light',
   AppThemeMode.dark: 'dark',
   AppThemeMode.system: 'system',
+};
+
+const _$AppColorStyleEnumMap = {
+  AppColorStyle.colorful: 'colorful',
+  AppColorStyle.monochrome: 'monochrome',
+  AppColorStyle.amoled: 'amoled',
 };
 
 const _$MixupAlgorithmEnumMap = {

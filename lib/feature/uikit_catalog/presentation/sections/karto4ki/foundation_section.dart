@@ -3,7 +3,7 @@ import 'package:quizzerg/feature/uikit_catalog/presentation/widgets/catalog_item
 import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
 
 /// Основа дизайн-системы: цвета, радиусы, типографика, отступы.
 class FoundationSection extends StatelessWidget {
@@ -121,14 +121,15 @@ class _ExtraColors extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final colors = AppColors.of(context);
 
     return Wrap(
       spacing: 8,
       runSpacing: 8,
       children: [
-        _Swatch(name: 'success', color: cs.success, textColor: cs.onSuccess),
-        _Swatch(name: 'warning', color: cs.warning, textColor: cs.surface),
-        _Swatch(name: 'info', color: cs.info, textColor: cs.surface),
+        _Swatch(name: 'success', color: colors.success, textColor: colors.onSuccess),
+        _Swatch(name: 'warning', color: colors.warning, textColor: cs.surface),
+        _Swatch(name: 'info', color: colors.info, textColor: cs.surface),
       ],
     );
   }

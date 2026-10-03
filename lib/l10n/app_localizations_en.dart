@@ -419,7 +419,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get profileShaderAnimationTitle => 'Background animation';
 
   @override
-  String get profileAccentColorTitle => 'App color';
+  String get profileAccentColorTitle => 'Accent color';
 
   @override
   String get profileAnimationSpeedTitle => 'Animation speed';
@@ -1066,4 +1066,39 @@ class AppLocalizationsEn extends AppLocalizations {
   String settingsHistorySizeMegabytes(String size) {
     return '$size MB';
   }
+
+  @override
+  String get settingsAppearanceTitle => 'Appearance';
+
+  @override
+  String get settingsThemeTitle => 'Theme';
+
+  @override
+  String get settingsThemeLight => 'Light';
+
+  @override
+  String get settingsThemeDark => 'Dark';
+
+  @override
+  String get settingsThemeSystem => 'System';
+
+  @override
+  String get settingsStyleTitle => 'Style';
+
+  @override
+  String get settingsStyleColorful => 'Colorful';
+
+  @override
+  String get settingsStyleMonochrome => 'Monochrome';
+
+  @override
+  String get settingsStyleAmoled => 'AMOLED';
+
+  @override
+  String get settingsAccentHintColorful =>
+      'The whole app palette is built from this color';
+
+  @override
+  String get settingsAccentHintMonochrome =>
+      'In monochrome the accent highlights only the essentials: buttons, progress, selection';
 }

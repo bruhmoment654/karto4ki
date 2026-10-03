@@ -14,6 +14,7 @@ import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/progress/app_wavy_circular_progress.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
 
 /// Карточка состояния синхронизации.
 ///
@@ -92,6 +93,7 @@ class SyncStatusCardView extends StatelessWidget {
     final visual = syncStatusVisual(
       status: state.status,
       colorScheme: theme.colorScheme,
+      appColors: theme.appColors,
       l10n: context.l10n,
       now: now ?? DateTime.now().toUtc(),
       lastSyncedSource: state.lastSyncedSource,

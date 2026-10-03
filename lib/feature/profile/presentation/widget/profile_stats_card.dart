@@ -9,7 +9,7 @@ import 'package:quizzerg/uikit/progress/animated_circular_progress.dart';
 import 'package:quizzerg/uikit/shape/shape_plate.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
 
 /// Карточка «Статистика» в профиле: герой-кольцо «Точность» и две метрики
 /// строками («Изучено», «Без ошибок»). Тап открывает таб статистики.
@@ -33,6 +33,7 @@ class ProfileStatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final colors = AppColors.of(context);
     final l10n = context.l10n;
 
     return ScalePressable(
@@ -70,7 +71,7 @@ class ProfileStatsCard extends StatelessWidget {
                         _MetricRow(
                           shape: ShapePlateKind.cookie7Sided,
                           icon: Icons.verified,
-                          color: cs.warning,
+                          color: colors.warning,
                           label: l10n.profileRingFlawless,
                           sub: '${summary.flawlessCount}/${summary.totalCards}',
                           percent: summary.flawlessPercent,
@@ -142,12 +143,13 @@ class _AccuracyHero extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cs = Theme.of(context).colorScheme;
+    final colors = AppColors.of(context);
     final textTheme = Theme.of(context).textTheme;
     final secondaryColor = cs.onSurfaceVariant;
 
     return AnimatedCircularProgress(
       value: percent / 100,
-      color: cs.success,
+      color: colors.success,
       trackColor: cs.surfaceContainerHigh,
       size: size,
       strokeWidth: size >= 120 ? 10 : 8,
@@ -165,7 +167,7 @@ class _AccuracyHero extends StatelessWidget {
               fontSize: (size * 0.23).roundToDouble(),
               fontWeight: FontWeight.w800,
               height: 1,
-              color: cs.success,
+              color: colors.success,
             ),
           ),
           const Height(3),

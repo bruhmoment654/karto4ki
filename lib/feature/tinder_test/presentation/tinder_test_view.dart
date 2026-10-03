@@ -16,7 +16,7 @@ import 'package:quizzerg/uikit/progress/animated_linear_progress.dart';
 import 'package:quizzerg/uikit/question_card/swipable_card_wrapper.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
 
 /// UI layer for tinder test screen.
 ///
@@ -353,6 +353,7 @@ class _ProgressIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final colors = AppColors.of(context);
 
     return Column(
       children: [
@@ -385,7 +386,7 @@ class _ProgressIndicator extends StatelessWidget {
         AnimatedLinearProgress(
           progress: progress,
           backgroundColor: colorScheme.surfaceContainerHighest,
-          valueColor: colorScheme.info,
+          valueColor: colors.info,
         ),
       ],
     );

@@ -6,11 +6,12 @@ import 'package:quizzerg/feature/sync/domain/entity/sync_progress.dart';
 import 'package:quizzerg/feature/sync/presentation/sync_status_visual.dart';
 import 'package:quizzerg/l10n/app_localizations.dart';
 import 'package:quizzerg/network/error/api_exception.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/theme/palette/seed_palette.dart';
 
 void main() {
   late AppLocalizations l10n;
   final colorScheme = ColorScheme.fromSeed(seedColor: const Color(0xFF6750A4));
+  final appColors = const SeedPalette().appColors(colorScheme);
   final now = DateTime.utc(2026, 9, 2, 13, 30);
 
   SyncStatusVisual visualOf(
@@ -20,6 +21,7 @@ void main() {
       syncStatusVisual(
         status: status,
         colorScheme: colorScheme,
+        appColors: appColors,
         l10n: l10n,
         now: now,
         lastSyncedSource: source,
@@ -34,7 +36,7 @@ void main() {
       final visual = visualOf(const SyncStatus.synced());
 
       expect(visual.icon, Icons.cloud_done);
-      expect(visual.color, colorScheme.success);
+      expect(visual.color, appColors.success);
       expect(visual.needsAttention, isFalse);
       expect(visual.action, SyncStatusAction.sync);
     });
@@ -53,7 +55,7 @@ void main() {
       final visual = visualOf(const SyncStatus.notSynced(pending: 4));
 
       expect(visual.icon, Icons.cloud_upload);
-      expect(visual.color, colorScheme.warning);
+      expect(visual.color, appColors.warning);
       expect(visual.needsAttention, isTrue);
       expect(visual.subtitle, contains('4'));
     });
@@ -84,7 +86,7 @@ void main() {
         const SyncStatus.failed(error: UnknownApiException()),
       );
 
-      expect(visual.color, colorScheme.warning);
+      expect(visual.color, appColors.warning);
       expect(visual.icon, Icons.cloud_upload);
       expect(visual.title, isNot(l10n.syncTitleNotSynced));
       expect(visual.action, SyncStatusAction.retry);

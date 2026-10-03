@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
 
 enum Karto4kiButtonVariant {
   primary,
@@ -57,6 +57,7 @@ class Karto4kiButton extends StatelessWidget {
     Widget? iconWidget,
   ) {
     final cs = Theme.of(context).colorScheme;
+    final colors = AppColors.of(context);
 
     switch (variant) {
       case Karto4kiButtonVariant.primary:
@@ -112,8 +113,8 @@ class Karto4kiButton extends StatelessWidget {
           onPressed,
           child,
           iconWidget,
-          background: cs.success,
-          foreground: cs.onSuccess,
+          background: colors.success,
+          foreground: colors.onSuccess,
         );
     }
   }

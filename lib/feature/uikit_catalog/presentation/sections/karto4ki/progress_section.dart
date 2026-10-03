@@ -14,7 +14,7 @@ import 'package:quizzerg/uikit/slider/app_slider.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
 import 'package:quizzerg/uikit/switch/app_switch.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
 
 /// Индикаторы прогресса и статистики.
 class ProgressSection extends StatelessWidget {
@@ -23,6 +23,7 @@ class ProgressSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final colors = AppColors.of(context);
 
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -56,7 +57,7 @@ class ProgressSection extends StatelessWidget {
           child: CatalogReplay(
             child: WaveFillBar(
               value: 0.72,
-              color: colorScheme.success,
+              color: colors.success,
               backgroundColor: colorScheme.surfaceContainerHighest,
             ),
           ),
@@ -69,14 +70,14 @@ class ProgressSection extends StatelessWidget {
               children: [
                 AnimatedCircularProgress(
                   value: 0.84,
-                  color: colorScheme.success,
+                  color: colors.success,
                   trackColor: colorScheme.surfaceContainerHigh,
                   child: const Text('84%'),
                 ),
                 const Width(16),
                 AnimatedCircularProgress(
                   value: 0.23,
-                  color: colorScheme.warning,
+                  color: colors.warning,
                   trackColor: colorScheme.surfaceContainerHigh,
                   size: 88,
                   strokeWidth: 8,
@@ -174,13 +175,14 @@ class _LinearProgressDemoState extends State<_LinearProgressDemo> {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final colors = AppColors.of(context);
 
     return Column(
       children: [
         AnimatedLinearProgress(
           progress: _progress,
           backgroundColor: colorScheme.surfaceContainerHighest,
-          valueColor: colorScheme.info,
+          valueColor: colors.info,
         ),
         const Height(8),
         ValueListenableBuilder<double>(

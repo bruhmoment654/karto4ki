@@ -41,6 +41,13 @@ class _SettingsScreenState extends State<SettingsScreen>
   }
 
   @override
+  void onColorStyleChanged(AppColorStyle style) {
+    context.read<SettingsBloc>().add(
+      SettingsEvent.colorStyleChanged(style: style),
+    );
+  }
+
+  @override
   void onAnimationDurationChanged(double value) {
     context.read<SettingsBloc>().add(
       SettingsEvent.animationDurationChanged(value: value),
@@ -159,6 +166,7 @@ abstract interface class ISettingsViewModel {
   void onAnimationDurationChanged(double value);
   void onAccentColorHueChanged(double value);
   void onThemeModeChanged(AppThemeMode mode);
+  void onColorStyleChanged(AppColorStyle style);
   void onCardFontSizeChanged(double value);
   void onStatsExportPressed();
   void onAttemptHistoryClearPressed();

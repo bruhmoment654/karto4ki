@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:quizzerg/feature/test_execution/domain/entity/attempt_summary.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
 
 /// Иконка тренда: в строке вопроса и на фильтре по тренду.
 extension QuestionTrendIcon on QuestionTrend {
@@ -25,8 +25,9 @@ class QuestionResultTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final colors = AppColors.of(context);
     final textTheme = Theme.of(context).textTheme;
-    final tone = result.isCorrect ? colorScheme.success : colorScheme.error;
+    final tone = result.isCorrect ? colors.success : colorScheme.error;
     final trend = result.trend;
 
     return Padding(
@@ -88,6 +89,7 @@ class _HistoryDots extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final colors = AppColors.of(context);
 
     return Row(
       mainAxisSize: MainAxisSize.min,
@@ -95,7 +97,7 @@ class _HistoryDots extends StatelessWidget {
         for (var i = 0; i < history.length; i++) ...[
           if (i > 0) const Width(5),
           _Dot(
-            color: history[i] ? colorScheme.success : colorScheme.error,
+            color: history[i] ? colors.success : colorScheme.error,
             isLatest: i == history.length - 1,
           ),
         ],
@@ -134,15 +136,16 @@ class _TrendIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final colors = AppColors.of(context);
     final l10n = context.l10n;
     final (label, color) = switch (trend) {
       QuestionTrend.firstCorrect => (
         l10n.tinderTestResultsTrendFirstCorrect,
-        colorScheme.success,
+        colors.success,
       ),
       QuestionTrend.fixed => (
         l10n.tinderTestResultsTrendFixed,
-        colorScheme.success,
+        colors.success,
       ),
       QuestionTrend.forgot => (
         l10n.tinderTestResultsTrendForgot,

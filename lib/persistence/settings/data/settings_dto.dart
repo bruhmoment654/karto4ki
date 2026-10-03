@@ -11,6 +11,20 @@ enum AppThemeMode {
   system,
 }
 
+/// Стиль цветовой палитры приложения.
+///
+/// Новый стиль — новое значение здесь и палитра в `lib/uikit/theme/palette/`.
+enum AppColorStyle {
+  /// Material You: вся палитра из акцента.
+  colorful,
+
+  /// Шкала серого и один акцент.
+  monochrome,
+
+  /// Монохром с чисто чёрным фоном в тёмной теме.
+  amoled,
+}
+
 /// DTO настроек приложения.
 @JsonSerializable(checked: true)
 class SettingsDto {
@@ -35,6 +49,11 @@ class SettingsDto {
   /// Режим темы (light / dark / system).
   final AppThemeMode themeMode;
 
+  /// Стиль палитры. Неизвестное значение (настройки из более новой версии)
+  /// читается как цветной.
+  @JsonKey(unknownEnumValue: AppColorStyle.colorful)
+  final AppColorStyle colorStyle;
+
   /// Алгоритм подмешивания вопросов.
   final MixupAlgorithm mixupAlgorithm;
 
@@ -58,6 +77,7 @@ class SettingsDto {
     this.mixupMin = 1,
     this.mixupMax = 5,
     this.themeMode = AppThemeMode.system,
+    this.colorStyle = AppColorStyle.colorful,
     this.mixupAlgorithm = MixupAlgorithm.classic,
     this.cardFontSize = 96.0,
     this.streakNegativeBonus = 0.35,
@@ -79,6 +99,7 @@ class SettingsDto {
     int? mixupMin,
     int? mixupMax,
     AppThemeMode? themeMode,
+    AppColorStyle? colorStyle,
     MixupAlgorithm? mixupAlgorithm,
     double? cardFontSize,
     double? streakNegativeBonus,
@@ -93,6 +114,7 @@ class SettingsDto {
       mixupMin: mixupMin ?? this.mixupMin,
       mixupMax: mixupMax ?? this.mixupMax,
       themeMode: themeMode ?? this.themeMode,
+      colorStyle: colorStyle ?? this.colorStyle,
       mixupAlgorithm: mixupAlgorithm ?? this.mixupAlgorithm,
       cardFontSize: cardFontSize ?? this.cardFontSize,
       streakNegativeBonus: streakNegativeBonus ?? this.streakNegativeBonus,

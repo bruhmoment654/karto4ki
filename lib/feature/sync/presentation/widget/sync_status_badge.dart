@@ -6,6 +6,7 @@ import 'package:quizzerg/feature/sync/domain/bloc/sync_bloc.dart';
 import 'package:quizzerg/feature/sync/presentation/sync_status_visual.dart';
 import 'package:quizzerg/feature/sync/presentation/widget/sync_status_glyph.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
 
 /// Компактный индикатор синхронизации для шапки главной.
 ///
@@ -63,6 +64,7 @@ class SyncStatusBadgeView extends StatelessWidget {
     final visual = syncStatusVisual(
       status: state.status,
       colorScheme: colorScheme,
+      appColors: AppColors.of(context),
       l10n: context.l10n,
       now: now ?? DateTime.now().toUtc(),
       lastSyncedSource: state.lastSyncedSource,

@@ -421,7 +421,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get profileShaderAnimationTitle => 'Анимация фона';
 
   @override
-  String get profileAccentColorTitle => 'Цвет приложения';
+  String get profileAccentColorTitle => 'Акцентный цвет';
 
   @override
   String get profileAnimationSpeedTitle => 'Скорость анимаций';
@@ -1090,4 +1090,39 @@ class AppLocalizationsRu extends AppLocalizations {
   String settingsHistorySizeMegabytes(String size) {
     return '$size МБ';
   }
+
+  @override
+  String get settingsAppearanceTitle => 'Внешний вид';
+
+  @override
+  String get settingsThemeTitle => 'Тема';
+
+  @override
+  String get settingsThemeLight => 'Светлая';
+
+  @override
+  String get settingsThemeDark => 'Тёмная';
+
+  @override
+  String get settingsThemeSystem => 'Как в системе';
+
+  @override
+  String get settingsStyleTitle => 'Стиль';
+
+  @override
+  String get settingsStyleColorful => 'Цветной';
+
+  @override
+  String get settingsStyleMonochrome => 'Монохром';
+
+  @override
+  String get settingsStyleAmoled => 'AMOLED';
+
+  @override
+  String get settingsAccentHintColorful =>
+      'Из этого цвета строится вся палитра приложения';
+
+  @override
+  String get settingsAccentHintMonochrome =>
+      'В монохроме акцент подсвечивает только главное: кнопки, прогресс, выбранное';
 }

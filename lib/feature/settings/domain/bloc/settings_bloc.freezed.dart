@@ -55,12 +55,13 @@ extension SettingsEventPatterns on SettingsEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _SettingsEvent$Started value)?  started,TResult Function( _SettingsEvent$ThemeModeChanged value)?  themeModeChanged,TResult Function( _SettingsEvent$AnimationDurationChanged value)?  animationDurationChanged,TResult Function( _SettingsEvent$CardFontSizeChanged value)?  cardFontSizeChanged,TResult Function( _SettingsEvent$AccentColorHueChanged value)?  accentColorHueChanged,TResult Function( _SettingsEvent$AccentColorHueCommitted value)?  accentColorHueCommitted,TResult Function( _SettingsEvent$StatsExportRequested value)?  statsExportRequested,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _SettingsEvent$Started value)?  started,TResult Function( _SettingsEvent$ThemeModeChanged value)?  themeModeChanged,TResult Function( _SettingsEvent$ColorStyleChanged value)?  colorStyleChanged,TResult Function( _SettingsEvent$AnimationDurationChanged value)?  animationDurationChanged,TResult Function( _SettingsEvent$CardFontSizeChanged value)?  cardFontSizeChanged,TResult Function( _SettingsEvent$AccentColorHueChanged value)?  accentColorHueChanged,TResult Function( _SettingsEvent$AccentColorHueCommitted value)?  accentColorHueCommitted,TResult Function( _SettingsEvent$StatsExportRequested value)?  statsExportRequested,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _SettingsEvent$Started() when started != null:
 return started(_that);case _SettingsEvent$ThemeModeChanged() when themeModeChanged != null:
-return themeModeChanged(_that);case _SettingsEvent$AnimationDurationChanged() when animationDurationChanged != null:
+return themeModeChanged(_that);case _SettingsEvent$ColorStyleChanged() when colorStyleChanged != null:
+return colorStyleChanged(_that);case _SettingsEvent$AnimationDurationChanged() when animationDurationChanged != null:
 return animationDurationChanged(_that);case _SettingsEvent$CardFontSizeChanged() when cardFontSizeChanged != null:
 return cardFontSizeChanged(_that);case _SettingsEvent$AccentColorHueChanged() when accentColorHueChanged != null:
 return accentColorHueChanged(_that);case _SettingsEvent$AccentColorHueCommitted() when accentColorHueCommitted != null:
@@ -83,12 +84,13 @@ return statsExportRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _SettingsEvent$Started value)  started,required TResult Function( _SettingsEvent$ThemeModeChanged value)  themeModeChanged,required TResult Function( _SettingsEvent$AnimationDurationChanged value)  animationDurationChanged,required TResult Function( _SettingsEvent$CardFontSizeChanged value)  cardFontSizeChanged,required TResult Function( _SettingsEvent$AccentColorHueChanged value)  accentColorHueChanged,required TResult Function( _SettingsEvent$AccentColorHueCommitted value)  accentColorHueCommitted,required TResult Function( _SettingsEvent$StatsExportRequested value)  statsExportRequested,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _SettingsEvent$Started value)  started,required TResult Function( _SettingsEvent$ThemeModeChanged value)  themeModeChanged,required TResult Function( _SettingsEvent$ColorStyleChanged value)  colorStyleChanged,required TResult Function( _SettingsEvent$AnimationDurationChanged value)  animationDurationChanged,required TResult Function( _SettingsEvent$CardFontSizeChanged value)  cardFontSizeChanged,required TResult Function( _SettingsEvent$AccentColorHueChanged value)  accentColorHueChanged,required TResult Function( _SettingsEvent$AccentColorHueCommitted value)  accentColorHueCommitted,required TResult Function( _SettingsEvent$StatsExportRequested value)  statsExportRequested,}){
 final _that = this;
 switch (_that) {
 case _SettingsEvent$Started():
 return started(_that);case _SettingsEvent$ThemeModeChanged():
-return themeModeChanged(_that);case _SettingsEvent$AnimationDurationChanged():
+return themeModeChanged(_that);case _SettingsEvent$ColorStyleChanged():
+return colorStyleChanged(_that);case _SettingsEvent$AnimationDurationChanged():
 return animationDurationChanged(_that);case _SettingsEvent$CardFontSizeChanged():
 return cardFontSizeChanged(_that);case _SettingsEvent$AccentColorHueChanged():
 return accentColorHueChanged(_that);case _SettingsEvent$AccentColorHueCommitted():
@@ -107,12 +109,13 @@ return statsExportRequested(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _SettingsEvent$Started value)?  started,TResult? Function( _SettingsEvent$ThemeModeChanged value)?  themeModeChanged,TResult? Function( _SettingsEvent$AnimationDurationChanged value)?  animationDurationChanged,TResult? Function( _SettingsEvent$CardFontSizeChanged value)?  cardFontSizeChanged,TResult? Function( _SettingsEvent$AccentColorHueChanged value)?  accentColorHueChanged,TResult? Function( _SettingsEvent$AccentColorHueCommitted value)?  accentColorHueCommitted,TResult? Function( _SettingsEvent$StatsExportRequested value)?  statsExportRequested,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _SettingsEvent$Started value)?  started,TResult? Function( _SettingsEvent$ThemeModeChanged value)?  themeModeChanged,TResult? Function( _SettingsEvent$ColorStyleChanged value)?  colorStyleChanged,TResult? Function( _SettingsEvent$AnimationDurationChanged value)?  animationDurationChanged,TResult? Function( _SettingsEvent$CardFontSizeChanged value)?  cardFontSizeChanged,TResult? Function( _SettingsEvent$AccentColorHueChanged value)?  accentColorHueChanged,TResult? Function( _SettingsEvent$AccentColorHueCommitted value)?  accentColorHueCommitted,TResult? Function( _SettingsEvent$StatsExportRequested value)?  statsExportRequested,}){
 final _that = this;
 switch (_that) {
 case _SettingsEvent$Started() when started != null:
 return started(_that);case _SettingsEvent$ThemeModeChanged() when themeModeChanged != null:
-return themeModeChanged(_that);case _SettingsEvent$AnimationDurationChanged() when animationDurationChanged != null:
+return themeModeChanged(_that);case _SettingsEvent$ColorStyleChanged() when colorStyleChanged != null:
+return colorStyleChanged(_that);case _SettingsEvent$AnimationDurationChanged() when animationDurationChanged != null:
 return animationDurationChanged(_that);case _SettingsEvent$CardFontSizeChanged() when cardFontSizeChanged != null:
 return cardFontSizeChanged(_that);case _SettingsEvent$AccentColorHueChanged() when accentColorHueChanged != null:
 return accentColorHueChanged(_that);case _SettingsEvent$AccentColorHueCommitted() when accentColorHueCommitted != null:
@@ -134,11 +137,12 @@ return statsExportRequested(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( AppThemeMode mode)?  themeModeChanged,TResult Function( double value)?  animationDurationChanged,TResult Function( double value)?  cardFontSizeChanged,TResult Function( double value)?  accentColorHueChanged,TResult Function( double value)?  accentColorHueCommitted,TResult Function()?  statsExportRequested,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( AppThemeMode mode)?  themeModeChanged,TResult Function( AppColorStyle style)?  colorStyleChanged,TResult Function( double value)?  animationDurationChanged,TResult Function( double value)?  cardFontSizeChanged,TResult Function( double value)?  accentColorHueChanged,TResult Function( double value)?  accentColorHueCommitted,TResult Function()?  statsExportRequested,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _SettingsEvent$Started() when started != null:
 return started();case _SettingsEvent$ThemeModeChanged() when themeModeChanged != null:
-return themeModeChanged(_that.mode);case _SettingsEvent$AnimationDurationChanged() when animationDurationChanged != null:
+return themeModeChanged(_that.mode);case _SettingsEvent$ColorStyleChanged() when colorStyleChanged != null:
+return colorStyleChanged(_that.style);case _SettingsEvent$AnimationDurationChanged() when animationDurationChanged != null:
 return animationDurationChanged(_that.value);case _SettingsEvent$CardFontSizeChanged() when cardFontSizeChanged != null:
 return cardFontSizeChanged(_that.value);case _SettingsEvent$AccentColorHueChanged() when accentColorHueChanged != null:
 return accentColorHueChanged(_that.value);case _SettingsEvent$AccentColorHueCommitted() when accentColorHueCommitted != null:
@@ -161,11 +165,12 @@ return statsExportRequested();case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( AppThemeMode mode)  themeModeChanged,required TResult Function( double value)  animationDurationChanged,required TResult Function( double value)  cardFontSizeChanged,required TResult Function( double value)  accentColorHueChanged,required TResult Function( double value)  accentColorHueCommitted,required TResult Function()  statsExportRequested,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( AppThemeMode mode)  themeModeChanged,required TResult Function( AppColorStyle style)  colorStyleChanged,required TResult Function( double value)  animationDurationChanged,required TResult Function( double value)  cardFontSizeChanged,required TResult Function( double value)  accentColorHueChanged,required TResult Function( double value)  accentColorHueCommitted,required TResult Function()  statsExportRequested,}) {final _that = this;
 switch (_that) {
 case _SettingsEvent$Started():
 return started();case _SettingsEvent$ThemeModeChanged():
-return themeModeChanged(_that.mode);case _SettingsEvent$AnimationDurationChanged():
+return themeModeChanged(_that.mode);case _SettingsEvent$ColorStyleChanged():
+return colorStyleChanged(_that.style);case _SettingsEvent$AnimationDurationChanged():
 return animationDurationChanged(_that.value);case _SettingsEvent$CardFontSizeChanged():
 return cardFontSizeChanged(_that.value);case _SettingsEvent$AccentColorHueChanged():
 return accentColorHueChanged(_that.value);case _SettingsEvent$AccentColorHueCommitted():
@@ -184,11 +189,12 @@ return statsExportRequested();}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( AppThemeMode mode)?  themeModeChanged,TResult? Function( double value)?  animationDurationChanged,TResult? Function( double value)?  cardFontSizeChanged,TResult? Function( double value)?  accentColorHueChanged,TResult? Function( double value)?  accentColorHueCommitted,TResult? Function()?  statsExportRequested,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( AppThemeMode mode)?  themeModeChanged,TResult? Function( AppColorStyle style)?  colorStyleChanged,TResult? Function( double value)?  animationDurationChanged,TResult? Function( double value)?  cardFontSizeChanged,TResult? Function( double value)?  accentColorHueChanged,TResult? Function( double value)?  accentColorHueCommitted,TResult? Function()?  statsExportRequested,}) {final _that = this;
 switch (_that) {
 case _SettingsEvent$Started() when started != null:
 return started();case _SettingsEvent$ThemeModeChanged() when themeModeChanged != null:
-return themeModeChanged(_that.mode);case _SettingsEvent$AnimationDurationChanged() when animationDurationChanged != null:
+return themeModeChanged(_that.mode);case _SettingsEvent$ColorStyleChanged() when colorStyleChanged != null:
+return colorStyleChanged(_that.style);case _SettingsEvent$AnimationDurationChanged() when animationDurationChanged != null:
 return animationDurationChanged(_that.value);case _SettingsEvent$CardFontSizeChanged() when cardFontSizeChanged != null:
 return cardFontSizeChanged(_that.value);case _SettingsEvent$AccentColorHueChanged() when accentColorHueChanged != null:
 return accentColorHueChanged(_that.value);case _SettingsEvent$AccentColorHueCommitted() when accentColorHueCommitted != null:
@@ -293,6 +299,72 @@ class __$SettingsEvent$ThemeModeChangedCopyWithImpl<$Res>
   return _then(_SettingsEvent$ThemeModeChanged(
 mode: null == mode ? _self.mode : mode // ignore: cast_nullable_to_non_nullable
 as AppThemeMode,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _SettingsEvent$ColorStyleChanged implements SettingsEvent {
+  const _SettingsEvent$ColorStyleChanged({required this.style});
+  
+
+ final  AppColorStyle style;
+
+/// Create a copy of SettingsEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$SettingsEvent$ColorStyleChangedCopyWith<_SettingsEvent$ColorStyleChanged> get copyWith => __$SettingsEvent$ColorStyleChangedCopyWithImpl<_SettingsEvent$ColorStyleChanged>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _SettingsEvent$ColorStyleChanged&&(identical(other.style, style) || other.style == style));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,style);
+
+@override
+String toString() {
+  return 'SettingsEvent.colorStyleChanged(style: $style)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$SettingsEvent$ColorStyleChangedCopyWith<$Res> implements $SettingsEventCopyWith<$Res> {
+  factory _$SettingsEvent$ColorStyleChangedCopyWith(_SettingsEvent$ColorStyleChanged value, $Res Function(_SettingsEvent$ColorStyleChanged) _then) = __$SettingsEvent$ColorStyleChangedCopyWithImpl;
+@useResult
+$Res call({
+ AppColorStyle style
+});
+
+
+
+
+}
+/// @nodoc
+class __$SettingsEvent$ColorStyleChangedCopyWithImpl<$Res>
+    implements _$SettingsEvent$ColorStyleChangedCopyWith<$Res> {
+  __$SettingsEvent$ColorStyleChangedCopyWithImpl(this._self, this._then);
+
+  final _SettingsEvent$ColorStyleChanged _self;
+  final $Res Function(_SettingsEvent$ColorStyleChanged) _then;
+
+/// Create a copy of SettingsEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? style = null,}) {
+  return _then(_SettingsEvent$ColorStyleChanged(
+style: null == style ? _self.style : style // ignore: cast_nullable_to_non_nullable
+as AppColorStyle,
   ));
 }
 

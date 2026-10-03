@@ -845,7 +845,7 @@ abstract class AppLocalizations {
   /// No description provided for @profileAccentColorTitle.
   ///
   /// In en, this message translates to:
-  /// **'App color'**
+  /// **'Accent color'**
   String get profileAccentColorTitle;
 
   /// No description provided for @profileAnimationSpeedTitle.
@@ -1843,6 +1843,72 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'{size} MB'**
   String settingsHistorySizeMegabytes(String size);
+
+  /// No description provided for @settingsAppearanceTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Appearance'**
+  String get settingsAppearanceTitle;
+
+  /// No description provided for @settingsThemeTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Theme'**
+  String get settingsThemeTitle;
+
+  /// No description provided for @settingsThemeLight.
+  ///
+  /// In en, this message translates to:
+  /// **'Light'**
+  String get settingsThemeLight;
+
+  /// No description provided for @settingsThemeDark.
+  ///
+  /// In en, this message translates to:
+  /// **'Dark'**
+  String get settingsThemeDark;
+
+  /// No description provided for @settingsThemeSystem.
+  ///
+  /// In en, this message translates to:
+  /// **'System'**
+  String get settingsThemeSystem;
+
+  /// No description provided for @settingsStyleTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Style'**
+  String get settingsStyleTitle;
+
+  /// No description provided for @settingsStyleColorful.
+  ///
+  /// In en, this message translates to:
+  /// **'Colorful'**
+  String get settingsStyleColorful;
+
+  /// No description provided for @settingsStyleMonochrome.
+  ///
+  /// In en, this message translates to:
+  /// **'Monochrome'**
+  String get settingsStyleMonochrome;
+
+  /// No description provided for @settingsStyleAmoled.
+  ///
+  /// In en, this message translates to:
+  /// **'AMOLED'**
+  String get settingsStyleAmoled;
+
+  /// No description provided for @settingsAccentHintColorful.
+  ///
+  /// In en, this message translates to:
+  /// **'The whole app palette is built from this color'**
+  String get settingsAccentHintColorful;
+
+  /// No description provided for @settingsAccentHintMonochrome.
+  ///
+  /// In en, this message translates to:
+  /// **'In monochrome the accent highlights only the essentials: buttons, progress, selection'**
+  String get settingsAccentHintMonochrome;
 }
 
 class _AppLocalizationsDelegate

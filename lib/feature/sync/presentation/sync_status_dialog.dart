@@ -13,6 +13,7 @@ import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/progress/app_linear_progress.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
 
 /// Диалог состояния синхронизации.
 ///
@@ -93,6 +94,7 @@ class SyncStatusDialogView extends StatelessWidget {
     final visual = syncStatusVisual(
       status: state.status,
       colorScheme: Theme.of(context).colorScheme,
+      appColors: AppColors.of(context),
       l10n: context.l10n,
       now: at,
       lastSyncedSource: state.lastSyncedSource,

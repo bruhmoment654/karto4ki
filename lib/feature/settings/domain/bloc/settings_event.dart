@@ -11,6 +11,11 @@ sealed class SettingsEvent with _$SettingsEvent {
     required AppThemeMode mode,
   }) = _SettingsEvent$ThemeModeChanged;
 
+  /// Сменить стиль палитры.
+  const factory SettingsEvent.colorStyleChanged({
+    required AppColorStyle style,
+  }) = _SettingsEvent$ColorStyleChanged;
+
   /// Изменить длительность анимаций.
   const factory SettingsEvent.animationDurationChanged({
     required double value,

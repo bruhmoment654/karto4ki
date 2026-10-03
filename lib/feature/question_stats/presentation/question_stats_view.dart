@@ -15,7 +15,7 @@ import 'package:quizzerg/uikit/motion/count_up_text.dart';
 import 'package:quizzerg/uikit/motion/staggered_appear.dart';
 import 'package:quizzerg/uikit/progress/wave_fill_bar.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
 
 class QuestionStatsView extends StatelessWidget {
   final IQuestionStatsViewModel viewModel;
@@ -342,9 +342,10 @@ class _StatsCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final cs = theme.colorScheme;
+    final colors = AppColors.of(context);
     final total = stat.totalCorrect + stat.totalIncorrect;
     final accuracy = total > 0 ? (stat.totalCorrect / total * 100).round() : 0;
-    final accuracyColor = _accuracyColor(cs, accuracy);
+    final accuracyColor = _accuracyColor(colors, accuracy);
 
     final answers = AnswerParser.parse(stat.backText).join(' | ');
 
@@ -394,7 +395,7 @@ class _StatsCard extends StatelessWidget {
               _MiniStat(
                 icon: Icons.check_circle,
                 value: stat.totalCorrect,
-                color: cs.success,
+                color: colors.success,
               ),
               const SizedBox(width: 18),
               _MiniStat(
@@ -423,15 +424,11 @@ class _StatsCard extends StatelessWidget {
     );
   }
 
-  /// Цвет точности по порогам: ≥90 — успех, ≥60 — предупреждение, иначе ошибка.
-  ///
-  /// На светлой теме — более яркие оттенки (тёмные семантические роли подобраны
-  /// под читаемость мелкого текста и смотрятся блёкло на крупных числах/полоске).
-  Color _accuracyColor(ColorScheme cs, int accuracy) {
-    final isLight = cs.brightness == Brightness.light;
-    if (accuracy >= 90) return isLight ? const Color(0xFF15A34A) : cs.success;
-    if (accuracy >= 60) return isLight ? const Color(0xFFF59E0B) : cs.warning;
-    return isLight ? const Color(0xFFE5342B) : cs.error;
+  /// Цвет точности по порогам: ≥90, ≥60, ниже — шкала из палитры.
+  Color _accuracyColor(AppColors colors, int accuracy) {
+    if (accuracy >= 90) return colors.accuracyHigh;
+    if (accuracy >= 60) return colors.accuracyMid;
+    return colors.accuracyLow;
   }
 }
 

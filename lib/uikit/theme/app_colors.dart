@@ -1,104 +1,125 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
+import 'package:quizzerg/uikit/theme/palette/seed_palette.dart';
 
-/// Интерфейс цветовой палитры приложения.
-abstract class AppColors {
-  Color get background;
-  Color get card;
-  Color get primary;
-  Color get secondary;
-  Color get muted;
-  Color get mutedForeground;
-  Color get border;
-  Color get accent;
-  Color get destructive;
-  Color get success;
-  Color get warning;
-  Color get foreground;
-  Color get secondaryForeground;
+/// Цвета приложения сверх ролей [ColorScheme]. Значения задаёт палитра
+/// (`AppPalette.appColors`), поэтому в монохроме они нейтральные.
+@immutable
+class AppColors extends ThemeExtension<AppColors> {
+  /// «Знаю», верный ответ, синхронизировано.
+  final Color success;
+
+  // M3-именование «on<роль>», как в ColorScheme, — это цвет, а не колбэк.
+  // ignore: prefer-correct-callback-field-name
+  final Color onSuccess;
+
+  /// Требует внимания, но не ошибка.
+  final Color warning;
+
+  /// Нейтральная подсветка значения.
+  final Color info;
+
+  /// Контейнер FAB — главного действия экрана.
+  final Color fab;
+
+  // ignore: prefer-correct-callback-field-name
+  final Color onFab;
+
+  /// Шкала точности для крупных чисел и полос: ≥90%, ≥60%, ниже.
+  final Color accuracyHigh;
+  final Color accuracyMid;
+  final Color accuracyLow;
+
+  const AppColors({
+    required this.success,
+    required this.onSuccess,
+    required this.warning,
+    required this.info,
+    required this.fab,
+    required this.onFab,
+    required this.accuracyHigh,
+    required this.accuracyMid,
+    required this.accuracyLow,
+  });
+
+  /// Если тема собрана не из палитры (тесты, сторонний `Theme`), берём
+  /// цвета цветной палитры.
+  static AppColors of(BuildContext context) => Theme.of(context).appColors;
+
+  @override
+  AppColors copyWith({
+    Color? success,
+    Color? onSuccess,
+    Color? warning,
+    Color? info,
+    Color? fab,
+    Color? onFab,
+    Color? accuracyHigh,
+    Color? accuracyMid,
+    Color? accuracyLow,
+  }) {
+    return AppColors(
+      success: success ?? this.success,
+      onSuccess: onSuccess ?? this.onSuccess,
+      warning: warning ?? this.warning,
+      info: info ?? this.info,
+      fab: fab ?? this.fab,
+      onFab: onFab ?? this.onFab,
+      accuracyHigh: accuracyHigh ?? this.accuracyHigh,
+      accuracyMid: accuracyMid ?? this.accuracyMid,
+      accuracyLow: accuracyLow ?? this.accuracyLow,
+    );
+  }
+
+  @override
+  AppColors lerp(AppColors? other, double t) {
+    if (other == null) return this;
+
+    return AppColors(
+      success: _lerp(success, other.success, t),
+      onSuccess: _lerp(onSuccess, other.onSuccess, t),
+      warning: _lerp(warning, other.warning, t),
+      info: _lerp(info, other.info, t),
+      fab: _lerp(fab, other.fab, t),
+      onFab: _lerp(onFab, other.onFab, t),
+      accuracyHigh: _lerp(accuracyHigh, other.accuracyHigh, t),
+      accuracyMid: _lerp(accuracyMid, other.accuracyMid, t),
+      accuracyLow: _lerp(accuracyLow, other.accuracyLow, t),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is AppColors &&
+          success == other.success &&
+          onSuccess == other.onSuccess &&
+          warning == other.warning &&
+          info == other.info &&
+          fab == other.fab &&
+          onFab == other.onFab &&
+          accuracyHigh == other.accuracyHigh &&
+          accuracyMid == other.accuracyMid &&
+          accuracyLow == other.accuracyLow;
+
+  @override
+  int get hashCode => Object.hash(
+    success,
+    onSuccess,
+    warning,
+    info,
+    fab,
+    onFab,
+    accuracyHigh,
+    accuracyMid,
+    accuracyLow,
+  );
 }
 
-class AppColorsLight implements AppColors {
-  const AppColorsLight();
-
-  @override
-  Color get background => const Color(0xFFF4F5FA);
-
-  @override
-  Color get card => const Color(0xFFFFFFFF);
-
-  @override
-  Color get primary => const Color(0xFF5545C4);
-
-  @override
-  Color get secondary => const Color(0xFFE8EAF2);
-
-  @override
-  Color get muted => const Color(0xFFECEEF5);
-
-  @override
-  Color get mutedForeground => const Color(0xFF7A7F96);
-
-  @override
-  Color get border => const Color(0xFFDEE2ED);
-
-  @override
-  Color get accent => const Color(0xFFF97316);
-
-  @override
-  Color get destructive => const Color(0xFFDC2626);
-
-  @override
-  Color get success => const Color(0xFF2D9E6B);
-
-  @override
-  Color get warning => const Color(0xFFF59E0B);
-
-  @override
-  Color get foreground => const Color(0xFF1A1A2E);
-
-  @override
-  Color get secondaryForeground => const Color(0xFF4A4E69);
+extension AppColorsThemeX on ThemeData {
+  AppColors get appColors =>
+      extension<AppColors>() ?? const SeedPalette().appColors(colorScheme);
 }
 
-class AppColorsDark implements AppColors {
-  const AppColorsDark();
-
-  @override
-  Color get background => const Color(0xFF0F1117);
-
-  @override
-  Color get card => const Color(0xFF1A1E2E);
-
-  @override
-  Color get primary => const Color(0xFF6E5FD8);
-
-  @override
-  Color get secondary => const Color(0xFF252B3D);
-
-  @override
-  Color get muted => const Color(0xFF222638);
-
-  @override
-  Color get mutedForeground => const Color(0xFF7A7F9A);
-
-  @override
-  Color get border => const Color(0xFF252B3D);
-
-  @override
-  Color get accent => const Color(0xFFFB923C);
-
-  @override
-  Color get destructive => const Color(0xFF7F1D1D);
-
-  @override
-  Color get success => const Color(0xFF38A77A);
-
-  @override
-  Color get warning => const Color(0xFFFBBF24);
-
-  @override
-  Color get foreground => const Color(0xFFECECF0);
-
-  @override
-  Color get secondaryForeground => const Color(0xFFB0B3C5);
-}
+/// [Color.lerp] с ненулевыми концами не возвращает `null`.
+Color _lerp(Color a, Color b, double progress) =>
+    Color.lerp(a, b, progress) ?? a;

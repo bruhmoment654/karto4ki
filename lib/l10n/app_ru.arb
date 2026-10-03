@@ -706,7 +706,7 @@
   "profileSettingsTitle": "Профиль",
   "settingsTitle": "Настройки",
   "profileShaderAnimationTitle": "Анимация фона",
-  "profileAccentColorTitle": "Цвет приложения",
+  "profileAccentColorTitle": "Акцентный цвет",
   "profileAnimationSpeedTitle": "Скорость анимаций",
   "profileAnimationDurationLabel": "{duration} мс",
   "@profileAnimationDurationLabel": {
@@ -1152,5 +1152,20 @@
         "example": "1,2"
       }
     }
-  }
+  },
+  "@segmentSettingsAppearance": {
+    "---------": "---------",
+    "description": "Настройки: внешний вид"
+  },
+  "settingsAppearanceTitle": "Внешний вид",
+  "settingsThemeTitle": "Тема",
+  "settingsThemeLight": "Светлая",
+  "settingsThemeDark": "Тёмная",
+  "settingsThemeSystem": "Как в системе",
+  "settingsStyleTitle": "Стиль",
+  "settingsStyleColorful": "Цветной",
+  "settingsStyleMonochrome": "Монохром",
+  "settingsStyleAmoled": "AMOLED",
+  "settingsAccentHintColorful": "Из этого цвета строится вся палитра приложения",
+  "settingsAccentHintMonochrome": "В монохроме акцент подсвечивает только главное: кнопки, прогресс, выбранное"
 }

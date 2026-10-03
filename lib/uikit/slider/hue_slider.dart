@@ -5,12 +5,14 @@ import 'package:flutter/material.dart';
 import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// Слайдер оттенка (hue 0..360) для seed-цвета приложения: трек-радуга на
-/// всю ширину и круглая ручка, залитая выбранным цветом. Ручка сама служит
-/// превью цвета.
+/// всю ширину и ручка-полоса, как у общего слайдера приложения.
+///
+/// Обводка ручки — цвет подложки [cutoutColor], без тени: ручка будто
+/// вырезает кусок трека, как вырез у `CutoutSliderTrackShape`.
 ///
 /// Градиент строится той же функцией, что и seed
-/// ([AppTheme.seedColorFromHue]), поэтому цвет ручки совпадает с цветом
-/// трека под ней.
+/// ([AppTheme.seedColorFromHue]), поэтому ручка по умолчанию совпадает
+/// с цветом трека под ней.
 class HueSlider extends StatelessWidget {
   static const _height = 36.0;
   static const _trackHeight = 16.0;
@@ -29,11 +31,20 @@ class HueSlider extends StatelessWidget {
   final ValueChanged<double>? onChangeEnd;
   final String? semanticLabel;
 
+  /// Заливка ручки. По умолчанию — цвет трека под ней.
+  final Color? thumbColor;
+
+  /// Цвет подложки, на которой лежит слайдер. По умолчанию —
+  /// `surfaceContainer`, фон карточек.
+  final Color? cutoutColor;
+
   const HueSlider({
     required this.hue,
     required this.onChanged,
     this.onChangeEnd,
     this.semanticLabel,
+    this.thumbColor,
+    this.cutoutColor,
     super.key,
   });
 
@@ -49,9 +60,8 @@ class HueSlider extends StatelessWidget {
         padding: EdgeInsets.zero,
         trackShape: _HueTrackShape(colors: _gradientColors),
         thumbShape: _HueThumbShape(
-          color: AppTheme.seedColorFromHue(hue),
-          // Обводка цветом подложки карточки отделяет ручку от трека.
-          borderColor: cs.surfaceContainer,
+          color: thumbColor ?? AppTheme.seedColorFromHue(hue),
+          cutoutColor: cutoutColor ?? cs.surfaceContainer,
         ),
         overlayShape: SliderComponentShape.noOverlay,
         tickMarkShape: SliderTickMarkShape.noTickMark,
@@ -109,21 +119,21 @@ class _HueTrackShape extends SliderTrackShape with BaseSliderTrackShape {
   }
 }
 
-/// Круглая ручка: заливка выбранным цветом, обводка и мягкая тень.
-/// При нажатии чуть увеличивается.
+/// Ручка-полоса с обводкой цветом подложки: на треке обводка читается как
+/// вырез, вне трека сливается с фоном.
 class _HueThumbShape extends SliderComponentShape {
-  static const _diameter = 28.0;
-  static const _borderWidth = 3.0;
-  static const _pressedGrowth = 4.0;
+  static const _width = 6.0;
+  static const _height = 36.0;
+  static const _cutout = 3.0;
 
   final Color color;
-  final Color borderColor;
+  final Color cutoutColor;
 
-  const _HueThumbShape({required this.color, required this.borderColor});
+  const _HueThumbShape({required this.color, required this.cutoutColor});
 
   @override
   Size getPreferredSize(bool isEnabled, bool isDiscrete) =>
-      const Size.square(_diameter);
+      const Size(_width, _height);
 
   @override
   void paint(
@@ -140,18 +150,19 @@ class _HueThumbShape extends SliderComponentShape {
     required double textScaleFactor,
     required Size sizeWithOverflow,
   }) {
-    final canvas = context.canvas;
-    final radius = (_diameter + _pressedGrowth * activationAnimation.value) / 2;
+    final bar = Rect.fromCenter(center: center, width: _width, height: _height);
 
-    canvas
-      ..drawCircle(
-        center.translate(0, 1),
-        radius,
-        Paint()
-          ..color = Colors.black.withValues(alpha: 0.4)
-          ..maskFilter = const MaskFilter.blur(BlurStyle.normal, 3),
+    context.canvas
+      ..drawRRect(
+        RRect.fromRectAndRadius(
+          bar.inflate(_cutout),
+          const Radius.circular(_width / 2 + _cutout),
+        ),
+        Paint()..color = cutoutColor,
       )
-      ..drawCircle(center, radius, Paint()..color = borderColor)
-      ..drawCircle(center, radius - _borderWidth, Paint()..color = color);
+      ..drawRRect(
+        RRect.fromRectAndRadius(bar, const Radius.circular(_width / 2)),
+        Paint()..color = color,
+      );
   }
 }

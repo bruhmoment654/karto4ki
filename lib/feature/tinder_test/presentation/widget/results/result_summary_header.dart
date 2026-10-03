@@ -6,7 +6,7 @@ import 'package:quizzerg/uikit/motion/app_animated_size.dart';
 import 'package:quizzerg/uikit/motion/app_animated_switcher.dart';
 import 'package:quizzerg/uikit/progress/liquid_score_ring.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
 
 /// Сводка результата: компактное кольцо, заголовок по порогу и чип —
 /// сравнение с прошлым разом или отметка первого прохождения.
@@ -74,6 +74,7 @@ class _SummaryChip extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final colorScheme = Theme.of(context).colorScheme;
+    final colors = AppColors.of(context);
     final summary = this.summary;
     if (summary == null || !summary.hasHistory) {
       return const SizedBox(key: ValueKey('none'), width: double.infinity);
@@ -103,7 +104,7 @@ class _SummaryChip extends StatelessWidget {
     }
 
     final isUp = delta > 0;
-    final tone = isUp ? colorScheme.success : colorScheme.error;
+    final tone = isUp ? colors.success : colorScheme.error;
     return _InfoChip(
       key: const ValueKey('delta'),
       icon: isUp ? Icons.trending_up : Icons.trending_down,

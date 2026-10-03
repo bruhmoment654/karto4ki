@@ -2,59 +2,53 @@ import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
 import 'package:quizzerg/uikit/motion/reduced_motion_page_transitions_builder.dart';
 import 'package:quizzerg/uikit/slider/bar_slider_shapes.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
+import 'package:quizzerg/uikit/theme/palette/app_palette.dart';
+import 'package:quizzerg/uikit/theme/palette/seed_palette.dart';
 
 /// Тема Material You (M3 Expressive) для karto4ki / quizzerg.
 ///
-/// Ключевые отличия от прежней реализации:
-///   1. НЕ перекрывает primary/secondary/tertiary — их генерит
-///      [ColorScheme.fromSeed] по seed-цвету, поэтому слайдер seed в профиле
-///      (accentColorHue) реально перекрашивает всё приложение (нативный
-///      Material You).
-///   2. Перекрывает только рампу surface (чистый нейтральный белый в light)
-///      и error.
-///   3. Добавляет M3-темы компонентов: NavigationBar, Card, FAB, Dialog,
-///      FilledButton, SearchBar, Slider.
-///   4. Легаси-геттеры [AppThemeColorSchemeX] (card/muted/border/foreground…)
-///      переотображены на реальные тональные роли M3 — старые экраны
-///      продолжают компилироваться и подхватывают цвета, реагирующие на seed.
+/// Цвета приходят из палитры ([AppPalette]): «Цветной» строит всё из seed
+/// (слайдер акцента в настройках), «Монохром» и «AMOLED» — серые с одним
+/// акцентом. Здесь только темы компонентов: NavigationBar, Card, FAB, Dialog,
+/// FilledButton, SearchBar, Slider — они берут роли схемы и [AppColors],
+/// поэтому новая палитра правок здесь не требует.
+///
+/// Легаси-геттеры [AppThemeColorSchemeX] (card/muted/border/foreground…)
+/// отображены на тональные роли M3 и тоже следуют за палитрой.
 ///
 /// Шрифт остаётся Nexa (бренд). Радиусы — см. AppDimens (radius20/28/32).
 class AppTheme {
-  /// Фиолетовый seed (раньше дефолт был зелёным). Слайдер в профиле его меняет.
+  /// Фиолетовый seed (раньше дефолт был зелёным). Слайдер в настройках его меняет.
   static const defaultSeedColor = Color(0xFF6750A4);
 
-  static ThemeData light({Color seedColor = defaultSeedColor}) =>
-      _build(_scheme(seedColor, Brightness.light), Brightness.light);
+  static ThemeData light({
+    Color seedColor = defaultSeedColor,
+    AppPalette palette = const SeedPalette(),
+  }) =>
+      fromPalette(palette, brightness: Brightness.light, accent: seedColor);
 
-  static ThemeData dark({Color seedColor = defaultSeedColor}) =>
-      _build(_scheme(seedColor, Brightness.dark), Brightness.dark);
+  static ThemeData dark({
+    Color seedColor = defaultSeedColor,
+    AppPalette palette = const SeedPalette(),
+  }) =>
+      fromPalette(palette, brightness: Brightness.dark, accent: seedColor);
 
-  static ColorScheme _scheme(Color seed, Brightness brightness) {
-    // tonalSpot — дефолтный вариант M3; surface ниже де-тонируем для light.
-    final scheme = ColorScheme.fromSeed(
-      seedColor: seed,
-      brightness: brightness,
-    );
-    // Чистые, де-тонированные нейтральные поверхности для LIGHT (решение
-    // дизайна — вместо тонированного в seed дефолта #FEF7FF). В dark остаются
-    // тональные поверхности fromSeed.
-    if (brightness == Brightness.light) {
-      return scheme.copyWith(
-        surface: const Color(0xFFFCFCFD),
-        surfaceContainerLowest: const Color(0xFFFFFFFF),
-        surfaceContainerLow: const Color(0xFFF6F5F8),
-        surfaceContainer: const Color(0xFFF1F0F4),
-        surfaceContainerHigh: const Color(0xFFEBEAEF),
-        surfaceContainerHighest: const Color(0xFFE5E4EA),
-      );
-    }
-    return scheme;
+  static ThemeData fromPalette(
+    AppPalette palette, {
+    required Brightness brightness,
+    required Color accent,
+  }) {
+    final cs = palette.colorScheme(brightness: brightness, accent: accent);
+
+    return _build(cs, palette.appColors(cs));
   }
 
-  static ThemeData _build(ColorScheme cs, Brightness brightness) {
+  static ThemeData _build(ColorScheme cs, AppColors colors) {
     return ThemeData(
       useMaterial3: true,
       colorScheme: cs,
+      extensions: [colors],
       scaffoldBackgroundColor: cs.surface,
       fontFamily: 'Nexa',
       pageTransitionsTheme: const PageTransitionsTheme(
@@ -93,10 +87,10 @@ class AppTheme {
         margin: EdgeInsets.zero,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
       ),
-      // Крупный expressive FAB 64dp, r28, тональный primaryContainer.
+      // Крупный expressive FAB 64dp, r28; цвет главного действия — из палитры.
       floatingActionButtonTheme: FloatingActionButtonThemeData(
-        backgroundColor: cs.primaryContainer,
-        foregroundColor: cs.onPrimaryContainer,
+        backgroundColor: colors.fab,
+        foregroundColor: colors.onFab,
         elevation: 3,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
         sizeConstraints: const BoxConstraints.tightFor(width: 64, height: 64),
@@ -161,15 +155,16 @@ class AppTheme {
     );
   }
 
-  /// Конвертация hue (0–360) в seed-цвет для слайдера в профиле.
+  /// Конвертация hue (0–360) в seed-цвет для слайдера в настройках.
   static Color seedColorFromHue(double hue) =>
       HSLColor.fromAHSL(1, hue.clamp(0, 360), 0.5, 0.55).toColor();
 }
 
 /// Легаси-геттеры палитры, использовавшиеся по экранам, переотображены на
 /// реальные тональные роли M3 — старые места вызова (`cs.card`, `cs.muted`,
-/// `cs.foreground`…) продолжают работать и теперь следуют за seed.
-/// В новом коде предпочитай нативные роли.
+/// `cs.foreground`…) продолжают работать и следуют за палитрой.
+/// В новом коде предпочитай нативные роли. Цвета сверх ролей M3 (`success`,
+/// `warning`…) — в [AppColors].
 extension AppThemeColorSchemeX on ColorScheme {
   Color get scaffoldBackground => surface;
 
@@ -186,23 +181,6 @@ extension AppThemeColorSchemeX on ColorScheme {
   Color get secondaryForeground => onSecondaryContainer;
 
   Color get accent => tertiary;
-
-  // Семантические роли, которых нет в ColorScheme.
-  Color get success => brightness == Brightness.dark
-      ? const Color(0xFF7CD992)
-      : const Color(0xFF146C2E);
-
-  Color get onSuccess => brightness == Brightness.dark
-      ? const Color(0xFF00391B)
-      : const Color(0xFFFFFFFF);
-
-  Color get warning => brightness == Brightness.dark
-      ? const Color(0xFFF6C45A)
-      : const Color(0xFF7E5700);
-
-  Color get info => brightness == Brightness.dark
-      ? const Color(0xFFA7C8FF)
-      : const Color(0xFF2B5A9B);
 
   /// Пул тональных контейнеров для карточек групп: (container, onContainer).
   /// Стабильный цвет на группу: `pool[group.id % pool.length]`.

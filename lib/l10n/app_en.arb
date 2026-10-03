@@ -268,7 +268,7 @@
   "profileSettingsTitle": "Profile",
   "settingsTitle": "Settings",
   "profileShaderAnimationTitle": "Background animation",
-  "profileAccentColorTitle": "App color",
+  "profileAccentColorTitle": "Accent color",
   "profileAnimationSpeedTitle": "Animation speed",
   "profileAnimationDurationLabel": "{duration} ms",
   "profileCardFontSizeTitle": "Card font size",
@@ -706,5 +706,20 @@
         "example": "1.2"
       }
     }
-  }
+  },
+  "@segmentSettingsAppearance": {
+    "---------": "---------",
+    "description": "Settings: appearance"
+  },
+  "settingsAppearanceTitle": "Appearance",
+  "settingsThemeTitle": "Theme",
+  "settingsThemeLight": "Light",
+  "settingsThemeDark": "Dark",
+  "settingsThemeSystem": "System",
+  "settingsStyleTitle": "Style",
+  "settingsStyleColorful": "Colorful",
+  "settingsStyleMonochrome": "Monochrome",
+  "settingsStyleAmoled": "AMOLED",
+  "settingsAccentHintColorful": "The whole app palette is built from this color",
+  "settingsAccentHintMonochrome": "In monochrome the accent highlights only the essentials: buttons, progress, selection"
 }

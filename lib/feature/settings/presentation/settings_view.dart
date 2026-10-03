@@ -3,12 +3,14 @@ import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
 import 'package:quizzerg/feature/settings/domain/bloc/settings_bloc.dart';
 import 'package:quizzerg/feature/settings/presentation/settings_screen.dart';
 import 'package:quizzerg/feature/settings/presentation/widget/attempt_history_card.dart';
+import 'package:quizzerg/feature/settings/presentation/widget/color_style_picker.dart';
 import 'package:quizzerg/feature/settings/presentation/widget/settings_card.dart';
 import 'package:quizzerg/feature/test_execution/domain/bloc/attempt_history_bloc.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/persistence/settings/data/settings_dto.dart';
 import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/karto4ki_app_bar.dart';
+import 'package:quizzerg/uikit/buttons/app_toggle_button_group.dart';
 import 'package:quizzerg/uikit/expandable/expandable_section.dart';
 import 'package:quizzerg/uikit/question_card/question_card.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
@@ -17,6 +19,7 @@ import 'package:quizzerg/uikit/slider/app_slider.dart';
 import 'package:quizzerg/uikit/slider/hue_slider.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/width.dart';
+import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 class SettingsView extends StatelessWidget {
   final ISettingsViewModel viewModel;
@@ -37,16 +40,23 @@ class SettingsView extends StatelessWidget {
           children: [
             SettingsCard(
               icon: Icons.palette,
-              title: 'Внешний вид',
+              title: context.l10n.settingsAppearanceTitle,
               children: [
                 _ThemeModeSection(
                   viewModel: viewModel,
                   themeMode: state.settings.themeMode,
                 ),
                 const Height(22),
+                _ColorStyleSection(
+                  viewModel: viewModel,
+                  colorStyle: state.settings.colorStyle,
+                  accentColorHue: state.accentColorHue,
+                ),
+                const Height(22),
                 _AccentColorSection(
                   viewModel: viewModel,
                   accentColorHue: state.accentColorHue,
+                  colorStyle: state.settings.colorStyle,
                 ),
                 const Height(22),
                 _AnimationSpeedSection(
@@ -161,9 +171,81 @@ class _StatsExportSection extends StatelessWidget {
 class _AccentColorSection extends StatelessWidget {
   final ISettingsViewModel viewModel;
   final double accentColorHue;
+  final AppColorStyle colorStyle;
 
   const _AccentColorSection({
     required this.viewModel,
+    required this.accentColorHue,
+    required this.colorStyle,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final cs = theme.colorScheme;
+    final l10n = context.l10n;
+    final isColorful = colorStyle == AppColorStyle.colorful;
+
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Expanded(
+              child: _SettingsSectionLabel(l10n.profileAccentColorTitle),
+            ),
+            const _AccentSwatch(),
+          ],
+        ),
+        const Height(6),
+        HueSlider(
+          hue: accentColorHue,
+          onChanged: viewModel.onAccentColorHueChanged,
+          semanticLabel: l10n.profileAccentColorTitle,
+          // В цветном стиле ручка — сам seed, в монохроме — акцент схемы.
+          thumbColor: isColorful ? null : cs.primary,
+        ),
+        const Height(8),
+        Text(
+          isColorful
+              ? l10n.settingsAccentHintColorful
+              : l10n.settingsAccentHintMonochrome,
+          style: theme.textTheme.bodySmall?.copyWith(
+            color: cs.onSurfaceVariant,
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+/// Квадратик текущего акцента (`primary`) у подзаголовка.
+class _AccentSwatch extends StatelessWidget {
+  static const _size = 14.0;
+
+  const _AccentSwatch();
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: _size,
+      height: _size,
+      decoration: BoxDecoration(
+        color: Theme.of(context).colorScheme.primary,
+        borderRadius: BorderRadius.circular(5),
+      ),
+    );
+  }
+}
+
+class _ColorStyleSection extends StatelessWidget {
+  final ISettingsViewModel viewModel;
+  final AppColorStyle colorStyle;
+  final double accentColorHue;
+
+  const _ColorStyleSection({
+    required this.viewModel,
+    required this.colorStyle,
     required this.accentColorHue,
   });
 
@@ -172,12 +254,12 @@ class _AccentColorSection extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        _SettingsSectionLabel(context.l10n.profileAccentColorTitle),
-        const Height(12),
-        HueSlider(
-          hue: accentColorHue,
-          onChanged: viewModel.onAccentColorHueChanged,
-          semanticLabel: context.l10n.profileAccentColorTitle,
+        _SettingsSectionLabel(context.l10n.settingsStyleTitle),
+        const Height(10),
+        ColorStylePicker(
+          value: colorStyle,
+          accent: AppTheme.seedColorFromHue(accentColorHue),
+          onChanged: viewModel.onColorStyleChanged,
         ),
       ],
     );
@@ -205,6 +287,12 @@ class _VersionLabel extends StatelessWidget {
 }
 
 class _ThemeModeSection extends StatelessWidget {
+  static const _modes = [
+    AppThemeMode.light,
+    AppThemeMode.dark,
+    AppThemeMode.system,
+  ];
+
   final ISettingsViewModel viewModel;
   final AppThemeMode themeMode;
 
@@ -212,103 +300,62 @@ class _ThemeModeSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final l10n = context.l10n;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const _SettingsSectionLabel('Тема'),
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: [
+            Expanded(child: _SettingsSectionLabel(l10n.settingsThemeTitle)),
+            Text(
+              _labelOf(context, themeMode),
+              style: theme.textTheme.bodySmall?.copyWith(
+                color: theme.colorScheme.onSurfaceVariant,
+              ),
+            ),
+          ],
+        ),
         const Height(8),
-        _ThemeModeSwitch(
-          value: themeMode,
-          onChanged: viewModel.onThemeModeChanged,
+        AppToggleButtonGroup(
+          items: [
+            for (final mode in _modes)
+              AppToggleButtonItem(
+                icon: _iconOf(mode, isSelected: false),
+                selectedIcon: _iconOf(mode, isSelected: true),
+                semanticLabel: _labelOf(context, mode),
+              ),
+          ],
+          selectedIndex: _modes.indexOf(themeMode),
+          onSelectedChanged: (index) =>
+              viewModel.onThemeModeChanged(_modes[index]),
         ),
       ],
     );
   }
-}
 
-/// Сегментированный переключатель темы по дизайну: pill с обводкой, сегменты
-/// на всю ширину, активный — выделен фоном `secondaryContainer`.
-class _ThemeModeSwitch extends StatelessWidget {
-  final AppThemeMode value;
-  final ValueChanged<AppThemeMode> onChanged;
+  String _labelOf(BuildContext context, AppThemeMode mode) {
+    final l10n = context.l10n;
 
-  const _ThemeModeSwitch({required this.value, required this.onChanged});
-
-  static const _items = <(AppThemeMode, String)>[
-    (AppThemeMode.light, 'Светлая'),
-    (AppThemeMode.dark, 'Тёмная'),
-    (AppThemeMode.system, 'Системная'),
-  ];
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-
-    return Container(
-      height: 44,
-      clipBehavior: Clip.antiAlias,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(99),
-      ),
-      // Обводка рисуется поверх содержимого, иначе фон активного сегмента
-      // перекрывает её по краям из-за клипа скруглённого контейнера.
-      foregroundDecoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(99),
-        border: Border.all(color: cs.outline),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          for (var i = 0; i < _items.length; i++) ...[
-            if (i > 0)
-              ColoredBox(color: cs.outline, child: const SizedBox(width: 1)),
-            Expanded(
-              child: _ThemeModeSegment(
-                label: _items[i].$2,
-                selected: _items[i].$1 == value,
-                onTap: () => onChanged(_items[i].$1),
-              ),
-            ),
-          ],
-        ],
-      ),
-    );
+    return switch (mode) {
+      AppThemeMode.light => l10n.settingsThemeLight,
+      AppThemeMode.dark => l10n.settingsThemeDark,
+      AppThemeMode.system => l10n.settingsThemeSystem,
+    };
   }
-}
 
-class _ThemeModeSegment extends StatelessWidget {
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-
-  const _ThemeModeSegment({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    final cs = Theme.of(context).colorScheme;
-    final foreground = selected ? cs.onSecondaryContainer : cs.onSurface;
-
-    return Material(
-      color: selected ? cs.secondaryContainer : Colors.transparent,
-      child: InkWell(
-        onTap: onTap,
-        child: Center(
-          child: Text(
-            label,
-            style: TextStyle(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-              color: foreground,
-            ),
-          ),
-        ),
-      ),
-    );
-  }
+  IconData _iconOf(AppThemeMode mode, {required bool isSelected}) =>
+      switch (mode) {
+        AppThemeMode.light =>
+          isSelected ? Icons.light_mode : Icons.light_mode_outlined,
+        AppThemeMode.dark =>
+          isSelected ? Icons.dark_mode : Icons.dark_mode_outlined,
+        AppThemeMode.system =>
+          isSelected ? Icons.brightness_auto : Icons.brightness_auto_outlined,
+      };
 }
 
 class _CardFontSizeSection extends StatelessWidget {

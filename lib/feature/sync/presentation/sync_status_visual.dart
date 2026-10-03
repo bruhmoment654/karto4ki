@@ -4,7 +4,7 @@ import 'package:quizzerg/feature/sync/domain/bloc/sync_bloc.dart';
 import 'package:quizzerg/feature/sync/domain/entity/sync_meta_keys.dart';
 import 'package:quizzerg/feature/sync/presentation/sync_time_format.dart';
 import 'package:quizzerg/l10n/app_localizations.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
+import 'package:quizzerg/uikit/theme/app_colors.dart';
 
 /// Действие, которое предлагает статус.
 enum SyncStatusAction {
@@ -60,6 +60,7 @@ class SyncStatusVisual {
 SyncStatusVisual syncStatusVisual({
   required SyncStatus status,
   required ColorScheme colorScheme,
+  required AppColors appColors,
   required AppLocalizations l10n,
   required DateTime now,
   SyncTimeSource lastSyncedSource = SyncTimeSource.server,
@@ -69,7 +70,7 @@ SyncStatusVisual syncStatusVisual({
   return switch (status) {
     SyncStatus$Disabled() || SyncStatus$Synced() => SyncStatusVisual(
         icon: Icons.cloud_done,
-        color: colorScheme.success,
+        color: appColors.success,
         title: l10n.syncTitleSynced,
         subtitle: _syncedSubtitle(
           l10n: l10n,
@@ -90,7 +91,7 @@ SyncStatusVisual syncStatusVisual({
       ),
     SyncStatus$NotSynced(:final pending) => SyncStatusVisual(
         icon: Icons.cloud_upload,
-        color: colorScheme.warning,
+        color: appColors.warning,
         title: l10n.syncTitleNotSynced,
         subtitle: l10n.syncSubtitlePending(pending),
         action: SyncStatusAction.sync,
@@ -117,7 +118,7 @@ SyncStatusVisual syncStatusVisual({
     // «не синхронизировано», только с честным заголовком.
     SyncStatus$Failed() => SyncStatusVisual(
         icon: Icons.cloud_upload,
-        color: colorScheme.warning,
+        color: appColors.warning,
         title: l10n.syncTitleFailed,
         subtitle: l10n.syncSubtitleFailed,
         action: SyncStatusAction.retry,
