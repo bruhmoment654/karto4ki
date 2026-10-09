@@ -7,15 +7,6 @@ import 'package:quizzerg/feature/splash/presentation/card_back.dart';
 /// (`flutter_native_splash.yaml`) для бесшовного перехода native → Flutter.
 const kSplashColor = Color(0xFF4A2FB0);
 
-/// Верхний цвет брендового градиента рубашки (нижний — [kSplashColor]).
-const _kSplashGradientTop = Color(0xFF6E50D8);
-
-/// Осветляет [color] на [amount] по светлоте (HSL), клампит в `[0; 1]`.
-Color _lighten(Color color, double amount) {
-  final hsl = HSLColor.fromColor(color);
-  return hsl.withLightness((hsl.lightness + amount).clamp(0.0, 1.0)).toColor();
-}
-
 /// {@template card_swipe_splash.class}
 /// Враппер анимированного сплеша поверх контента приложения.
 ///
@@ -102,7 +93,7 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
     final size = MediaQuery.of(context).size;
     // Доступен внутри builder MaterialApp: тот оборачивает builder в Builder
     // под AnimatedTheme, поэтому Theme.of резолвится в актуальную тему.
-    final primary = Theme.of(context).colorScheme.onPrimary;
+    final colorScheme = Theme.of(context).colorScheme;
 
     return Stack(
       children: [
@@ -127,16 +118,18 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
               // Смах за край.
               final swipe = _segment(value, 0.6, 1, Curves.easeInCubic);
 
-              // Перекрас брендового фиолетового в primary темы по мере
-              // сжатия: к моменту, когда карта сжата и вот-вот поедет, она
-              // целиком в цвете темы. На старте (shrink == 0) — kSplashColor
-              // для бесшовного стыка с нативным сплешом.
-              final baseColor = Color.lerp(kSplashColor, primary, shrink)!;
-              final cardColors = <Color>[
-                Color.lerp(
-                    _kSplashGradientTop, _lighten(primary, 0.12), shrink)!,
-                baseColor,
-              ];
+              // Перекрас брендового фиолетового в акцент темы (primary) по
+              // мере сжатия: к моменту, когда карта сжата и вот-вот поедет,
+              // она целиком в акценте, как остальные акцентные элементы.
+              // На старте (shrink == 0) — kSplashColor для бесшовного стыка
+              // с нативным сплешом. Решётка — onPrimary, как контент на
+              // filled-кнопке: на светлом акценте тёмной темы белая теряется.
+              final baseColor =
+                  Color.lerp(kSplashColor, colorScheme.primary, shrink) ??
+                      colorScheme.primary;
+              final lineColor =
+                  Color.lerp(Colors.white, colorScheme.onPrimary, shrink) ??
+                      colorScheme.onPrimary;
 
               final scale = 1.0 - 0.38 * shrink; // 1 → 0.62
               final radius = 44.0 * shrink; // 0 → 44
@@ -165,7 +158,7 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
                             draw: lattice,
                             appear: appear,
                             baseColor: baseColor,
-                            colors: cardColors,
+                            lineColor: lineColor,
                           ),
                         ),
                       ),
@@ -184,8 +177,8 @@ class _CardSwipeSplashState extends State<CardSwipeSplash>
 /// Карта сплеша: плоский [baseColor] во весь экран на старте (бесшовный стык
 /// с нативным сплешом), поверх по мере сжатия проявляется рубашка ([CardBack]),
 /// решётка которой прочерчивается через [draw]. При сжатии добавляется
-/// тень-приподнятость. [baseColor] и [colors] перетекают из брендового
-/// фиолетового в цвет темы по мере сжатия.
+/// тень-приподнятость. [baseColor] перетекает из брендового фиолетового в цвет
+/// темы по мере сжатия.
 class _SplashCard extends StatelessWidget {
   /// Радиус скругления углов карты.
   final double radius;
@@ -196,18 +189,18 @@ class _SplashCard extends StatelessWidget {
   /// Прогресс проявления рубашки `[0; 1]` (плавно поверх плоского цвета).
   final double appear;
 
-  /// Плоский цвет-заливка карты (под рубашкой).
+  /// Сплошной цвет карты — и заливки, и фона рубашки.
   final Color baseColor;
 
-  /// Цвета градиента рубашки.
-  final List<Color> colors;
+  /// Цвет линий решётки рубашки.
+  final Color lineColor;
 
   const _SplashCard({
     required this.radius,
     required this.draw,
     required this.appear,
     required this.baseColor,
-    required this.colors,
+    required this.lineColor,
   });
 
   @override
@@ -228,7 +221,12 @@ class _SplashCard extends StatelessWidget {
       ),
       child: Opacity(
         opacity: appear,
-        child: CardBack(draw: draw, radius: radius, colors: colors),
+        child: CardBack(
+          draw: draw,
+          radius: radius,
+          color: baseColor,
+          lineColor: lineColor,
+        ),
       ),
     );
   }

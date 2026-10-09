@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 
-/// Цвета градиента рубашки по умолчанию (бренд-фиолетовый).
-const _cardBackColors = [Color(0xFF6E50D8), Color(0xFF4A2FB0)];
+/// Цвет рубашки по умолчанию (бренд-фиолетовый).
+const _cardBackColor = Color(0xFF4A2FB0);
 
 /// {@template card_back.class}
-/// «Рубашка» игральной карты: крупная аргайл-решётка из ромбов на фиолетовом
-/// градиенте, от края до края, без рамки.
+/// «Рубашка» игральной карты: крупная аргайл-решётка из ромбов на сплошном
+/// фиолетовом фоне, от края до края, без рамки.
 ///
 /// Параметр [draw] (0→1) каскадом «прочерчивает» решётку из угла. При
 /// `draw == 1` рубашка статична (оборот карточки в прохождении), её также
@@ -18,38 +18,49 @@ class CardBack extends StatelessWidget {
   /// Радиус скругления углов.
   final double radius;
 
-  /// Цвета фонового градиента (например, цвет группы).
-  final List<Color> colors;
+  /// Цвет фона (например, цвет группы).
+  final Color color;
+
+  /// Цвет линий решётки; прозрачность задаёт сама решётка.
+  final Color lineColor;
 
   /// {@macro card_back.class}
   const CardBack({
     this.draw = 1.0,
     this.radius = 20,
-    this.colors = _cardBackColors,
+    this.color = _cardBackColor,
+    this.lineColor = Colors.white,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return CustomPaint(
-      painter: _CardBackPainter(draw: draw, radius: radius, colors: colors),
+      painter: _CardBackPainter(
+        draw: draw,
+        radius: radius,
+        color: color,
+        lineColor: lineColor,
+      ),
       child: const SizedBox.expand(),
     );
   }
 }
 
-/// Рисует градиент и крупную аргайл-решётку с каскадным проявлением из угла
+/// Рисует фон и крупную аргайл-решётку с каскадным проявлением из угла
 /// по [draw]. Шаг решётки масштабируется от ширины — ромбы остаются крупными
 /// при любом размере карты.
 class _CardBackPainter extends CustomPainter {
   final double draw;
   final double radius;
-  final List<Color> colors;
+  final Color color;
+  final Color lineColor;
 
   _CardBackPainter({
     required this.draw,
     required this.radius,
-    required this.colors,
+    required this.color,
+    required this.lineColor,
   });
 
   @override
@@ -59,15 +70,7 @@ class _CardBackPainter extends CustomPainter {
     canvas
       ..save()
       ..clipRRect(rrect)
-      ..drawRect(
-        rect,
-        Paint()
-          ..shader = LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: colors,
-          ).createShader(rect),
-      );
+      ..drawRect(rect, Paint()..color = color);
 
     final width = size.width;
     final height = size.height;
@@ -86,7 +89,7 @@ class _CardBackPainter extends CustomPainter {
         a,
         end,
         Paint()
-          ..color = Colors.white.withValues(alpha: opacity)
+          ..color = lineColor.withValues(alpha: lineColor.a * opacity)
           ..strokeWidth = strokeWidth
           ..strokeCap = StrokeCap.round,
       );
@@ -115,5 +118,8 @@ class _CardBackPainter extends CustomPainter {
 
   @override
   bool shouldRepaint(_CardBackPainter old) =>
-      old.draw != draw || old.radius != radius || old.colors != colors;
+      old.draw != draw ||
+      old.radius != radius ||
+      old.color != color ||
+      old.lineColor != lineColor;
 }

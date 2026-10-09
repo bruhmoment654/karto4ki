@@ -34,7 +34,8 @@ class SettingsDto {
   /// Включена ли анимация шейдерного фона.
   final bool shaderAnimationEnabled;
 
-  /// Оттенок accent-цвета (0–360°).
+  /// Оттенок accent-цвета (0–360°). По умолчанию — фиолетовый, как
+  /// `AppTheme.defaultSeedColor`.
   final double accentColorHue;
 
   /// Включено ли подмешивание вопросов из других тестов группы.
@@ -72,7 +73,7 @@ class SettingsDto {
   const SettingsDto({
     this.animationDurationMs = 300,
     this.shaderAnimationEnabled = true,
-    this.accentColorHue = 149.0,
+    this.accentColorHue = 256.0,
     this.mixupEnabled = false,
     this.mixupMin = 1,
     this.mixupMax = 5,

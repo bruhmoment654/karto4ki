@@ -20,7 +20,7 @@ SettingsDto _$SettingsDtoFromJson(
     ),
     accentColorHue: $checkedConvert(
       'accentColorHue',
-      (v) => (v as num?)?.toDouble() ?? 149.0,
+      (v) => (v as num?)?.toDouble() ?? 256.0,
     ),
     mixupEnabled: $checkedConvert('mixupEnabled', (v) => v as bool? ?? false),
     mixupMin: $checkedConvert('mixupMin', (v) => (v as num?)?.toInt() ?? 1),
