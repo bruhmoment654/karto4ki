@@ -113,6 +113,10 @@ class TestSyncAdapter implements SyncEntityAdapter {
     // Для тестов политика — принять серверную версию, перезалив не нужен.
   }
 
+  @override
+  Future<void> replaceSyncState(SyncState from, SyncState to) =>
+      _testsDatabase.replaceSyncState(from, to);
+
   Future<SyncDirtyChange> _toChange(TestDatabaseDto row) async {
     final occurredAt = row.updatedAt.toUtc();
 

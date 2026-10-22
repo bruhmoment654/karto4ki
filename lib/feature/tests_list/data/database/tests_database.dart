@@ -101,6 +101,11 @@ class TestsDatabase extends DatabaseAccessor<AppDatabase>
     return query.map((row) => row.read(count) ?? 0).getSingle();
   }
 
+  /// Перевести все строки из [from] в [to].
+  Future<void> replaceSyncState(SyncState from, SyncState to) =>
+      (update(tests)..where((tbl) => tbl.syncState.equals(from.dbValue)))
+          .write(TestsCompanion(syncState: Value(to.dbValue)));
+
   /// Записать строку целиком (upsert из серверного снимка).
   Future<void> upsertTest(TestsCompanion test) =>
       into(tests).insertOnConflictUpdate(test);

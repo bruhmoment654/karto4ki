@@ -99,6 +99,11 @@ class QuestionStatsDatabase extends DatabaseAccessor<AppDatabase>
     return query.map((row) => row.read(count) ?? 0).getSingle();
   }
 
+  /// Перевести все строки из [from] в [to].
+  Future<void> replaceSyncState(SyncState from, SyncState to) =>
+      (update(questionStats)..where((t) => t.syncState.equals(from.dbValue)))
+          .write(QuestionStatsCompanion(syncState: Value(to.dbValue)));
+
   /// Пометить строку синхронизированной.
   Future<void> markSynced(String questionKey) =>
       (update(questionStats)..where((t) => t.questionKey.equals(questionKey)))

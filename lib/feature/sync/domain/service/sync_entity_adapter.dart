@@ -1,4 +1,5 @@
 import 'package:quizzerg/feature/sync/domain/entity/sync_entity_type.dart';
+import 'package:quizzerg/feature/sync/domain/entity/sync_state.dart';
 
 /// Локальное изменение, готовое к отправке.
 class SyncDirtyChange {
@@ -70,4 +71,8 @@ abstract interface class SyncEntityAdapter {
   ///
   /// Осмысленно только для карточек; остальные адаптеры ничего не делают.
   Future<void> reuploadAsNew(String id, Map<String, dynamic> localPayload);
+
+  /// Перевести все строки из [from] в [to] — для сверки после входа
+  /// (см. [SyncState.unverified]).
+  Future<void> replaceSyncState(SyncState from, SyncState to);
 }

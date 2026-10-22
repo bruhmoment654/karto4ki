@@ -705,4 +705,80 @@ void main() {
       expect(values, orderedEquals(<double>[...values]..sort()));
     });
   });
+
+  group('сверка после входа', () {
+    test('строка прошлого сеанса, которой нет на сервере, уезжает как новая',
+        () async {
+      await insertTest(id: 'test-1', title: 'С dev', state: SyncState.synced);
+
+      await engine.sync();
+
+      final pushed = api.pushedBatches.single.single;
+      expect(pushed.id, 'test-1');
+      expect(pushed.op, SyncOp.upsert);
+      final row = await database.testsDatabase.getTestByIdRaw('test-1');
+      expect(row?.syncState, SyncState.synced.dbValue);
+      expect(
+        await database.syncDatabase.getMeta(SyncMetaKeys.reconcilePending),
+        isNull,
+      );
+    });
+
+    test('строку, которую прислал сервер, берём серверной и не пушим',
+        () async {
+      await insertTest(
+          id: 'test-1', title: 'Устаревший', state: SyncState.synced);
+      api.pages.add(
+        SyncChangesDto(
+          hasMore: false,
+          changes: [
+            ChangeEventDto(
+              entity: SyncEntityType.test,
+              op: SyncOp.upsert,
+              id: 'test-1',
+              payload: _testPayload(id: 'test-1', title: 'Серверный'),
+              occurredAt: DateTime.utc(2026, 5, 17),
+            ),
+          ],
+        ),
+      );
+
+      await engine.sync();
+
+      expect(api.pushedBatches, isEmpty);
+      final row = await database.testsDatabase.getTestByIdRaw('test-1');
+      expect(row?.title, 'Серверный');
+      expect(row?.syncState, SyncState.synced.dbValue);
+    });
+
+    test('вне bootstrap синхронизированные строки не пушатся', () async {
+      await database.syncDatabase.setMeta(SyncMetaKeys.cursor, 'c1');
+      await insertTest(id: 'test-1', title: 'Свой', state: SyncState.synced);
+
+      await engine.sync();
+
+      expect(api.pushedBatches, isEmpty);
+    });
+
+    test('оборванный pull откладывает сверку до следующего прогона', () async {
+      await insertTest(id: 'test-1', title: 'С dev', state: SyncState.synced);
+      api.pages.addAll([
+        const SyncChangesDto(changes: [], hasMore: true, nextCursor: 'c1'),
+        const SyncChangesDto(changes: [], hasMore: true, nextCursor: 'c1'),
+      ]);
+
+      await engine.sync();
+
+      // Журнал не дочитан: тест мог быть в непришедшей части — не пушим.
+      expect(api.pushedBatches, isEmpty);
+
+      await engine.sync();
+
+      expect(api.pushedBatches.single.single.id, 'test-1');
+      expect(
+        await database.syncDatabase.getMeta(SyncMetaKeys.reconcilePending),
+        isNull,
+      );
+    });
+  });
 }

@@ -123,6 +123,10 @@ class CardSyncAdapter implements SyncEntityAdapter {
     );
   }
 
+  @override
+  Future<void> replaceSyncState(SyncState from, SyncState to) =>
+      _cardsDatabase.replaceSyncState(from, to);
+
   SyncDirtyChange _toChange(CardDatabaseDto row) {
     final occurredAt = row.updatedAt.toUtc();
 

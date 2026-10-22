@@ -7,6 +7,7 @@ import 'package:quizzerg/feature/sync/domain/entity/sync_entity_type.dart';
 import 'package:quizzerg/feature/sync/domain/entity/sync_meta_keys.dart';
 import 'package:quizzerg/feature/sync/domain/entity/sync_progress.dart';
 import 'package:quizzerg/feature/sync/domain/entity/sync_run_result.dart';
+import 'package:quizzerg/feature/sync/domain/entity/sync_state.dart';
 import 'package:quizzerg/feature/sync/domain/repository/i_sync_api_repository.dart';
 import 'package:quizzerg/feature/sync/domain/service/conflict_policy.dart';
 import 'package:quizzerg/feature/sync/domain/service/server_clock.dart';
@@ -92,7 +93,10 @@ class SyncEngine {
     var answersSent = 0;
 
     try {
-      pulled = await _pull(onProgress: onProgress);
+      if (isBootstrap) await _beginReconcile();
+      final pull = await _pull(onProgress: onProgress);
+      pulled = pull.applied;
+      if (pull.isComplete) await _finishReconcile();
       pushed = await _pushDirty(conflicts);
       answersSent = await _pushAnswers();
     } on ApiException catch (error, stackTrace) {
@@ -195,7 +199,35 @@ class SyncEngine {
     );
   }
 
-  Future<int> _pull({void Function(SyncProgress? progress)? onProgress}) async {
+  /// Начать сверку: курсора нет — значит, вход в аккаунт или смена сервера.
+  ///
+  /// Строки, подтверждённые прошлым сеансом, сами не уедут: push берёт только
+  /// pending. Помечать их pending сразу нельзя — `updatedAt` при отправке
+  /// станет «сейчас», и устаревшая копия затрёт свежую серверную. Поэтому
+  /// сначала pull: что сервер знает, он перепишет своим снимком.
+  Future<void> _beginReconcile() async {
+    await _syncDatabase.setMeta(SyncMetaKeys.reconcilePending, '1');
+    for (final adapter in _adapters.values) {
+      await adapter.replaceSyncState(SyncState.synced, SyncState.unverified);
+    }
+  }
+
+  /// Закончить сверку после полного pull: чего сервер не прислал, того у него
+  /// нет — оно уедет как новое.
+  Future<void> _finishReconcile() async {
+    final pending = await _syncDatabase.getMeta(SyncMetaKeys.reconcilePending);
+    if (pending == null) return;
+
+    for (final adapter in _adapters.values) {
+      await adapter.replaceSyncState(SyncState.unverified, SyncState.pending);
+    }
+    await _syncDatabase.removeMeta(SyncMetaKeys.reconcilePending);
+  }
+
+  /// Забрать серверные изменения. `isComplete` — дошли ли до конца журнала.
+  Future<({int applied, bool isComplete})> _pull({
+    void Function(SyncProgress? progress)? onProgress,
+  }) async {
     var cursor = await _syncDatabase.getMeta(SyncMetaKeys.cursor);
     final progress = SyncPullProgress();
     var applied = 0;
@@ -223,11 +255,12 @@ class SyncEngine {
 
       // `remaining` согласован с `hasMore`, но точнее: на границе страницы
       // ровно в лимит он избавляет от лишнего пустого запроса.
-      if (remaining != null && remaining == 0) break;
-      if (!response.hasMore) break;
+      if ((remaining != null && remaining == 0) || !response.hasMore) {
+        return (applied: applied, isComplete: true);
+      }
     }
 
-    return applied;
+    return (applied: applied, isComplete: false);
   }
 
   Future<bool> _apply(ChangeEventDto change) async {

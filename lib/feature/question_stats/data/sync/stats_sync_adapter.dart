@@ -2,6 +2,7 @@ import 'package:quizzerg/feature/question_stats/data/database/question_stats_dat
 import 'package:quizzerg/feature/question_stats/data/dto/question_stats_dto.dart';
 import 'package:quizzerg/feature/question_stats/domain/util/stats_remote_id.dart';
 import 'package:quizzerg/feature/sync/domain/entity/sync_entity_type.dart';
+import 'package:quizzerg/feature/sync/domain/entity/sync_state.dart';
 import 'package:quizzerg/feature/sync/domain/service/sync_clock.dart';
 import 'package:quizzerg/feature/sync/domain/service/sync_entity_adapter.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
@@ -103,6 +104,11 @@ class StatsSyncAdapter implements SyncEntityAdapter {
     String id,
     Map<String, dynamic> localPayload,
   ) async {}
+
+  /// Повторная отправка счётчиков безопасна: сервер сливает их по максимуму.
+  @override
+  Future<void> replaceSyncState(SyncState from, SyncState to) =>
+      _questionStatsDatabase.replaceSyncState(from, to);
 
   SyncDirtyChange _toChange(QuestionStatsDatabaseDto row) => SyncDirtyChange(
         entity: entity,

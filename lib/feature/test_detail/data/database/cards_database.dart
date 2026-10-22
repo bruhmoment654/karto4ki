@@ -121,6 +121,11 @@ class CardsDatabase extends DatabaseAccessor<AppDatabase>
     return query.map((row) => row.read(count) ?? 0).getSingle();
   }
 
+  /// Перевести все строки из [from] в [to].
+  Future<void> replaceSyncState(SyncState from, SyncState to) =>
+      (update(cards)..where((tbl) => tbl.syncState.equals(from.dbValue)))
+          .write(CardsCompanion(syncState: Value(to.dbValue)));
+
   /// Записать строку целиком (upsert из серверного снимка).
   Future<void> upsertCard(CardsCompanion card) =>
       into(cards).insertOnConflictUpdate(card);

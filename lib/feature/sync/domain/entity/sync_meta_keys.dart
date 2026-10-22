@@ -13,6 +13,13 @@ abstract final class SyncMetaKeys {
   ///
   /// Ключ, а не колонка: `sync_meta` — key-value, миграция схемы не нужна.
   static const clockSkewMs = 'sync_clock_skew_ms';
+
+  /// Сверка после входа начата, но ещё не закончена.
+  ///
+  /// Переживает обрыв: курсор сохраняется постранично, и следующий прогон
+  /// bootstrap'ом уже не будет — без флага строки так и остались бы
+  /// в `unverified`.
+  static const reconcilePending = 'sync_reconcile_pending';
 }
 
 /// Откуда взято время последней синхронизации.

@@ -97,6 +97,10 @@ class GroupSyncAdapter implements SyncEntityAdapter {
     // Для групп политика — принять серверную версию, перезалив не нужен.
   }
 
+  @override
+  Future<void> replaceSyncState(SyncState from, SyncState to) =>
+      _groupsDatabase.replaceSyncState(from, to);
+
   Future<SyncDirtyChange> _toChange(TestGroupDatabaseDto row) async {
     final occurredAt = row.updatedAt.toUtc();
 

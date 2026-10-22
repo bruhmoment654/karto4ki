@@ -82,6 +82,11 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
     return query.map((row) => row.read(count) ?? 0).getSingle();
   }
 
+  /// Перевести все строки из [from] в [to].
+  Future<void> replaceSyncState(SyncState from, SyncState to) =>
+      (update(testGroups)..where((tbl) => tbl.syncState.equals(from.dbValue)))
+          .write(TestGroupsCompanion(syncState: Value(to.dbValue)));
+
   /// Записать строку целиком (upsert из серверного снимка).
   Future<void> upsertGroup(TestGroupsCompanion group) =>
       into(testGroups).insertOnConflictUpdate(group);
