@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart' show CupertinoPageTransitionsBuilder;
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:quizzerg/uikit/dialogs/open_modals_observer.dart';
 import 'package:quizzerg/uikit/motion/reduced_motion_page_transitions_builder.dart';
 import 'package:quizzerg/uikit/slider/bar_slider_shapes.dart';
 import 'package:quizzerg/uikit/theme/app_colors.dart';
@@ -29,7 +31,9 @@ class AppTheme {
     builders: {
       TargetPlatform.android: HiddenThemeFreezePageTransitionsBuilder(
         ReducedMotionPageTransitionsBuilder(
-          PredictiveBackPageTransitionsBuilder(),
+          ModalAwarePageTransitionsBuilder(
+            PredictiveBackPageTransitionsBuilder(),
+          ),
         ),
       ),
       TargetPlatform.iOS: HiddenThemeFreezePageTransitionsBuilder(
@@ -69,6 +73,19 @@ class AppTheme {
     return _build(cs, palette.appColors(cs));
   }
 
+  /// Статус-бар контрастный теме: тёмные иконки на светлой, светлые на
+  /// тёмной.
+  static SystemUiOverlayStyle systemOverlayStyle(Brightness brightness) {
+    final isDark = brightness == Brightness.dark;
+
+    return SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      // Android: цвет иконок; iOS: яркость фона под статус-баром.
+      statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+      statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
+    );
+  }
+
   static ThemeData _build(ColorScheme cs, AppColors colors) {
     return ThemeData(
       useMaterial3: true,
@@ -78,6 +95,9 @@ class AppTheme {
       fontFamily: 'Nexa',
       pageTransitionsTheme: _pageTransitionsTheme,
       appBarTheme: AppBarTheme(
+        // Фон прозрачный, и без явного стиля AppBar считает его тёмным —
+        // иконки статус-бара становятся белыми и на светлой теме.
+        systemOverlayStyle: systemOverlayStyle(cs.brightness),
         elevation: 0,
         centerTitle: false,
         backgroundColor: Colors.transparent,
@@ -136,6 +156,8 @@ class AppTheme {
         backgroundColor: cs.surfaceContainerHigh,
         elevation: 6,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(28)),
+        // Внешние поля диалога — 16 со всех сторон (дефолт M3 — 40×24).
+        insetPadding: const EdgeInsets.all(16),
       ),
       inputDecorationTheme: InputDecorationTheme(
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(4)),
@@ -194,7 +216,8 @@ extension AppThemeColorSchemeX on ColorScheme {
   Color get accent => tertiary;
 
   /// Пул тональных контейнеров для карточек групп: (container, onContainer).
-  /// Стабильный цвет на группу: `pool[group.id % pool.length]`.
+  /// Цвет берётся по позиции группы в списке: `pool[index % pool.length]`,
+  /// поэтому меняется вместе с порядком групп.
   List<(Color, Color)> get groupCardPool => [
         (primaryContainer, onPrimaryContainer),
         (tertiaryContainer, onTertiaryContainer),

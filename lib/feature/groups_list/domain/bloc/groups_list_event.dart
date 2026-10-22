@@ -11,6 +11,12 @@ sealed class GroupsListEvent with _$GroupsListEvent {
     required String title,
   }) = _GroupsListEvent$GroupAdded;
 
+  /// Переименовать группу.
+  const factory GroupsListEvent.groupRenamed({
+    required String groupId,
+    required String title,
+  }) = _GroupsListEvent$GroupRenamed;
+
   /// Удалить группу.
   const factory GroupsListEvent.groupDeleted({
     required String groupId,

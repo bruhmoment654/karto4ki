@@ -623,13 +623,13 @@ return error(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  empty,TResult Function( TestSession session,  CardEntity currentCard,  bool isUndo)?  inProgress,TResult Function( TestSession session,  AttemptSummary? summary)?  completed,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  initial,TResult Function()?  loading,TResult Function()?  empty,TResult Function( TestSession session,  CardEntity currentCard,  CardResult? undoneResult)?  inProgress,TResult Function( TestSession session,  AttemptSummary? summary)?  completed,TResult Function( String message)?  error,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case TinderTestState$Initial() when initial != null:
 return initial();case TinderTestState$Loading() when loading != null:
 return loading();case TinderTestState$Empty() when empty != null:
 return empty();case TinderTestState$InProgress() when inProgress != null:
-return inProgress(_that.session,_that.currentCard,_that.isUndo);case TinderTestState$Completed() when completed != null:
+return inProgress(_that.session,_that.currentCard,_that.undoneResult);case TinderTestState$Completed() when completed != null:
 return completed(_that.session,_that.summary);case TinderTestState$Error() when error != null:
 return error(_that.message);case _:
   return orElse();
@@ -649,13 +649,13 @@ return error(_that.message);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  empty,required TResult Function( TestSession session,  CardEntity currentCard,  bool isUndo)  inProgress,required TResult Function( TestSession session,  AttemptSummary? summary)  completed,required TResult Function( String message)  error,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  initial,required TResult Function()  loading,required TResult Function()  empty,required TResult Function( TestSession session,  CardEntity currentCard,  CardResult? undoneResult)  inProgress,required TResult Function( TestSession session,  AttemptSummary? summary)  completed,required TResult Function( String message)  error,}) {final _that = this;
 switch (_that) {
 case TinderTestState$Initial():
 return initial();case TinderTestState$Loading():
 return loading();case TinderTestState$Empty():
 return empty();case TinderTestState$InProgress():
-return inProgress(_that.session,_that.currentCard,_that.isUndo);case TinderTestState$Completed():
+return inProgress(_that.session,_that.currentCard,_that.undoneResult);case TinderTestState$Completed():
 return completed(_that.session,_that.summary);case TinderTestState$Error():
 return error(_that.message);}
 }
@@ -671,13 +671,13 @@ return error(_that.message);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  empty,TResult? Function( TestSession session,  CardEntity currentCard,  bool isUndo)?  inProgress,TResult? Function( TestSession session,  AttemptSummary? summary)?  completed,TResult? Function( String message)?  error,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  initial,TResult? Function()?  loading,TResult? Function()?  empty,TResult? Function( TestSession session,  CardEntity currentCard,  CardResult? undoneResult)?  inProgress,TResult? Function( TestSession session,  AttemptSummary? summary)?  completed,TResult? Function( String message)?  error,}) {final _that = this;
 switch (_that) {
 case TinderTestState$Initial() when initial != null:
 return initial();case TinderTestState$Loading() when loading != null:
 return loading();case TinderTestState$Empty() when empty != null:
 return empty();case TinderTestState$InProgress() when inProgress != null:
-return inProgress(_that.session,_that.currentCard,_that.isUndo);case TinderTestState$Completed() when completed != null:
+return inProgress(_that.session,_that.currentCard,_that.undoneResult);case TinderTestState$Completed() when completed != null:
 return completed(_that.session,_that.summary);case TinderTestState$Error() when error != null:
 return error(_that.message);case _:
   return null;
@@ -787,12 +787,14 @@ String toString() {
 
 
 class TinderTestState$InProgress extends TinderTestState {
-  const TinderTestState$InProgress({required this.session, required this.currentCard, this.isUndo = false}): super._();
+  const TinderTestState$InProgress({required this.session, required this.currentCard, this.undoneResult}): super._();
   
 
  final  TestSession session;
  final  CardEntity currentCard;
-@JsonKey() final  bool isUndo;
+/// Отменённый ответ: карточка возвращается с той стороны, куда её
+/// смахнули. `null` — карточка пришла не из отмены.
+ final  CardResult? undoneResult;
 
 /// Create a copy of TinderTestState
 /// with the given fields replaced by the non-null parameter values.
@@ -804,16 +806,16 @@ $TinderTestState$InProgressCopyWith<TinderTestState$InProgress> get copyWith => 
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TinderTestState$InProgress&&(identical(other.session, session) || other.session == session)&&(identical(other.currentCard, currentCard) || other.currentCard == currentCard)&&(identical(other.isUndo, isUndo) || other.isUndo == isUndo));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TinderTestState$InProgress&&(identical(other.session, session) || other.session == session)&&(identical(other.currentCard, currentCard) || other.currentCard == currentCard)&&(identical(other.undoneResult, undoneResult) || other.undoneResult == undoneResult));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,session,currentCard,isUndo);
+int get hashCode => Object.hash(runtimeType,session,currentCard,undoneResult);
 
 @override
 String toString() {
-  return 'TinderTestState.inProgress(session: $session, currentCard: $currentCard, isUndo: $isUndo)';
+  return 'TinderTestState.inProgress(session: $session, currentCard: $currentCard, undoneResult: $undoneResult)';
 }
 
 
@@ -824,11 +826,11 @@ abstract mixin class $TinderTestState$InProgressCopyWith<$Res> implements $Tinde
   factory $TinderTestState$InProgressCopyWith(TinderTestState$InProgress value, $Res Function(TinderTestState$InProgress) _then) = _$TinderTestState$InProgressCopyWithImpl;
 @useResult
 $Res call({
- TestSession session, CardEntity currentCard, bool isUndo
+ TestSession session, CardEntity currentCard, CardResult? undoneResult
 });
 
 
-$TestSessionCopyWith<$Res> get session;$CardEntityCopyWith<$Res> get currentCard;
+$TestSessionCopyWith<$Res> get session;$CardEntityCopyWith<$Res> get currentCard;$CardResultCopyWith<$Res>? get undoneResult;
 
 }
 /// @nodoc
@@ -841,12 +843,12 @@ class _$TinderTestState$InProgressCopyWithImpl<$Res>
 
 /// Create a copy of TinderTestState
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') $Res call({Object? session = null,Object? currentCard = null,Object? isUndo = null,}) {
+@pragma('vm:prefer-inline') $Res call({Object? session = null,Object? currentCard = null,Object? undoneResult = freezed,}) {
   return _then(TinderTestState$InProgress(
 session: null == session ? _self.session : session // ignore: cast_nullable_to_non_nullable
 as TestSession,currentCard: null == currentCard ? _self.currentCard : currentCard // ignore: cast_nullable_to_non_nullable
-as CardEntity,isUndo: null == isUndo ? _self.isUndo : isUndo // ignore: cast_nullable_to_non_nullable
-as bool,
+as CardEntity,undoneResult: freezed == undoneResult ? _self.undoneResult : undoneResult // ignore: cast_nullable_to_non_nullable
+as CardResult?,
   ));
 }
 
@@ -867,6 +869,18 @@ $CardEntityCopyWith<$Res> get currentCard {
   
   return $CardEntityCopyWith<$Res>(_self.currentCard, (value) {
     return _then(_self.copyWith(currentCard: value));
+  });
+}/// Create a copy of TinderTestState
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$CardResultCopyWith<$Res>? get undoneResult {
+    if (_self.undoneResult == null) {
+    return null;
+  }
+
+  return $CardResultCopyWith<$Res>(_self.undoneResult!, (value) {
+    return _then(_self.copyWith(undoneResult: value));
   });
 }
 }

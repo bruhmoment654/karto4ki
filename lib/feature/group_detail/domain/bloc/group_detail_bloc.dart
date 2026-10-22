@@ -35,6 +35,7 @@ final class GroupDetailBloc extends Bloc<GroupDetailEvent, GroupDetailState> {
         _GroupDetailEvent$Started() => _onStarted(event, emit),
         _GroupDetailEvent$TestAdded() => _onTestAdded(event, emit),
         _GroupDetailEvent$TestRemoved() => _onTestRemoved(event, emit),
+        _GroupDetailEvent$TestRenamed() => _onTestRenamed(event, emit),
         _GroupDetailEvent$TitleUpdated() => _onTitleUpdated(event, emit),
         _GroupDetailEvent$TestGroupsUpdated() =>
           _onTestGroupsUpdated(event, emit),
@@ -97,6 +98,25 @@ final class GroupDetailBloc extends Bloc<GroupDetailEvent, GroupDetailState> {
     final result = await _repository.removeTestFromGroup(
       groupId: groupId,
       testId: event.testId,
+    );
+    switch (result) {
+      case ResultOk():
+        _syncSignal.notifyLocalMutation();
+        await _reloadData(emit);
+      case ResultFailed(:final error, :final stackTrace):
+        emit(GroupDetailState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
+    }
+  }
+
+  Future<void> _onTestRenamed(
+    _GroupDetailEvent$TestRenamed event,
+    Emitter<GroupDetailState> emit,
+  ) async {
+    final result = await _repository.renameTest(
+      testId: event.testId,
+      title: event.title.toCapitalized,
     );
     switch (result) {
       case ResultOk():

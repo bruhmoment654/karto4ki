@@ -112,6 +112,16 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
     return entries.map((entry) => entry.testId).toList();
   }
 
+  /// Все связи разом: id группы → id её тестов.
+  Future<Map<String, List<String>>> getTestIdsByGroup() async {
+    final entries = await select(testGroupEntries).get();
+    final result = <String, List<String>>{};
+    for (final entry in entries) {
+      (result[entry.groupId] ??= []).add(entry.testId);
+    }
+    return result;
+  }
+
   /// Получить id групп, в которых состоит тест.
   Future<List<String>> getGroupIdsByTestId(String testId) async {
     final entries = await (select(testGroupEntries)
@@ -186,10 +196,22 @@ class GroupsDatabase extends DatabaseAccessor<AppDatabase>
     return result.read(count) ?? 0;
   }
 
-  /// Stream, эмитящий при изменении таблиц групп или связей.
+  /// Stream, эмитящий при изменении таблиц групп, связей, а также
+  /// карточек, статистики и прохождений — из них считается прогресс групп
+  /// и тестов.
   Stream<void> watchGroupChanges() => Rx.merge([
         select(testGroups).watch().map((_) {}),
         select(testGroupEntries).watch().map((_) {}),
+        attachedDatabase
+            .tableUpdates(
+              TableUpdateQuery.onAllTables([
+                attachedDatabase.tests,
+                attachedDatabase.cards,
+                attachedDatabase.questionStats,
+                attachedDatabase.testAttempts,
+              ]),
+            )
+            .map((_) {}),
       ]);
 
   SimpleSelectStatement<TestGroups, TestGroupDatabaseDto> _alive() =>

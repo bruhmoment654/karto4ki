@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 import 'package:quizzerg/core/utils/uuid_generator.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
+import 'package:quizzerg/feature/question_stats/domain/entity/study_progress_entity.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
 
 /// Конвертер для [TestGroupEntity] и [TestGroupDatabaseDto].
@@ -9,6 +10,7 @@ abstract final class TestGroupConverter {
   static TestGroupEntity fromDto(
     TestGroupDatabaseDto dto, {
     required int testCount,
+    StudyProgressEntity progress = StudyProgressEntity.empty,
   }) {
     return TestGroupEntity(
       id: dto.id,
@@ -16,6 +18,7 @@ abstract final class TestGroupConverter {
       createdAt: dto.createdAt,
       updatedAt: dto.updatedAt,
       testCount: testCount,
+      progress: progress,
     );
   }
 

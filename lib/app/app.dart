@@ -5,6 +5,8 @@ import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/feature/splash/presentation/card_swipe_splash.dart';
 import 'package:quizzerg/l10n/app_localizations.dart';
+import 'package:quizzerg/uikit/dialogs/open_modals_observer.dart';
+import 'package:quizzerg/uikit/theme/app_theme.dart';
 import 'package:quizzerg/uikit/theme/app_theme_scope.dart';
 
 /// {@template app.class}
@@ -26,36 +28,35 @@ class _AppState extends State<App> {
       child: Builder(
         builder: (context) {
           final themeScope = AppThemeScope.of(context);
-          final isDark = themeScope.themeMode == ThemeMode.dark;
 
-          return AnnotatedRegion<SystemUiOverlayStyle>(
-            value: SystemUiOverlayStyle(
-              statusBarColor: Colors.transparent,
-              statusBarBrightness: isDark ? Brightness.dark : Brightness.light,
-              statusBarIconBrightness:
-                  isDark ? Brightness.light : Brightness.dark,
+          return MaterialApp.router(
+            routeInformationParser: _appRouter.defaultRouteParser(),
+            routerDelegate: _appRouter.delegate(
+              // Наследуются вложенными роутерами: каждый навигатор получает
+              // свои экземпляры.
+              navigatorObservers: () => [
+                AutoRouteObserver(),
+                OpenModalsObserver(),
+              ],
             ),
-            child: MaterialApp.router(
-              routeInformationParser: _appRouter.defaultRouteParser(),
-              routerDelegate: _appRouter.delegate(
-                navigatorObservers: () => [AutoRouteObserver()],
-              ),
-              builder: (context, child) => CardSwipeSplash(
-                child: child ?? const SizedBox.shrink(),
-              ),
-              scrollBehavior: const _AppScrollBehavior(),
-              theme: themeScope.lightTheme,
-              darkTheme: themeScope.darkTheme,
-              themeMode: themeScope.themeMode,
-              // Тема применяется за кадр: покадровая анимация пересобирала бы
-              // всё приложение. Плавный переход — только там, где его видно
-              // (AnimatedThemeScope).
-              themeAnimationStyle: AnimationStyle.noAnimation,
-              locale: _locale,
-              localizationsDelegates: _localizationsDelegates,
-              supportedLocales: const [_locale],
-              debugShowCheckedModeBanner: false,
+            // Стиль статус-бара по разрешённой теме (с учётом системной) —
+            // для сплеша и экранов без AppScaffold.
+            builder: (context, child) => AnnotatedRegion<SystemUiOverlayStyle>(
+              value: AppTheme.systemOverlayStyle(Theme.of(context).brightness),
+              child: CardSwipeSplash(child: child ?? const SizedBox.shrink()),
             ),
+            scrollBehavior: const _AppScrollBehavior(),
+            theme: themeScope.lightTheme,
+            darkTheme: themeScope.darkTheme,
+            themeMode: themeScope.themeMode,
+            // Тема применяется за кадр: покадровая анимация пересобирала бы
+            // всё приложение. Плавный переход — только там, где его видно
+            // (AnimatedThemeScope).
+            themeAnimationStyle: AnimationStyle.noAnimation,
+            locale: _locale,
+            localizationsDelegates: _localizationsDelegates,
+            supportedLocales: const [_locale],
+            debugShowCheckedModeBanner: false,
           );
         },
       ),

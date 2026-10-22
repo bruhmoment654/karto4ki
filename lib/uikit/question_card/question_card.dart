@@ -3,8 +3,10 @@ import 'dart:math' as math;
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:flutter/material.dart';
 
+import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
 import 'package:quizzerg/uikit/content_card/content_card_type.dart';
+import 'package:quizzerg/uikit/spacing/width.dart';
 
 class QuestionCard extends StatefulWidget {
   final Widget front;
@@ -139,8 +141,9 @@ class QuestionCardContent extends StatelessWidget {
   final String? rightBadgeText;
   final bool isMixedIn;
 
-  /// Фиксированный горизонтальный отступ текста от краёв карточки.
-  static const double _contentHorizontalPadding = 24;
+  /// Подсказка внизу лицевой стороны (например, «Нажмите, чтобы
+  /// перевернуть»). На обороте не показывается.
+  final String? frontHint;
 
   const QuestionCardContent({
     required this.front,
@@ -153,6 +156,7 @@ class QuestionCardContent extends StatelessWidget {
     super.key,
     this.leftBadgeText,
     this.rightBadgeText,
+    this.frontHint,
   });
 
   @override
@@ -194,6 +198,7 @@ class QuestionCardContent extends StatelessWidget {
               showBadge: showBadge,
               badgeOpacity: badgeOpacity,
               body: front,
+              hint: frontHint,
             );
 
       return Transform(
@@ -201,13 +206,10 @@ class QuestionCardContent extends StatelessWidget {
         transform: transform,
         child: ContentCard(
           type: ContentCardType.large,
+          borderRadius: BorderRadius.circular(AppDimens.radius48),
           backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
           child: SizedBox.expand(
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                  horizontal: _contentHorizontalPadding),
-              child: Center(child: face),
-            ),
+            child: face,
           ),
         ),
       );
@@ -241,6 +243,7 @@ class QuestionCardContent extends StatelessWidget {
                 showBadge: showBadge,
                 badgeOpacity: badgeOpacity,
                 body: front,
+                hint: frontHint,
               );
 
         return Transform(
@@ -248,13 +251,10 @@ class QuestionCardContent extends StatelessWidget {
           transform: transform,
           child: ContentCard(
             type: ContentCardType.large,
+            borderRadius: BorderRadius.circular(AppDimens.radius48),
             backgroundColor: Theme.of(context).colorScheme.surfaceContainerHigh,
             child: SizedBox.expand(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: _contentHorizontalPadding),
-                child: Center(child: face),
-              ),
+              child: face,
             ),
           ),
         );
@@ -264,35 +264,89 @@ class QuestionCardContent extends StatelessWidget {
 }
 
 class _QuestionCardFace extends StatelessWidget {
+  /// Поле под подсказку: тело ужимается симметрично, чтобы крупный текст
+  /// не наезжал на неё и оставался по центру.
+  static const double _hintReserve = 28;
+
+  /// Фиксированный горизонтальный отступ текста от краёв карточки.
+  /// Подсказка его не учитывает — ей нужна вся ширина.
+  static const double _contentHorizontalPadding = 24;
+
   final String badgeText;
   final bool showBadge;
   final double badgeOpacity;
   final Widget body;
+  final String? hint;
 
   const _QuestionCardFace({
     required this.badgeText,
     required this.showBadge,
     required this.badgeOpacity,
     required this.body,
+    this.hint,
   });
 
   @override
   Widget build(BuildContext context) {
+    final hint = this.hint;
+
     // Тело занимает всю площадь карточки и центрируется; размер шрифта
     // подбирает сам `CardBodyText` (AutoSizeText) под доступное место.
     // Бейдж лежит поверх сверху, чтобы не сдвигать текст вниз.
     return Stack(
       fit: StackFit.expand,
       children: [
-        Center(child: body),
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: _contentHorizontalPadding,
+            vertical: hint == null ? 0 : _hintReserve,
+          ),
+          child: Center(child: body),
+        ),
         Positioned(
           top: 0,
-          left: 0,
-          right: 0,
+          left: _contentHorizontalPadding,
+          right: _contentHorizontalPadding,
           child: AnimatedOpacity(
             opacity: showBadge ? badgeOpacity : 0,
             duration: const Duration(milliseconds: 150),
             child: Center(child: _QuestionCardText(text: badgeText)),
+          ),
+        ),
+        if (hint != null)
+          Positioned(
+            left: 0,
+            right: 0,
+            bottom: 0,
+            child: _QuestionCardHint(text: hint),
+          ),
+      ],
+    );
+  }
+}
+
+/// Подсказка внизу лицевой стороны: иконка касания и подпись.
+class _QuestionCardHint extends StatelessWidget {
+  final String text;
+
+  const _QuestionCardHint({required this.text});
+
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    final color = theme.colorScheme.onSurfaceVariant;
+
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Icon(Icons.touch_app_outlined, size: 18, color: color),
+        const Width(6),
+        Flexible(
+          child: Text(
+            text,
+            style: theme.textTheme.labelLarge?.copyWith(color: color),
+            maxLines: 1,
+            overflow: TextOverflow.ellipsis,
           ),
         ),
       ],

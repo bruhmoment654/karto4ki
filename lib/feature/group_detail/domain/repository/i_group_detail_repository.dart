@@ -26,6 +26,12 @@ abstract interface class IGroupDetailRepository {
     required String testId,
   });
 
+  /// Переименовать тест.
+  RequestOperation<void> renameTest({
+    required String testId,
+    required String title,
+  });
+
   /// Обновить название группы.
   RequestOperation<void> updateGroupTitle({
     required String groupId,

@@ -53,7 +53,7 @@ class _MockViewModel implements ITestDetailViewModel {
   void onCardDeletePressed(CardEntity card) {}
 
   @override
-  Future<bool?> confirmCardDelete(CardEntity card) async => true;
+  ValueListenable<Set<String>> get deletedCardIds => ValueNotifier(const {});
 
   @override
   void onEditTestPressed() {}
@@ -149,12 +149,23 @@ final _sampleCards = [
 
 Widget _buildView({
   required TestDetailState state,
+  bool disableAnimations = false,
 }) {
-  return Provider<IAppScope>.value(
+  final view = Provider<IAppScope>.value(
     value: _appScope,
     child: ShaderScope(
       handler: ShaderHandler.forTesting(),
       child: TestDetailView(viewModel: _MockViewModel(state)),
+    ),
+  );
+  if (!disableAnimations) return view;
+
+  // Фигура пустого состояния крутится бесконечно, и pumpAndSettle зависает;
+  // при reduced motion она стоит.
+  return Builder(
+    builder: (context) => MediaQuery(
+      data: MediaQuery.of(context).copyWith(disableAnimations: true),
+      child: view,
     ),
   );
 }
@@ -194,6 +205,7 @@ void main() {
         test: _testEntity,
         cards: const [],
       ),
+      disableAnimations: true,
     ),
   );
 

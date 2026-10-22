@@ -14,7 +14,8 @@ T _$identity<T>(T value) => value;
 /// @nodoc
 mixin _$TestGroupEntity {
 
- String get id; String get title; DateTime get createdAt; DateTime get updatedAt; int get testCount;
+ String get id; String get title; DateTime get createdAt; DateTime get updatedAt; int get testCount;/// Прогресс изучения по всем тестам группы.
+ StudyProgressEntity get progress;
 /// Create a copy of TestGroupEntity
 /// with the given fields replaced by the non-null parameter values.
 @JsonKey(includeFromJson: false, includeToJson: false)
@@ -25,16 +26,16 @@ $TestGroupEntityCopyWith<TestGroupEntity> get copyWith => _$TestGroupEntityCopyW
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestGroupEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.testCount, testCount) || other.testCount == testCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is TestGroupEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.testCount, testCount) || other.testCount == testCount)&&(identical(other.progress, progress) || other.progress == progress));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,title,createdAt,updatedAt,testCount);
+int get hashCode => Object.hash(runtimeType,id,title,createdAt,updatedAt,testCount,progress);
 
 @override
 String toString() {
-  return 'TestGroupEntity(id: $id, title: $title, createdAt: $createdAt, updatedAt: $updatedAt, testCount: $testCount)';
+  return 'TestGroupEntity(id: $id, title: $title, createdAt: $createdAt, updatedAt: $updatedAt, testCount: $testCount, progress: $progress)';
 }
 
 
@@ -45,11 +46,11 @@ abstract mixin class $TestGroupEntityCopyWith<$Res>  {
   factory $TestGroupEntityCopyWith(TestGroupEntity value, $Res Function(TestGroupEntity) _then) = _$TestGroupEntityCopyWithImpl;
 @useResult
 $Res call({
- String id, String title, DateTime createdAt, DateTime updatedAt, int testCount
+ String id, String title, DateTime createdAt, DateTime updatedAt, int testCount, StudyProgressEntity progress
 });
 
 
-
+$StudyProgressEntityCopyWith<$Res> get progress;
 
 }
 /// @nodoc
@@ -62,17 +63,27 @@ class _$TestGroupEntityCopyWithImpl<$Res>
 
 /// Create a copy of TestGroupEntity
 /// with the given fields replaced by the non-null parameter values.
-@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? createdAt = null,Object? updatedAt = null,Object? testCount = null,}) {
+@pragma('vm:prefer-inline') @override $Res call({Object? id = null,Object? title = null,Object? createdAt = null,Object? updatedAt = null,Object? testCount = null,Object? progress = null,}) {
   return _then(_self.copyWith(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,testCount: null == testCount ? _self.testCount : testCount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
+as StudyProgressEntity,
   ));
 }
-
+/// Create a copy of TestGroupEntity
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$StudyProgressEntityCopyWith<$Res> get progress {
+  
+  return $StudyProgressEntityCopyWith<$Res>(_self.progress, (value) {
+    return _then(_self.copyWith(progress: value));
+  });
+}
 }
 
 
@@ -151,10 +162,10 @@ return $default(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  DateTime createdAt,  DateTime updatedAt,  int testCount)?  $default,{required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>(TResult Function( String id,  String title,  DateTime createdAt,  DateTime updatedAt,  int testCount,  StudyProgressEntity progress)?  $default,{required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _TestGroupEntity() when $default != null:
-return $default(_that.id,_that.title,_that.createdAt,_that.updatedAt,_that.testCount);case _:
+return $default(_that.id,_that.title,_that.createdAt,_that.updatedAt,_that.testCount,_that.progress);case _:
   return orElse();
 
 }
@@ -172,10 +183,10 @@ return $default(_that.id,_that.title,_that.createdAt,_that.updatedAt,_that.testC
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  DateTime createdAt,  DateTime updatedAt,  int testCount)  $default,) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>(TResult Function( String id,  String title,  DateTime createdAt,  DateTime updatedAt,  int testCount,  StudyProgressEntity progress)  $default,) {final _that = this;
 switch (_that) {
 case _TestGroupEntity():
-return $default(_that.id,_that.title,_that.createdAt,_that.updatedAt,_that.testCount);}
+return $default(_that.id,_that.title,_that.createdAt,_that.updatedAt,_that.testCount,_that.progress);}
 }
 /// A variant of `when` that fallback to returning `null`
 ///
@@ -189,10 +200,10 @@ return $default(_that.id,_that.title,_that.createdAt,_that.updatedAt,_that.testC
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  DateTime createdAt,  DateTime updatedAt,  int testCount)?  $default,) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>(TResult? Function( String id,  String title,  DateTime createdAt,  DateTime updatedAt,  int testCount,  StudyProgressEntity progress)?  $default,) {final _that = this;
 switch (_that) {
 case _TestGroupEntity() when $default != null:
-return $default(_that.id,_that.title,_that.createdAt,_that.updatedAt,_that.testCount);case _:
+return $default(_that.id,_that.title,_that.createdAt,_that.updatedAt,_that.testCount,_that.progress);case _:
   return null;
 
 }
@@ -204,7 +215,7 @@ return $default(_that.id,_that.title,_that.createdAt,_that.updatedAt,_that.testC
 
 
 class _TestGroupEntity implements TestGroupEntity {
-  const _TestGroupEntity({required this.id, required this.title, required this.createdAt, required this.updatedAt, required this.testCount});
+  const _TestGroupEntity({required this.id, required this.title, required this.createdAt, required this.updatedAt, required this.testCount, this.progress = StudyProgressEntity.empty});
   
 
 @override final  String id;
@@ -212,6 +223,8 @@ class _TestGroupEntity implements TestGroupEntity {
 @override final  DateTime createdAt;
 @override final  DateTime updatedAt;
 @override final  int testCount;
+/// Прогресс изучения по всем тестам группы.
+@override@JsonKey() final  StudyProgressEntity progress;
 
 /// Create a copy of TestGroupEntity
 /// with the given fields replaced by the non-null parameter values.
@@ -223,16 +236,16 @@ _$TestGroupEntityCopyWith<_TestGroupEntity> get copyWith => __$TestGroupEntityCo
 
 @override
 bool operator ==(Object other) {
-  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TestGroupEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.testCount, testCount) || other.testCount == testCount));
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _TestGroupEntity&&(identical(other.id, id) || other.id == id)&&(identical(other.title, title) || other.title == title)&&(identical(other.createdAt, createdAt) || other.createdAt == createdAt)&&(identical(other.updatedAt, updatedAt) || other.updatedAt == updatedAt)&&(identical(other.testCount, testCount) || other.testCount == testCount)&&(identical(other.progress, progress) || other.progress == progress));
 }
 
 
 @override
-int get hashCode => Object.hash(runtimeType,id,title,createdAt,updatedAt,testCount);
+int get hashCode => Object.hash(runtimeType,id,title,createdAt,updatedAt,testCount,progress);
 
 @override
 String toString() {
-  return 'TestGroupEntity(id: $id, title: $title, createdAt: $createdAt, updatedAt: $updatedAt, testCount: $testCount)';
+  return 'TestGroupEntity(id: $id, title: $title, createdAt: $createdAt, updatedAt: $updatedAt, testCount: $testCount, progress: $progress)';
 }
 
 
@@ -243,11 +256,11 @@ abstract mixin class _$TestGroupEntityCopyWith<$Res> implements $TestGroupEntity
   factory _$TestGroupEntityCopyWith(_TestGroupEntity value, $Res Function(_TestGroupEntity) _then) = __$TestGroupEntityCopyWithImpl;
 @override @useResult
 $Res call({
- String id, String title, DateTime createdAt, DateTime updatedAt, int testCount
+ String id, String title, DateTime createdAt, DateTime updatedAt, int testCount, StudyProgressEntity progress
 });
 
 
-
+@override $StudyProgressEntityCopyWith<$Res> get progress;
 
 }
 /// @nodoc
@@ -260,18 +273,28 @@ class __$TestGroupEntityCopyWithImpl<$Res>
 
 /// Create a copy of TestGroupEntity
 /// with the given fields replaced by the non-null parameter values.
-@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? createdAt = null,Object? updatedAt = null,Object? testCount = null,}) {
+@override @pragma('vm:prefer-inline') $Res call({Object? id = null,Object? title = null,Object? createdAt = null,Object? updatedAt = null,Object? testCount = null,Object? progress = null,}) {
   return _then(_TestGroupEntity(
 id: null == id ? _self.id : id // ignore: cast_nullable_to_non_nullable
 as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,createdAt: null == createdAt ? _self.createdAt : createdAt // ignore: cast_nullable_to_non_nullable
 as DateTime,updatedAt: null == updatedAt ? _self.updatedAt : updatedAt // ignore: cast_nullable_to_non_nullable
 as DateTime,testCount: null == testCount ? _self.testCount : testCount // ignore: cast_nullable_to_non_nullable
-as int,
+as int,progress: null == progress ? _self.progress : progress // ignore: cast_nullable_to_non_nullable
+as StudyProgressEntity,
   ));
 }
 
-
+/// Create a copy of TestGroupEntity
+/// with the given fields replaced by the non-null parameter values.
+@override
+@pragma('vm:prefer-inline')
+$StudyProgressEntityCopyWith<$Res> get progress {
+  
+  return $StudyProgressEntityCopyWith<$Res>(_self.progress, (value) {
+    return _then(_self.copyWith(progress: value));
+  });
+}
 }
 
 // dart format on

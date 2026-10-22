@@ -1,4 +1,5 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -15,6 +16,7 @@ import 'package:quizzerg/feature/tests_list/domain/entity/test_type.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
 import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
+import 'package:quizzerg/uikit/snackbars/deferred_removal.dart';
 import 'package:quizzerg/uikit/snackbars/snack_controller.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 
@@ -27,11 +29,15 @@ class TestDetailScreen extends StatefulWidget {
   final int mixupMax;
   final String? groupId;
 
+  /// Сразу после загрузки открыть импорт карточек.
+  final bool openImport;
+
   const TestDetailScreen({
     this.mixup = false,
     this.mixupMin = 1,
     this.mixupMax = 5,
     this.groupId,
+    this.openImport = false,
     super.key,
   });
 
@@ -46,6 +52,20 @@ class _TestDetailScreenState extends State<TestDetailScreen>
   bool _swapSides = false;
   int _answerIndex = 0;
 
+  /// Импорт по [TestDetailScreen.openImport] открывается один раз.
+  bool _isImportOpened = false;
+
+  final _cardRemoval = DeferredRemoval();
+
+  @override
+  ValueListenable<Set<String>> get deletedCardIds => _cardRemoval.pending;
+
+  @override
+  void dispose() {
+    _cardRemoval.dispose();
+    super.dispose();
+  }
+
   @override
   StateStreamable<TestDetailState> get testDetailState =>
       context.read<TestDetailBloc>();
@@ -56,9 +76,22 @@ class _TestDetailScreenState extends State<TestDetailScreen>
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<CsvImportBloc, CsvImportState>(
-      listenWhen: (previous, current) => previous.result != current.result,
-      listener: _onCsvImportResult,
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<CsvImportBloc, CsvImportState>(
+          listenWhen: (previous, current) => previous.result != current.result,
+          listener: _onCsvImportResult,
+        ),
+        if (widget.openImport)
+          BlocListener<TestDetailBloc, TestDetailState>(
+            listenWhen: (_, current) =>
+                !_isImportOpened && current is TestDetailState$Loaded,
+            listener: (_, __) {
+              _isImportOpened = true;
+              _showCsvImportDialog();
+            },
+          ),
+      ],
       child: TestDetailView(viewModel: this),
     );
   }
@@ -68,16 +101,6 @@ class _TestDetailScreenState extends State<TestDetailScreen>
     Navigator.of(context).pop();
   }
 
-  @override
-  Future<bool?> confirmCardDelete(CardEntity card) {
-    return AppDialog.confirm(
-      context: context,
-      title: context.l10n.testDetailDeleteCardTitle,
-      message: context.l10n.testDetailDeleteCardMessage,
-      cancelLabel: context.l10n.testDetailDeleteCardCancel,
-      confirmLabel: context.l10n.testDetailDeleteCardConfirm,
-    );
-  }
 
   @override
   void onAddCardPressed() {
@@ -91,8 +114,13 @@ class _TestDetailScreenState extends State<TestDetailScreen>
 
   @override
   void onCardDeletePressed(CardEntity card) {
-    context.read<TestDetailBloc>().add(
-      TestDetailEvent.cardDeleted(cardId: card.id),
+    final bloc = context.read<TestDetailBloc>();
+    _cardRemoval.schedule(
+      context,
+      id: card.id,
+      message: context.l10n.testDetailCardDeletedSnack,
+      undoLabel: context.l10n.commonUndo,
+      commit: () => bloc.add(TestDetailEvent.cardDeleted(cardId: card.id)),
     );
   }
 
@@ -417,9 +445,11 @@ abstract interface class ITestDetailViewModel {
 
   void onCardTapped(CardEntity card);
 
+  /// Удалить карточку с отменой через снек.
   void onCardDeletePressed(CardEntity card);
 
-  Future<bool?> confirmCardDelete(CardEntity card);
+  /// Удалённые карточки, пока удаление можно отменить: в списке их нет.
+  ValueListenable<Set<String>> get deletedCardIds;
 
   void onEditTestPressed();
 

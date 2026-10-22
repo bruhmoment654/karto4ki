@@ -31,6 +31,7 @@ final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
       (event, emit) => switch (event) {
         _GroupsListEvent$Started() => _onStarted(event, emit),
         _GroupsListEvent$GroupAdded() => _onGroupAdded(event, emit),
+        _GroupsListEvent$GroupRenamed() => _onGroupRenamed(event, emit),
         _GroupsListEvent$GroupDeleted() => _onGroupDeleted(event, emit),
       },
     );
@@ -68,6 +69,33 @@ final class GroupsListBloc extends Bloc<GroupsListEvent, GroupsListState> {
       title: event.title.toCapitalized,
     );
     switch (addResult) {
+      case ResultOk():
+        _syncSignal.notifyLocalMutation();
+        final groupsResult = await _repository.getGroups();
+        switch (groupsResult) {
+          case ResultOk(:final data):
+            emit(GroupsListState.loaded(groups: data));
+          case ResultFailed(:final error, :final stackTrace):
+            emit(GroupsListState.error(
+              failure: UnknownFailure.fromException(error, stackTrace),
+            ));
+        }
+      case ResultFailed(:final error, :final stackTrace):
+        emit(GroupsListState.error(
+          failure: UnknownFailure.fromException(error, stackTrace),
+        ));
+    }
+  }
+
+  Future<void> _onGroupRenamed(
+    _GroupsListEvent$GroupRenamed event,
+    Emitter<GroupsListState> emit,
+  ) async {
+    final renameResult = await _repository.renameGroup(
+      groupId: event.groupId,
+      title: event.title.toCapitalized,
+    );
+    switch (renameResult) {
       case ResultOk():
         _syncSignal.notifyLocalMutation();
         final groupsResult = await _repository.getGroups();

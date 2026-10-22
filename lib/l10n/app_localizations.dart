@@ -215,7 +215,7 @@ abstract class AppLocalizations {
   /// No description provided for @tinderTestTapToShowAnswer.
   ///
   /// In en, this message translates to:
-  /// **'Tap to show the answer'**
+  /// **'Tap to flip'**
   String get tinderTestTapToShowAnswer;
 
   /// No description provided for @tinderTestUnknownBadge.
@@ -500,35 +500,29 @@ abstract class AppLocalizations {
   /// **'{count, plural, =0{No cards} one{{count} card} other{{count} cards}}'**
   String testDetailCardsCount(int count);
 
+  /// No description provided for @testDetailEmptyCardsTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No cards in this test'**
+  String get testDetailEmptyCardsTitle;
+
   /// No description provided for @testDetailEmptyCardsMessage.
   ///
   /// In en, this message translates to:
-  /// **'No cards.\nTap + to add the first one.'**
+  /// **'A card is a question and its answer. Add the first one by hand or load several at once from a file.'**
   String get testDetailEmptyCardsMessage;
 
-  /// No description provided for @testDetailDeleteCardTitle.
+  /// No description provided for @testDetailEmptyAddCardButton.
   ///
   /// In en, this message translates to:
-  /// **'Delete card?'**
-  String get testDetailDeleteCardTitle;
+  /// **'Add a card'**
+  String get testDetailEmptyAddCardButton;
 
-  /// No description provided for @testDetailDeleteCardMessage.
+  /// No description provided for @testDetailCardDeletedSnack.
   ///
   /// In en, this message translates to:
-  /// **'Are you sure you want to delete this card?'**
-  String get testDetailDeleteCardMessage;
-
-  /// No description provided for @testDetailDeleteCardCancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get testDetailDeleteCardCancel;
-
-  /// No description provided for @testDetailDeleteCardConfirm.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete'**
-  String get testDetailDeleteCardConfirm;
+  /// **'Card deleted'**
+  String get testDetailCardDeletedSnack;
 
   /// No description provided for @testDetailSettingsButton.
   ///
@@ -559,6 +553,18 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Create'**
   String get commonCreate;
+
+  /// No description provided for @commonUndo.
+  ///
+  /// In en, this message translates to:
+  /// **'Undo'**
+  String get commonUndo;
+
+  /// No description provided for @actionSheetAccuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'accuracy {percent}%'**
+  String actionSheetAccuracy(int percent);
 
   /// No description provided for @testDetailNewCardTitle.
   ///
@@ -1106,29 +1112,29 @@ abstract class AppLocalizations {
   /// **'Groups'**
   String get groupsListAppBarTitle;
 
+  /// No description provided for @groupsListEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No groups yet'**
+  String get groupsListEmptyTitle;
+
   /// No description provided for @groupsListEmptyMessage.
   ///
   /// In en, this message translates to:
-  /// **'No groups.\nTap + to create the first group.'**
+  /// **'A group brings together tests on one topic. Create the first one to get started.'**
   String get groupsListEmptyMessage;
+
+  /// No description provided for @groupsListEmptyCreateButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Create a group'**
+  String get groupsListEmptyCreateButton;
 
   /// No description provided for @groupsListAddGroupFab.
   ///
   /// In en, this message translates to:
   /// **'Create'**
   String get groupsListAddGroupFab;
-
-  /// No description provided for @groupsListDeleteDialogTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Delete group?'**
-  String get groupsListDeleteDialogTitle;
-
-  /// No description provided for @groupsListDeleteDialogMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Are you sure you want to delete \"{title}\"? Tests inside the group will not be deleted.'**
-  String groupsListDeleteDialogMessage(String title);
 
   /// No description provided for @groupsListDeleteDialogCancel.
   ///
@@ -1141,6 +1147,36 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Delete'**
   String get groupsListDeleteDialogConfirm;
+
+  /// No description provided for @groupsListActionRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get groupsListActionRename;
+
+  /// No description provided for @groupsListActionSettings.
+  ///
+  /// In en, this message translates to:
+  /// **'Group settings'**
+  String get groupsListActionSettings;
+
+  /// No description provided for @groupsListActionDelete.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete group'**
+  String get groupsListActionDelete;
+
+  /// No description provided for @groupsListDeleteGroupTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Delete “{title}”?'**
+  String groupsListDeleteGroupTitle(String title);
+
+  /// No description provided for @groupsListDeleteGroupBody.
+  ///
+  /// In en, this message translates to:
+  /// **'Only the group is deleted — its tests stay in the app.'**
+  String get groupsListDeleteGroupBody;
 
   /// No description provided for @groupsListTestCount.
   ///
@@ -1184,6 +1220,66 @@ abstract class AppLocalizations {
   /// **'Create'**
   String get groupsListNewGroupCreate;
 
+  /// No description provided for @groupsListNoTests.
+  ///
+  /// In en, this message translates to:
+  /// **'No tests'**
+  String get groupsListNoTests;
+
+  /// No description provided for @groupsListAddTest.
+  ///
+  /// In en, this message translates to:
+  /// **'Add a test'**
+  String get groupsListAddTest;
+
+  /// No description provided for @groupsListNotStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not started yet'**
+  String get groupsListNotStarted;
+
+  /// No description provided for @progressGreatAccuracy.
+  ///
+  /// In en, this message translates to:
+  /// **'Great accuracy'**
+  String get progressGreatAccuracy;
+
+  /// No description provided for @progressWeakCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} weak'**
+  String progressWeakCount(int count);
+
+  /// No description provided for @progressNewCount.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} new'**
+  String progressNewCount(int count);
+
+  /// No description provided for @progressStudied.
+  ///
+  /// In en, this message translates to:
+  /// **'studied {when}'**
+  String progressStudied(String when);
+
+  /// No description provided for @progressToday.
+  ///
+  /// In en, this message translates to:
+  /// **'today'**
+  String get progressToday;
+
+  /// No description provided for @progressYesterday.
+  ///
+  /// In en, this message translates to:
+  /// **'yesterday'**
+  String get progressYesterday;
+
+  /// No description provided for @progressDaysAgo.
+  ///
+  /// In en, this message translates to:
+  /// **'{count} {count, plural, one{day} other{days}} ago'**
+  String progressDaysAgo(int count);
+
   /// No description provided for @groupsListActiveSessionLabel.
   ///
   /// In en, this message translates to:
@@ -1220,10 +1316,16 @@ abstract class AppLocalizations {
   /// **'Add'**
   String get groupDetailAddTestFab;
 
+  /// No description provided for @groupDetailEmptyTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'No tests in this group'**
+  String get groupDetailEmptyTitle;
+
   /// No description provided for @groupDetailEmptyMessage.
   ///
   /// In en, this message translates to:
-  /// **'No tests in this group.\nTap + to add the first test.'**
+  /// **'A test is a set of question cards. Add cards by hand or load them from a file.'**
   String get groupDetailEmptyMessage;
 
   /// No description provided for @groupDetailErrorMessage.
@@ -1237,42 +1339,6 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Unknown error'**
   String get groupDetailUnknownError;
-
-  /// No description provided for @groupDetailRemoveTestTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove test from group?'**
-  String get groupDetailRemoveTestTitle;
-
-  /// No description provided for @groupDetailRemoveTestMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'Test \"{title}\" will be removed from this group, but not deleted.'**
-  String groupDetailRemoveTestMessage(String title);
-
-  /// No description provided for @groupDetailRemoveTestLastGroupTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Last group'**
-  String get groupDetailRemoveTestLastGroupTitle;
-
-  /// No description provided for @groupDetailRemoveTestLastGroupMessage.
-  ///
-  /// In en, this message translates to:
-  /// **'This is the last group for test \"{title}\". The test will remain without a group.'**
-  String groupDetailRemoveTestLastGroupMessage(String title);
-
-  /// No description provided for @groupDetailRemoveTestCancel.
-  ///
-  /// In en, this message translates to:
-  /// **'Cancel'**
-  String get groupDetailRemoveTestCancel;
-
-  /// No description provided for @groupDetailRemoveTestConfirm.
-  ///
-  /// In en, this message translates to:
-  /// **'Remove'**
-  String get groupDetailRemoveTestConfirm;
 
   /// No description provided for @groupDetailEditTitleDialogTitle.
   ///
@@ -1328,29 +1394,11 @@ abstract class AppLocalizations {
   /// **'Create'**
   String get groupDetailNewTestCreate;
 
-  /// No description provided for @groupDetailTestActionsTitle.
-  ///
-  /// In en, this message translates to:
-  /// **'Actions'**
-  String get groupDetailTestActionsTitle;
-
-  /// No description provided for @groupDetailTestActionsOpen.
-  ///
-  /// In en, this message translates to:
-  /// **'Open test'**
-  String get groupDetailTestActionsOpen;
-
   /// No description provided for @groupDetailTestActionsRemove.
   ///
   /// In en, this message translates to:
   /// **'Remove from group'**
   String get groupDetailTestActionsRemove;
-
-  /// No description provided for @groupDetailTestActionsAddToGroup.
-  ///
-  /// In en, this message translates to:
-  /// **'Add to group'**
-  String get groupDetailTestActionsAddToGroup;
 
   /// No description provided for @groupDetailAddToGroupTitle.
   ///
@@ -1375,6 +1423,54 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Cancel'**
   String get groupDetailAddToGroupCancel;
+
+  /// No description provided for @groupDetailTestActionsStart.
+  ///
+  /// In en, this message translates to:
+  /// **'Start'**
+  String get groupDetailTestActionsStart;
+
+  /// No description provided for @groupDetailTestActionsRename.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename'**
+  String get groupDetailTestActionsRename;
+
+  /// No description provided for @groupDetailTestActionsMove.
+  ///
+  /// In en, this message translates to:
+  /// **'Move to group'**
+  String get groupDetailTestActionsMove;
+
+  /// No description provided for @groupDetailTestActionsImport.
+  ///
+  /// In en, this message translates to:
+  /// **'Import cards'**
+  String get groupDetailTestActionsImport;
+
+  /// No description provided for @groupDetailRenameTestTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Rename test'**
+  String get groupDetailRenameTestTitle;
+
+  /// No description provided for @groupDetailRenameTestHint.
+  ///
+  /// In en, this message translates to:
+  /// **'Test title'**
+  String get groupDetailRenameTestHint;
+
+  /// No description provided for @groupDetailTestRemovedSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'“{title}” removed from the group'**
+  String groupDetailTestRemovedSnack(String title);
+
+  /// No description provided for @groupDetailTestRemovedLastGroupSnack.
+  ///
+  /// In en, this message translates to:
+  /// **'“{title}” removed — the test has no other groups'**
+  String groupDetailTestRemovedLastGroupSnack(String title);
 
   /// No description provided for @groupDetailMixupRange.
   ///
@@ -1429,6 +1525,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Reset to defaults'**
   String get groupDetailStreakReset;
+
+  /// No description provided for @groupDetailSettingsSheetTitle.
+  ///
+  /// In en, this message translates to:
+  /// **'Mixing'**
+  String get groupDetailSettingsSheetTitle;
+
+  /// No description provided for @groupDetailSettingsButton.
+  ///
+  /// In en, this message translates to:
+  /// **'Mixing settings'**
+  String get groupDetailSettingsButton;
+
+  /// No description provided for @groupDetailTestsHeader.
+  ///
+  /// In en, this message translates to:
+  /// **'Tests'**
+  String get groupDetailTestsHeader;
+
+  /// No description provided for @groupDetailMastered.
+  ///
+  /// In en, this message translates to:
+  /// **'Mastered'**
+  String get groupDetailMastered;
+
+  /// No description provided for @groupDetailLearning.
+  ///
+  /// In en, this message translates to:
+  /// **'Learning'**
+  String get groupDetailLearning;
+
+  /// No description provided for @groupDetailWeak.
+  ///
+  /// In en, this message translates to:
+  /// **'Weak'**
+  String get groupDetailWeak;
+
+  /// No description provided for @groupDetailNew.
+  ///
+  /// In en, this message translates to:
+  /// **'New'**
+  String get groupDetailNew;
+
+  /// No description provided for @groupDetailTestNotStarted.
+  ///
+  /// In en, this message translates to:
+  /// **'Not started'**
+  String get groupDetailTestNotStarted;
+
+  /// No description provided for @groupDetailTestAddCards.
+  ///
+  /// In en, this message translates to:
+  /// **'Add'**
+  String get groupDetailTestAddCards;
 
   /// No description provided for @groupDetailNewTestButton.
   ///

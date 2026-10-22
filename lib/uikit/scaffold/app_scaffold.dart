@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 class AppScaffold extends StatelessWidget {
   final PreferredSizeWidget? appBar;
@@ -41,7 +43,7 @@ class AppScaffold extends StatelessWidget {
           )
         : fab;
 
-    return Scaffold(
+    final child = Scaffold(
       appBar: appBar,
       body: content,
       drawer: drawer,
@@ -51,10 +53,16 @@ class AppScaffold extends StatelessWidget {
       bottomNavigationBar: bottomNavigationBar,
       bottomSheet: bottomSheet,
       resizeToAvoidBottomInset: resizeToAvoidBottomInset,
-      backgroundColor:
-          backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
-      floatingActionButtonLocation: floatingActionButtonLocation ??
-          FloatingActionButtonLocation.centerFloat,
+      backgroundColor: backgroundColor ?? Theme.of(context).scaffoldBackgroundColor,
+      floatingActionButtonLocation:
+          floatingActionButtonLocation ?? FloatingActionButtonLocation.centerFloat,
+    );
+
+    // Экран без AppBar сам задаёт стиль статус-бара по своей теме: стиль
+    // корня приложения не знает, какая тема у экрана.
+    return AnnotatedRegion<SystemUiOverlayStyle>(
+      value: AppTheme.systemOverlayStyle(Theme.of(context).brightness),
+      child: child,
     );
   }
 }

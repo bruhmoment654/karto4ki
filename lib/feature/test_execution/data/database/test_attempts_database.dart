@@ -105,14 +105,76 @@ class TestAttemptsDatabase extends DatabaseAccessor<AppDatabase>
     await delete(testAttempts).go();
   });
 
-  /// Ответы на вопросы [questionKeys] во всех прохождениях теста, кроме
-  /// [excludeAttemptId], — от старых к новым.
+  /// Последнее завершённое прохождение каждого живого теста:
+  /// id теста → время.
+  Future<Map<String, DateTime>> getLastCompletedAt() async {
+    final tests = attachedDatabase.tests;
+    final lastCompleted = testAttempts.completedAt.max();
+    final query = selectOnly(testAttempts).join([
+      innerJoin(
+        tests,
+        tests.id.equalsExp(testAttempts.testId) & tests.deletedAt.isNull(),
+        useColumns: false,
+      ),
+    ])
+      ..addColumns([testAttempts.testId, lastCompleted])
+      ..groupBy([testAttempts.testId]);
+
+    final rows = await query.get();
+    return {
+      for (final row in rows)
+        if ((row.read(testAttempts.testId), row.read(lastCompleted))
+            case (final testId?, final completedAt?))
+          testId: completedAt,
+    };
+  }
+
+  /// Доля верных ответов по каждому живому тесту за его последние
+  /// [attemptsLimit] прохождений: id теста → 0..1.
+  ///
+  /// Считаются только ответы на вопросы, которые сейчас есть в тесте: чужие
+  /// вопросы из mixup и удалённые карточки не влияют. Тесты без таких
+  /// ответов в результат не попадают.
+  Future<Map<String, double>> getRecentAccuracy({
+    required int attemptsLimit,
+  }) async {
+    final rows = await customSelect(
+      'SELECT recent.test_id AS test_id, '
+      'SUM(answer.is_correct) AS correct, COUNT(*) AS total '
+      'FROM (SELECT id, test_id, ROW_NUMBER() OVER ( '
+      'PARTITION BY test_id ORDER BY completed_at DESC, started_at DESC '
+      ') AS position FROM test_attempts) recent '
+      'JOIN tests test ON test.id = recent.test_id '
+      'AND test.deleted_at IS NULL '
+      'JOIN test_attempt_answers answer ON answer.attempt_id = recent.id '
+      'WHERE recent.position <= ? AND EXISTS (SELECT 1 FROM cards card '
+      'WHERE card.test_id = recent.test_id '
+      'AND card.question_key = answer.question_key '
+      'AND card.deleted_at IS NULL) '
+      'GROUP BY recent.test_id',
+      variables: [Variable.withInt(attemptsLimit)],
+      readsFrom: {
+        testAttempts,
+        testAttemptAnswers,
+        attachedDatabase.tests,
+        attachedDatabase.cards,
+      },
+    ).get();
+
+    return {
+      for (final row in rows)
+        row.read<String>('test_id'):
+            row.read<int>('correct') / row.read<int>('total'),
+    };
+  }
+
+  /// Ответы на вопросы [questionKeys] в прохождениях [attemptIds] — от
+  /// старых к новым.
   Future<List<({String questionKey, bool isCorrect})>> getAnswersByKeys({
-    required String testId,
-    required String excludeAttemptId,
+    required Set<String> attemptIds,
     required Set<String> questionKeys,
   }) async {
-    if (questionKeys.isEmpty) return const [];
+    if (attemptIds.isEmpty || questionKeys.isEmpty) return const [];
 
     final query =
         select(testAttemptAnswers).join([
@@ -122,8 +184,7 @@ class TestAttemptsDatabase extends DatabaseAccessor<AppDatabase>
             ),
           ])
           ..where(
-            testAttempts.testId.equals(testId) &
-                testAttempts.id.equals(excludeAttemptId).not() &
+            testAttempts.id.isIn(attemptIds) &
                 testAttemptAnswers.questionKey.isIn(questionKeys),
           )
           ..orderBy([

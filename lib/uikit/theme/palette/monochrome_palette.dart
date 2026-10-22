@@ -47,6 +47,7 @@ class MonochromePalette extends AppPalette {
       accuracyHigh: scheme.onSurface,
       accuracyMid: scheme.onSurfaceVariant,
       accuracyLow: scheme.error,
+      cardInk: scheme.primary,
     );
   }
 

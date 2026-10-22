@@ -344,7 +344,7 @@ final class TinderTestBloc extends Bloc<TinderTestEvent, TinderTestState> {
     emit(TinderTestState.inProgress(
       session: previousSession,
       currentCard: previousSession.currentCard!,
-      isUndo: true,
+      undoneResult: currentState.session.results.last,
     ));
     unawaited(_persistSession(previousSession));
   }

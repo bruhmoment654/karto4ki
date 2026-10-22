@@ -21,6 +21,9 @@ const _swipeOutTargetLeft = Offset(-1.5, 0);
 /// Card rotation factor relative to horizontal offset.
 const _rotationFactor = 0.3;
 
+/// С какой стороны карточка заезжает на место.
+enum CardEntrySide { left, right }
+
 class SwipeableCardWrapper extends StatefulWidget {
   final CardEntity card;
   final bool showAnswer;
@@ -30,7 +33,10 @@ class SwipeableCardWrapper extends StatefulWidget {
   final VoidCallback onTap;
   final VoidCallback onSwipeLeft;
   final VoidCallback onSwipeRight;
-  final bool enterFromLeft;
+
+  /// Сторона, с которой новая карточка заезжает на место (например, при
+  /// отмене ответа); `null` — появляется сразу на месте.
+  final CardEntrySide? enterFrom;
 
   const SwipeableCardWrapper({
     required this.card,
@@ -39,7 +45,7 @@ class SwipeableCardWrapper extends StatefulWidget {
     required this.onTap,
     required this.onSwipeLeft,
     required this.onSwipeRight,
-    this.enterFromLeft = false,
+    this.enterFrom,
     this.flipDuration = const Duration(milliseconds: 300),
     this.fontSize = 96,
     super.key,
@@ -79,9 +85,13 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
   @override
   void didUpdateWidget(SwipeableCardWrapper oldWidget) {
     super.didUpdateWidget(oldWidget);
-    if (oldWidget.card.id != widget.card.id && widget.enterFromLeft) {
+    final enterFrom = widget.enterFrom;
+    if (oldWidget.card.id != widget.card.id && enterFrom != null) {
       final screenWidth = MediaQuery.of(context).size.width;
-      _dragOffset.value = Offset(-screenWidth, 0);
+      _dragOffset.value = Offset(
+        enterFrom == CardEntrySide.left ? -screenWidth : screenWidth,
+        0,
+      );
       _animateBack();
     }
   }
@@ -184,6 +194,7 @@ class _SwipeableCardWrapperState extends State<SwipeableCardWrapper>
                 cardOffset: offset,
                 leftBadgeText: context.l10n.tinderTestUnknownBadge,
                 rightBadgeText: context.l10n.tinderTestKnownBadge,
+                frontHint: context.l10n.tinderTestTapToShowAnswer,
               ),
             ),
           ),

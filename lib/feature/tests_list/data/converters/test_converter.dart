@@ -1,6 +1,7 @@
 import 'package:drift/drift.dart';
 
 import 'package:quizzerg/core/utils/uuid_generator.dart';
+import 'package:quizzerg/feature/question_stats/domain/entity/study_progress_entity.dart';
 import 'package:quizzerg/feature/tests_list/data/converters/test_type_converter.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_type.dart';
@@ -12,6 +13,7 @@ abstract final class TestConverter {
   static TestEntity fromDto(
     TestDatabaseDto dto, {
     int questionCount = 0,
+    StudyProgressEntity progress = StudyProgressEntity.empty,
   }) {
     return TestEntity(
       id: dto.id,
@@ -21,6 +23,7 @@ abstract final class TestConverter {
       createdAt: dto.createdAt,
       updatedAt: dto.updatedAt,
       questionCount: questionCount,
+      progress: progress,
     );
   }
 

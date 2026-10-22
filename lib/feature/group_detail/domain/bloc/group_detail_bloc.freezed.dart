@@ -55,13 +55,14 @@ extension GroupDetailEventPatterns on GroupDetailEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GroupDetailEvent$Started value)?  started,TResult Function( _GroupDetailEvent$TestAdded value)?  testAdded,TResult Function( _GroupDetailEvent$TestRemoved value)?  testRemoved,TResult Function( _GroupDetailEvent$TitleUpdated value)?  titleUpdated,TResult Function( _GroupDetailEvent$TestGroupsUpdated value)?  testGroupsUpdated,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GroupDetailEvent$Started value)?  started,TResult Function( _GroupDetailEvent$TestAdded value)?  testAdded,TResult Function( _GroupDetailEvent$TestRemoved value)?  testRemoved,TResult Function( _GroupDetailEvent$TestRenamed value)?  testRenamed,TResult Function( _GroupDetailEvent$TitleUpdated value)?  titleUpdated,TResult Function( _GroupDetailEvent$TestGroupsUpdated value)?  testGroupsUpdated,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _GroupDetailEvent$Started() when started != null:
 return started(_that);case _GroupDetailEvent$TestAdded() when testAdded != null:
 return testAdded(_that);case _GroupDetailEvent$TestRemoved() when testRemoved != null:
-return testRemoved(_that);case _GroupDetailEvent$TitleUpdated() when titleUpdated != null:
+return testRemoved(_that);case _GroupDetailEvent$TestRenamed() when testRenamed != null:
+return testRenamed(_that);case _GroupDetailEvent$TitleUpdated() when titleUpdated != null:
 return titleUpdated(_that);case _GroupDetailEvent$TestGroupsUpdated() when testGroupsUpdated != null:
 return testGroupsUpdated(_that);case _:
   return orElse();
@@ -81,13 +82,14 @@ return testGroupsUpdated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GroupDetailEvent$Started value)  started,required TResult Function( _GroupDetailEvent$TestAdded value)  testAdded,required TResult Function( _GroupDetailEvent$TestRemoved value)  testRemoved,required TResult Function( _GroupDetailEvent$TitleUpdated value)  titleUpdated,required TResult Function( _GroupDetailEvent$TestGroupsUpdated value)  testGroupsUpdated,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GroupDetailEvent$Started value)  started,required TResult Function( _GroupDetailEvent$TestAdded value)  testAdded,required TResult Function( _GroupDetailEvent$TestRemoved value)  testRemoved,required TResult Function( _GroupDetailEvent$TestRenamed value)  testRenamed,required TResult Function( _GroupDetailEvent$TitleUpdated value)  titleUpdated,required TResult Function( _GroupDetailEvent$TestGroupsUpdated value)  testGroupsUpdated,}){
 final _that = this;
 switch (_that) {
 case _GroupDetailEvent$Started():
 return started(_that);case _GroupDetailEvent$TestAdded():
 return testAdded(_that);case _GroupDetailEvent$TestRemoved():
-return testRemoved(_that);case _GroupDetailEvent$TitleUpdated():
+return testRemoved(_that);case _GroupDetailEvent$TestRenamed():
+return testRenamed(_that);case _GroupDetailEvent$TitleUpdated():
 return titleUpdated(_that);case _GroupDetailEvent$TestGroupsUpdated():
 return testGroupsUpdated(_that);}
 }
@@ -103,13 +105,14 @@ return testGroupsUpdated(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GroupDetailEvent$Started value)?  started,TResult? Function( _GroupDetailEvent$TestAdded value)?  testAdded,TResult? Function( _GroupDetailEvent$TestRemoved value)?  testRemoved,TResult? Function( _GroupDetailEvent$TitleUpdated value)?  titleUpdated,TResult? Function( _GroupDetailEvent$TestGroupsUpdated value)?  testGroupsUpdated,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GroupDetailEvent$Started value)?  started,TResult? Function( _GroupDetailEvent$TestAdded value)?  testAdded,TResult? Function( _GroupDetailEvent$TestRemoved value)?  testRemoved,TResult? Function( _GroupDetailEvent$TestRenamed value)?  testRenamed,TResult? Function( _GroupDetailEvent$TitleUpdated value)?  titleUpdated,TResult? Function( _GroupDetailEvent$TestGroupsUpdated value)?  testGroupsUpdated,}){
 final _that = this;
 switch (_that) {
 case _GroupDetailEvent$Started() when started != null:
 return started(_that);case _GroupDetailEvent$TestAdded() when testAdded != null:
 return testAdded(_that);case _GroupDetailEvent$TestRemoved() when testRemoved != null:
-return testRemoved(_that);case _GroupDetailEvent$TitleUpdated() when titleUpdated != null:
+return testRemoved(_that);case _GroupDetailEvent$TestRenamed() when testRenamed != null:
+return testRenamed(_that);case _GroupDetailEvent$TitleUpdated() when titleUpdated != null:
 return titleUpdated(_that);case _GroupDetailEvent$TestGroupsUpdated() when testGroupsUpdated != null:
 return testGroupsUpdated(_that);case _:
   return null;
@@ -128,12 +131,13 @@ return testGroupsUpdated(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String groupId)?  started,TResult Function( String title,  String? description)?  testAdded,TResult Function( String testId)?  testRemoved,TResult Function( String title)?  titleUpdated,TResult Function( String testId,  List<String> groupIds)?  testGroupsUpdated,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function( String groupId)?  started,TResult Function( String title,  String? description)?  testAdded,TResult Function( String testId)?  testRemoved,TResult Function( String testId,  String title)?  testRenamed,TResult Function( String title)?  titleUpdated,TResult Function( String testId,  List<String> groupIds)?  testGroupsUpdated,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GroupDetailEvent$Started() when started != null:
 return started(_that.groupId);case _GroupDetailEvent$TestAdded() when testAdded != null:
 return testAdded(_that.title,_that.description);case _GroupDetailEvent$TestRemoved() when testRemoved != null:
-return testRemoved(_that.testId);case _GroupDetailEvent$TitleUpdated() when titleUpdated != null:
+return testRemoved(_that.testId);case _GroupDetailEvent$TestRenamed() when testRenamed != null:
+return testRenamed(_that.testId,_that.title);case _GroupDetailEvent$TitleUpdated() when titleUpdated != null:
 return titleUpdated(_that.title);case _GroupDetailEvent$TestGroupsUpdated() when testGroupsUpdated != null:
 return testGroupsUpdated(_that.testId,_that.groupIds);case _:
   return orElse();
@@ -153,12 +157,13 @@ return testGroupsUpdated(_that.testId,_that.groupIds);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String groupId)  started,required TResult Function( String title,  String? description)  testAdded,required TResult Function( String testId)  testRemoved,required TResult Function( String title)  titleUpdated,required TResult Function( String testId,  List<String> groupIds)  testGroupsUpdated,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function( String groupId)  started,required TResult Function( String title,  String? description)  testAdded,required TResult Function( String testId)  testRemoved,required TResult Function( String testId,  String title)  testRenamed,required TResult Function( String title)  titleUpdated,required TResult Function( String testId,  List<String> groupIds)  testGroupsUpdated,}) {final _that = this;
 switch (_that) {
 case _GroupDetailEvent$Started():
 return started(_that.groupId);case _GroupDetailEvent$TestAdded():
 return testAdded(_that.title,_that.description);case _GroupDetailEvent$TestRemoved():
-return testRemoved(_that.testId);case _GroupDetailEvent$TitleUpdated():
+return testRemoved(_that.testId);case _GroupDetailEvent$TestRenamed():
+return testRenamed(_that.testId,_that.title);case _GroupDetailEvent$TitleUpdated():
 return titleUpdated(_that.title);case _GroupDetailEvent$TestGroupsUpdated():
 return testGroupsUpdated(_that.testId,_that.groupIds);}
 }
@@ -174,12 +179,13 @@ return testGroupsUpdated(_that.testId,_that.groupIds);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String groupId)?  started,TResult? Function( String title,  String? description)?  testAdded,TResult? Function( String testId)?  testRemoved,TResult? Function( String title)?  titleUpdated,TResult? Function( String testId,  List<String> groupIds)?  testGroupsUpdated,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function( String groupId)?  started,TResult? Function( String title,  String? description)?  testAdded,TResult? Function( String testId)?  testRemoved,TResult? Function( String testId,  String title)?  testRenamed,TResult? Function( String title)?  titleUpdated,TResult? Function( String testId,  List<String> groupIds)?  testGroupsUpdated,}) {final _that = this;
 switch (_that) {
 case _GroupDetailEvent$Started() when started != null:
 return started(_that.groupId);case _GroupDetailEvent$TestAdded() when testAdded != null:
 return testAdded(_that.title,_that.description);case _GroupDetailEvent$TestRemoved() when testRemoved != null:
-return testRemoved(_that.testId);case _GroupDetailEvent$TitleUpdated() when titleUpdated != null:
+return testRemoved(_that.testId);case _GroupDetailEvent$TestRenamed() when testRenamed != null:
+return testRenamed(_that.testId,_that.title);case _GroupDetailEvent$TitleUpdated() when titleUpdated != null:
 return titleUpdated(_that.title);case _GroupDetailEvent$TestGroupsUpdated() when testGroupsUpdated != null:
 return testGroupsUpdated(_that.testId,_that.groupIds);case _:
   return null;
@@ -382,6 +388,74 @@ class __$GroupDetailEvent$TestRemovedCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? testId = null,}) {
   return _then(_GroupDetailEvent$TestRemoved(
 testId: null == testId ? _self.testId : testId // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _GroupDetailEvent$TestRenamed implements GroupDetailEvent {
+  const _GroupDetailEvent$TestRenamed({required this.testId, required this.title});
+  
+
+ final  String testId;
+ final  String title;
+
+/// Create a copy of GroupDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GroupDetailEvent$TestRenamedCopyWith<_GroupDetailEvent$TestRenamed> get copyWith => __$GroupDetailEvent$TestRenamedCopyWithImpl<_GroupDetailEvent$TestRenamed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GroupDetailEvent$TestRenamed&&(identical(other.testId, testId) || other.testId == testId)&&(identical(other.title, title) || other.title == title));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,testId,title);
+
+@override
+String toString() {
+  return 'GroupDetailEvent.testRenamed(testId: $testId, title: $title)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$GroupDetailEvent$TestRenamedCopyWith<$Res> implements $GroupDetailEventCopyWith<$Res> {
+  factory _$GroupDetailEvent$TestRenamedCopyWith(_GroupDetailEvent$TestRenamed value, $Res Function(_GroupDetailEvent$TestRenamed) _then) = __$GroupDetailEvent$TestRenamedCopyWithImpl;
+@useResult
+$Res call({
+ String testId, String title
+});
+
+
+
+
+}
+/// @nodoc
+class __$GroupDetailEvent$TestRenamedCopyWithImpl<$Res>
+    implements _$GroupDetailEvent$TestRenamedCopyWith<$Res> {
+  __$GroupDetailEvent$TestRenamedCopyWithImpl(this._self, this._then);
+
+  final _GroupDetailEvent$TestRenamed _self;
+  final $Res Function(_GroupDetailEvent$TestRenamed) _then;
+
+/// Create a copy of GroupDetailEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? testId = null,Object? title = null,}) {
+  return _then(_GroupDetailEvent$TestRenamed(
+testId: null == testId ? _self.testId : testId // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

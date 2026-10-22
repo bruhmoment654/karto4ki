@@ -1,16 +1,22 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:material_3_expressive/material_3_expressive.dart'
+    show M3EIcons;
 
 import 'package:quizzerg/app/navigation/app_router.dart';
 import 'package:quizzerg/feature/group_detail/domain/bloc/group_detail_bloc.dart';
 import 'package:quizzerg/feature/group_detail/presentation/group_detail_view.dart';
+import 'package:quizzerg/feature/group_detail/presentation/widget/group_mixup_sheet.dart';
 import 'package:quizzerg/feature/mixup/domain/bloc/mixup_bloc.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_entity.dart';
-import 'package:quizzerg/feature/tinder_test/domain/mixup/mixup_algorithm.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
+import 'package:quizzerg/uikit/dialogs/app_action_sheet.dart';
 import 'package:quizzerg/uikit/dialogs/app_dialog.dart';
+import 'package:quizzerg/uikit/dialogs/dialog_controller.dart';
 import 'package:quizzerg/uikit/fields/karto4ki_text_field.dart';
+import 'package:quizzerg/uikit/snackbars/deferred_removal.dart';
 
 /// Экран деталки группы.
 class GroupDetailScreen extends StatefulWidget {
@@ -24,39 +30,20 @@ class GroupDetailScreen extends StatefulWidget {
 
 class _GroupDetailScreenState extends State<GroupDetailScreen>
     implements IGroupDetailViewModel {
-  static const _defaultStreakValue = 0.35;
-
-  @override
-  late final TextEditingController streakNegativeBonusController;
-
-  @override
-  late final TextEditingController streakPositivePenaltyController;
-
-  @override
-  void initState() {
-    super.initState();
-    final mixupState = context.read<MixupBloc>().state;
-    streakNegativeBonusController = TextEditingController(
-      text: mixupState.streakNegativeBonus.toStringAsFixed(2),
-    );
-    streakPositivePenaltyController = TextEditingController(
-      text: mixupState.streakPositivePenalty.toStringAsFixed(2),
-    );
-  }
-
-  @override
-  void dispose() {
-    streakNegativeBonusController.dispose();
-    streakPositivePenaltyController.dispose();
-    super.dispose();
-  }
+  final _testRemoval = DeferredRemoval();
 
   @override
   StateStreamable<GroupDetailState> get groupDetailState =>
       context.read<GroupDetailBloc>();
 
   @override
-  StateStreamable<MixupState> get mixupState => context.read<MixupBloc>();
+  ValueListenable<Set<String>> get removedTestIds => _testRemoval.pending;
+
+  @override
+  void dispose() {
+    _testRemoval.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -74,77 +61,44 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   }
 
   @override
-  void onTestTapped(TestEntity test) {
-    final mixupState = context.read<MixupBloc>().state;
-    context.router.push(
-      TestDetailRoute(
-        testId: test.id,
-        mixup: mixupState.enabled,
-        mixupMin: mixupState.mixupMin,
-        mixupMax: mixupState.mixupMax,
-        groupId: widget.groupId,
+  void onTestTapped(TestEntity test) => _openTestDetail(test);
+
+  @override
+  void onSettingsPressed() {
+    final mixupBloc = context.read<MixupBloc>();
+    DialogController.showBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      showDragHandle: true,
+      backgroundColor: Theme.of(context).colorScheme.surfaceContainerLow,
+      builder: (_) => BlocProvider.value(
+        value: mixupBloc,
+        child: const GroupMixupSheet(),
       ),
     );
   }
 
   @override
-  void onMixupChanged({required bool value}) {
-    context.read<MixupBloc>().add(MixupEvent.toggled(enabled: value));
-  }
-
-  @override
-  void onMixupRangeChanged({required int min, required int max}) {
-    context.read<MixupBloc>().add(MixupEvent.rangeChanged(min: min, max: max));
-  }
-
-  @override
-  void onMixupAlgorithmChanged({required MixupAlgorithm algorithm}) {
-    context
-        .read<MixupBloc>()
-        .add(MixupEvent.algorithmChanged(algorithm: algorithm));
-  }
-
-  @override
-  void onStreakCoefficientsSubmitted() {
-    final negative = double.tryParse(streakNegativeBonusController.text) ??
-        _defaultStreakValue;
-    final positive = double.tryParse(streakPositivePenaltyController.text) ??
-        _defaultStreakValue;
-    context.read<MixupBloc>().add(MixupEvent.streakCoefficientsChanged(
-          negativeBonus: negative.clamp(0.0, 1.0),
-          positivePenalty: positive.clamp(0.0, 1.0),
-        ));
-  }
-
-  @override
-  void onStreakCoefficientsReset() {
-    streakNegativeBonusController.text = _defaultStreakValue.toStringAsFixed(2);
-    streakPositivePenaltyController.text =
-        _defaultStreakValue.toStringAsFixed(2);
-    context.read<MixupBloc>().add(const MixupEvent.streakCoefficientsChanged(
-          negativeBonus: _defaultStreakValue,
-          positivePenalty: _defaultStreakValue,
-        ));
-  }
-
-  @override
   void onTestLongPressed(TestEntity test) {
-    _showTestActionsDialog(test);
+    _showTestActionsSheet(test);
   }
 
+  /// Тест сразу пропадает из списка, снек «Отменить» возвращает его, а из
+  /// группы он убирается, когда снек закрылся без отмены.
   @override
-  Future<void> onTestRemovePressed(TestEntity test) async {
-    final confirmed = await confirmTestRemove(test);
-    if (confirmed ?? false) {
-      onTestRemoveConfirmed(test);
-    }
-  }
+  void onTestRemovePressed(TestEntity test) {
+    final bloc = context.read<GroupDetailBloc>();
+    final isLastGroup = bloc.state.isLastGroupForTest(test.id);
 
-  @override
-  void onTestRemoveConfirmed(TestEntity test) {
-    context.read<GroupDetailBloc>().add(
-          GroupDetailEvent.testRemoved(testId: test.id),
-        );
+    _testRemoval.schedule(
+      context,
+      id: test.id,
+      message: isLastGroup
+          ? context.l10n.groupDetailTestRemovedLastGroupSnack(test.title)
+          : context.l10n.groupDetailTestRemovedSnack(test.title),
+      undoLabel: context.l10n.commonUndo,
+      commit: () => bloc.add(GroupDetailEvent.testRemoved(testId: test.id)),
+    );
   }
 
   @override
@@ -206,59 +160,131 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
     );
   }
 
-  @override
-  Future<bool?> confirmTestRemove(TestEntity test) async {
-    final isLastGroup =
-        context.read<GroupDetailBloc>().state.isLastGroupForTest(test.id);
+  Future<void> _showTestActionsSheet(TestEntity test) async {
+    final l10n = context.l10n;
+    final progress = test.progress;
+    final accuracy = progress.accuracy;
 
-    return AppDialog.confirm(
-      context: context,
-      title: isLastGroup
-          ? context.l10n.groupDetailRemoveTestLastGroupTitle
-          : context.l10n.groupDetailRemoveTestTitle,
-      message: isLastGroup
-          ? context.l10n.groupDetailRemoveTestLastGroupMessage(test.title)
-          : context.l10n.groupDetailRemoveTestMessage(test.title),
-      cancelLabel: context.l10n.groupDetailRemoveTestCancel,
-      confirmLabel: context.l10n.groupDetailRemoveTestConfirm,
+    final action = await AppActionSheet.show<_TestAction>(
+      context,
+      title: test.title,
+      subtitle: [
+        l10n.groupDetailQuestionCount(test.questionCount),
+        if (accuracy != null) l10n.actionSheetAccuracy((accuracy * 100).round()),
+        if (progress.weakCount > 0) l10n.progressWeakCount(progress.weakCount),
+      ].join(' · '),
+      buttons: [
+        if (test.questionCount > 0)
+          AppActionSheetButton(
+            icon: M3EIcons.play_arrow_rounded,
+            label: l10n.groupDetailTestActionsStart,
+            value: _TestAction.start,
+          ),
+      ],
+      items: [
+        AppActionSheetItem(
+          icon: M3EIcons.edit_outlined,
+          label: l10n.groupDetailTestActionsRename,
+          value: _TestAction.rename,
+        ),
+        AppActionSheetItem(
+          icon: M3EIcons.drive_file_move_outlined,
+          label: l10n.groupDetailTestActionsMove,
+          value: _TestAction.move,
+        ),
+        AppActionSheetItem(
+          icon: M3EIcons.upload_file_outlined,
+          label: l10n.groupDetailTestActionsImport,
+          value: _TestAction.import,
+        ),
+        AppActionSheetItem(
+          icon: M3EIcons.remove_circle_outline_rounded,
+          label: l10n.groupDetailTestActionsRemove,
+          value: _TestAction.remove,
+          isDestructive: true,
+        ),
+      ],
+    );
+    if (!mounted) return;
+
+    switch (action) {
+      case _TestAction.start:
+        _startTest(test);
+      case _TestAction.rename:
+        _showRenameTestDialog(test);
+      case _TestAction.move:
+        await _showAddToGroupDialog(test);
+      case _TestAction.import:
+        _openTestDetail(test, openImport: true);
+      case _TestAction.remove:
+        onTestRemovePressed(test);
+      case null:
+        break;
+    }
+  }
+
+  /// Запуск с настройками по умолчанию — как кнопка ▶ в деталке теста,
+  /// пока там ничего не меняли.
+  void _startTest(TestEntity test) {
+    final mixupState = context.read<MixupBloc>().state;
+    context.router.push(
+      TinderTestRoute(
+        testId: test.id,
+        mixup: mixupState.enabled,
+        mixupMin: mixupState.mixupMin,
+        mixupMax: mixupState.mixupMax,
+        groupId: widget.groupId,
+      ),
     );
   }
 
-  void _showTestActionsDialog(TestEntity test) {
+  void _openTestDetail(TestEntity test, {bool openImport = false}) {
+    final mixupState = context.read<MixupBloc>().state;
+    context.router.push(
+      TestDetailRoute(
+        testId: test.id,
+        mixup: mixupState.enabled,
+        mixupMin: mixupState.mixupMin,
+        mixupMax: mixupState.mixupMax,
+        groupId: widget.groupId,
+        openImport: openImport,
+      ),
+    );
+  }
+
+  void _showRenameTestDialog(TestEntity test) {
+    final titleController = TextEditingController(text: test.title);
+
     showDialog<void>(
       context: context,
       builder: (dialogContext) => AppDialog(
-        title: Text(context.l10n.groupDetailTestActionsTitle),
-        content: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            ListTile(
-              leading: const Icon(Icons.play_arrow_rounded),
-              title: Text(context.l10n.groupDetailTestActionsOpen),
-              onTap: () {
-                Navigator.of(dialogContext).pop();
-                onTestTapped(test);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.playlist_add),
-              title: Text(context.l10n.groupDetailTestActionsAddToGroup),
-              onTap: () {
-                Navigator.of(dialogContext).pop();
-                _showAddToGroupDialog(test);
-              },
-            ),
-            ListTile(
-              leading: const Icon(Icons.remove_circle_outline),
-              title: Text(context.l10n.groupDetailTestActionsRemove),
-              onTap: () {
-                Navigator.of(dialogContext).pop();
-                onTestRemovePressed(test);
-              },
-            ),
-          ],
+        title: Text(context.l10n.groupDetailRenameTestTitle),
+        content: Karto4kiTextField(
+          controller: titleController,
+          labelText: context.l10n.groupDetailRenameTestHint,
+          autofocus: true,
         ),
-        actions: const [],
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogContext).pop(),
+            child: Text(context.l10n.commonCancel),
+          ),
+          TextButton(
+            onPressed: () {
+              final title = titleController.text.trim();
+              if (title.isNotEmpty && title != test.title) {
+                context.read<GroupDetailBloc>().add(
+                      GroupDetailEvent.testRenamed(
+                        testId: test.id,
+                        title: title,
+                      ),
+                    );
+              }
+              Navigator.of(dialogContext).pop();
+            },
+            child: Text(context.l10n.commonSave),
+          ),
+        ],
       ),
     );
   }
@@ -373,13 +399,13 @@ class _GroupDetailScreenState extends State<GroupDetailScreen>
   }
 }
 
+/// Действия шторки теста по долгому нажатию.
+enum _TestAction { start, rename, move, import, remove }
+
 /// ViewModel интерфейс для экрана деталки группы.
 abstract interface class IGroupDetailViewModel {
   /// Состояние деталки группы: группа, тесты и привязки.
   StateStreamable<GroupDetailState> get groupDetailState;
-
-  /// Настройки подмешивания вопросов.
-  StateStreamable<MixupState> get mixupState;
 
   void onBackPressed();
 
@@ -389,25 +415,14 @@ abstract interface class IGroupDetailViewModel {
 
   void onTestLongPressed(TestEntity test);
 
+  /// Тесты, убранные из группы, пока это можно отменить: в списке их нет.
+  ValueListenable<Set<String>> get removedTestIds;
+
+  /// Убрать тест из группы с отменой через снек.
   void onTestRemovePressed(TestEntity test);
-
-  Future<bool?> confirmTestRemove(TestEntity test);
-
-  void onTestRemoveConfirmed(TestEntity test);
 
   void onEditTitlePressed();
 
-  void onMixupChanged({required bool value});
-
-  void onMixupRangeChanged({required int min, required int max});
-
-  void onMixupAlgorithmChanged({required MixupAlgorithm algorithm});
-
-  TextEditingController get streakNegativeBonusController;
-
-  TextEditingController get streakPositivePenaltyController;
-
-  void onStreakCoefficientsSubmitted();
-
-  void onStreakCoefficientsReset();
+  /// Открыть шторку настроек подмешивания.
+  void onSettingsPressed();
 }

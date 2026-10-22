@@ -29,6 +29,11 @@ class AppColors extends ThemeExtension<AppColors> {
   final Color accuracyMid;
   final Color accuracyLow;
 
+  /// Цвет колец и чипов статистики на тональных карточках. `null` — берётся
+  /// цвет текста самой карточки (цветной стиль); в монохроме контейнеры
+  /// серые, и статистика выделяется акцентом.
+  final Color? cardInk;
+
   const AppColors({
     required this.success,
     required this.onSuccess,
@@ -39,11 +44,15 @@ class AppColors extends ThemeExtension<AppColors> {
     required this.accuracyHigh,
     required this.accuracyMid,
     required this.accuracyLow,
+    this.cardInk,
   });
 
   /// Если тема собрана не из палитры (тесты, сторонний `Theme`), берём
   /// цвета цветной палитры.
   static AppColors of(BuildContext context) => Theme.of(context).appColors;
+
+  /// Цвет статистики на карточке, текст которой окрашен в [onContainer].
+  Color inkOn(Color onContainer) => cardInk ?? onContainer;
 
   @override
   AppColors copyWith({
@@ -56,6 +65,7 @@ class AppColors extends ThemeExtension<AppColors> {
     Color? accuracyHigh,
     Color? accuracyMid,
     Color? accuracyLow,
+    Color? cardInk,
   }) {
     return AppColors(
       success: success ?? this.success,
@@ -67,6 +77,7 @@ class AppColors extends ThemeExtension<AppColors> {
       accuracyHigh: accuracyHigh ?? this.accuracyHigh,
       accuracyMid: accuracyMid ?? this.accuracyMid,
       accuracyLow: accuracyLow ?? this.accuracyLow,
+      cardInk: cardInk ?? this.cardInk,
     );
   }
 
@@ -84,6 +95,7 @@ class AppColors extends ThemeExtension<AppColors> {
       accuracyHigh: _lerp(accuracyHigh, other.accuracyHigh, t),
       accuracyMid: _lerp(accuracyMid, other.accuracyMid, t),
       accuracyLow: _lerp(accuracyLow, other.accuracyLow, t),
+      cardInk: Color.lerp(cardInk, other.cardInk, t),
     );
   }
 
@@ -99,7 +111,8 @@ class AppColors extends ThemeExtension<AppColors> {
           onFab == other.onFab &&
           accuracyHigh == other.accuracyHigh &&
           accuracyMid == other.accuracyMid &&
-          accuracyLow == other.accuracyLow;
+          accuracyLow == other.accuracyLow &&
+          cardInk == other.cardInk;
 
   @override
   int get hashCode => Object.hash(
@@ -112,6 +125,7 @@ class AppColors extends ThemeExtension<AppColors> {
     accuracyHigh,
     accuracyMid,
     accuracyLow,
+    cardInk,
   );
 }
 

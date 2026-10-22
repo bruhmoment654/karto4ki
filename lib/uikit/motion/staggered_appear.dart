@@ -37,8 +37,11 @@ class StaggeredAppear extends StatelessWidget {
       child: SlideAnimation(
         verticalOffset: verticalOffset,
         curve: AppMotion.emphasized,
+        // Проявление — на мягкой кривой (как в ANIMATIONS.md): emphasized
+        // выдаёт почти всю непрозрачность в первые ~100 мс, и карточки
+        // «вспыхивают».
         child: FadeInAnimation(
-          curve: AppMotion.emphasized,
+          curve: Curves.easeOut,
           child: child,
         ),
       ),

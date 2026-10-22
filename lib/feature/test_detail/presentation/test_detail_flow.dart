@@ -21,12 +21,17 @@ class TestDetailFlow extends StatelessWidget implements AutoRouteWrapper {
   /// Группа, из которой открыт тест; передаётся в запуск теста.
   final String? groupId;
 
+  /// Сразу после загрузки открыть импорт карточек (действие «Импорт
+  /// карточек» из шторки теста в деталке группы).
+  final bool openImport;
+
   const TestDetailFlow({
     @PathParam('testId') required this.testId,
     this.mixup = false,
     this.mixupMin = 1,
     this.mixupMax = 5,
     this.groupId,
+    this.openImport = false,
     super.key,
   });
 
@@ -58,6 +63,7 @@ class TestDetailFlow extends StatelessWidget implements AutoRouteWrapper {
       mixupMin: mixupMin,
       mixupMax: mixupMax,
       groupId: groupId,
+      openImport: openImport,
     );
   }
 }

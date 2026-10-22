@@ -12,6 +12,12 @@ abstract interface class IGroupsListRepository {
   /// Добавить новую группу.
   RequestOperation<void> addGroup({required String title});
 
+  /// Переименовать группу.
+  RequestOperation<void> renameGroup({
+    required String groupId,
+    required String title,
+  });
+
   /// Удалить группу по id.
   RequestOperation<void> deleteGroup(String groupId);
 

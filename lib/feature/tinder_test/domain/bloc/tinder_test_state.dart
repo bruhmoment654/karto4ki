@@ -18,7 +18,10 @@ sealed class TinderTestState with _$TinderTestState {
   const factory TinderTestState.inProgress({
     required TestSession session,
     required CardEntity currentCard,
-    @Default(false) bool isUndo,
+
+    /// Отменённый ответ: карточка возвращается с той стороны, куда её
+    /// смахнули. `null` — карточка пришла не из отмены.
+    CardResult? undoneResult,
   }) = TinderTestState$InProgress;
 
   /// Test is completed.

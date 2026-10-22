@@ -1,5 +1,6 @@
 import 'package:drift/drift.dart';
 
+import 'package:quizzerg/feature/question_stats/domain/service/study_progress_calculator.dart';
 import 'package:quizzerg/feature/sync/domain/entity/sync_state.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
 
@@ -150,6 +151,37 @@ class CardsDatabase extends DatabaseAccessor<AppDatabase>
       ..where(cards.testId.equals(testId) & cards.deletedAt.isNull());
     final row = await query.getSingle();
     return row.read(count) ?? 0;
+  }
+
+  /// Вопросы живых карточек живых тестов со статистикой: id теста → вопросы.
+  ///
+  /// Вопрос без строки в `question_stats` приходит с `null` в полях
+  /// статистики.
+  Future<Map<String, List<QuestionProgressRow>>> getQuestionRows() async {
+    final rows = await customSelect(
+      'SELECT card.test_id AS test_id, card.question_key AS question_key, '
+      'stats.streak AS streak, stats.total_shown AS total_shown '
+      'FROM cards card '
+      'JOIN tests test ON test.id = card.test_id AND test.deleted_at IS NULL '
+      'LEFT JOIN question_stats stats '
+      'ON stats.question_key = card.question_key '
+      'WHERE card.deleted_at IS NULL',
+      readsFrom: {
+        cards,
+        attachedDatabase.tests,
+        attachedDatabase.questionStats,
+      },
+    ).get();
+
+    final result = <String, List<QuestionProgressRow>>{};
+    for (final row in rows) {
+      (result[row.read<String>('test_id')] ??= []).add((
+        questionKey: row.read<String>('question_key'),
+        streak: row.readNullable<int>('streak'),
+        totalShown: row.readNullable<int>('total_shown'),
+      ));
+    }
+    return result;
   }
 
   /// Delete all cards.

@@ -485,7 +485,7 @@
       }
     }
   },
-  "tinderTestTapToShowAnswer": "Нажмите, чтобы увидеть ответ",
+  "tinderTestTapToShowAnswer": "Нажмите, чтобы перевернуть",
   "tinderTestUnknownBadge": "НЕ ЗНАЮ",
   "tinderTestKnownBadge": "ЗНАЮ",
   "tinderTestUndoTooltip": "Отменить последний ответ",
@@ -609,16 +609,24 @@
       }
     }
   },
-  "testDetailEmptyCardsMessage": "Нет карточек.\nНажмите + чтобы добавить первую.",
-  "testDetailDeleteCardTitle": "Удалить карточку?",
-  "testDetailDeleteCardMessage": "Вы уверены, что хотите удалить эту карточку?",
-  "testDetailDeleteCardCancel": "Отмена",
-  "testDetailDeleteCardConfirm": "Удалить",
+  "testDetailEmptyCardsTitle": "В тесте нет карточек",
+  "testDetailEmptyCardsMessage": "Карточка — это вопрос и ответ к нему. Добавьте первую вручную или загрузите сразу несколько из файла.",
+  "testDetailEmptyAddCardButton": "Добавить карточку",
+  "testDetailCardDeletedSnack": "Карточка удалена",
   "testDetailSettingsButton": "Настройки",
   "testDetailSwapSides": "Поменять стороны местами",
   "commonCancel": "Отмена",
   "commonSave": "Сохранить",
   "commonCreate": "Создать",
+  "commonUndo": "Отменить",
+  "actionSheetAccuracy": "точность {percent}%",
+  "@actionSheetAccuracy": {
+    "placeholders": {
+      "percent": {
+        "type": "int"
+      }
+    }
+  },
   "testDetailNewCardTitle": "Новая карточка",
   "testDetailEditCardTitle": "Редактировать карточку",
   "testDetailEditTestTitle": "Редактировать тест",
@@ -809,20 +817,24 @@
     "description": "Список групп"
   },
   "groupsListAppBarTitle": "Группы",
-  "groupsListEmptyMessage": "Нет групп.\nНажмите + чтобы создать первую группу.",
+  "groupsListEmptyTitle": "Пока нет групп",
+  "groupsListEmptyMessage": "Группа объединяет тесты по одной теме. Создайте первую, чтобы начать.",
+  "groupsListEmptyCreateButton": "Создать группу",
   "groupsListAddGroupFab": "Создать",
-  "groupsListDeleteDialogTitle": "Удалить группу?",
-  "groupsListDeleteDialogMessage": "Вы уверены, что хотите удалить \"{title}\"? Тесты внутри группы не будут удалены.",
-  "@groupsListDeleteDialogMessage": {
+  "groupsListDeleteDialogCancel": "Отмена",
+  "groupsListDeleteDialogConfirm": "Удалить",
+  "groupsListActionRename": "Переименовать",
+  "groupsListActionSettings": "Настройки группы",
+  "groupsListActionDelete": "Удалить группу",
+  "groupsListDeleteGroupTitle": "Удалить группу «{title}»?",
+  "@groupsListDeleteGroupTitle": {
     "placeholders": {
       "title": {
-        "type": "String",
-        "example": "Мои тесты"
+        "type": "String"
       }
     }
   },
-  "groupsListDeleteDialogCancel": "Отмена",
-  "groupsListDeleteDialogConfirm": "Удалить",
+  "groupsListDeleteGroupBody": "Удалится только группа — тесты из неё останутся в приложении.",
   "groupsListTestCount": "{count} {count, plural, one{тест} few{теста} many{тестов} other{тестов}}",
   "@groupsListTestCount": {
     "placeholders": {
@@ -846,6 +858,45 @@
   "groupsListNewGroupNameHint": "Название группы",
   "groupsListNewGroupCancel": "Отмена",
   "groupsListNewGroupCreate": "Создать",
+  "groupsListNoTests": "Нет тестов",
+  "groupsListAddTest": "Добавить тест",
+  "groupsListNotStarted": "Ещё не начат",
+  "progressGreatAccuracy": "Отличная точность",
+  "progressWeakCount": "{count} {count, plural, one{слабый} few{слабых} many{слабых} other{слабых}}",
+  "@progressWeakCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "progressNewCount": "{count} {count, plural, one{новый} few{новых} many{новых} other{новых}}",
+  "@progressNewCount": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
+  "progressStudied": "занимались {when}",
+  "@progressStudied": {
+    "placeholders": {
+      "when": {
+        "type": "String",
+        "example": "вчера"
+      }
+    }
+  },
+  "progressToday": "сегодня",
+  "progressYesterday": "вчера",
+  "progressDaysAgo": "{count} {count, plural, one{день} few{дня} many{дней} other{дней}} назад",
+  "@progressDaysAgo": {
+    "placeholders": {
+      "count": {
+        "type": "int"
+      }
+    }
+  },
   "groupsListActiveSessionLabel": "Продолжить тест",
   "groupsListActiveSessionCards": "{current} из {total} {total, plural, one{карточки} few{карточек} many{карточек} other{карточки}}",
   "@groupsListActiveSessionCards": {
@@ -868,7 +919,8 @@
   },
   "groupDetailLoadingTitle": "Загрузка...",
   "groupDetailAddTestFab": "Добавить",
-  "groupDetailEmptyMessage": "Нет тестов в группе.\nНажмите + чтобы добавить первый тест.",
+  "groupDetailEmptyTitle": "В группе нет тестов",
+  "groupDetailEmptyMessage": "Тест — это набор карточек-вопросов. Добавьте карточки вручную или загрузите их из файла.",
   "groupDetailErrorMessage": "Ошибка: {message}",
   "@groupDetailErrorMessage": {
     "placeholders": {
@@ -879,28 +931,6 @@
     }
   },
   "groupDetailUnknownError": "Неизвестная ошибка",
-  "groupDetailRemoveTestTitle": "Убрать тест из группы?",
-  "groupDetailRemoveTestMessage": "Тест \"{title}\" будет убран из этой группы, но не удалён.",
-  "@groupDetailRemoveTestMessage": {
-    "placeholders": {
-      "title": {
-        "type": "String",
-        "example": "Мой тест"
-      }
-    }
-  },
-  "groupDetailRemoveTestLastGroupTitle": "Последняя группа",
-  "groupDetailRemoveTestLastGroupMessage": "Это последняя группа теста \"{title}\". Тест останется без группы.",
-  "@groupDetailRemoveTestLastGroupMessage": {
-    "placeholders": {
-      "title": {
-        "type": "String",
-        "example": "Мой тест"
-      }
-    }
-  },
-  "groupDetailRemoveTestCancel": "Отмена",
-  "groupDetailRemoveTestConfirm": "Убрать",
   "groupDetailEditTitleDialogTitle": "Переименовать группу",
   "groupDetailEditTitleHint": "Название группы",
   "groupDetailEditTitleCancel": "Отмена",
@@ -910,14 +940,33 @@
   "groupDetailNewTestDescriptionHint": "Описание (необязательно)",
   "groupDetailNewTestCancel": "Отмена",
   "groupDetailNewTestCreate": "Создать",
-  "groupDetailTestActionsTitle": "Действия",
-  "groupDetailTestActionsOpen": "Открыть тест",
   "groupDetailTestActionsRemove": "Убрать из группы",
-  "groupDetailTestActionsAddToGroup": "Добавить в группу",
   "groupDetailAddToGroupTitle": "Выберите группы",
   "groupDetailAddToGroupEmpty": "Нет других групп",
   "groupDetailAddToGroupSave": "Сохранить",
   "groupDetailAddToGroupCancel": "Отмена",
+  "groupDetailTestActionsStart": "Начать",
+  "groupDetailTestActionsRename": "Переименовать",
+  "groupDetailTestActionsMove": "Переместить в группу",
+  "groupDetailTestActionsImport": "Импорт карточек",
+  "groupDetailRenameTestTitle": "Переименовать тест",
+  "groupDetailRenameTestHint": "Название теста",
+  "groupDetailTestRemovedSnack": "«{title}» убран из группы",
+  "@groupDetailTestRemovedSnack": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
+  "groupDetailTestRemovedLastGroupSnack": "«{title}» убран — других групп у теста нет",
+  "@groupDetailTestRemovedLastGroupSnack": {
+    "placeholders": {
+      "title": {
+        "type": "String"
+      }
+    }
+  },
   "groupDetailMixupRange": "Количество: {min}–{max}",
   "@groupDetailMixupRange": {
     "placeholders": {
@@ -939,6 +988,15 @@
   "groupDetailStreakNegativeBonus": "Бонус ошибок",
   "groupDetailStreakPositivePenalty": "Штраф верных",
   "groupDetailStreakReset": "Сбросить по умолчанию",
+  "groupDetailSettingsSheetTitle": "Подмешивание",
+  "groupDetailSettingsButton": "Настройки подмешивания",
+  "groupDetailTestsHeader": "Тесты",
+  "groupDetailMastered": "Освоено",
+  "groupDetailLearning": "Учится",
+  "groupDetailWeak": "Слабые",
+  "groupDetailNew": "Новые",
+  "groupDetailTestNotStarted": "Не начат",
+  "groupDetailTestAddCards": "Добавить",
   "groupDetailNewTestButton": "Новый тест",
   "groupDetailQuestionCount": "{count, plural, =0{Нет вопросов} one{{count} вопрос} few{{count} вопроса} many{{count} вопросов} other{{count} вопросов}}",
   "@groupDetailQuestionCount": {

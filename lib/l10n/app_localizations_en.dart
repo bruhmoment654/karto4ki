@@ -68,7 +68,7 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
-  String get tinderTestTapToShowAnswer => 'Tap to show the answer';
+  String get tinderTestTapToShowAnswer => 'Tap to flip';
 
   @override
   String get tinderTestUnknownBadge => 'DON\'T KNOW';
@@ -238,21 +238,17 @@ class AppLocalizationsEn extends AppLocalizations {
   }
 
   @override
+  String get testDetailEmptyCardsTitle => 'No cards in this test';
+
+  @override
   String get testDetailEmptyCardsMessage =>
-      'No cards.\nTap + to add the first one.';
+      'A card is a question and its answer. Add the first one by hand or load several at once from a file.';
 
   @override
-  String get testDetailDeleteCardTitle => 'Delete card?';
+  String get testDetailEmptyAddCardButton => 'Add a card';
 
   @override
-  String get testDetailDeleteCardMessage =>
-      'Are you sure you want to delete this card?';
-
-  @override
-  String get testDetailDeleteCardCancel => 'Cancel';
-
-  @override
-  String get testDetailDeleteCardConfirm => 'Delete';
+  String get testDetailCardDeletedSnack => 'Card deleted';
 
   @override
   String get testDetailSettingsButton => 'Settings';
@@ -268,6 +264,14 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get commonCreate => 'Create';
+
+  @override
+  String get commonUndo => 'Undo';
+
+  @override
+  String actionSheetAccuracy(int percent) {
+    return 'accuracy $percent%';
+  }
 
   @override
   String get testDetailNewCardTitle => 'New card';
@@ -582,25 +586,41 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupsListAppBarTitle => 'Groups';
 
   @override
+  String get groupsListEmptyTitle => 'No groups yet';
+
+  @override
   String get groupsListEmptyMessage =>
-      'No groups.\nTap + to create the first group.';
+      'A group brings together tests on one topic. Create the first one to get started.';
+
+  @override
+  String get groupsListEmptyCreateButton => 'Create a group';
 
   @override
   String get groupsListAddGroupFab => 'Create';
-
-  @override
-  String get groupsListDeleteDialogTitle => 'Delete group?';
-
-  @override
-  String groupsListDeleteDialogMessage(String title) {
-    return 'Are you sure you want to delete \"$title\"? Tests inside the group will not be deleted.';
-  }
 
   @override
   String get groupsListDeleteDialogCancel => 'Cancel';
 
   @override
   String get groupsListDeleteDialogConfirm => 'Delete';
+
+  @override
+  String get groupsListActionRename => 'Rename';
+
+  @override
+  String get groupsListActionSettings => 'Group settings';
+
+  @override
+  String get groupsListActionDelete => 'Delete group';
+
+  @override
+  String groupsListDeleteGroupTitle(String title) {
+    return 'Delete “$title”?';
+  }
+
+  @override
+  String get groupsListDeleteGroupBody =>
+      'Only the group is deleted — its tests stay in the app.';
 
   @override
   String groupsListTestCount(int count) {
@@ -634,6 +654,50 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupsListNewGroupCreate => 'Create';
 
   @override
+  String get groupsListNoTests => 'No tests';
+
+  @override
+  String get groupsListAddTest => 'Add a test';
+
+  @override
+  String get groupsListNotStarted => 'Not started yet';
+
+  @override
+  String get progressGreatAccuracy => 'Great accuracy';
+
+  @override
+  String progressWeakCount(int count) {
+    return '$count weak';
+  }
+
+  @override
+  String progressNewCount(int count) {
+    return '$count new';
+  }
+
+  @override
+  String progressStudied(String when) {
+    return 'studied $when';
+  }
+
+  @override
+  String get progressToday => 'today';
+
+  @override
+  String get progressYesterday => 'yesterday';
+
+  @override
+  String progressDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'days',
+      one: 'day',
+    );
+    return '$count $_temp0 ago';
+  }
+
+  @override
   String get groupsListActiveSessionLabel => 'Continue test';
 
   @override
@@ -660,8 +724,11 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupDetailAddTestFab => 'Add';
 
   @override
+  String get groupDetailEmptyTitle => 'No tests in this group';
+
+  @override
   String get groupDetailEmptyMessage =>
-      'No tests in this group.\nTap + to add the first test.';
+      'A test is a set of question cards. Add cards by hand or load them from a file.';
 
   @override
   String groupDetailErrorMessage(String message) {
@@ -670,28 +737,6 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get groupDetailUnknownError => 'Unknown error';
-
-  @override
-  String get groupDetailRemoveTestTitle => 'Remove test from group?';
-
-  @override
-  String groupDetailRemoveTestMessage(String title) {
-    return 'Test \"$title\" will be removed from this group, but not deleted.';
-  }
-
-  @override
-  String get groupDetailRemoveTestLastGroupTitle => 'Last group';
-
-  @override
-  String groupDetailRemoveTestLastGroupMessage(String title) {
-    return 'This is the last group for test \"$title\". The test will remain without a group.';
-  }
-
-  @override
-  String get groupDetailRemoveTestCancel => 'Cancel';
-
-  @override
-  String get groupDetailRemoveTestConfirm => 'Remove';
 
   @override
   String get groupDetailEditTitleDialogTitle => 'Rename group';
@@ -721,16 +766,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get groupDetailNewTestCreate => 'Create';
 
   @override
-  String get groupDetailTestActionsTitle => 'Actions';
-
-  @override
-  String get groupDetailTestActionsOpen => 'Open test';
-
-  @override
   String get groupDetailTestActionsRemove => 'Remove from group';
-
-  @override
-  String get groupDetailTestActionsAddToGroup => 'Add to group';
 
   @override
   String get groupDetailAddToGroupTitle => 'Select groups';
@@ -743,6 +779,34 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get groupDetailAddToGroupCancel => 'Cancel';
+
+  @override
+  String get groupDetailTestActionsStart => 'Start';
+
+  @override
+  String get groupDetailTestActionsRename => 'Rename';
+
+  @override
+  String get groupDetailTestActionsMove => 'Move to group';
+
+  @override
+  String get groupDetailTestActionsImport => 'Import cards';
+
+  @override
+  String get groupDetailRenameTestTitle => 'Rename test';
+
+  @override
+  String get groupDetailRenameTestHint => 'Test title';
+
+  @override
+  String groupDetailTestRemovedSnack(String title) {
+    return '“$title” removed from the group';
+  }
+
+  @override
+  String groupDetailTestRemovedLastGroupSnack(String title) {
+    return '“$title” removed — the test has no other groups';
+  }
 
   @override
   String groupDetailMixupRange(int min, int max) {
@@ -772,6 +836,33 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get groupDetailStreakReset => 'Reset to defaults';
+
+  @override
+  String get groupDetailSettingsSheetTitle => 'Mixing';
+
+  @override
+  String get groupDetailSettingsButton => 'Mixing settings';
+
+  @override
+  String get groupDetailTestsHeader => 'Tests';
+
+  @override
+  String get groupDetailMastered => 'Mastered';
+
+  @override
+  String get groupDetailLearning => 'Learning';
+
+  @override
+  String get groupDetailWeak => 'Weak';
+
+  @override
+  String get groupDetailNew => 'New';
+
+  @override
+  String get groupDetailTestNotStarted => 'Not started';
+
+  @override
+  String get groupDetailTestAddCards => 'Add';
 
   @override
   String get groupDetailNewTestButton => 'New test';

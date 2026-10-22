@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import 'package:quizzerg/feature/question_stats/domain/entity/study_progress_entity.dart';
 import 'package:quizzerg/feature/tests_list/domain/entity/test_type.dart';
 
 part 'test_entity.freezed.dart';
@@ -28,5 +29,8 @@ sealed class TestEntity with _$TestEntity {
 
     /// Количество вопросов (карточек) в тесте.
     @Default(0) int questionCount,
+
+    /// Прогресс изучения теста.
+    @Default(StudyProgressEntity.empty) StudyProgressEntity progress,
   }) = _TestEntity;
 }

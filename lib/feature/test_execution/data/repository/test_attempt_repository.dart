@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:quizzerg/core/feature/core/entity/request_operation.dart';
 import 'package:quizzerg/core/feature/data/repository/base_repository.dart';
 import 'package:quizzerg/feature/test_execution/data/converter/test_attempt_converter.dart';
@@ -5,6 +7,7 @@ import 'package:quizzerg/feature/test_execution/data/database/test_attempts_data
 import 'package:quizzerg/feature/test_execution/domain/entity/attempt_history_usage.dart';
 import 'package:quizzerg/feature/test_execution/domain/entity/attempt_summary.dart';
 import 'package:quizzerg/feature/test_execution/domain/repository/i_test_attempt_repository.dart';
+import 'package:quizzerg/feature/test_execution/domain/service/accuracy_calculator.dart';
 import 'package:quizzerg/feature/test_execution/domain/service/attempt_summary_builder.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
@@ -58,11 +61,12 @@ class TestAttemptRepository extends BaseRepository
       ],
     );
 
-    // Экрану нужны ответы только последних прохождений — остальные не
-    // копим, иначе таблица растёт на ~5 КБ с каждым прохождением.
+    // Ответы нужны только последних прохождений — для точности теста и
+    // экрана результата. Остальные не копим, иначе таблица растёт на ~5 КБ
+    // с каждым прохождением.
     await _database.deleteAnswersBeyond(
       session.testId,
-      keep: AttemptSummary.historyLength,
+      keep: max(AccuracyCalculator.attemptsWindow, AttemptSummary.historyLength),
     );
 
     final recent = await _database.getRecentAttempts(
@@ -70,9 +74,13 @@ class TestAttemptRepository extends BaseRepository
       limit: AttemptSummary.historyLength,
     );
     final total = await _database.countAttempts(session.testId);
+    // История вопроса на экране результата — в пределах тех же прохождений,
+    // что и динамика, хотя ответов хранится больше.
     final answers = await _database.getAnswersByKeys(
-      testId: session.testId,
-      excludeAttemptId: attemptId,
+      attemptIds: {
+        for (final attempt in recent)
+          if (attempt.id != attemptId) attempt.id,
+      },
       questionKeys: keys.values.toSet(),
     );
 

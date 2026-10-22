@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_animations/flutter_staggered_animations.dart';
 import 'package:quizzerg/core/bloc/state_streamable_builder.dart';
@@ -9,6 +11,7 @@ import 'package:quizzerg/l10n/app_localizations_x.dart';
 import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
 import 'package:quizzerg/uikit/content_card/content_card.dart';
+import 'package:quizzerg/uikit/empty_state/app_empty_state.dart';
 import 'package:quizzerg/uikit/motion/staggered_appear.dart';
 import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
@@ -27,7 +30,23 @@ class TestDetailView extends StatelessWidget {
   Widget build(BuildContext context) {
     return StateStreamableBuilder<TestDetailState>(
       bloc: viewModel.testDetailState,
-      builder: (context, state) => _Body(viewModel: viewModel, state: state),
+      builder: (context, state) => ValueListenableBuilder<Set<String>>(
+        valueListenable: viewModel.deletedCardIds,
+        // Удалённые карточки пропадают сразу, ещё до записи в базу: снек
+        // «Отменить» может вернуть их на место.
+        builder: (context, deletedIds, _) => _Body(
+          viewModel: viewModel,
+          state: switch (state) {
+            TestDetailState$Loaded(:final cards) when deletedIds.isNotEmpty =>
+              state.copyWith(
+                cards: cards
+                    .where((card) => !deletedIds.contains(card.id))
+                    .toList(),
+              ),
+            _ => state,
+          },
+        ),
+      ),
     );
   }
 }
@@ -72,13 +91,17 @@ class _Body extends StatelessWidget {
             onBackPressed: viewModel.onBackPressed,
           ),
       },
-      floatingActionButton: state is TestDetailState$Loaded
-          ? AppFloatingActionButton(
-              label: context.l10n.testDetailAddCardFab,
-              onPressed: viewModel.onAddCardPressed,
-              icon: Icons.add,
-            )
-          : null,
+      // В пустом тесте первую карточку предлагает кнопка пустого состояния —
+      // FAB рядом с ней дублировал бы действие.
+      floatingActionButton: switch (state) {
+        TestDetailState$Loaded(:final cards) when cards.isNotEmpty =>
+          AppFloatingActionButton(
+            label: context.l10n.testDetailAddCardFab,
+            onPressed: viewModel.onAddCardPressed,
+            icon: Icons.add,
+          ),
+        _ => null,
+      },
       floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
@@ -120,9 +143,25 @@ class _TestDetailLoadedBody extends StatelessWidget {
             ),
           ),
           if (cards.isEmpty)
-            const SliverFillRemaining(
-              hasScrollBody: false,
-              child: _EmptyCardsPlaceholder(),
+            // Не SliverFillRemaining: тот меряет заглушку intrinsic-высотой,
+            // M3E-кнопки её занижают, и на низком экране низ обрезается.
+            // Здесь заглушка занимает остаток вьюпорта, но может быть выше.
+            SliverLayoutBuilder(
+              builder: (context, constraints) => SliverToBoxAdapter(
+                child: ConstrainedBox(
+                  constraints: BoxConstraints(
+                    minHeight: math.max(
+                      0,
+                      constraints.viewportMainAxisExtent -
+                          constraints.precedingScrollExtent,
+                    ),
+                  ),
+                  child: _EmptyCardsPlaceholder(
+                    onAddCardPressed: viewModel.onAddCardPressed,
+                    onImportCsvPressed: viewModel.onImportCsvPressed,
+                  ),
+                ),
+              ),
             )
           else
             SliverList.builder(
@@ -134,7 +173,6 @@ class _TestDetailLoadedBody extends StatelessWidget {
                   child: _CardListItem(
                     card: card,
                     onTap: () => viewModel.onCardTapped(card),
-                    onConfirmDismiss: () => viewModel.confirmCardDelete(card),
                     onDelete: () => viewModel.onCardDeletePressed(card),
                   ),
                 );
@@ -294,14 +332,16 @@ class _ActionsRow extends StatelessWidget {
               ),
             ],
           ),
-          Align(
-            alignment: Alignment.centerRight,
-            child: TextButton.icon(
-              onPressed: onImportCsvPressed,
-              icon: const Icon(Icons.upload_file, size: 18),
-              label: Text(context.l10n.csvImportButton),
+          // В пустом тесте импорт предлагает пустое состояние.
+          if (cardsCount > 0)
+            Align(
+              alignment: Alignment.centerRight,
+              child: TextButton.icon(
+                onPressed: onImportCsvPressed,
+                icon: const Icon(Icons.upload_file, size: 18),
+                label: Text(context.l10n.csvImportButton),
+              ),
             ),
-          ),
         ],
       ),
     );
@@ -309,31 +349,24 @@ class _ActionsRow extends StatelessWidget {
 }
 
 class _EmptyCardsPlaceholder extends StatelessWidget {
-  const _EmptyCardsPlaceholder();
+  final VoidCallback onAddCardPressed;
+  final VoidCallback onImportCsvPressed;
+
+  const _EmptyCardsPlaceholder({
+    required this.onAddCardPressed,
+    required this.onImportCsvPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Text(
-              context.l10n.testDetailEmptyCardsMessage,
-              textAlign: TextAlign.center,
-              style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
-            ),
-            const Height(12),
-            Icon(
-              Icons.keyboard_arrow_down_rounded,
-              color: Theme.of(context).colorScheme.onSurfaceVariant,
-            ),
-          ],
-        ),
-      ),
+    return AppEmptyState(
+      title: context.l10n.testDetailEmptyCardsTitle,
+      message: context.l10n.testDetailEmptyCardsMessage,
+      primaryLabel: context.l10n.testDetailEmptyAddCardButton,
+      onPrimaryPressed: onAddCardPressed,
+      secondaryLabel: context.l10n.csvImportButton,
+      secondaryIcon: Icons.upload_file,
+      onSecondaryPressed: onImportCsvPressed,
     );
   }
 }
@@ -341,13 +374,11 @@ class _EmptyCardsPlaceholder extends StatelessWidget {
 class _CardListItem extends StatelessWidget {
   final CardEntity card;
   final VoidCallback onTap;
-  final Future<bool?> Function() onConfirmDismiss;
   final VoidCallback onDelete;
 
   const _CardListItem({
     required this.card,
     required this.onTap,
-    required this.onConfirmDismiss,
     required this.onDelete,
   });
 
@@ -363,7 +394,6 @@ class _CardListItem extends StatelessWidget {
         Icons.delete,
         color: colorScheme.onSurface,
       ),
-      confirmDismiss: (_) => onConfirmDismiss(),
       onDismissed: (_) => onDelete(),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),

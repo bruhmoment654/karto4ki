@@ -20,4 +20,7 @@ class AppDimens {
 
   /// M3 Expressive: большая карточка прохождения (вариант B).
   static const double radius32 = 32;
+
+  /// M3 Expressive shape xxl: карточка прохождения теста.
+  static const double radius48 = 48;
 }

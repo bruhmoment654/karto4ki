@@ -7,24 +7,22 @@ import 'package:quizzerg/feature/groups_list/domain/bloc/groups_list_bloc.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
 import 'package:quizzerg/feature/groups_list/presentation/groups_list_screen.dart';
 import 'package:quizzerg/feature/groups_list/presentation/widget/active_session_card.dart';
+import 'package:quizzerg/feature/groups_list/presentation/widget/group_card.dart';
 import 'package:quizzerg/feature/groups_list/presentation/widget/groups_list_skeleton.dart';
 import 'package:quizzerg/feature/sync/presentation/sync_reauth_banner.dart';
 import 'package:quizzerg/feature/sync/presentation/widget/sync_status_badge.dart';
 import 'package:quizzerg/feature/test_execution/domain/bloc/active_session_bloc.dart';
 import 'package:quizzerg/feature/test_execution/domain/entity/active_test_session.dart';
 import 'package:quizzerg/l10n/app_localizations_x.dart';
-import 'package:quizzerg/uikit/app_radii.dart';
 import 'package:quizzerg/uikit/appbar/app_page_header.dart';
 import 'package:quizzerg/uikit/buttons/app_fab.dart';
-import 'package:quizzerg/uikit/content_card/content_card.dart';
+import 'package:quizzerg/uikit/empty_state/app_empty_state.dart';
 import 'package:quizzerg/uikit/motion/app_animated_switcher.dart';
+import 'package:quizzerg/uikit/motion/app_motion.dart';
 import 'package:quizzerg/uikit/motion/staggered_appear.dart';
-import 'package:quizzerg/uikit/pressable/scale_pressable.dart';
 import 'package:quizzerg/uikit/scaffold/app_scaffold.dart';
 import 'package:quizzerg/uikit/spacing/height.dart';
 import 'package:quizzerg/uikit/spacing/sliver_height.dart';
-import 'package:quizzerg/uikit/spacing/width.dart';
-import 'package:quizzerg/uikit/theme/app_theme.dart';
 
 /// UI-слой экрана списка групп.
 class GroupsListView extends StatelessWidget {
@@ -34,17 +32,27 @@ class GroupsListView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      floatingActionButton: AppFloatingActionButton(
-        label: 'Новая группа',
-        onPressed: viewModel.onAddGroupPressed,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
-      // Скелетон → список крестфейдом: если сплеш успел уйти, а данные ещё
-      // не пришли, пользователь видит каркас экрана, а не пустоту.
-      body: StateStreamableBuilder<GroupsListState>(
-        bloc: viewModel.groupsListState,
-        builder: (context, state) => AppAnimatedSwitcher(
+    return StateStreamableBuilder<GroupsListState>(
+      bloc: viewModel.groupsListState,
+      builder: (context, state) => AppScaffold(
+        // Пока групп нет, создать первую предлагает кнопка в пустом
+        // состоянии — FAB рядом с ней дублировал бы действие.
+        floatingActionButton: AppFloatingActionButton(
+          label: context.l10n.groupsListAddGroupFab,
+          onPressed: viewModel.onAddGroupPressed,
+          isVisible: switch (state) {
+            GroupsListState$Loading() => false,
+            GroupsListState$Error() => true,
+            GroupsListState$Loaded(:final groups) => groups.isNotEmpty,
+          },
+        ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
+        // Скелетон → список: если сплеш успел уйти, а данные ещё не пришли,
+        // пользователь видит каркас экрана, а не пустоту. Список встаёт
+        // поверх сразу (карточки сами проявляются каскадом), скелетон гаснет
+        // под ним — без провала посередине смены.
+        body: AppAnimatedSwitcher(
+          transition: AppSwitcherTransition.fadeOutBehind,
           child: switch (state) {
             GroupsListState$Loading() => _GroupsSkeletonBody(
                 key: const ValueKey('groups_loading'),
@@ -162,36 +170,8 @@ class _GroupsBody extends StatelessWidget {
       child: CustomScrollView(
         slivers: [
           _GroupsHeaderSliver(viewModel: viewModel),
-            _ReauthBannerSliver(viewModel: viewModel),
+          _ReauthBannerSliver(viewModel: viewModel),
           _ActiveSessionSliver(viewModel: viewModel, groups: groups),
-          if (groups.isEmpty)
-            SliverFillRemaining(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 32),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        context.l10n.groupsListEmptyMessage,
-                        textAlign: TextAlign.center,
-                        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              color: Theme.of(context)
-                                  .colorScheme
-                                  .onSurfaceVariant,
-                            ),
-                      ),
-                      const Height(12),
-                      Icon(
-                        Icons.keyboard_arrow_down_rounded,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            )
-          else
             SliverPadding(
               padding: const EdgeInsets.symmetric(horizontal: 16),
               sliver: SliverList.separated(
@@ -199,7 +179,7 @@ class _GroupsBody extends StatelessWidget {
                 separatorBuilder: (_, __) => const Height(16),
                 itemBuilder: (context, index) {
                   final group = groups[index];
-                  final tile = _GroupListTile(
+                  final tile = GroupCard(
                     group: group,
                     index: index,
                     onTap: () => viewModel.onGroupTapped(group),
@@ -210,6 +190,15 @@ class _GroupsBody extends StatelessWidget {
                 },
               ),
             ),
+          // Без прокручиваемого тела: пустой экран не прокручивается и шапка
+          // не уезжает. Со списком занимает только остаток экрана (обычно 0).
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: _EmptyGroupsSwitcher(
+              isEmpty: groups.isEmpty,
+              onCreatePressed: viewModel.onAddGroupPressed,
+            ),
+          ),
           const SliverHeight(32),
         ],
       ),
@@ -283,104 +272,54 @@ class _ActiveSessionSliverState extends State<_ActiveSessionSliver> {
   }
 }
 
-/// Пул иконок для карточек групп (Material Symbols), выбирается по индексу.
-const _groupIcons = <IconData>[
-  Icons.translate,
-  Icons.bolt,
-  Icons.menu_book,
-  Icons.auto_stories,
-  Icons.science_outlined,
-  Icons.calculate_outlined,
-];
+/// Пустое состояние появляется и уходит вместе с кнопкой «Создать группу»:
+/// масштаб с проявлением. Когда группы есть, на его месте пусто.
+class _EmptyGroupsSwitcher extends StatelessWidget {
+  static const _hiddenScale = 0.85;
 
-class _GroupListTile extends StatelessWidget {
-  final TestGroupEntity group;
-  final int index;
-  final VoidCallback onTap;
-  final VoidCallback onLongPress;
+  final bool isEmpty;
+  final VoidCallback onCreatePressed;
 
-  const _GroupListTile({
-    required this.group,
-    required this.index,
-    required this.onTap,
-    required this.onLongPress,
+  const _EmptyGroupsSwitcher({
+    required this.isEmpty,
+    required this.onCreatePressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    final textTheme = Theme.of(context).textTheme;
-    final colorScheme = Theme.of(context).colorScheme;
-    // Тональный контейнер из seed-пула — реагирует на смену seed-цвета.
-    final pool = colorScheme.groupCardPool;
-    final (background, foreground) = pool[index % pool.length];
-    final icon = _groupIcons[index % _groupIcons.length];
+    final isReduced = AppMotion.reduced(context);
 
-    return ScalePressable(
-      onTap: onTap,
-      child: GestureDetector(
-        onLongPress: onLongPress,
-        child: ContentCard(
-          backgroundColor: background,
-          borderRadius: BorderRadius.circular(AppDimens.radius28),
-          padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Container(
-                    width: 56,
-                    height: 56,
-                    decoration: BoxDecoration(
-                      color: foreground.withValues(alpha: 0.16),
-                      borderRadius: BorderRadius.circular(AppDimens.radius16),
-                    ),
-                    child: Icon(icon, size: 28, color: foreground),
-                  ),
-                  const Spacer(),
-                  Icon(
-                    Icons.chevron_right,
-                    size: 26,
-                    color: foreground.withValues(alpha: 0.55),
-                  ),
-                ],
-              ),
-              const Height(18),
-              Text(
-                group.title,
-                style: textTheme.headlineSmall?.copyWith(
-                  fontWeight: FontWeight.w600,
-                  color: foreground,
-                ),
-                maxLines: 2,
-                overflow: TextOverflow.ellipsis,
-              ),
-              const Height(14),
-              Container(
-                padding: const EdgeInsets.fromLTRB(11, 5, 14, 5),
-                decoration: BoxDecoration(
-                  color: foreground.withValues(alpha: 0.14),
-                  borderRadius: BorderRadius.circular(AppDimens.radius8),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Icon(Icons.menu_book, size: 16, color: foreground),
-                    const Width(7),
-                    Text(
-                      context.l10n.groupsListTestCount(group.testCount),
-                      style: textTheme.labelLarge?.copyWith(
-                        color: foreground,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
+    return AnimatedSwitcher(
+      duration: isReduced ? Duration.zero : AppMotion.medium,
+      reverseDuration: isReduced ? Duration.zero : AppMotion.fast,
+      switchInCurve: AppMotion.spring,
+      switchOutCurve: Curves.easeInCubic,
+      transitionBuilder: (child, animation) => FadeTransition(
+        opacity: animation.drive(CurveTween(curve: const Interval(0, 0.6))),
+        child: ScaleTransition(
+          scale: animation.drive(Tween(begin: _hiddenScale, end: 1)),
+          child: child,
         ),
       ),
+      child: isEmpty
+          ? _EmptyGroupsState(onCreatePressed: onCreatePressed)
+          : const SizedBox.shrink(),
+    );
+  }
+}
+
+class _EmptyGroupsState extends StatelessWidget {
+  final VoidCallback onCreatePressed;
+
+  const _EmptyGroupsState({required this.onCreatePressed});
+
+  @override
+  Widget build(BuildContext context) {
+    return AppEmptyState(
+      title: context.l10n.groupsListEmptyTitle,
+      message: context.l10n.groupsListEmptyMessage,
+      primaryLabel: context.l10n.groupsListEmptyCreateButton,
+      onPrimaryPressed: onCreatePressed,
     );
   }
 }

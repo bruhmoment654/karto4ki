@@ -55,12 +55,13 @@ extension GroupsListEventPatterns on GroupsListEvent {
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GroupsListEvent$Started value)?  started,TResult Function( _GroupsListEvent$GroupAdded value)?  groupAdded,TResult Function( _GroupsListEvent$GroupDeleted value)?  groupDeleted,required TResult orElse(),}){
+@optionalTypeArgs TResult maybeMap<TResult extends Object?>({TResult Function( _GroupsListEvent$Started value)?  started,TResult Function( _GroupsListEvent$GroupAdded value)?  groupAdded,TResult Function( _GroupsListEvent$GroupRenamed value)?  groupRenamed,TResult Function( _GroupsListEvent$GroupDeleted value)?  groupDeleted,required TResult orElse(),}){
 final _that = this;
 switch (_that) {
 case _GroupsListEvent$Started() when started != null:
 return started(_that);case _GroupsListEvent$GroupAdded() when groupAdded != null:
-return groupAdded(_that);case _GroupsListEvent$GroupDeleted() when groupDeleted != null:
+return groupAdded(_that);case _GroupsListEvent$GroupRenamed() when groupRenamed != null:
+return groupRenamed(_that);case _GroupsListEvent$GroupDeleted() when groupDeleted != null:
 return groupDeleted(_that);case _:
   return orElse();
 
@@ -79,12 +80,13 @@ return groupDeleted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GroupsListEvent$Started value)  started,required TResult Function( _GroupsListEvent$GroupAdded value)  groupAdded,required TResult Function( _GroupsListEvent$GroupDeleted value)  groupDeleted,}){
+@optionalTypeArgs TResult map<TResult extends Object?>({required TResult Function( _GroupsListEvent$Started value)  started,required TResult Function( _GroupsListEvent$GroupAdded value)  groupAdded,required TResult Function( _GroupsListEvent$GroupRenamed value)  groupRenamed,required TResult Function( _GroupsListEvent$GroupDeleted value)  groupDeleted,}){
 final _that = this;
 switch (_that) {
 case _GroupsListEvent$Started():
 return started(_that);case _GroupsListEvent$GroupAdded():
-return groupAdded(_that);case _GroupsListEvent$GroupDeleted():
+return groupAdded(_that);case _GroupsListEvent$GroupRenamed():
+return groupRenamed(_that);case _GroupsListEvent$GroupDeleted():
 return groupDeleted(_that);}
 }
 /// A variant of `map` that fallback to returning `null`.
@@ -99,12 +101,13 @@ return groupDeleted(_that);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GroupsListEvent$Started value)?  started,TResult? Function( _GroupsListEvent$GroupAdded value)?  groupAdded,TResult? Function( _GroupsListEvent$GroupDeleted value)?  groupDeleted,}){
+@optionalTypeArgs TResult? mapOrNull<TResult extends Object?>({TResult? Function( _GroupsListEvent$Started value)?  started,TResult? Function( _GroupsListEvent$GroupAdded value)?  groupAdded,TResult? Function( _GroupsListEvent$GroupRenamed value)?  groupRenamed,TResult? Function( _GroupsListEvent$GroupDeleted value)?  groupDeleted,}){
 final _that = this;
 switch (_that) {
 case _GroupsListEvent$Started() when started != null:
 return started(_that);case _GroupsListEvent$GroupAdded() when groupAdded != null:
-return groupAdded(_that);case _GroupsListEvent$GroupDeleted() when groupDeleted != null:
+return groupAdded(_that);case _GroupsListEvent$GroupRenamed() when groupRenamed != null:
+return groupRenamed(_that);case _GroupsListEvent$GroupDeleted() when groupDeleted != null:
 return groupDeleted(_that);case _:
   return null;
 
@@ -122,11 +125,12 @@ return groupDeleted(_that);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( String title)?  groupAdded,TResult Function( String groupId)?  groupDeleted,required TResult orElse(),}) {final _that = this;
+@optionalTypeArgs TResult maybeWhen<TResult extends Object?>({TResult Function()?  started,TResult Function( String title)?  groupAdded,TResult Function( String groupId,  String title)?  groupRenamed,TResult Function( String groupId)?  groupDeleted,required TResult orElse(),}) {final _that = this;
 switch (_that) {
 case _GroupsListEvent$Started() when started != null:
 return started();case _GroupsListEvent$GroupAdded() when groupAdded != null:
-return groupAdded(_that.title);case _GroupsListEvent$GroupDeleted() when groupDeleted != null:
+return groupAdded(_that.title);case _GroupsListEvent$GroupRenamed() when groupRenamed != null:
+return groupRenamed(_that.groupId,_that.title);case _GroupsListEvent$GroupDeleted() when groupDeleted != null:
 return groupDeleted(_that.groupId);case _:
   return orElse();
 
@@ -145,11 +149,12 @@ return groupDeleted(_that.groupId);case _:
 /// }
 /// ```
 
-@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( String title)  groupAdded,required TResult Function( String groupId)  groupDeleted,}) {final _that = this;
+@optionalTypeArgs TResult when<TResult extends Object?>({required TResult Function()  started,required TResult Function( String title)  groupAdded,required TResult Function( String groupId,  String title)  groupRenamed,required TResult Function( String groupId)  groupDeleted,}) {final _that = this;
 switch (_that) {
 case _GroupsListEvent$Started():
 return started();case _GroupsListEvent$GroupAdded():
-return groupAdded(_that.title);case _GroupsListEvent$GroupDeleted():
+return groupAdded(_that.title);case _GroupsListEvent$GroupRenamed():
+return groupRenamed(_that.groupId,_that.title);case _GroupsListEvent$GroupDeleted():
 return groupDeleted(_that.groupId);}
 }
 /// A variant of `when` that fallback to returning `null`
@@ -164,11 +169,12 @@ return groupDeleted(_that.groupId);}
 /// }
 /// ```
 
-@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( String title)?  groupAdded,TResult? Function( String groupId)?  groupDeleted,}) {final _that = this;
+@optionalTypeArgs TResult? whenOrNull<TResult extends Object?>({TResult? Function()?  started,TResult? Function( String title)?  groupAdded,TResult? Function( String groupId,  String title)?  groupRenamed,TResult? Function( String groupId)?  groupDeleted,}) {final _that = this;
 switch (_that) {
 case _GroupsListEvent$Started() when started != null:
 return started();case _GroupsListEvent$GroupAdded() when groupAdded != null:
-return groupAdded(_that.title);case _GroupsListEvent$GroupDeleted() when groupDeleted != null:
+return groupAdded(_that.title);case _GroupsListEvent$GroupRenamed() when groupRenamed != null:
+return groupRenamed(_that.groupId,_that.title);case _GroupsListEvent$GroupDeleted() when groupDeleted != null:
 return groupDeleted(_that.groupId);case _:
   return null;
 
@@ -268,6 +274,74 @@ class __$GroupsListEvent$GroupAddedCopyWithImpl<$Res>
 @pragma('vm:prefer-inline') $Res call({Object? title = null,}) {
   return _then(_GroupsListEvent$GroupAdded(
 title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
+as String,
+  ));
+}
+
+
+}
+
+/// @nodoc
+
+
+class _GroupsListEvent$GroupRenamed implements GroupsListEvent {
+  const _GroupsListEvent$GroupRenamed({required this.groupId, required this.title});
+  
+
+ final  String groupId;
+ final  String title;
+
+/// Create a copy of GroupsListEvent
+/// with the given fields replaced by the non-null parameter values.
+@JsonKey(includeFromJson: false, includeToJson: false)
+@pragma('vm:prefer-inline')
+_$GroupsListEvent$GroupRenamedCopyWith<_GroupsListEvent$GroupRenamed> get copyWith => __$GroupsListEvent$GroupRenamedCopyWithImpl<_GroupsListEvent$GroupRenamed>(this, _$identity);
+
+
+
+@override
+bool operator ==(Object other) {
+  return identical(this, other) || (other.runtimeType == runtimeType&&other is _GroupsListEvent$GroupRenamed&&(identical(other.groupId, groupId) || other.groupId == groupId)&&(identical(other.title, title) || other.title == title));
+}
+
+
+@override
+int get hashCode => Object.hash(runtimeType,groupId,title);
+
+@override
+String toString() {
+  return 'GroupsListEvent.groupRenamed(groupId: $groupId, title: $title)';
+}
+
+
+}
+
+/// @nodoc
+abstract mixin class _$GroupsListEvent$GroupRenamedCopyWith<$Res> implements $GroupsListEventCopyWith<$Res> {
+  factory _$GroupsListEvent$GroupRenamedCopyWith(_GroupsListEvent$GroupRenamed value, $Res Function(_GroupsListEvent$GroupRenamed) _then) = __$GroupsListEvent$GroupRenamedCopyWithImpl;
+@useResult
+$Res call({
+ String groupId, String title
+});
+
+
+
+
+}
+/// @nodoc
+class __$GroupsListEvent$GroupRenamedCopyWithImpl<$Res>
+    implements _$GroupsListEvent$GroupRenamedCopyWith<$Res> {
+  __$GroupsListEvent$GroupRenamedCopyWithImpl(this._self, this._then);
+
+  final _GroupsListEvent$GroupRenamed _self;
+  final $Res Function(_GroupsListEvent$GroupRenamed) _then;
+
+/// Create a copy of GroupsListEvent
+/// with the given fields replaced by the non-null parameter values.
+@pragma('vm:prefer-inline') $Res call({Object? groupId = null,Object? title = null,}) {
+  return _then(_GroupsListEvent$GroupRenamed(
+groupId: null == groupId ? _self.groupId : groupId // ignore: cast_nullable_to_non_nullable
+as String,title: null == title ? _self.title : title // ignore: cast_nullable_to_non_nullable
 as String,
   ));
 }

@@ -68,7 +68,7 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
-  String get tinderTestTapToShowAnswer => 'Нажмите, чтобы увидеть ответ';
+  String get tinderTestTapToShowAnswer => 'Нажмите, чтобы перевернуть';
 
   @override
   String get tinderTestUnknownBadge => 'НЕ ЗНАЮ';
@@ -240,21 +240,17 @@ class AppLocalizationsRu extends AppLocalizations {
   }
 
   @override
+  String get testDetailEmptyCardsTitle => 'В тесте нет карточек';
+
+  @override
   String get testDetailEmptyCardsMessage =>
-      'Нет карточек.\nНажмите + чтобы добавить первую.';
+      'Карточка — это вопрос и ответ к нему. Добавьте первую вручную или загрузите сразу несколько из файла.';
 
   @override
-  String get testDetailDeleteCardTitle => 'Удалить карточку?';
+  String get testDetailEmptyAddCardButton => 'Добавить карточку';
 
   @override
-  String get testDetailDeleteCardMessage =>
-      'Вы уверены, что хотите удалить эту карточку?';
-
-  @override
-  String get testDetailDeleteCardCancel => 'Отмена';
-
-  @override
-  String get testDetailDeleteCardConfirm => 'Удалить';
+  String get testDetailCardDeletedSnack => 'Карточка удалена';
 
   @override
   String get testDetailSettingsButton => 'Настройки';
@@ -270,6 +266,14 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get commonCreate => 'Создать';
+
+  @override
+  String get commonUndo => 'Отменить';
+
+  @override
+  String actionSheetAccuracy(int percent) {
+    return 'точность $percent%';
+  }
 
   @override
   String get testDetailNewCardTitle => 'Новая карточка';
@@ -590,25 +594,41 @@ class AppLocalizationsRu extends AppLocalizations {
   String get groupsListAppBarTitle => 'Группы';
 
   @override
+  String get groupsListEmptyTitle => 'Пока нет групп';
+
+  @override
   String get groupsListEmptyMessage =>
-      'Нет групп.\nНажмите + чтобы создать первую группу.';
+      'Группа объединяет тесты по одной теме. Создайте первую, чтобы начать.';
+
+  @override
+  String get groupsListEmptyCreateButton => 'Создать группу';
 
   @override
   String get groupsListAddGroupFab => 'Создать';
-
-  @override
-  String get groupsListDeleteDialogTitle => 'Удалить группу?';
-
-  @override
-  String groupsListDeleteDialogMessage(String title) {
-    return 'Вы уверены, что хотите удалить \"$title\"? Тесты внутри группы не будут удалены.';
-  }
 
   @override
   String get groupsListDeleteDialogCancel => 'Отмена';
 
   @override
   String get groupsListDeleteDialogConfirm => 'Удалить';
+
+  @override
+  String get groupsListActionRename => 'Переименовать';
+
+  @override
+  String get groupsListActionSettings => 'Настройки группы';
+
+  @override
+  String get groupsListActionDelete => 'Удалить группу';
+
+  @override
+  String groupsListDeleteGroupTitle(String title) {
+    return 'Удалить группу «$title»?';
+  }
+
+  @override
+  String get groupsListDeleteGroupBody =>
+      'Удалится только группа — тесты из неё останутся в приложении.';
 
   @override
   String groupsListTestCount(int count) {
@@ -644,6 +664,68 @@ class AppLocalizationsRu extends AppLocalizations {
   String get groupsListNewGroupCreate => 'Создать';
 
   @override
+  String get groupsListNoTests => 'Нет тестов';
+
+  @override
+  String get groupsListAddTest => 'Добавить тест';
+
+  @override
+  String get groupsListNotStarted => 'Ещё не начат';
+
+  @override
+  String get progressGreatAccuracy => 'Отличная точность';
+
+  @override
+  String progressWeakCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'слабых',
+      many: 'слабых',
+      few: 'слабых',
+      one: 'слабый',
+    );
+    return '$count $_temp0';
+  }
+
+  @override
+  String progressNewCount(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'новых',
+      many: 'новых',
+      few: 'новых',
+      one: 'новый',
+    );
+    return '$count $_temp0';
+  }
+
+  @override
+  String progressStudied(String when) {
+    return 'занимались $when';
+  }
+
+  @override
+  String get progressToday => 'сегодня';
+
+  @override
+  String get progressYesterday => 'вчера';
+
+  @override
+  String progressDaysAgo(int count) {
+    String _temp0 = intl.Intl.pluralLogic(
+      count,
+      locale: localeName,
+      other: 'дней',
+      many: 'дней',
+      few: 'дня',
+      one: 'день',
+    );
+    return '$count $_temp0 назад';
+  }
+
+  @override
   String get groupsListActiveSessionLabel => 'Продолжить тест';
 
   @override
@@ -672,8 +754,11 @@ class AppLocalizationsRu extends AppLocalizations {
   String get groupDetailAddTestFab => 'Добавить';
 
   @override
+  String get groupDetailEmptyTitle => 'В группе нет тестов';
+
+  @override
   String get groupDetailEmptyMessage =>
-      'Нет тестов в группе.\nНажмите + чтобы добавить первый тест.';
+      'Тест — это набор карточек-вопросов. Добавьте карточки вручную или загрузите их из файла.';
 
   @override
   String groupDetailErrorMessage(String message) {
@@ -682,28 +767,6 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get groupDetailUnknownError => 'Неизвестная ошибка';
-
-  @override
-  String get groupDetailRemoveTestTitle => 'Убрать тест из группы?';
-
-  @override
-  String groupDetailRemoveTestMessage(String title) {
-    return 'Тест \"$title\" будет убран из этой группы, но не удалён.';
-  }
-
-  @override
-  String get groupDetailRemoveTestLastGroupTitle => 'Последняя группа';
-
-  @override
-  String groupDetailRemoveTestLastGroupMessage(String title) {
-    return 'Это последняя группа теста \"$title\". Тест останется без группы.';
-  }
-
-  @override
-  String get groupDetailRemoveTestCancel => 'Отмена';
-
-  @override
-  String get groupDetailRemoveTestConfirm => 'Убрать';
 
   @override
   String get groupDetailEditTitleDialogTitle => 'Переименовать группу';
@@ -733,16 +796,7 @@ class AppLocalizationsRu extends AppLocalizations {
   String get groupDetailNewTestCreate => 'Создать';
 
   @override
-  String get groupDetailTestActionsTitle => 'Действия';
-
-  @override
-  String get groupDetailTestActionsOpen => 'Открыть тест';
-
-  @override
   String get groupDetailTestActionsRemove => 'Убрать из группы';
-
-  @override
-  String get groupDetailTestActionsAddToGroup => 'Добавить в группу';
 
   @override
   String get groupDetailAddToGroupTitle => 'Выберите группы';
@@ -755,6 +809,34 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get groupDetailAddToGroupCancel => 'Отмена';
+
+  @override
+  String get groupDetailTestActionsStart => 'Начать';
+
+  @override
+  String get groupDetailTestActionsRename => 'Переименовать';
+
+  @override
+  String get groupDetailTestActionsMove => 'Переместить в группу';
+
+  @override
+  String get groupDetailTestActionsImport => 'Импорт карточек';
+
+  @override
+  String get groupDetailRenameTestTitle => 'Переименовать тест';
+
+  @override
+  String get groupDetailRenameTestHint => 'Название теста';
+
+  @override
+  String groupDetailTestRemovedSnack(String title) {
+    return '«$title» убран из группы';
+  }
+
+  @override
+  String groupDetailTestRemovedLastGroupSnack(String title) {
+    return '«$title» убран — других групп у теста нет';
+  }
 
   @override
   String groupDetailMixupRange(int min, int max) {
@@ -784,6 +866,33 @@ class AppLocalizationsRu extends AppLocalizations {
 
   @override
   String get groupDetailStreakReset => 'Сбросить по умолчанию';
+
+  @override
+  String get groupDetailSettingsSheetTitle => 'Подмешивание';
+
+  @override
+  String get groupDetailSettingsButton => 'Настройки подмешивания';
+
+  @override
+  String get groupDetailTestsHeader => 'Тесты';
+
+  @override
+  String get groupDetailMastered => 'Освоено';
+
+  @override
+  String get groupDetailLearning => 'Учится';
+
+  @override
+  String get groupDetailWeak => 'Слабые';
+
+  @override
+  String get groupDetailNew => 'Новые';
+
+  @override
+  String get groupDetailTestNotStarted => 'Не начат';
+
+  @override
+  String get groupDetailTestAddCards => 'Добавить';
 
   @override
   String get groupDetailNewTestButton => 'Новый тест';

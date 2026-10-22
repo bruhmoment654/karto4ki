@@ -39,12 +39,28 @@ class AppAnimatedSwitcher extends StatelessWidget {
   Widget build(BuildContext context) {
     final currentKey = child.key;
 
+    final isReduced = AppMotion.reduced(context);
+
     return AnimatedSwitcher(
-      duration: AppMotion.reduced(context) ? Duration.zero : duration,
+      duration: isReduced ? Duration.zero : duration,
+      // Прежнему содержимому под новым некуда спешить: гаснет дольше.
+      reverseDuration: isReduced
+          ? Duration.zero
+          : transition == AppSwitcherTransition.fadeOutBehind
+              ? AppMotion.medium
+              : duration,
       switchInCurve: switchInCurve,
-      switchOutCurve: switchOutCurve,
+      // Уход проигрывается назад: easeOut держит прежнее почти непрозрачным,
+      // пока новое проявляется поверх, и гасит его в конце.
+      switchOutCurve: transition == AppSwitcherTransition.fadeOutBehind
+          ? Curves.easeOutCubic
+          : switchOutCurve,
       transitionBuilder: switch (transition) {
         AppSwitcherTransition.fade => AnimatedSwitcher.defaultTransitionBuilder,
+        AppSwitcherTransition.fadeOutBehind => (transitionChild, animation) =>
+            transitionChild.key == currentKey
+                ? transitionChild
+                : FadeTransition(opacity: animation, child: transitionChild),
         AppSwitcherTransition.slideUp => (transitionChild, animation) =>
             _SlideUpTransition(
               animation: animation,
@@ -66,6 +82,11 @@ class AppAnimatedSwitcher extends StatelessWidget {
 enum AppSwitcherTransition {
   /// Прежнее гаснет, новое проявляется на его месте.
   fade,
+
+  /// Новое сразу встаёт поверх, прежнее плавно гаснет под ним. Для смены
+  /// скелетона на данные, которые сами появляются каскадом: при встречном
+  /// проявлении экран посередине смены пустеет, а общая шапка мигает.
+  fadeOutBehind,
 
   /// Новое поднимается снизу с проявлением, прежнее уходит вверх и гаснет.
   /// Для коротких подписей, где почти одинаковые строки («1 из 3» →

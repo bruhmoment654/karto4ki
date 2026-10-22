@@ -233,6 +233,7 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
     int mixupMin = 1,
     int mixupMax = 5,
     String? groupId,
+    bool openImport = false,
     Key? key,
     List<PageRouteInfo>? children,
   }) : super(
@@ -243,6 +244,7 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
            mixupMin: mixupMin,
            mixupMax: mixupMax,
            groupId: groupId,
+           openImport: openImport,
            key: key,
          ),
          rawPathParams: {'testId': testId},
@@ -266,6 +268,7 @@ class TestDetailRoute extends PageRouteInfo<TestDetailRouteArgs> {
           mixupMin: args.mixupMin,
           mixupMax: args.mixupMax,
           groupId: args.groupId,
+          openImport: args.openImport,
           key: args.key,
         ),
       );
@@ -280,6 +283,7 @@ class TestDetailRouteArgs {
     this.mixupMin = 1,
     this.mixupMax = 5,
     this.groupId,
+    this.openImport = false,
     this.key,
   });
 
@@ -293,11 +297,13 @@ class TestDetailRouteArgs {
 
   final String? groupId;
 
+  final bool openImport;
+
   final Key? key;
 
   @override
   String toString() {
-    return 'TestDetailRouteArgs{testId: $testId, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, groupId: $groupId, key: $key}';
+    return 'TestDetailRouteArgs{testId: $testId, mixup: $mixup, mixupMin: $mixupMin, mixupMax: $mixupMax, groupId: $groupId, openImport: $openImport, key: $key}';
   }
 
   @override
@@ -309,6 +315,7 @@ class TestDetailRouteArgs {
         mixupMin == other.mixupMin &&
         mixupMax == other.mixupMax &&
         groupId == other.groupId &&
+        openImport == other.openImport &&
         key == other.key;
   }
 
@@ -319,6 +326,7 @@ class TestDetailRouteArgs {
       mixupMin.hashCode ^
       mixupMax.hashCode ^
       groupId.hashCode ^
+      openImport.hashCode ^
       key.hashCode;
 }
 

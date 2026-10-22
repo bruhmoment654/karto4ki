@@ -33,6 +33,7 @@ import 'package:quizzerg/feature/profile/data/repository/profile_api_repository.
 import 'package:quizzerg/feature/question_stats/data/repository/question_stats_repository.dart';
 import 'package:quizzerg/feature/question_stats/data/repository/stats_api_repository.dart';
 import 'package:quizzerg/feature/question_stats/data/service/stats_export_service.dart';
+import 'package:quizzerg/feature/question_stats/data/service/study_progress_reader.dart';
 import 'package:quizzerg/feature/question_stats/data/sync/stats_sync_adapter.dart';
 import 'package:quizzerg/feature/question_stats/domain/repository/i_question_stats_repository.dart';
 import 'package:quizzerg/feature/question_stats/domain/service/i_stats_export_service.dart';
@@ -274,6 +275,10 @@ class AppScopeRegister {
       groupsDatabase: database.groupsDatabase,
       settingsStorage: settingsStorage,
     );
+    final progressReader = StudyProgressReader(
+      cardsDatabase: database.cardsDatabase,
+      testAttemptsDatabase: database.testAttemptsDatabase,
+    );
 
     return _LocalDependencies(
         mainRepository: MainRepository(prefs),
@@ -308,12 +313,14 @@ class AppScopeRegister {
         groupsListRepository: GroupsListRepository(
           groupsDatabase: database.groupsDatabase,
           testsDatabase: database.testsDatabase,
+          progressReader: progressReader,
           errorLogger: errorLogger,
         ),
         groupDetailRepository: GroupDetailRepository(
           groupsDatabase: database.groupsDatabase,
           testsDatabase: database.testsDatabase,
           cardsDatabase: database.cardsDatabase,
+          progressReader: progressReader,
           errorLogger: errorLogger,
         ),
         statsExportService: statsExportService,

@@ -2,8 +2,10 @@ import 'package:drift/native.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:quizzerg/core/feature/core/entity/result.dart';
 import 'package:quizzerg/feature/main/domain/entity/card_entity.dart';
+import 'package:quizzerg/feature/question_stats/domain/util/question_key_normalizer.dart';
 import 'package:quizzerg/feature/test_execution/data/repository/test_attempt_repository.dart';
 import 'package:quizzerg/feature/test_execution/domain/entity/attempt_summary.dart';
+import 'package:quizzerg/feature/test_execution/domain/service/accuracy_calculator.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/card_result.dart';
 import 'package:quizzerg/feature/tinder_test/domain/entity/test_session.dart';
 import 'package:quizzerg/persistence/database/app_database.dart';
@@ -146,8 +148,8 @@ void main() {
       return rows.map((row) => row.attemptId).toSet().toList();
     }
 
-    test('ответы — только последних пяти прохождений теста', () async {
-      for (var day = 1; day <= 8; day++) {
+    test('ответы — только последних десяти прохождений теста', () async {
+      for (var day = 1; day <= 13; day++) {
         await record(
           _session(DateTime.utc(2026, 10, day), {'1': true, '2': false}),
         );
@@ -155,8 +157,8 @@ void main() {
       final attempts = await database.select(database.testAttempts).get();
       final kept = await answerAttemptIds();
 
-      expect(attempts, hasLength(8));
-      expect(kept, hasLength(AttemptSummary.historyLength));
+      expect(attempts, hasLength(13));
+      expect(kept, hasLength(AccuracyCalculator.attemptsWindow));
       expect(
         kept.every(
           (id) => attempts
@@ -181,8 +183,8 @@ void main() {
       expect(await answerAttemptIds(), contains(other.id));
     });
 
-    test('«впервые верно» — в пределах хранимых прохождений', () async {
-      // Верно 6 прохождений назад — этот ответ уже удалён.
+    test('«впервые верно» — в пределах пяти последних прохождений', () async {
+      // Верно 6 прохождений назад — ответ хранится, но в историю не входит.
       await record(_session(DateTime.utc(2026, 10), {'1': true}));
       for (var day = 2; day <= 5; day++) {
         await record(_session(DateTime.utc(2026, 10, day), {'1': false}));
@@ -199,6 +201,81 @@ void main() {
         false,
         true,
       ]);
+    });
+  });
+
+  group('точность', () {
+    /// Живой тест [testId] с карточками [cardIds] — как у [_card].
+    Future<void> seedTest(String testId, List<String> cardIds) async {
+      await database.testsDatabase.insertTest(
+        TestsCompanion.insert(
+          id: testId,
+          title: testId,
+          type: 'tinder',
+          createdAt: _created,
+          updatedAt: _created,
+        ),
+      );
+      await database.cardsDatabase.insertCards([
+        for (final id in cardIds)
+          CardsCompanion.insert(
+            id: '$testId-$id',
+            testId: testId,
+            front: 'q-$id',
+            answers: '["a-$id"]',
+            questionKey: QuestionKeyNormalizer.normalize('q-$id', ['a-$id']),
+            createdAt: _created,
+            updatedAt: _created,
+          ),
+      ]);
+    }
+
+    Future<Map<String, double>> accuracy() =>
+        database.testAttemptsDatabase.getRecentAccuracy(
+          attemptsLimit: AccuracyCalculator.attemptsWindow,
+        );
+
+    test('доля верных ответов только за последние десять прохождений',
+        () async {
+      await seedTest('test', ['1', '2']);
+      for (var day = 1; day <= 2; day++) {
+        await record(
+          _session(DateTime.utc(2026, 10, day), {'1': false, '2': false}),
+        );
+      }
+      for (var day = 3; day <= 12; day++) {
+        await record(
+          _session(DateTime.utc(2026, 10, day), {'1': true, '2': day.isOdd}),
+        );
+      }
+
+      expect(await accuracy(), {'test': 0.75});
+    });
+
+    test('ответы на вопросы не из теста не учитываются', () async {
+      await seedTest('test', ['1']);
+      await record(
+        _session(DateTime.utc(2026, 10), {'1': true, 'mixup': false}),
+      );
+
+      expect(await accuracy(), {'test': 1.0});
+    });
+
+    test('без прохождений и у удалённого теста точности нет', () async {
+      await seedTest('test', ['1']);
+      await seedTest('deleted', ['1']);
+      await record(
+        _session(DateTime.utc(2026, 10), {'1': true}, testId: 'deleted'),
+      );
+      await database.testsDatabase.softDeleteTestById('deleted');
+
+      expect(await accuracy(), isEmpty);
+    });
+
+    test('точность группы — среднее по тестам с прохождениями', () {
+      expect(AccuracyCalculator.groupAccuracy([0.5, null, 1.0]), 0.75);
+      expect(AccuracyCalculator.groupAccuracy([null]), isNull);
+      expect(AccuracyCalculator.groupAccuracy(const []), isNull);
     });
   });
 }

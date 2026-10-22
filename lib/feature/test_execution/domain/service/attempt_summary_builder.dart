@@ -54,7 +54,7 @@ abstract final class AttemptSummaryBuilder {
   /// Тренд по прошлым ответам [previous] (от старых к новым).
   ///
   /// «Впервые верно» проверяется по всем [previous], а не только по
-  /// последнему ответу. Ответы хранятся за последние
+  /// последнему ответу. В [previous] — ответы последних
   /// [AttemptSummary.historyLength] прохождений теста, поэтому «впервые» —
   /// в их пределах.
   static QuestionTrend? trendOf(

@@ -33,6 +33,29 @@ class SnackController {
     _show(context, message, duration);
   }
 
+  /// Показывает снек с действием отмены («Удалено · Отменить»).
+  ///
+  /// Закрытие с [SnackBarClosedReason.action] значит «отменить»; любое
+  /// другое — действие подтверждено.
+  static ScaffoldFeatureController<SnackBar, SnackBarClosedReason> showUndo(
+    BuildContext context,
+    String message, {
+    required String undoLabel,
+    Duration duration = defaultDuration,
+  }) {
+    final messenger = ScaffoldMessenger.of(context)..hideCurrentSnackBar();
+    return messenger.showSnackBar(
+      SnackBar(
+        content: Text(message),
+        duration: duration,
+        // Снек с действием по умолчанию висит, пока его не закроют, — здесь
+        // он должен уйти по таймеру: тогда удаление и подтверждается.
+        persist: false,
+        action: SnackBarAction(label: undoLabel, onPressed: () {}),
+      ),
+    );
+  }
+
   /// Гасит текущий снек, если он ещё висит.
   static void hide(BuildContext context) {
     ScaffoldMessenger.of(context).hideCurrentSnackBar();

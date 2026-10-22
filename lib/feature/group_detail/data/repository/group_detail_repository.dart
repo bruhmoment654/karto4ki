@@ -6,6 +6,7 @@ import 'package:quizzerg/feature/group_detail/domain/repository/i_group_detail_r
 import 'package:quizzerg/feature/groups_list/data/converters/test_group_converter.dart';
 import 'package:quizzerg/feature/groups_list/data/database/groups_database.dart';
 import 'package:quizzerg/feature/groups_list/domain/entity/test_group_entity.dart';
+import 'package:quizzerg/feature/question_stats/data/service/study_progress_reader.dart';
 import 'package:quizzerg/feature/test_detail/data/database/cards_database.dart';
 import 'package:quizzerg/feature/tests_list/data/converters/test_converter.dart';
 import 'package:quizzerg/feature/tests_list/data/database/tests_database.dart';
@@ -18,15 +19,18 @@ class GroupDetailRepository extends BaseRepository
   final GroupsDatabase _groupsDatabase;
   final TestsDatabase _testsDatabase;
   final CardsDatabase _cardsDatabase;
+  final StudyProgressReader _progressReader;
 
   const GroupDetailRepository({
     required GroupsDatabase groupsDatabase,
     required TestsDatabase testsDatabase,
     required CardsDatabase cardsDatabase,
+    required StudyProgressReader progressReader,
     required super.errorLogger,
   })  : _groupsDatabase = groupsDatabase,
         _testsDatabase = testsDatabase,
-        _cardsDatabase = cardsDatabase;
+        _cardsDatabase = cardsDatabase,
+        _progressReader = progressReader;
 
   @override
   Stream<void> get groupChanges => _groupsDatabase.watchGroupChanges();
@@ -37,13 +41,20 @@ class GroupDetailRepository extends BaseRepository
         final dto = await _groupsDatabase.getGroupById(groupId);
         if (dto == null) return null;
         final testCount = await _groupsDatabase.getTestCountByGroupId(groupId);
-        return TestGroupConverter.fromDto(dto, testCount: testCount);
+        final testIds = await _groupsDatabase.getTestIdsByGroupId(groupId);
+        final progress = await _progressReader.read();
+        return TestGroupConverter.fromDto(
+          dto,
+          testCount: testCount,
+          progress: progress.of(testIds),
+        );
       });
 
   @override
   RequestOperation<List<TestEntity>> getTestsByGroupId(String groupId) =>
       makeCall(() async {
         final testIds = await _groupsDatabase.getTestIdsByGroupId(groupId);
+        final progress = await _progressReader.read();
         final tests = <TestEntity>[];
         for (final testId in testIds) {
           final dto = await _testsDatabase.getTestById(testId);
@@ -51,7 +62,11 @@ class GroupDetailRepository extends BaseRepository
             final questionCount =
                 await _cardsDatabase.getCardCountByTestId(testId);
             tests.add(
-              TestConverter.fromDto(dto, questionCount: questionCount),
+              TestConverter.fromDto(
+                dto,
+                questionCount: questionCount,
+                progress: progress.of([testId]),
+              ),
             );
           }
         }
@@ -84,6 +99,17 @@ class GroupDetailRepository extends BaseRepository
       makeCall(() async {
         await _groupsDatabase.removeTestFromGroup(groupId, testId);
         await _testsDatabase.touchTest(testId);
+      });
+
+  @override
+  RequestOperation<void> renameTest({
+    required String testId,
+    required String title,
+  }) =>
+      makeCall(() async {
+        await _testsDatabase.updateTest(
+          TestsCompanion(id: Value(testId), title: Value(title)),
+        );
       });
 
   @override

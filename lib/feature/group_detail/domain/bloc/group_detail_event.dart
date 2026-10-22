@@ -19,6 +19,12 @@ sealed class GroupDetailEvent with _$GroupDetailEvent {
     required String testId,
   }) = _GroupDetailEvent$TestRemoved;
 
+  /// Переименовать тест.
+  const factory GroupDetailEvent.testRenamed({
+    required String testId,
+    required String title,
+  }) = _GroupDetailEvent$TestRenamed;
+
   /// Обновить название группы.
   const factory GroupDetailEvent.titleUpdated({
     required String title,
